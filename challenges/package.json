@@ -1,0 +1,13 @@
+
+  {
+    "name": "challenges",
+    "version": "1.0.0",
+    "scripts": {
+      "build": "npm run setup:server",
+      "setup:app": "npm run setup:server && npm run setup:client",
+      "setup:client": "cd challenges.client && npm i",
+      "setup:server": "cd challenges && npm i",
+      "start": "node challenges/index.js"
+    }
+  }
+  
