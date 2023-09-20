@@ -40,7 +40,12 @@ async function mergeSubsIfNeeded(account, user) {
 function sanitizeBody(body) {
   const writable = {
     name: body.name,
-    picture: body.picture
+    alias: body.alias,
+    age: body.age,
+    location: body.location,
+    coverImg: body.coverImg,
+    picture: body.picture,
+    bio: body.bio
   }
   return writable
 }
@@ -68,7 +73,7 @@ class AccountService {
    *  @param {any} user Auth0 user object
    *  @param {any} body Updates to apply to user object
    */
-  async updateAccount(user, body) {
+  async editAccount(user, body) {
     const update = sanitizeBody(body)
     const account = await dbContext.Account.findOneAndUpdate(
       { _id: user.id },
