@@ -90,7 +90,7 @@ export default {
   left: 50%;
   width: 400px;
   padding: 40px;
-  color: #388FBB;
+  color: #F0F0F0;
   text-shadow: 0 .5px 1px #38BB64;
   transform: translate(-50%, -50%);
   background: rgba(0,0,0,.5);
@@ -115,10 +115,10 @@ export default {
   width: 100%;
   padding: 10px 0;
   font-size: 16px;
-  color: #FFF;
+  color: #F0F0F0;
   margin-bottom: 30px;
   border: none;
-  border-bottom: 1px solid #FFF;
+  border-bottom: 1px solid #F0F0F0;
   outline: none;
   background: transparent;
 }
@@ -136,8 +136,8 @@ export default {
 .login-box .user-box input:valid ~ label {
   top: -20px;
   left: 0;
-  color: #BB6438;
-  text-shadow: 0px .5px 1px #BB388F;
+  color: #388FBB;
+  text-shadow: 0 .5px 1px #38BB64;
   font-size: 12px;
 }
 
@@ -156,13 +156,12 @@ export default {
 }
 
 .login-box a:hover {
-  background: radial-gradient(circle, #38BB64DD, #388FBBDD, #BB388FDD, #BB6438DD);
-  color: #FFF;
+  color: #F0F0F0;
   border-radius: 5px;
-  box-shadow: 10px 0 10px 1px #38b464b3 inset,
-              -10px 0 10px 1px #388fbbb3 inset,
-              0 -10px 10px 1px #bb388fb3 inset,
-              0 10px 10px 1px #bb6438b3 inset;
+  box-shadow: 5px 0 5px 1px #38b464 inset,
+              -5px 0 5px 1px #388fbb inset,
+              0 -5px 5px 1px #bb388f inset,
+              0 5px 5px 1px #bb6438 inset;
 }
 
 .login-box a span {
