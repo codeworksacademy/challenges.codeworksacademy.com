@@ -27,13 +27,13 @@
           </div>
         </div>
         <div class="col-12 d-flex justify-content-end">
-          <button class="btn" role="button" type="submit">
+          <a role="button" type="submit">
             <span></span>
             <span></span>
             <span></span>
             <span></span>
             Submit
-          </button>
+          </a>
         </div>
       </form>
     </div>
@@ -90,7 +90,8 @@ export default {
   left: 50%;
   width: 400px;
   padding: 40px;
-  color: #F0F0F0;
+  color: #388FBB;
+  text-shadow: 0 .5px 1px #38BB64;
   transform: translate(-50%, -50%);
   background: rgba(0,0,0,.5);
   box-sizing: border-box;
@@ -102,7 +103,8 @@ export default {
   margin: 0 0 20px;
   padding: 0;
   text-align: center;
-  text-shadow: 0 2px 0 #388FBB;
+  color: #F0F0F0;
+  text-shadow: 0px 1px 2px #38BB64;
 }
 
 .login-box .user-box {
@@ -113,10 +115,10 @@ export default {
   width: 100%;
   padding: 10px 0;
   font-size: 16px;
-  color: #fff;
+  color: #FFF;
   margin-bottom: 30px;
   border: none;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid #FFF;
   outline: none;
   background: transparent;
 }
@@ -134,16 +136,16 @@ export default {
 .login-box .user-box input:valid ~ label {
   top: -20px;
   left: 0;
-  color: #388FBB;
+  color: #BB6438;
+  text-shadow: 0px .5px 1px #BB388F;
   font-size: 12px;
 }
 
-.login-box form button {
+.login-box form a {
   position: relative;
   display: inline-block;
   padding: 10px 20px;
-  background: transparent;
-  color: #FFF;
+  color: #388FBB;
   font-size: 16px;
   text-decoration: none;
   text-transform: uppercase;
@@ -153,22 +155,22 @@ export default {
   letter-spacing: 4px
 }
 
-.login-box button:hover {
-  background: #388FBB;
-  color: #222;
+.login-box a:hover {
+  background: radial-gradient(circle, #38BB64DD, #388FBBDD, #BB388FDD, #BB6438DD);
+  color: #FFF;
   border-radius: 5px;
-  box-shadow: 0 0 5px #388FCC,
-              0 0 25px #388FCC,
-              0 0 50px #388FCC,
-              0 0 100px #388FCC;
+  box-shadow: 10px 0 10px 1px #38b464b3 inset,
+              -10px 0 10px 1px #388fbbb3 inset,
+              0 -10px 10px 1px #bb388fb3 inset,
+              0 10px 10px 1px #bb6438b3 inset;
 }
 
-.login-box button span {
+.login-box a span {
   position: absolute;
   display: block;
 }
 
-.login-box button span:nth-child(1) {
+.login-box a span:nth-child(1) {
   top: 0;
   left: -100%;
   width: 100%;
@@ -186,7 +188,7 @@ export default {
   }
 }
 
-.login-box button span:nth-child(2) {
+.login-box a span:nth-child(2) {
   top: -100%;
   right: 0;
   width: 2px;
@@ -205,7 +207,7 @@ export default {
   }
 }
 
-.login-box button span:nth-child(3) {
+.login-box a span:nth-child(3) {
   bottom: 0;
   right: -100%;
   width: 100%;
@@ -224,7 +226,7 @@ export default {
   }
 }
 
-.login-box button span:nth-child(4) {
+.login-box a span:nth-child(4) {
   bottom: -100%;
   left: 0;
   width: 2px;
@@ -244,8 +246,7 @@ export default {
 }
 
 .user-box {
-  height: 60px;
-  text-shadow: 0 1px 0 #388FBB;
+  height: 65px;
 }
 
 </style>

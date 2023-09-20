@@ -65,7 +65,7 @@ export default {
 
 <style scoped>
 a {
-  color: var(--bs-gray);
+  color: #388FBB;
   transition: color 0.3s;
 }
 
