@@ -3,15 +3,15 @@ import { BadRequest, Forbidden } from "../utils/Errors.js";
 
 class ChallengesService {
 
-  async createChallenge(challengeData) {
-    const challenge = await dbContext.Challenges.create(challengeData)
+  async createChallenge(newChallenge) {
+    const challenge = await dbContext.Challenges.create(newChallenge)
     await challenge.populate('creator')
     return challenge
   }
 
   async getAllChallenges() {
     const challenges = await dbContext.Challenges.find().populate('creator')
-    .sort({ startDate: 1 })
+    .sort({ createdAt: -1 })
     return challenges
   }
 }

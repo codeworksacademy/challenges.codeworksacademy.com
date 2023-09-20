@@ -1,41 +1,87 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="home-card p-5 bg-white rounded elevation-3">
-      <img src="https://bcw.blob.core.windows.net/public/img/8600856373152463" alt="CodeWorks Logo"
-        class="rounded-circle">
-      <h1 class="my-5 bg-dark text-white p-3 rounded text-center">
-        Vue 3 Starter
-      </h1>
+  <section class="container-fluid">
+    <div class="d-flex align-items-center justify-content-center">
+      <div class="row">
+        <div class="col-12 text-light text-center">
+          <h1>I DEVELOP, THEREFORE I<br /> BECOME</h1>
+          <p class="mx-auto" style="width: 60%; color: #797A7A;"> Explore <span class="span-1">challenges</span>, showcase your <span class="span-2">skills</span>, and immerse yourself in the transformative world of <span class="span-3">development</span>.<br />A philosophy that propels us forward, one line of code at a time.</p>
+        </div>
+      </div>
     </div>
-  </div>
+
+    <div class="row justify-content-center align-items-center">
+      <div class="col-5 p-5">
+        <router-link :to="{ name: 'Challenges' }">
+          <div class="card home-card p-3" style="height: 30vh;">
+            <div class=" d-flex flex-row text-light">
+
+              <div class="col-6">
+                <img src="../assets/img/challenges-img.png" class="img-fluid" style="height: 25vh;" alt="">
+              </div>
+              <div class="col-6">
+                <h5 class="pt-2 pe-4">Featured Challenges</h5>
+                <p class="sub-text">Handpicked to inspire your creativity and hone your coding skills. Whether you're a seasoned developer or just starting your journey, these challenges offer a playground to test your abilities, learn from your peers, and compete for exciting rewards!</p>
+              </div>
+            </div>
+          </div>
+        </router-link>
+      </div>
+      <div class="col-5 p-5">
+        <div class="card home-card p-3" style="height: 30vh;">
+          <div class=" d-flex flex-row text-light">
+
+            <div class="col-6">
+              <img src="../assets/img/leaderboard-img.png" class="img-fluid mt-4" style="height: 18vh;" alt="">
+            </div>
+            <div class="col-6">
+              <h5 class="pt-2 pe-4">Leaderboards</h5>
+              <p class="sub-text">See how your skills stack up agains fellow CodeWorkers! Compete in coding challenges, showcase your projects, and earn your place among the tech elite. Keep an eye on the rankings, claim your position, and let the world see your coding prowess!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
+import { computed } from 'vue'
+import { AppState } from '../AppState'
+
 export default {
+
   setup() {
-    return {}
+    return {
+      challenges: computed(() => AppState.challenges),
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.home {
-  display: grid;
-  height: 80vh;
-  place-content: center;
-  text-align: center;
-  user-select: none;
 
-  .home-card {
-    width: 50vw;
+.span-1 {
+  color: #38BB64;
+  font-weight: 500;
+}
 
-    >img {
-      height: 200px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-    }
-  }
+.span-2 {
+  color: #BB38FF;
+  font-weight: 500;
+}
+
+.span-3 {
+  color: #BB6438;
+  font-weight: 500;
+}
+
+.home-card {
+  background: linear-gradient(90deg, #121722 0%, #1B202B 100%);
+  box-shadow: 4px 4px 3px rgba(0, 0, 0, 0.25);
+}
+
+p.sub-text {
+  font-size: .85rem;
+  font-weight: 500;
 }
 </style>

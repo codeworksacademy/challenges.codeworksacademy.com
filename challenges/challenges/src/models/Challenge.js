@@ -29,6 +29,14 @@ export const ChallengeSchema = new Schema({
       url: String,
     }
   ],
+  createdAt: {
+    type: Date,
+    required: true
+  },
+  updatedAt: {
+    type: Date,
+    required: true
+  },
   pointValue: {
     type: Number,
     required: true,

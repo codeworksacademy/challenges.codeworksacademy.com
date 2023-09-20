@@ -27,6 +27,18 @@ export default {
 <style lang="scss">
 @import "./assets/scss/main.scss";
 
+body, html {
+  background: #121722;
+  background-image: url(./assets/img/bg-main.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  overflow-x: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
 :root{
   --main-height: calc(100vh - 32px - 64px);
 }

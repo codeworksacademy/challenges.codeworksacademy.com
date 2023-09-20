@@ -3,7 +3,13 @@ export class Account {
     this.id = data.id
     this.email = data.email
     this.name = data.name
+    this.alias = data.alias
+    this.age = data.age
+    this.location = data.location
+    this.coverImg = data.coverImg
     this.picture = data.picture
-    // TODO add additional properties if needed
+    this.bio = data.bio
+    this.xpCount = data.xpCount
+    this.tributeCount = data.tributeCount
   }
 }
