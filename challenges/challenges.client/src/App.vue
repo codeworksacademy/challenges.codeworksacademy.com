@@ -9,12 +9,10 @@
     <canvas
     id="canvas"
     ref="canvas"
-    width="200%"
-    height="200%"
     >
     </canvas>
   </main>
-   <footer class="bg-dark text-light">
+   <footer class="bg-dark text-light position-fixed" style="bottom: 0;">
     Made with 💖 by CodeWorks
   </footer>
 </template>
@@ -237,5 +235,6 @@ footer {
   display: grid;
   place-content: center;
   height: 32px;
+  width: 100vw;
 }
 </style>

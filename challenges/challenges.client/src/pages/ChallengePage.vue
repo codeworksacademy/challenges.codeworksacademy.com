@@ -1,12 +1,7 @@
 <template>
   <section class="container-fluid">
     <div class="row">
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <h1 class="text-light">
-          Challenges Page
-        </h1>
-      </div>
-      <div class="col-12 d-flex justify-content-center align-items-center">
+      <div class="col-12 d-flex justify-content-center align-items-center position-relative" style="bottom: -12em;">
         <ChallengeForm />
       </div>
       <div class="row">
