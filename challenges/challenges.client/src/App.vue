@@ -71,8 +71,8 @@ function sin(t, h) {
   return Math.sin(t) * h
 }
 var cubes = []
-for (var x = -6; x <= 6; x++) {
-  for (var z = -6; z <= 6; z++) {
+for (let x = -6; x <= 6; x++) {
+  for (let z = -6; z <= 6; z++) {
     var cube = []
     var geometry = new THREE.BoxGeometry( 1, 1, 1, 6, 6, 6 );
     var smooth = geometry.clone();
@@ -80,25 +80,25 @@ for (var x = -6; x <= 6; x++) {
     //var modifier = new THREE.SubdivisionModifier( subdiv );
 //modifier.modify( smooth );
     if (Math.random() > 0.75) {
-      var ccolor = '#292929'
+      var ccolor = '#1B1F2A'
       cube.colored = true
     } else {
-       var cccolor = 'black'
-       cube.colored = false
+       var cccolor = '#BB6438'
+      
     }
-    cube.material = new THREE.MeshPhongMaterial( { color: ccolor } )
+    cube.material = new THREE.MeshPhongMaterial( { color: ccolor || cccolor } )
     cube.mesh = new THREE.Mesh(smooth, cube.material)
     scene.add( cube.mesh );
     cube.mesh.position.x = x
     cube.mesh.position.z = z
     cube.height = randint(1,10)/10
-    cube.aniOffset = randint(1,400)/100
+    cube.aniOffset = randint(1,400)/10
     cubes.push(cube)
   }
 }
-for (var x = -5; x <= 5; x+= 5) {
-  for (var z = -5; z <= 5; z+= 5) {
-    var light = new THREE.PointLight( 'white', 1, 7.5 );
+for (let x = -5; x <= 5; x+= 5) {
+  for (let z = -5; z <= 5; z+= 5) {
+    var light = new THREE.PointLight( 'pink', 1, 7.5 );
     light.position.set( x, 2, z );
     scene.add( light );
   }
@@ -171,9 +171,9 @@ function mainloop() {
   var g = Math.round(color.g)
   var b = Math.round(color.b)
   
-  for (var i = 0; i < cubes.length; i++) {
+  for (let i = 0; i < cubes.length; i++) {
     var cube = cubes[i]
-    cube.mesh.position.y = sin((time/100)+cube.aniOffset,cube.height)
+    cube.mesh.position.y = sin((time/250)+cube.aniOffset,cube.height)
     if (cube.colored) {
     cube.mesh.material.color.setHex( rgb2color(r, g, b) );
     }

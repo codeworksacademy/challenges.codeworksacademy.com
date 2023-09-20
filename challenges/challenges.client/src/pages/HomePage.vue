@@ -10,7 +10,7 @@
     </div>
 
     <div class="row justify-content-center align-items-center">
-      <div class="col-5 p-5">
+      <div class="col-6 p-5">
         <router-link :to="{ name: 'Challenges' }">
           <div class="card home-card p-3" style="height: 30vh;">
             <div class=" d-flex flex-row text-light">
@@ -19,22 +19,22 @@
                 <img src="../assets/img/challenges-img.png" class="img-fluid" style="height: 25vh;" alt="">
               </div>
               <div class="col-6">
-                <h5 class="pt-2 pe-4">Featured Challenges</h5>
-                <p class="sub-text">Handpicked to inspire your creativity and hone your coding skills. Whether you're a seasoned developer or just starting your journey, these challenges offer a playground to test your abilities, learn from your peers, and compete for exciting rewards!</p>
+                <h5 class="pe-4">Featured Challenges</h5>
+                <p class="sub-text">Handpicked to inspire creativity and hone your coding skills. Whether you're a seasoned developer or just starting your journey, these challenges offer a playground to test your abilities, learn from your peers, and compete for exciting rewards!</p>
               </div>
             </div>
           </div>
         </router-link>
       </div>
-      <div class="col-5 p-5">
+      <div class="col-6 p-5">
         <div class="card home-card p-3" style="height: 30vh;">
           <div class=" d-flex flex-row text-light">
 
-            <div class="col-6">
+            <div class="col-5 ps-4">
               <img src="../assets/img/leaderboard-img.png" class="img-fluid mt-4" style="height: 18vh;" alt="">
             </div>
-            <div class="col-6">
-              <h5 class="pt-2 pe-4">Leaderboards</h5>
+            <div class="col-6 offset-1">
+              <h5 class="">Leaderboards</h5>
               <p class="sub-text">See how your skills stack up agains fellow CodeWorkers! Compete in coding challenges, showcase your projects, and earn your place among the tech elite. Keep an eye on the rankings, claim your position, and let the world see your coding prowess!</p>
             </div>
           </div>
