@@ -5,9 +5,9 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-12 d-flex justify-content-around pt-3 mx-auto">
-          <div class="">
-            <a href="http://">Challenges</a>
-          </div>
+          <router-link :to="{ name: 'Challenges' }">
+            <a>Challenges</a>
+          </router-link>
           <div class="">
             <a href="http://">My Profile</a>
           </div>

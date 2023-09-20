@@ -1,9 +1,9 @@
 <template>
-  <div v-if="challenge" class="col-4 d-flex justify-content-center align-items-center p-3">
+  <div v-if="challenge" :key="challenge?.id" class="col-4 d-flex justify-content-center align-items-center p-3">
     <div class="color-chase-card card" style="height: 25vh; width: 33vw;">
       <div :class="randomizeBgImg()" class="card-body">
-        <h4 class="card-title"> {{ challenge.name }} </h4>
-        <h6 class="card-subtitle mb-2" style="filter: brightness(.4);"> {{ challenge.created_at }} </h6>
+        <h4 class="card-title"> {{ challenge?.name }} </h4>
+        <h6 class="card-subtitle mb-2" style="filter: brightness(.4);"> {{ challenge.createdAt }} </h6>
           <div class="col-12 text-center">
             <p v-if="challenge.description" class="card-text" style="min-width: 100%; margin-top: 1em;">
               {{ challenge.description }}
@@ -13,7 +13,7 @@
             </p>
           </div>
         <div class="card-line-animation"></div>
-        <a :href="challenge.html_url" class="btn btn-primary">Challenge Details</a>
+        <a :href="challenge.supportLinks" class="btn btn-primary">Challenge Details</a>
         <a class="btn btn-secondary">Close</a>
       </div>
     </div>
@@ -23,11 +23,12 @@
 <script>
 import { computed } from 'vue'
 import { AppState } from '../AppState'
+import { Challenge } from "../models/Challenge.js"
 
 export default {
 
   props: {
-    challenge: { type: Object, required: true }
+    challenge: { type: Challenge, required: true }
   },
   setup() {
 

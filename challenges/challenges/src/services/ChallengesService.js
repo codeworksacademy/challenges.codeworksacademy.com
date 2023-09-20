@@ -14,6 +14,15 @@ class ChallengesService {
     .sort({ createdAt: -1 })
     return challenges
   }
+
+  async getChallengeById(challengeId) {
+    const challenge = await dbContext.Challenges.findById(challengeId)
+    .populate('creator', 'name picture')
+    if (!challenge) {
+      throw new BadRequest("Invalid Challenge Id")
+    }
+    return challenge
+  }
 }
 
 export const challengesService = new ChallengesService()

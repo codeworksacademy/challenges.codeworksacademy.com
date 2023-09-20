@@ -6,9 +6,9 @@ export class ChallengesController extends BaseController {
   constructor() {
     super('api/challenges')
     this.router
+      .get('', this.getAllChallenges)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createChallenge)
-      .get('', this.getAllChallenges)
   }
 
   async createChallenge(req, res, next) {
@@ -28,5 +28,15 @@ export class ChallengesController extends BaseController {
     } catch (error) {
       next(error)
     }
+  }
+
+  async getChallengeById(req, res, next) {
+    try {
+      const challengeId = req.params.challengeId
+      const challenge = await challengesService.getChallengeById(challengeId)
+    } catch (error) {
+      next(error)
+    }
+
   }
 }

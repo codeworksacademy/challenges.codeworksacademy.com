@@ -6,6 +6,9 @@
           Challenges Page
         </h1>
       </div>
+      <div class="col-12 d-flex justify-content-center align-items-center">
+        <ChallengeForm />
+      </div>
       <div class="row">
         <ChallengeCard :challenge="c" v-for="c in challenges" :key="c.id" />
       </div>
@@ -20,14 +23,17 @@ import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
 import ChallengeCard from '../components/ChallengeCard.vue'
 import { challengesService } from "../services/ChallengesService.js"
+import ChallengeForm from '../components/ChallengeForm.vue'
 
 export default {
 
   components: {
-    ChallengeCard
+    ChallengeCard,
+    ChallengeForm
   },
 
   setup() {
+
     async function getAllChallenges() {
       try {
         await challengesService.getAllChallenges()
@@ -44,6 +50,7 @@ export default {
     return {
       challenges: computed(() => AppState.challenges),
     }
+
   }
 }
 </script>

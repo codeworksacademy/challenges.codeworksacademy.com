@@ -1,5 +1,5 @@
 <template>
-  <section class="container-fluid bg-dark">
+  <section class="container-fluid">
     <div class="row">
       <div class="justify-content-center align-items-center">
         <div class="col-12">
