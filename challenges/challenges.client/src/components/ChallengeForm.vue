@@ -1,66 +1,107 @@
 <template>
   <div class="container-fluid pt-5">
-    <div class="login-box">
+    <div class="form-box">
       <h3>Submit Challenge</h3>
       <form id="challengeForm" @submit.prevent="createChallenge()">
-        <div class="user-box">
-          <input type="text" id="name" name="name" required v-model="editable.name">
+        <div class="input-box">
+          <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            v-model="editable.name"
+          >
           <label for="name">Challenge Name</label>
         </div>
-        <div class="user-box">
-          <input type="text" id="description" name="description" required v-model="editable.description">
+        <div class="input-box">
+          <input
+            id="description"
+            name="description"
+            type="text"
+            required
+            v-model="editable.description"
+          >
           <label for="description">Description</label>
         </div>
         <div v-for="(link, i) in editable.supportLinks" :key="i">
-          <div class="user-box">
-            <input type="text" :id="'supportLinkName' + i" :name="'supportLinkName' + i" required v-model="link.name">
+          <div class="input-box">
+            <input
+              :id="'supportLinkName' + i"
+              :name="'supportLinkName' + i"
+              type="text"
+              required
+              v-model="link.name"
+            >
             <label :for="'supportLinkName' + i">Challenge Link Name</label>
           </div>
-          <div class="user-box">
-            <input type="url" :id="'supportLinkURL' + i" :name="'supportLinkURL' + i" required v-model="link.url">
+          <div class="input-box">
+            <input
+              :id="'supportLinkURL' + i"
+              :name="'supportLinkURL' + i"
+              type="url"
+              required
+              v-model="link.url"
+            >
             <label :for="'supportLinkURL' + i">Challenge Link URL</label>
           </div>
         </div>
         <div v-if="imageUploadOption === 'url'">
-          <div class="user-box">
+          <div class="input-box">
             <input
-              type="url"
               id="coverImg"
               name="coverImg"
-              required
+              type="url"
               minlength="5"
               maxlength="500"
+              required
               v-model="editable.coverImg"
               placeholder="Enter Image URL"
             />
           </div>
           <div class="form-check form-switch">
-            <input @change="handleUrlChange" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-            <label class="form-check-label" for="flexSwitchCheckDefault">Upload Image File</label>
+            <input
+              @change="handleUrlChange"
+              id="radioDefault"
+              type="checkbox"
+              class="form-check-input"
+            >
+            <label class="form-check-label" for="radioDefault">Upload Image File</label>
           </div>
         </div>
         <div v-if="imageUploadOption === 'file'">
-          <div class="user-box">
+          <div class="input-box">
             <input
-              class="form-control"
-              style="border: none; background: transparent; color: #F0F0F0;"
-              type="file"
-              accept="image/*"
               id="coverImg"
               name="coverImg"
+              type="file"
+              accept="image/*"
+              class="form-control"
+              style="border: none; background: transparent; color: #F0F0F0;"
               required
               @change="handleFileUpload"
             />
           </div>
           <div class="form-check form-switch">
-            <input @change="handleUrlChange" checked class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-            <label class="form-check-label" for="flexSwitchCheckDefault">Upload Image URL</label>
+            <input
+              @change="handleUrlChange"
+              id="radioChecked"
+              type="checkbox"
+              class="form-check-input"
+              checked
+            >
+            <label class="form-check-label" for="radioChecked">Upload Image URL</label>
           </div>
         </div>
-        <div class="user-box d-flex justify-content-center align-items-center pt-5">
+        <div class="input-box d-flex justify-content-center align-items-center pt-5">
           <div class="col-8">
-            <select id="pointValue" class="d-flex justify-content-center align-items-center ps-2" name="pointValue" required v-model="editable.pointValue">
-              <option selected disabled value="" class="text-center">Point Value</option>
+            <select
+              id="pointValue"
+              name="pointValue"
+              class="d-flex justify-content-center align-items-center ps-2"
+              required
+              v-model="editable.pointValue"
+            >
+              <option value="" class="text-center" selected disabled>Point Value</option>
               <option value="1">1</option>
               <option value="5">5</option>
               <option value="10">10</option>
@@ -154,7 +195,7 @@ export default {
   position: relative;
 }
 
-.login-box {
+.form-box {
   position: relative;
   top: 10%;
   left: 50%;
@@ -169,7 +210,7 @@ export default {
   border-radius: 10px;
 }
 
-.login-box h3 {
+.form-box h3 {
   margin: 0 0 20px;
   padding: 0;
   text-align: center;
@@ -177,8 +218,31 @@ export default {
   text-shadow: 0px 1px 2px #38BB64;
 }
 
-.login-box .user-box {
+.form-box .input-box {
   position: relative;
+}
+
+input:not(:placeholder-shown):valid, textarea:not(:placeholder-shown):valid, select:not(:placeholder-shown):valid {
+  border: 1px solid #38BB6433 !important;
+  box-shadow: 0 0 0 1px #388FBBab !important;
+  --bs-form-switch-bg: url(
+    "https://clipart-library.com/images_k/black-circle-with-transparent-background/black-circle-with-transparent-background-13.png") !important;
+}
+
+input:checked {
+  background-color: #38BB6499;
+}
+
+input:not(:checked) {
+  background-image: url(
+    'https://1001freedownloads.s3.amazonaws.com/vector/thumb/92443/1311627658.png'
+  );
+  background-repeat: no-repeat;
+  background-size: 18px 18px;
+  background-position-y: -1.75px;
+  background-position-x: -2px;
+  background-color: #555;
+  border-color: #141b23; /* Change the border color when checked */
 }
 
 select {
@@ -210,8 +274,8 @@ option {
   text-align: center;
 }
 
-.login-box .user-box input,
-.login-box .user-box select {
+.form-box .input-box input,
+.form-box .input-box select {
   width: 100%;
   padding: 10px 0;
   font-size: 16px;
@@ -222,7 +286,7 @@ option {
   background: transparent;
 }
 
-.login-box .user-box label {
+.form-box .input-box label {
   position: absolute;
   top: 0;
   left: 0;
@@ -232,8 +296,8 @@ option {
   transition: .5s;
 }
 
-.login-box .user-box input:focus~label,
-.login-box .user-box input:valid~label {
+.form-box .input-box input:focus~label,
+.form-box .input-box input:valid~label {
   top: -20px;
   left: 0;
   color: #388FBB;
@@ -241,7 +305,7 @@ option {
   font-size: 12px;
 }
 
-.login-box form button {
+.form-box form button {
   position: relative;
   display: inline-block;
   padding: 10px 20px;
@@ -257,7 +321,7 @@ option {
   border: none;
 }
 
-.login-box form button:hover {
+.form-box form button:hover {
   color: #F0F0F0;
   border-radius: 5px;
   box-shadow: 5px 0 5px 1px #38b464 inset,
@@ -267,29 +331,29 @@ option {
 }
 
 /* Set the initial background colors for the pseudo-elements */
-.login-box form button span:nth-child(1) {
+.form-box form button span:nth-child(1) {
   background: #388FBB;
 }
 
-.login-box form button span:nth-child(2) {
+.form-box form button span:nth-child(2) {
   background: #38BB64;
 }
 
-.login-box form button span:nth-child(3) {
+.form-box form button span:nth-child(3) {
   background: #BB388F;
 }
 
-.login-box form button span:nth-child(4) {
+.form-box form button span:nth-child(4) {
   background: #BB6438;
 }
 
-.login-box form button span {
+.form-box form button span {
   position: absolute;
   display: block;
   background: transparent;
 }
 
-.login-box button span:nth-child(1) {
+.form-box button span:nth-child(1) {
   top: 0;
   left: -100%;
   width: 100%;
@@ -309,7 +373,7 @@ option {
   }
 }
 
-.login-box button span:nth-child(2) {
+.form-box button span:nth-child(2) {
   top: -100%;
   right: 0;
   width: 2px;
@@ -330,7 +394,7 @@ option {
   }
 }
 
-.login-box button span:nth-child(3) {
+.form-box button span:nth-child(3) {
   bottom: 0;
   right: -100%;
   width: 100%;
@@ -351,7 +415,7 @@ option {
   }
 }
 
-.login-box button span:nth-child(4) {
+.form-box button span:nth-child(4) {
   bottom: -100%;
   left: 0;
   width: 2px;
@@ -372,6 +436,6 @@ option {
   }
 }
 
-.user-box {
+.input-box {
   height: 65px;
 }</style>

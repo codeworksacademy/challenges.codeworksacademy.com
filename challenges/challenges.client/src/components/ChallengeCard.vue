@@ -26,8 +26,8 @@
           </div>
         </div>
         <!--SECTION * * * CARD FOOTER * * * -------------------------------------------->
-        <div class="card-footer row" style="background: inherit; border: 3px groove #38BB6488;">
-          <div class="col-12">
+        <div class="card-footer row" style="background: inherit; border: 3px groove #38BB6488; height: 120px;">
+          <div class="col-12" style="position: relative; margin-bottom: -1em;">
             <p class="card-text">
               <small class="card-text" style="font-weight: 400; font-size: .7rem; filter: brightness(.8);">
                 Created By: {{ challenge.creator.name }}
@@ -42,11 +42,10 @@
               </small>
             </p>
           </div>
-          <div class="col-6">
-            <a href="#" class="btn btn-dark pb-3" style="">To Top</a>
-          </div>
-          <div class="col-6">
-            <a href="#" aria-label="Go to Tournament Page" class="btn btn-outline-primary" title="See who's Competing">Who's In?</a>
+          <div class="row d-flex justify-content-center align-items-center m-auto">
+            <div class="col-6">
+              <a href="#" aria-label="Go to Tournament Page" class="btn btn-outline-primary" title="See who's Competing">Who's In?</a>
+            </div>
           </div>
         </div>
       </div>   
@@ -174,7 +173,7 @@ export default {
   color: aliceblue;
   text-shadow: 1px 1px 1px #000;
   border-radius: 3rem;
-  width: 4vw;
+  min-width: 4vw;
   position: absolute;
   top: .5rem;
   right: .5rem;
@@ -208,7 +207,7 @@ export default {
   color: aliceblue;
   text-shadow: 1px 1px 1px #000;
   border-radius: 3rem;
-  width: 3.5vw;
+  min-width: 3.5vw;
   position: absolute;
   top: .5rem;
   right: .5rem;
@@ -227,7 +226,7 @@ export default {
   color: aliceblue;
   text-shadow: 1px 1px 1px #000;
   border-radius: 3rem;
-  width: 3vw;
+  min-width: 3vw;
   position: absolute;
   top: .5rem;
   right: .5rem;
@@ -282,32 +281,27 @@ label {
 }
 
 a.btn-dark {
-  margin-top: 1rem;
-  margin-bottom: .25rem;
-  height: 10%;
-  width: 50%;
-  box-sizing: content-box;
-  font-size: .75rem;
-  font-weight: 400;
-  text-shadow: .5px .5px .75px #998ce2;
-  color: #F0F0F0;
-  border-color: #F0F0F074;
+  text-shadow: 2px 2px .75px #000000;
   transition: .5s ease-in-out;
-  
 }
 
 a.btn-outline-primary {
-  margin-top: 1rem;
-  margin-bottom: .25rem;
-  height: 25%;
-  width: 50%;
-  line-height: 1rem;
-  box-sizing: content-box;
   font-size: .75rem;
-  font-weight: 350;
-  color: #67cbe7;
-  border-color: #67cbe7;
+  font-weight: 450;
+  color: #4ab4e9;
+  border-color: #F0F0F074;
   transition: .5s ease-in-out;
+    &:hover {
+      background-color: transparent;
+      color: #F0F0F0;
+      box-shadow: 0 0 15px 2px #BB388FFF;
+      border: none;
+      transition: .5s ease-in-out;
+    }
+}
+
+.mdi-star-plus {
+  font-size: 33px;
 }
 
 .sub-member {
