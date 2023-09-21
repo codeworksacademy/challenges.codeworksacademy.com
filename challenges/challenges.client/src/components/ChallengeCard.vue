@@ -2,39 +2,41 @@
   <section v-if="challenge" :key="challenge.id" class="col-md-4 d-flex justify-content-center align-items-center p-3 position-relative">
     <!--SECTION  * * * CARD IMAGE HEADER * * * ------------------------------>
       <div class="card card-custom border-white border-0" style="height: auto;">
-        <div class="card-custom-img" :style="`background-image: url(${challenge.coverImg})`"></div>
+        <div class="card-custom-img" :style="`background-image: url(${challenge.coverImg}); opacity: .6;`"></div>
         <div>
           <p class="host-badge">FEATURED</p>
         </div>
         <div class="card-custom-avatar">
-          <img class="img-fluid object-fit-cover" src="https://i.imgur.com/8Km9tLL.png" alt="Creator Name" />
+          <img class="img-fluid" style="object-fit: cover;" :src="challenge.creator.picture" alt="Creator Name" :title="`Go To Creator's Profile: ${challenge.creator.name}`" />
         </div>
         <!--SECTION * * * CARD BODY * * * ------------->
         <div class="card-body" style="overflow-y: auto">
-          <h6 class="card-title fw-bold pt-2"> Item Name </h6>
-          <p class="card-text-secondary mb-3 fw-bold"> Item Category </p>
-          <p class="card-text">This is a content box that contains the description for the given item. Fill this space with desired content so the user will know what the item they're browsing is all about!</p>
-          <p class="card-footer-text text-end">Remaining Items: 27</p>
+          <h5 class="card-title fw-semibold py-2"> {{ challenge.name }} </h5>
+          <label for="description">Description:</label>
+          <p id="description" class="card-text"> {{ challenge.description }} </p>
+          <p class="card-footer-text text-end">Participants: 27</p>
           <p class="card-text"></p>
+          <div class="col-12">
+            <div v-for="(link, i) in challenge.supportLinks" :key="i" class="mb-2">
+              <small class="card-text">Github Link: <a :href="link.url" class="card-text-secondary fw-bold"> {{ link.name }} </a>
+              </small>
+            </div>
+          </div>
         </div>
         <!--SECTION * * * CARD FOOTER * * * -------------------------------------------->
-        <div class="card-footer row" style="background: inherit; border-color: #38BB6499;">
+        <div class="card-footer row" style="background: inherit; border: 3px groove #38BB6488;">
           <div class="col-12">
             <p class="card-text">
-              <small class="card-text" style="font-weight: 400; font-size: .6rem;">
-                Last Updated on: {{ 
-                  new Date( )
-                  .toLocaleDateString('en-US', {
-                    year: 'numeric', 
-                    month: 'short', 
-                    day: 'numeric'
-                  }) }}
-                  @ {{ 
-                    new Date( )
-                    .toLocaleTimeString('en-US', {
-                      hour: 'numeric', 
-                      minute: 'numeric'
-                    }) }}
+              <small class="card-text" style="font-weight: 400; font-size: .7rem; filter: brightness(.8);">
+                Created By: {{ challenge.creator.name }}
+              </small>
+            </p>
+          </div>
+          <div class="col-12">
+            <p class="card-text">
+              <small class="" style="font-weight: 400; font-size: .7rem; filter: brightness(.8)">
+                on {{ challenge.createdAt.formattedDate }}
+                  @ {{ challenge.createdAt.formattedTime }}
               </small>
             </p>
           </div>
@@ -42,7 +44,7 @@
             <a href="#" class="btn btn-dark pb-3" style="">To Top</a>
           </div>
           <div class="col-6">
-            <a href="#" aria-label="Go to Tournament Page" class="btn btn-outline-primary">More Info</a>
+            <a href="#" aria-label="Go to Tournament Page" class="btn btn-outline-primary" title="See who's Competing">Who's In?</a>
           </div>
         </div>
       </div>   
@@ -65,15 +67,6 @@ export default {
 
   setup() {
 
-    const randomBgImg = [
-      'bg-1',
-      'bg-2',
-      'bg-3',
-      'bg-4',
-      'bg-5',
-      'bg-6'
-    ]
-
     return {
       challenges: computed(() => AppState.challenges),
     }
@@ -94,25 +87,29 @@ export default {
 }
 
 .card-custom {
-  color: #efefef;
-  text-shadow: 0 1px 5px #998ce2;
+  color: #F0F0F0;
+  text-shadow: 0 1px 5px #38BB64;
   overflow: hidden;
   max-height: 350px;
-  background-color: #0a0b14f3;
+  background: #00000080;
   box-shadow: 0 0 15px 2px #0a0a0a4d;
   transition: all .5 ease-in-out;
 }
 
+.card .card-custom .card-body .card-footer a {
+  background: transparent;
+}
+
 .card-custom-img {
-  height: 130px;
-  min-height: 130px;
-  background-color: #00000090;
+  height: 160px;
+  min-height: 160px;
+  background-color: #00000080;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   opacity: .8;
   filter: brightness(1.3);
-  box-shadow: 0 10px 0 10px #0a0a0a4d;
+  box-shadow: 0 10px 0 10px #000000;
   border-color: inherit;
 }
 
@@ -141,10 +138,30 @@ export default {
   box-shadow: 0 0 15px 3px #0a0a0a9a;
   position: absolute;
   border: 2.5px solid #000000;
-  top: 85px;
+  top: 110px;
   right: 1.5rem;
   width: 65px;
   height: 65px;
+}
+
+.card-custom-avatar img:hover {
+  filter: brightness(1.1);
+  transition: all .5s ease-in-out;
+  animation: buttonPrompt .75s forwards;
+}
+
+@keyframes buttonPrompt {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1) translateY(-.25rem) translateX(.25rem) rotateZ(10deg);
+  }
+
+  100% {
+    transform: scale(1) translateY(0) translateX(0) rotateZ(0deg);
+  }
 }
 
 .host-badge {
@@ -182,27 +199,38 @@ export default {
 }
 
 .card-body {
-  background-color: #0a0b14f3;
+  min-height: 125px;
+}
+
+label {
+  font-size: .75rem;
+  font-weight: 400;
+  color: #F0F0F0;
+  text-shadow: 0 1px 5px #38BB64;
 }
 
 .card-text {
-  font-size: .66rem;
-  font-weight: 400;
-  color: #efefef;
-  text-shadow: 0 1px 5px #998ce2;
+  font-size: .85rem;
+  font-weight: 450;
+  color: #F0F0F0;
+  text-shadow: 0 1px 3px #38BB64;
 }
 
 .card-text-secondary {
   font-size: .75rem;
   font-weight: 400;
-  color: #efefef;
+  color: #F0F0F0;
   text-shadow: 0 1px 5px #998ce2;
+}
+
+.card-footer {
+  box-shadow: 0 -10px 5px #000000;
 }
 
 .card-footer-text {
   font-size: .69rem;
-  font-weight: 400;
-  color: #efefef;
+  font-weight: 500;
+  color: #F0F0F0;
   text-shadow: 0 1px 5px #998ce2;
 }
 
@@ -220,8 +248,8 @@ a.btn-dark {
   font-size: .75rem;
   font-weight: 400;
   text-shadow: .5px .5px .75px #998ce2;
-  color: #efefef;
-  border-color: #efefef74;
+  color: #F0F0F0;
+  border-color: #F0F0F074;
   transition: .5s ease-in-out;
   
 }
@@ -254,24 +282,24 @@ i.sub-member:hover {
 
 ::-webkit-scrollbar {
   width: 5px;
-  background-color: #0a0b14f3;
+  background-color: #121722;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #29356a;
+  background-color: #38BB6466;
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #232642;
+  background-color: #121722;
 }
 
 ::-webkit-scrollbar-corner {
-  background-color: #0a0b14f3;
+  background-color: #121722;
 }
 
 ::-webkit-scrollbar-button {
-  background: #efefefc7;
+  background: transparent;
   border-radius: 5px;
   height: 5px;
 }

@@ -112,7 +112,7 @@ export default {
   color: #F0F0F0;
   text-shadow: 0 .5px 1px #38BB64;
   transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, .5);
+  background: #00000080;
   box-sizing: border-box;
   box-shadow: 0 5px 15px #BB388F55;
   border-radius: 10px;
