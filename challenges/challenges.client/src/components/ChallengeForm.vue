@@ -147,13 +147,16 @@ select:focus {
 }
 
 option {
-  padding-left: 10px;
   background: #000;
   color: #F0F0F0;
   font-size: 16px;
   font-weight: 500;
+  line-height: 1.2;
+  padding: 0 2px 1px;
+  display: inline-block;
   border: 1px solid #F0F0F0 !important;
   border-radius: 5px;
+  text-align: center;
 }
 
 .login-box .user-box input,
