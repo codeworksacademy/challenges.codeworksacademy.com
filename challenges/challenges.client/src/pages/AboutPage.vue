@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script>
+<script type="ts">
 export default {
   setup() {
     return {
