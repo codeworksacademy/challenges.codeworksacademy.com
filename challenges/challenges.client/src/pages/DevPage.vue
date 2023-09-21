@@ -4,25 +4,27 @@
 </template>
   
 <script>
-  import { computed, onMounted } from 'vue'
+  import { computed, defineComponent, onMounted } from 'vue'
   import { AppState } from '../AppState'
   import Pop from "../utils/Pop.js"
   import { logger } from "../utils/Logger.js"  
+  import { DefineComponent } from 'vue'
   
-  export default {
+  export default defineComponent({
     components: {
 
     },
     setup() {
 
-      onMounted(() => {
+    onMounted(() => {
 
-      })
-      return {
+    })
+    return {
 
-      } 
+    } 
     }
-  }
+  })
+  
   </script>
   
   <style scoped lang="scss">
