@@ -28,5 +28,6 @@ export class Challenge {
     this.supportLinks = data.supportLinks
     this.pointValue = data.pointValue
     this.answers = data.answers
+    this.isCanceled = data.isCanceled
   }
 }

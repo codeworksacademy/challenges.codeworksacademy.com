@@ -20,6 +20,13 @@ class ChallengesService {
     AppState.challenges = res.data.map(c => new Challenge(c))
     logger.log('Challenges:', AppState.challenges)
   }
+
+  async cancelChallenge(challengeId) {
+    const res = await api.delete(`/api/challenges/${challengeId}`)
+    Pop.toast('Challenge Canceled', 'success')
+    logger.log('Canceled Challenge:', res.data)
+    return res.data
+  }
 }
 
 export const challengesService = new ChallengesService()

@@ -44,7 +44,11 @@ export const ChallengeSchema = new Schema({
   },
   answers: [
     { type: String }
-  ]
+  ],
+  isCanceled: {
+    type: Boolean,
+    default: false
+  }
 },
   { timestamps: true,
     toJSON: { virtuals: true }

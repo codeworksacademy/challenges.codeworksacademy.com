@@ -1,5 +1,5 @@
 <template>
-  <section v-if="challenge" :key="challenge.id" class="col-md-4 d-flex justify-content-center align-items-center p-3 position-relative mb-3">
+  <section v-if="challenge" :key="challenge.id" class="col-md-3 d-flex justify-content-center align-items-center p-3 position-relative mb-3">
     <!--SECTION  * * * CARD IMAGE HEADER * * * ------------------------------>
       <div class="card card-custom border-white border-0" style="min-height: 45vh; max-height: 55vh;">
         <div class="card-custom-img" :style="`background-image: url(${challenge.coverImg}); opacity: .6;`"></div>
@@ -47,6 +47,11 @@
               <a href="#" aria-label="Go to Tournament Page" class="btn btn-outline-primary" title="See who's Competing">Who's In?</a>
             </div>
           </div>
+          <div v-if="!challenge.isCanceled" class="row d-flex justify-content-center align-items-center m-auto">
+            <div class="col-6">
+              <button @click="cancelChallenge" class="btn btn-danger" :title="`Cancel ${challenge.name}?`"></button>
+            </div>
+          </div>
         </div>
       </div>   
 </section>
@@ -55,7 +60,10 @@
 <script>
 import { computed } from 'vue'
 import { AppState } from '../AppState'
-import { Challenge } from "../models/Challenge.js"
+import { Challenge } from '../models/Challenge'
+import { challengesService } from '../services/ChallengesService'
+import Pop from "../utils/Pop.js"
+import { logger } from "../utils/Logger.js"
 
 export default {
 
@@ -68,7 +76,21 @@ export default {
 
   setup() {
 
+    async function cancelChallenge() {
+        try {
+          const challenge = AppState.activeChallenge
+          await challengesService.cancelChallenge(challenge.id)
+          AppState.activeChallenge.isCanceled = true
+          Pop.success(`${challenge.name} has been canceled!`)
+        } catch (error) {
+          logger.error('Error caught @ function cancelChallenge() in ChallengeCard.vue', error)
+          Pop.error('Error canceling challenge - see console for details')
+        }
+      }
+
     return {
+      cancelChallenge,
+
       challenges: computed(() => AppState.challenges),
     }
   }

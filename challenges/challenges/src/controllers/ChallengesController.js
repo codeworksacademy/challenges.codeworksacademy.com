@@ -7,8 +7,10 @@ export class ChallengesController extends BaseController {
     super('api/challenges')
     this.router
       .get('', this.getAllChallenges)
+      .get('/:challengeId', this.getChallengeById)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createChallenge)
+      .delete('/:challengeId', this.cancelChallenge)
   }
 
   async createChallenge(req, res, next) {
@@ -37,6 +39,16 @@ export class ChallengesController extends BaseController {
     } catch (error) {
       next(error)
     }
+  }
 
+  async cancelChallenge(req, res, next) {
+    try {
+      const userId = req.userInfo.id
+      const challengeId = req.params.challengeId
+      const challenge = await challengesService.cancelChallenge(userId, challengeId)
+      return res.send(challenge)
+    } catch (error) {
+      next(error)
+    }
   }
 }

@@ -1,5 +1,6 @@
 import { dbContext } from "../db/DbContext.js";
 import { BadRequest, Forbidden } from "../utils/Errors.js";
+import { accountService } from "./AccountService.js";
 
 class ChallengesService {
 
@@ -22,6 +23,16 @@ class ChallengesService {
       throw new BadRequest("Invalid Challenge Id")
     }
     return challenge
+  }
+
+  async cancelChallenge(userId, challengeId) {
+    const challenge = await this.getChallengeById(challengeId)
+    const account = await accountService.getAccount(userId)
+    if (challenge.creatorId !== userId) {
+      throw new Forbidden(
+        `[PERMISSIONS ERROR]: ${account.name}, you are not the creator of ${challenge.name}, therefore you cannot cancel it.`
+      )
+    }
   }
 }
 
