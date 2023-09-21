@@ -11,15 +11,6 @@
           <input type="text" id="description" name="description" required v-model="editable.description">
           <label for="description">Description</label>
         </div>
-        <div class="user-box">
-          <input type="url" id="coverImg" name="coverImg" required minlength="5" maxlength="500"
-            v-model="editable.coverImg">
-          <label for="coverImg">Cover Image</label>
-        </div>
-        <!-- <div class="user-box">
-          <input type="url" id="supportLinks" name="supportLinks" required>
-          <label for="supportLinks">Challenge Link</label>
-        </div> -->
         <div v-for="(link, i) in editable.supportLinks" :key="i">
           <div class="user-box">
             <input type="text" :id="'supportLinkName' + i" :name="'supportLinkName' + i" required v-model="link.name">
@@ -28,6 +19,42 @@
           <div class="user-box">
             <input type="url" :id="'supportLinkURL' + i" :name="'supportLinkURL' + i" required v-model="link.url">
             <label :for="'supportLinkURL' + i">Challenge Link URL</label>
+          </div>
+        </div>
+        <div v-if="imageUploadOption === 'url'">
+          <div class="user-box">
+            <input
+              type="url"
+              id="coverImg"
+              name="coverImg"
+              required
+              minlength="5"
+              maxlength="500"
+              v-model="editable.coverImg"
+              placeholder="Enter Image URL"
+            />
+          </div>
+          <div class="form-check form-switch">
+            <input @change="handleUrlChange" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Upload Image File</label>
+          </div>
+        </div>
+        <div v-if="imageUploadOption === 'file'">
+          <div class="user-box">
+            <input
+              class="form-control"
+              style="border: none; background: transparent; color: #F0F0F0;"
+              type="file"
+              accept="image/*"
+              id="coverImg"
+              name="coverImg"
+              required
+              @change="handleFileUpload"
+            />
+          </div>
+          <div class="form-check form-switch">
+            <input @change="handleUrlChange" checked class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Upload Image URL</label>
           </div>
         </div>
         <div class="user-box d-flex justify-content-center align-items-center pt-5">
@@ -74,8 +101,32 @@ export default {
       pointValue: 'Point Value'
     })
 
+    const imageUploadOption = ref('url')
+
+    function handleUrlChange() {
+      if (imageUploadOption.value === 'url') {
+        imageUploadOption.value = 'file'
+      } else {
+        imageUploadOption.value = 'url'
+      }
+    }
+
+    function handleFileUpload(e) {
+      const file = e.target.files[0]
+      if (!file) {
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onloadend = () => {
+          editable.value.coverImg = reader.result
+        }
+      }
+    }
+
     return {
       editable,
+      imageUploadOption,
+      handleFileUpload,
+      handleUrlChange,
 
       challenges: computed(() => AppState.challenges),
 
@@ -165,7 +216,6 @@ option {
   padding: 10px 0;
   font-size: 16px;
   color: #F0F0F0;
-  margin-bottom: 30px;
   border: none;
   border-bottom: 1px solid #F0F0F0;
   outline: none;

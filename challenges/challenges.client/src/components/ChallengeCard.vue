@@ -1,10 +1,12 @@
 <template>
-  <section v-if="challenge" :key="challenge.id" class="col-md-4 d-flex justify-content-center align-items-center p-3 position-relative">
+  <section v-if="challenge" :key="challenge.id" class="col-md-4 d-flex justify-content-center align-items-center p-3 position-relative mb-3">
     <!--SECTION  * * * CARD IMAGE HEADER * * * ------------------------------>
-      <div class="card card-custom border-white border-0" style="height: auto;">
+      <div class="card card-custom border-white border-0" style="min-height: 45vh; max-height: 55vh;">
         <div class="card-custom-img" :style="`background-image: url(${challenge.coverImg}); opacity: .6;`"></div>
         <div>
-          <p class="host-badge">FEATURED</p>
+          <p v-if="challenge.pointValue === 1" class="one-pt-badge"> {{ challenge.pointValue }} PT. </p>
+          <p v-else-if="challenge.pointValue === 5" class="five-pt-badge"> {{ challenge.pointValue }} PTS. </p>
+          <p v-else class="ten-pt-badge"> {{ challenge.pointValue }} PTS. </p>
         </div>
         <div class="card-custom-avatar">
           <img class="img-fluid" style="object-fit: cover;" :src="challenge.creator.picture" alt="Creator Name" :title="`Go To Creator's Profile: ${challenge.creator.name}`" />
@@ -90,7 +92,7 @@ export default {
   color: #F0F0F0;
   text-shadow: 0 1px 5px #38BB64;
   overflow: hidden;
-  max-height: 350px;
+  max-height: 400px;
   background: #00000080;
   box-shadow: 0 0 15px 2px #0a0a0a4d;
   transition: all .5 ease-in-out;
@@ -164,15 +166,15 @@ export default {
   }
 }
 
-.host-badge {
+.ten-pt-badge {
   padding: .25rem;
-  font-size: .7rem;
+  font-size: 1rem;
   text-align: center;
-  background-color: rgb(249, 196, 80);
+  background-color: #f9c450;
   color: aliceblue;
   text-shadow: 1px 1px 1px #000;
   border-radius: 3rem;
-  width: 5vw;
+  width: 4vw;
   position: absolute;
   top: .5rem;
   right: .5rem;
@@ -198,8 +200,47 @@ export default {
   }
 }
 
+.five-pt-badge {
+  padding: .25rem;
+  font-size: .9rem;
+  text-align: center;
+  background-color: #38BB64;
+  color: aliceblue;
+  text-shadow: 1px 1px 1px #000;
+  border-radius: 3rem;
+  width: 3.5vw;
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+  background-image: linear-gradient(linear, left top, right top, color-stop(0%, #1e0a0a00), color-stop(25%, #1e0a0a00), color-stop(60%, #B0FFC0D9), color-stop(100%, #1e0a0a00));
+  background-image: linear-gradient(120deg, #1e0a0a00 0%, #1e0a0a00 25%, #B0FFC4D9 60%, #1e0a0a00 100%);
+  background-repeat: repeat-y;
+  background-position: -100px 0;
+  animation: goldShimmer 6s linear infinite;
+}
+
+.one-pt-badge {
+  padding: .25rem;
+  font-size: .7rem;
+  text-align: center;
+  background-color: #388FBB;
+  color: aliceblue;
+  text-shadow: 1px 1px 1px #000;
+  border-radius: 3rem;
+  width: 3vw;
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+  background-image: linear-gradient(linear, left top, right top, color-stop(0%, #1e0a0a00), color-stop(25%, #1e0a0a00), color-stop(60%, #B0CCFFD9), color-stop(100%, #1e0a0a00));
+  background-image: linear-gradient(120deg, #1e0a0a00 0%, #1e0a0a00 25%, #B0CCFFD9 60%, #1e0a0a00 100%);
+  background-repeat: repeat-y;
+  background-position: -100px 0;
+  animation: goldShimmer 6s linear infinite;
+}
+
 .card-body {
   min-height: 125px;
+  max-height: 125px;
 }
 
 label {
@@ -225,6 +266,7 @@ label {
 
 .card-footer {
   box-shadow: 0 -10px 5px #000000;
+  background: #00000080;
 }
 
 .card-footer-text {

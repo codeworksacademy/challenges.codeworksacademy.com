@@ -25,7 +25,8 @@ export const ChallengeSchema = new Schema({
     maxLength: 500
   },
   supportLinks: [
-    { name: String,
+    { 
+      name: String,
       url: String,
     }
   ],
