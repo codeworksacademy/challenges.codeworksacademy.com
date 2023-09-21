@@ -1,5 +1,5 @@
 <template>
-  <section v-if="challenge" :key="challenge.id" class="col-md-3 d-flex justify-content-center align-items-center p-3 position-relative mb-3">
+  <section v-if="challenge" :key="challenge.id" class="col-xl-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center align-items-center p-3 position-relative mb-3">
     <!--SECTION  * * * CARD IMAGE HEADER * * * ------------------------------>
       <div class="card card-custom border-white border-0" style="min-height: 45vh; max-height: 55vh;">
         <div class="card-custom-img" :style="`background-image: url(${challenge.coverImg}); opacity: .6;`"></div>
@@ -74,11 +74,11 @@ export default {
     }
   },
 
-  setup() {
+  setup(props) {
 
     async function cancelChallenge() {
         try {
-          const challenge = AppState.activeChallenge
+          const challenge = props.challenge
           await challengesService.cancelChallenge(challenge.id)
           AppState.activeChallenge.isCanceled = true
           Pop.success(`${challenge.name} has been canceled!`)
@@ -197,8 +197,8 @@ export default {
   border-radius: 3rem;
   min-width: 4vw;
   position: absolute;
-  top: .5rem;
-  right: .5rem;
+  top: 1rem;
+  right: 1rem;
   background-image: linear-gradient(linear, left top, right top, color-stop(0%, #1e0a0a00), color-stop(25%, #1e0a0a00), color-stop(60%, #fff6b0d9), color-stop(100%, #1e0a0a00));
   background-image: linear-gradient(120deg, #1e0a0a00 0%, #1e0a0a00 25%, #fff6b0d9 60%, #1e0a0a00 100%);
   background-repeat: repeat-y;
@@ -231,8 +231,8 @@ export default {
   border-radius: 3rem;
   min-width: 3.5vw;
   position: absolute;
-  top: .5rem;
-  right: .5rem;
+  top: 1rem;
+  right: 1rem;
   background-image: linear-gradient(linear, left top, right top, color-stop(0%, #1e0a0a00), color-stop(25%, #1e0a0a00), color-stop(60%, #B0FFC0D9), color-stop(100%, #1e0a0a00));
   background-image: linear-gradient(120deg, #1e0a0a00 0%, #1e0a0a00 25%, #B0FFC4D9 60%, #1e0a0a00 100%);
   background-repeat: repeat-y;
@@ -250,8 +250,8 @@ export default {
   border-radius: 3rem;
   min-width: 3vw;
   position: absolute;
-  top: .5rem;
-  right: .5rem;
+  top: 1rem;
+  right: 1rem;
   background-image: linear-gradient(linear, left top, right top, color-stop(0%, #1e0a0a00), color-stop(25%, #1e0a0a00), color-stop(60%, #B0CCFFD9), color-stop(100%, #1e0a0a00));
   background-image: linear-gradient(120deg, #1e0a0a00 0%, #1e0a0a00 25%, #B0CCFFD9 60%, #1e0a0a00 100%);
   background-repeat: repeat-y;

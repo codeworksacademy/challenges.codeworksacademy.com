@@ -60,7 +60,7 @@ export default {
       b = colorCheck(b)
         return 'rgb(' + r + ',' + g + ',' + b + ')'
     }
-    
+
     function rgb2hex(rgb){
     rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
     return (rgb && rgb.length === 4) ? "0x" +
@@ -81,9 +81,9 @@ export default {
         var cube = []
         var geometry = new THREE.BoxGeometry( 1, 1, 1, 6, 6, 6 );
         var smooth = geometry.clone();
-        var subDiv = 1;
-        var modifier = new THREE.SubdivisionModifier( subDiv );
-        modifier.modify( smooth );
+        // var subDiv = 1;
+        // var modifier = new THREE.SubdivisionModifier( subDiv );
+        // modifier.modify( smooth );
 
         if (Math.random() > 0.75) {
           var ccolor = '#1B1F2A'
