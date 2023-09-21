@@ -1,3 +1,5 @@
+// @ts-ignore
+
 //SECTION Types
 //TypeScript has the following types
 let typeString: string = "Hello World"
@@ -22,37 +24,37 @@ function parameterInfo(age: number, name?: string, hobby = "Gaming"):string{
 
 
 //FIXME - Debug Exercise
-function useMagnifyingGlass():string{
-console.log('I will use my magnifying glass.')
-}
+// function useMagnifyingGlass():string{
+// console.log('I will use my magnifying glass.')
+// }
 
-function determineCulprit(){
-return Math.floor(Math.random()*2+1)
-}
+// function determineCulprit(){
+// return Math.floor(Math.random()*2+1)
+// }
 
 
-//NOTE The return type of this function is set to void as it does not return a value
-function doSleuthing(numberOfClues:number, clue1:string, clue2:string, suspect1:string, suspect2:number):void{
-   console.log('I am a famous detective and I will solve the crime.');
-   let unnecessaryVariable = 'Why is this here?'
-   unnecessaryVariable=useMagnifyingGlass();
+// //NOTE The return type of this function is set to void as it does not return a value
+// function doSleuthing(numberOfClues:number, clue1:string, clue2:string, suspect1:string, suspect2:number):void{
+//    console.log('I am a famous detective and I will solve the crime.');
+//    let unnecessaryVariable = 'Why is this here?'
+//    unnecessaryVariable=useMagnifyingGlass();
 
-   console.log('Now I consider the first clue: ',clue1);
-   console.log('Now I consider the second clue: ',clue1);
+//    console.log('Now I consider the first clue: ',clue1);
+//    console.log('Now I consider the second clue: ',clue1);
 
-   let culpritNumber:string = determineCulprit();
-   console.log('Now, I will return to you the culprit. There but for the grace of God go we.' );
-   if(culpritNumber == 1) {return(suspect1)}
-   if(culpritNumber == 2) {return(suspect2)}
+//    let culpritNumber:string = determineCulprit();
+//    console.log('Now, I will return to you the culprit. There but for the grace of God go we.' );
+//    if(culpritNumber == 1) {return(suspect1)}
+//    if(culpritNumber == 2) {return(suspect2)}
 
-   return "I couldn't figure out who drank the priceless milk. :( :("
-}
+//    return "I couldn't figure out who drank the priceless milk. :( :("
+// }
 
-let answer=3;
+// let answer=3;
 
-answer=doSleuthing('2', 'The parrot heard everything!', 'All the doors and windows were shut from the INSIDE.', 'Burglar Bob', 'Saint Sam')
+// answer=doSleuthing('2', 'The parrot heard everything!', 'All the doors and windows were shut from the INSIDE.', 'Burglar Bob', 'Saint Sam')
 
-console.log('The culprit was none other than ', answer, '!');
+// console.log('The culprit was none other than ', answer, '!');
 
 //LINK - Finished Debug
 function useMagnifyingGlass(): string{
@@ -117,7 +119,7 @@ let danceMoves: [string, number, boolean][] = [
 Iterating over every move in danceMoves
 When we call performDanceMove, we are feeding in an array of parameters, following the types in performDanceMove
 */
-We use the spread operator to populate the parameters required within performDanceMove
+//We use the spread operator to populate the parameters required within performDanceMove
 danceMoves.forEach(move => {
    performDanceMove(...move);
 })
