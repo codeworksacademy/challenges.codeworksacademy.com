@@ -5,7 +5,7 @@
         <ChallengeForm />
       </div>
       <div class="row">
-        <ChallengeCard :challenge="c" v-for="c in challenges" :key="c.id" />
+        <ChallengeCard v-for="challenge in challenges" :key="challenge.id" :challenge="challenge" />
       </div>
     </div>
   </section>
