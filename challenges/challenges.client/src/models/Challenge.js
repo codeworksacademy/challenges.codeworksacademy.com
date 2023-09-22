@@ -33,14 +33,13 @@ export class Challenge {
   }
 }
 
-export class Event extends Challenge {
+export class Event {
   constructor(data) {
-    super(data)
     this.eventDate = data.eventDate
     this.eventTime = data.eventTime
     this.eventLocation = data.eventLocation
     this.type = data.type
-    this.challenges = data.challenges : null
+    this.challengeCount = data.challengeCount 
   }
 }
 

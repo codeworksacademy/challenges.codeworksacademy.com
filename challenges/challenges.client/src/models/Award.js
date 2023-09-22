@@ -1,8 +1,10 @@
-class Award{
-    this.id = id;
-    this.name = name;
-    this.points = points;
-    this.challenge = challenge;
-    this.timeAcheived = new Date()
-    this.color = color;
+export class Award{
+  constructor(data) {
+    this.id = data.id
+    this.name = data.name
+    this.points = data.points
+    this.challenge = data.challenge
+    this.timeAchieved = new Date(data.timeAchieved)
+    this.color = data.color
+  }
 }

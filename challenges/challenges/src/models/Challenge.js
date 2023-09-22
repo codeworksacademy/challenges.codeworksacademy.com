@@ -102,10 +102,10 @@ const EventSchema = new Schema({
 EventSchema.virtual('challengeCount', {
   localField: '_id',
   foreignField: 'eventId',
-  ref: 'challenge',
+  ref: 'Challenge',
   count: true
 })
 
 const Event = Challenge.discriminator('Event', EventSchema)
 
-export { Challenge, Event }
+export { Challenge, Event, ChallengeSchema, EventSchema }
