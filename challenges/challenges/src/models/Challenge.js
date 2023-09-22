@@ -1,7 +1,9 @@
 import { Schema } from "mongoose";
+
 const ObjectId = Schema.Types.ObjectId;
 
 export const ChallengeSchema = new Schema({
+  
   creatorId: {
     type: ObjectId,
     required: true,

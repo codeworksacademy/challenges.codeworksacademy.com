@@ -1,14 +1,14 @@
-import { Auth0Provider } from "@bcwdev/auth0provider";
-import { challengesService } from "../services/ChallengesService.js";
-import BaseController from "../utils/BaseController.js";
+import BaseController from '../utils/BaseController.js'
+import { Auth0Provider } from '@bcwdev/auth0provider'
+import { challengesService } from '../services/ChallengesService.js'
 
 export class ChallengesController extends BaseController {
   constructor() {
     super('api/challenges')
     this.router
+      .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getAllChallenges)
       .get('/:challengeId', this.getChallengeById)
-      .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createChallenge)
       .delete('/:challengeId', this.deleteChallenge)
   }

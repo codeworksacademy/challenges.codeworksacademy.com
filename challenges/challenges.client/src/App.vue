@@ -6,11 +6,17 @@
   </header>
   <main>
     <router-view />
+
+    <SmModal id="challengeDetails">
+      <ChallengeDetailsCard />
+    </SmModal>
+
     <canvas
     id="canvas"
     ref="canvas"
     >
     </canvas>
+
   </main>
    <footer class="bg-dark text-light position-fixed" style="bottom: 0;">
     Made with 💖 by CodeWorks
@@ -22,8 +28,11 @@ import { computed, onMounted } from 'vue'
 import { AppState } from './AppState'
 import Navbar from './components/Navbar.vue'
 import * as THREE from 'three'
+import ChallengeDetailsCard from './components/ChallengeDetailsCard.vue'
+import SmModal from './components/SmModal.vue'
 
 export default {
+
   setup() {
 
   onMounted(() => {
@@ -204,7 +213,11 @@ export default {
       appState: computed(() => AppState)
     }
   },
-  components: { Navbar }
+  components: {
+    Navbar,
+    SmModal,
+    ChallengeDetailsCard
+  }
 }
 </script>
 <style lang="scss">

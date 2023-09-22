@@ -23,7 +23,7 @@ class ChallengesService {
 
   async setActiveChallenge(challengeId) {
     const res = await api.get(`/api/challenges/${challengeId}`)
-    AppState.activeChallenge = new Challenge(res.data)
+    AppState.activeChallenge = res.data
     logger.log('Active Challenge:', AppState.activeChallenge)
   }
 

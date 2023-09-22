@@ -42,10 +42,10 @@
       </div>
       <div class="row d-flex justify-content-center align-items-center m-auto">
         <div class="col-6">
-          <a href="#" aria-label="Go to Tournament Page" class="btn btn-outline-primary" title="See who's Competing">Who's In?</a>
+          <a  @click="setActiveChallenge(challenge?.id)" data-bs-target="#challengeDetails" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal" class="btn btn-outline-primary" title="See who's Competing">Who's In?</a>
         </div>
       </div>
-      <div v-if="user.isAuthenticated" class="row d-flex justify-content-center align-items-center m-auto">
+      <div v-if="user.isAuthenticated && challenge.creatorId == account.id" class="row d-flex justify-content-center align-items-center m-auto">
         <div v-if="!challenge.isCancelled" class="col-6">
           <a role="button" @click="cancelChallenge" class="text-warning" :title="`Cancel ${challenge.name}?`">Cancel</a>
         </div>
@@ -64,6 +64,7 @@ import { Challenge } from '../models/Challenge'
 import { challengesService } from '../services/ChallengesService'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
+import { Modal } from 'bootstrap'
 
 export default {
 
@@ -101,12 +102,24 @@ export default {
     }
 
     return {
+      user: computed(() => AppState.user),
+      account: computed(() => AppState.account),
+      activeChallenge: computed(() => AppState.activeChallenge),
+      challenges: computed(() => AppState.challenges),
+
       cancelChallenge,
       deleteChallenge,
 
-      user: computed(() => AppState.user),
-      activeChallenge: computed(() => AppState.activeChallenge),
-      challenges: computed(() => AppState.challenges),
+      setActiveChallenge(challengeId) {
+        try {
+          logger.log(`Getting Challenge by Id: ${challengeId}`)
+          challengesService.setActiveChallenge(challengeId)
+          Modal.getOrCreateInstance('#challengeDetails').show()
+        } catch (error) {
+          Pop.error(error)
+          logger.error(error)
+        }
+      },
     }
   }
 }
