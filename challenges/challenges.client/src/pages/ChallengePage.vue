@@ -1,11 +1,17 @@
 <template>
   <section class="container-fluid">
     <div class="row">
-      <div class="col-12 d-flex justify-content-center align-items-center position-relative" style="top: 15em;">
+      <div class="d-flex justify-content-center align-items-center position-relative" style="top: 15em;">
         <ChallengeForm />
       </div>
       <div class="row">
-        <ChallengeCard v-for="challenge in challenges" :key="challenge.id" :challenge="challenge" />
+        <div 
+          v-for="(c, index) in challenges"
+          :key="index"
+          class="col-xl-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center align-items-center p-3 position-relative mb-3"
+        >
+          <ChallengeCard :challenge="c" />
+        </div>
       </div>
     </div>
   </section>

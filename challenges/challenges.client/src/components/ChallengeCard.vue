@@ -1,64 +1,64 @@
 <template>
-  <section v-if="challenge" :key="challenge.id" class="col-xl-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center align-items-center p-3 position-relative mb-3">
-    <!--SECTION  * * * CARD IMAGE HEADER * * * ------------------------------>
-      <div class="card card-custom border-white border-0" style="min-height: 45vh; max-height: 55vh;">
-        <div class="card-custom-img" :style="`background-image: url(${challenge.coverImg}); opacity: .6;`"></div>
-        <div>
-          <p v-if="challenge.pointValue === 1" class="one-pt-badge"> {{ challenge.pointValue }} PT. </p>
-          <p v-else-if="challenge.pointValue === 5" class="five-pt-badge"> {{ challenge.pointValue }} PTS. </p>
-          <p v-else class="ten-pt-badge"> {{ challenge.pointValue }} PTS. </p>
+  <section v-if="challenge" :key="challenge.id" class="card card-custom border-white border-0" style="min-height: 45vh; max-height: 55vh;">
+    <div class="card-custom-img" :style="`background-image: url(${challenge.coverImg}); opacity: .6;`"></div>
+    <div>
+      <p v-if="challenge.pointValue === 1" class="one-pt-badge"> {{ challenge.pointValue }} PT. </p>
+      <p v-else-if="challenge.pointValue === 5" class="five-pt-badge"> {{ challenge.pointValue }} PTS. </p>
+      <p v-else class="ten-pt-badge"> {{ challenge.pointValue }} PTS. </p>
+    </div>
+    <div class="card-custom-avatar">
+      <img class="img-fluid" style="object-fit: cover;" :src="challenge.creator.picture" alt="Creator Name" :title="`Go To Creator's Profile: ${challenge.creator.name}`" />
+    </div>
+
+    <div class="card-body" style="overflow-y: auto">
+      <h5 class="card-title fw-semibold py-2"> {{ challenge.name }} </h5>
+      <label for="description">Description:</label>
+      <p id="description" class="card-text"> {{ challenge.description }} </p>
+      <p class="card-footer-text text-end">Participants: 27</p>
+      <p class="card-text"></p>
+      <div class="col-12">
+        <div v-for="(link, i) in challenge.supportLinks" :key="i" class="mb-2">
+          <small class="card-text">Github Link: <a :href="link.url" class="card-text-secondary fw-bold"> {{ link.name }} </a>
+          </small>
         </div>
-        <div class="card-custom-avatar">
-          <img class="img-fluid" style="object-fit: cover;" :src="challenge.creator.picture" alt="Creator Name" :title="`Go To Creator's Profile: ${challenge.creator.name}`" />
+      </div>
+    </div>
+
+    <div class="card-footer row" style="background: inherit; border: 3px groove #38BB6488; height: 120px;">
+      <div class="col-12" style="position: relative; margin-bottom: -1em;">
+        <p class="card-text">
+          <small class="card-text" style="font-weight: 400; font-size: .7rem; filter: brightness(.8);">
+            Created By: {{ challenge.creator.name }}
+          </small>
+        </p>
+      </div>
+      <div class="col-12">
+        <p class="card-text">
+          <small class="" style="font-weight: 400; font-size: .7rem; filter: brightness(.8)">
+            on {{ challenge.createdAt.formattedDate }}
+              @ {{ challenge.createdAt.formattedTime }}
+          </small>
+        </p>
+      </div>
+      <div class="row d-flex justify-content-center align-items-center m-auto">
+        <div class="col-6">
+          <a href="#" aria-label="Go to Tournament Page" class="btn btn-outline-primary" title="See who's Competing">Who's In?</a>
         </div>
-        <!--SECTION * * * CARD BODY * * * ------------->
-        <div class="card-body" style="overflow-y: auto">
-          <h5 class="card-title fw-semibold py-2"> {{ challenge.name }} </h5>
-          <label for="description">Description:</label>
-          <p id="description" class="card-text"> {{ challenge.description }} </p>
-          <p class="card-footer-text text-end">Participants: 27</p>
-          <p class="card-text"></p>
-          <div class="col-12">
-            <div v-for="(link, i) in challenge.supportLinks" :key="i" class="mb-2">
-              <small class="card-text">Github Link: <a :href="link.url" class="card-text-secondary fw-bold"> {{ link.name }} </a>
-              </small>
-            </div>
-          </div>
+      </div>
+      <div v-if="user.isAuthenticated" class="row d-flex justify-content-center align-items-center m-auto">
+        <div v-if="!challenge.isCancelled" class="col-6">
+          <a role="button" @click="cancelChallenge" class="text-warning" :title="`Cancel ${challenge.name}?`">Cancel</a>
         </div>
-        <!--SECTION * * * CARD FOOTER * * * -------------------------------------------->
-        <div class="card-footer row" style="background: inherit; border: 3px groove #38BB6488; height: 120px;">
-          <div class="col-12" style="position: relative; margin-bottom: -1em;">
-            <p class="card-text">
-              <small class="card-text" style="font-weight: 400; font-size: .7rem; filter: brightness(.8);">
-                Created By: {{ challenge.creator.name }}
-              </small>
-            </p>
-          </div>
-          <div class="col-12">
-            <p class="card-text">
-              <small class="" style="font-weight: 400; font-size: .7rem; filter: brightness(.8)">
-                on {{ challenge.createdAt.formattedDate }}
-                  @ {{ challenge.createdAt.formattedTime }}
-              </small>
-            </p>
-          </div>
-          <div class="row d-flex justify-content-center align-items-center m-auto">
-            <div class="col-6">
-              <a href="#" aria-label="Go to Tournament Page" class="btn btn-outline-primary" title="See who's Competing">Who's In?</a>
-            </div>
-          </div>
-          <div v-if="!challenge.isCanceled" class="row d-flex justify-content-center align-items-center m-auto">
-            <div class="col-6">
-              <button @click="cancelChallenge" class="btn btn-danger" :title="`Cancel ${challenge.name}?`"></button>
-            </div>
-          </div>
+        <div v-if="challenge.isCancelled || !challenge.isCancelled" class="col-6">
+          <i role="button" @click="deleteChallenge(challenge.id)" class="mdi mdi-trash-can-outline text-danger offset-9" :title="`❗Delete ${challenge.name}?❗`"></i>
         </div>
-      </div>   
-</section>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { AppState } from '../AppState'
 import { Challenge } from '../models/Challenge'
 import { challengesService } from '../services/ChallengesService'
@@ -69,7 +69,7 @@ export default {
 
   props: {
     challenge: {
-      type: Challenge,
+      type: Object,
       required: true
     }
   },
@@ -77,20 +77,35 @@ export default {
   setup(props) {
 
     async function cancelChallenge() {
-        try {
-          const challenge = props.challenge
-          await challengesService.cancelChallenge(challenge.id)
-          AppState.activeChallenge.isCanceled = true
-          Pop.success(`${challenge.name} has been canceled!`)
-        } catch (error) {
-          logger.error('Error caught @ function cancelChallenge() in ChallengeCard.vue', error)
-          Pop.error('Error canceling challenge - see console for details')
+      try {
+        if (await Pop.confirm('Are you sure you want to cancel this challenge?')) {
+          const challengeId = props.challenge.id 
+          await challengesService.cancelChallenge(challengeId)
         }
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error, 'error')
       }
+    }
+
+    async function deleteChallenge(challengeId) {
+      try {
+        if (await Pop.confirm(`Are you sure you want to delete ${props.challenge.name}?`)) {
+          await challengesService.deleteChallenge(challengeId)
+          logger.log('Challenge Deleted')
+        }
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error, 'error')
+      }
+    }
 
     return {
       cancelChallenge,
+      deleteChallenge,
 
+      user: computed(() => AppState.user),
+      activeChallenge: computed(() => AppState.activeChallenge),
       challenges: computed(() => AppState.challenges),
     }
   }

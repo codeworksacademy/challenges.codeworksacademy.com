@@ -25,14 +25,26 @@ class ChallengesService {
     return challenge
   }
 
-  async cancelChallenge(userId, challengeId) {
+  async cancelChallenge(challengeId, userId) {
     const challenge = await this.getChallengeById(challengeId)
-    const account = await accountService.getAccount(userId)
-    if (challenge.creatorId !== userId) {
+    if (challenge.creatorId != userId) {
       throw new Forbidden(
-        `[PERMISSIONS ERROR]: ${account.name}, you are not the creator of ${challenge.name}, therefore you cannot cancel it.`
+        `[PERMISSIONS ERROR]: You are not the creator of ${challenge.name}, therefore you cannot cancel it.`
       )
     }
+    challenge.isCancelled = !challenge.isCancelled
+    await challenge.save()
+    return challenge
+  }
+
+  async deleteChallenge(challengeId, userId) {
+    const challenge = await this.getChallengeById(challengeId)
+    if  (challenge.creatorId != userId)
+      throw new Forbidden(
+        `[PERMISSIONS ERROR]: You are not the creator of ${challenge.name}, therefore you cannot delete it.`
+      )
+    challenge.remove()
+    return challenge
   }
 }
 

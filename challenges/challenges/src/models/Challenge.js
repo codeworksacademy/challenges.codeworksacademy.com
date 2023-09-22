@@ -45,8 +45,9 @@ export const ChallengeSchema = new Schema({
   answers: [
     { type: String }
   ],
-  isCanceled: {
+  isCancelled: {
     type: Boolean,
+    required: true,
     default: false
   }
 },

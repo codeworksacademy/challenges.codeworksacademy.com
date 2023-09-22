@@ -21,11 +21,26 @@ class ChallengesService {
     logger.log('Challenges:', AppState.challenges)
   }
 
+  async setActiveChallenge(challengeId) {
+    const res = await api.get(`/api/challenges/${challengeId}`)
+    AppState.activeChallenge = new Challenge(res.data)
+    logger.log('Active Challenge:', AppState.activeChallenge)
+  }
+
   async cancelChallenge(challengeId) {
     const res = await api.delete(`/api/challenges/${challengeId}`)
-    Pop.toast('Challenge Canceled', 'success')
-    logger.log('Canceled Challenge:', res.data)
-    return res.data
+    logger.log('Cancelling Challenge ⏩', res.data)
+    let indexToCancel = AppState.challenges.findIndex(c => c.id == challengeId)
+    AppState.challenges.splice(indexToCancel, 1)
+    Pop.toast('You have cancelled your challenge.', 'success')
+  }
+
+  async deleteChallenge(challengeId) {
+    const res = await api.delete(`/api/challenges/${challengeId}`)
+    logger.log('Deleting Challenge ⏩', res.data)
+    let foundChallenge = AppState.challenges.find(c => c.id == challengeId)
+    AppState.challenges.splice(foundChallenge, 1)
+    Pop.toast('You have successfully deleted this challenge!', 'success')
   }
 }
 
