@@ -105,3 +105,7 @@ EventSchema.virtual('challengeCount', {
   ref: 'challenge',
   count: true
 })
+
+const Event = Challenge.discriminator('Event', EventSchema)
+
+export { Challenge, Event }
