@@ -42,6 +42,11 @@ class ChallengesService {
     AppState.challenges.splice(foundChallenge, 1)
     Pop.toast('You have successfully deleted this challenge!', 'success')
   }
+
+  async completeChallenge(challengeId, userId){
+    //Add user to list of users that have completed the challenge
+    //Go into stats service to award awards, points, calculate leaderboard position
+  }
 }
 
 export const challengesService = new ChallengesService()

@@ -39,6 +39,8 @@ export class Event extends Challenge {
     this.eventDate = data.eventDate
     this.eventTime = data.eventTime
     this.eventLocation = data.eventLocation
-    this.eventLink = data.eventLink
+    this.type = data.type
+    this.challenges = data.challenges : null
   }
 }
+
