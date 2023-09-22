@@ -9,7 +9,7 @@ export class Account {
     this.coverImg = data.coverImg
     this.picture = data.picture
     this.bio = data.bio
-    this.xpCount = data.xpCount
-    this.tributeCount = data.tributeCount
+    this.experience = data.experience
+    this.reputation = data.reputation
   }
 }
