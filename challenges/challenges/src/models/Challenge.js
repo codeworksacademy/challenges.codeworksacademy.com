@@ -1,6 +1,6 @@
+import mongoose from "mongoose";
 
-import { Schema, model } from "mongoose";
-
+const { Schema, model } = mongoose;
 const ObjectId = Schema.Types.ObjectId;
 
 const ChallengeSchema = new Schema({
@@ -75,3 +75,33 @@ ChallengeSchema.virtual('participantCount', {
 
 const Challenge = model('Challenge', ChallengeSchema)
 
+const EventSchema = new Schema({
+  eventDate: {
+    type: Date,
+    required: true
+  },
+  eventTime: {
+    type: String,
+    required: true
+  },
+  eventLocation: {
+    type: String,
+    required: true
+  },
+  type: {
+    type: String,
+    required: true,
+    enum: ['local', 'online']
+  }
+},
+  { timestamps: true,
+    toJSON: { virtuals: true }
+  }
+)
+
+EventSchema.virtual('challengeCount', {
+  localField: '_id',
+  foreignField: 'eventId',
+  ref: 'challenge',
+  count: true
+})
