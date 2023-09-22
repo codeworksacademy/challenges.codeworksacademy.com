@@ -29,5 +29,16 @@ export class Challenge {
     this.pointValue = data.pointValue
     this.answers = data.answers
     this.isCancelled = data.isCancelled
+    this.event = data.event ? new Event(data.event) : null
+  }
+}
+
+export class Event extends Challenge {
+  constructor(data) {
+    super(data)
+    this.eventDate = data.eventDate
+    this.eventTime = data.eventTime
+    this.eventLocation = data.eventLocation
+    this.eventLink = data.eventLink
   }
 }

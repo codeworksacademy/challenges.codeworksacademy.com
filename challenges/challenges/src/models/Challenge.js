@@ -1,8 +1,9 @@
-import { Schema } from "mongoose";
+
+import { Schema, model } from "mongoose";
 
 const ObjectId = Schema.Types.ObjectId;
 
-export const ChallengeSchema = new Schema({
+const ChallengeSchema = new Schema({
   
   creatorId: {
     type: ObjectId,
@@ -71,3 +72,6 @@ ChallengeSchema.virtual('participantCount', {
   ref: 'Participant',
   count: true
 })
+
+const Challenge = model('Challenge', ChallengeSchema)
+

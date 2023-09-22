@@ -1,5 +1,5 @@
 <template>
-  <section v-if="challenge" :key="challenge.id" class="card card-custom border-white border-0" style="min-height: 45vh; max-height: 55vh;">
+  <section v-if="challenge" :key="challenge?.id" class="card card-custom border-white border-0" style="min-height: 45vh; max-height: 55vh;">
     <div class="card-custom-img" :style="`background-image: url(${challenge.coverImg}); opacity: .6;`"></div>
     <div>
       <p v-if="challenge.pointValue === 1" class="one-pt-badge"> {{ challenge.pointValue }} PT. </p>
@@ -42,10 +42,10 @@
       </div>
       <div class="row d-flex justify-content-center align-items-center m-auto">
         <div class="col-6">
-          <a  @click="setActiveChallenge(challenge?.id)" data-bs-target="#challengeDetails" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal" class="btn btn-outline-primary" title="See who's Competing">Who's In?</a>
+          <a ref="challenge" id="challengeDetailsButton" type="button" role="button"  @click="setActiveChallenge(challenge?.id)" data-bs-target="#challengeDetails" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal" class="btn btn-outline-primary" title="See who's Competing">Who's In?</a>
         </div>
       </div>
-      <div v-if="user.isAuthenticated && challenge.creatorId == account.id" class="row d-flex justify-content-center align-items-center m-auto">
+      <div v-if="user.isAuthenticated" class="row d-flex justify-content-center align-items-center m-auto">
         <div v-if="!challenge.isCancelled" class="col-6">
           <a role="button" @click="cancelChallenge" class="text-warning" :title="`Cancel ${challenge.name}?`">Cancel</a>
         </div>
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { AppState } from '../AppState'
 import { Challenge } from '../models/Challenge'
 import { challengesService } from '../services/ChallengesService'
@@ -70,7 +70,8 @@ export default {
 
   props: {
     challenge: {
-      type: Object,
+      type: Challenge,
+      ref: Challenge,
       required: true
     }
   },
@@ -388,6 +389,14 @@ i.sub-member:hover {
   background: transparent;
   border-radius: 5px;
   height: 5px;
+}
+
+
+.modal-body {
+  background-color: slategray;
+  overflow-x: hidden;
+  width: 100%;
+  --bs-gutter-x: 0;
 }
 
 

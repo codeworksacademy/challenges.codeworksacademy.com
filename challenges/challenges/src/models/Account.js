@@ -40,12 +40,12 @@ export const AccountSchema = new Schema(
       type: String,
       maxLength: 200
     },
-    xpCount: {
+    experience: {
       type: Number,
       required: true,
       default: 0
     },
-    tributeCount: {
+    reputation: {
       type: Number,
       required: true,
       default: 0
@@ -55,4 +55,3 @@ export const AccountSchema = new Schema(
     toJSON: { virtuals: true }
   }
 )
-
