@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid pt-5">
+  <div :style="isEvent ? 'margin-top: 8.6em;' : ''" class="container-fluid pt-5 position-relative top-5">
     <div class="form-box">
       <h3>Submit Challenge</h3>
       <form id="challengeForm" @submit.prevent="createChallenge()">
@@ -13,6 +13,67 @@
           >
           <label for="name">Challenge Name</label>
         </div>
+
+        <!-- Toggle for event-specific inputs -->
+        <div class="form-check">
+          <input
+            @change="toggleChallengeType"
+            id="isEvent"
+            type="checkbox"
+            class="form-check-input"
+          >
+          <label class="form-check-label text-grey darken-10" for="isEvent">Is this an Event?</label>
+        </div>
+
+        <!-- Event-specific inputs, shown conditionally -->
+        <div v-if="isEvent" class="position-relative">
+          <div class="input-box">
+            <input
+              id="eventDate"
+              name="eventDate"
+              type="text"
+              required
+              v-model="editable.event.eventDate"
+            >
+            <label for="eventDate">Event Date</label>
+          </div>
+          <div class="input-box">
+            <input
+              id="eventTime"
+              name="eventTime"
+              type="text"
+              required
+              v-model="editable.event.eventTime"
+            >
+            <label for="eventTime">Event Time</label>
+          </div>
+          <div class="input-box mb-3">
+            <input
+              id="eventLocation"
+              name="eventLocation"
+              type="text"
+              required
+              v-model="editable.event.eventLocation"
+            >
+            <label for="eventLocation">Event Location</label>
+          </div>
+          <div class="col-6 m-auto input-box">
+            <select
+              id="eventType"
+              name="eventType"
+              class="d-flex justify-content-center align-items-center ps-2 pt-2"
+              style="height: 45px;"
+              required
+              v-model="editable.event.type"
+            >
+              <option value="" class="text-center" selected disabled>Event Type</option>
+              <option value="local">Local</option>
+              <option value="online">Online</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- ... (continue with other challenge properties) -->
         <div class="input-box">
           <input
             id="description"
@@ -65,18 +126,19 @@
               type="checkbox"
               class="form-check-input"
             >
-            <label class="form-check-label" for="radioDefault">Upload Image File</label>
+            <label class="form-check-label text-grey darken-10" for="radioDefault">Upload Image File</label>
           </div>
         </div>
         <div v-if="imageUploadOption === 'file'">
           <div class="input-box">
+            <label for="coverImg" class="custom-file-input">Select File</label>
             <input
               id="coverImg"
               name="coverImg"
               type="file"
               accept="image/*"
               class="form-control"
-              style="border: none; background: transparent; color: #F0F0F0;"
+              style=""
               required
               @change="handleFileUpload"
             />
@@ -89,7 +151,7 @@
               class="form-check-input"
               checked
             >
-            <label class="form-check-label" for="radioChecked">Upload Image URL</label>
+            <label class="form-check-label text-grey darken-10" for="radioChecked">Upload Image URL</label>
           </div>
         </div>
         <div class="input-box d-flex justify-content-center align-items-center pt-5">
@@ -139,8 +201,28 @@ export default {
           url: ''
         }
       ],
-      pointValue: 'Point Value'
+      pointValue: 'Point Value',
+      event: {
+        eventDate: '',
+        eventTime: '',
+        eventLocation: '',
+        eventType: 'local'
+      }
     })
+
+    const isEvent = ref(false)
+
+    function toggleChallengeType() {
+      isEvent.value = !isEvent.value
+      if (!isEvent.value) {
+        editable.value.event = {
+          eventDate: Date,
+          eventTime: '',
+          eventLocation: '',
+          eventType: 'local'
+        }
+      }
+    }
 
     const imageUploadOption = ref('url')
 
@@ -165,7 +247,10 @@ export default {
 
     return {
       editable,
+      isEvent,
       imageUploadOption,
+
+      toggleChallengeType,
       handleFileUpload,
       handleUrlChange,
 
@@ -189,11 +274,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.container-fluid {
-  height: 100vh;
-  width: 100vw;
-  position: relative;
-}
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
 .form-box {
   position: relative;
@@ -350,7 +431,51 @@ option {
 .form-box form button span {
   position: absolute;
   display: block;
-  background: transparent;
+
+}
+
+.input-box>input[type="file"] {
+  position: relative;
+  width: 100%;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.custom-file-input {
+  position: relative;
+  background-color: #25713e;
+  color: #FFF;
+  border: none;
+  width: 30%;
+  bottom: 21px;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+  z-index: 2;
+  filter: brightness(.9);
+}
+
+.custom-file-input~input[type="file"]:hover::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin-left: 35px;
+  content: 'Click to Select an image...';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  offset: 1;
+  background-color: black;
+  font-size: 16px;
+  color: #F0F0F0;
+  border-radius: 5px;
+  color: #F0F0F0;
+  z-index: 1; 
 }
 
 .form-box button span:nth-child(1) {
@@ -438,4 +563,5 @@ option {
 
 .input-box {
   height: 65px;
-}</style>
+}
+</style>
