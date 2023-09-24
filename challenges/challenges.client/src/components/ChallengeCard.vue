@@ -12,6 +12,14 @@
 
     <div class="card-body" style="overflow-y: auto">
       <h5 class="card-title fw-semibold py-2"> {{ challenge.name }} </h5>
+       <!-- Check if event is present -->
+      <div v-if="challenge.event">
+        <!-- Render event information -->
+        <p>Date: {{ challenge.event.eventDate }}</p>
+        <p>Time: {{ challenge.event.eventTime }}</p>
+        <p>Location: {{ challenge.event.eventLocation }}</p>
+        <p>Type: {{ challenge.event.type }}</p>
+      </div>
       <label for="description">Description:</label>
       <p id="description" class="card-text"> {{ challenge.description }} </p>
       <p class="card-footer-text text-end">Participants: 27</p>
@@ -60,7 +68,7 @@
 <script>
 import { computed, ref, onMounted } from 'vue'
 import { AppState } from '../AppState'
-import { Challenge } from '../models/Challenge'
+import { Challenge, Event } from '../models/Challenge'
 import { challengesService } from '../services/ChallengesService'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
@@ -70,8 +78,8 @@ export default {
 
   props: {
     challenge: {
-      type: Challenge,
-      ref: Challenge,
+      type: Challenge || Event,
+      ref: Challenge || Event,
       required: true
     }
   },

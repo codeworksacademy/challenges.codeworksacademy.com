@@ -35,7 +35,7 @@ export class Challenge {
 
 export class Event {
   constructor(data) {
-    this.eventDate = data.eventDate
+    this.eventDate = formatDateAndTime(data.eventDate)
     this.eventTime = data.eventTime
     this.eventLocation = data.eventLocation
     this.type = data.type

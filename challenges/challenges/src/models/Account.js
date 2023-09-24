@@ -12,6 +12,11 @@ export const AccountSchema = new Schema(
       lowercase: true,
       unique: true
     },
+    roles: [{
+      type: String,
+      enum: ['user', 'moderator', 'admin'],
+      default: 'user'
+    }],
     name: { 
       type: String,
       required: true

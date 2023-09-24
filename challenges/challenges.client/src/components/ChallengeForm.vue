@@ -1,5 +1,5 @@
 <template>
-  <div :style="isEvent ? 'margin-top: 8.6em;' : ''" class="container-fluid pt-5 position-relative top-5">
+  <section :style="isEvent ? 'margin-top: 8.6em;' : ''" class="container-fluid pt-5 position-relative top-5">
     <div class="form-box">
       <h3>Submit Challenge</h3>
       <form id="challengeForm" @submit.prevent="createChallenge()">
@@ -15,63 +15,66 @@
         </div>
 
         <!-- Toggle for event-specific inputs -->
-        <div class="form-check">
-          <input
-            @change="toggleChallengeType"
-            id="isEvent"
-            type="checkbox"
-            class="form-check-input"
-          >
-          <label class="form-check-label text-grey darken-10" for="isEvent">Is this an Event?</label>
-        </div>
-
-        <!-- Event-specific inputs, shown conditionally -->
-        <div v-if="isEvent" class="position-relative">
-          <div class="input-box">
+        <section v-if="!authRoles" id="event-form">
+          <div class="form-check">
             <input
-              id="eventDate"
-              name="eventDate"
-              type="text"
-              required
-              v-model="editable.event.eventDate"
+              @change="toggleChallengeType"
+              id="isEvent"
+              type="checkbox"
+              class="form-check-input"
             >
-            <label for="eventDate">Event Date</label>
+            <label class="form-check-label text-grey darken-10 mb-3" for="isEvent">Is this an Event?</label>
           </div>
-          <div class="input-box">
-            <input
-              id="eventTime"
-              name="eventTime"
-              type="text"
-              required
-              v-model="editable.event.eventTime"
-            >
-            <label for="eventTime">Event Time</label>
+  
+          <!-- Event-specific inputs, shown conditionally -->
+          <div v-if="isEvent" class="position-relative ">
+            <div class="input-box">
+              <input
+                id="eventDate"
+                class="event-date"
+                name="eventDate"
+                type="date"
+                required
+                v-model="editable.event.eventDate"
+              ><i class="mdi mdi-calendar-month-outline position-absolute top-1 end-0 text-grey lighten-10"></i>
+              <label for="eventDate">Event Date</label>
+            </div>
+            <div class="input-box">
+              <input
+                id="eventTime"
+                name="eventTime"
+                type="text"
+                required
+                v-model="editable.event.eventTime"
+              >
+              <label for="eventTime">Event Time</label>
+            </div>
+            <div class="input-box mb-3">
+              <input
+                id="eventLocation"
+                name="eventLocation"
+                type="text"
+                required
+                v-model="editable.event.eventLocation"
+              >
+              <label for="eventLocation">Event Location</label>
+            </div>
+            <div class="col-6 m-auto input-box">
+              <select
+                id="type"
+                name="type"
+                class="d-flex justify-content-center align-items-center ps-2 pt-2"
+                style="height: 45px;"
+                required
+                v-model="editable.event.type"
+              >
+                <option value="" class="text-center" selected disabled>Event Type</option>
+                <option value="local">Local</option>
+                <option value="online">Online</option>
+              </select>
+            </div>
           </div>
-          <div class="input-box mb-3">
-            <input
-              id="eventLocation"
-              name="eventLocation"
-              type="text"
-              required
-              v-model="editable.event.eventLocation"
-            >
-            <label for="eventLocation">Event Location</label>
-          </div>
-          <div class="col-6 m-auto input-box">
-            <select
-              id="eventType"
-              name="eventType"
-              class="d-flex justify-content-center align-items-center ps-2 pt-2"
-              style="height: 45px;"
-              required
-              v-model="editable.event.type"
-            >
-              <option value="" class="text-center" selected disabled>Event Type</option>
-              <option value="local">Local</option>
-              <option value="online">Online</option>
-            </select>
-          </div>
-        </div>
+        </section>
 
         <!-- ... (continue with other challenge properties) -->
         <div class="input-box">
@@ -181,7 +184,7 @@
         </div>
       </form>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -190,6 +193,7 @@ import { AppState } from '../AppState'
 import { logger } from "../utils/Logger.js"
 import Pop from "../utils/Pop.js"
 import { challengesService } from "../services/ChallengesService.js"
+import { hasRoles } from "@bcwdev/auth0provider-client"
 
 export default {
   setup() {
@@ -203,15 +207,19 @@ export default {
       ],
       pointValue: 'Point Value',
       event: {
-        eventDate: '',
+        eventDate: Date,
         eventTime: '',
         eventLocation: '',
-        eventType: 'local'
+        type: 'local'
       }
     })
 
+    const userAccess = AppState.account.roles
+    const authRoles = ref(
+      hasRoles(userAccess, ['admin', 'moderator', 'user'])
+    )
+      
     const isEvent = ref(false)
-
     function toggleChallengeType() {
       isEvent.value = !isEvent.value
       if (!isEvent.value) {
@@ -219,13 +227,12 @@ export default {
           eventDate: Date,
           eventTime: '',
           eventLocation: '',
-          eventType: 'local'
+          type: 'local'
         }
       }
     }
-
+    
     const imageUploadOption = ref('url')
-
     function handleUrlChange() {
       if (imageUploadOption.value === 'url') {
         imageUploadOption.value = 'file'
@@ -246,6 +253,7 @@ export default {
     }
 
     return {
+      authRoles,
       editable,
       isEvent,
       imageUploadOption,
@@ -260,13 +268,23 @@ export default {
         try {
           logger.log('Creating Challenge:', editable.value)
           const newChallenge = editable.value
+
+          if (isEvent.value) {
+            newChallenge.event = {
+              eventDate: editable.value.event.eventDate,
+              eventTime: editable.value.event.eventTime,
+              eventLocation: editable.value.event.eventLocation,
+              type: editable.value.event.type
+            }
+          }
+
           await challengesService.createChallenge(newChallenge)
           editable.value = {}
         } catch (error) {
           logger.error(error)
           Pop.toast(error, 'Failed to create challenge')
         }
-      }
+      },
     }
   }
 }
@@ -409,6 +427,22 @@ option {
     -5px 0 5px 1px #388fbb inset,
     0 -5px 5px 1px #bb388f inset,
     0 5px 5px 1px #bb6438 inset;
+}
+
+.form-box .input-box input[data-v-a16fb1c8].event-date {
+  color: transparent;
+}
+
+.form-box .input-box input[data-v-a16fb1c8].event-date:focus {
+  color: #F0F0F0;
+  transition: all .5s ease-in-out;
+}
+
+.mdi-calendar-month-outline {
+  color: #797A7A;
+  font-size: 16px;
+  pointer-events: none;
+  transition: .5s;
 }
 
 /* Set the initial background colors for the pseudo-elements */
