@@ -3,7 +3,6 @@ import { Schema } from 'mongoose';
 const ObjectId = Schema.Types.ObjectId;
 
 const ChallengeSchema = new Schema({
-
   creatorId: {
     type: ObjectId,
     required: true,
