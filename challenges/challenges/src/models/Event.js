@@ -77,3 +77,24 @@ export const EventSchema = new Schema({
     default: false
   }
 })
+
+EventSchema.virtual('creator', {
+  localField: 'creatorId',
+  foreignField: '_id',
+  ref: 'Account',
+  justOne: true
+})
+
+EventSchema.virtual('ParticipantCount', {
+  localField: '_id',
+  foreignField: 'eventId',
+  ref: 'Participant',
+  count: true
+})
+
+EventSchema.virtual('challengeCount', {
+  localField: '_id',
+  foreignField: 'eventId',
+  ref: 'Challenge',
+  count: true
+})

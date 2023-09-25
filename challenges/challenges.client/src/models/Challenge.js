@@ -33,14 +33,3 @@ export class Challenge {
   }
 }
 
-export class Event {
-  constructor(data) {
-    this.eventId = data.eventId
-    this.eventDate = formatDateAndTime(data.eventDate)
-    this.eventTime = data.eventTime
-    this.eventLocation = data.eventLocation
-    this.type = data.type
-    this.challengeCount = data.challengeCount 
-  }
-}
-

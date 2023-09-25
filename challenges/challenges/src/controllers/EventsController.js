@@ -1,4 +1,4 @@
-import { BaseController } from '../utils/BaseController.js'
+import BaseController from '../utils/BaseController.js'
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { eventsService } from '../services/EventsService.js'
 
