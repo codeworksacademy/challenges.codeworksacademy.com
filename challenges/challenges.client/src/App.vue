@@ -1,6 +1,4 @@
 <template>
-  
-  
   <header>
     <Navbar />
   </header>
@@ -18,9 +16,6 @@
     </canvas>
 
   </main>
-   <footer class="bg-dark text-light position-fixed" style="bottom: 0;">
-    Made with 💖 by CodeWorks
-  </footer>
 </template>
 
 <script>
@@ -252,11 +247,4 @@ canvas {
   --main-height: calc(100vh - 32px - 64px);
 }
 
-
-footer {
-  display: grid;
-  place-content: center;
-  height: 32px;
-  width: 100vw;
-}
 </style>

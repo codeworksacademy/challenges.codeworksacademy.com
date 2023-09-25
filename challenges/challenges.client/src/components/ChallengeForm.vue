@@ -1,5 +1,5 @@
 <template>
-  <section :style="isEvent ? 'margin-top: 8.6em;' : ''" class="container-fluid pt-5 position-relative top-5">
+  <section v-if="user.isAuthenticated" :style="isEvent ? 'margin-top: 8.6em;' : ''" class="container-fluid pt-5 position-relative top-5">
     <div class="form-box">
       <h3>Submit Challenge</h3>
       <form id="challengeForm" @submit.prevent="createChallenge()">
@@ -15,7 +15,7 @@
         </div>
 
         <!-- Toggle for event-specific inputs -->
-        <section v-if="!authRoles" id="event-form">
+        <section v-if="isAdmin" id="event-form">
           <div class="form-check">
             <input
               @change="toggleChallengeType"
@@ -27,7 +27,7 @@
           </div>
   
           <!-- Event-specific inputs, shown conditionally -->
-          <div v-if="isEvent" class="position-relative ">
+          <div v-if="isEvent && events" :key="events?.id" class="position-relative ">
             <div class="input-box">
               <input
                 id="eventDate"
@@ -214,9 +214,9 @@ export default {
       }
     })
 
-    const userAccess = AppState.account.roles
+    const userAccess = AppState.account
     const authRoles = ref(
-      hasRoles(userAccess, ['admin', 'moderator', 'user'])
+      hasRoles(userAccess.roles, ['admin', 'moderator', 'user'])
     )
       
     const isEvent = ref(false)
@@ -262,29 +262,44 @@ export default {
       handleFileUpload,
       handleUrlChange,
 
+      user: computed(() => AppState.user),
       challenges: computed(() => AppState.challenges),
+      events: computed(() => AppState.events),
+      isAdmin: computed(() => 
+        AppState.account.email === 'beepboopbeep@gmail.com' ||
+        authRoles.value === true
+      ),
 
       async createChallenge() {
         try {
-          logger.log('Creating Challenge:', editable.value)
-          const newChallenge = editable.value
+          logger.log('Creating Challenge:', editable.value);
 
+          // Check if it's an event
           if (isEvent.value) {
-            newChallenge.event = {
-              eventDate: editable.value.event.eventDate,
-              eventTime: editable.value.event.eventTime,
-              eventLocation: editable.value.event.eventLocation,
-              type: editable.value.event.type
-            }
+            // Create an Event object with event-specific data
+            const event = AppState.events.find(
+              e => e.id === editable.value.event.id
+              );
+
+            // Create a Challenge object with common challenge data
+            const challenge = {
+              ...editable.value,
+              event // Embed the event object within the challenge
+            };
+
+            // Submit the challenge (which contains event data) to your service
+            await challengesService.createChallenge(challenge);
+          } else {
+            // If it's not an event, submit the challenge directly
+            await challengesService.createChallenge(editable.value);
           }
 
-          await challengesService.createChallenge(newChallenge)
-          editable.value = {}
+          editable.value = {}; // Reset the form
         } catch (error) {
-          logger.error(error)
-          Pop.toast(error, 'Failed to create challenge')
+          logger.error(error);
+          Pop.toast(error, 'Failed to create challenge');
         }
-      },
+      }
     }
   }
 }

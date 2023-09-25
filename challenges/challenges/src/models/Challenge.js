@@ -1,10 +1,9 @@
-import mongoose from "mongoose";
+import { Schema } from 'mongoose';
 
-const { Schema, model } = mongoose;
 const ObjectId = Schema.Types.ObjectId;
 
 const ChallengeSchema = new Schema({
-  
+
   creatorId: {
     type: ObjectId,
     required: true,
@@ -73,39 +72,9 @@ ChallengeSchema.virtual('participantCount', {
   count: true
 })
 
-const Challenge = model('Challenge', ChallengeSchema)
-
-const EventSchema = new Schema({
-  eventDate: {
-    type: Date,
-    required: true
-  },
-  eventTime: {
-    type: String,
-    required: true
-  },
-  eventLocation: {
-    type: String,
-    required: true
-  },
-  type: {
-    type: String,
-    required: true,
-    enum: ['local', 'online']
-  }
-},
-  { timestamps: true,
-    toJSON: { virtuals: true }
-  }
-)
-
-EventSchema.virtual('challengeCount', {
+ChallengeSchema.virtual('event', {
   localField: '_id',
-  foreignField: 'eventId',
-  ref: 'Challenge',
-  count: true
+  foreignField: 'challengeId',
+  ref: 'Event',
+  justOne: true
 })
-
-const Event = Challenge.discriminator('Event', EventSchema)
-
-export { Challenge, Event, ChallengeSchema, EventSchema }

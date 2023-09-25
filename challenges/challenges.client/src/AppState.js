@@ -13,4 +13,6 @@ export const AppState = reactive({
   activeChallenge: null,
   /** @type {import('./models/Challenge.js').Event} */
   events: [],
+  /** @type {import('./models/Challenge.js')|null} */
+  activeEvent: null,
 })

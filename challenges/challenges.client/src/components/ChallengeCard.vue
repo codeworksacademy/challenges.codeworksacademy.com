@@ -1,6 +1,9 @@
 <template>
   <section v-if="challenge" :key="challenge?.id" class="card card-custom border-white border-0" style="min-height: 45vh; max-height: 55vh;">
     <div class="card-custom-img" :style="`background-image: url(${challenge.coverImg}); opacity: .6;`"></div>
+    <div class="col-6 position-absolute top-half left-half p-1">
+      <a ref="challenge" id="challengeDetailsButton" type="button" role="button"  @click="setActiveChallenge(challenge?.id)" data-bs-target="#challengeDetails" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal" class="btn btn-outline-primary" title="See who's Competing">Who's In?</a>
+    </div>
     <div>
       <p v-if="challenge.pointValue === 1" class="one-pt-badge"> {{ challenge.pointValue }} PT. </p>
       <p v-else-if="challenge.pointValue === 5" class="five-pt-badge"> {{ challenge.pointValue }} PTS. </p>
@@ -13,12 +16,17 @@
     <div class="card-body" style="overflow-y: auto">
       <h5 class="card-title fw-semibold py-2"> {{ challenge.name }} </h5>
        <!-- Check if event is present -->
-      <div v-if="challenge.event">
+      <div>
         <!-- Render event information -->
-        <p>Date: {{ challenge.event.eventDate }}</p>
-        <p>Time: {{ challenge.event.eventTime }}</p>
-        <p>Location: {{ challenge.event.eventLocation }}</p>
-        <p>Type: {{ challenge.event.type }}</p>
+        
+        <label for="eventDate">Event Date:</label>
+        <p id="eventDate" class="card-text"> {{ event?.eventDate }} </p>
+        <label for="eventTime">Event Time:</label>
+        <p id="eventTime" class="card-text"> {{ event?.eventTime }} </p>
+        <label for="eventLocation">Event Location:</label>
+        <p id="eventLocation" class="card-text"> {{ event?.eventLocation }} </p>
+        <label for="type">Event Type:</label>
+        <p id="type" class="card-text"> {{ event?.type }} </p>
       </div>
       <label for="description">Description:</label>
       <p id="description" class="card-text"> {{ challenge.description }} </p>
@@ -48,16 +56,12 @@
           </small>
         </p>
       </div>
-      <div class="row d-flex justify-content-center align-items-center m-auto">
-        <div class="col-6">
-          <a ref="challenge" id="challengeDetailsButton" type="button" role="button"  @click="setActiveChallenge(challenge?.id)" data-bs-target="#challengeDetails" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal" class="btn btn-outline-primary" title="See who's Competing">Who's In?</a>
-        </div>
-      </div>
+
       <div v-if="user.isAuthenticated" class="row d-flex justify-content-center align-items-center m-auto">
-        <div v-if="!challenge.isCancelled" class="col-6">
+        <div v-if="!challenge.isCancelled" class="col-5">
           <a role="button" @click="cancelChallenge" class="text-warning" :title="`Cancel ${challenge.name}?`">Cancel</a>
         </div>
-        <div v-if="challenge.isCancelled || !challenge.isCancelled" class="col-6">
+        <div v-if="challenge.isCancelled || !challenge.isCancelled" class="col-5">
           <i role="button" @click="deleteChallenge(challenge.id)" class="mdi mdi-trash-can-outline text-danger offset-9" :title="`❗Delete ${challenge.name}?❗`"></i>
         </div>
       </div>
@@ -78,9 +82,13 @@ export default {
 
   props: {
     challenge: {
-      type: Challenge || Event,
-      ref: Challenge || Event,
+      type: Object,
       required: true
+    },
+    event: {
+      type: Event || Object,
+      ref: Event || Object,
+      required: false,
     }
   },
 
@@ -154,6 +162,26 @@ export default {
   background: #00000080;
   box-shadow: 0 0 15px 2px #0a0a0a4d;
   transition: all .5 ease-in-out;
+}
+
+a.btn-outline-primary {
+  background: #2e6535;
+  z-index: 1;
+  font-size: .75rem;
+  font-weight: 450;
+  color: #F0F0F0;
+  text-shadow: 1px 1px 2px #0F0F0F;
+  border-color: #F0F0F074;
+  transition: .5s ease-in-out;
+    &:hover {
+      background: #00000080;
+      box-shadow: 0 0 15px 2px #0a0a0a4d;
+      backdrop-filter: brightness(10%);
+      color: #F0F0F0;
+      box-shadow: 0 0 15px 2px #BB388FFF;
+      border: none;
+      transition: .5s ease-in-out;
+    }
 }
 
 .card .card-custom .card-body .card-footer a {
@@ -342,21 +370,6 @@ label {
 a.btn-dark {
   text-shadow: 2px 2px .75px #000000;
   transition: .5s ease-in-out;
-}
-
-a.btn-outline-primary {
-  font-size: .75rem;
-  font-weight: 450;
-  color: #4ab4e9;
-  border-color: #F0F0F074;
-  transition: .5s ease-in-out;
-    &:hover {
-      background-color: transparent;
-      color: #F0F0F0;
-      box-shadow: 0 0 15px 2px #BB388FFF;
-      border: none;
-      transition: .5s ease-in-out;
-    }
 }
 
 .mdi-star-plus {
