@@ -15,19 +15,6 @@
 
     <div class="card-body" style="overflow-y: auto">
       <h5 class="card-title fw-semibold py-2"> {{ challenge.name }} </h5>
-       <!-- Check if event is present -->
-      <div>
-        <!-- Render event information -->
-        
-        <label for="eventDate">Event Date:</label>
-        <p id="eventDate" class="card-text"> {{ event?.eventDate }} </p>
-        <label for="eventTime">Event Time:</label>
-        <p id="eventTime" class="card-text"> {{ event?.eventTime }} </p>
-        <label for="eventLocation">Event Location:</label>
-        <p id="eventLocation" class="card-text"> {{ event?.eventLocation }} </p>
-        <label for="type">Event Type:</label>
-        <p id="type" class="card-text"> {{ event?.type }} </p>
-      </div>
       <label for="description">Description:</label>
       <p id="description" class="card-text"> {{ challenge.description }} </p>
       <p class="card-footer-text text-end">Participants: 27</p>
@@ -72,7 +59,8 @@
 <script>
 import { computed, ref, onMounted } from 'vue'
 import { AppState } from '../AppState'
-import { Challenge, Event } from '../models/Challenge'
+import { Event } from '../models/Event'
+import { Challenge } from '../models/Challenge'
 import { challengesService } from '../services/ChallengesService'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
@@ -87,8 +75,7 @@ export default {
     },
     event: {
       type: Event || Object,
-      ref: Event || Object,
-      required: false,
+      required: false
     }
   },
 
@@ -121,8 +108,10 @@ export default {
     return {
       user: computed(() => AppState.user),
       account: computed(() => AppState.account),
-      activeChallenge: computed(() => AppState.activeChallenge),
+      events: computed(() => AppState.events),
+      activeEvent: computed(() => AppState.activeEvent),
       challenges: computed(() => AppState.challenges),
+      activeChallenge: computed(() => AppState.activeChallenge),
 
       cancelChallenge,
       deleteChallenge,

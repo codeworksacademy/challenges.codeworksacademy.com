@@ -15,7 +15,7 @@
         </div>
 
         <!-- Toggle for event-specific inputs -->
-        <section v-if="isAdmin" id="event-form">
+        <!-- <section v-if="isAdmin" id="event-form">
           <div class="form-check">
             <input
               @change="toggleChallengeType"
@@ -24,10 +24,10 @@
               class="form-check-input"
             >
             <label class="form-check-label text-grey darken-10 mb-3" for="isEvent">Is this an Event?</label>
-          </div>
+          </div> -->
   
           <!-- Event-specific inputs, shown conditionally -->
-          <div v-if="isEvent && events" :key="events?.id" class="position-relative ">
+          <!-- <div v-if="isEvent && events" :key="events?.id" class="position-relative ">
             <div class="input-box">
               <input
                 id="eventDate"
@@ -74,7 +74,7 @@
               </select>
             </div>
           </div>
-        </section>
+        </section> -->
 
         <!-- ... (continue with other challenge properties) -->
         <div class="input-box">

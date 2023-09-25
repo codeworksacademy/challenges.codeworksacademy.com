@@ -15,7 +15,7 @@ function formatDateAndTime(date) {
   }
 }
 
-export class Challenge {
+export class Event {
   constructor(data) {
     this.id = data.id
     this.creatorId = data.creatorId
@@ -23,14 +23,15 @@ export class Challenge {
     this.name = data.name
     this.description = data.description
     this.coverImg = data.coverImg
-    this.createdAt = formatDateAndTime(data.createdAt)
-    this.updatedAt = formatDateAndTime(data.updatedAt)
-    this.supportLinks = data.supportLinks
-    this.pointValue = data.pointValue
-    this.answers = data.answers
+    this.capacity = data.capacity
+    this.startDate = formatDateAndTime(data.startDate)
+    this.endDate = formatDateAndTime(data.endDate)
+    this.startTime = data.startTime
+    this.endTime = data.endTime
+    this.location = data.location
+    this.type = data.type
     this.isCancelled = data.isCancelled
-    this.events = data.events
+    this.challenges = data.challenges
     this.participantCount = data.participantCount
   }
 }
-

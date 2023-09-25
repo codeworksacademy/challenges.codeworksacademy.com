@@ -5,30 +5,30 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-12 d-flex justify-content-around pt-3 mx-auto">
+          <router-link :to="{ name: 'Events' }">
+            <a>Events</a>
+          </router-link>
           <router-link :to="{ name: 'Challenges' }">
             <a>Challenges</a>
           </router-link>
-          <div class="">
-            <a href="http://">My Profile</a>
-          </div>
-          <div class="">
+          <router-link :to="{ name: 'News' }">
             <a href="http://">What's New?</a>
-          </div>
+          </router-link>
           <router-link :to="{ name: 'Home' }">
             <div class="" style="position: relative;">
               <img src="../assets/img/bg-codeworks-logo.png" alt="Logo Background" height="200" class="roll-in" style="position: relative; top:-5em; left:0; filter:brightness(.8)">
               <img src="../assets/img/inner-codeworks-logo.png" alt="Logo Background" height="110" class="fade-in" style="position: absolute; top:-2.25em; left: 37.5px;">
             </div>
           </router-link>
-          <div class="">
-            <a href="http://">Community</a>
-          </div>
-          <div class="">
+          <!-- <router-link :to="{ name: 'Profile' }"> -->
+            <a href="http://">My Profile</a>
+          <!-- </router-link> -->
+          <router-link :to="{ name: 'Leaderboard' }">
             <a href="http://">Leaderboard</a>
-          </div>
-          <div class="">
+          </router-link>
+          <router-link :to="{ name: 'Settings' }">
             <a href="http://">Settings</a>
-          </div>
+          </router-link>
         </div>
       </div>
     </div>

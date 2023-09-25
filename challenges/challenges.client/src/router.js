@@ -23,14 +23,36 @@ const routes = [
     beforeEnter: authGuard
   },
   {
+    path: '/events',
+    name: 'Events',
+    component: loadPage('EventPage')
+  },
+  {
     path: '/challenges',
     name: 'Challenges',
     component: loadPage('ChallengePage'),
   },
   {
-    path: '/challenges/:challengeId',
-    name: 'Challenge',
-    component: loadPage('ChallengeDetailsPage'),
+    path: '/news',
+    name: 'News',
+    component: loadPage('NewsPage'),
+  },
+  // ANCHOR - The below route is usable once we create a Profile model. Be sure to remove the comment in Navbar.vue on this endpoints router-link!
+  // {
+  //   path: '/profile/:id',
+  //   name: 'Profile',
+  //   component: loadPage('ProfilePage'),
+  // },
+  {
+    path: '/leaderboard',
+    name: 'Leaderboard',
+    component: loadPage('LeaderboardPage'),
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: loadPage('SettingsPage'),
+    beforeEnter: authGuard
   },
   {
     path: '/dev',
