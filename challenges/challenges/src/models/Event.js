@@ -2,7 +2,7 @@ import { Schema } from 'mongoose'
 
 const ObjectId = Schema.Types.ObjectId
 
-const EventSchema = new Schema({
+export const EventSchema = new Schema({
 
   creatorId: {
     type: ObjectId,

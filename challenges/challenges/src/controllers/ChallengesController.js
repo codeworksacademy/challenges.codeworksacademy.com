@@ -37,21 +37,11 @@ export class ChallengesController extends BaseController {
     try {
       const challengeId = req.params.challengeId
       const challenge = await challengesService.getChallengeById(challengeId)
+      return res.send(challenge)
     } catch (error) {
       next(error)
     }
   }
-
-  // async cancelChallenge(req, res, next) {
-  //   try {
-  //     const challengeId = req.params.challengeId
-  //     const userId = req.userInfo.id
-      
-  //     return res.send(challengeId)
-  //   } catch (error) {
-  //     next(error)
-  //   }
-  // }
 
   async cancelChallenge(req, res, next) {
     try {
