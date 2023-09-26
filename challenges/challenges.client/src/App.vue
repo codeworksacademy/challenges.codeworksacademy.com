@@ -218,6 +218,20 @@ export default {
 <style lang="scss">
 @import "./assets/scss/main.scss";
 
+html {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: inherit;
+  &:before {
+    box-sizing: inherit;
+  }
+}
+
 canvas {
   margin: 0;
   width: 200%;

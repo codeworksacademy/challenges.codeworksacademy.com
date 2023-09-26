@@ -1,3 +1,12 @@
+:root {
+  --bg-main: linear-gradient(90deg, #121722 0%, #1B202B 100%);
+  --primary-blue: #388FBB;
+  --tertiary-orange: #BB6438;
+  --primary-green: #38BB64;
+  --secondary-magenta: #BB38FF;
+  --text-primary: #F0F0F0;
+}
+
 $themes: (
   default: (
     "body-bg": #e5e5e5,

@@ -131,6 +131,7 @@ body {
 }
 .no-select {
   user-select: none;
+  -ms-user-select: none;
 }
 
 .scrollable-x {

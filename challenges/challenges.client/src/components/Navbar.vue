@@ -63,9 +63,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '../assets/scss/variables.scss';
+
 a {
-  color: #388FBB;
+  color: var(--primary-blue);
   transition: color 0.3s;
 }
 

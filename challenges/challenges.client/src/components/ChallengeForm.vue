@@ -272,29 +272,10 @@ export default {
 
       async createChallenge() {
         try {
-          logger.log('Creating Challenge:', editable.value);
-
-          // Check if it's an event
-          if (isEvent.value) {
-            // Create an Event object with event-specific data
-            const event = AppState.events.find(
-              e => e.id === editable.value.event.id
-              );
-
-            // Create a Challenge object with common challenge data
-            const challenge = {
-              ...editable.value,
-              event // Embed the event object within the challenge
-            };
-
-            // Submit the challenge (which contains event data) to your service
-            await challengesService.createChallenge(challenge);
-          } else {
-            // If it's not an event, submit the challenge directly
-            await challengesService.createChallenge(editable.value);
-          }
-
-          editable.value = {}; // Reset the form
+          logger.log('Creating Challenge:', editable.value)
+          const challenge = editable.value
+          await challengesService.createChallenge(challenge)
+          editable.value = {};
         } catch (error) {
           logger.error(error);
           Pop.toast(error, 'Failed to create challenge');
@@ -307,6 +288,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '../src/assets/scss/variables.scss';
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
 .form-box {
@@ -315,7 +297,7 @@ export default {
   left: 50%;
   width: 400px;
   padding: 40px;
-  color: #F0F0F0;
+  color: var(--text-primary);
   text-shadow: 0 .5px 1px #38BB64;
   transform: translate(-50%, -50%);
   background: #00000080;
@@ -328,7 +310,7 @@ export default {
   margin: 0 0 20px;
   padding: 0;
   text-align: center;
-  color: #F0F0F0;
+  color: var(--text-primary);
   text-shadow: 0px 1px 2px #38BB64;
 }
 
@@ -364,26 +346,26 @@ select {
   width: 100%;
   height: 100%;
   background: transparent;
-  color: #F0F0F0;
+  color: var(--text-primary);
   font-size: 16px;
-  border: 1px solid #F0F0F0 !important;
+  border: 1px solid var(--text-primary) !important;
   border-radius: 5px;
 }
 
 select:focus {
-  border: 1px solid #388FBB !important;
-  box-shadow: 0 0 0 1px #388FBB !important;
+  border: 1px solid var(--primary-blue) !important;
+  box-shadow: 0 0 0 1px var(--primary-blue) !important;
 }
 
 option {
   background: #000;
-  color: #F0F0F0;
+  color: var(--text-primary);
   font-size: 16px;
   font-weight: 500;
   line-height: 1.2;
   padding: 0 2px 1px;
   display: inline-block;
-  border: 1px solid #F0F0F0 !important;
+  border: 1px solid var(--text-primary) !important;
   border-radius: 5px;
   text-align: center;
 }
@@ -393,9 +375,9 @@ option {
   width: 100%;
   padding: 10px 0;
   font-size: 16px;
-  color: #F0F0F0;
+  color: var(--text-primary);
   border: none;
-  border-bottom: 1px solid #F0F0F0;
+  border-bottom: 1px solid var(--text-primary);
   outline: none;
   background: transparent;
 }
@@ -414,7 +396,7 @@ option {
 .form-box .input-box input:valid~label {
   top: -20px;
   left: 0;
-  color: #388FBB;
+  color: var(--primary-blue);
   text-shadow: 0 .5px 1px #38BB64;
   font-size: 12px;
 }
@@ -423,7 +405,7 @@ option {
   position: relative;
   display: inline-block;
   padding: 10px 20px;
-  color: #388FBB;
+  color: var(--primary-blue);
   font-size: 16px;
   text-decoration: none;
   text-transform: uppercase;
@@ -436,12 +418,12 @@ option {
 }
 
 .form-box form button:hover {
-  color: #F0F0F0;
+  color: var(--text-primary);
   border-radius: 5px;
   box-shadow: 5px 0 5px 1px #38b464 inset,
-    -5px 0 5px 1px #388fbb inset,
-    0 -5px 5px 1px #bb388f inset,
-    0 5px 5px 1px #bb6438 inset;
+    -5px 0 5px 1px var(--primary-blue) inset,
+    0 -5px 5px 1px var(--secondary-magenta) inset,
+    0 5px 5px 1px var(--tertiary-orange) inset;
 }
 
 .form-box .input-box input[data-v-a16fb1c8].event-date {
@@ -449,7 +431,7 @@ option {
 }
 
 .form-box .input-box input[data-v-a16fb1c8].event-date:focus {
-  color: #F0F0F0;
+  color: var(--text-primary);
   transition: all .5s ease-in-out;
 }
 
@@ -462,7 +444,7 @@ option {
 
 /* Set the initial background colors for the pseudo-elements */
 .form-box form button span:nth-child(1) {
-  background: #388FBB;
+  background: var(--primary-blue);
 }
 
 .form-box form button span:nth-child(2) {
@@ -470,11 +452,11 @@ option {
 }
 
 .form-box form button span:nth-child(3) {
-  background: #BB388F;
+  background: var(--secondary-magenta);
 }
 
 .form-box form button span:nth-child(4) {
-  background: #BB6438;
+  background: var(--tertiary-orange);
 }
 
 .form-box form button span {
@@ -521,9 +503,9 @@ option {
   offset: 1;
   background-color: black;
   font-size: 16px;
-  color: #F0F0F0;
+  color: var(--text-primary);
   border-radius: 5px;
-  color: #F0F0F0;
+  color: var(--text-primary);
   z-index: 1; 
 }
 
@@ -532,7 +514,7 @@ option {
   left: -100%;
   width: 100%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #388FBB);
+  background: linear-gradient(90deg, transparent, var(--primary-blue));
   animation: btn-anim1 5s linear infinite .25s;
 }
 
@@ -573,7 +555,7 @@ option {
   right: -100%;
   width: 100%;
   height: 2px;
-  background: linear-gradient(270deg, transparent, #BB388F);
+  background: linear-gradient(270deg, transparent, var(--secondary-magenta));
   animation: btn-anim3 5s linear infinite;
   animation-delay: .5s
 }
@@ -594,7 +576,7 @@ option {
   left: 0;
   width: 2px;
   height: 100%;
-  background: linear-gradient(360deg, transparent, #BB6438);
+  background: linear-gradient(360deg, transparent, var(--tertiary-orange));
   animation: btn-anim4 5s linear infinite;
   animation-delay: .75s
 }

@@ -1,5 +1,6 @@
 <template>
     <section class="container-fluid">
+      <EventCard />
       <p> {{ events }} </p>
     </section>
 </template>
@@ -10,10 +11,11 @@ import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
 import { eventsService } from "../services/EventsService.js"
+import EventCard from "../components/EventCard.vue"
 
 export default {
   components: {
-
+    EventCard
   },
   setup() {
 

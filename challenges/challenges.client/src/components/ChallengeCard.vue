@@ -133,6 +133,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '../assets/scss/variables.scss';
+
 .container-fluid {
   --bs-gutter-x: 0;
 }
@@ -144,8 +146,8 @@ export default {
 }
 
 .card-custom {
-  color: #F0F0F0;
-  text-shadow: 0 1px 5px #38BB64;
+  color: var(--text-primary);
+  text-shadow: 0 1px 5px var(--primary-green);
   overflow: hidden;
   max-height: 400px;
   background: #00000080;
@@ -158,7 +160,7 @@ a.btn-outline-primary {
   z-index: 1;
   font-size: .75rem;
   font-weight: 450;
-  color: #F0F0F0;
+  color: var(--text-primary);
   text-shadow: 1px 1px 2px #0F0F0F;
   border-color: #F0F0F074;
   transition: .5s ease-in-out;
@@ -166,7 +168,7 @@ a.btn-outline-primary {
       background: #00000080;
       box-shadow: 0 0 15px 2px #0a0a0a4d;
       backdrop-filter: brightness(10%);
-      color: #F0F0F0;
+      color: var(--text-primary);
       box-shadow: 0 0 15px 2px #BB388FFF;
       border: none;
       transition: .5s ease-in-out;
@@ -279,7 +281,7 @@ a.btn-outline-primary {
   padding: .25rem;
   font-size: .9rem;
   text-align: center;
-  background-color: #38BB64;
+  background-color: var(--primary-green);
   color: aliceblue;
   text-shadow: 1px 1px 1px #000;
   border-radius: 3rem;
@@ -298,7 +300,7 @@ a.btn-outline-primary {
   padding: .25rem;
   font-size: .7rem;
   text-align: center;
-  background-color: #388FBB;
+  background-color: var(--primary-blue);
   color: aliceblue;
   text-shadow: 1px 1px 1px #000;
   border-radius: 3rem;
@@ -321,21 +323,21 @@ a.btn-outline-primary {
 label {
   font-size: .75rem;
   font-weight: 400;
-  color: #F0F0F0;
-  text-shadow: 0 1px 5px #38BB64;
+  color: var(--text-primary);
+  text-shadow: 0 1px 5px var(--primary-green);
 }
 
 .card-text {
   font-size: .85rem;
   font-weight: 450;
-  color: #F0F0F0;
-  text-shadow: 0 1px 3px #38BB64;
+  color: var(--text-primary);
+  text-shadow: 0 1px 3px var(--primary-green);
 }
 
 .card-text-secondary {
   font-size: .75rem;
   font-weight: 400;
-  color: #F0F0F0;
+  color: var(--text-primary);
   text-shadow: 0 1px 5px #998ce2;
 }
 
@@ -347,7 +349,7 @@ label {
 .card-footer-text {
   font-size: .69rem;
   font-weight: 500;
-  color: #F0F0F0;
+  color: var(--text-primary);
   text-shadow: 0 1px 5px #998ce2;
 }
 
@@ -359,22 +361,6 @@ label {
 a.btn-dark {
   text-shadow: 2px 2px .75px #000000;
   transition: .5s ease-in-out;
-}
-
-.mdi-star-plus {
-  font-size: 33px;
-}
-
-.sub-member {
-  color: #67cbe7;
-  margin-left: -1.5rem;
-}
-
-i.sub-member:hover {
-  color: #67cbe7;
-  animation: returnUserMargin 1s forwards;
-  filter: brightness(1.1) scale(1.1);
-  transition: 1s ease-in-out;
 }
 
 ::-webkit-scrollbar {
@@ -401,14 +387,12 @@ i.sub-member:hover {
   height: 5px;
 }
 
-
 .modal-body {
   background-color: slategray;
   overflow-x: hidden;
   width: 100%;
   --bs-gutter-x: 0;
 }
-
 
 
 @media screen and (max-width: 1200px) {

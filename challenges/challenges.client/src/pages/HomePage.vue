@@ -59,24 +59,25 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '../assets/scss/variables.scss';
 
 .span-1 {
-  color: #38BB64;
+  color: var(--primary-green);
   font-weight: 500;
 }
 
 .span-2 {
-  color: #BB38FF;
+  color: var(--secondary-magenta);
   font-weight: 500;
 }
 
 .span-3 {
-  color: #BB6438;
+  color: var(--tertiary-orange);
   font-weight: 500;
 }
 
 .home-card {
-  background: linear-gradient(90deg, #121722 0%, #1B202B 100%);
+  background: var(--bg-main);
   box-shadow: 4px 4px 3px rgba(0, 0, 0, 0.25);
 }
 
