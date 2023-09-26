@@ -1,8 +1,8 @@
 <template>
   <section v-if="user.isAuthenticated" :style="isEvent ? 'margin-top: 8.6em;' : ''" class="container-fluid pt-5 position-relative top-5">
     <div class="form-box">
-      <h3>Submit Challenge</h3>
-      <form id="challengeForm" @submit.prevent="createChallenge()">
+      <h3>Submit Event</h3>
+      <form id="eventForm" @submit.prevent="createEvent()">
         <div class="input-box">
           <input
             id="name"
@@ -11,8 +11,9 @@
             required
             v-model="editable.name"
           >
-          <label for="name">Challenge Name</label>
+          <label for="name">Event Name</label>
         </div>
+
         <div class="input-box">
           <input
             id="description"
@@ -32,7 +33,7 @@
               required
               v-model="link.name"
             >
-            <label :for="'supportLinkName' + i">Challenge Link Name</label>
+            <label :for="'supportLinkName' + i">Event Link Name</label>
           </div>
           <div class="input-box">
             <input
@@ -42,7 +43,7 @@
               required
               v-model="link.url"
             >
-            <label :for="'supportLinkURL' + i">Challenge Link URL</label>
+            <label :for="'supportLinkURL' + i">Event Link URL</label>
           </div>
         </div>
         <div v-if="imageUploadOption === 'url'">
@@ -128,7 +129,7 @@ import { ref, computed } from 'vue'
 import { AppState } from '../AppState'
 import { logger } from "../utils/Logger.js"
 import Pop from "../utils/Pop.js"
-import { challengesService } from "../services/ChallengesService.js"
+import { eventsService } from "../services/EventsService.js"
 import { hasRoles } from "@bcwdev/auth0provider-client"
 
 export default {
@@ -142,32 +143,13 @@ export default {
         }
       ],
       pointValue: 'Point Value',
-      event: {
-        eventDate: Date,
-        eventTime: '',
-        eventLocation: '',
-        type: 'local'
-      }
     })
 
-    const userAccess = AppState.account
+    const userAccess = AppState.user
     const authRoles = ref(
       hasRoles(userAccess.roles, ['admin', 'moderator', 'user'])
     )
-      
-    const isEvent = ref(false)
-    function toggleChallengeType() {
-      isEvent.value = !isEvent.value
-      if (!isEvent.value) {
-        editable.value.event = {
-          eventDate: Date,
-          eventTime: '',
-          eventLocation: '',
-          type: 'local'
-        }
-      }
-    }
-    
+
     const imageUploadOption = ref('url')
     function handleUrlChange() {
       if (imageUploadOption.value === 'url') {
@@ -191,30 +173,28 @@ export default {
     return {
       authRoles,
       editable,
-      isEvent,
       imageUploadOption,
 
-      toggleChallengeType,
       handleFileUpload,
       handleUrlChange,
 
       user: computed(() => AppState.user),
-      challenges: computed(() => AppState.challenges),
       events: computed(() => AppState.events),
-      isAdmin: computed(() => 
-        AppState.account.email === 'beepboopbeep@gmail.com' ||
-        authRoles.value === true
-      ),
+      // isAdmin: computed(() => 
+      //   AppState.account.email === 'beepboopbeep@gmail.com' ||
+      //   authRoles.value === true
+      // ),
+      isAdmin: computed(() => AppState.user.roles.includes('admin' || 'moderator') || AppState.account.email === 'beepboopbeep@gmail.com'),
 
-      async createChallenge() {
+      async createEvent() {
         try {
-          logger.log('Creating Challenge:', editable.value)
-          const challenge = editable.value
-          await challengesService.createChallenge(challenge)
+          logger.log('Creating Event:', editable.value)
+          const event = editable.value
+          await eventsService.createEvent(event)
           editable.value = {};
         } catch (error) {
           logger.error(error);
-          Pop.toast(error, 'Failed to create challenge');
+          Pop.toast(error, 'Failed to create event');
         }
       }
     }

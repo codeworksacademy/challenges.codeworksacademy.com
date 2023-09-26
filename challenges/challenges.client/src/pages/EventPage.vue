@@ -1,10 +1,13 @@
 <template>
     <section class="container-fluid">
-      <div 
-          v-for="(e, index) in events"
-          :key="index"
-        >
-        <EventCard :event="e" />
+      <div class="row">
+        <div 
+            v-for="(e, index) in events"
+            :key="index"
+            class="col-6 d-flex justify-content-center align-items-center"
+          >
+          <EventCard :event="e" />
+        </div>
       </div>
       <p> {{ events }} </p>
     </section>

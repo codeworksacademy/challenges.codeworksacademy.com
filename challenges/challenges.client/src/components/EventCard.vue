@@ -1,17 +1,17 @@
 <template>
     <section v-if="event" :key="event?.id" class="container-fluid">
-      <div class="container">
-        <div class="box" :style="{ '--box-background-image': `url(${event.coverImg})` }">
-          <span></span>
-          <div class="content">
-            <h2> {{ event.name }} </h2>
-            <div class="description-box">
-              <p class="py-2"> {{ event.description.split(' ').splice(0, 24).join(' ') }}... </p>
+        <div class="container">
+          <div class="box" :style="{ '--box-background-image': `url(${event.coverImg})` }">
+            <span></span>
+            <div class="content">
+              <h2> {{ event.name }} </h2>
+              <div class="description-box">
+                <p class="py-2"> {{ truncatedDescription }} </p>
+              </div>
+              <a class="btn btn-outline-primary" href="#">Read More</a>
             </div>
-            <a class="btn btn-outline-primary" href="#">Read More</a>
           </div>
         </div>
-      </div>
     </section>
 </template>
   
@@ -30,7 +30,7 @@ export default {
       required: true
     }
   },
-  setup() {
+  setup(props) {
     
     onMounted(() => {
 
@@ -38,6 +38,10 @@ export default {
     return {
       events: computed(() => AppState.events),
       activeEvent: computed(() => AppState.activeEvent),
+
+      truncatedDescription: computed(() => {
+        return props.event.description.split(' ').splice(0, 24).join(' ') + '...'
+      }),
 
       setActiveEvent(eventId) {
         try {
@@ -80,7 +84,7 @@ export default {
 
 .container .box {
   position: relative;
-  width: 320px;
+  width: 400px;
   height: 400px;
   display: flex;
   justify-content: center;
@@ -224,6 +228,7 @@ export default {
 
 .container .box .content {
   position: relative;
+  top: 7.5px;
   left: 0;
   padding: 20px 40px;
   background: #FFFFFF0D;
@@ -243,6 +248,8 @@ export default {
       text-shadow: none;
     }
     &:hover {
+      height: 375px;
+      margin-left: 10px;
       background: #000000AB !important;
       border-top: 3px solid #388FBB44 !important;
       border-left: 3px solid #BB643844   !important;
@@ -279,9 +286,13 @@ export default {
   transition: 0.5s;
 }
 
-.box:hover:before {
-  left: 500px;
-  padding: 20px 40px;
+.box:hover {
+  width: 100%;
+
+    :before {
+      left: 500px;
+      padding: 20px 40px;
+    }
 }
 
 .container .box .content p {

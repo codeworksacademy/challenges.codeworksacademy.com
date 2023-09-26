@@ -40,7 +40,7 @@ export const ChallengeSchema = new Schema({
   pointValue: {
     type: Number,
     required: true,
-    max: 10,
+    max: 3,
     min: 1
   },
   answers: [

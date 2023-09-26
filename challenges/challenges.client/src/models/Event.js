@@ -20,9 +20,12 @@ export class Event {
     this.id = data.id
     this.creatorId = data.creatorId
     this.creator = data.creator
+    this.roles = data.roles
     this.name = data.name
     this.description = data.description
     this.coverImg = data.coverImg
+    this.supportLinks = data.supportLinks
+    // this.sponsors = data.sponsors
     this.capacity = data.capacity
     this.startDate = formatDateAndTime(data.startDate)
     this.endDate = formatDateAndTime(data.endDate)
@@ -30,8 +33,11 @@ export class Event {
     this.endTime = data.endTime
     this.location = data.location
     this.type = data.type
-    this.isCancelled = data.isCancelled
     this.challenges = data.challenges
+    this.isCancelled = data.isCancelled
+    this.isFinished = data.isFinished
     this.participantCount = data.participantCount
+    this.createdAt = data.createdAt
+    this.updatedAt = data.updatedAt
   }
 }

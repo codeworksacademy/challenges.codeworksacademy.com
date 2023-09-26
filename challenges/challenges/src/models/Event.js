@@ -9,6 +9,17 @@ export const EventSchema = new Schema({
     required: true,
     ref: 'Account'
   },
+  roles: [
+    {
+      type: String,
+      required: true,
+      enum: [
+        'admin',
+        'moderator',
+        'participant'
+      ]
+    }
+  ],
   name: {
     type: String,
     required: true,
@@ -26,6 +37,18 @@ export const EventSchema = new Schema({
     required: true,
     maxLength: 500
   },
+  supportLinks: [
+    { 
+      name: String,
+      url: String,
+    }
+  ],
+  // sponsors: [
+  //   {
+  //     type: ObjectId,
+  //     ref: 'Sponsor'
+  //   }
+  // ],
   capacity: {
     type: Number,
     required: true,
@@ -60,6 +83,12 @@ export const EventSchema = new Schema({
       'online'
     ],
   },
+  pointValue: {
+    type: Number,
+    required: true,
+    max: 10,
+    min: 1
+  },
   challenges: [
     {
       type: ObjectId,
@@ -75,7 +104,13 @@ export const EventSchema = new Schema({
     type: Boolean,
     required: true,
     default: false
-  }
+  },
+  createdAt: {
+    type: Date,
+  },
+  updatedAt: {
+    type: Date,
+  },
 })
 
 EventSchema.virtual('creator', {
