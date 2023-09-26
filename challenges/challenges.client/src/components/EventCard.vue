@@ -5,8 +5,10 @@
           <span></span>
           <div class="content">
             <h2> {{ event.name }} </h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            <a href="#">Read More</a>
+            <div class="description-box">
+              <p class="py-2"> {{ event.description.split(' ').splice(0, 24).join(' ') }}... </p>
+            </div>
+            <a class="btn btn-outline-primary" href="#">Read More</a>
           </div>
         </div>
       </div>
@@ -123,8 +125,11 @@ export default {
 .container .box:hover:before,
 .container .box:hover:after {
   transform: skewX(0deg);
-  left: 20px;
-  width: calc(100% - 90px);
+  position: absolute;
+  top: -20px;
+  left: -90px;
+  min-width: 400px;
+  min-height: 450px;
 }
 
 .container .box:nth-child(1):before,
@@ -222,17 +227,43 @@ export default {
   left: 0;
   padding: 20px 40px;
   background: #FFFFFF0D;
+  color: var(--text-primary);
+  text-shadow: 0px 1px var(--primary-green);
   backdrop-filter: blur(10px);
   box-shadow: 0 5px 15px #0000001A;
   border-radius: 8px;
+  border-top: 3px double #FFFFFF66;
+  border-left: 3px double #FFFFFF66;
   z-index: 1;
   transform: .5s;
+    h2 {
+      color: var(--text-primary);
+    }
+    >a {
+      text-shadow: none;
+    }
+    &:hover {
+      background: #000000AB !important;
+      border-top: 3px solid #388FBB44 !important;
+      border-left: 3px solid #BB643844   !important;
+      border-right: 3px solid #38BB6444 !important;
+      border-bottom: 3px solid #BB388F44 !important;
+    }
 }
 
 .container .box:hover .content {
   background: #00000080;
   left: -10px;
   padding: 60px 40px;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-image: linear-gradient(180deg, var(--primary-blue), var(--primary-green));
+  border: none;
+  transition: 0.5s;
+  filter: brightness(.85);
+  text-shadow: 0px 1.25px #ffffff88;
+  z-index: 2;
 }
 
 .container .box .content h2 {
@@ -243,6 +274,9 @@ export default {
 .box:hover {
   color: var(--text-primary);
   filter: brightness(1.5);
+  text-shadow: 0px 1px #ffffff88;
+  background-clip: border-box;
+  transition: 0.5s;
 }
 
 .box:hover:before {
@@ -256,20 +290,82 @@ export default {
   line-height: 1.4em;
 }
 
-.container .box .content a {
+.container .box .content a.btn-outline-primary {
   display: inline-block;
+  position: relative;
   font-size: 1.1em;
   color: #111;
-  background: #F0F0F0;
   padding: 10px;
+  border-color: #F0F0F074;
   border-radius: 4px;
   text-decoration: none;
-  font-weight: 700;
   margin-top: 5px;
+  background: #1e3d20;
+  z-index: 1;
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-shadow: 1px 1px 2px #0F0F0F;
+  transition: .5s ease-in-out;
+
+    &:hover::after {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      font-size: 1.1em;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 4px;
+      text-decoration: none;
+      margin-top: 5px;
+      width: 100%;
+      height: 100%;
+      background: #00000080;
+      box-shadow: 0 0 15px 2px #0a0a0a4d;
+      backdrop-filter: brightness(10%);
+      color: var(--text-primary);
+      box-shadow: 0 0 15px 2px #BB388FFF;
+      border: none;
+      transition: .5s ease-in-out;
+    }
+}
+
+.container .box .content:hover::after {
+  background: #00000080;
+  border-top: 1px solid #388FBBAA;
+  border-bottom: 1px solid #BB388FAA;
+  border-left: 1px solid #BB6438AA;
+  border-right: 1px solid #38BB64AA;
+  box-shadow: 0 1px 15px #01010133;
+}
+
+.container .box .content a.btn-outline-primary:hover {
+  content: '';
+}
+.container .box .content a.btn-outline-primary:hover::after {
+  content: 'Click Me';
+  display: inline-block;
+  position: absolute;
+  top: -4px;
+  left: 0;
+  width: inherit;
+  height: 100%;
+  box-sizing: border-box;
+  font-size: .9em;
+  border: none;
+  border-radius: inherit;
+  box-shadow: 0 0 15px 2px #0a0a0a4d;
+  backdrop-filter: brightness(10%);
+  color: var(--text-primary);
+  box-shadow: 0 0 15px 2px #BB388FFF;
+  transition: .5s ease-in-out;
+  padding: inherit;
 }
 
 .container .box .content a:hover {
-  background: #FFCF4d;
+  background: #00000080;
   border: 1px solid #FF005866;
   box-shadow: 0 1px 15px #01010133;
 }
