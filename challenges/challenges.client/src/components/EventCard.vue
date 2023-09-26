@@ -1,10 +1,10 @@
 <template>
-    <section class="container-fluid">
+    <section v-if="event" :key="event?.id" class="container-fluid">
       <div class="container">
-        <div class="box">
+        <div class="box" :style="{ '--box-background-image': `url(${event.coverImg})` }">
           <span></span>
           <div class="content">
-            <h2>Card one</h2>
+            <h2> {{ event.name }} </h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
             <a href="#">Read More</a>
           </div>
@@ -14,26 +14,42 @@
 </template>
   
 <script>
-  import { computed, onMounted } from 'vue'
-  import { AppState } from '../AppState'
-  import Pop from "../utils/Pop.js"
-  import { logger } from "../utils/Logger.js"  
-  
-  export default {
-    components: {
+import { computed, onMounted } from 'vue'
+import { AppState } from '../AppState'
+import Pop from "../utils/Pop.js"
+import { logger } from "../utils/Logger.js"
+import { eventsService } from "../services/EventsService.js"
+import { Event } from '../models/Event.js'
 
-    },
-    setup() {
+export default {
+  props: {
+    event: {
+      type: Event || Object,
+      required: true
+    }
+  },
+  setup() {
+    
+    onMounted(() => {
 
-      onMounted(() => {
+    })
+    return {
+      events: computed(() => AppState.events),
+      activeEvent: computed(() => AppState.activeEvent),
 
-      })
-      return {
-
-      } 
+      setActiveEvent(eventId) {
+        try {
+          eventsService.setActiveEvent(eventId)
+          logger.log('active event', AppState.activeEvent)
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error, 'error')
+        }
+      }
     }
   }
-  </script>
+}
+</script>
   
 <style scoped lang="scss">
 @import '../assets/scss/_variables.scss';
@@ -113,7 +129,7 @@
 
 .container .box:nth-child(1):before,
 .container .box:nth-child(1):after {
-  background-image: url(../assets/img/challenges-img.png);
+  background-image: var(--box-background-image);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

@@ -1,6 +1,11 @@
 <template>
     <section class="container-fluid">
-      <EventCard />
+      <div 
+          v-for="(e, index) in events"
+          :key="index"
+        >
+        <EventCard :event="e" />
+      </div>
       <p> {{ events }} </p>
     </section>
 </template>
