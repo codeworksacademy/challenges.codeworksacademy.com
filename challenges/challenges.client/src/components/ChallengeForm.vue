@@ -102,10 +102,10 @@
               required
               v-model="editable.pointValue"
             >
-              <option value="" class="text-center" selected disabled>Point Value</option>
+              <option value="" class="text-center" selected disabled>--- Point Value ---</option>
               <option value="1">1</option>
-              <option value="5">5</option>
-              <option value="10">10</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
             </select>
           </div>
         </div>

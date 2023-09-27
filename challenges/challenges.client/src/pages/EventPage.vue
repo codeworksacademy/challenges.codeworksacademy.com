@@ -1,15 +1,19 @@
 <template>
     <section class="container-fluid">
       <div class="row">
+        <div class="d-flex justify-content-center align-items-center position-relative" style="top: 15em;">
+          <EventForm />
+        </div>
+      </div>
+      <div class="row position-relative">
         <div 
             v-for="(e, index) in events"
             :key="index"
-            class="col-6 d-flex justify-content-center align-items-center"
+            class="col-lg-5 offset-1 mobile-container d-flex justify-content-center align-items-center"
           >
-          <EventCard :event="e" />
+          <EventCard :event="e" class="mobile-card" />
         </div>
       </div>
-      <p> {{ events }} </p>
     </section>
 </template>
   
@@ -19,10 +23,12 @@ import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
 import { eventsService } from "../services/EventsService.js"
+import EventForm from "../components/EventForm.vue"
 import EventCard from "../components/EventCard.vue"
 
 export default {
   components: {
+    EventForm,
     EventCard
   },
   setup() {

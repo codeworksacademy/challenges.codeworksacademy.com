@@ -21,10 +21,10 @@ export class Event {
     this.creatorId = data.creatorId
     this.creator = data.creator
     this.roles = data.roles
-    this.name = data.name
-    this.description = data.description
-    this.coverImg = data.coverImg
-    this.supportLinks = data.supportLinks
+    this.name = data.name //
+    this.description = data.description //
+    this.coverImg = data.coverImg //
+    this.supportLinks = data.supportLinks //
     // this.sponsors = data.sponsors
     this.capacity = data.capacity
     this.startDate = formatDateAndTime(data.startDate)

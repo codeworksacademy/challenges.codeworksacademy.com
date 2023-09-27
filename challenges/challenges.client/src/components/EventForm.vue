@@ -1,5 +1,5 @@
 <template>
-  <section v-if="user.isAuthenticated" :style="isEvent ? 'margin-top: 8.6em;' : ''" class="container-fluid pt-5 position-relative top-5">
+  <section v-if="user.isAuthenticated" :style="isEvent ? 'margin-top: 8.6em;' : ''" class="container-fluid pt-5 position-relative top-10 mt-4">
     <div class="form-box">
       <h3>Submit Event</h3>
       <form id="eventForm" @submit.prevent="createEvent()">
@@ -13,16 +13,85 @@
           >
           <label for="name">Event Name</label>
         </div>
-
-        <div class="input-box">
+        <div class="input-box mb-3">
           <input
+            id="location"
+            name="location"
+            type="text"
+            required
+            v-model="editable.location"
+          >
+          <label for="location">Event Location</label>
+        </div>
+        <div class="input-box mb-3">
+          <input
+            id="capacity"
+            name="capacity"
+            type="number"
+            min="1"
+            max="150"
+            step="1"
+            required
+            v-model="editable.capacity"
+          >
+          <label for="capacity">Event Capacity</label>
+        </div>
+        <div class="input-box mb-3">
+          <textarea
             id="description"
             name="description"
             type="text"
+            rows="20"
             required
             v-model="editable.description"
           >
-          <label for="description">Description</label>
+          </textarea>
+          <label class="description-label" for="description">Description</label>
+        </div>
+
+        <div class="input-box">
+          <input
+            id="startDate"
+            name="startDate"
+            type="date"
+            required
+            v-model="editable.startDate"
+          >
+          <label for="startDate" class="start-date">Start Date</label>
+          <i class="mdi mdi-calendar-month-outline"></i>
+        </div>
+        <div class="input-box">
+          <input
+            id="endDate"
+            name="endDate"
+            type="date"
+            required
+            v-model="editable.endDate"
+          >
+          <label for="endDate" class="end-date">End Date</label>
+          <i class="mdi mdi-calendar-month-outline"></i>
+        </div>
+        <div class="input-box">
+          <input
+            id="startTime"
+            name="startTime"
+            type="time"
+            required
+            v-model="editable.startTime"
+          >
+          <label for="startTime" class="start-time">Starting At</label>
+          <i class="mdi mdi-clock-outline"></i>
+        </div>
+        <div class="input-box">
+          <input
+            id="endTime"
+            name="endTime"
+            type="time"
+            required
+            v-model="editable.endTime"
+          >
+          <label for="endTime" class="end-time">Ending At</label>
+          <i class="mdi mdi-clock-outline"></i>
         </div>
         <div v-for="(link, i) in editable.supportLinks" :key="i">
           <div class="input-box">
@@ -222,6 +291,26 @@ export default {
   border-radius: 10px;
 }
 
+input:-internal-autofill-selected {
+  background-color: #00000000 !important;
+  background-image: none !important;
+  color: var(--text-primary) !important;
+}
+
+/* Apply styles for autofill inputs, targeting all browsers */
+input:-webkit-autofill {
+  -webkit-background-clip: text !important;
+  -webkit-box-shadow: 0 0 0 30px #00000000 inset !important;
+  -webkit-text-fill-color: var(--text-primary) !important;
+}
+
+/* Additional styles for autofill inputs, targeting Mozilla Firefox */
+input:-moz-autofill {
+  /* Firefox-specific styles */
+  background-color: #00000000 !important;
+  color: var(--text-primary) !important;
+}
+
 .form-box h3 {
   margin: 0 0 20px;
   padding: 0;
@@ -234,7 +323,7 @@ export default {
   position: relative;
 }
 
-input:not(:placeholder-shown):valid, textarea:not(:placeholder-shown):valid, select:not(:placeholder-shown):valid {
+select:not(:placeholder-shown):valid {
   border: 1px solid #38BB6433 !important;
   box-shadow: 0 0 0 1px #388FBBab !important;
   --bs-form-switch-bg: url(
@@ -298,6 +387,93 @@ option {
   background: transparent;
 }
 
+input[type=number] {
+  font-size: 16px;
+  padding: 0 8px;
+}
+input[type=number]::-webkit-inner-spin-button { 
+  -webkit-appearance: none;
+  cursor:pointer;
+  display:block;
+  width:8px;
+  color: #333;
+  text-align:center;
+  position:relative;
+}    
+input[type=number]:hover::-webkit-inner-spin-button { 
+  background: #FfFfFf url('https://i.stack.imgur.com/YYySO.png') no-repeat 50% 50%;  
+  width: 3px;
+  height: 3px;
+  padding: 9px;
+  margin: auto;
+  position: relative;
+  right: 0px;
+  border-radius: 28px;
+  opacity: .75;
+  opacity: .75;
+  filter: grayscale(1);
+  transform: scale(.8);
+}
+
+.form-box .input-box textarea#description {
+  resize: none;
+  width: 100%;
+  height: 50px;
+  padding: 5px;
+  font-size: 16px;
+  color: var(--text-primary);
+  border: none;
+  border-bottom: 1px solid var(--text-primary);
+  outline: none;
+  background: transparent;
+
+  ~label.description-label {
+      position: absolute;
+      top: .25rem;
+      left: 0;
+      padding: 10px 0;
+      font-size: 16px;
+      pointer-events: none;
+      transition: .5s;
+    }
+
+    &:focus {
+      margin-top: 1rem;
+      border: 1px solid var(--primary-blue);
+      border-radius: 5px;
+      box-shadow: 0 0 0 1px var(--primary-text);
+    }
+
+    &:focus~label, 
+    &:valid~label {
+      position: absolute;
+      top: -20px;
+      left: 0;
+      color: var(--primary-blue);
+      text-shadow: 0 .5px 1px #38BB64;
+      font-size: 12px;
+    }
+}
+
+::-webkit-scrollbar {
+  width: 15px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-track {
+  background: linear-gradient(90deg, transparent 0%, #222222FF 50%, transparent 100%);
+  border-radius: 10px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb {
+  background: radial-gradient(#F0F0F0DD, #F0F0F0);
+  border-radius: 10px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
 .form-box .input-box label {
   position: absolute;
   top: 0;
@@ -342,8 +518,92 @@ option {
     0 5px 5px 1px var(--tertiary-orange) inset;
 }
 
-.form-box .input-box input[data-v-a16fb1c8].event-date {
-  color: transparent;
+/* SECTION = Date and Time Picker Styling */
+/*#region Date and Time Picker: How to hide the 'Date Picker' and 'Time Picker' text */
+/* LIFEHACK - The following 4 rules hide the date picker text 'MM/DD/YYYY' */
+input[type=date]::-webkit-datetime-edit-text {
+  -webkit-appearance: none;
+  display: none;
+}
+input[type=date]::-webkit-datetime-edit-month-field{
+  -webkit-appearance: none;
+  display: none;
+}
+input[type=date]::-webkit-datetime-edit-day-field {
+  -webkit-appearance: none;
+  display: none;
+}
+input[type=date]::-webkit-datetime-edit-year-field {
+  -webkit-appearance: none;
+  display: none;
+}
+
+/* LIFEHACK - The following 4 rules flip the hidden 'Date Picker' text back to visible after a selection is made */
+input[type=date]:valid::-webkit-datetime-edit-month-field {
+  -webkit-appearance: text;
+  display: inline;
+  padding: 0 0 0 10px;
+}
+input[type=date]:valid::-webkit-datetime-edit-day-field {
+  -webkit-appearance: text;
+  display: inline;
+}
+input[type=date]:valid::-webkit-datetime-edit-year-field {
+  -webkit-appearance: text;
+  display: inline;
+}
+input[type=date]:valid::-webkit-datetime-edit-text {
+  -webkit-appearance: text;
+  display: inline;
+}
+
+/* LIFEHACK - The following 4 rules hide the time picker text '--:-- --' */
+input[type=time]::-webkit-datetime-edit-text {
+  -webkit-appearance: none;
+  display: none;
+}
+input[type=time]::-webkit-datetime-edit-hour-field {
+  -webkit-appearance: none;
+  display: none;
+}
+input[type=time]::-webkit-datetime-edit-minute-field {
+  -webkit-appearance: none;
+  display: none;
+}
+input[type=time]::-webkit-datetime-edit-ampm-field {
+  -webkit-appearance: none;
+  display: none;
+}
+
+/* LIFEHACK - The following 4 rules flip the hidden 'Time Picker' text back to visible after a selection is made */
+input[type=time]:valid::-webkit-datetime-edit-hour-field {
+  -webkit-appearance: text;
+  display: inline;
+  padding: 0 0 0 10px;
+}
+input[type=time]:valid::-webkit-datetime-edit-minute-field {
+  -webkit-appearance: text;
+  display: inline;
+}
+input[type=time]:valid::-webkit-datetime-edit-ampm-field {
+  -webkit-appearance: text;
+  display: inline;
+}
+input[type=time]:valid::-webkit-datetime-edit-text {
+  -webkit-appearance: text;
+  display: inline;
+}
+/*#endregion */
+
+.form-box .input-box input[data-v-8019a23a][data-v-8019a23a], .form-box .input-box select[data-v-8019a23a][data-v-8019a23a] {
+  color: var(--text-primary);
+  transition: all .5s ease-in-out;
+  display: inline;
+}
+
+.form-box .input-box input[data-v-8019a23a], .form-box .input-box select[data-v-8019a23a] {
+  color: var(--text-primary);
+  transition: all .5s ease-in-out;
 }
 
 .form-box .input-box input[data-v-a16fb1c8].event-date:focus {
@@ -351,11 +611,38 @@ option {
   transition: all .5s ease-in-out;
 }
 
+.form-box .input-box input[type="date"]#startDate:focus {
+  
+}
+
+input[type="time"]#startTime:focus {
+  
+}
+
 .mdi-calendar-month-outline {
-  color: #797A7A;
+  color: var(--text-primary);
   font-size: 16px;
   pointer-events: none;
   transition: .5s;
+  opacity: 1;
+  z-index: 1000;
+  display: block;
+  position: absolute;
+  top: .75rem;
+  right: 0;
+}
+
+.mdi-clock-outline {
+  color: var(--text-primary);
+  font-size: 16px;
+  pointer-events: none;
+  transition: .5s;
+  opacity: 1;
+  z-index: 1000;
+  display: block;
+  position: absolute;
+  top: .75rem;
+  right: 0;
 }
 
 /* Set the initial background colors for the pseudo-elements */

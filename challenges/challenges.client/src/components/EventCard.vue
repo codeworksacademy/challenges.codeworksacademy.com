@@ -178,7 +178,7 @@ export default {
   background: #38BB6433;
   backdrop-filter: blur(10px);
   opacity: 0;
-  transition: 0.1s;  
+  transition: 0.1s;
   animation: animate 2s ease-in-out infinite;
   box-shadow: 0 5px 15px #00000014;
 }
@@ -390,5 +390,24 @@ export default {
   filter: blur(0);
   z-index: 1;
   transition: 0.5s;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: left !important;
+    align-items: center;
+    margin-left: 25%;
+
+      &:hover {
+        position: relative;
+        margin-right: -75px;
+      }
+  }
+
+  .container .box .content[data-v-f2df5c1a] {
+    width: 300px;
+  }
 }
 </style>

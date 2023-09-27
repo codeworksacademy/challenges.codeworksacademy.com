@@ -1,7 +1,7 @@
 <template>
   <section class="container-fluid">
     <div class="row">
-      <div class="d-flex justify-content-center align-items-center position-relative" style="top: 15em;">
+      <div class="d-flex justify-content-center align-items-center position-relative mb-5" style="top: 15em;">
         <ChallengeForm />
       </div>
       <div class="row">
