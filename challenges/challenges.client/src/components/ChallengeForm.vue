@@ -1,6 +1,6 @@
 <template>
   <section v-if="user.isAuthenticated" class="container-fluid px-5">
-    
+    <div class="modal-content">
       <button type="button" class="btn-close p-1 ms-1 mt-1" data-bs-dismiss="modal" aria-label="Close"></button>
       <div class="modal-header" style="border: none;">
         <h3 class="col-12 text-center" id="">Challenge Submission Form</h3>
@@ -113,17 +113,23 @@
               </select>
             </div>
           </div>
-          <div class="d-flex justify-content-end">
-            <button class="bg-transparent btn btn-primary" style="z-index: 9999;" type="submit">
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              Submit
-            </button>
+            <div class="d-flex justify-content-end align-items-center position-relative">
+              <div class="col-1">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+              <div class="col-1">
+                <button class="bg-transparent position-relative text-light" type="submit" style="border: none;">
+                  <span class="position-absolute" style="margin: -.5rem;"></span>
+                  <span class="position-absolute" style="margin: -.5rem;"></span>
+                  <span class="position-absolute" style="margin: -.5rem;"></span>
+                  <span class="position-absolute" style="margin: -.5rem;"></span>
+                  Submit
+                </button>
+              </div>
           </div>
         </div>
       </form>
+    </div>
   </section>
 </template>
 
@@ -137,7 +143,10 @@ import { Modal } from 'bootstrap'
 // import { hasRoles } from "@bcwdev/auth0provider-client"
 
 export default {
+  components: {
+  },
   setup() {
+
 
     const editable = ref({
       supportLinks: [
@@ -207,7 +216,7 @@ export default {
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import '../src/assets/scss/variables.scss';
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
@@ -218,11 +227,16 @@ export default {
   padding: 0;
   margin: 0;
   background: transparent;
+  border: none;
+  border-radius: 0;
+  color: var(--text-primary);
+  text-shadow: 0 .5px 1px #38BB64;
+  background: #00000080;
+  border-radius: 10px;
   overflow: hidden;
 }
 
-.modal-body {
-  position: relative;
+.modal-content {
   width: 100%;
   height: 100%;
   padding: 0;
@@ -241,9 +255,9 @@ export default {
 }
 
 .form-box {
-  position: relative;
+  position: absolute;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   color: var(--text-primary);
   text-shadow: 0 .5px 1px #38BB64;
   background: #00000080;
@@ -456,6 +470,10 @@ option {
   z-index: 1; 
 }
 
+.input-box {
+  height: 65px;
+}
+
 .form-box button span:nth-child(1) {
   top: 0;
   left: -100%;
@@ -518,14 +536,15 @@ option {
   }
 }
 
-.form-box button span:nth-child(4) {
+.modal-content .modal-body .form-box button span:nth-child(4) {
+  position: absolute;
   bottom: -100%;
   left: 0;
   width: 2px;
   height: 100%;
   background: linear-gradient(360deg, transparent, var(--tertiary-orange));
   animation: btn-anim4 5s linear infinite;
-  animation-delay: .75s
+  animation-delay: .75s;
 }
 
 @keyframes btn-anim4 {
@@ -537,9 +556,5 @@ option {
   100% {
     bottom: 100%;
   }
-}
-
-.input-box {
-  height: 65px;
 }
 </style>
