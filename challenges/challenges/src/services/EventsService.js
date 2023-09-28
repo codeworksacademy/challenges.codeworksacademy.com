@@ -11,7 +11,7 @@ class EventsService {
 
   async getAllEvents() {
     const events = await dbContext.Events.find().populate('creator')
-    .sort({ eventDate: -1 })
+    .sort({ createdAt: -1 })
     return events
   }
 

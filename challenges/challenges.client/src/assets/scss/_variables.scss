@@ -1,10 +1,15 @@
 :root {
-  --bg-main: linear-gradient(90deg, #121722 0%, #1B202B 100%);
+  --bg-main: #00000080;
   --primary-blue: #388FBB;
   --tertiary-orange: #BB6438;
   --primary-green: #38BB64;
   --secondary-magenta: #BB38FF;
   --text-primary: #F0F0F0;
+  --text-subheader: #C0C0C0;
+  --shadow-blue: 0 5px 15px #388FBB55;
+  --shadow-orange: 0 5px 15px #BB643855;
+  --shadow-green: 0 5px 15px #38BB6455;
+  --shadow-magenta: 0 5px 15px #BB388F55;
 }
 
 $themes: (

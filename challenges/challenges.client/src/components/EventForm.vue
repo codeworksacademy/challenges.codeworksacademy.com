@@ -179,6 +179,44 @@
             </select>
           </div>
         </div>
+        <!-- Add challenge input fields -->
+        <div v-for="(challenge, i) in editable.challenges" :key="i">
+          <div class="input-box">
+            <input
+              :id="'challengeName' + i"
+              :name="'challengeName' + i"
+              type="text"
+              required
+              v-model="challenge.name"
+            >
+            <label :for="'challengeName' + i">Challenge Name</label>
+          </div>
+          <!-- Add other challenge input fields here -->
+          <div class="input-box">
+            <input
+              :id="'challengeDescription' + i"
+              :name="'challengeDescription' + i"
+              type="text"
+              required
+              v-model="challenge.description"
+            >
+            <label :for="'challengeDescription' + i">Challenge Description</label>
+          </div>
+          <div class="input-box">
+            <input
+              :id="'challengePointValue' + i"
+              :name="'challengePointValue' + i"
+              type="number"
+              min="1"
+              max="150"
+              step="1"
+              required
+              v-model="challenge.pointValue"
+            >
+            <label :for="'challengePointValue' + i">Challenge Point Value</label>
+          </div>
+        </div>
+        <button @click="addChallenge">Add Challenge</button>
         <div class="col-12 d-flex justify-content-end">
           <button class="bg-transparent" style="" type="submit">
             <span></span>
@@ -212,6 +250,7 @@ export default {
         }
       ],
       pointValue: 'Point Value',
+      challenges: [],
     })
 
     const userAccess = AppState.user
@@ -249,16 +288,28 @@ export default {
 
       user: computed(() => AppState.user),
       events: computed(() => AppState.events),
+      challenges: computed(() => AppState.challenges),
       // isAdmin: computed(() => 
       //   AppState.account.email === 'beepboopbeep@gmail.com' ||
       //   authRoles.value === true
       // ),
       isAdmin: computed(() => AppState.user.roles.includes('admin' || 'moderator') || AppState.account.email === 'beepboopbeep@gmail.com'),
 
+      addChallenge() {
+        editable.value.challenges.push({
+          name: '',
+          description: '',
+          pointValue: 0
+        })
+      },
+
       async createEvent() {
         try {
+          const event = {
+            ...editable.value,
+            challenges: [...editable.value.challenges],
+          }
           logger.log('Creating Event:', editable.value)
-          const event = editable.value
           await eventsService.createEvent(event)
           editable.value = {};
         } catch (error) {

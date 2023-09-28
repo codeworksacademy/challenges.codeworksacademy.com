@@ -73,7 +73,7 @@ ChallengeSchema.virtual('participantCount', {
 
 ChallengeSchema.virtual('event', {
   localField: '_id',
-  foreignField: 'challengeId',
+  foreignField: 'eventId',
   ref: 'Event',
   justOne: true
 })

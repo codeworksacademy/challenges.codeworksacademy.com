@@ -3,10 +3,10 @@
     <div class="modal-content" style="">
       <button type="button" class="btn-close p-1 ms-1 mt-1" data-bs-dismiss="modal" aria-label="Close"></button>
       <div class="mb-4" style="border: none;">
-        <h1 class="col-12 text-center" id="exampleModalLabel"> {{ challenge?.name }} </h1>
+        <h1 class="col-12 text-center" id="exampleModalLabel"> Participant images for '{{ challenge.name }}' </h1>
       </div>
       <div class="modal-body row d-flex pt-3">
-        <p> {{ challenge?.description }} </p>
+        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

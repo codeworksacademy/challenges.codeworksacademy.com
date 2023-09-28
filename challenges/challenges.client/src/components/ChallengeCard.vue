@@ -1,59 +1,33 @@
 <template>
-  <section v-if="challenge" :key="challenge?.id" class="card card-custom border-white border-0" style="min-height: 45vh; max-height: 55vh;">
-    <div class="card-custom-img" :style="`background-image: url(${challenge.coverImg}); opacity: .6;`"></div>
-    <div class="col-6 position-absolute top-half left-half p-1">
-      <a ref="challenge" id="challengeDetailsButton" type="button" role="button"  @click="setActiveChallenge(challenge?.id)" data-bs-target="#challengeDetails" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal" class="btn btn-outline-primary" title="See who's Competing">Who's In?</a>
-    </div>
-    <div>
-      <p v-if="challenge.pointValue === 1" class="one-pt-badge"> {{ challenge.pointValue }} PT. </p>
-      <p v-else-if="challenge.pointValue === 5" class="five-pt-badge"> {{ challenge.pointValue }} PTS. </p>
-      <p v-else class="ten-pt-badge"> {{ challenge.pointValue }} PTS. </p>
-    </div>
-    <div class="card-custom-avatar">
-      <img class="img-fluid" style="object-fit: cover;" :src="challenge.creator.picture" alt="Creator Name" :title="`Go To Creator's Profile: ${challenge.creator.name}`" />
-    </div>
-
-    <div class="card-body" style="overflow-y: auto">
-      <h5 class="card-title fw-semibold py-2"> {{ challenge.name }} </h5>
-      <label for="description">Description:</label>
-      <p id="description" class="card-text"> {{ challenge.description }} </p>
-      <p class="card-footer-text text-end">Participants: 27</p>
-      <p class="card-text"></p>
-      <div class="col-12">
-        <div v-for="(link, i) in challenge.supportLinks" :key="i" class="mb-2">
-          <small class="card-text">Github Link: <a :href="link.url" class="card-text-secondary fw-bold"> {{ link.name }} </a>
-          </small>
+  <router-link :to="{ name: 'ChallengeDetails', params: { challengeId: challenge.id } }" class="selectable" style="">
+  <section v-if="challenge" :key="challenge?.id">
+    <div class="card card-custom border-secondary" style="">
+      <div class="card-custom-img" :style="`background-image: url(${challenge.coverImg}); opacity: .6;`">
+        <div class="card-body">
+        <div class="col-6 position-absolute top-half left-half p-1">
+          <a ref="challenge" id="challengeDetailsButton" type="button" role="button"  @click="setActiveChallenge(challenge?.id)" data-bs-target="#challengeDetails" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal" class="btn btn-outline-primary" title="See who's Competing">Who's In?</a>
+        </div>
+        <div class="position-relative" style="z-index: 1;">
+          <p v-if="challenge.pointValue === 1" class="one-pt-badge"> {{ challenge.pointValue }} PT. </p>
+          <p v-else-if="challenge.pointValue === 5" class="five-pt-badge"> {{ challenge.pointValue }} PTS. </p>
+          <p v-else class="ten-pt-badge"> {{ challenge.pointValue }} PTS. </p>
+        </div>
+        <div class="card-custom-avatar">
+          <img class="img-fluid" style="object-fit: cover; z-index: 1;" :src="challenge.creator.picture" alt="Creator Name" :title="`Go To Creator's Profile: ${challenge.creator.name}`" />
         </div>
       </div>
-    </div>
-
-    <div class="card-footer row" style="background: inherit; border: 3px groove #38BB6488; height: 120px;">
-      <div class="col-12" style="position: relative; margin-bottom: -1em;">
-        <p class="card-text">
-          <small class="card-text" style="font-weight: 400; font-size: .7rem; filter: brightness(.8);">
-            Created By: {{ challenge.creator.name }}
-          </small>
-        </p>
-      </div>
-      <div class="col-12">
-        <p class="card-text">
-          <small class="" style="font-weight: 400; font-size: .7rem; filter: brightness(.8)">
-            on {{ challenge.createdAt.formattedDate }}
-              @ {{ challenge.createdAt.formattedTime }}
-          </small>
-        </p>
-      </div>
-
-      <div v-if="user.isAuthenticated" class="row d-flex justify-content-center align-items-center m-auto">
+      <!-- <div v-if="user.isAuthenticated" class="row d-flex justify-content-center align-items-center m-auto">
         <div v-if="!challenge.isCancelled" class="col-5">
           <a role="button" @click="cancelChallenge" class="text-warning" :title="`Cancel ${challenge.name}?`">Cancel</a>
         </div>
         <div v-if="challenge.isCancelled || !challenge.isCancelled" class="col-5">
           <i role="button" @click="deleteChallenge(challenge.id)" class="mdi mdi-trash-can-outline text-danger offset-9" :title="`❗Delete ${challenge.name}?❗`"></i>
         </div>
-      </div>
+      </div> -->
+    </div>
     </div>
   </section>
+  </router-link>
 </template>
 
 <script>
@@ -120,12 +94,21 @@ export default {
         try {
           logger.log(`Getting Challenge by Id: ${challengeId}`)
           challengesService.setActiveChallenge(challengeId)
-          Modal.getOrCreateInstance('#challengeDetails').show()
         } catch (error) {
           Pop.error(error)
           logger.error(error)
         }
       },
+      getChallengeParticipants(challengeId) {
+        try {
+          logger.log(`Getting Challenge Participants by active Challenge: ${challengeId}`)
+          challengesService.getChallengeParticipants(challengeId)
+          Modal.getOrCreateInstance('#challengeDetails').show()
+        } catch (error) {
+          Pop.error(error)
+          logger.error(error)
+        }
+      }
     }
   }
 }
@@ -149,7 +132,8 @@ export default {
   color: var(--text-primary);
   text-shadow: 0 1px 5px var(--primary-green);
   overflow: hidden;
-  max-height: 400px;
+  max-height: 160px;
+  width: 100%;
   background: #00000080;
   box-shadow: 0 0 15px 2px #0a0a0a4d;
   transition: all .5 ease-in-out;
@@ -180,8 +164,11 @@ a.btn-outline-primary {
 }
 
 .card-custom-img {
-  height: 160px;
+  height: 260px;
   min-height: 160px;
+  width: auto;
+  min-width: auto;
+  position: relative;
   background-color: #00000080;
   background-repeat: no-repeat;
   background-size: cover;
@@ -196,20 +183,22 @@ a.btn-outline-primary {
 .card-custom-img::after {
   position: absolute;
   content: '';
+  
   bottom: 0;
   right: 0;
-  width: 0;
+  width: 85%;
   height: 0;
   border-style: solid;
-  border-top-width: 0;
+  border-width: 0;
   border-right-width: 0;
-  border-bottom-width: 20px;
-  border-left-width: 350px;
+  border-top-width: 0;
+  border-bottom-width: 50vw;
+  border-left-width: 30vh;
   border-top-color: transparent;
+  border-bottom-color: #0b0d12;
   border-right-color: transparent;
-  border-bottom-color: transparent;
-  border-left-color: #0b0d12;
-  transform: rotateZ(180deg);
+  border-left-color: transparent;
+
 }
 
 .card-custom-avatar img {
@@ -217,7 +206,7 @@ a.btn-outline-primary {
   box-shadow: 0 0 15px 3px #0a0a0a9a;
   position: absolute;
   border: 2.5px solid #000000;
-  top: 110px;
+  top: 75px;
   right: 1.5rem;
   width: 65px;
   height: 65px;
@@ -337,18 +326,6 @@ label {
 .card-text-secondary {
   font-size: .75rem;
   font-weight: 400;
-  color: var(--text-primary);
-  text-shadow: 0 1px 5px #998ce2;
-}
-
-.card-footer {
-  box-shadow: 0 -10px 5px #000000;
-  background: #00000080;
-}
-
-.card-footer-text {
-  font-size: .69rem;
-  font-weight: 500;
   color: var(--text-primary);
   text-shadow: 0 1px 5px #998ce2;
 }

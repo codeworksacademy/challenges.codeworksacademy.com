@@ -9,7 +9,7 @@ export class ChallengesController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createChallenge)
       .get('', this.getAllChallenges)
-      .get('/:challengeId', this.getChallengeById)
+      .get('/:challengeId', this.setActiveChallenge)
       .put('/:challengeId', this.cancelChallenge)
       .delete('/:challengeId', this.deleteChallenge)
   }
@@ -33,10 +33,10 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  async getChallengeById(req, res, next) {
+  async setActiveChallenge(req, res, next) {
     try {
       const challengeId = req.params.challengeId
-      const challenge = await challengesService.getChallengeById(challengeId)
+      const challenge = await challengesService.setActiveChallenge(challengeId)
       return res.send(challenge)
     } catch (error) {
       next(error)

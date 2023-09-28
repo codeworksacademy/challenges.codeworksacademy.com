@@ -89,12 +89,6 @@ export const EventSchema = new Schema({
     max: 10,
     min: 1
   },
-  challenges: [
-    {
-      type: ObjectId,
-      ref: 'Challenge'
-    }
-  ],
   isCancelled: {
     type: Boolean,
     required: true,

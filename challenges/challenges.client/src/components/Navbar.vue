@@ -1,8 +1,8 @@
 <template>
 
   <Login />
-  <nav class="" style="position: relative; margin-top: 9em; background-color: #22222299; border-top: 2px solid #38BB64;  border-bottom: 2px solid #38BB64; margin-bottom: 6em;">
-    <div class="container-fluid">
+  <div class="container-fluid h-100" style="position: relative; margin-top: 9em; background-color: #22222299; border-top: 2px solid #38BB64;  border-bottom: 2px solid #38BB64;">
+    <nav class="">
       <div class="row">
         <div class="col-12 d-flex justify-content-around pt-3 mx-auto">
           <router-link :to="{ name: 'Events' }">
@@ -31,8 +31,8 @@
           </router-link>
         </div>
       </div>
-    </div>
-  </nav>
+    </nav>
+  </div>
 
   <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3" style="margin-top: 9em;">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
@@ -65,6 +65,17 @@ export default {
 
 <style scoped lang="scss">
 @import '../assets/scss/variables.scss';
+
+nav {
+  position: relative;
+  margin-bottom: 0;
+  background-color: var(--bs-dark);
+  border-bottom: 2px solid var(--bs-success);
+  border-top: 2px solid var(--bs-success);
+  height: 64px;
+  z-index: 1000;
+  
+}
 
 a {
   color: var(--primary-blue);

@@ -16,7 +16,7 @@ class ChallengesService {
     return challenges
   }
 
-  async getChallengeById(challengeId) {
+  async setActiveChallenge(challengeId) {
     const challenge = await dbContext.Challenges.findById(challengeId)
     .populate('creator', 'name picture')
     if (!challenge) {
@@ -26,7 +26,7 @@ class ChallengesService {
   }
 
   async cancelChallenge(challengeId, userId) {
-    const challenge = await this.getChallengeById(challengeId)
+    const challenge = await this.setActiveChallenge(challengeId)
     if (challenge.creatorId != userId) {
       throw new Forbidden(
         `[PERMISSIONS ERROR]: You are not the creator of ${challenge.name}, therefore you cannot cancel it.`
@@ -38,7 +38,7 @@ class ChallengesService {
   }
 
   async deleteChallenge(challengeId, userId) {
-    const challenge = await this.getChallengeById(challengeId)
+    const challenge = await this.setActiveChallenge(challengeId)
     if  (challenge.creatorId != userId)
       throw new Forbidden(
         `[PERMISSIONS ERROR]: You are not the creator of ${challenge.name}, therefore you cannot delete it.`

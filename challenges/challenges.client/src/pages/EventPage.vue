@@ -5,11 +5,11 @@
           <EventForm />
         </div>
       </div>
-      <div class="row position-relative">
+      <div class="row">
         <div 
             v-for="(e, index) in events"
             :key="index"
-            class="col-lg-5 offset-1 mobile-container d-flex justify-content-center align-items-center"
+            class="col-lg-5 card-offset mobile-container d-flex justify-content-center align-items-center"
           >
           <EventCard :event="e" class="mobile-card" />
         </div>
@@ -54,4 +54,23 @@ export default {
 
 <style scoped lang="scss">
 
+.card-offset {
+  position: relative;
+  margin: 0 auto;
+  top: 10em;
+}
+
+@media screen and (max-width: 768px) {
+  .row {
+  }
+  
+  .mobile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    right: 5rem;
+
+  }
+}
 </style>

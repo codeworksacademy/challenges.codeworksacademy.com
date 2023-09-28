@@ -1,7 +1,7 @@
 <template>
     <section v-if="event" :key="event?.id" class="container-fluid">
-        <div class="container">
-          <div class="box" :style="{ '--box-background-image': `url(${event.coverImg})` }">
+        <div class="row container">
+          <div class="box col-6" :style="{ '--box-background-image': `url(${event.coverImg})` }">
             <span></span>
             <div class="content">
               <h2> {{ event.name }} </h2>
@@ -91,6 +91,11 @@ export default {
   align-items: center;
   margin: 40px 30px;
   transition: all 0.5s ease-in-out;
+
+    &:hover {
+      position: relative;
+      margin-right: -75px;
+    }
 }
 
 .container .box::before {

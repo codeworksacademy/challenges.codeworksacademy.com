@@ -8,7 +8,7 @@
         <div 
           v-for="(c, index) in challenges"
           :key="index"
-          class="col-xl-3 col-md-4 col-sm-6 col-12 d-flex justify-content-center align-items-center p-3 position-relative mb-3"
+          class="col-12 px-3 mb-1 position-relative"
         >
           <ChallengeCard :challenge="c" />
         </div>
