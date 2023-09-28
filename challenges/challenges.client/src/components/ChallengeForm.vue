@@ -1,125 +1,129 @@
 <template>
-  <section v-if="user.isAuthenticated" :style="isEvent ? 'margin-top: 8.6em;' : ''" class="container-fluid pt-5 position-relative top-5">
-    <div class="form-box">
-      <h3>Submit Challenge</h3>
+  <section v-if="user.isAuthenticated" class="container-fluid px-5">
+    
+      <button type="button" class="btn-close p-1 ms-1 mt-1" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-header" style="border: none;">
+        <h3 class="col-12 text-center" id="">Challenge Submission Form</h3>
+      </div>
       <form id="challengeForm" @submit.prevent="createChallenge()">
-        <div class="input-box">
-          <input
-            id="name"
-            name="name"
-            type="text"
-            required
-            v-model="editable.name"
-          >
-          <label for="name">Challenge Name</label>
-        </div>
-        <div class="input-box">
-          <input
-            id="description"
-            name="description"
-            type="text"
-            required
-            v-model="editable.description"
-          >
-          <label for="description">Description</label>
-        </div>
-        <div v-for="(link, i) in editable.supportLinks" :key="i">
+        <div class="form-box px-5">
           <div class="input-box">
             <input
-              :id="'supportLinkName' + i"
-              :name="'supportLinkName' + i"
+              id="name"
+              name="name"
               type="text"
               required
-              v-model="link.name"
+              v-model="editable.name"
             >
-            <label :for="'supportLinkName' + i">Challenge Link Name</label>
+            <label for="name">Challenge Name</label>
           </div>
           <div class="input-box">
             <input
-              :id="'supportLinkURL' + i"
-              :name="'supportLinkURL' + i"
-              type="url"
+              id="description"
+              name="description"
+              type="text"
               required
-              v-model="link.url"
+              v-model="editable.description"
             >
-            <label :for="'supportLinkURL' + i">Challenge Link URL</label>
+            <label for="description">Description</label>
           </div>
-        </div>
-        <div v-if="imageUploadOption === 'url'">
-          <div class="input-box">
-            <input
-              id="coverImg"
-              name="coverImg"
-              type="url"
-              minlength="5"
-              maxlength="500"
-              required
-              v-model="editable.coverImg"
-              placeholder="Enter Image URL"
-            />
+          <div v-for="(link, i) in editable.supportLinks" :key="i">
+            <div class="input-box">
+              <input
+                :id="'supportLinkName' + i"
+                :name="'supportLinkName' + i"
+                type="text"
+                required
+                v-model="link.name"
+              >
+              <label :for="'supportLinkName' + i">Challenge Link Name</label>
+            </div>
+            <div class="input-box">
+              <input
+                :id="'supportLinkURL' + i"
+                :name="'supportLinkURL' + i"
+                type="url"
+                required
+                v-model="link.url"
+              >
+              <label :for="'supportLinkURL' + i">Challenge Link URL</label>
+            </div>
           </div>
-          <div class="form-check form-switch">
-            <input
-              @change="handleUrlChange"
-              id="radioDefault"
-              type="checkbox"
-              class="form-check-input"
-            >
-            <label class="form-check-label text-grey darken-10" for="radioDefault">Upload Image File</label>
+          <div v-if="imageUploadOption === 'url'">
+            <div class="input-box">
+              <input
+                id="coverImg"
+                name="coverImg"
+                type="url"
+                minlength="5"
+                maxlength="500"
+                required
+                v-model="editable.coverImg"
+                placeholder="Enter Image URL"
+              />
+            </div>
+            <div class="form-check form-switch">
+              <input
+                @change="handleUrlChange"
+                id="radioDefault"
+                type="checkbox"
+                class="form-check-input"
+              >
+              <label class="form-check-label text-grey darken-10" for="radioDefault">Upload Image File</label>
+            </div>
           </div>
-        </div>
-        <div v-if="imageUploadOption === 'file'">
-          <div class="input-box">
-            <label for="coverImg" class="custom-file-input">Select File</label>
-            <input
-              id="coverImg"
-              name="coverImg"
-              type="file"
-              accept="image/*"
-              class="form-control"
-              style=""
-              required
-              @change="handleFileUpload"
-            />
+          <div v-if="imageUploadOption === 'file'">
+            <div class="input-box">
+              <label for="coverImg" class="custom-file-input">Select File</label>
+              <input
+                id="coverImg"
+                name="coverImg"
+                type="file"
+                accept="image/*"
+                class="form-control"
+                style=""
+                required
+                @change="handleFileUpload"
+              />
+            </div>
+            <div class="form-check form-switch">
+              <input
+                @change="handleUrlChange"
+                id="radioChecked"
+                type="checkbox"
+                class="form-check-input"
+                checked
+              >
+              <label class="form-check-label text-grey darken-10" for="radioChecked">Upload Image URL</label>
+            </div>
           </div>
-          <div class="form-check form-switch">
-            <input
-              @change="handleUrlChange"
-              id="radioChecked"
-              type="checkbox"
-              class="form-check-input"
-              checked
-            >
-            <label class="form-check-label text-grey darken-10" for="radioChecked">Upload Image URL</label>
+          <div class="input-box d-flex justify-content-center align-items-center pt-5">
+            <div class="col-8">
+              <select
+                id="pointValue"
+                name="pointValue"
+                class="d-flex justify-content-center align-items-center ps-2"
+                required
+                v-model="editable.pointValue"
+              >
+                <option value="" class="text-center" selected disabled>--- Point Value ---</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <div class="input-box d-flex justify-content-center align-items-center pt-5">
-          <div class="col-8">
-            <select
-              id="pointValue"
-              name="pointValue"
-              class="d-flex justify-content-center align-items-center ps-2"
-              required
-              v-model="editable.pointValue"
-            >
-              <option value="" class="text-center" selected disabled>--- Point Value ---</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
+          <div class="d-flex justify-content-end">
+            <button class="bg-transparent btn btn-primary" style="z-index: 9999;" type="submit">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              Submit
+            </button>
           </div>
-        </div>
-        <div class="col-12 d-flex justify-content-end">
-          <button class="bg-transparent" style="" type="submit">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            Submit
-          </button>
         </div>
       </form>
-    </div>
   </section>
 </template>
 
@@ -129,7 +133,8 @@ import { AppState } from '../AppState'
 import { logger } from "../utils/Logger.js"
 import Pop from "../utils/Pop.js"
 import { challengesService } from "../services/ChallengesService.js"
-import { hasRoles } from "@bcwdev/auth0provider-client"
+import { Modal } from 'bootstrap'
+// import { hasRoles } from "@bcwdev/auth0provider-client"
 
 export default {
   setup() {
@@ -142,33 +147,13 @@ export default {
         }
       ],
       pointValue: 'Point Value',
-      event: {
-        eventDate: Date,
-        eventTime: '',
-        eventLocation: '',
-        type: 'local'
-      }
     })
-
-    const userAccess = AppState.account
-    const authRoles = ref(
-      hasRoles(userAccess.roles, ['admin', 'moderator', 'user'])
-    )
-      
-    const isEvent = ref(false)
-    function toggleChallengeType() {
-      isEvent.value = !isEvent.value
-      if (!isEvent.value) {
-        editable.value.event = {
-          eventDate: Date,
-          eventTime: '',
-          eventLocation: '',
-          type: 'local'
-        }
-      }
-    }
-    
     const imageUploadOption = ref('url')
+    // const userAccess = AppState.account
+    // const authRoles = ref(
+    //   hasRoles(userAccess.roles, ['admin', 'moderator', 'user'])
+    // )
+    
     function handleUrlChange() {
       if (imageUploadOption.value === 'url') {
         imageUploadOption.value = 'file'
@@ -189,28 +174,27 @@ export default {
     }
 
     return {
-      authRoles,
+      // authRoles,
       editable,
-      isEvent,
       imageUploadOption,
 
-      toggleChallengeType,
       handleFileUpload,
       handleUrlChange,
 
       user: computed(() => AppState.user),
       challenges: computed(() => AppState.challenges),
       events: computed(() => AppState.events),
-      isAdmin: computed(() => 
-        AppState.account.email === 'beepboopbeep@gmail.com' ||
-        authRoles.value === true
-      ),
+      // isAdmin: computed(() => 
+      //   AppState.account.email === 'beepboopbeep@gmail.com' ||
+      //   authRoles.value === true
+      // ),
 
       async createChallenge() {
         try {
           logger.log('Creating Challenge:', editable.value)
           const challenge = editable.value
           await challengesService.createChallenge(challenge)
+          Modal.getOrCreateInstance('#challengeForm').hide()
           editable.value = {};
         } catch (error) {
           logger.error(error);
@@ -227,15 +211,41 @@ export default {
 @import '../src/assets/scss/variables.scss';
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
-.form-box {
+.container-fluid {
   position: relative;
-  top: 10%;
-  left: 50%;
-  width: 400px;
-  padding: 40px;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+.modal-body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
   color: var(--text-primary);
   text-shadow: 0 .5px 1px #38BB64;
-  transform: translate(-50%, -50%);
+  background: #00000080;
+  box-sizing: border-box;
+  box-shadow: 0 5px 15px #BB388F55;
+  border-radius: 10px;
+}
+
+.form-box {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  color: var(--text-primary);
+  text-shadow: 0 .5px 1px #38BB64;
   background: #00000080;
   box-sizing: border-box;
   box-shadow: 0 5px 15px #BB388F55;
@@ -252,6 +262,7 @@ export default {
 
 .form-box .input-box {
   position: relative;
+  width: 100%;
 }
 
 input:not(:placeholder-shown):valid, textarea:not(:placeholder-shown):valid, select:not(:placeholder-shown):valid {

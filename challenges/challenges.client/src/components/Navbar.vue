@@ -1,8 +1,8 @@
 <template>
 
   <Login />
-  <div class="container-fluid h-100" style="position: relative; margin-top: 9em; background-color: #22222299; border-top: 2px solid #38BB64;  border-bottom: 2px solid #38BB64;">
-    <nav class="">
+  <div class="container-fluid">
+    <nav class="" style="position: relative; margin-top: 6em; margin-bottom: 6em; background-color: #22222299; border-top: 2px solid #38BB64;  border-bottom: 2px solid #38BB64;">
       <div class="row">
         <div class="col-12 d-flex justify-content-around pt-3 mx-auto">
           <router-link :to="{ name: 'Events' }">
@@ -74,7 +74,6 @@ nav {
   border-top: 2px solid var(--bs-success);
   height: 64px;
   z-index: 1000;
-  
 }
 
 a {

@@ -5,9 +5,9 @@
   <main>
     <router-view />
 
-    <SmModal id="challengeDetails">
-      <ChallengeDetailsCard />
-    </SmModal>
+    <FullScreenModal id="challengeForm">
+      <ChallengeForm />
+    </FullScreenModal>
 
     <canvas
     id="canvas"
@@ -23,8 +23,8 @@ import { computed, onMounted } from 'vue'
 import { AppState } from './AppState'
 import Navbar from './components/Navbar.vue'
 import * as THREE from 'three'
-import ChallengeDetailsCard from './components/ChallengeDetailsCard.vue'
-import SmModal from './components/SmModal.vue'
+import ChallengeForm from './components/ChallengeForm.vue'
+import FullScreenModal from './components/FullScreenModal.vue'
 
 export default {
 
@@ -210,8 +210,8 @@ export default {
   },
   components: {
     Navbar,
-    SmModal,
-    ChallengeDetailsCard
+    FullScreenModal,
+    ChallengeForm
   }
 }
 </script>
@@ -248,7 +248,7 @@ canvas {
 //}
 
 :root{
-  --main-height: calc(100vh - 32px - 64px);
+  --main-height: calc(100vh - 320px - 640px);
 }
 
 </style>

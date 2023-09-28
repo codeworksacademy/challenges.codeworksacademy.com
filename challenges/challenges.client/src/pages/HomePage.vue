@@ -61,6 +61,11 @@ export default {
 <style scoped lang="scss">
 @import '../assets/scss/variables.scss';
 
+.container-fluid {
+  position: relative;
+  top: 7rem;
+}
+
 .span-1 {
   color: var(--primary-green);
   font-weight: 500;

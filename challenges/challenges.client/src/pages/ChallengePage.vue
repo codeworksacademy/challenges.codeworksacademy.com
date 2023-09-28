@@ -1,8 +1,21 @@
 <template>
-  <section class="container-fluid">
+  <section class="container-fluid position-relative top-10">
     <div class="row">
-      <div class="d-flex justify-content-center align-items-center position-relative mb-5" style="top: 15em;">
-        <ChallengeForm />
+      <div class="col-12 d-flex justify-content-end position-absolute top-half right-half p-1">
+        <a
+          ref="challenge"
+          id="challengeFormButton"
+          type="button"
+          role="button"
+          data-bs-target="#challengeForm"
+          data-bs-toggle="modal"
+          aria-label="Go to Active Challenge Modal"
+          class="btn btn-outline-primary"
+          title="See who's Competing">Who's In?
+        </a>
+      </div>
+      <div class="col-12 mb-5" style="color: var(--text-primary);">
+        <h1 class="text-center">Active Challenges</h1>
       </div>
       <div class="row">
         <div 
@@ -24,13 +37,11 @@ import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
 import ChallengeCard from '../components/ChallengeCard.vue'
 import { challengesService } from "../services/ChallengesService.js"
-import ChallengeForm from '../components/ChallengeForm.vue'
 
 export default {
 
   components: {
     ChallengeCard,
-    ChallengeForm
   },
 
   setup() {

@@ -4,9 +4,6 @@
     <div class="card card-custom border-secondary" style="">
       <div class="card-custom-img" :style="`background-image: url(${challenge.coverImg}); opacity: .6;`">
         <div class="card-body">
-        <div class="col-6 position-absolute top-half left-half p-1">
-          <a ref="challenge" id="challengeDetailsButton" type="button" role="button"  @click="setActiveChallenge(challenge?.id)" data-bs-target="#challengeDetails" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal" class="btn btn-outline-primary" title="See who's Competing">Who's In?</a>
-        </div>
         <div class="position-relative" style="z-index: 1;">
           <p v-if="challenge.pointValue === 1" class="one-pt-badge"> {{ challenge.pointValue }} PT. </p>
           <p v-else-if="challenge.pointValue === 5" class="five-pt-badge"> {{ challenge.pointValue }} PTS. </p>
@@ -103,7 +100,6 @@ export default {
         try {
           logger.log(`Getting Challenge Participants by active Challenge: ${challengeId}`)
           challengesService.getChallengeParticipants(challengeId)
-          Modal.getOrCreateInstance('#challengeDetails').show()
         } catch (error) {
           Pop.error(error)
           logger.error(error)
@@ -362,13 +358,6 @@ a.btn-dark {
   background: transparent;
   border-radius: 5px;
   height: 5px;
-}
-
-.modal-body {
-  background-color: slategray;
-  overflow-x: hidden;
-  width: 100%;
-  --bs-gutter-x: 0;
 }
 
 

@@ -1,7 +1,7 @@
 <template>
 
   <div class="modal fade" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-scrollable modal-fullscreen">
 
       <slot></slot>
       <!-- <div class="modal-content">
