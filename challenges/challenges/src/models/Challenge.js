@@ -31,11 +31,11 @@ export const ChallengeSchema = new Schema({
       url: String,
     }
   ],
-  createdAt: {
-    type: Date,
-  },
-  updatedAt: {
-    type: Date,
+  difficulty: {
+    type: Number,
+    required: true,
+    max: 3,
+    min: 1
   },
   pointValue: {
     type: Number,
@@ -50,6 +50,12 @@ export const ChallengeSchema = new Schema({
     type: Boolean,
     required: true,
     default: false
+  },
+  createdAt: {
+    type: Date,
+  },
+  updatedAt: {
+    type: Date,
   }
 },
   { timestamps: true,

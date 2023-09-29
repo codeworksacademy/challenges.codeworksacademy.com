@@ -1,19 +1,5 @@
-function formatDateAndTime(date) {
-  const formattedDate = new Date(date).toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  })
-  const formattedTime = new Date(date).toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: 'numeric'
-  })
-  return {
-    formattedDate,
-    formattedTime
-  }
-}
+import { DateTime } from '../utils/DateTime.js';
+import { StrDifficultyNum } from '../utils/StrDifficultyNum.js';
 
 export class Challenge {
   constructor(data) {
@@ -23,9 +9,10 @@ export class Challenge {
     this.name = data.name
     this.description = data.description
     this.coverImg = data.coverImg
-    this.createdAt = formatDateAndTime(data.createdAt)
-    this.updatedAt = formatDateAndTime(data.updatedAt)
+    this.createdAt = DateTime(data.createdAt)
+    this.updatedAt = DateTime(data.updatedAt)
     this.supportLinks = data.supportLinks
+    this.difficulty = StrDifficultyNum(data.difficulty)
     this.pointValue = data.pointValue
     this.answers = data.answers
     this.isCancelled = data.isCancelled

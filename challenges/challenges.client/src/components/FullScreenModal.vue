@@ -36,6 +36,8 @@ export default {
 
 <style scoped lang="scss">
 @import '../assets/scss/_variables.scss';
-
+.modal {
+  background: var(--bg-primary);
+}
 
 </style>

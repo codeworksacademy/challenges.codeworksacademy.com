@@ -113,11 +113,11 @@
               </select>
             </div>
           </div>
-            <div class="d-flex justify-content-end align-items-center position-relative">
-              <div class="col-1">
+            <div class="d-flex justify-content-end align-items-center mt-5">
+              <div class="col-1 me-1">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               </div>
-              <div class="col-1">
+              <div class="col-1 ms-1">
                 <button class="bg-transparent position-relative text-light" type="submit" style="border: none;">
                   <span class="position-absolute" style="margin: -.5rem;"></span>
                   <span class="position-absolute" style="margin: -.5rem;"></span>
@@ -536,7 +536,7 @@ option {
   }
 }
 
-.modal-content .modal-body .form-box button span:nth-child(4) {
+.form-box button span:nth-child(4) {
   position: absolute;
   bottom: -100%;
   left: 0;
