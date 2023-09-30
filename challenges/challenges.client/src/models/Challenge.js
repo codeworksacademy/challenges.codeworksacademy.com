@@ -1,5 +1,5 @@
 import { StrDifficultyNum } from '../utils/StrDifficultyNum.js';
-import FormatDateAndTime from '../utils/DateTime.js';
+import { DateTime } from '../utils/DateTime.js';
 
 export class Challenge {
   constructor(data) {
@@ -9,8 +9,8 @@ export class Challenge {
     this.name = data.name
     this.description = data.description
     this.coverImg = data.coverImg
-    this.createdAt = FormatDateAndTime(data.createdAt)
-    this.updatedAt = FormatDateAndTime(data.updatedAt)
+    this.createdAt = DateTime(data.createdAt)
+    this.updatedAt = DateTime(data.updatedAt)
     this.supportLinks = data.supportLinks
     this.difficulty = StrDifficultyNum(data.difficulty)
     this.pointValue = data.pointValue

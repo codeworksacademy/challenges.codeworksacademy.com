@@ -1,24 +1,10 @@
-export const FormatDateAndTime = {
-  name: 'FormatDateAndTime',
-  props: {
-    date: {
-      type: String,
-      required: true,
-    },
-  },
-  computed: {
-    formattedDate() {
-      return new Date(this.date).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      });
-    },
-    formattedTime() {
-      return new Date(this.date).toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: 'numeric',
-      });
-    },
-  }
-}
+export const DateTime = (dateString) => {
+  return new Date(dateString).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  }) + ' ' + new Date(dateString).toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+  });
+};
