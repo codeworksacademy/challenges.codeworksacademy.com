@@ -10,6 +10,7 @@ export class ChallengesController extends BaseController {
       .post('', this.createChallenge)
       .get('', this.getAllChallenges)
       .get('/:challengeId', this.setActiveChallenge)
+      .put('/:challengeId', this.editChallenge)
       .put('/:challengeId', this.cancelChallenge)
       .delete('/:challengeId', this.deleteChallenge)
   }
@@ -37,6 +38,18 @@ export class ChallengesController extends BaseController {
     try {
       const challengeId = req.params.challengeId
       const challenge = await challengesService.setActiveChallenge(challengeId)
+      return res.send(challenge)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async editChallenge(req, res, next) {
+    try {
+      const newChallenge = req.body
+      const userId = req.userInfo.id
+      const challengeId = req.params.challengeId
+      const challenge = await challengesService.editChallenge(newChallenge, userId, challengeId)
       return res.send(challenge)
     } catch (error) {
       next(error)

@@ -8,6 +8,7 @@ export class Challenge {
     this.creator = data.creator
     this.name = data.name
     this.description = data.description
+    this.steps = data.steps
     this.coverImg = data.coverImg
     this.createdAt = DateTime(data.createdAt)
     this.updatedAt = DateTime(data.updatedAt)

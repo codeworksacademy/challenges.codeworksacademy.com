@@ -1,5 +1,5 @@
 <template>
-  <section class="container-fluid">
+  <section class="container-fluid my-3">
     <div class="d-flex justify-content-center align-items-center">
       <div v-if="challenge" :key="challenge?.id" class="row">
         <div class="col-12">
@@ -12,6 +12,9 @@
             </div>
             <div class="card-body">
               <p>Description: {{ challenge.description }}</p>
+
+              <ChallengeStepsForm :steps="challenge.steps" />
+
               <p>Created On: {{ Date(challenge.createdAt) }}</p>
               <p>Last Updated: {{ Date(challenge.updatedAt) }}</p>
             </div>
@@ -26,18 +29,19 @@
           </div>
         </div>
       </div>
-          </div>
+    </div>
   </section>
 </template>
   
 <script>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref, watchEffect } from 'vue'
+import { useRoute } from 'vue-router'
 import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
 import { challengesService } from "../services/ChallengesService.js"
 import { Challenge } from '../models/Challenge.js'
-import { useRoute } from 'vue-router'
+import ChallengeStepsForm from '../components/ChallengeStepsForm.vue'
 
 export default {
   // props: {
@@ -47,7 +51,7 @@ export default {
   //   }
   // },
   components: {
-
+    ChallengeStepsForm
   },
   setup() {
 
@@ -68,7 +72,9 @@ export default {
     })
 
     return {
+
       challenge: computed(() => AppState.activeChallenge),
+
     } 
   }
 }

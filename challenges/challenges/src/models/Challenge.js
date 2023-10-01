@@ -20,6 +20,9 @@ export const ChallengeSchema = new Schema({
     maxLength: 1500,
     minLength: 10
   },
+  steps: [
+    { type: String }
+  ],
   coverImg: {
     type: String,
     required: true,

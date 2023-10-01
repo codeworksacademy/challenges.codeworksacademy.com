@@ -25,6 +25,28 @@ class ChallengesService {
     return challenge
   }
 
+  async editChallenge(newChallenge, userId, challengeId) {
+    const challenge = await this.setActiveChallenge(challengeId)
+    if (challenge.creatorId != userId) {
+      throw new Forbidden(
+        `[PERMISSIONS ERROR]: Only the creator of ${challenge.name} can edit it.`
+      )
+    }
+    
+    challenge.name = newChallenge.name || challenge.name
+    challenge.description = newChallenge.description || challenge.description
+    challenge.steps = newChallenge.steps || challenge.steps
+    challenge.coverImg = newChallenge.coverImg || challenge.coverImg
+    challenge.supportLinks = newChallenge.supportLinks || challenge.supportLinks
+    challenge.difficulty = newChallenge.difficulty || challenge.difficulty
+    challenge.pointValue = newChallenge.pointValue || challenge.pointValue
+    challenge.answers = newChallenge.answers || challenge.answers
+    challenge.isCancelled = newChallenge.isCancelled || challenge.isCancelled
+
+    await challenge.save()
+    return challenge
+  }
+
   async cancelChallenge(challengeId, userId) {
     const challenge = await this.setActiveChallenge(challengeId)
     if (challenge.creatorId != userId) {

@@ -43,9 +43,11 @@ class ChallengesService {
     Pop.toast('You have successfully deleted this challenge!', 'success')
   }
 
-  async completeChallenge(challengeId, userId){
-    //Add user to list of users that have completed the challenge
-    //Go into stats service to award awards, points, calculate leaderboard position
+  async editChallenge(newChallenge, challengeId) {
+    const res = await api.put(`/api/challenges/${challengeId}`, newChallenge)
+    logger.log('Editing Challenge ⏩', res.data)
+    AppState.activeChallenge = res.data
+    return res.data
   }
 }
 
