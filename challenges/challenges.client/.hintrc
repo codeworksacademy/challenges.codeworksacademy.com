@@ -10,6 +10,9 @@
           "user-select",
           "grid-template-columns"
         ]
+      },
+      {
+        "detect-css-reflows/layout": "error"
       }
     ]
   }

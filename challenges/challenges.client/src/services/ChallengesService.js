@@ -20,7 +20,7 @@ class ChallengesService {
     AppState.challenges = res.data.map(c => new Challenge(c))
     logger.log('Challenges:', AppState.challenges)
   }
-
+    
   async setActiveChallenge(challengeId) {
     const res = await api.get(`/api/challenges/${challengeId}`)
     AppState.activeChallenge = res.data
@@ -43,9 +43,22 @@ class ChallengesService {
     Pop.toast('You have successfully deleted this challenge!', 'success')
   }
 
-  async editChallenge(newChallenge, challengeId) {
+  async updateChallenge(newChallenge, challengeId) {
     const res = await api.put(`/api/challenges/${challengeId}`, newChallenge)
-    logger.log('Editing Challenge ⏩', res.data)
+    logger.log('Updating Challenge ⏩', res.data)
+    AppState.activeChallenge = res.data
+    return res.data
+  }
+
+  // async addStep(newStep) {
+  //   const res = await api.post(`api/challenges${}`, newStep)
+  //   AppState.activeChallenge.steps.push(res.data)
+  //   logger.log('Step Added:', res.data)
+  // }
+
+  async updateSteps(newSteps, challengeId) {
+    const res = await api.put(`/api/challenges/${challengeId}`, { newSteps })
+    logger.log('Editing Steps ⏩', res.data)
     AppState.activeChallenge = res.data
     return res.data
   }

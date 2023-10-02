@@ -13,7 +13,7 @@
             <div class="card-body">
               <p>Description: {{ challenge.description }}</p>
 
-              <ChallengeStepsForm :steps="challenge.steps" />
+              <EditChallengeForm :steps="challenge.steps" />
 
               <p>Created On: {{ Date(challenge.createdAt) }}</p>
               <p>Last Updated: {{ Date(challenge.updatedAt) }}</p>
@@ -41,7 +41,7 @@ import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
 import { challengesService } from "../services/ChallengesService.js"
 import { Challenge } from '../models/Challenge.js'
-import ChallengeStepsForm from '../components/ChallengeStepsForm.vue'
+import EditChallengeForm from '../components/EditChallengeForm.vue'
 
 export default {
   // props: {
@@ -51,7 +51,7 @@ export default {
   //   }
   // },
   components: {
-    ChallengeStepsForm
+    EditChallengeForm
   },
   setup() {
 

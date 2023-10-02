@@ -17,7 +17,7 @@ export class Challenge {
     this.pointValue = data.pointValue
     this.answers = data.answers
     this.isCancelled = data.isCancelled
-    this.events = data.events
+    // this.events = data.events
     this.participantCount = data.participantCount
   }
 }

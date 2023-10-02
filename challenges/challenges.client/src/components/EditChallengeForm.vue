@@ -26,49 +26,72 @@
 
 <script>
 import { ref, computed } from 'vue';
+import { AppState } from '../AppState.js';
+import { challengesService } from '../services/ChallengesService.js';
+import { logger } from "../utils/Logger.js";
+import Pop from "../utils/Pop.js";
+import { useRoute } from 'vue-router';
+
 
 export default {
 
-  props: {
-    steps: Array, 
-  },
+  setup() {
+    const route = useRoute();
 
-  setup(props) {
     const newStep = ref('');
     const editableIndex = ref(false);
 
     const editableSteps = computed(() => {
-      return [...props.steps];
+      return [...AppState.activeChallenge.steps];
     });
 
-    async function editStep(index) {
-      newStep.value = editableSteps.value[index];
-      editableIndex.value = index;
+
+    async function updateChallenge() {
+      try {
+        const challengeId = AppState.activeChallenge.id;
+        const newChallenge = {
+          // Include any other fields you want to update
+          steps: editableSteps.value,
+        };
+
+        await challengesService.updateChallenge(newChallenge, challengeId);
+      } catch (error) {
+        logger.error(error);
+        Pop.toast(error.message, 'error');
+      }
     }
 
     async function saveStep() {
       if (editableIndex.value === false) {
-        editableSteps.value.push(newStep.value);
+        AppState.activeChallenge.steps.push(newStep.value);
       } else {
-        editableSteps.value[editableIndex.value] = newStep.value;
+        AppState.activeChallenge.steps[editableIndex.value] = newStep.value;
         editableIndex.value = false;
       }
       newStep.value = '';
+      updateChallenge(); // Call the updateChallenge function to save changes
     }
 
     async function removeStep(index) {
-      editableSteps.value.splice(index, 1);
+      AppState.activeChallenge.steps.splice(index, 1);
+      updateChallenge(); // Call the updateChallenge function to save changes
     }
+
 
     return {
       newStep,
       editableSteps,
-      editStep,
+      editableIndex,
+      editStep(index) {
+        editableIndex.value = index;
+        newStep.value = AppState.activeChallenge.steps[index];
+      },
       saveStep,
       removeStep,
-    };
+      updateChallenge
+    }
   },
-};
+}
 </script>
 
 <style scoped lang="scss">

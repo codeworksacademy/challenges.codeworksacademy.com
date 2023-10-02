@@ -1,10 +1,6 @@
 <template>
-  <section v-if="user.isAuthenticated" class="container-fluid px-5">
-    <div class="modal-content">
-      <button type="button" class="btn-close p-1 ms-1 mt-1" data-bs-dismiss="modal" aria-label="Close"></button>
-      <div class="modal-header" style="border: none;">
-        <h3 class="col-12 text-center" id="">Challenge Submission Form</h3>
-      </div>
+    <section v-if="user.isAuthenticated" class="container-fluid">
+      <h3 class="col-12 text-center" id="">Challenge Submission Form</h3>
       <form id="challengeForm" @submit.prevent="createChallenge()">
         <div class="form-box px-5">
           <div class="input-box">
@@ -17,6 +13,22 @@
             >
             <label for="name">Challenge Name</label>
           </div>
+          <div class="input-box d-flex justify-content-center align-items-center py-5">
+            <div class="col-8">
+              <select
+                id="difficulty"
+                name="difficulty"
+                class="d-flex justify-content-center align-items-center ps-2"
+                required
+                v-model="editable.difficulty"
+              >
+                <option value="" class="text-center" selected disabled>--- Select Difficulty ---</option>
+                <option value="1">Easy</option>
+                <option value="2">Medium</option>
+                <option value="3">Hard</option>
+              </select>
+            </div>
+          </div>
           <div class="input-box">
             <input
               id="description"
@@ -27,6 +39,21 @@
             >
             <label for="description">Description</label>
           </div>
+          <div class="input-box">
+              <div v-for="(step, i) in editable.steps" :key="i">
+              <input
+                :id="'step' + i"
+                :name="'step' + i"
+                :placeholder="'Step ' + (i + 1)"
+                type="text"
+                minlength="5"
+                maxlength="500"
+                v-model="editable.steps[i]"
+              >
+              <label :for="'step' + i">Challenge Step</label>
+            </div>
+          </div>
+          <button class="mt-4 mb-5" @click="addStep">Add Step +</button>
           <div v-for="(link, i) in editable.supportLinks" :key="i">
             <div class="input-box">
               <input
@@ -106,7 +133,7 @@
                 required
                 v-model="editable.pointValue"
               >
-                <option value="" class="text-center" selected disabled>--- Point Value ---</option>
+                <option value="" class="text-center" selected disabled>--- Select Point Value ---</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -114,23 +141,20 @@
             </div>
           </div>
             <div class="d-flex justify-content-end align-items-center mt-5">
-              <div class="col-1 me-1">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              </div>
-              <div class="col-1 ms-1">
-                <button class="bg-transparent position-relative text-light" type="submit" style="border: none;">
-                  <span class="position-absolute" style="margin: -.5rem;"></span>
-                  <span class="position-absolute" style="margin: -.5rem;"></span>
-                  <span class="position-absolute" style="margin: -.5rem;"></span>
-                  <span class="position-absolute" style="margin: -.5rem;"></span>
+
+              <div class="col-12 d-flex justify-content-end">
+                <button class="btn" role="button" style="border: none;">
+                  <span style=""></span>
+                  <span style=""></span>
+                  <span style=""></span>
+                  <span style=""></span>
                   Submit
                 </button>
               </div>
           </div>
         </div>
       </form>
-    </div>
-  </section>
+    </section>
 </template>
 
 <script>
@@ -155,7 +179,10 @@ export default {
           url: ''
         }
       ],
-      pointValue: 'Point Value',
+      steps: [
+        ''
+      ],
+      pointValue: '',
     })
     const imageUploadOption = ref('url')
     // const userAccess = AppState.account
@@ -209,6 +236,19 @@ export default {
           logger.error(error);
           Pop.toast(error, 'Failed to create challenge');
         }
+      },
+      async addStep() {
+        try {
+          if (editable.value.steps[editable.value.steps.length - 1] === '') {
+            Pop.toast('Please fill out the last step before adding another', 'Failed to add step');
+            return
+          } else {
+            editable.value.steps.push('')
+          }
+        } catch (error) {
+          logger.error(error);
+          Pop.toast(error, 'Failed to add step');
+        }
       }
     }
   }
@@ -233,7 +273,6 @@ export default {
   text-shadow: 0 .5px 1px #38BB64;
   background: #00000080;
   border-radius: 10px;
-  overflow: hidden;
 }
 
 .modal-content {
@@ -241,11 +280,10 @@ export default {
   height: 100%;
   padding: 0;
   margin: 0;
-  background: transparent;
+  background: #00000099 !important;
   border: none;
   border-radius: 0;
   box-shadow: none;
-  background: transparent;
   color: var(--text-primary);
   text-shadow: 0 .5px 1px #38BB64;
   background: #00000080;
@@ -279,11 +317,14 @@ export default {
   width: 100%;
 }
 
+input:not(:placeholder-shown):invalid, textarea:not(:placeholder-shown):invalid, select:not(:placeholder-shown):invalid {
+  border: 1px solid #BB383833 !important;
+  box-shadow: 0 0 0 1px #BB388FAB !important;;
+}
+
 input:not(:placeholder-shown):valid, textarea:not(:placeholder-shown):valid, select:not(:placeholder-shown):valid {
   border: 1px solid #38BB6433 !important;
   box-shadow: 0 0 0 1px #388FBBab !important;
-  --bs-form-switch-bg: url(
-    "https://clipart-library.com/images_k/black-circle-with-transparent-background/black-circle-with-transparent-background-13.png") !important;
 }
 
 input:checked {
@@ -334,7 +375,7 @@ option {
 .form-box .input-box input,
 .form-box .input-box select {
   width: 100%;
-  padding: 10px 0;
+  padding: 10px 10px;
   font-size: 16px;
   color: var(--text-primary);
   border: none;
@@ -347,7 +388,7 @@ option {
   position: absolute;
   top: 0;
   left: 0;
-  padding: 10px 0;
+  padding: 10px 10px;
   font-size: 16px;
   pointer-events: none;
   transition: .5s;
@@ -355,14 +396,25 @@ option {
 
 .form-box .input-box input:focus~label,
 .form-box .input-box input:valid~label {
-  top: -20px;
+  top: -30px;
   left: 0;
+  margin-top: 5px;
   color: var(--primary-blue);
   text-shadow: 0 .5px 1px #38BB64;
   font-size: 12px;
 }
 
-.form-box form button {
+input:not(:placeholder-shown):valid,
+textarea:not(:placeholder-shown):valid,
+select:not(:placeholder-shown):valid,
+input:not(:placeholder-shown):invalid:focus,textarea:not(:placeholder-shown):invalid:focus,select:not(:placeholder-shown):invalid:focus {
+  border: 1px solid #38BB6433 !important;
+  box-shadow: 0 0 0 1px #388FBBab !important;
+  --bs-form-switch-bg: url(
+    "https://clipart-library.com/images_k/black-circle-with-transparent-background/black-circle-with-transparent-background-13.png") !important;
+}
+
+.form-box button {
   position: relative;
   display: inline-block;
   padding: 10px 20px;
@@ -378,7 +430,7 @@ option {
   border: none;
 }
 
-.form-box form button:hover {
+.form-box button.btn:hover {
   color: var(--text-primary);
   border-radius: 5px;
   box-shadow: 5px 0 5px 1px #38b464 inset,
@@ -403,27 +455,52 @@ option {
   transition: .5s;
 }
 
+.form-box button {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  background: transparent;
+  color: #FFF;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px
+}
+
+.form-box button:hover {
+  color: var(--text-primary);
+  border-radius: 5px;
+  box-shadow: 0 0 3px inset var(--primary-green),
+              0 0 9px inset var(--primary-blue),
+              0 0 12px inset var(--secondary-magenta),
+              0 0 18px inset var(--tertiary-orange);
+}
+
 /* Set the initial background colors for the pseudo-elements */
-.form-box form button span:nth-child(1) {
+.form-box button span:nth-child(1) {
   background: var(--primary-blue);
 }
 
-.form-box form button span:nth-child(2) {
+.form-box button span:nth-child(2) {
   background: #38BB64;
+  z-index: 1000;
 }
 
-.form-box form button span:nth-child(3) {
+.form-box button span:nth-child(3) {
   background: var(--secondary-magenta);
 }
 
-.form-box form button span:nth-child(4) {
+.form-box button span:nth-child(4) {
   background: var(--tertiary-orange);
 }
 
-.form-box form button span {
+.form-box button span {
   position: absolute;
   display: block;
-
+  background: transparent;
 }
 
 .input-box>input[type="file"] {
@@ -479,7 +556,7 @@ option {
   left: -100%;
   width: 100%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--primary-blue));
+  background: linear-gradient(90deg, transparent, var(--primary-blue)) ;
   animation: btn-anim1 5s linear infinite .25s;
 }
 
@@ -501,7 +578,7 @@ option {
   height: 100%;
   background: linear-gradient(180deg, transparent, #38BB64);
   animation: btn-anim2 5s linear infinite;
-  animation-delay: .25s
+  animation-delay: .25s;
 }
 
 @keyframes btn-anim2 {
@@ -556,5 +633,9 @@ option {
   100% {
     bottom: 100%;
   }
+}
+
+::-webkit-scrollbar {
+  visibility: hidden;
 }
 </style>

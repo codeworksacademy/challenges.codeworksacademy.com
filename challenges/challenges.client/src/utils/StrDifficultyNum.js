@@ -1,13 +1,12 @@
-
 export const StrDifficultyNum = ( difficulty ) => {
   switch ( difficulty ) {
     case 1:
-      return 'Easy'
+      return 'easy'
     case 2:
-      return 'Medium'
+      return 'medium'
     case 3:
-      return 'Hard'
+      return 'hard'
     default:
-      return 'Not Specified'
+      return 'not specified'
   }
 }

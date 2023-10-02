@@ -2,11 +2,14 @@
 import SubmitChallengeButton from './SubmitChallengeButton.vue';
 <template>
 
-  <div class="modal fade" tabindex="-1" aria-hidden="true">
+  <div class="modal fade bg-transparent" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-fullscreen">
-
+      <div class="modal-content" style="overflow-y: auto;overflow-x: hidden;">
+        <button type="button" class="btn-close p-1 ms-1 mt-1" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-header" style="border: none;">
       <slot></slot>
-
+        </div>
+      </div>
         <!-- <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -36,8 +39,6 @@ export default {
 
 <style scoped lang="scss">
 @import '../assets/scss/_variables.scss';
-.modal {
-  background: var(--bg-primary);
-}
+
 
 </style>
