@@ -20,12 +20,23 @@
                 name="difficulty"
                 class="d-flex justify-content-center align-items-center ps-2"
                 required
-                v-model="editable.difficulty"
+                v-model="filterBy"
               >
-                <option value="" class="text-center" selected disabled>--- Select Difficulty ---</option>
-                <option value="1">Easy</option>
-                <option value="2">Medium</option>
-                <option value="3">Hard</option>
+                <option
+                  :value="null"
+                  :selected="true"
+                  class="text-center"
+                  disabled
+                >
+                --- Select Difficulty ---
+              </option>
+                <option
+                  v-for="level in difficulty"
+                  :key="level.value"
+                  :value="level.value"
+                >
+                {{ level }}
+              </option>
               </select>
             </div>
           </div>
@@ -39,21 +50,27 @@
             >
             <label for="description">Description</label>
           </div>
-          <div class="input-box">
-              <div v-for="(step, i) in editable.steps" :key="i">
-              <input
-                :id="'step' + i"
-                :name="'step' + i"
-                :placeholder="'Step ' + (i + 1)"
-                type="text"
-                minlength="5"
-                maxlength="500"
-                v-model="editable.steps[i]"
-              >
-              <label :for="'step' + i">Challenge Step</label>
+          <div class="row">
+            <div class="col-12" v-for="(step, i) in editable.steps" :key="i">
+              <div class="input-box">
+                <div>
+                  <input
+                    :id="'step' + i"
+                    :name="'step' + i"
+                    :placeholder="'Step ' + (i + 1)"
+                    type="text"
+                    class="text-truncate"
+                    v-model="editable.steps[i]"
+                  >
+                  <label :for="'step' + i">Challenge Step</label>
+                </div>
+              </div>
             </div>
           </div>
-          <button class="mt-4 mb-5" @click="addStep">Add Step +</button>
+          <div class="row">
+            <button class="d-flex justify-content-between align-item-center mt-4 mb-5" @click="addStep">Add Step +</button>
+          </div>
+          <!-- FIXME -->
           <div v-for="(link, i) in editable.supportLinks" :key="i">
             <div class="input-box">
               <input
@@ -124,6 +141,7 @@
               <label class="form-check-label text-grey darken-10" for="radioChecked">Upload Image URL</label>
             </div>
           </div>
+          <!-- FIXME -->
           <div class="input-box d-flex justify-content-center align-items-center pt-5">
             <div class="col-8">
               <select
@@ -131,12 +149,16 @@
                 name="pointValue"
                 class="d-flex justify-content-center align-items-center ps-2"
                 required
-                v-model="editable.pointValue"
+                v-model="filterBy"
               >
                 <option value="" class="text-center" selected disabled>--- Select Point Value ---</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
+                <option
+                  v-for="level in difficulty"
+                  :key="level.value"
+                  :value="level.value"
+                >
+                {{ level }}
+              </option>
               </select>
             </div>
           </div>
@@ -171,6 +193,10 @@ export default {
   },
   setup() {
 
+    // FIXME
+    const difficulty = ref([Number])
+    // FIXME
+    const filterBy = ref('')
 
     const editable = ref({
       supportLinks: [
@@ -185,10 +211,6 @@ export default {
       pointValue: '',
     })
     const imageUploadOption = ref('url')
-    // const userAccess = AppState.account
-    // const authRoles = ref(
-    //   hasRoles(userAccess.roles, ['admin', 'moderator', 'user'])
-    // )
     
     function handleUrlChange() {
       if (imageUploadOption.value === 'url') {
@@ -210,9 +232,10 @@ export default {
     }
 
     return {
-      // authRoles,
       editable,
       imageUploadOption,
+      // FIXME
+      filterBy,
 
       handleFileUpload,
       handleUrlChange,
@@ -220,10 +243,23 @@ export default {
       user: computed(() => AppState.user),
       challenges: computed(() => AppState.challenges),
       events: computed(() => AppState.events),
-      // isAdmin: computed(() => 
-      //   AppState.account.email === 'beepboopbeep@gmail.com' ||
-      //   authRoles.value === true
-      // ),
+
+      //FIXME
+      filteredDifficulty: computed(() => {
+        if (!filterBy.value) {
+          return AppState.challenges
+        }
+        return AppState.challenges.filter(c => c.difficulty === filterBy.value)
+      }),
+
+      //FIXME
+      filteredPointValue: computed(() => {
+        if (!filterBy.value) {
+          return AppState.challenges
+        }
+        return AppState.challenges.filter(c => c.pointValue === filterBy.value)
+      }),
+
 
       async createChallenge() {
         try {
@@ -317,12 +353,16 @@ export default {
   width: 100%;
 }
 
-input:not(:placeholder-shown):invalid, textarea:not(:placeholder-shown):invalid, select:not(:placeholder-shown):invalid {
+input:not(:placeholder-shown):invalid,
+textarea:not(:placeholder-shown):invalid,
+select:not(:placeholder-shown):invalid {
   border: 1px solid #BB383833 !important;
-  box-shadow: 0 0 0 1px #BB388FAB !important;;
+  box-shadow: 0 0 0 1px #BB388FAB !important;
 }
 
-input:not(:placeholder-shown):valid, textarea:not(:placeholder-shown):valid, select:not(:placeholder-shown):valid {
+input:not(:placeholder-shown):valid,
+textarea:not(:placeholder-shown):valid,
+select:not(:placeholder-shown):valid {
   border: 1px solid #38BB6433 !important;
   box-shadow: 0 0 0 1px #388FBBab !important;
 }
@@ -407,7 +447,9 @@ option {
 input:not(:placeholder-shown):valid,
 textarea:not(:placeholder-shown):valid,
 select:not(:placeholder-shown):valid,
-input:not(:placeholder-shown):invalid:focus,textarea:not(:placeholder-shown):invalid:focus,select:not(:placeholder-shown):invalid:focus {
+input:not(:placeholder-shown):invalid:focus,
+textarea:not(:placeholder-shown):invalid:focus,
+select:not(:placeholder-shown):invalid:focus {
   border: 1px solid #38BB6433 !important;
   box-shadow: 0 0 0 1px #388FBBab !important;
   --bs-form-switch-bg: url(
@@ -433,10 +475,11 @@ input:not(:placeholder-shown):invalid:focus,textarea:not(:placeholder-shown):inv
 .form-box button.btn:hover {
   color: var(--text-primary);
   border-radius: 5px;
-  box-shadow: 5px 0 5px 1px #38b464 inset,
-    -5px 0 5px 1px var(--primary-blue) inset,
-    0 -5px 5px 1px var(--secondary-magenta) inset,
-    0 5px 5px 1px var(--tertiary-orange) inset;
+  box-shadow: 
+  0 5px 5px 1px var(--primary-blue) inset,
+  -5px 0 5px 1px var(--primary-green) inset,
+  0 -5px 5px 1px var(--secondary-magenta) inset,
+  5px 0 5px 1px var(--tertiary-orange) inset;
 }
 
 .form-box .input-box input[data-v-a16fb1c8].event-date {
@@ -514,10 +557,14 @@ input:not(:placeholder-shown):invalid:focus,textarea:not(:placeholder-shown):inv
 
 .custom-file-input {
   position: relative;
-  background-color: #25713e;
+  background: linear-gradient(90deg, transparent 40%, #38BB6450),
+              linear-gradient(180deg, transparent 40%, #BB388F50),
+              linear-gradient(270deg, transparent 40%, #388FBB50),
+              linear-gradient(360deg, transparent 40%, #BB383850);
+  background-color: #000;
   color: #FFF;
-  border: none;
-  width: 30%;
+  border: 2px ridge #BB388F50;
+  width: 14%;
   bottom: 21px;
   border-radius: 5px;
   display: inline-block;
@@ -528,13 +575,13 @@ input:not(:placeholder-shown):invalid:focus,textarea:not(:placeholder-shown):inv
 }
 
 .custom-file-input~input[type="file"]:hover::after {
+  content: 'Click to Select an image...';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   margin-left: 35px;
-  content: 'Click to Select an image...';
   display: flex;
   justify-content: center;
   align-items: center;
@@ -544,7 +591,20 @@ input:not(:placeholder-shown):invalid:focus,textarea:not(:placeholder-shown):inv
   color: var(--text-primary);
   border-radius: 5px;
   color: var(--text-primary);
-  z-index: 1; 
+  z-index: 1;
+  animation: fadeIn .5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .input-box {
