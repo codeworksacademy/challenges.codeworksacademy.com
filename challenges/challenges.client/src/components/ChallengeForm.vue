@@ -20,23 +20,12 @@
                 name="difficulty"
                 class="d-flex justify-content-center align-items-center ps-2"
                 required
-                v-model="filterBy"
+                v-model="editable.difficulty"
               >
-                <option
-                  :value="null"
-                  :selected="true"
-                  class="text-center"
-                  disabled
-                >
-                --- Select Difficulty ---
-              </option>
-                <option
-                  v-for="level in difficulty"
-                  :key="level.value"
-                  :value="level.value"
-                >
-                {{ level }}
-              </option>
+                <option value="" class="text-center" selected disabled>--- Select Difficulty ---</option>
+                <option value="1">Easy</option>
+                <option value="2">Medium</option>
+                <option value="3">Hard</option>
               </select>
             </div>
           </div>
@@ -149,16 +138,12 @@
                 name="pointValue"
                 class="d-flex justify-content-center align-items-center ps-2"
                 required
-                v-model="filterBy"
+                v-model="editable.pointValue"
               >
                 <option value="" class="text-center" selected disabled>--- Select Point Value ---</option>
-                <option
-                  v-for="level in difficulty"
-                  :key="level.value"
-                  :value="level.value"
-                >
-                {{ level }}
-              </option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
               </select>
             </div>
           </div>
@@ -194,9 +179,9 @@ export default {
   setup() {
 
     // FIXME
-    const difficulty = ref([Number])
-    // FIXME
     const filterBy = ref('')
+    // FIXME
+    // const filterBy = ref(null)
 
     const editable = ref({
       supportLinks: [
@@ -210,6 +195,7 @@ export default {
       ],
       pointValue: '',
     })
+    
     const imageUploadOption = ref('url')
     
     function handleUrlChange() {
