@@ -130,7 +130,6 @@
               <label class="form-check-label text-grey darken-10" for="radioChecked">Upload Image URL</label>
             </div>
           </div>
-          <!-- FIXME -->
           <div class="input-box d-flex justify-content-center align-items-center pt-5">
             <div class="col-8">
               <select

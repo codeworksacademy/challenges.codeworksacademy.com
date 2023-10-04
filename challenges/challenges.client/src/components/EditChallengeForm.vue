@@ -1,18 +1,17 @@
 <template>
   <div class="">
-    <!-- Display the current instructional steps -->
-    <div class="d-flex justify-content-center align-items-center">
-      <ul>
-        <li v-for="(step, index) in editableSteps" :key="index">
-          {{ step }}
-          <button @click="removeStep(index)" :title="`Remove ${step}?`" class="btn btn-outline-none mdi mdi-minus-circle-outline fs-3 border-0 outline-0 rounded-circle text-danger ms-0 ps-1"></button>
-          <button @click="editStep(index)" :title="`Edit ${step}...`" class="btn btn-warning ms-1 p-1" style="opacity: .8; font-style: italic; font-weight: 450;">Edit?</button>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Form for adding/editing instructional steps -->
     <form @submit.prevent="saveStep">
+    <!-- Display the current instructional steps -->
+      <div class="d-flex justify-content-center align-items-center">
+        <ul>
+          <li v-for="(step, index) in editableSteps" :key="index">
+            {{ step }}
+            <button @click="removeStep(index)" :title="`Remove ${step}?`" class="btn btn-outline-none mdi mdi-minus-circle-outline fs-3 border-0 outline-0 rounded-circle text-danger ms-0 ps-1"></button>
+            <button @click="editStep(index)" :title="`Edit ${step}...`" class="btn btn-warning ms-1 p-1" style="opacity: .8; font-style: italic; font-weight: 450;">Edit?</button>
+          </li>
+        </ul>
+      </div>
+      <!-- Form for adding/editing instructional steps -->
       <input v-model="newStep" class="text-light" type="text" placeholder="Enter challenge steps..." />
       <button
         :title="`Add ''${newStep}'' to challenge steps?`"

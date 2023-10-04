@@ -1,6 +1,8 @@
 <template>
   <section v-if="challenge" :key="challenge?.id" class="container-fluid my-3 mt-5 pt-5">
-
+    <div class="row">
+      <EditChallengeForm :steps="challenge.steps" />
+    </div>
     <section class="row flex-row bg-dark mt-5 mb-3" style="border: 2px solid #BB643877; border-radius: 10px;">
 
       <div class="col-md-1 col-2" style="border-right: 4px double #BB643877;">
@@ -96,7 +98,7 @@ import { StrDifficultyNum } from "../utils/StrDifficultyNum.js"
 
 export default {
   components: {
-    // EditChallengeForm
+    EditChallengeForm
   },
   setup() {
 
