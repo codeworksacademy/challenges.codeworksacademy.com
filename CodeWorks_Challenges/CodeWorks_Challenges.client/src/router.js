@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import { authGuard } from '@bcwdev/auth0provider-client'
+import { authGuard, authSettled } from '@bcwdev/auth0provider-client'
 
 function loadPage(page) {
   return () => import(`./pages/${page}.vue`)
@@ -21,6 +21,20 @@ const routes = [
     name: 'Account',
     component: loadPage('AccountPage'),
     beforeEnter: authGuard
+  },
+  {
+    path: '/challenges',
+    name: 'Challenges',
+    component: loadPage('ChallengePage'),
+    beforeEnter: authSettled
+  },
+  {
+    path: '/challenges/:challengeId',
+    name: 'ChallengeDetails',
+    component: loadPage('ChallengeDetailsPage'),
+    beforeEnter: authSettled
+
+      //SECTION - Nest child routes for a challenge here
   }
 ]
 
