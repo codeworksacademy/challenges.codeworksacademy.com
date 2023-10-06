@@ -7,7 +7,7 @@
           id="challengeFormButton"
           type="button"
           role="button"
-          data-bs-target="#challengeForm"
+          data-bs-target="#submitChallengeForm"
           data-bs-toggle="modal"
           aria-label="Go to Active Challenge Modal"
           class="mdi mdi-plus-circle border-none fs-1"
@@ -15,6 +15,7 @@
         >
         </a>
       </div>
+      
       <div class="col-12 mb-5" style="color: var(--text-primary);">
         <h1 class="text-center">Active Challenges</h1>
       </div>
