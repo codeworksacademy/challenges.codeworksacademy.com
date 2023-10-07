@@ -1,6 +1,6 @@
 <template>
   <section v-if="challenge" :key="challenge?.id" class="container-fluid">
-    <router-link :to="{ name: 'ChallengeDetails', params: { challengeId: challenge.id } }" class="" style="">
+    <router-link :to="{ name: 'ChallengeDetails', params: { challengeId: challenge.id } }" class="" style="z-index: 0;">
       <div class="card d-flex flex-row bg-dark align-items-center p-3 rounded-3" style="height: 100px; font-weight: 500;">
         <h5 class="col-2">
           {{ challenge.name }}
@@ -25,14 +25,16 @@
             </p>
           </div>
         </div>
-        <div class="col-2">
-          <p>PTS: {{ challenge.pointValue }} </p>
+        <div class="col-2 me-3">
+          <div class="col-12 me-2">
+            <small class="text-light">PTS: {{ challenge.pointValue }} </small>
+          </div>
+          <div class="col-12" style="text-wrap: nowrap;">
+            <small class="" v-html="difficulty.html"></small>
+          </div>
         </div>
-        <div class="col-2">
-          <p class="pe-2" v-html="difficulty.html"></p>
-        </div>
-        <div class="col-1 p-2" style="line-height: 0;">
-          <p class="text-center text-secondary" style="font-size: .9rem;">Creator:</p>
+        <div class="col-1 p-2 ms-3 d-flex flex-column justify-content-center align-items-center" style="line-height: 0;">
+          <p class="text-center text-secondary" style="font-size: .9rem; text-wrap: nowrap;">Creator:</p>
           <img
             :src="challenge.creator.picture"
             :alt="`Picture of ${challenge.creator.name} (Challenge Creator / Host)`"
@@ -41,6 +43,15 @@
         </div>
       </div>
     </router-link>
+    <div v-if="user.id === challenge.creatorId" class="col-2">
+      <div class="col-12">
+        <i
+          class="mdi mdi-trash-can-outline text-danger fs-1 position-absolute top-3 right-2"
+          @click.stop="deleteChallenge(challenge.id)"
+          title="Delete Challenge"
+        ></i>
+      </div>
+    </div>
   </section>
 </template>
   
@@ -119,6 +130,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import url('../assets/scss/_variables.scss');
+
 .img-box {
   display: flex;
   justify-content: center;
@@ -128,6 +141,18 @@ export default {
     width: 175px;
     object-fit: cover;
     object-position: center;
+  }
+}
+
+.mdi .mdi-trash-can-outline {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  z-index: 9999 !important;
+  user-select: none;
+  cursor: pointer;
+  &:hover {
+    color: blue;
   }
 }
 </style>

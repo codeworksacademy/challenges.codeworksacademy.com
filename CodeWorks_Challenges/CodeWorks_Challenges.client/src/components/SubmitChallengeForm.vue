@@ -1,5 +1,5 @@
 <template>
-  <section class="container-fluid">
+  <section v-if="user.isAuthenticated" class="container-fluid">
     <form @submit.prevent="createChallenge" id="submitChallengeForm">
       <div class="form-group">
         <label for="name">Challenge Name</label>
@@ -58,8 +58,9 @@ export default {
     })
     return {
       editable,
-      createChallenge
+      createChallenge,
 
+      user: computed(() => AppState.user),
     } 
   }
 }
