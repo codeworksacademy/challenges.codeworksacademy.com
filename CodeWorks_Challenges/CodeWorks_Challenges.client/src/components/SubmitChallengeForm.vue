@@ -21,7 +21,7 @@ import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"  
 import { Challenge } from "../models/Challenge.js"
 import { challengesService } from "../services/ChallengesService.js"
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { Modal } from "bootstrap"
 
 export default {
@@ -47,15 +47,17 @@ export default {
         await challengesService.createChallenge(newChallenge)
         Modal.getOrCreateInstance('#submitChallengeForm').hide()
         Pop.toast('Challenge Created')
-        router.push({ name: 'EditChallenge', params: { challengeId: AppState.activeChallenge?.id } })
+        router.push(
+          { name: 'EditChallenge',
+            params: {
+              challengeId: AppState.activeChallenge?.id
+            }
+          })
       } catch (error) {
         Pop.toast(error.message, 'error')
       }
     }
 
-    onMounted(() => {
-
-    })
     return {
       editable,
       createChallenge,

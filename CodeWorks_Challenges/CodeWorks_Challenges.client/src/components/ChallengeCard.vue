@@ -2,13 +2,13 @@
   <section v-if="challenge" :key="challenge?.id" class="container-fluid">
     <router-link :to="{ name: 'ChallengeDetails', params: { challengeId: challenge.id } }" class="" style="z-index: 0;">
       <div class="card d-flex flex-row bg-dark align-items-center p-3 rounded-3" style="height: 100px; font-weight: 500;">
-        <h5 class="col-2">
+        <h5 class="col-3">
           {{ challenge.name }}
         </h5>
         <div class="col-2 img-box">
           <img :src="challenge.coverImg" :alt="`Cover Image for ${challenge.name}`" :title="`Cover Image for ${challenge.name}`" class="cover-img img-fluid">
         </div>
-        <div class="col-3">
+        <!-- <div class="col-2">
           <div
             v-for="(link, i) in challenge.supportLinks"
             :key="i"
@@ -24,16 +24,16 @@
               </a>
             </p>
           </div>
-        </div>
-        <div class="col-2 me-3">
-          <div class="col-12 me-2">
+        </div> -->
+        <div class="col-2 m-auto">
+          <div class="col-12 text-center">
             <small class="text-light">PTS: {{ challenge.pointValue }} </small>
           </div>
           <div class="col-12" style="text-wrap: nowrap;">
-            <small class="" v-html="difficulty.html"></small>
+            <small class="" v-html="challenge.difficulty.html"></small>
           </div>
         </div>
-        <div class="col-1 p-2 ms-3 d-flex flex-column justify-content-center align-items-center" style="line-height: 0;">
+        <div class="col-1 p-2 ms-3 d-flex flex-column justify-content-center align-items-center m-auto" style="line-height: 0;">
           <p class="text-center text-secondary" style="font-size: .9rem; text-wrap: nowrap;">Creator:</p>
           <img
             :src="challenge.creator.picture"
@@ -56,7 +56,7 @@
 </template>
   
 <script>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
@@ -101,16 +101,26 @@ export default {
       }
     }
 
+    function calcDifficulty() {
+      try {
+        return StrDifficultyNum(props.challenge.difficulty)
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error, 'error')
+      }
+    }
+
+    onMounted(() => {
+      calcDifficulty()
+    })
+
     return {
       user: computed(() => AppState.user),
       account: computed(() => AppState.account),
       challenges: computed(() => AppState.challenges),
       activeChallenge: computed(() => AppState.activeChallenge),
 
-      strDifficultyNum,
-      difficulty: computed(() => {
-        return strDifficultyNum.value
-      }),
+      
 
       cancelChallenge,
       deleteChallenge,
