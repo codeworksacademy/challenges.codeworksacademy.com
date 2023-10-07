@@ -1,6 +1,6 @@
 <template>
   <section class="container-fluid">
-    <form @submit.prevent="createChallenge" id="submitChallengeForm">
+    <form @submit.prevent="createChallenge">
       <div class="form-group">
         <label for="name">Challenge Name</label>
         <input type="text" class="form-control" id="name" v-model="editable.name" required>
@@ -35,50 +35,18 @@ export default {
 
     const editable = ref({
       name: '',
-      description: '',
-      //NOTE - Had to give the rest of the properties default values to get the form to work
-      steps: [
-        'Step 1'
-      ],
-      coverImg: 'https://placehold.it/200x200',
-      supportLinks: [
-        {
-        name: '',
-        url: ''
-        }
-      ],
-      difficulty: 1,
-      pointValue: 1,
-      answers: [
-        'answer 1'
-      ],
-      isCancelled: false
-
+      description: ''
     })
 
     const router = useRouter()
 
     async function createChallenge() {
       try {
-        const challenge = {
-          name: editable.value.name,
-          description: editable.value.description,
-          coverImg: editable.value.coverImg,
-          difficulty: editable.value.difficulty,
-          pointValue: editable.value.pointValue,
-        }
-        await challengesService.createChallenge(challenge)
-        Modal.getOrCreateInstance('#submitChallengeForm').hide()
+        const newChallenge = { ...editable.value, ...props.challenge }
+        await challengesService.createChallenge(newChallenge)
         Pop.toast('Challenge Created')
-        editable.value = {
-          name: '',
-          description: '',
-          coverImg: 'https://placehold.it/200x200',
-          difficulty: 1,
-          pointValue: 1,
-        }
-        // logger.log(AppState.activeChallenge?.id)
-        router.push({ name: 'EditChallenge', params: { challengeId: AppState.challenges[0].id } })
+        router.push({ name: 'EditChallenge', params: { challengeId: AppState.activeChallenge?.id } })
+        Modal.getOrCreateInstance('#submitChallengeForm').hide()
       } catch (error) {
         Pop.toast(error.message, 'error')
       }
