@@ -146,9 +146,11 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  aspect-ratio: 1/1;
   .cover-img {
     height: 90px;
-    width: 175px;
+    width: 90px;
+    max-width: 175px;
     object-fit: cover;
     object-position: center;
   }

@@ -26,7 +26,7 @@ export const StrDifficultyNum = (difficulty) => {
       return {
         html:
         `
-          <span class="text-light">Difficulty: <span class="text-danger">Hard</span></span>
+          <span class="text-light">Difficulty: <span class="text-danger position-relative" style="top: .05rem; font-size: .95rem;">Hard</span></span>
         `,
         text: 'Hard',
       };
