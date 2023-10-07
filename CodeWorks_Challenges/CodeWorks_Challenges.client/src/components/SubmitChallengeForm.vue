@@ -21,7 +21,7 @@ import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"  
 import { Challenge } from "../models/Challenge.js"
 import { challengesService } from "../services/ChallengesService.js"
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { Modal } from "bootstrap"
 
 export default {
@@ -56,7 +56,7 @@ export default {
 
     })
 
-    const router = useRoute()
+    const router = useRouter()
 
     async function createChallenge() {
       try {
@@ -77,7 +77,8 @@ export default {
           difficulty: 1,
           pointValue: 1,
         }
-        router.push({ name: 'EditChallenge', params: { challengeId: AppState.activeChallenge?.id } })
+        // logger.log(AppState.activeChallenge?.id)
+        router.push({ name: 'EditChallenge', params: { challengeId: AppState.challenges[0].id } })
       } catch (error) {
         Pop.toast(error.message, 'error')
       }

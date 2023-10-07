@@ -1,6 +1,7 @@
 <template>
   <section class="container-fluid">
     <SubmitChallengeForm :challenge="challenge" @submit="updateChallenge" />
+    {{ challenge }}
   </section>
 </template>
   

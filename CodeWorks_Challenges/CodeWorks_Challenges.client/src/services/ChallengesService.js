@@ -11,6 +11,7 @@ class ChallengesService {
     const res = await api.post('/api/challenges', newChallenge)
     logger.log('New Challenge:',  `${newChallenge}`)
     AppState.challenges.unshift(res.data)
+    AppState.activeChallenge = res.data;
     logger.log('New Challenge:', res.data)
   }
 
