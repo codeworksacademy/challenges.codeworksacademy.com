@@ -18,14 +18,18 @@ export const ChallengeSchema = new Schema({
     type: String,
     required: true,
     maxLength: 1500,
-    minLength: 10
+    minLength: 3
   },
   steps: [
-    { type: String }
+    { 
+      type: String,
+      default: []
+    }
   ],
   coverImg: {
     type: String,
     required: true,
+    default: 'https://placehold.it/200x200',
     maxLength: 500
   },
   supportLinks: [
@@ -37,17 +41,22 @@ export const ChallengeSchema = new Schema({
   difficulty: {
     type: Number,
     required: true,
+    default: 1,
     min: 1,
     max: 3
   },
   pointValue: {
     type: Number,
     required: true,
+    default: 1,
     min: 1,
     max: 3
   },
   answers: [
-    { type: String }
+    { 
+      type: String,
+      default: []
+    }
   ],
   isCancelled: {
     type: Boolean,
