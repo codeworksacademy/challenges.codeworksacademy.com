@@ -5,7 +5,7 @@ export class Challenge {
 
   
   constructor(data) {
-    this.id = data.id
+    this.id = data.id || data._id
     this.creatorId = data.creatorId
     this.creator = data.creator
     this.name = data.name || ''

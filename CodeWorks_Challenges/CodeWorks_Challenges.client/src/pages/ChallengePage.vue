@@ -39,6 +39,7 @@ import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
 import ChallengeCard from '../components/ChallengeCard.vue'
 import { challengesService } from "../services/ChallengesService.js"
+import { Modal } from "bootstrap"
 
 export default {
 

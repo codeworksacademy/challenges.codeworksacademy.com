@@ -1,6 +1,6 @@
 <template>
   <section class="container-fluid">
-    <form @submit.prevent="createChallenge">
+    <form @submit.prevent="createChallenge" id="submitChallengeForm">
       <div class="form-group">
         <label for="name">Challenge Name</label>
         <input type="text" class="form-control" id="name" v-model="editable.name" required>
@@ -42,11 +42,12 @@ export default {
 
     async function createChallenge() {
       try {
-        const newChallenge = { ...editable.value, ...props.challenge }
+        const newChallenge = editable.value
+        editable.value = { ...editable.value, ...props.challenge }
         await challengesService.createChallenge(newChallenge)
+        Modal.getOrCreateInstance('#submitChallengeForm').hide()
         Pop.toast('Challenge Created')
         router.push({ name: 'EditChallenge', params: { challengeId: AppState.activeChallenge?.id } })
-        Modal.getOrCreateInstance('#submitChallengeForm').hide()
       } catch (error) {
         Pop.toast(error.message, 'error')
       }
