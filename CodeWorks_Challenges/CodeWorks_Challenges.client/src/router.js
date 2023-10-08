@@ -32,15 +32,15 @@ const routes = [
     path: '/challenges/:challengeId',
     name: 'ChallengeDetails',
     component: loadPage('ChallengeDetailsPage'),
-    beforeEnter: authSettled
-
-      //SECTION - Nest child routes for a challenge here
-  },
-  {
-    path: '/challenges/:challengeId',
-    name: 'EditChallenge',
-    component: loadPage('EditChallengePage'),
-    beforeEnter: authSettled
+    beforeEnter: authSettled,
+    children: [
+      {
+      path: 'edit',
+      name: 'EditChallenge',
+      component: loadPage('EditChallengePage'),
+      beforeEnter: authGuard
+      }
+    ]
   }
 ]
 

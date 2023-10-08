@@ -7,13 +7,7 @@ import Pop from "../utils/Pop.js"
 class ChallengesService {
 
   async createChallenge(newChallenge) {
-    const res = await api.post('/api/challenges', newChallenge
-    // , {
-    //   params: {
-    //     challengeId: AppState.activeChallenge.id
-    //   }
-    // }
-    )
+    const res = await api.post('/api/challenges', newChallenge)
     logger.log('Creating Challenge ⏩', res.data)
     AppState.activeChallenge = res.data
     return res.data

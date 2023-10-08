@@ -9,7 +9,7 @@
         <label for="description">Challenge Description</label>
         <textarea class="form-control" id="description" v-model="editable.description" required></textarea>
       </div>
-      <button type="submit" class="btn btn-primary">Create Challenge</button>
+      <button type="submit" class="btn btn-primary">Get Started</button>
     </form>
   </section>
 </template>
@@ -69,5 +69,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import url('../assets/scss/_variables.scss')
 
 </style>

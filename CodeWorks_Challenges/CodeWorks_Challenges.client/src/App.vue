@@ -4,9 +4,9 @@
   </header>
   <main>
     <router-view />
-    <ChallengeModal id="submitChallengeForm">
+    <ModalWrapper id="submitChallengeForm">
       <SubmitChallengeForm />
-    </ChallengeModal>
+    </ModalWrapper>
   </main>
    <footer class="bg-dark text-light">
     Made with 💖 by CodeWorks
@@ -17,7 +17,7 @@
 import { computed } from 'vue'
 import { AppState } from './AppState'
 import Navbar from './components/Navbar.vue'
-import ChallengeModal from './components/ChallengeModal.vue'
+import ModalWrapper from './components/ModalWrapper.vue'
 import SubmitChallengeForm from './components/SubmitChallengeForm.vue'
 
 export default {
@@ -28,7 +28,7 @@ export default {
   },
   components: { 
     Navbar,
-    ChallengeModal,
+    ModalWrapper,
     SubmitChallengeForm }
 }
 </script>
