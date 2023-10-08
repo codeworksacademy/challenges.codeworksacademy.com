@@ -4,6 +4,9 @@
   </header>
   <main>
     <router-view />
+    <ModalWrapper id="submitChallengeForm">
+      <SubmitChallengeForm />
+    </ModalWrapper>
   </main>
    <footer class="bg-dark text-light">
     Made with 💖 by CodeWorks
@@ -14,6 +17,8 @@
 import { computed } from 'vue'
 import { AppState } from './AppState'
 import Navbar from './components/Navbar.vue'
+import ModalWrapper from './components/ModalWrapper.vue'
+import SubmitChallengeForm from './components/SubmitChallengeForm.vue'
 
 export default {
   setup() {
@@ -21,7 +26,10 @@ export default {
       appState: computed(() => AppState)
     }
   },
-  components: { Navbar }
+  components: { 
+    Navbar,
+    ModalWrapper,
+    SubmitChallengeForm }
 }
 </script>
 <style lang="scss">
