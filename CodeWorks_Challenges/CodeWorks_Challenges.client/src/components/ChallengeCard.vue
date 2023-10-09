@@ -1,13 +1,13 @@
 <template>
   <section v-if="challenge" :key="challenge?.id" class="container-fluid">
     <router-link :to="{ name: 'ChallengeDetails', params: { challengeId: challenge.id } }" class="" style="z-index: 0;">
-      <div class="card d-flex flex-row bg-dark align-items-center p-3 rounded-3" style="height: 100px; font-weight: 500;">
+      <div class="card card-custom-image d-flex flex-row bg-dark align-items-center p-3 rounded-3" style="height: 100px; font-weight: 500;" :style="`background-image: url(${challenge.coverImg}); opacity: .9;`">
         <h5 class="col-3">
           {{ challenge.name }}
         </h5>
-        <div class="col-2 img-box">
+        <!-- <div class="col-2 img-box">
           <img :src="challenge.coverImg" :alt="`Cover Image for ${challenge.name}`" :title="`Cover Image for ${challenge.name}`" class="cover-img img-fluid">
-        </div>
+        </div> -->
         <!-- <div class="col-2">
           <div
             v-for="(link, i) in challenge.supportLinks"
@@ -46,7 +46,7 @@
     <div v-if="user.id === challenge.creatorId" class="col-2">
       <div class="col-12">
         <i
-          class="mdi mdi-trash-can-outline text-danger fs-1 position-absolute top-3 right-2"
+          class="mdi mdi-trash-can-outline text-danger fs-1 position-absolute top-2 right-2"
           @click.stop="deleteChallenge(challenge.id)"
           title="Delete Challenge"
         ></i>
@@ -56,13 +56,12 @@
 </template>
   
 <script>
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
 import { Challenge } from '../models/Challenge'
 import { challengesService } from '../services/ChallengesService'
-import { StrDifficultyNum } from '../utils/StrDifficultyNum'
 
 export default {
   props: {
@@ -72,10 +71,6 @@ export default {
     }
   },
   setup(props) {
-
-    const strDifficultyNum = computed(() => {
-      return StrDifficultyNum(props.challenge.difficulty)
-    })
 
     async function cancelChallenge() {
       try {
@@ -100,19 +95,6 @@ export default {
         Pop.toast(error, 'error')
       }
     }
-
-    function calcDifficulty() {
-      try {
-        return StrDifficultyNum(props.challenge.difficulty)
-      } catch (error) {
-        logger.error(error)
-        Pop.toast(error, 'error')
-      }
-    }
-
-    onMounted(() => {
-      calcDifficulty()
-    })
 
     return {
       user: computed(() => AppState.user),
@@ -142,29 +124,26 @@ export default {
 <style scoped lang="scss">
 @import url('../assets/scss/_variables.scss');
 
-.img-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  aspect-ratio: 1/1;
-  .cover-img {
-    height: 90px;
-    width: 90px;
-    max-width: 175px;
-    object-fit: cover;
-    object-position: center;
+.card-custom-image {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 1px solid var(--primary-blue);
+  border-radius: 1rem;
+  box-shadow: var(--shadow);
+  transition: all .3s ease-in-out;
+  &:hover {
+    transform: scale(1.005);
+    box-shadow: var(--shadow-magenta);
   }
 }
 
-.mdi .mdi-trash-can-outline {
-  position: absolute !important;
-  top: 0 !important;
-  right: 0 !important;
-  z-index: 9999 !important;
+.mdi.mdi-trash-can-outline {
+  
   user-select: none;
   cursor: pointer;
   &:hover {
-    color: blue;
+    color: blue !important;
   }
 }
 </style>
