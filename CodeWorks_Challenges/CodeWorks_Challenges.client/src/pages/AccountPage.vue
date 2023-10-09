@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <section class="row">
+    <section class="row pt-3">
       <div class="col-12 bg-success position-relative">
-        <img style="z-index: -1;" class="cover-image position-absolute" :src="account.coverImage" alt="">
+        <img style="z-index: -1;" class="cover-image rounded position-absolute" :src="account.coverImage" alt="">
       </div>
 
       <div class="col-12">
@@ -11,8 +11,8 @@
           <img class="rounded" :src="account.picture" :alt="account.name" />
 
         </div>
-        <div class="about text-center">
-          <p>{{ account.email }}</p>
+        <div class="about text-center mt-3">
+          <h2>{{ account.email }}</h2>
           <p>About: {{ account.aboutContent }}</p>
 
           <!-- Button trigger modal -->
@@ -43,16 +43,8 @@
       <h2 class="col-8 mx-auto">
         Challeges Owned:
         <h3 v-if="myChallenges.length === 0">You havn't made any challenges</h3>
-        <div v-else v-for="challenge in myChallenges" :key="challenge.id">
-          <h3>
-            {{ challenge.name }}
-          </h3>
-          <h4>
-            {{ challenge.description }}
-          </h4>
-          <h5>
-            {{ challenge.createdAt }}
-          </h5>
+        <div v-else v-for="challenge in myChallenges" :key="challenge.id" class="col-12 px-3 mb-1 position-relative">
+          <ChallengeCard :challenge="challenge" />
         </div>
       </h2>
     </section>
@@ -62,15 +54,7 @@
         Challenges Moderator:
         <h3 v-if="moderatedChallenges.length === 0">You don't moderate any challenges</h3>
         <div v-else v-for="challenge in moderatedChallenges" :key="challenge.id">
-          <h3>
-            {{ challenge.name }}
-          </h3>
-          <h4>
-            {{ challenge.description }}
-          </h4>
-          <h5>
-            {{ challenge.createdAt }}
-          </h5>
+          <ChallengeCard :challenge="challenge" />
         </div>
       </h2>
     </section>
@@ -80,15 +64,7 @@
         Challenges Joined:
         <h3 v-if="joinedChallenges.length === 0">You haven't joined any challenges</h3>
         <div v-else v-for="challenge in joinedChallenges" :key="challenge.id">
-          <h3>
-            {{ challenge.name }}
-          </h3>
-          <h4>
-            {{ challenge.description }}
-          </h4>
-          <h5>
-            {{ challenge.createdAt }}
-          </h5>
+          <ChallengeCard :challenge="challenge" />
         </div>
       </h2>
     </section>
@@ -98,15 +74,7 @@
         Challenges Completed:
         <h3 v-if="completedChallenges.length === 0">You haven't completed any challenges</h3>
         <div v-else v-for="challenge in completedChallenges" :key="challenge.id">
-          <h3>
-            {{ challenge.name }}
-          </h3>
-          <h4>
-            {{ challenge.description }}
-          </h4>
-          <h5>
-            {{ challenge.createdAt }}
-          </h5>
+          <ChallengeCard :challenge="challenge" />
         </div>
       </h2>
     </section>
@@ -135,6 +103,7 @@ import AccountForm from "../components/AccountForm.vue";
 import Pop from "../utils/Pop.js";
 import { challengesService } from "../services/ChallengesService.js";
 import { logger } from "../utils/Logger.js";
+import ChallengeCard from '../components/ChallengeCard.vue'
 export default {
   setup() {
     async function getMyChallenges() {
@@ -154,8 +123,20 @@ export default {
       // }
     }
 
-    async function getMyModeratorChallenges() { }
-    async function getMyJoinedChallenges() { }
+    async function getMyModeratorChallenges() {
+      // try {
+      //   await badgesService.getMyBadges(AppState.account.id)
+      // } catch (error) {
+      //   Pop.toast(error, 'error')
+      // }
+    }
+    async function getMyJoinedChallenges() {
+      // try {
+      //   await badgesService.getMyBadges(AppState.account.id)
+      // } catch (error) {
+      //   Pop.toast(error, 'error')
+      // }
+    }
 
     watchEffect(() => {
       if (AppState.account.id) {
@@ -174,7 +155,7 @@ export default {
 
     };
   },
-  components: { AccountForm }
+  components: { AccountForm, ChallengeCard }
 }
 </script>
 

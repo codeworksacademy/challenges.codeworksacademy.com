@@ -12,7 +12,7 @@ class ChallengesService {
 
   async getMyChallenges(accountId) {
     const myChallenges = await dbContext.Challenges.find({ creatorId: accountId })
-    // .populate('challenge')
+      .populate('creator')
     return myChallenges
   }
 
