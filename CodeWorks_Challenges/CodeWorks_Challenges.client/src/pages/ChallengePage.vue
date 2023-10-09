@@ -1,5 +1,5 @@
 <template>
-  <section class="container-fluid position-relative top-10">
+  <section class="container-fluid position-relative bg-secondary pt-5">
     <div class="row">
       <div class="col-12 d-flex justify-content-end position-absolute top-0 right-2 p-1">
         <a
@@ -39,6 +39,7 @@ import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
 import ChallengeCard from '../components/ChallengeCard.vue'
 import { challengesService } from "../services/ChallengesService.js"
+import { Modal } from "bootstrap"
 
 export default {
 

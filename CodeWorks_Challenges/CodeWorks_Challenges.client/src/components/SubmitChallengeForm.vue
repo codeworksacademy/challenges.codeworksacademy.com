@@ -1,5 +1,5 @@
 <template>
-  <section class="container-fluid">
+  <section v-if="user.isAuthenticated" class="container-fluid">
     <form @submit.prevent="createChallenge" id="submitChallengeForm">
       <div class="form-group">
         <label for="name">Challenge Name</label>
@@ -9,7 +9,7 @@
         <label for="description">Challenge Description</label>
         <textarea class="form-control" id="description" v-model="editable.description" required></textarea>
       </div>
-      <button type="submit" class="btn btn-primary">Create Challenge</button>
+      <button type="submit" class="btn btn-primary">Get Started</button>
     </form>
   </section>
 </template>
@@ -21,7 +21,7 @@ import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"  
 import { Challenge } from "../models/Challenge.js"
 import { challengesService } from "../services/ChallengesService.js"
-import { useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { Modal } from "bootstrap"
 
 export default {
@@ -35,66 +35,40 @@ export default {
 
     const editable = ref({
       name: '',
-      description: '',
-      //NOTE - Had to give the rest of the properties default values to get the form to work
-      steps: [
-        'Step 1'
-      ],
-      coverImg: 'https://placehold.it/200x200',
-      supportLinks: [
-        {
-        name: '',
-        url: ''
-        }
-      ],
-      difficulty: 1,
-      pointValue: 1,
-      answers: [
-        'answer 1'
-      ],
-      isCancelled: false
-
+      description: ''
     })
 
-    const router = useRoute()
+    const router = useRouter()
 
     async function createChallenge() {
       try {
-        const challenge = {
-          name: editable.value.name,
-          description: editable.value.description,
-          coverImg: editable.value.coverImg,
-          difficulty: editable.value.difficulty,
-          pointValue: editable.value.pointValue,
-        }
-        await challengesService.createChallenge(challenge)
+        const newChallenge = editable.value
+        editable.value = { ...editable.value, ...props.challenge }
+        await challengesService.createChallenge(newChallenge)
         Modal.getOrCreateInstance('#submitChallengeForm').hide()
         Pop.toast('Challenge Created')
-        editable.value = {
-          name: '',
-          description: '',
-          coverImg: 'https://placehold.it/200x200',
-          difficulty: 1,
-          pointValue: 1,
-        }
-        router.push({ name: 'EditChallenge', params: { challengeId: AppState.activeChallenge?.id } })
+        router.push(
+          { name: 'EditChallenge',
+            params: {
+              challengeId: AppState.activeChallenge?.id
+            }
+          })
       } catch (error) {
         Pop.toast(error.message, 'error')
       }
     }
 
-    onMounted(() => {
-
-    })
     return {
       editable,
-      createChallenge
+      createChallenge,
 
+      user: computed(() => AppState.user),
     } 
   }
 }
 </script>
 
 <style scoped lang="scss">
+@import url('../assets/scss/_variables.scss')
 
 </style>

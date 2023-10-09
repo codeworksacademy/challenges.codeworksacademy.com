@@ -1,8 +1,8 @@
 <template>
   <section class="container-fluid">
-    <div v-if="challenge" :key="challenge?.id" class="container-fluid my-3 mt-5 pt-5">
-      {{ challenge }}
+    <div v-if="challenge" :key="challenge?.id" class="m-3">
     </div>
+    <router-view />
   </section>
 </template>
   

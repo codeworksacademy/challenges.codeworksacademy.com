@@ -6,9 +6,9 @@ export class ChallengesController extends BaseController {
   constructor() {
     super('api/challenges')
     this.router
+      .get('', this.getAllChallenges)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createChallenge)
-      .get('', this.getAllChallenges)
       .get('/:challengeId', this.setActiveChallenge)
       .put('/:challengeId', this.editChallenge)
       .put('/:challengeId', this.cancelChallenge)
