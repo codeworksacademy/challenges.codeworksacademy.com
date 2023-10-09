@@ -26,7 +26,7 @@ const routes = [
     path: '/challenges',
     name: 'Challenges',
     component: loadPage('ChallengePage'),
-    beforeEnter: authSettled
+    // beforeEnter: authSettled
   },
   {
     path: '/challenges/:challengeId',
