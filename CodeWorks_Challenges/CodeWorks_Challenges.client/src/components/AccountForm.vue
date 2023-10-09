@@ -21,7 +21,7 @@
         placeholder="About me..." cols="20" rows="10" style="resize: none"></textarea>
     </div>
     <div class="text-end">
-      <button class="btn btn-action mt-2" type="submit">Update</button>
+      <button class="btn btn-primary mt-2" type="submit">Update</button>
     </div>
   </form>
 </template>
