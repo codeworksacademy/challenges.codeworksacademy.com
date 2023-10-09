@@ -21,9 +21,9 @@ class ParticipantsService {
         const participants = await dbContext.Participants.find({ challengeId: challengeId }).populate('challenge')
         return participants
     }
-    async getMyParticipation(accountId) {
-        const participation = await dbContext.Participants.find({ accountId }).populate('challenge')
-        return participation
+    async getMyParticipants(accountId) {
+        const participants = await dbContext.Participants.find({ accountId }).populate('challenge')
+        return participants
     }
 
     async deleteParticipant(userId, participantId) {
