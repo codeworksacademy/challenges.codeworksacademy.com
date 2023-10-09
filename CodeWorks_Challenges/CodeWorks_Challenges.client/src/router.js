@@ -41,6 +41,11 @@ const routes = [
     name: 'EditChallenge',
     component: loadPage('EditChallengePage'),
     beforeEnter: authSettled
+  },
+  {
+    path: '/profile/:profileId',
+    name: 'Profile',
+    component: loadPage('ProfilePage'),
   }
 ]
 

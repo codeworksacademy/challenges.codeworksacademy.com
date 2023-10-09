@@ -34,12 +34,14 @@
           </div>
         </div>
         <div class="col-1 p-2 ms-3 d-flex flex-column justify-content-center align-items-center m-auto" style="line-height: 0;">
-          <p class="text-center text-secondary" style="font-size: .9rem; text-wrap: nowrap;">Creator:</p>
-          <img
-            :src="challenge.creator.picture"
-            :alt="`Picture of ${challenge.creator.name} (Challenge Creator / Host)`"
-            class="img-fluid rounded-circle"
-          >
+          <router-link :to="{name: 'Profile', params:{profileId: challenge.creatorId}}">
+            <p class="text-center text-secondary" style="font-size: .9rem; text-wrap: nowrap;">Creator:</p>
+            <img
+              :src="challenge.creator.picture"
+              :alt="`Picture of ${challenge.creator.name} (Challenge Creator / Host)`"
+              class="img-fluid rounded-circle"
+            >
+          </router-link>
         </div>
       </div>
     </router-link>
