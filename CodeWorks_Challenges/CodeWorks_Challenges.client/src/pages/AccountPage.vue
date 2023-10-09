@@ -125,14 +125,14 @@ export default {
 
     async function getMyModeratorChallenges() {
       // try {
-      //   await badgesService.getMyBadges(AppState.account.id)
+      //   await challengesService.getMyModeratorChallenges(AppState.account.id)
       // } catch (error) {
       //   Pop.toast(error, 'error')
       // }
     }
     async function getMyJoinedChallenges() {
       // try {
-      //   await badgesService.getMyBadges(AppState.account.id)
+      //   await challengesService.getMyJoinedChallenges(AppState.account.id)
       // } catch (error) {
       //   Pop.toast(error, 'error')
       // }
