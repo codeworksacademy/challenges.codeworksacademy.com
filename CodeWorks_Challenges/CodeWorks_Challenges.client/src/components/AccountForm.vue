@@ -6,9 +6,19 @@
         placeholder="Name...">
     </div>
     <div class="form-group py-2">
-      <label for="picture">Picture</label>
+      <label for="picture">Profile Picture</label>
       <input v-model="editable.picture" id="picture" class="form-control" type="url" minlength="3" maxlength="300"
-        placeholder="Image...">
+        placeholder="Profile Picture...">
+    </div>
+    <div class="form-group py-2">
+      <label for="coverImage">Cover Image</label>
+      <input v-model="editable.coverImage" id="coverImage" class="form-control" type="url" minlength="3" maxlength="300"
+        placeholder="Cover Image">
+    </div>
+    <div class="form-group py-2">
+      <label for="aboutContent">About me</label>
+      <textarea v-model="editable.aboutContent" id="name" class="form-control" type="text" minlength="3" maxlength="250"
+        placeholder="About me..." cols="20" rows="10" style="resize: none"></textarea>
     </div>
     <div class="text-end">
       <button class="btn btn-action mt-2" type="submit">Update</button>

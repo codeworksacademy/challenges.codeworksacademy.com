@@ -1,8 +1,10 @@
 <template>
   <div class="about text-center">
     <h1>Welcome {{ account.name }}</h1>
-    <img class="rounded" :src="account.picture" alt="" />
+    <img class="rounded" :src="account.picture" :alt="account.name" />
+    <img class="rounded" :src="account.coverImage" :alt="account.coverImage">
     <p>{{ account.email }}</p>
+    <p>About: {{ account.aboutContent }}</p>
   </div>
   <AccountForm />
 </template>
