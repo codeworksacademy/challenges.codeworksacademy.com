@@ -7,5 +7,6 @@ export class Account {
     // TODO add additional properties if needed
     this.coverImage = data.coverImage
     this.aboutContent = data.aboutContent
+    this.reputation = data.reputation || 0
   }
 }

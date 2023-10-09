@@ -10,7 +10,7 @@ export class AccountController extends BaseController {
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getUserAccount)
-      .get('/challenges', this.getMyChallenges)
+      .get('/:accountId/challenges', this.getMyChallenges)
       .put('', this.updateAccount)
   }
 
@@ -36,8 +36,8 @@ export class AccountController extends BaseController {
 
   async getMyChallenges(req, res, next) {
     try {
-      const myChallenges = req.userInfo.id
-      const challenges = await challengesService.getMyChallenges(myChallenges)
+      const accountId = req.userInfo.id
+      const challenges = await challengesService.getMyChallenges(accountId)
       res.send(challenges)
     } catch (error) {
       next(error)

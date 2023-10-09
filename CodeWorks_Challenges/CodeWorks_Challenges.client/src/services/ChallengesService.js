@@ -9,13 +9,13 @@ class ChallengesService {
   async createChallenge(newChallenge) {
     logger.log('Creating Challenge')
     const res = await api.post('/api/challenges', newChallenge)
-    logger.log('New Challenge:',  `${newChallenge}`)
+    logger.log('New Challenge:', `${newChallenge}`)
     AppState.challenges.unshift(res.data)
     logger.log('New Challenge:', res.data)
   }
 
   async getMyChallenges(accountId) {
-    const res = await api.get(`api/account/${accountId}/challenges`)
+    const res = await api.get(`/account/${accountId}/challenges`)
     AppState.myChallenges = res.data.map(c => new Challenge(c))
     logger.log('My Challenges:', AppState.myChallenges)
   }
@@ -26,7 +26,7 @@ class ChallengesService {
     AppState.challenges = res.data.map(c => new Challenge(c))
     logger.log('Challenges:', AppState.challenges)
   }
-    
+
   async setActiveChallenge(challengeId) {
     const res = await api.get(`/api/challenges/${challengeId}`)
     AppState.activeChallenge = res.data
