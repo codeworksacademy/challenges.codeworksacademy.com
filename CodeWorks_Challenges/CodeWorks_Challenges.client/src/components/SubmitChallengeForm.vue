@@ -35,7 +35,8 @@ export default {
 
     const editable = ref({
       name: '',
-      description: ''
+      description: '',
+      coverImg: 'https://i.ibb.co/c21hFZN/card-gradient.png'
     })
 
     const router = useRouter()

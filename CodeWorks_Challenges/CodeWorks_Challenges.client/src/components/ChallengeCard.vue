@@ -26,19 +26,17 @@
           </div>
         </div> -->
         <div class="col-2 m-auto">
-          <div class="col-12 text-center">
+          <div class="col-12 d-flex flex-column text-center">
             <small class="text-light">PTS: {{ challenge.pointValue }} </small>
-          </div>
-          <div class="col-12" style="text-wrap: nowrap;">
             <small class="" v-html="challenge.difficulty.html"></small>
           </div>
         </div>
-        <div class="col-1 p-2 ms-3 d-flex flex-column justify-content-center align-items-center m-auto" style="line-height: 0;">
-          <p class="text-center text-secondary" style="font-size: .9rem; text-wrap: nowrap;">Creator:</p>
+        <div class="col-1 ms-3 d-flex flex-column justify-content-center align-items-center m-auto">
+          <p class="text-center text-secondary" style="font-size: .9rem; text-wrap: nowrap; line-height: 0;">Creator:</p>
           <img
             :src="challenge.creator.picture"
             :alt="`Picture of ${challenge.creator.name} (Challenge Creator / Host)`"
-            class="img-fluid rounded-circle"
+            class="creator-img img-fluid rounded-circle"
           >
         </div>
       </div>
@@ -102,8 +100,6 @@ export default {
       challenges: computed(() => AppState.challenges),
       activeChallenge: computed(() => AppState.activeChallenge),
 
-      
-
       cancelChallenge,
       deleteChallenge,
 
@@ -132,10 +128,24 @@ export default {
   border-radius: 1rem;
   box-shadow: var(--shadow);
   transition: all .3s ease-in-out;
-  &:hover {
-    transform: scale(1.005);
-    box-shadow: var(--shadow-magenta);
-  }
+    &:hover {
+      transform: scale(1.005);
+      box-shadow: var(--shadow-magenta);
+    }
+    .creator-img {
+      object-fit: cover;
+      min-width: 50px;
+      min-height: 50px;
+      aspect-ratio: 1/1;
+      border: 1px solid var(--primary-blue);
+      border-radius: 50%;
+      box-shadow: var(--shadow);
+      transition: all .3s ease-in-out;
+        &:hover {
+          transform: scale(1.05);
+          box-shadow: var(--shadow-magenta);
+        }
+    }
 }
 
 .mdi.mdi-trash-can-outline {

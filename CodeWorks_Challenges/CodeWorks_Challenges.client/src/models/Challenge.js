@@ -11,7 +11,7 @@ export class Challenge {
     this.name = data.name || ''
     this.description = data.description || ''
     this.steps = data.steps || []
-    this.coverImg = data.coverImg || 'https://placehold.it/200x200'
+    this.coverImg = data.coverImg || 'https://i.ibb.co/b1bXrRw/card-gradient.png'
     this.createdAt = DateTime(data.createdAt)
     this.updatedAt = DateTime(data.updatedAt)
     this.supportLinks = data.supportLinks || []

@@ -359,20 +359,6 @@ $gradient: linear-gradient(180deg, hsla(0, 0%, 100%, 0.15), hsla(0, 0%, 100%, 0)
 
 
 /*SECTION - Challenge Form Styles Start */
-.container-fluid {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  color: var(--text-primary);
-  text-shadow: 0 .5px 1px #38BB64;
-  background: #00000080;
-  border-radius: 10px;
-}
 
 .modal-content {
   width: 100%;
