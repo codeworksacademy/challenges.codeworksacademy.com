@@ -14,6 +14,7 @@ class ProfilesService{
 
   clearProfile(){
     AppState.activeProfile = null
+    AppState.challenges = []
   }
 
 }

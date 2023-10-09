@@ -22,6 +22,13 @@ class ChallengesService {
     return challenges
   }
 
+  // TO DO: Add challenges that a user has joined and completed
+  async getProfileChallenges(profileId) {
+    const challenges = await dbContext.Challenges.find({creatorId: profileId}).populate('challenge')
+
+    return challenges
+  }
+
   async setActiveChallenge(challengeId) {
     const challenge = await dbContext.Challenges.findById(challengeId)
     .populate('creator', 'name picture')
