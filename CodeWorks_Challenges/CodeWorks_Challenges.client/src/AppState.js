@@ -10,4 +10,7 @@ export const AppState = reactive({
   myChallenges: [],
   /** @type {import('./models/Challenge.js')|null} */
   activeChallenge: null,
+
+  /** @type {import('./models/Profile.js')|null} */
+  activeProfile: null,
 })
