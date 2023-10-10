@@ -39,7 +39,7 @@
             <img
               :src="challenge.creator.picture"
               :alt="`Picture of ${challenge.creator.name} (Challenge Creator / Host)`"
-              class="img-fluid rounded-circle"
+              class="img-fluid rounded-circle avatar-sm"
             >
           </router-link>
         </div>
@@ -125,6 +125,13 @@ export default {
 
 <style scoped lang="scss">
 @import url('../assets/scss/_variables.scss');
+
+.avatar-sm{
+  height: 5rem;
+  width: 5rem;
+  object-fit: cover;
+  object-position: center;
+}
 
 .card-custom-image {
   background-size: cover;

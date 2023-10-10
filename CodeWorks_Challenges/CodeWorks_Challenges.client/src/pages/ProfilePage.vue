@@ -22,7 +22,7 @@
           {{ activeProfile.name }}'s Challenges
         </p>
       </div>
-      <div class="col-12" v-for="c in challenges" :key="c.id">
+      <div class="col-12 my-2" v-for="c in challenges" :key="c.id">
         <ChallengeCard :challenge="c" />
       </div>
     </section>
