@@ -12,31 +12,8 @@ export const ParticipantSchema = new Schema({
       required: true,
       ref: 'Account'
     },
-    status: { 
-      type: String,
-      required: true,
-      enum: [
-        'registered',
-        'passed',
-        'failed'
-      ],
-      default: 'registered' 
-    },
-    hasAuth: { 
-      type: Boolean,
-      required: true,
-      default: false 
-    },
-    
 },
     {timestamps: true, toJSON: {virtuals: true}}
-)
-
-ParticipantSchema.index({
-  challengeId: 1,
-  accountId: 1
-},
-  { unique: true }
 )
 
 ParticipantSchema.virtual('profile', {

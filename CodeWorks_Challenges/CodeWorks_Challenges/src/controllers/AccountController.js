@@ -11,7 +11,7 @@ export class AccountController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getUserAccount)
       .get('/challenges', this.getMyChallenges)
-      .get('/participants', this.getMyParticipants)
+      .get('/participants', this.getParticipantsByAccount)
   }
 
   async getUserAccount(req, res, next) {
@@ -33,10 +33,9 @@ export class AccountController extends BaseController {
     }
   }
 
-  async getMyParticipants(req, res, next) {
+  async getParticipantsByAccount(req, res, next) {
     try {
-      const myParticipants = req.userInfo.id
-      const participants = await participantsService.getMyParticipants(myParticipants)
+      const participants = await participantsService.getParticipantsByAccount(req.userInfo.id)
       res.send(participants)
     } catch (error) {
       next(error)

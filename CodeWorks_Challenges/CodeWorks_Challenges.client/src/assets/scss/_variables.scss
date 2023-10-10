@@ -375,6 +375,23 @@ $gradient: linear-gradient(180deg, hsla(0, 0%, 100%, 0.15), hsla(0, 0%, 100%, 0)
   box-sizing: border-box;
   box-shadow: 0 5px 15px #BB388F55;
   border-radius: 10px;
+
+  .close-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: transparent;
+    color: var(--text-primary);
+    text-shadow: 0 .5px 1px #38BB64;
+    transition: .5s;
+      &:hover {
+        color: var(--text-subheader);
+        text-shadow: 0 .5px 1px #38BB64;
+        transition: .5s;
+      }    
+  }
 }
 
 .form-box {
@@ -421,9 +438,9 @@ input:checked {
 }
 
 input:not(:checked) {
-  background-image: url(
+  /* background-image: url(
     'https://1001freedownloads.s3.amazonaws.com/vector/thumb/92443/1311627658.png'
-  );
+  ); */
   background-repeat: no-repeat;
   background-size: 18px 18px;
   background-position-y: -1.75px;

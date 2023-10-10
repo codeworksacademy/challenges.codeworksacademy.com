@@ -15,6 +15,7 @@
           <p>Difficulty: {{ challenge.difficulty.name }}</p>
           <p>Creator: {{ challenge.creator.name }}</p>
           <p>Support Links:</p>
+          <p>Participants: {{ participants.length }}</p>
         </div>
         <div
           v-for="(link, i) in challenge.supportLinks"
@@ -33,10 +34,10 @@
         </div>
       </div>
     </div>
-    <div v-if="!isParticipant">
+    <div>
       <button
         class="btn btn-primary"
-        @click="createParticipant"
+        @click="joinChallenge"
       >
         Join Challenge
       </button>
@@ -48,7 +49,7 @@
 </template>
   
 <script>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, watchEffect, ref } from 'vue'
 import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
@@ -62,6 +63,7 @@ export default {
   },
   setup() {
 
+    const loading = ref(false)
     const route = useRoute()
 
     async function setActiveChallenge() {
@@ -74,9 +76,22 @@ export default {
       }
     }
 
-    async function createParticipant() {
+    async function getParticipantsByChallengeId() {
       try {
-        await participantsService.createParticipant(AppState.activeChallenge.id)
+        await challengesService.getParticipantsByChallengeId(route.params.challengeId)
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error, 'error')
+      }
+    }
+
+    async function joinChallenge() {
+      try {
+        const newParticipant = {
+          challengeId: route.params.challengeId,
+          accountId: AppState.user.id
+        }
+        await participantsService.createParticipant(newParticipant)
       } catch (error) {
         logger.error(error)
         Pop.toast(error, 'error')
@@ -84,21 +99,48 @@ export default {
     }
 
     onMounted(() => {
+    })
+    
+    watchEffect(() => {
+      getParticipantsByChallengeId()
       setActiveChallenge()
     })
 
     return {
+      loading,
+
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.activeChallenge),
+      participants: computed(() => AppState.participants),
 
-      createParticipant,
+      joinChallenge,
 
-      isParticipant: computed (() => {
-      if (AppState.myParticipants.find(p => p.challengeId == AppState.activeChallenge.id)) {
-          return true;
+      isParticipant: computed (() =>
+        AppState.participants.find(p => p.accountId == AppState.account.id)
+      ),
+
+      async createParticipant() {
+        try {
+          loading.value = true
+          let newParticipant = {
+            challengeId: route.params.challengeId
+          }
+          await participantsService.createParticipant(newParticipant)
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error, 'error')
         }
-        return false
-      }),
+      },
+
+      async removeParticipant() {
+        try {
+          let participant = AppState.participants.find(p => p.accountId == AppState.account.id)
+          await participantsService.removeParticipant(participant.id)
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error, 'error')
+        }
+      }
     } 
   }
 }
@@ -112,7 +154,6 @@ export default {
     .text-box {
       background-color: rgba(0,0,0,.75);
       padding: 3rem;
-      border-radius: 1rem;
       .header {
         h1 {
           background: linear-gradient(rgba(0,0,0,.75), rgba(0,0,0, .5));

@@ -31,7 +31,7 @@
             <small class="" v-html="challenge.difficulty.html"></small>
           </div>
         </div>
-        <div class="col-1 ms-3 d-flex flex-column justify-content-center align-items-center m-auto">
+        <div class="col-1 d-flex flex-column justify-content-center align-items-center mx-auto ms-3">
           <p class="text-center text-secondary" style="font-size: .9rem; text-wrap: nowrap; line-height: 0;">Creator:</p>
           <img
             :src="challenge.creator.picture"
@@ -134,9 +134,10 @@ export default {
     }
     .creator-img {
       object-fit: cover;
-      min-width: 50px;
-      min-height: 50px;
+      width: 40px;
+      height: 40px;
       aspect-ratio: 1/1;
+      font-size: .5rem;
       border: 1px solid var(--primary-blue);
       border-radius: 50%;
       box-shadow: var(--shadow);

@@ -6,40 +6,31 @@ class ParticipantsService {
     async createParticipant(newParticipant) {
         const participant = await dbContext.Participants.create(newParticipant)
         await participant.populate('challenge')
+        await participant.populate('profile', 'name picture')
         return participant
     }
 
-    async getParticipant(participantId) {
-        const participation = await dbContext.Participants.findById(participantId).populate('challenge')
-        if(!participation){
-            throw new BadRequest(`There is no participation @ ${participantId}`)
-        }
-        return participation
-    }
-    
-    async getChallengeParticipants(challengeId) {
-        const participants = await dbContext.Participants.find({ challengeId: challengeId }).populate('challenge')
-        return participants
-    }
-    async getMyParticipants(accountId) {
-        const participants = await dbContext.Participants.find({ accountId }).populate('challenge')
+    async getParticipantsOfChallenge(challengeId) {
+        const participants = await dbContext.Participants.find({challengeId}).populate('profile', 'name picture')
         return participants
     }
 
-    async deleteParticipant(userId, participantId) {
-        const participant = await this.getParticipant(participantId)
-        if(participant.accountId != userId){
-            throw new BadRequest("This is not your comment")
-        }
+    async getParticipantsByAccount(userId) {
+        const participants = await dbContext.Participants.find({accountId: userId}).populate({path: 'challenge', populate: {path: 'creator participantCount'}})
+        return participants
+    }
+
+    async removeParticipant(participantId, userId) {
+        const participant = await dbContext.Participants.findById(participantId).populate('challenge profile')
+
+        if (!participant) throw new BadRequest("Invalid participant")
+        
+        if (userId != participant.accountId) throw new BadRequest("You are not currently a participant")
+
         await participant.remove()
-        return participant
-    }
-    async getParticipants(challengeId) {
-      const participants = await dbContext.Participants.find({ accountId: challengeId}).populate('challenge')
-      if(!participants){
-        throw new BadRequest("This challenge has no participants.")
-      }
-      return participants
+
+        // @ts-ignore
+        return `Successfully removed participant ${participant.profile.name} from ${participant.challenge.name}`
     }
 }
 
