@@ -24,7 +24,11 @@ class ChallengesService {
 
   // TO DO: Add challenges that a user has joined and completed
   async getProfileChallenges(profileId) {
-    const challenges = await dbContext.Challenges.find({creatorId: profileId}).populate('challenge')
+    const challenges = await dbContext.Challenges.find({creatorId: profileId}).populate('creator')
+
+    if(!challenges){
+      throw new BadRequest('This profile has not created any challenges yet.')
+    }
 
     return challenges
   }
