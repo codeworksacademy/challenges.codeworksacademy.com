@@ -37,7 +37,7 @@ const routes = [
       //SECTION - Nest child routes for a challenge here
   },
   {
-    path: '/challenges/:challengeId',
+    path: '/challenges/:challengeId/edit',
     name: 'EditChallenge',
     component: loadPage('EditChallengePage'),
     beforeEnter: authSettled

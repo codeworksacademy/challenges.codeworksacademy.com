@@ -3,7 +3,7 @@
     <form @submit.prevent="createChallenge" id="submitChallengeForm">
       <div class="form-group">
         <label for="name">Challenge Name</label>
-        <input type="text" class="form-control" id="name" v-model="editable.name" required>
+        <input type="text" class="form-control" id="name" v-model="editable.name" required> 
       </div>
       <div class="form-group">
         <label for="description">Challenge Description</label>
@@ -11,6 +11,9 @@
       </div>
       <button type="submit" class="btn btn-primary">Create Challenge</button>
     </form>
+  </section>
+  <section v-if="!user.isAuthenticated">
+    <h1>Error: You are not authenticated</h1>
   </section>
 </template>
   
@@ -28,7 +31,7 @@ export default {
   props: {
     challenge: {
       type: Challenge || Object,
-      required: true
+      required: false
     }
   },
   setup(props) {
@@ -39,6 +42,11 @@ export default {
     })
 
     const router = useRouter()
+
+    // onMounted(() => {
+    //   editable.value.name = props.challenge.name || '';
+    //   editable.value.description = props.challenge.description || '';
+    // });
 
     async function createChallenge() {
       try {
