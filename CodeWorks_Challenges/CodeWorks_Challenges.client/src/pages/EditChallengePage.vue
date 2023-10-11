@@ -1,11 +1,37 @@
 <template>
-  <section class="bg-dark">
-    <div class="row">
-      <div class="col-12">
-        <h1 class="text-center text-light">Edit Challenge</h1>
-      </div>
-    </div>
+  <!-- <section v-if="challenge" :key="challenge?.id" class="container-fluid">
+    <SubmitChallengeForm :challenge="challenge" @submit="updateChallenge" />
+    {{ challenge }}
+  </section> -->
+  <section class="container-fluid" v-if="challenge" :key="challenge?.id">
+    <button @click="editChallenge()" class="btn btn-info" v-if="!editing">Edit Challenge</button>
+    <button @click="editChallenge()" class="btn btn-warning" v-if="editing">Cancel Edit</button>
+    <button @click="updateChallenge()" class="btn btn-success" v-if="editing">Update Challenge</button>
   </section>
+  <form v-for="(value, key) in challenge" :key="key" id="challengeForm" v-if="editing">
+    <div class="d-flex justify-content-between">
+      <h1>{{ key }}</h1>
+      <input type="text" :value="value" class="form-control w-50">
+    </div>
+  </form>
+  <section>
+    <h4>Add a step</h4>
+    <textarea name="" id="stepText" cols="30" rows="10" ></textarea>
+    <i class="mdi mdi-plus-box fs-1" @click="addStep"></i>
+  </section>
+  <section class="container-fluid" v-for="(step, index) in challenge.steps">
+    <h1>{{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteStep(index)"></i></h1>
+    <textarea name="" id="" cols="30" rows="10">{{ step }}</textarea>
+  </section>
+  <h1 class="text-warning">Below is my prior attempt, I will remove this when I am done.</h1>
+  <div v-for="(value, key) in challenge" :key="key">
+      <!-- <p>{{ key }}: {{ value }}</p> -->
+      <div class="p-3">
+        <h1>{{ key }}</h1>
+        <h5 :id="key">{{ value }} <i class="mdi mdi-pencil" @click="toggleEdit(key, value)"></i></h5>
+        <!-- <input :value="value"> -->
+      </div>
+  </div>
 </template>
 
 <script>
@@ -22,23 +48,6 @@ export default {
     
   },
   setup() {
-
-    const router = useRouter()
-
-    const editable = ref({
-      // name: '',
-      // description: '',
-      // coverImg: '',
-      // difficulty: '',
-      supportLinks: [
-        {
-          name: '',
-          url: ''
-        }
-      ],
-      // pointValue: ''
-    })
-
 
     async function setActiveChallenge() {
       try {
@@ -70,16 +79,56 @@ export default {
     onMounted(() => {
       setActiveChallenge()
     })
+
+    const challenge = computed(() => AppState.activeChallenge)
+    function toggleEdit(key, value){
+        document.getElementById(key).innerHTML = 
+        `<input class="form-control"></input>`
+        document.getElementById(key).textContent = `${value}`
+        const editElement = document.createElement("input")
+        editElement.value = value
+        editElement.id = `${key}-editing`
+        logger.log(value)
+        document.getElementById(key).appendChild(editElement)
+    }
+
+    function editChallenge(){
+      editing.value = !editing.value
+      logger.log(`You are ${editing}`)
+    }
+
+    function addStep(){
+      const newStep = document.getElementById("stepText")
+        challenge.value.steps.push(newStep.value)
+    }
+
+    function deleteStep(index){
+        logger.log("Deleting",challenge.value.steps[index])
+        challenge.value.steps.splice(index, 1)
+    }
+
+    // Dont use below
+    function cancelEdit(key,value){
+      document.getElementById(key).innerHTML = `<p>Edit Cancelled</p>`
+    }
     return {
       editable,
 
       updateChallenge,
       challenge: computed(() => AppState.activeChallenge),
+      editChallenge,
+      editing,
+      addStep,
+      deleteStep,
+      toggleEdit,
+      cancelEdit
     } 
   }
 }
 </script>
 
 <style scoped lang="scss">
-
+  i:hover{
+    color: rgb(163, 235, 47);
+  }
 </style>

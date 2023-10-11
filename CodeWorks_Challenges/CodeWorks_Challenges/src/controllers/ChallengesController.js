@@ -10,6 +10,8 @@ export class ChallengesController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createChallenge)
       .get('/:challengeId', this.setActiveChallenge)
+      .use(Auth0Provider.getAuthorizedUserInfo)
+      .post('', this.createChallenge)
       .put('/:challengeId', this.editChallenge)
       .put('/:challengeId', this.cancelChallenge)
       .delete('/:challengeId', this.deleteChallenge)
