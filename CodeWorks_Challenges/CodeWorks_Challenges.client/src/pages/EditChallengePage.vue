@@ -3,10 +3,10 @@
     <SubmitChallengeForm :challenge="challenge" @submit="updateChallenge" />
     {{ challenge }}
   </section> -->
-  <section class="container-fluid">
+  <section class="container-fluid" v-if="challenge" :key="challenge?.id">
     <button @click="editChallenge()" class="btn btn-info" v-if="!editing">Edit Challenge</button>
     <button @click="editChallenge()" class="btn btn-warning" v-if="editing">Cancel Edit</button>
-    <button @click="updateChallenge()" class="btn btn-success">Update Challenge</button>
+    <button @click="updateChallenge()" class="btn btn-success" v-if="editing">Update Challenge</button>
   </section>
   <form v-for="(value, key) in challenge" :key="key" id="challengeForm" v-if="editing">
     <div class="d-flex justify-content-between">
@@ -20,7 +20,7 @@
     <i class="mdi mdi-plus-box fs-1" @click="addStep"></i>
   </section>
   <section class="container-fluid" v-for="(step, index) in challenge.steps">
-    <h1>{{ index + 1 }} <i class="mdi mdi-trash-can text-danger" @click="deleteStep(index)"></i></h1>
+    <h1>{{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteStep(index)"></i></h1>
     <textarea name="" id="" cols="30" rows="10">{{ step }}</textarea>
   </section>
   <h1 class="text-warning">Below is my prior attempt, I will remove this when I am done.</h1>
