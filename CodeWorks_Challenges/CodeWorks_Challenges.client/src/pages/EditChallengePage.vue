@@ -90,9 +90,14 @@ export default {
       logger.log(`You are ${editing}`)
     }
 
-    function addStep(text){
-      logger.log("Step Text", text)
-      challenge.steps.push(text)
+    function addStep(){
+      const newStep = document.getElementById("stepText")
+        challenge.value.steps.push(newStep.value)
+    }
+
+    function deleteStep(index){
+        logger.log("Deleting",challenge.value.steps[index])
+        challenge.value.steps.splice(index, 1)
     }
 
     // Dont use below
@@ -104,13 +109,8 @@ export default {
       challenge: computed(() => AppState.activeChallenge),
       editChallenge,
       editing,
-      addStep(){
-      const newStep = document.getElementById("stepText")
-        challenge.value.steps.push(newStep.value)
-      },
-      deleteStep(index){
-        logger.log("Deleting",challenge.value.steps[index])
-      },
+      addStep,
+      deleteStep,
       toggleEdit,
       cancelEdit
     } 
