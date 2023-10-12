@@ -35,11 +35,12 @@
       </div>
     </div>
     <div>
-      <button
-        class="btn btn-primary"
-        @click="joinChallenge"
-      >
+      <button class="btn btn-primary" @click="joinChallenge()" v-if="!isParticipant">
         Join Challenge
+      </button>
+      
+      <button class="btn btn-danger" @click="removeParticipant()" v-if="isParticipant">
+        Leave Challenge
       </button>
     </div>
     <div v-if="user.id === challenge?.creatorId">
@@ -87,11 +88,20 @@ export default {
 
     async function joinChallenge() {
       try {
+        const addConfirm = await Pop.confirm('Would you like to join this challenge?')
+
+        if(!addConfirm){
+          return
+        }
+
         const newParticipant = {
           challengeId: route.params.challengeId,
           accountId: AppState.user.id
         }
+
         await participantsService.createParticipant(newParticipant)
+
+        Pop.success('joined challenge!')
       } catch (error) {
         logger.error(error)
         Pop.toast(error, 'error')
@@ -134,8 +144,17 @@ export default {
 
       async removeParticipant() {
         try {
+          const removeConfirm = await Pop.confirm('Are you sure you want to leave this challenge? Your points will not be refunded.')
+
+          if(!removeConfirm){
+            return
+          }
+
           let participant = AppState.participants.find(p => p.accountId == AppState.account.id)
-          await participantsService.removeParticipant(participant.id)
+
+          await participantsService.deleteParticipant(participant.id)
+
+          Pop.success('left challenge!')
         } catch (error) {
           logger.error(error)
           Pop.toast(error, 'error')

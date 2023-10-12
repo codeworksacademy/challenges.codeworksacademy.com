@@ -8,34 +8,34 @@ export class ParticipantsController extends BaseController{
       this.router
         .use(Auth0Provider.getAuthorizedUserInfo)
         .post('', this.createParticipant)
-        .delete('/:participantId', this.removeParticipant)
+        .delete('/:participantId', this.leaveChallenge)
     }
     
     async createParticipant(req, res, next){
       try {
-          const participantData = req.body
+        const participantData = req.body
 
-          participantData.accountId = req.userInfo.id
+        participantData.accountId = req.userInfo.id
 
-          const participant = await participantsService.createParticipant(participantData)
+        const participant = await participantsService.createParticipant(participantData)
 
-          return res.send(participant)
+        return res.send(participant)
       } catch (error) {
-          next(error)
+        next(error)
       }
     }
 
-    async removeParticipant(req, res, next) {
+    async leaveChallenge(req, res, next) {
       try {
-          const participantId = req.params.participantId
+        const participantId = req.params.participantId
 
-          const userId = req.userInfo.id
+        const userId = req.userInfo.id
 
-          const participantToRemove = await participantsService.removeParticipant(participantId, userId)
+        const participantToRemove = await participantsService.leaveChallenge(participantId, userId)
 
-          return res.send(participantToRemove)
+        return res.send(participantToRemove)
       } catch (error) {
-          next(error)
+        next(error)
       }
     }
 }

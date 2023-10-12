@@ -43,7 +43,7 @@ class ParticipantsService {
 			return participants
     }
 
-    async removeParticipant(participantId, userId) {
+    async leaveChallenge(participantId, userId) {
 			const participantToRemove = await dbContext.Participants.findById(participantId)
 
 			if (!participantToRemove) {
@@ -52,6 +52,28 @@ class ParticipantsService {
 
 			if (userId != participantToRemove.accountId) {
 				throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this participant's. You may not remove other participants.")
+			}
+
+			await participantToRemove.remove()
+
+			return participantToRemove
+    }
+
+		async removeParticipant(challengeId, userId, participantData) {
+      const challenge = await challengesService.getChallengeById(challengeId)
+
+			const participantToRemove = await dbContext.Participants.findById(participantData.id)
+
+			if(!challenge){
+				throw new BadRequest('Invalid challenge ID.')
+			}
+
+			if(!participantToRemove){
+				throw new BadRequest('Invalid participant ID.')
+			}
+
+			if(userId != challenge.creatorId){
+				throw new Forbidden(`[PERMISSIONS ERROR]: You are not the creator of ${challenge.name}. You may not remove participants from it.`)
 			}
 
 			await participantToRemove.remove()
