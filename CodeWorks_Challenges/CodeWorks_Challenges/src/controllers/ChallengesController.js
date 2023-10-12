@@ -1,11 +1,13 @@
 import BaseController from '../utils/BaseController.js'
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { challengesService } from '../services/ChallengesService.js'
+import { participantsService } from '../services/ParticipantsService.js'
 
 export class ChallengesController extends BaseController {
   constructor() {
     super('api/challenges')
     this.router
+      .get(':/challengeId/participants', this.getParticipantsByChallengeId)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createChallenge)
       .get('', this.getAllChallenges)
@@ -13,6 +15,27 @@ export class ChallengesController extends BaseController {
       .put('/:challengeId', this.editChallenge)
       .put('/:challengeId', this.cancelChallenge)
       .delete('/:challengeId', this.deleteChallenge)
+  }
+
+  async getAllChallenges(req, res, next) {
+    try {
+      const challenges = await challengesService.getAllChallenges()
+      return res.send(challenges)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getParticipantsByChallengeId(req, res, next) {
+    try {
+      const challengeId = req.params.challengeId
+
+      const participants = await participantsService.getParticipantsByChallengeId(challengeId)
+
+      return participants
+    } catch (error) {
+      next(error)
+    }
   }
 
   async createChallenge(req, res, next) {
@@ -25,14 +48,6 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  async getAllChallenges(req, res, next) {
-    try {
-      const challenges = await challengesService.getAllChallenges()
-      return res.send(challenges)
-    } catch (error) {
-      next(error)
-    }
-  }
 
   async setActiveChallenge(req, res, next) {
     try {

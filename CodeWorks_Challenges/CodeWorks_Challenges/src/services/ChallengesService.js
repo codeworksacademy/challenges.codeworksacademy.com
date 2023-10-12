@@ -1,6 +1,5 @@
 import { dbContext } from "../db/DbContext.js";
 import { BadRequest, Forbidden } from "../utils/Errors.js";
-import { accountService } from "./AccountService.js";
 
 class ChallengesService {
 
@@ -20,6 +19,16 @@ class ChallengesService {
     const challenges = await dbContext.Challenges.find().populate('creator')
     .sort({ createdAt: -1 })
     return challenges
+  }
+
+  async getChallengeById(challengeId){
+    const challenge = (await dbContext.Challenges.findById(challengeId)).populate('creator', 'name picture')
+
+    if(!challenge){
+      throw new BadRequest('Invalid Challenge ID')
+    }
+
+    return challenge
   }
 
   async setActiveChallenge(challengeId) {
