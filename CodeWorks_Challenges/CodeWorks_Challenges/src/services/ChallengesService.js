@@ -1,6 +1,5 @@
 import { dbContext } from "../db/DbContext.js";
 import { BadRequest, Forbidden } from "../utils/Errors.js";
-import { accountService } from "./AccountService.js";
 
 class ChallengesService {
 
@@ -22,6 +21,16 @@ class ChallengesService {
     return challenges
   }
 
+  async getChallengeById(challengeId){
+    const challenge = (await dbContext.Challenges.findById(challengeId)).populate('creator', 'name picture')
+
+    if(!challenge){
+      throw new BadRequest('Invalid Challenge ID.')
+    }
+
+    return challenge
+  }
+
   // TO DO: Add challenges that a user has joined and completed
   async getProfileChallenges(profileId) {
     const challenges = await dbContext.Challenges.find({creatorId: profileId}).populate('creator')
@@ -37,7 +46,7 @@ class ChallengesService {
     const challenge = await dbContext.Challenges.findById(challengeId)
     .populate('creator', 'name picture')
     if (!challenge) {
-      throw new BadRequest("Invalid Challenge Id")
+      throw new BadRequest("Invalid Challenge ID.")
     }
     return challenge
   }

@@ -35,7 +35,8 @@ export default {
 
     const editable = ref({
       name: '',
-      description: ''
+      description: '',
+      coverImg: 'https://i.ibb.co/c21hFZN/card-gradient.png'
     })
 
     const router = useRouter()
@@ -69,6 +70,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import url('../assets/scss/_variables.scss')
+@import '../assets/scss/_variables.scss';
+
 
 </style>

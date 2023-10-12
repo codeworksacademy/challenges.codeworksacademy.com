@@ -98,6 +98,9 @@ app.use("/user-profile", getAuthorizedUserInfo, (req, res, next) => {
 // validates the request token, extracts the userIdentity and userInfo
 // fails if role is not found in the token
 // Enable RBAC or Extended Rules
+// Bring in with dot notation on the role name on the frontend using the following syntax:
+// "roles": ["admin", "editor"]
+// Which class would this be set to? The answer is both. The user would have both roles. So could we bring it in as user.roles.admin and user.roles.editor? The answer is 
 app.use(
   "/admins-only",
   auth0Provider.hasRoles("admin"),

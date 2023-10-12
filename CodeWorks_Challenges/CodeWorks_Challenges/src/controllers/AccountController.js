@@ -2,6 +2,7 @@ import { Auth0Provider } from '@bcwdev/auth0provider'
 import { accountService } from '../services/AccountService'
 import BaseController from '../utils/BaseController'
 import { challengesService } from '../services/ChallengesService'
+import { participantsService } from '../services/ParticipantsService'
 
 export class AccountController extends BaseController {
   constructor() {
@@ -10,6 +11,7 @@ export class AccountController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getUserAccount)
       .get('/challenges', this.getMyChallenges)
+      .get('/participants', this.getParticipantsByAccount)
   }
 
   async getUserAccount(req, res, next) {
@@ -26,6 +28,15 @@ export class AccountController extends BaseController {
       const myChallenges = req.userInfo.id
       const challenges = await challengesService.getMyChallenges(myChallenges)
       res.send(challenges)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getParticipantsByAccount(req, res, next) {
+    try {
+      const participants = await participantsService.getParticipantsByAccount(req.userInfo.id)
+      res.send(participants)
     } catch (error) {
       next(error)
     }

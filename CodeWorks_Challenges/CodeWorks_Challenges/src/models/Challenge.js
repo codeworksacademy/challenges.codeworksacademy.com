@@ -29,7 +29,7 @@ export const ChallengeSchema = new Schema({
   coverImg: {
     type: String,
     required: true,
-    default: 'https://placehold.it/200x200',
+    default: 'https://i.ibb.co/b1bXrRw/card-gradient.png',
     maxLength: 500
   },
   supportLinks: [

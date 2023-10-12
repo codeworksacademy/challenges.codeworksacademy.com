@@ -37,6 +37,6 @@ select {
 }
 
 form:invalid button[type="submit"] {
-  filter: grayscale(1);
+  filter: grayscale(.5);
   pointer-events: none;
 }

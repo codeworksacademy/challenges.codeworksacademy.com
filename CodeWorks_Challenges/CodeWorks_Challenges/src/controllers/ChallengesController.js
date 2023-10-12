@@ -1,18 +1,58 @@
 import BaseController from '../utils/BaseController.js'
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { challengesService } from '../services/ChallengesService.js'
+import { participantsService } from '../services/ParticipantsService.js'
 
 export class ChallengesController extends BaseController {
   constructor() {
     super('api/challenges')
     this.router
       .get('', this.getAllChallenges)
-      .use(Auth0Provider.getAuthorizedUserInfo)
-      .post('', this.createChallenge)
       .get('/:challengeId', this.setActiveChallenge)
+      .get('/:challengeId/participants', this.getParticipantsByChallengeId)
+
+      .use(Auth0Provider.getAuthorizedUserInfo)
+
+      .post('', this.createChallenge)
       .put('/:challengeId', this.editChallenge)
       .put('/:challengeId', this.cancelChallenge)
       .delete('/:challengeId', this.deleteChallenge)
+      .delete('/:challengeId/participants', this.removeParticipant)
+  }
+
+  async getAllChallenges(req, res, next) {
+    try {
+      const challenges = await challengesService.getAllChallenges()
+      return res.send(challenges)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getParticipantsByChallengeId(req, res, next) {
+    try {
+      const challengeId = req.params.challengeId
+
+      const participants = await participantsService.getParticipantsByChallengeId(challengeId)
+
+      return res.send(participants)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async removeParticipant(req, res, next) {
+    try {
+      const challengeId = req.params.challengeId
+
+      const participantData = req.body
+
+      const userId = req.userInfo.id
+
+      const participantToRemove = await participantsService.removeParticipant(challengeId, userId, participantData)
+    } catch (error) {
+      next(error)
+    }
   }
 
   async createChallenge(req, res, next) {
@@ -20,15 +60,6 @@ export class ChallengesController extends BaseController {
       req.body.creatorId = req.userInfo.id
       const challenge = await challengesService.createChallenge(req.body)
       return res.send(challenge)
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  async getAllChallenges(req, res, next) {
-    try {
-      const challenges = await challengesService.getAllChallenges()
-      return res.send(challenges)
     } catch (error) {
       next(error)
     }

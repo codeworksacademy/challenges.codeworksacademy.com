@@ -26,13 +26,11 @@ const routes = [
     path: '/challenges',
     name: 'Challenges',
     component: loadPage('ChallengePage'),
-    // beforeEnter: authSettled
   },
   {
     path: '/challenges/:challengeId',
     name: 'ChallengeDetails',
     component: loadPage('ChallengeDetailsPage'),
-    beforeEnter: authSettled,
     children: [
       {
       path: 'edit',

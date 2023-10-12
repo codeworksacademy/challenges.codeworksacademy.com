@@ -3,6 +3,7 @@ import { logger } from "../utils/Logger.js"
 import { api } from './AxiosService'
 import { Challenge } from "../models/Challenge.js"
 import Pop from "../utils/Pop.js"
+import { Participant } from "../models/Participant.js"
 
 class ChallengesService {
 
@@ -62,12 +63,11 @@ class ChallengesService {
     AppState.activeChallenge = res.data
     return res.data
   }
-
-  async updateSteps(newSteps, challengeId) {
-    const res = await api.put(`/api/challenges/${challengeId}`, { newSteps })
-    logger.log('Editing Steps ⏩', res.data)
-    AppState.activeChallenge = res.data
-    return res.data
+  async getParticipantsByChallengeId(challengeId) {
+    const res = await api.get(`api/challenges/${challengeId}/participants`)
+    logger.log(res.data)
+    AppState.participants = res.data.map(p => new Participant(p))
+    logger.log('Participants in this challenge:', AppState.participants)
   }
 }
 
