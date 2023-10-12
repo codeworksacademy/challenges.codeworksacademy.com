@@ -27,8 +27,10 @@ class ParticipantsService {
     }
 
     async getParticipantsByChallengeId(challengeId) {
-			const participants = await dbContext.Participants.find({challengeId}).populate('profile', 'name picture')
-
+			const participants = await dbContext.Participants.find({challengeId}).populate({
+				path: 'challenge',
+				populate: {path: 'creator participantCount'}
+			}).populate('profile', 'name picture')
 			return participants
     }
 
@@ -49,7 +51,7 @@ class ParticipantsService {
 			}
 			
 			if (userId != participantToRemove.accountId) {
-				throw new BadRequest("Your information does not match this participant's. You may not remove other participants.")
+				throw new BadRequest("[PERMISSIONS ERROR]: Your information does not match this participant's. You may not remove other participants.")
 			}
 
 			await participantToRemove.remove()
