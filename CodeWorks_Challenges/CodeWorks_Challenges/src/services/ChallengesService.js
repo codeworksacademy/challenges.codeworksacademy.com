@@ -10,14 +10,14 @@ class ChallengesService {
   }
 
   async getMyChallenges(accountId) {
-    const myChallenges = await dbContext.Challenges.find({accountId})
-    .populate('challenge')
+    const myChallenges = await dbContext.Challenges.find({ creatorId: accountId })
+      .populate('creator')
     return myChallenges
   }
 
   async getAllChallenges() {
     const challenges = await dbContext.Challenges.find().populate('creator')
-    .sort({ createdAt: -1 })
+      .sort({ createdAt: -1 })
     return challenges
   }
 
@@ -44,7 +44,7 @@ class ChallengesService {
 
   async setActiveChallenge(challengeId) {
     const challenge = await dbContext.Challenges.findById(challengeId)
-    .populate('creator', 'name picture')
+      .populate('creator', 'name picture')
     if (!challenge) {
       throw new BadRequest("Invalid Challenge ID.")
     }
@@ -58,7 +58,7 @@ class ChallengesService {
         `[PERMISSIONS ERROR]: Only the creator of ${challenge.name} can edit it.`
       )
     }
-    
+
     challenge.name = newChallenge.name || challenge.name
     challenge.description = newChallenge.description || challenge.description
     challenge.steps = newChallenge.steps || challenge.steps
@@ -87,7 +87,7 @@ class ChallengesService {
 
   async deleteChallenge(challengeId, userId) {
     const challenge = await this.setActiveChallenge(challengeId)
-    if  (challenge.creatorId != userId)
+    if (challenge.creatorId != userId)
       throw new Forbidden(
         `[PERMISSIONS ERROR]: You are not the creator of ${challenge.name}, therefore you cannot delete it.`
       )

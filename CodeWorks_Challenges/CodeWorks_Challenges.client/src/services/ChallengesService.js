@@ -15,7 +15,7 @@ class ChallengesService {
   }
 
   async getMyChallenges(accountId) {
-    const res = await api.get(`api/account/${accountId}/challenges`)
+    const res = await api.get(`/account/${accountId}/challenges`)
     AppState.myChallenges = res.data.map(c => new Challenge(c))
     logger.log('My Challenges:', AppState.myChallenges)
   }
@@ -27,14 +27,14 @@ class ChallengesService {
     logger.log('Challenges:', AppState.challenges)
   }
 
-  async getProfileChallenges(profileId){
+  async getProfileChallenges(profileId) {
     const res = await api.get(`api/profiles/${profileId}/challenges`)
 
     logger.log('[GETTING PROFILE CHALLENGES]', res.data)
 
     AppState.challenges = res.data.map(c => new Challenge(c))
   }
-    
+
   async setActiveChallenge(challengeId) {
     const res = await api.get(`/api/challenges/${challengeId}`)
     AppState.activeChallenge = res.data

@@ -33,10 +33,10 @@ const routes = [
     component: loadPage('ChallengeDetailsPage'),
     children: [
       {
-      path: 'edit',
-      name: 'EditChallenge',
-      component: loadPage('EditChallengePage'),
-      beforeEnter: authGuard
+        path: 'edit',
+        name: 'EditChallenge',
+        component: loadPage('EditChallengePage'),
+        beforeEnter: authGuard
       }
     ]
   },
