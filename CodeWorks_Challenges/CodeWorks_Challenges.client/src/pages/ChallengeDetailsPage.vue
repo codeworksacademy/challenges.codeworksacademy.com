@@ -39,7 +39,7 @@
         Join Challenge
       </button>
       
-      <button class="btn btn-danger" @click="removeParticipant()" v-if="isParticipant">
+      <button class="btn btn-danger" @click="leaveChallenge()" v-if="isParticipant">
         Leave Challenge
       </button>
     </div>
@@ -86,28 +86,6 @@ export default {
       }
     }
 
-    async function joinChallenge() {
-      try {
-        const addConfirm = await Pop.confirm('Would you like to join this challenge?')
-
-        if(!addConfirm){
-          return
-        }
-
-        const newParticipant = {
-          challengeId: route.params.challengeId,
-          accountId: AppState.user.id
-        }
-
-        await participantsService.createParticipant(newParticipant)
-
-        Pop.success('joined challenge!')
-      } catch (error) {
-        logger.error(error)
-        Pop.toast(error, 'error')
-      }
-    }
-
     onMounted(() => {
     })
     
@@ -123,26 +101,34 @@ export default {
       challenge: computed(() => AppState.activeChallenge),
       participants: computed(() => AppState.participants),
 
-      joinChallenge,
 
       isParticipant: computed (() =>
         AppState.participants.find(p => p.accountId == AppState.account.id)
       ),
 
-      async createParticipant() {
+      async joinChallenge() {
         try {
-          loading.value = true
-          let newParticipant = {
-            challengeId: route.params.challengeId
+          const addConfirm = await Pop.confirm('Would you like to join this challenge? This will use your points.')
+
+          if(!addConfirm){
+            return
           }
+
+          const newParticipant = {
+            challengeId: route.params.challengeId,
+            accountId: AppState.user.id
+          }
+
           await participantsService.createParticipant(newParticipant)
+
+          Pop.success('joined challenge!')
         } catch (error) {
           logger.error(error)
           Pop.toast(error, 'error')
         }
       },
 
-      async removeParticipant() {
+      async leaveChallenge() {
         try {
           const removeConfirm = await Pop.confirm('Are you sure you want to leave this challenge? Your points will not be refunded.')
 
@@ -152,7 +138,7 @@ export default {
 
           let participant = AppState.participants.find(p => p.accountId == AppState.account.id)
 
-          await participantsService.deleteParticipant(participant.id)
+          await participantsService.leaveChallenge(participant.id)
 
           Pop.success('left challenge!')
         } catch (error) {

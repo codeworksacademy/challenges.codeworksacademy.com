@@ -10,7 +10,7 @@ class ParticipantsService {
     AppState.participants.push(new Participant(res.data))
   }
 
-  async deleteParticipant(participantId) {
+  async leaveChallenge(participantId) {
     const res = await api.delete(`api/participants/${participantId}`)
     logger.log('Deleted participant:', res.data)
     let participantToRemove = AppState.participants.findIndex(p => p.id === participantId)
