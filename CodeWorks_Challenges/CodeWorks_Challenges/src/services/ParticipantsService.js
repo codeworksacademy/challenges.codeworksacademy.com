@@ -1,5 +1,5 @@
 import { dbContext } from "../db/DbContext.js"
-import { BadRequest } from "../utils/Errors.js"
+import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { challengesService } from "./ChallengesService.js"
 
 class ParticipantsService {
@@ -49,9 +49,9 @@ class ParticipantsService {
 			if (!participantToRemove) {
 				throw new BadRequest("Invalid participant ID.")
 			}
-			
+
 			if (userId != participantToRemove.accountId) {
-				throw new BadRequest("[PERMISSIONS ERROR]: Your information does not match this participant's. You may not remove other participants.")
+				throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this participant's. You may not remove other participants.")
 			}
 
 			await participantToRemove.remove()

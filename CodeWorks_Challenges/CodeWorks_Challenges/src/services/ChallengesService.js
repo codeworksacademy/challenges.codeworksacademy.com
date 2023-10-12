@@ -25,7 +25,7 @@ class ChallengesService {
     const challenge = (await dbContext.Challenges.findById(challengeId)).populate('creator', 'name picture')
 
     if(!challenge){
-      throw new BadRequest('Invalid Challenge ID')
+      throw new BadRequest('Invalid Challenge ID.')
     }
 
     return challenge
@@ -35,7 +35,7 @@ class ChallengesService {
     const challenge = await dbContext.Challenges.findById(challengeId)
     .populate('creator', 'name picture')
     if (!challenge) {
-      throw new BadRequest("Invalid Challenge Id")
+      throw new BadRequest("Invalid Challenge ID.")
     }
     return challenge
   }
