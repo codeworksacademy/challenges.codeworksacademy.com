@@ -7,11 +7,13 @@ export class ChallengesController extends BaseController {
   constructor() {
     super('api/challenges')
     this.router
-      .get(':/challengeId/participants', this.getParticipantsByChallengeId)
-      .use(Auth0Provider.getAuthorizedUserInfo)
-      .post('', this.createChallenge)
       .get('', this.getAllChallenges)
       .get('/:challengeId', this.setActiveChallenge)
+      .get('/:challengeId/participants', this.getParticipantsByChallengeId)
+
+      .use(Auth0Provider.getAuthorizedUserInfo)
+
+      .post('', this.createChallenge)
       .put('/:challengeId', this.editChallenge)
       .put('/:challengeId', this.cancelChallenge)
       .delete('/:challengeId', this.deleteChallenge)
@@ -32,7 +34,7 @@ export class ChallengesController extends BaseController {
 
       const participants = await participantsService.getParticipantsByChallengeId(challengeId)
 
-      return participants
+      return res.send(participants)
     } catch (error) {
       next(error)
     }
