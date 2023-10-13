@@ -12,8 +12,15 @@ export const ModeratorSchema = new Schema({
     required: true,
     ref: 'Account'
   },
-  origin: {},
-  status: {}
+  origin: {
+    type: String,
+    required: true,
+    enum: ['owner', 'participant', 'admin']
+  },
+  status: {
+    type: Boolean,
+    default: false
+  }
 },
   { timestamps: true, toJSON: { virtuals: true } }
 )

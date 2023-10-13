@@ -4,82 +4,54 @@ import { challengesService } from "./ChallengesService.js"
 
 class ModeratorsService {
 
-  // async createParticipant(participantData) {
+  async createModeration(moderatorData) {
+    const challenge = await challengesService.getChallengeById(moderatorData.challengeId)
+    // Check for origin 'owner', 'participant', 'admin'
+    // Admin should just have own route?
+    if (challenge.creatorId != moderatorData.accountId) {
+      moderatorData.origin = 'participant'
+    } else {
+      moderatorData.origin = 'owner'
+    }
 
-  //   const challenge = await challengesService.getChallengeById(participantData.challengeId)
+    const moderation = await dbContext.Moderators.create(moderatorData)
+    return moderation
+  }
 
-  //   if (challenge.isCancelled == true) {
-  //     throw new BadRequest('This challenge has been cancelled. You may not join a cancelled challenge.')
-  //   }
+  async getModeratorsByChallengeId(challengeId) {
+    const moderators = await dbContext.Moderators.find({ challengeId: challengeId, status: true })
+    return moderators
+  }
+  async removeModeratoration(moderatorId, userId) {
+    const moderatorToRemove = await dbContext.Moderators.findById(moderatorId)
 
-  //   const participant = await dbContext.Participants.create(participantData)
+    if (!moderatorToRemove) {
+      throw new BadRequest("Invalid moderator ID.")
+    }
 
-  //   await participant.populate('profile', 'name picture')
+    if (userId != moderatorToRemove.accountId) {
+      throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this moderator's. You may not remove other moderator.")
+    }
+    await moderatorToRemove.remove()
 
-  //   await participant.populate({
-  //     path: 'challenge',
-  //     populate: {
-  //       path: 'creator participantCount'
-  //     }
-  //   })
+    return moderatorToRemove
+  }
 
-  //   return participant
-  // }
+  async removeModerator(moderatorId, userId, challengeId) {
+    const moderatorToRemove = await dbContext.Moderators.findById(moderatorId)
+    const challenge = await challengesService.getChallengeById(challengeId)
 
-  // async getParticipantsByChallengeId(challengeId) {
-  //   const participants = await dbContext.Participants.find({ challengeId }).populate({
-  //     path: 'challenge',
-  //     populate: { path: 'creator participantCount' }
-  //   }).populate('profile', 'name picture')
-  //   return participants
-  // }
+    if (!moderatorToRemove) {
+      throw new BadRequest("Invalid moderator ID.")
+    }
 
-  // async getParticipantsByAccount(userId) {
-  //   const participants = await dbContext.Participants.find({ accountId: userId }).populate({
-  //     path: 'challenge',
-  //     populate: { path: 'creator participantCount' }
-  //   })
+    if (userId != challenge.creatorId) {
+      throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this moderator's. You may not remove other moderator.")
+    }
+    await moderatorToRemove.remove()
 
-  //   return participants
-  // }
-
-  // async leaveChallenge(participantId, userId) {
-  //   const participantToRemove = await dbContext.Participants.findById(participantId)
-
-  //   if (!participantToRemove) {
-  //     throw new BadRequest("Invalid participant ID.")
-  //   }
-
-  //   if (userId != participantToRemove.accountId) {
-  //     throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this participant's. You may not remove other participants.")
-  //   }
-
-  //   await participantToRemove.remove()
-
-  //   return participantToRemove
-  // }
-
-  // async removeParticipant(challengeId, userId, participantData) {
-  //   const challenge = await challengesService.getChallengeById(challengeId)
-
-  //   const participantToRemove = await dbContext.Participants.findById(participantData.id)
-
-  //   if (!challenge) {
-  //     throw new BadRequest('Invalid challenge ID.')
-  //   }
-
-  //   if (!participantToRemove) {
-  //     throw new BadRequest('Invalid participant ID.')
-  //   }
-
-  //   if (userId != challenge.creatorId) {
-  //     throw new Forbidden(`[PERMISSIONS ERROR]: You are not the creator of ${challenge.name}. You may not remove participants from it.`)
-  //   }
-
-  //   await participantToRemove.remove()
-
-  //   return participantToRemove
-  // }
+    return moderatorToRemove
+  }
 }
 
 export const moderatorsService = new ModeratorsService()

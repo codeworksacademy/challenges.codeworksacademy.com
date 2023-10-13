@@ -1,3 +1,4 @@
+import { moderatorsService } from "../services/ModeratorsService.js";
 import { participantsService } from "../services/ParticipantsService.js";
 import BaseController from "../utils/BaseController.js"
 import { Auth0Provider } from "@bcwdev/auth0provider";
@@ -13,7 +14,10 @@ export class ModeratorsController extends BaseController {
 
   async createModeration(req, res, next) {
     try {
+      const moderatorData = req.body
+      moderatorData.accountId = req.userInfo.id
 
+      const moderation = await moderatorsService.createModeration(moderatorData)
       return res.send()
     } catch (error) {
       next(error);
@@ -21,8 +25,10 @@ export class ModeratorsController extends BaseController {
   }
   async removeModeration(req, res, next) {
     try {
-
-      return res.send()
+      const moderatorId = req.params.moderatorId
+      const userId = req.userInfo.id
+      const moderatorToRemove = await moderatorsService.removeModeratoration(moderatorId, userId)
+      return res.send(moderatorToRemove)
     } catch (error) {
       next(error);
     }
