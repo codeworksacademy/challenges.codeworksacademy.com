@@ -3,15 +3,19 @@
     <div class="row bg-img d-flex justify-content-center align-items-center"
       :style="`background-image: url(${challenge.coverImg}); opacity: .9;`">
       <div class="text-box">
-        <div class="header">
+        <div class="header flex-grow-1 d-flex justify-content-between">
           <h1>{{ challenge.name }}</h1>
+          <!--TODO Button will route to EditChallenge Page -->
+          <button class="btn btn-outline-warning text-warning">
+            Edit
+          </button>
         </div>
         <div class="body">
           <p>{{ challenge.description }}</p>
           <p>Points: {{ challenge.pointValue }}</p>
           <p>Difficulty: {{ difficulty }}</p>
           <p>Created by: {{ challenge.creator.name }}</p>
-          <p>Support Links:</p>
+          <p v-if="challenge.supportLinks.length > 0">Support Links: {{ challenge.supportLinks }}</p>
           <p>Participants: {{ participants.length }}</p>
         </div>
         <div v-for="(link, i) in challenge.supportLinks" :key="i" class="footer">
@@ -24,23 +28,37 @@
       </div>
     </div>
     <section v-if="isParticipant" class="row">
+      <!-- v-if is here because participants can be created with out being assigned a status -->
       <div class="col-4" v-if="isParticipant.status">Status: <span class="text-warning">{{ isParticipant.status }}</span>
       </div>
-      <div class="col-4" v-else>
+      <div class="col-4 text-warning" v-else>
         Participant is missing status
       </div>
       <div class="col-4">Progress: <span class="text-warning">-1/10 // 50% Etc</span> </div>
       <div class="col-4">Started: <span class="text-warning">{{ isParticipant.createdAt }}</span></div>
     </section>
-    <div>
-      <button class="btn btn-primary" @click="joinChallenge()" v-if="!isParticipant">
-        Join Challenge
-      </button>
+    <section class="row">
+      <div class="col-8 d-flex justify-content-around">
+        <button class="btn btn-success">
+          Submit For Review
+        </button>
+        <button v-if="challenge.creatorId != user.id" class="btn btn-primary">
+          Request to become a moderator
+        </button>
+        <button v-else class="btn btn-primary">
+          Invite a moderator
+        </button>
+      </div>
+      <div class="col-4">
+        <button class="btn btn-primary" @click="joinChallenge()" v-if="!isParticipant">
+          Join Challenge
+        </button>
 
-      <button class="btn btn-danger" @click="leaveChallenge()" v-if="isParticipant">
-        Leave Challenge
-      </button>
-    </div>
+        <button class="btn btn-danger" @click="leaveChallenge()" v-if="isParticipant">
+          Leave Challenge
+        </button>
+      </div>
+    </section>
     <div v-if="user.id === challenge?.creatorId">
       <router-view />
     </div>
@@ -180,15 +198,13 @@ export default {
     padding: 3rem;
 
     .header {
-      h1 {
-        background: linear-gradient(rgba(0, 0, 0, .75), rgba(0, 0, 0, .5));
-        padding: 1rem;
-        font-size: 2rem;
-        font-weight: bold;
-        margin: 0 auto;
-        border-top-left-radius: 1rem;
-        border-top-right-radius: 1rem;
-      }
+      background: linear-gradient(rgba(0, 0, 0, .75), rgba(0, 0, 0, .5));
+      padding: 1rem;
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 0 auto;
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
     }
 
     .body {
