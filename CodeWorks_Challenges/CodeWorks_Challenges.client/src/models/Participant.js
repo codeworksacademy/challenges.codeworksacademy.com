@@ -9,5 +9,7 @@ export class Participant {
     this.status = data.status
     this.hasAuth = data.hasAuth || false
     this.profile = data.profile
+    this.createdAt = data.createdAt
+    this.updatedAt = data.updatedAt
   }
 }

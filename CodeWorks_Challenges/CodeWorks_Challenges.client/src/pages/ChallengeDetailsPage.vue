@@ -1,44 +1,42 @@
 <template>
-  <section
-    v-if="challenge"
-    :key="challenge?.id"
-    class="container-fluid text-light"
-  >
-    <div class="row bg-img d-flex justify-content-center align-items-center" :style="`background-image: url(${challenge.coverImg}); opacity: .9;`">
+  <section v-if="challenge" :key="challenge?.id" class="container-fluid text-light">
+    <div class="row bg-img d-flex justify-content-center align-items-center"
+      :style="`background-image: url(${challenge.coverImg}); opacity: .9;`">
       <div class="text-box">
         <div class="header">
           <h1>{{ challenge.name }}</h1>
         </div>
         <div class="body">
           <p>{{ challenge.description }}</p>
-          <p>PTS: {{ challenge.pointValue }}</p>
-          <p>Difficulty: {{ challenge.difficulty.name }}</p>
-          <p>Creator: {{ challenge.creator.name }}</p>
+          <p>Points: {{ challenge.pointValue }}</p>
+          <p>Difficulty: {{ difficulty }}</p>
+          <p>Created by: {{ challenge.creator.name }}</p>
           <p>Support Links:</p>
           <p>Participants: {{ participants.length }}</p>
         </div>
-        <div
-          v-for="(link, i) in challenge.supportLinks"
-          :key="i"
-          class="footer"
-        >
+        <div v-for="(link, i) in challenge.supportLinks" :key="i" class="footer">
           <p class="col-8 ps-3" style="font-size: .65rem;">
-            <a
-              :href="link.url"
-              :title="`Project Links: ${challenge.supportLinks}`"
-              class="fw-bold hover-text-primary"
-            >
+            <a :href="link.url" :title="`Project Links: ${challenge.supportLinks}`" class="fw-bold hover-text-primary">
               {{ link.name }}
             </a>
           </p>
         </div>
       </div>
     </div>
+    <section v-if="isParticipant" class="row">
+      <div class="col-4" v-if="isParticipant.status">Status: <span class="text-warning">{{ isParticipant.status }}</span>
+      </div>
+      <div class="col-4" v-else>
+        Participant is missing status
+      </div>
+      <div class="col-4">Progress: <span class="text-warning">-1/10 // 50% Etc</span> </div>
+      <div class="col-4">Started: <span class="text-warning">{{ isParticipant.createdAt }}</span></div>
+    </section>
     <div>
       <button class="btn btn-primary" @click="joinChallenge()" v-if="!isParticipant">
         Join Challenge
       </button>
-      
+
       <button class="btn btn-danger" @click="leaveChallenge()" v-if="isParticipant">
         Leave Challenge
       </button>
@@ -89,7 +87,7 @@ export default {
 
     onMounted(() => {
     })
-    
+
     watchEffect(() => {
       getParticipantsByChallengeId()
       setActiveChallenge()
@@ -102,8 +100,27 @@ export default {
       challenge: computed(() => AppState.activeChallenge),
       participants: computed(() => AppState.participants),
 
+      difficulty: computed(() => {
+        const dif = AppState.activeChallenge.difficulty
+        // Switch statement converting the challenges difficulty into words- Change the string at will
+        switch (dif) {
+          case 1:
+            return 'Easy'
+          case 2:
+            return 'Medium'
+          case 3:
+            return 'Hard'
+          case 4:
+            return 'Unforgiving'
+          case 5:
+            return 'Milk Shoes'
+          default:
+            return 'N/A'
+        }
+      }),
 
-      isParticipant: computed (() =>
+
+      isParticipant: computed(() =>
         AppState.participants.find(p => p.accountId == AppState.account.id)
       ),
 
@@ -111,7 +128,7 @@ export default {
         try {
           const addConfirm = await Pop.confirm('Would you like to join this challenge? This will use your points.')
 
-          if(!addConfirm){
+          if (!addConfirm) {
             return
           }
 
@@ -133,7 +150,7 @@ export default {
         try {
           const removeConfirm = await Pop.confirm('Are you sure you want to leave this challenge? Your points will not be refunded.')
 
-          if(!removeConfirm){
+          if (!removeConfirm) {
             return
           }
 
@@ -147,7 +164,7 @@ export default {
           Pop.toast(error, 'error')
         }
       }
-    } 
+    }
   }
 }
 </script>
@@ -157,31 +174,34 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-    .text-box {
-      background-color: rgba(0,0,0,.75);
-      padding: 3rem;
-      .header {
-        h1 {
-          background: linear-gradient(rgba(0,0,0,.75), rgba(0,0,0, .5));
-          padding: 1rem;
-          font-size: 2rem;
-          font-weight: bold;
-          margin: 0 auto;
-          border-top-left-radius: 1rem;
-          border-top-right-radius: 1rem;
-        }
-      }
-        .body {
-          background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0));
-          padding: 1rem;
-        }
 
-        .footer {
-          background: linear-gradient(rgba(0,0,0), rgba(0,0,0, .75));
-          padding: 1rem;
-          border-bottom-left-radius: 1rem;
-          border-bottom-right-radius: 1rem;
-        }
+  .text-box {
+    background-color: rgba(0, 0, 0, .75);
+    padding: 3rem;
+
+    .header {
+      h1 {
+        background: linear-gradient(rgba(0, 0, 0, .75), rgba(0, 0, 0, .5));
+        padding: 1rem;
+        font-size: 2rem;
+        font-weight: bold;
+        margin: 0 auto;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+      }
     }
+
+    .body {
+      background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0));
+      padding: 1rem;
+    }
+
+    .footer {
+      background: linear-gradient(rgba(0, 0, 0), rgba(0, 0, 0, .75));
+      padding: 1rem;
+      border-bottom-left-radius: 1rem;
+      border-bottom-right-radius: 1rem;
+    }
+  }
 }
 </style>
