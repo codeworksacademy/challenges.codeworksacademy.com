@@ -11,6 +11,7 @@ export class ChallengesController extends BaseController {
       .get('', this.getAllChallenges)
       .get('/:challengeId', this.setActiveChallenge)
       .get('/:challengeId/participants', this.getParticipantsByChallengeId)
+      .get('/:challengeId/moderators', this.getModeratorsByChallengeId)
 
       .use(Auth0Provider.getAuthorizedUserInfo)
 
@@ -38,6 +39,17 @@ export class ChallengesController extends BaseController {
       const participants = await participantsService.getParticipantsByChallengeId(challengeId)
 
       return res.send(participants)
+    } catch (error) {
+      next(error)
+    }
+  }
+  async getModeratorsByChallengeId(req, res, next) {
+    try {
+      const challengeId = req.params.challengeId
+
+      const moderators = await moderatorsService.getModeratorsByChallengeId(challengeId)
+
+      return res.send(moderators)
     } catch (error) {
       next(error)
     }

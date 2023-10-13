@@ -20,8 +20,8 @@ class ModeratorsService {
     const res = await api.delete(`api/moderators/${moderationId}`)
     logger.log('Deleted moderation:', res.data)
     // Remove moderation from challenge render
-    let moderationToRemove = AppState.moderations.findIndex(m => m.id === moderationId)
-    AppState.moderations.splice(moderationToRemove, 1)
+    let moderatorToRemove = AppState.moderators.findIndex(m => m.id === moderationId)
+    AppState.moderators.splice(moderatorToRemove, 1)
     // Remove moderation from account data render
     let myModerationToRemove = AppState.myModerations.findIndex(m => m.id === moderationId)
     AppState.myModerations.splice(myModerationToRemove)

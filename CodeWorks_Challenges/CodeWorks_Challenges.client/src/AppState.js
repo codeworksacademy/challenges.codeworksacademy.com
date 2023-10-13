@@ -14,7 +14,7 @@ export const AppState = reactive({
   myParticipants: [],
 
   /** @type {import('./models/Moderator.js').Moderator[]} */
-  moderations: [],
+  moderators: [],
   myModerations: [],
 
   /** @type {import('./models/Challenge.js')|null} */

@@ -42,13 +42,16 @@
         <button class="btn btn-success">
           Submit For Review
         </button>
-        <button v-if="challenge.creatorId != user.id" class="btn btn-primary">
+        <button v-if="!isModerator" class="btn btn-primary" @click="createModeration()">
           Request to become a moderator
         </button>
+        <!-- <button v-if="challenge.creatorId != user.id" class="btn btn-primary">
+          Request to become a moderator
+        </button> -->
         <!-- Enter username into search bar to create moderation request -->
-        <button v-else class="btn btn-primary">
+        <!-- <button v-else class="btn btn-primary">
           Invite a moderator
-        </button>
+        </button> -->
       </div>
       <div class="col-4">
         <button class="btn btn-primary" @click="joinChallenge()" v-if="!isParticipant">
@@ -68,13 +71,14 @@
 </template>
   
 <script>
-import { computed, onMounted, watchEffect, ref } from 'vue'
+import { computed, onMounted, watchEffect, ref, popScopeId } from 'vue'
 import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
 import { useRoute } from 'vue-router';
 import { challengesService } from '../services/ChallengesService';
 import { participantsService } from "../services/ParticipantsService.js";
+import { moderatorsService } from "../services/ModeratorsService.js";
 
 export default {
   components: {
@@ -103,12 +107,21 @@ export default {
         Pop.toast(error, 'error')
       }
     }
+    async function getModeratorsByChallengeId() {
+      try {
+        await challengesService.getModeratorsByChallengeId(route.params.challengeId)
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error, 'error')
+      }
+    }
 
     onMounted(() => {
     })
 
     watchEffect(() => {
       getParticipantsByChallengeId()
+      getModeratorsByChallengeId()
       setActiveChallenge()
     })
 
@@ -118,6 +131,7 @@ export default {
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.activeChallenge),
       participants: computed(() => AppState.participants),
+      moderators: computed(() => AppState.moderators),
 
       difficulty: computed(() => {
         const dif = AppState.activeChallenge.difficulty
@@ -142,6 +156,8 @@ export default {
       isParticipant: computed(() =>
         AppState.participants.find(p => p.accountId == AppState.account.id)
       ),
+
+      isModerator: computed(() => AppState.moderators.find(m => m.accountId == AppState.account.id)),
 
       async joinChallenge() {
         try {
@@ -180,6 +196,18 @@ export default {
           Pop.success('left challenge!')
         } catch (error) {
           logger.error(error)
+          Pop.toast(error, 'error')
+        }
+      },
+      async createModeration() {
+        try {
+          const moderatorData = {
+            challengeId: route.params.challengeId,
+            accountId: AppState.user.id
+          }
+          await moderatorsService.createModeration(moderatorData)
+          Pop.success('You have requested to become a moderator for this challenge, please be patient while the owner of this challenge reviews your request')
+        } catch (error) {
           Pop.toast(error, 'error')
         }
       }

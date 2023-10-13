@@ -19,7 +19,11 @@ class ModeratorsService {
   }
 
   async getModeratorsByChallengeId(challengeId) {
-    const moderators = await dbContext.Moderators.find({ challengeId: challengeId, status: true })
+    // const moderators = await dbContext.Moderators.find({ challengeId: challengeId, status: true })
+    const moderators = await dbContext.Moderators.find({ challengeId: challengeId }).populate({
+      path: 'challenge',
+      populate: { path: 'creator participantCount' }
+    }).populate('profile', 'name picture')
     return moderators
   }
   async removeModeratoration(moderatorId, userId) {

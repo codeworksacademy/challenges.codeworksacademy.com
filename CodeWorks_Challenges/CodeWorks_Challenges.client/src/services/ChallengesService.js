@@ -4,6 +4,7 @@ import { api } from './AxiosService'
 import { Challenge } from "../models/Challenge.js"
 import Pop from "../utils/Pop.js"
 import { Participant } from "../models/Participant.js"
+import { Moderator } from "../models/Moderator.js"
 
 class ChallengesService {
 
@@ -68,6 +69,12 @@ class ChallengesService {
     logger.log(res.data)
     AppState.participants = res.data.map(p => new Participant(p))
     logger.log('Participants in this challenge:', AppState.participants)
+  }
+  async getModeratorsByChallengeId(challengeId) {
+    const res = await api.get(`api/challenges/${challengeId}/moderators`)
+    logger.log(res.data)
+    AppState.moderators = res.data.map(p => new Moderator(p))
+    logger.log('Moderators in this challenge:', AppState.moderators)
   }
 }
 
