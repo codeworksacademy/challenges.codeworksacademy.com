@@ -3,6 +3,7 @@
     "./src/**/*"
   ],
   "compilerOptions": {
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "allowJs": true,
   }
 }
