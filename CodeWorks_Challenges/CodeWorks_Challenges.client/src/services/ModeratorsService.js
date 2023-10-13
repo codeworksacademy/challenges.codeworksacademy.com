@@ -1,7 +1,7 @@
 import { api } from './AxiosService'
 import { AppState } from "../AppState.js"
 import { logger } from "../utils/Logger.js"
-import { Participant } from "../models/Participant.js"
+import { Moderator } from "../models/Moderator.js"
 class ModeratorsService {
   // TODO 
   // Create a moderator one to one moderator Id - challenge Id
@@ -10,18 +10,22 @@ class ModeratorsService {
   // From owner to user - by user
   // From user to owner - by owner
 
-  // async createParticipant(newParticipant) {
-  //   const res = await api.post('api/participants', newParticipant)
-  //   logger.log('New participant:', res.data)
-  //   AppState.participants.push(new Participant(res.data))
-  // }
+  async createModeration(moderatorData) {
+    const res = await api.post('api/moderators', moderatorData)
+    logger.log('New moderation:', res.data)
+    AppState.myModerations.push(new Moderator(res.data))
+  }
 
-  // async leaveChallenge(participantId) {
-  //   const res = await api.delete(`api/participants/${participantId}`)
-  //   logger.log('Deleted participant:', res.data)
-  //   let participantToRemove = AppState.participants.findIndex(p => p.id === participantId)
-  //   AppState.participants.splice(participantToRemove, 1)
-  // }
+  async removeModeration(moderationId) {
+    const res = await api.delete(`api/moderators/${moderationId}`)
+    logger.log('Deleted moderation:', res.data)
+    // Remove moderation from challenge render
+    let moderationToRemove = AppState.moderations.findIndex(m => m.id === moderationId)
+    AppState.moderations.splice(moderationToRemove, 1)
+    // Remove moderation from account data render
+    let myModerationToRemove = AppState.myModerations.findIndex(m => m.id === moderationId)
+    AppState.myModerations.splice(myModerationToRemove)
+  }
 }
 
 export const moderatorsService = new ModeratorsService()

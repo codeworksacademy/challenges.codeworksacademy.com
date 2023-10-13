@@ -19,6 +19,7 @@ export class ChallengesController extends BaseController {
       .put('/:challengeId', this.cancelChallenge)
       .delete('/:challengeId', this.deleteChallenge)
       .delete('/:challengeId/participants', this.removeParticipant)
+      .delete('/:challengeId/moderators', this.removeModerator)
   }
 
   async getAllChallenges(req, res, next) {

@@ -9,9 +9,13 @@ export const AppState = reactive({
   challenges: [],
   myChallenges: [],
 
-  /** @type {import('./models/Participant.js').Participant[]} */ 
+  /** @type {import('./models/Participant.js').Participant[]} */
   participants: [],
   myParticipants: [],
+
+  /** @type {import('./models/Moderator.js').Moderator[]} */
+  moderations: [],
+  myModerations: [],
 
   /** @type {import('./models/Challenge.js')|null} */
   activeChallenge: null,
