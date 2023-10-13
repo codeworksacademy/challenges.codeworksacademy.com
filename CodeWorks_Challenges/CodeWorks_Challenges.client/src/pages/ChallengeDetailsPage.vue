@@ -45,6 +45,7 @@
         <button v-if="challenge.creatorId != user.id" class="btn btn-primary">
           Request to become a moderator
         </button>
+        <!-- Enter username into search bar to create moderation request -->
         <button v-else class="btn btn-primary">
           Invite a moderator
         </button>
