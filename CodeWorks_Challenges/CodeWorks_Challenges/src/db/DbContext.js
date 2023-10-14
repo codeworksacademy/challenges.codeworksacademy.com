@@ -3,6 +3,7 @@ import { AccountSchema } from '../models/Account'
 import { ValueSchema } from '../models/Value'
 import { ChallengeSchema } from '../models/Challenge';
 import { ParticipantSchema } from '../models/Participant';
+import { RewardSchema } from '../models/Reward';
 import { ModeratorSchema } from "../models/Moderator.js";
 
 class DbContext {
@@ -10,6 +11,7 @@ class DbContext {
   Account = mongoose.model('Account', AccountSchema);
   Challenges = mongoose.model('Challenge', ChallengeSchema);
   Participants = mongoose.model('Participant', ParticipantSchema);
+  Rewards = mongoose.model('Reward', RewardSchema);
   Moderators = mongoose.model('Moderator', ModeratorSchema);
 }
 

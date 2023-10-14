@@ -6,28 +6,7 @@
         <h5 class="col-3">
           {{ challenge.name }}
         </h5>
-        <!-- <div class="col-2 img-box">
-        <div class="col-2 img-box">
-          <img :src="challenge.coverImg" :alt="`Cover Image for ${challenge.name}`" :title="`Cover Image for ${challenge.name}`" class="cover-img img-fluid">
-        </div> -->
-        <!-- </div> -->
-        <!-- <div class="col-2">
-          <div
-            v-for="(link, i) in challenge.supportLinks"
-            :key="i"
-          >
-            <p class="col-12 ps-3" style="font-size: .65rem;">
-              Support Links:
-              <a
-                :href="link.url"
-                :title="`Project Links: ${challenge.supportLinks}`"
-                class="fw-bold hover-text-primary"
-              >
-                {{ link.name }}
-              </a>
-            </p>
-          </div>
-        </div> -->
+
         <div class="col-2 m-auto">
           <div class="col-12 d-flex flex-column text-center">
             <small class="text-light">PTS: {{ challenge.pointValue }} </small>
@@ -36,8 +15,10 @@
         </div>
         <div class="col-1 d-flex flex-column justify-content-center align-items-center mx-auto ms-3">
           <p class="text-center text-secondary" style="font-size: .9rem; text-wrap: nowrap; line-height: 0;">Creator:</p>
-          <img :src="challenge.creator.picture" :alt="`Picture of ${challenge.creator.name} (Challenge Creator / Host)`"
-            class="creator-img img-fluid rounded-circle">
+          <router-link :to="{ name: 'Profile', params: { profileId: challenge.creatorId } }">
+            <img :src="challenge.creator.picture" :alt="`Picture of ${challenge.creator.name} (Challenge Creator / Host)`"
+              class="creator-img img-fluid rounded-circle">
+          </router-link>
         </div>
       </div>
     </router-link>
@@ -57,6 +38,8 @@ import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
 import { Challenge } from '../models/Challenge'
 import { challengesService } from '../services/ChallengesService'
+import { profilesService } from '../services/ProfilesService'
+import { useRoute } from "vue-router"
 
 export default {
   props: {
@@ -66,6 +49,8 @@ export default {
     }
   },
   setup(props) {
+
+    const route = useRoute()
 
     async function cancelChallenge() {
       try {
@@ -91,6 +76,16 @@ export default {
       }
     }
 
+    async function getProfile() {
+      try {
+        const profileId = route.params.profileId
+        await profilesService.getProfile(profileId)
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error, 'error')
+      }
+    }
+
     return {
       user: computed(() => AppState.user),
       account: computed(() => AppState.account),
@@ -99,6 +94,7 @@ export default {
 
       cancelChallenge,
       deleteChallenge,
+      getProfile,
 
       setActiveChallenge(challengeId) {
         try {
@@ -118,13 +114,25 @@ export default {
 @import url('../assets/scss/_variables.scss');
 
 .card-custom-image {
+  position: relative;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   border: 1px solid var(--primary-blue);
-  border-radius: 1rem;
   box-shadow: var(--shadow);
   transition: all .3s ease-in-out;
+
+  &::before {
+    background: linear-gradient(90deg, #00000080 0%, transparent 100%);
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: .45rem;
+    z-index: -1;
+  }
 
   &:hover {
     transform: scale(1.005);
@@ -135,9 +143,9 @@ export default {
     object-fit: cover;
     width: 40px;
     height: 40px;
+    margin: 0;
+    padding: 0;
     aspect-ratio: 1/1;
-    font-size: .5rem;
-    border: 1px solid var(--primary-blue);
     border-radius: 50%;
     box-shadow: var(--shadow);
     transition: all .3s ease-in-out;

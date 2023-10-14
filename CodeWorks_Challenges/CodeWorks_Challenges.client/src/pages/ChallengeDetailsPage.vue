@@ -27,6 +27,20 @@
         </div>
       </div>
     </div>
+
+    <div class="row m-auto">
+      <div class="col-12 d-flex justify-content-center align-items-center text-dark">
+        <h1>Rewards:</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 d-flex justify-content-center align-items-center">
+        \
+        <RewardCard />
+        \
+      </div>
+    </div>
+
     <section v-if="isParticipant" class="row">
       <!-- v-if is here because participants can be created with out being assigned a status -->
       <div class="col-4" v-if="isParticipant.status">Status: <span class="text-warning">{{ isParticipant.status }}</span>
@@ -79,10 +93,11 @@ import { useRoute } from 'vue-router';
 import { challengesService } from '../services/ChallengesService';
 import { participantsService } from "../services/ParticipantsService.js";
 import { moderatorsService } from "../services/ModeratorsService.js";
+import RewardCard from '../components/Rewards/RewardCard.vue'
 
 export default {
   components: {
-
+    RewardCard
   },
   setup() {
 
@@ -131,6 +146,7 @@ export default {
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.activeChallenge),
       participants: computed(() => AppState.participants),
+      rewards: computed(() => AppState.rewards),
       moderators: computed(() => AppState.moderators),
 
       difficulty: computed(() => {
