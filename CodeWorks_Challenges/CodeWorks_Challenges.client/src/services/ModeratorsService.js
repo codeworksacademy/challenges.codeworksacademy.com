@@ -13,7 +13,7 @@ class ModeratorsService {
   async createModeration(moderatorData) {
     const res = await api.post('api/moderators', moderatorData)
     logger.log('New moderation:', res.data)
-    AppState.myModerations.push(new Moderator(res.data))
+    // AppState.myModerations.push(new Moderator(res.data))
   }
 
   async removeModeration(moderationId) {

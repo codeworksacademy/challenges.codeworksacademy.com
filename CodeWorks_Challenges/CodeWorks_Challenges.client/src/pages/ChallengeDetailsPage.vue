@@ -16,7 +16,10 @@
           <p>Difficulty: {{ difficulty }}</p>
           <p>Created by: {{ challenge.creator.name }}</p>
           <p v-if="challenge.supportLinks.length > 0">Support Links: {{ challenge.supportLinks }}</p>
-          <p>Moderators:</p>
+          <div class="d-flex mb-3">Moderators: <div v-for="mod in moderators" :key="mod.id">
+              <img class="moderator" :src="mod.profile.picture" :alt="mod.profile.name" :title="mod.profile.name">
+            </div>
+          </div>
           <p>Participants: {{ participants.length }}</p>
         </div>
         <div v-for="(link, i) in challenge.supportLinks" :key="i" class="footer">
@@ -65,9 +68,7 @@
           <button v-else class="btn btn-primary">Request pending</button>
         </div>
         <div v-else>
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModeratorSearch">
-            Add moderator
-          </button>
+          <ModSearchForm />
         </div>
       </div>
       <div class="col-4">
@@ -78,37 +79,6 @@
         <button class="btn btn-danger" @click="leaveChallenge()" v-if="isParticipant">
           Leave Challenge
         </button>
-      </div>
-    </section>
-    <!-- Search for moderator by profile -->
-    <section>
-      <!-- Modal Componentify this-->
-      <div class="modal fade" id="ModeratorSearch" tabindex="-1" aria-labelledby="ModeratorSearchLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="ModeratorSearchLabel">Add a moderator</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form @submit.prevent="" class="form-group d-flex">
-                <button class="btn btn-primary">Search</button>
-                <input class="form-control" type="text" placeholder="Profile Name">
-              </form>
-              <div>
-                Search Results:
-              </div>
-              <div>
-                Selected Profiles:
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary">Send Requests</button>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -129,6 +99,7 @@ import { challengesService } from '../services/ChallengesService';
 import { participantsService } from "../services/ParticipantsService.js";
 import { moderatorsService } from "../services/ModeratorsService.js";
 import RewardCard from '../components/Rewards/RewardCard.vue'
+import ModSearchForm from '../components/ModSearchForm.vue'
 
 export default {
   components: {
@@ -182,7 +153,7 @@ export default {
       challenge: computed(() => AppState.activeChallenge),
       participants: computed(() => AppState.participants),
       rewards: computed(() => AppState.rewards),
-      moderators: computed(() => AppState.moderators),
+      moderators: computed(() => AppState.moderators.find(m => m.status == true)),
 
       difficulty: computed(() => {
         const dif = AppState.activeChallenge.difficulty
@@ -300,5 +271,13 @@ export default {
       border-bottom-right-radius: 1rem;
     }
   }
+}
+
+.moderator {
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
 }
 </style>
