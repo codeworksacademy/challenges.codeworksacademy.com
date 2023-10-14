@@ -16,6 +16,7 @@
           <p>Difficulty: {{ difficulty }}</p>
           <p>Created by: {{ challenge.creator.name }}</p>
           <p v-if="challenge.supportLinks.length > 0">Support Links: {{ challenge.supportLinks }}</p>
+          <p>Moderators:</p>
           <p>Participants: {{ participants.length }}</p>
         </div>
         <div v-for="(link, i) in challenge.supportLinks" :key="i" class="footer">
@@ -43,29 +44,31 @@
 
     <section v-if="isParticipant" class="row">
       <!-- v-if is here because participants can be created with out being assigned a status -->
-      <div class="col-4" v-if="isParticipant.status">Status: <span class="text-warning">{{ isParticipant.status }}</span>
+      <div class="col-4 text-dark" v-if="isParticipant.status">Status: <span class="">{{ isParticipant.status
+      }}</span>
       </div>
-      <div class="col-4 text-warning" v-else>
+      <div class="col-4 text-dark" v-else>
         Participant is missing status
       </div>
-      <div class="col-4">Progress: <span class="text-warning">-1/10 // 50% Etc</span> </div>
-      <div class="col-4">Started: <span class="text-warning">{{ isParticipant.createdAt }}</span></div>
+      <div class="col-4 text-dark">Progress: <span class="">-1/10 // 50% Etc</span> </div>
+      <div class="col-4 text-dark">Started: <span class="">{{ isParticipant.createdAt }}</span></div>
     </section>
     <section class="row">
       <div class="col-8 d-flex justify-content-around">
         <button class="btn btn-success">
           Submit For Review
         </button>
-        <button v-if="!isModerator" class="btn btn-primary" @click="createModeration()">
-          Request to become a moderator
-        </button>
-        <!-- <button v-if="challenge.creatorId != user.id" class="btn btn-primary">
-          Request to become a moderator
-        </button> -->
-        <!-- Enter username into search bar to create moderation request -->
-        <!-- <button v-else class="btn btn-primary">
-          Invite a moderator
-        </button> -->
+        <div v-if="!isOwned">
+          <button v-if="!isModerator" class="btn btn-primary" @click="createModeration()">
+            Request to become a moderator
+          </button>
+          <button v-else class="btn btn-primary">Request pending</button>
+        </div>
+        <div v-else>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModeratorSearch">
+            Add moderator
+          </button>
+        </div>
       </div>
       <div class="col-4">
         <button class="btn btn-primary" @click="joinChallenge()" v-if="!isParticipant">
@@ -77,6 +80,38 @@
         </button>
       </div>
     </section>
+    <!-- Search for moderator by profile -->
+    <section>
+      <!-- Modal Componentify this-->
+      <div class="modal fade" id="ModeratorSearch" tabindex="-1" aria-labelledby="ModeratorSearchLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="ModeratorSearchLabel">Add a moderator</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form @submit.prevent="" class="form-group d-flex">
+                <button class="btn btn-primary">Search</button>
+                <input class="form-control" type="text" placeholder="Profile Name">
+              </form>
+              <div>
+                Search Results:
+              </div>
+              <div>
+                Selected Profiles:
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary">Send Requests</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <div v-if="user.id === challenge?.creatorId">
       <router-view />
     </div>
@@ -174,6 +209,7 @@ export default {
       ),
 
       isModerator: computed(() => AppState.moderators.find(m => m.accountId == AppState.account.id)),
+      isOwned: computed(() => AppState.activeChallenge.creator.id === AppState.account.id),
 
       async joinChallenge() {
         try {
