@@ -42,10 +42,8 @@
     </div>
     <div class="row">
       <div class="col-12 d-flex justify-content-center align-items-center">
-        <div v-for="(reward, i) in rewards" :key="i">
-          <RewardCard :reward="reward" />
-        </div>
-      </div>
+\          <RewardCard />
+\      </div>
     </div>
 
     <div>
