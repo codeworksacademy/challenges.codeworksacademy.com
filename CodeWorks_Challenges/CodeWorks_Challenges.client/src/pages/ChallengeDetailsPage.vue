@@ -34,6 +34,18 @@
         </div>
       </div>
     </div>
+
+    <div class="row m-auto">
+      <div class="col-12 d-flex justify-content-center align-items-center text-dark">
+        <h1>Rewards:</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 d-flex justify-content-center align-items-center">
+\          <RewardCard />
+\      </div>
+    </div>
+
     <div>
       <button class="btn btn-primary" @click="joinChallenge()" v-if="!isParticipant">
         Join Challenge
@@ -58,10 +70,11 @@ import { logger } from "../utils/Logger.js"
 import { useRoute } from 'vue-router';
 import { challengesService } from '../services/ChallengesService';
 import { participantsService } from "../services/ParticipantsService.js";
+import RewardCard from '../components/Rewards/RewardCard.vue'
 
 export default {
   components: {
-
+    RewardCard
   },
   setup() {
 
@@ -101,6 +114,7 @@ export default {
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.activeChallenge),
       participants: computed(() => AppState.participants),
+      rewards: computed(() => AppState.rewards),
 
 
       isParticipant: computed (() =>
