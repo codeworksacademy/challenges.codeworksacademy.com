@@ -41,8 +41,8 @@
 
     <section class="row">
       <h2 class="col-12">
-        Challeges Owned:
-        <h3 v-if="myChallenges.length === 0">You havn't made any challenges</h3>
+        Challenges Owned:
+        <h3 v-if="myChallenges.length === 0">You haven't made any challenges</h3>
         <div v-else v-for="challenge in myChallenges" :key="challenge.id" class="col-12 px-3 mb-1 position-relative">
           <ChallengeCard :challenge="challenge" />
         </div>
@@ -54,26 +54,27 @@
         Moderations:
         <h3 v-if="moderatedChallenges.length === 0">You don't moderate any challenges</h3>
         <div v-else>
-          <p>Active:</p>
+          <p>Active: <span class="text-secondary">You are a moderator of these</span></p>
           <div v-for="challenge in moderatedChallenges" :key="challenge.id">
             <div v-if="challenge.status == true">
-              {{ challenge.challenge.name }} | {{ challenge.challenge.creator.name }}
+              <ChallengeCard :challenge="challenge.challenge" /><i @click="removeModeration(challenge.id)"
+                class="mdi mdi-delete text-danger selectable"></i>
             </div>
           </div>
-          <p>Pending:</p>
+          <p>Pending: <span class="text-secondary">You are waiting for permission</span></p>
           <div v-for="challenge in moderatedChallenges" :key="challenge.id">
             <div v-if="challenge.status == false">
               {{ challenge.challenge.name }} | {{ challenge.challenge.creator.name }} <i
                 @click="removeModeration(challenge.id)" class="mdi mdi-delete text-danger selectable"></i>
             </div>
           </div>
-        </div>
-        <h3>Needs Permission:</h3>
-        <div v-for="exMod in externalModerators" :key="exMod.id">
-          <div v-if="exMod.status == false">
-            {{ exMod.challenge.name }} | {{ exMod.profile.name }} <i @click="ApproveModeration(exMod.id)"
-              class="mdi mdi-check-circle text-success selectable"></i>
-            <i @click="removeModeration(exMod.id)" class="mdi mdi-delete text-danger selectable"></i>
+          <h3>Needs Permission: <span class="text-secondary">These need you approval</span></h3>
+          <div v-for="exMod in externalModerators" :key="exMod.id">
+            <div v-if="exMod.status == false">
+              {{ exMod.challenge.name }} | {{ exMod.profile.name }} <i @click="ApproveModeration(exMod.id)"
+                class="mdi mdi-check-circle text-success selectable"></i>
+              <i @click="removeModeration(exMod.id)" class="mdi mdi-delete text-danger selectable"></i>
+            </div>
           </div>
         </div>
       </h2>

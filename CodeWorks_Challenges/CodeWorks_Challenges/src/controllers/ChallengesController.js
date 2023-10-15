@@ -20,7 +20,6 @@ export class ChallengesController extends BaseController {
       .put('/:challengeId', this.cancelChallenge)
       .delete('/:challengeId', this.deleteChallenge)
       .delete('/:challengeId/participants', this.removeParticipant)
-      .delete('/:challengeId/moderators', this.removeModerator)
   }
 
   async getAllChallenges(req, res, next) {
@@ -64,21 +63,6 @@ export class ChallengesController extends BaseController {
       const userId = req.userInfo.id
 
       const participantToRemove = await participantsService.removeParticipant(challengeId, userId, participantData)
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  async removeModerator(req, res, next) {
-    try {
-      const challengeId = req.params.challengeId
-
-      const moderatorId = req.body
-
-      const userId = req.userInfo.id
-
-      const moderatorToRemove = await moderatorsService.removeModerator(moderatorId, userId, challengeId,)
-      return res.send(moderatorToRemove)
     } catch (error) {
       next(error)
     }

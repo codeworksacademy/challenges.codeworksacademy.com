@@ -32,6 +32,8 @@ class ModeratorsService {
     logger.log('[Approved moderation]:', res.data)
     let moderatorToEdit = AppState.moderators.find(m => m.id == moderationId)
     moderatorToEdit.status = true
+    let myModeratorToEdit = AppState.myModerations.find(m => m.id == moderationId)
+    myModeratorToEdit.status = true
   }
 
   async removeModeration(moderationId) {
@@ -41,8 +43,7 @@ class ModeratorsService {
     let moderatorToRemove = AppState.moderators.findIndex(m => m.id == moderationId)
     if (moderatorToRemove != -1) {
       AppState.moderators.splice(moderatorToRemove, 1)
-    }
-    // Remove moderation from account data render
+    }    // Remove moderation from account data render
     let myModerationToRemove = AppState.myModerations.findIndex(m => m.id == moderationId)
     logger.log('[MY MOD REMOVAL]', moderationId, myModerationToRemove, AppState.myModerations)
     if (myModerationToRemove != -1) {

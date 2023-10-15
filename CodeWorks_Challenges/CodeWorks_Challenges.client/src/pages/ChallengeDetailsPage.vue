@@ -18,9 +18,11 @@
           <p v-if="challenge.supportLinks.length > 0">Support Links: {{ challenge.supportLinks }}</p>
           <div class="d-flex mb-3">Moderators:
             <div v-for="mod in moderators" :key="mod.id">
-              <img class="moderator" :src="mod.profile.picture" :alt="mod.profile.name" :title="mod.profile.name">
+              <img @click="removeModeration(mod.id)" class="moderator selectable ms-2" :src="mod.profile.picture"
+                :alt="mod.profile.name" :title="mod.profile.name">
             </div>
           </div>
+
           <p>Participants: {{ participants.length }}</p>
         </div>
         <div v-for="(link, i) in challenge.supportLinks" :key="i" class="footer">
@@ -46,7 +48,7 @@
       </div>
     </div>
 
-    <section v-if="isParticipant" class="row">
+    <section v-if="isParticipant" class="row mb-5">
       <!-- v-if is here because participants can be created with out being assigned a status -->
       <div class="col-4 text-dark" v-if="isParticipant.status">Status: <span class="">{{ isParticipant.status
       }}</span>
@@ -57,7 +59,7 @@
       <div class="col-4 text-dark">Progress: <span class="">-1/10 // 50% Etc</span> </div>
       <div class="col-4 text-dark">Started: <span class="">{{ isParticipant.createdAt }}</span></div>
     </section>
-    <section class="row">
+    <section class="row mb-5">
       <div class="col-8 d-flex justify-content-around">
         <button class="btn btn-success">
           Submit For Review
@@ -242,7 +244,18 @@ export default {
         } catch (error) {
           Pop.toast(error, 'error')
         }
-      }
+      },
+      async removeModeration(moderationId) {
+        try {
+          const confirmRemove = await Pop.confirm('Delete Moderation?')
+          if (!confirmRemove) {
+            return
+          }
+          await moderatorsService.removeModeration(moderationId)
+        } catch (error) {
+          Pop.toast(error, 'error')
+        }
+      },
     }
   }
 }

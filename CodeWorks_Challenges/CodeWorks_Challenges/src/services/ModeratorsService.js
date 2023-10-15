@@ -88,12 +88,13 @@ class ModeratorsService {
 
   async removeModeratoration(moderatorId, userId) {
     const moderatorToRemove = await dbContext.Moderators.findById(moderatorId)
+    const challenge = await challengesService.getChallengeById(moderatorToRemove.challengeId)
 
     if (!moderatorToRemove) {
       throw new BadRequest("Invalid moderator ID.")
     }
 
-    if (userId != moderatorToRemove.accountId) {
+    if (userId != moderatorToRemove.accountId && userId != challenge.creatorId) {
       throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this moderator's. You may not remove other moderator.")
     }
     await moderatorToRemove.remove()
@@ -101,21 +102,21 @@ class ModeratorsService {
     return moderatorToRemove
   }
 
-  async removeModerator(moderatorId, userId, challengeId) {
-    const moderatorToRemove = await dbContext.Moderators.findById(moderatorId)
-    const challenge = await challengesService.getChallengeById(challengeId)
+  // async removeModerator(moderatorId, userId, challengeId) {
+  //   const moderatorToRemove = await dbContext.Moderators.findById(moderatorId)
+  //   const challenge = await challengesService.getChallengeById(challengeId)
 
-    if (!moderatorToRemove) {
-      throw new BadRequest("Invalid moderator ID.")
-    }
+  //   if (!moderatorToRemove) {
+  //     throw new BadRequest("Invalid moderator ID.")
+  //   }
 
-    if (userId != challenge.creatorId) {
-      throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this moderator's. You may not remove other moderator.")
-    }
-    await moderatorToRemove.remove()
+  //   if (userId != challenge.creatorId) {
+  //     throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this moderator's. You may not remove other moderator.")
+  //   }
+  //   await moderatorToRemove.remove()
 
-    return moderatorToRemove
-  }
+  //   return moderatorToRemove
+  // }
 }
 
 export const moderatorsService = new ModeratorsService()
