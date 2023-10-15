@@ -1,7 +1,7 @@
 <template>
   <section class="container fluid" v-if="reward" :key="reward?.id">
     <p> {{ reward }} </p>
-    <div style="min-height:150px; min-width: 150px;">
+    <div>
       <Completionist />
     </div>
   </section>

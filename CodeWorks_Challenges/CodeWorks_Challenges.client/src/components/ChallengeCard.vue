@@ -13,7 +13,7 @@
           </div>
         </div>
         <div class="col-1 d-flex flex-column justify-content-center align-items-center mx-auto ms-3">
-          <p class="text-center text-secondary" style="font-size: .9rem; text-wrap: nowrap; line-height: 0;">Creator:</p>
+          <p class="text-center" style="font-size: .9rem; text-wrap: nowrap; line-height: 0;">Creator:</p>
           <router-link :to="{ name: 'Profile', params: { profileId: challenge.creatorId } }">
             <img
               :src="challenge.creator.picture"
@@ -125,9 +125,10 @@ export default {
   background-repeat: no-repeat;
   border: 1px solid var(--primary-blue);
   box-shadow: var(--shadow);
+  text-shadow: 0 1px #000000;
   transition: all .3s ease-in-out;
     &::before {
-      background: linear-gradient(90deg, #00000080 0%, transparent 100%);
+      background: linear-gradient(90deg, #00000080 0%, transparent 150%);
       content: '';
       position: absolute;
       top: 0;

@@ -845,7 +845,7 @@ input:checked {
   background-color: #38BB6499;
 }
 
-input:not(:checked) {
+input[type="checkbox"]:not(:checked) {
   background-image: url(
     'https://1001freedownloads.s3.amazonaws.com/vector/thumb/92443/1311627658.png'
   );
@@ -1193,7 +1193,7 @@ select:not(:placeholder-shown):invalid:focus {
   font-size: .7em;
   text-shadow: .5px .5px 1px #362d2d;
   position: absolute;
-  top: -28px;
+  top: -10px;
   border-radius: 8px 8px 0 0;
   text-align: center;
   width: 100%;
@@ -1220,16 +1220,16 @@ select:not(:placeholder-shown):invalid:focus {
     }
 }
   &:hover .subtitle:after {
-      word-spacing: 15px; 
+      word-spacing: 10px; 
   }
 }
 
 @mixin setColor($color){
   .title{
-      background-color: $color;
+    background-color: $color;
   }
   .subtitle:after {
-      color: $color;
+    color: $color;
   }
 }
 /* SECTION SINGLE COLOR CASE FOR SINGLE BADGE */

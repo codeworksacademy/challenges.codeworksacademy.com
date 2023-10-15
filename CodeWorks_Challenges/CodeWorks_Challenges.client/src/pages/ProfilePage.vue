@@ -23,7 +23,7 @@
         </p>
       </div>
       <div class="col-12 my-2" v-for="c in challenges" :key="c.id">
-        <ChallengeCard :challenge="c" />
+        <ChallengeCard :challenge="c" class="position-relative"/>
       </div>
     </section>
   </div>
@@ -100,4 +100,5 @@ export default {
   object-fit: cover;
   object-position: center;
 }
+
 </style>
