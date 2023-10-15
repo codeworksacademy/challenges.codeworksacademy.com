@@ -3,6 +3,7 @@ import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { challengesService } from "./ChallengesService.js"
 
 class ModeratorsService {
+
   async createModeration(moderatorData) {
     const challenge = await challengesService.getChallengeById(moderatorData.challengeId)
     // Check for origin 'owner', 'participant', 'admin'
@@ -32,6 +33,57 @@ class ModeratorsService {
       populate: { path: 'creator participantCount' }
     }).populate('profile', 'name picture')
     return moderators
+  }
+
+  async getModerationsByChallengeCreatorId(userId) {
+    // First, find the challenges with the given creator's userId.
+    const challenges = await dbContext.Challenges.find({ creatorId: userId });
+
+    // Then, get the moderators for these challenges.
+    const moderators = await dbContext.Moderators.find({ challengeId: { $in: challenges } })
+      .populate({
+        path: 'challenge',
+        populate: [
+          { path: 'creator', select: '_id' },
+          { path: 'participantCount' }
+        ]
+      })
+      .populate('profile', 'name picture');
+
+    return moderators;
+  }
+
+  async getModerationById(moderationId) {
+    const moderation = await dbContext.Moderators.findById(moderationId)
+    if (!moderation) {
+      throw new BadRequest("Invalid Moderation ID.")
+    }
+    return moderation
+  }
+
+  async ApproveModeration(moderatorId, userId) {
+    const moderation = await this.getModerationById(moderatorId)
+
+    if (moderation.origin == 'owner') {
+      if (moderation.accountId != userId) {
+        throw new Forbidden(
+          `[PERMISSIONS ERROR]: Only the user can approve it.`
+        )
+      }
+    } else if (moderation.origin == 'participant') {
+      const challenge = await challengesService.getChallengeById(moderation.challengeId)
+      if (challenge.creatorId != userId) {
+        throw new Forbidden(
+          `[PERMISSIONS ERROR]: Only the owner of ${challenge.name} can approve it.`
+        )
+      }
+    }
+
+    moderation.status = true
+
+    await moderation.save()
+
+    return moderation
   }
 
   async removeModeratoration(moderatorId, userId) {

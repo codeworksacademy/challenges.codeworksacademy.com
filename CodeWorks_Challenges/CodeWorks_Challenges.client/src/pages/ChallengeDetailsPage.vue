@@ -16,7 +16,8 @@
           <p>Difficulty: {{ difficulty }}</p>
           <p>Created by: {{ challenge.creator.name }}</p>
           <p v-if="challenge.supportLinks.length > 0">Support Links: {{ challenge.supportLinks }}</p>
-          <div class="d-flex mb-3">Moderators: <div v-for="mod in moderators" :key="mod.id">
+          <div class="d-flex mb-3">Moderators:
+            <div v-for="mod in moderators" :key="mod.id">
               <img class="moderator" :src="mod.profile.picture" :alt="mod.profile.name" :title="mod.profile.name">
             </div>
           </div>
@@ -62,10 +63,11 @@
           Submit For Review
         </button>
         <div v-if="!isOwned">
-          <button v-if="!isModerator" class="btn btn-primary" @click="createModeration()">
+          <button v-if="isModeratorStatus == 'null'" class="btn btn-primary" @click="createModeration()">
             Request to become a moderator
           </button>
-          <button v-else class="btn btn-primary">Request pending</button>
+          <button v-if="isModeratorStatus == 'pending'" class="btn btn-primary">Request pending</button>
+          <button v-if="isModeratorStatus == 'approved'" class="btn btn-primary">You are a Moderator</button>
         </div>
         <div v-else>
           <ModSearchForm />
@@ -153,7 +155,7 @@ export default {
       challenge: computed(() => AppState.activeChallenge),
       participants: computed(() => AppState.participants),
       rewards: computed(() => AppState.rewards),
-      moderators: computed(() => AppState.moderators.find(m => m.status == true)),
+      moderators: computed(() => AppState.moderators.filter(m => m.status == true)),
 
       difficulty: computed(() => {
         const dif = AppState.activeChallenge.difficulty
@@ -179,7 +181,14 @@ export default {
         AppState.participants.find(p => p.accountId == AppState.account.id)
       ),
 
-      isModerator: computed(() => AppState.moderators.find(m => m.accountId == AppState.account.id)),
+      isModeratorStatus: computed(() => {
+        const isMod = AppState.moderators.find(m => m.accountId == AppState.account.id)
+        if (isMod) {
+          if (isMod.status == false) {
+            return 'pending'
+          } else return 'approved'
+        } else return 'null'
+      }),
       isOwned: computed(() => AppState.activeChallenge.creator.id === AppState.account.id),
 
       async joinChallenge() {

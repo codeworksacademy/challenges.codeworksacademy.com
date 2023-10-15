@@ -12,19 +12,31 @@ class ModeratorsService {
 
   async createModeration(moderatorData) {
     const res = await api.post('api/moderators', moderatorData)
-    logger.log('New moderation:', res.data)
+    logger.log('[New moderation]:', res.data)
     // AppState.myModerations.push(new Moderator(res.data))
   }
 
   async getMyModerationsByUserId(userId) {
     const res = await api.get(`api/moderators/${userId}/profiles`)
     logger.log('[USERS MODERATIONS]', res.data)
-    AppState.myModerations = res.data.map(p => new Moderator(p))
+    AppState.myModerations = res.data.map(m => new Moderator(m))
+  }
+
+  async getModerationsByChallengeCreatorId(userId) {
+    const res = await api.get(`api/moderators/challenges/${userId}`)
+    logger.log('[USERS RELATED MODERATIONS]', res.data)
+    AppState.moderators = res.data.map(m => new Moderator(m))
+  }
+  async ApproveModeration(moderationId) {
+    const res = await api.put(`api/moderators/${moderationId}`)
+    logger.log('[Approved moderation]:', res.data)
+    let moderatorToEdit = AppState.moderators.find(m => m.id == moderationId)
+    moderatorToEdit.status = true
   }
 
   async removeModeration(moderationId) {
     const res = await api.delete(`api/moderators/${moderationId}`)
-    logger.log('Deleted moderation:', res.data)
+    logger.log('Deleted [moderation]:', res.data)
     // Remove moderation from challenge render
     let moderatorToRemove = AppState.moderators.findIndex(m => m.id == moderationId)
     if (moderatorToRemove != -1) {

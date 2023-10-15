@@ -9,6 +9,8 @@ export class ModeratorsController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createModeration)
       .get('/:userId/profiles', this.getMyModerationsByProfileId)
+      .get('/challenges/:userId', this.getModerationsByChallengeCreatorId)
+      .put('/:moderatorId', this.ApproveModeration)
       .delete('/:moderatorId', this.removeModeration)
   }
 
@@ -29,6 +31,27 @@ export class ModeratorsController extends BaseController {
       const profileId = req.params.userId
       const moderations = await moderatorsService.getMyModerationsByProfileId(profileId)
       return res.send(moderations)
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getModerationsByChallengeCreatorId(req, res, next) {
+    try {
+      const userId = req.params.userId
+      const moderations = await moderatorsService.getModerationsByChallengeCreatorId(userId)
+      return res.send(moderations)
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async ApproveModeration(req, res, next) {
+    try {
+      const moderatorId = req.params.moderatorId
+      const userId = req.userInfo.id
+      const moderatorToApprove = await moderatorsService.ApproveModeration(moderatorId, userId)
+      return res.send(moderatorToApprove)
     } catch (error) {
       next(error);
     }

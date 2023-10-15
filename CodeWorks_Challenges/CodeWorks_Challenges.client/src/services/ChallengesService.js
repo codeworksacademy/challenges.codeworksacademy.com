@@ -66,15 +66,14 @@ class ChallengesService {
   }
   async getParticipantsByChallengeId(challengeId) {
     const res = await api.get(`api/challenges/${challengeId}/participants`)
-    logger.log(res.data)
     AppState.participants = res.data.map(p => new Participant(p))
-    logger.log('Participants in this challenge:', AppState.participants)
+    logger.log('[Participants in this challenge]:', AppState.participants)
   }
+
   async getModeratorsByChallengeId(challengeId) {
     const res = await api.get(`api/challenges/${challengeId}/moderators`)
-    logger.log('[MODERATOS]', res.data)
-    AppState.moderators = res.data.map(p => new Moderator(p))
-    logger.log('Moderators in this challenge:', AppState.moderators)
+    AppState.moderators = res.data.map(m => new Moderator(m))
+    logger.log('[Moderators in this challenge]:', AppState.moderators)
   }
 }
 

@@ -69,6 +69,13 @@
           </div>
         </div>
         <h3>Needs Permission:</h3>
+        <div v-for="exMod in externalModerators" :key="exMod.id">
+          <div v-if="exMod.status == false">
+            {{ exMod.challenge.name }} | {{ exMod.profile.name }} <i @click="ApproveModeration(exMod.id)"
+              class="mdi mdi-check-circle text-success selectable"></i>
+            <i @click="removeModeration(exMod.id)" class="mdi mdi-delete text-danger selectable"></i>
+          </div>
+        </div>
       </h2>
     </section>
 
@@ -178,6 +185,7 @@ export default {
       joinedChallenges: computed(() => []),
       completedChallenges: computed(() => []),
       moderatedChallenges: computed(() => AppState.myModerations),
+      externalModerators: computed(() => AppState.moderators),
 
       async removeModeration(moderationId) {
         try {
@@ -189,7 +197,18 @@ export default {
         } catch (error) {
           Pop.toast(error, 'error')
         }
-      }
+      },
+      async ApproveModeration(moderationId) {
+        try {
+          const confirmApprove = await Pop.confirm('Approve Moderation?')
+          if (!confirmApprove) {
+            return
+          }
+          await moderatorsService.ApproveModeration(moderationId)
+        } catch (error) {
+          Pop.toast(error, 'error')
+        }
+      },
 
     };
   },
