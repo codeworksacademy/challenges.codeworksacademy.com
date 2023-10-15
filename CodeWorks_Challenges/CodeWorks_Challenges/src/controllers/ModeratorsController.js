@@ -8,6 +8,7 @@ export class ModeratorsController extends BaseController {
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createModeration)
+      .get('/:userId/profiles', this.getMyModerationsByProfileId)
       .delete('/:moderatorId', this.removeModeration)
   }
 
@@ -18,6 +19,16 @@ export class ModeratorsController extends BaseController {
 
       const moderation = await moderatorsService.createModeration(moderatorData)
       return res.send()
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getMyModerationsByProfileId(req, res, next) {
+    try {
+      const profileId = req.params.userId
+      const moderations = await moderatorsService.getMyModerationsByProfileId(profileId)
+      return res.send(moderations)
     } catch (error) {
       next(error);
     }

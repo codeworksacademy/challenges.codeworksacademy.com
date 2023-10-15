@@ -25,7 +25,7 @@
     </section>
 
     <section class="row">
-      <h2 class="col-8 mx-auto">
+      <h2 class="col-12">
         Reputation:
         <h3 v-if="account.reputation === 0">You don't have any reputation</h3>
         <h3 v-else>{{ account.reputation }}</h3>
@@ -33,14 +33,14 @@
     </section>
 
     <section class="row">
-      <h2 class="col-8 mx-auto">
+      <h2 class="col-12">
         Badges:
         <h3>You don't have any badges</h3>
       </h2>
     </section>
 
     <section class="row">
-      <h2 class="col-8 mx-auto">
+      <h2 class="col-12">
         Challeges Owned:
         <h3 v-if="myChallenges.length === 0">You havn't made any challenges</h3>
         <div v-else v-for="challenge in myChallenges" :key="challenge.id" class="col-12 px-3 mb-1 position-relative">
@@ -50,17 +50,30 @@
     </section>
 
     <section class="row">
-      <h2 class="col-8 mx-auto">
-        Challenges Moderator:
+      <h2 class="col-12">
+        Moderations:
         <h3 v-if="moderatedChallenges.length === 0">You don't moderate any challenges</h3>
-        <div v-else v-for="challenge in moderatedChallenges" :key="challenge.id">
-          <ChallengeCard :challenge="challenge" />
+        <div v-else>
+          <p>Active:</p>
+          <div v-for="challenge in moderatedChallenges" :key="challenge.id">
+            <div v-if="challenge.status == true">
+              {{ challenge.challenge.name }} | {{ challenge.challenge.creator.name }}
+            </div>
+          </div>
+          <p>Pending:</p>
+          <div v-for="challenge in moderatedChallenges" :key="challenge.id">
+            <div v-if="challenge.status == false">
+              {{ challenge.challenge.name }} | {{ challenge.challenge.creator.name }} <i
+                @click="removeModeration(challenge.id)" class="mdi mdi-delete text-danger selectable"></i>
+            </div>
+          </div>
         </div>
+        <h3>Needs Permission:</h3>
       </h2>
     </section>
 
     <section class="row">
-      <h2 class="col-8 mx-auto">
+      <h2 class="col-12">
         Challenges Joined:
         <h3 v-if="joinedChallenges.length === 0">You haven't joined any challenges</h3>
         <div v-else v-for="challenge in joinedChallenges" :key="challenge.id">
@@ -70,7 +83,7 @@
     </section>
 
     <section class="row">
-      <h2 class="col-8 mx-auto">
+      <h2 class="col-12">
         Challenges Completed:
         <h3 v-if="completedChallenges.length === 0">You haven't completed any challenges</h3>
         <div v-else v-for="challenge in completedChallenges" :key="challenge.id">
@@ -104,6 +117,7 @@ import Pop from "../utils/Pop.js";
 import { challengesService } from "../services/ChallengesService.js";
 import { logger } from "../utils/Logger.js";
 import ChallengeCard from '../components/ChallengeCard.vue'
+import { moderatorsService } from "../services/ModeratorsService.js";
 export default {
   setup() {
     async function getMyChallenges() {
@@ -123,13 +137,24 @@ export default {
       // }
     }
 
-    async function getMyModeratorChallenges() {
-      // try {
-      //   await challengesService.getMyModeratorChallenges(AppState.account.id)
-      // } catch (error) {
-      //   Pop.toast(error, 'error')
-      // }
+    async function getMyModerationsByUserId() {
+      try {
+        await moderatorsService.getMyModerationsByUserId(AppState.account.id)
+      } catch (error) {
+        Pop.toast(error, 'error')
+      }
     }
+
+    async function getModerationsByChallengeCreatorId() {
+      try {
+        await moderatorsService.getModerationsByChallengeCreatorId(AppState.account.id)
+      } catch (error) {
+        Pop.toast(error, 'error')
+      }
+    }
+
+
+
     async function getMyJoinedChallenges() {
       // try {
       //   await challengesService.getMyJoinedChallenges(AppState.account.id)
@@ -142,7 +167,8 @@ export default {
       if (AppState.account.id) {
         getMyChallenges()
         getMyBadges()
-        getMyModeratorChallenges()
+        getMyModerationsByUserId()
+        getModerationsByChallengeCreatorId()
         getMyJoinedChallenges()
       }
     })
@@ -151,7 +177,19 @@ export default {
       myChallenges: computed(() => AppState.myChallenges),
       joinedChallenges: computed(() => []),
       completedChallenges: computed(() => []),
-      moderatedChallenges: computed(() => []),
+      moderatedChallenges: computed(() => AppState.myModerations),
+
+      async removeModeration(moderationId) {
+        try {
+          const confirmRemove = await Pop.confirm('Delete Moderation?')
+          if (!confirmRemove) {
+            return
+          }
+          await moderatorsService.removeModeration(moderationId)
+        } catch (error) {
+          Pop.toast(error, 'error')
+        }
+      }
 
     };
   },

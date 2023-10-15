@@ -3,7 +3,6 @@ import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { challengesService } from "./ChallengesService.js"
 
 class ModeratorsService {
-
   async createModeration(moderatorData) {
     const challenge = await challengesService.getChallengeById(moderatorData.challengeId)
     // Check for origin 'owner', 'participant', 'admin'
@@ -26,6 +25,15 @@ class ModeratorsService {
     }).populate('profile', 'name picture')
     return moderators
   }
+
+  async getMyModerationsByProfileId(profileId) {
+    const moderators = await dbContext.Moderators.find({ accountId: profileId }).populate({
+      path: 'challenge',
+      populate: { path: 'creator participantCount' }
+    }).populate('profile', 'name picture')
+    return moderators
+  }
+
   async removeModeratoration(moderatorId, userId) {
     const moderatorToRemove = await dbContext.Moderators.findById(moderatorId)
 
