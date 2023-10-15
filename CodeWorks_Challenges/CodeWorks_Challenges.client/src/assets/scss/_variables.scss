@@ -1187,30 +1187,30 @@ select:not(:placeholder-shown):invalid:focus {
   display: inline-block;
   margin: 40px;
 
-.title {
-  font-family: "Montserrat", sans-serif;
-  font-weight: bold;
-  font-size: .7em;
-  text-shadow: .5px .5px 1px #362d2d;
-  position: absolute;
-  top: -10px;
-  border-radius: 8px 8px 0 0;
-  text-align: center;
-  width: 100%;
-  background: red;
-  padding: 12px 0;
-}
-.subtitle {
-  position: absolute;
-  font-family: "Fjalla One", sans-serif;
-  font-size: .8em;
-  width: 100%;
-  text-align: center;
-  color: white;
-  position: absolute;
-  top: 50px;
-  word-spacing: 2px;
-  &:after {
+  .title {
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+    font-size: .7em;
+    text-shadow: .5px .5px 1px #362d2d;
+    position: absolute;
+    top: -10px;
+    border-radius: 8px 8px 0 0;
+    text-align: center;
+    width: 100%;
+    background: red;
+    padding: 12px 0;
+  }
+  .subtitle {
+    position: absolute;
+    font-family: "Fjalla One", sans-serif;
+    font-size: .8em;
+    width: 100%;
+    text-align: center;
+    color: white;
+    position: absolute;
+    top: 50px;
+    word-spacing: 2px;
+    &:after {
       content: "★ ★ ★";
       display: block;
       font-size: .4em;
@@ -1218,9 +1218,9 @@ select:not(:placeholder-shown):invalid:focus {
       margin: 12px 0 0;
       transition: all .3s;
     }
-}
+  }
   &:hover .subtitle:after {
-      word-spacing: 10px; 
+    word-spacing: 10px; 
   }
 }
 
