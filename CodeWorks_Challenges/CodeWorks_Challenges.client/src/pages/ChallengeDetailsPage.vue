@@ -5,8 +5,7 @@
       <div class="text-box">
         <div class="header flex-grow-1 d-flex justify-content-between">
           <h1>{{ challenge.name }}</h1>
-          <!--TODO Button will route to EditChallenge Page -->
-          <button class="btn btn-outline-warning text-warning">
+          <button v-if="isOwned || isModeratorStatus == 'approved'" class="btn btn-outline-warning text-warning">
             Edit
           </button>
         </div>
