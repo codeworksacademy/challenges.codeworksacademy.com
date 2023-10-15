@@ -68,6 +68,11 @@ export const ChallengeSchema = new Schema({
   },
   updatedAt: {
     type: Date,
+  },
+  valid: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 },
   { timestamps: true,

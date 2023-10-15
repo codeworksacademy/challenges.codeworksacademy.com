@@ -1,13 +1,18 @@
 <template>
   <section
-    v-if="challenge"
-    :key="challenge?.id"
-    class="container-fluid text-light"
+  v-if="challenge"
+  :key="challenge?.id"
+  class="container-fluid text-light"
   >
+  <div v-if="user.id === challenge?.creatorId">
+    <router-view />
+  </div>
+    <h1 @click="editChallenge()" class="text-info">Edit Challenge</h1>
     <div class="row bg-img d-flex justify-content-center align-items-center" :style="`background-image: url(${challenge.coverImg}); opacity: .9;`">
       <div class="text-box">
         <div class="header">
           <h1>{{ challenge.name }}</h1>
+          <h1>{{ challenge.id }}</h1>
         </div>
         <div class="body">
           <p>{{ challenge.description }}</p>
@@ -56,10 +61,6 @@
         Leave Challenge
       </button>
     </div>
-    <div v-if="user.id === challenge?.creatorId">
-      <router-view />
-    </div>
-    <router-view />
   </section>
 </template>
   
@@ -68,11 +69,12 @@ import { computed, onMounted, watchEffect, ref } from 'vue'
 import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { challengesService } from '../services/ChallengesService';
 import { participantsService } from "../services/ParticipantsService.js";
 import RewardCard from '../components/Rewards/RewardCard.vue'
 import Completionist from '../components/Rewards/Badges/Completionist.vue'
+import { router } from '../router';
 
 export default {
   components: {
@@ -80,9 +82,9 @@ export default {
     Completionist
   },
   setup() {
-
     const loading = ref(false)
     const route = useRoute()
+    const router = useRouter()
 
     async function setActiveChallenge() {
       try {
@@ -113,9 +115,17 @@ export default {
 
     return {
       loading,
-
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.activeChallenge),
+      editChallenge(){
+        logger.log("Pushing to", AppState.activeChallenge.id)
+        router.push({
+          name: 'EditChallenge',
+          params: {
+            challengeId: AppState.activeChallenge.id
+          }
+        })
+      },
       participants: computed(() => AppState.participants),
       rewards: computed(() => AppState.rewards),
 
@@ -163,7 +173,7 @@ export default {
           logger.error(error)
           Pop.toast(error, 'error')
         }
-      }
+      },
     } 
   }
 }
