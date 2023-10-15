@@ -16,7 +16,8 @@
   this.pointValue = data.pointValue || 1 # shown, un changeable
   this.answers = data.answers || [] # shown only upon completion, answers should not be in the client side object
   this.isCancelled = data.isCancelled || false # shown
-  this.participantCount = data.participantCount # shown, thumbnails of first 5 users followed by "+ participantCount others"  --> 
+  this.participantCount = data.participantCount # shown, thumbnails of first 5 users followed by "+ participantCount others"  
+  merge test--> 
 <template>
   <section class="container-fluid">
     <form @submit.prevent="updateChallenge"></form>
