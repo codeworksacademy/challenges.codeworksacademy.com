@@ -3,6 +3,11 @@
     <div v-if="challenge" :key="challenge?.id" class="container-fluid my-3 mt-5 pt-5">
       {{ challenge }}
     </div>
+    <div v-if="!challenge">
+      <h1>
+
+      </h1>
+  </div>
   </section>
 </template>
   

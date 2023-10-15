@@ -17,7 +17,30 @@
   this.answers = data.answers || [] # shown only upon completion, answers should not be in the client side object
   this.isCancelled = data.isCancelled || false # shown
   this.participantCount = data.participantCount # shown, thumbnails of first 5 users followed by "+ participantCount others"  --> 
-
+<template>
+  <section class="container-fluid">
+    <form @submit.prevent="updateChallenge"></form>
+    <input type="text" class="form-control" id="name" v-model="editable.name" required> 
+    <textarea type="text" class="form-control" id="description" v-model="editable.description" required></textarea> 
+    <div>
+      <section>
+        <h4>Add a step</h4>
+        <textarea name="" id="stepText" cols="30" rows="10" ></textarea>
+        <i class="mdi mdi-plus-box fs-1" @click="addStep"></i>
+      </section>
+      <section class="container-fluid" v-for="(step, index) in challenge.steps">
+        <h1>{{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteStep(index)"></i></h1>
+        <textarea name="" id="" cols="30" rows="10">{{ step }}</textarea>
+      </section>
+    </div>
+    <input type="text" class="form-control" id="coverImg" v-model="editable.coverImage" required> 
+    <!-- //REPLACE Textarea with Step thing -->
+    <textarea name="supportLinks" id="" cols="30" rows="10">Support Links</textarea>
+    <textarea name="answers" id="" cols="30" rows="10">Answers</textarea>
+    <button @click="">Cancel Challenge</button>
+    <button @click="">Resume Challenge</button>
+    <button @click="">Start Challenge</button>
+  </section>
   <section class="container-fluid" v-if="challenge" :key="challenge?.id">
     <button @click="editChallenge()" class="btn btn-info" v-if="!editing">Edit Challenge</button>
     <button @click="editChallenge()" class="btn btn-warning" v-if="editing">Cancel Edit</button>
@@ -56,6 +79,7 @@ export default {
   setup() {
 
     let editing = ref(false);
+    const editable = ref({})
 
     async function setActiveChallenge() {
       try {
@@ -68,7 +92,7 @@ export default {
 
     async function updateChallenge() {
       try {
-        await challengesService.updateChallenge(AppState.activeChallenge)
+        await challengesService.updateChallenge(editable)
         Pop.toast('Challenge Updated')
       } catch (error) {
         Pop.toast(error.message, 'error')
