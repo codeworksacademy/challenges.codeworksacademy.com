@@ -42,8 +42,9 @@
     </div>
     <div class="row">
       <div class="col-12 d-flex justify-content-center align-items-center">
-\          <RewardCard />
-\      </div>
+          <RewardCard />
+          <Completionist />
+      </div>
     </div>
 
     <div>
@@ -71,10 +72,12 @@ import { useRoute } from 'vue-router';
 import { challengesService } from '../services/ChallengesService';
 import { participantsService } from "../services/ParticipantsService.js";
 import RewardCard from '../components/Rewards/RewardCard.vue'
+import Completionist from '../components/Rewards/Badges/Completionist.vue'
 
 export default {
   components: {
-    RewardCard
+    RewardCard,
+    Completionist
   },
   setup() {
 
