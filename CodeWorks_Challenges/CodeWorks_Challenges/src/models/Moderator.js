@@ -24,6 +24,13 @@ export const ModeratorSchema = new Schema({
   { timestamps: true, toJSON: { virtuals: true } }
 )
 
+ModeratorSchema.index({
+  challengeId: 1,
+  accountId: 1
+}, {
+  unique: true
+})
+
 ModeratorSchema.virtual('profile', {
   localField: 'accountId',
   foreignField: '_id',

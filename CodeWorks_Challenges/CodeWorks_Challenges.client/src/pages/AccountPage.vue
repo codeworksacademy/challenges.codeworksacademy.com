@@ -50,43 +50,7 @@
     </section>
 
     <section class="row">
-      <h2 class="col-12">
-        Moderations:
-        <h3 v-if="moderatedChallenges.length === 0">You don't moderate any challenges</h3>
-        <div v-else>
-          <p>Active: <span class="text-secondary">You are a moderator of these</span></p>
-          <div v-for="challenge in moderatedChallenges" :key="challenge.id">
-            <div v-if="challenge.status == true">
-              <ChallengeCard :challenge="challenge.challenge" /><i @click="removeModeration(challenge.id)"
-                class="mdi mdi-delete text-danger selectable"></i>
-            </div>
-          </div>
-          <p>Pending: <span class="text-secondary">You are waiting for permission</span></p>
-          <p class="text-secondary">Out going</p>
-          <div v-for="challenge in moderatedChallenges" :key="challenge.id">
-            <div v-if="challenge.status == false && challenge.originId == account.id">
-              {{ challenge.challenge.name }} | {{ challenge.challenge.creator.name }} <i
-                @click="removeModeration(challenge.id)" class="mdi mdi-delete text-danger selectable"></i>
-            </div>
-          </div>
-          <p class="text-secondary">In coming</p>
-          <div v-for="challenge in moderatedChallenges" :key="challenge.id">
-            <div v-if="challenge.status == false && challenge.originId != account.id">
-              {{ challenge.challenge.name }} | {{ challenge.challenge.creator.name }} <i
-                @click="ApproveModeration(challenge.id)" class="mdi mdi-check-circle text-success selectable"></i> <i
-                @click="removeModeration(challenge.id)" class="mdi mdi-delete text-danger selectable"></i>
-            </div>
-          </div>
-          <h3>Needs Permission: <span class="text-secondary">These need your approval</span></h3>
-          <div v-for="exMod in externalModerators" :key="exMod.id">
-            <div v-if="exMod.status == false">
-              {{ exMod.challenge.name }} | {{ exMod.profile.name }} <i @click="ApproveModeration(exMod.id)"
-                class="mdi mdi-check-circle text-success selectable"></i>
-              <i @click="removeModeration(exMod.id)" class="mdi mdi-delete text-danger selectable"></i>
-            </div>
-          </div>
-        </div>
-      </h2>
+      <AccountModerator />
     </section>
 
     <section class="row">
@@ -135,6 +99,7 @@ import { challengesService } from "../services/ChallengesService.js";
 import { logger } from "../utils/Logger.js";
 import ChallengeCard from '../components/ChallengeCard.vue'
 import { moderatorsService } from "../services/ModeratorsService.js";
+import AccountModerator from "../components/AccountModerator.vue";
 export default {
   setup() {
     async function getMyChallenges() {
@@ -154,24 +119,6 @@ export default {
       // }
     }
 
-    async function getMyModerationsByUserId() {
-      try {
-        await moderatorsService.getMyModerationsByUserId(AppState.account.id)
-      } catch (error) {
-        Pop.toast(error, 'error')
-      }
-    }
-
-    async function getModerationsByChallengeCreatorId() {
-      try {
-        await moderatorsService.getModerationsByChallengeCreatorId(AppState.account.id)
-      } catch (error) {
-        Pop.toast(error, 'error')
-      }
-    }
-
-
-
     async function getMyJoinedChallenges() {
       // try {
       //   await challengesService.getMyJoinedChallenges(AppState.account.id)
@@ -184,8 +131,6 @@ export default {
       if (AppState.account.id) {
         getMyChallenges()
         getMyBadges()
-        getMyModerationsByUserId()
-        getModerationsByChallengeCreatorId()
         getMyJoinedChallenges()
       }
     })
@@ -194,35 +139,9 @@ export default {
       myChallenges: computed(() => AppState.myChallenges),
       joinedChallenges: computed(() => []),
       completedChallenges: computed(() => []),
-      moderatedChallenges: computed(() => AppState.myModerations),
-      externalModerators: computed(() => AppState.moderators),
-
-      async removeModeration(moderationId) {
-        try {
-          const confirmRemove = await Pop.confirm('Delete Moderation?')
-          if (!confirmRemove) {
-            return
-          }
-          await moderatorsService.removeModeration(moderationId)
-        } catch (error) {
-          Pop.toast(error, 'error')
-        }
-      },
-      async ApproveModeration(moderationId) {
-        try {
-          const confirmApprove = await Pop.confirm('Approve Moderation?')
-          if (!confirmApprove) {
-            return
-          }
-          await moderatorsService.ApproveModeration(moderationId)
-        } catch (error) {
-          Pop.toast(error, 'error')
-        }
-      },
-
     };
   },
-  components: { AccountForm, ChallengeCard }
+  components: { AccountForm, ChallengeCard, AccountModerator }
 }
 </script>
 

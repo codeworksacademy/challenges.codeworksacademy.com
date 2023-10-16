@@ -13,27 +13,30 @@ class ModeratorsService {
   async createModeration(moderatorData) {
     const res = await api.post('api/moderators', moderatorData)
     logger.log('[New moderation]:', res.data)
-    // AppState.myModerations.push(new Moderator(res.data))
+    AppState.moderators.push(new Moderator(res.data))
   }
 
   async getMyModerationsByUserId(userId) {
     const res = await api.get(`api/moderators/${userId}/profiles`)
-    logger.log('[USERS MODERATIONS]', res.data)
+    logger.log('[MODERATIONS BY USERID]', res.data)
     AppState.myModerations = res.data.map(m => new Moderator(m))
   }
 
   async getModerationsByChallengeCreatorId(userId) {
     const res = await api.get(`api/moderators/challenges/${userId}`)
-    logger.log('[USERS RELATED MODERATIONS]', res.data)
+    logger.log('[MODERATIONS BY CHALLENGEID]', res.data)
     AppState.moderators = res.data.map(m => new Moderator(m))
   }
+
   async ApproveModeration(moderationId) {
     const res = await api.put(`api/moderators/${moderationId}`)
     logger.log('[Approved moderation]:', res.data)
-    let moderatorToEdit = AppState.moderators.find(m => m.id == moderationId)
-    moderatorToEdit.status = true
-    let myModeratorToEdit = AppState.myModerations.find(m => m.id == moderationId)
-    myModeratorToEdit.status = true
+    let moderatorToEdit = AppState.moderators.find(m => m.id == res.data.id)
+    if (moderatorToEdit)
+      moderatorToEdit.status = true
+    let myModeratorToEdit = AppState.myModerations.find(m => m.id == res.data.id)
+    if (myModeratorToEdit)
+      myModeratorToEdit.status = true
   }
 
   async removeModeration(moderationId) {
