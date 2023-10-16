@@ -1,15 +1,15 @@
 <template>
-  <section v-if="challenge" :key="challenge?.id" class="container-fluid">
+  <section v-if="challenge" class="container-fluid">
     <router-link :to="{ name: 'ChallengeDetails', params: { challengeId: challenge.id } }" class="" style="z-index: 0;">
       <div class="card card-custom-image d-flex flex-row bg-dark align-items-center p-3 rounded-3" style="height: 100px; font-weight: 500;" :style="`background-image: url(${challenge.coverImg}); opacity: .9;`">
         <h5 class="col-3">
           {{ challenge.name }}
         </h5>
         <!-- <div class="col-2 img-box">
-        <!-- <div class="col-2 img-box">
+        <div class="col-2 img-box">
           <img :src="challenge.coverImg" :alt="`Cover Image for ${challenge.name}`" :title="`Cover Image for ${challenge.name}`" class="cover-img img-fluid">
         </div> -->
-        </div> -->
+        <!-- </div> -->
         <!-- <div class="col-2">
           <div
             v-for="(link, i) in challenge.supportLinks"
@@ -41,12 +41,11 @@
             class="creator-img img-fluid rounded-circle"
           >
         </div>
-      </div>
+        </div>
     </router-link>
     <div v-if="user.id === challenge.creatorId" class="col-2">
       <div class="col-12">
         <i
-          class="mdi mdi-trash-can-outline text-danger fs-1 position-absolute top-2 right-2"
           class="mdi mdi-trash-can-outline text-danger fs-1 position-absolute top-2 right-2"
           @click.stop="deleteChallenge(challenge.id)"
           title="Delete Challenge"
@@ -57,7 +56,6 @@
 </template>
   
 <script>
-import { computed } from 'vue'
 import { computed } from 'vue'
 import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
