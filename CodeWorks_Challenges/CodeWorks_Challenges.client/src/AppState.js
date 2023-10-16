@@ -13,6 +13,10 @@ export const AppState = reactive({
   participants: [],
   myParticipants: [],
 
+  /** @type {import('./models/Reward.js').Reward[]} */
+  rewards: [],
+  myRewards: [],
+
   /** @type {import('./models/Challenge.js')|null} */
   activeChallenge: null,
 
