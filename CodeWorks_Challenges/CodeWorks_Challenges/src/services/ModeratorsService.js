@@ -5,15 +5,6 @@ import { challengesService } from "./ChallengesService.js"
 class ModeratorsService {
 
   async createModeration(moderatorData) {
-    const challenge = await challengesService.getChallengeById(moderatorData.challengeId)
-    // Check for origin 'owner', 'participant', 'admin'
-    // Admin should just have own route?
-    if (challenge.creatorId != moderatorData.accountId) {
-      moderatorData.origin = 'participant'
-    } else {
-      moderatorData.origin = 'owner'
-    }
-
     const moderation = await dbContext.Moderators.create(moderatorData)
     return moderation
   }
@@ -63,15 +54,16 @@ class ModeratorsService {
 
   async ApproveModeration(moderatorId, userId) {
     const moderation = await this.getModerationById(moderatorId)
+    const challenge = await challengesService.getChallengeById(moderation.challengeId)
 
-    if (moderation.origin == 'owner') {
+
+    if (moderation.originId == challenge.creatorId) {
       if (moderation.accountId != userId) {
         throw new Forbidden(
           `[PERMISSIONS ERROR]: Only the user can approve it.`
         )
       }
-    } else if (moderation.origin == 'participant') {
-      const challenge = await challengesService.getChallengeById(moderation.challengeId)
+    } else if (moderation.originId == moderation.accountId) {
       if (challenge.creatorId != userId) {
         throw new Forbidden(
           `[PERMISSIONS ERROR]: Only the owner of ${challenge.name} can approve it.`
@@ -101,22 +93,6 @@ class ModeratorsService {
 
     return moderatorToRemove
   }
-
-  // async removeModerator(moderatorId, userId, challengeId) {
-  //   const moderatorToRemove = await dbContext.Moderators.findById(moderatorId)
-  //   const challenge = await challengesService.getChallengeById(challengeId)
-
-  //   if (!moderatorToRemove) {
-  //     throw new BadRequest("Invalid moderator ID.")
-  //   }
-
-  //   if (userId != challenge.creatorId) {
-  //     throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this moderator's. You may not remove other moderator.")
-  //   }
-  //   await moderatorToRemove.remove()
-
-  //   return moderatorToRemove
-  // }
 }
 
 export const moderatorsService = new ModeratorsService()

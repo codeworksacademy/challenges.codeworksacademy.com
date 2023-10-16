@@ -12,10 +12,9 @@ export const ModeratorSchema = new Schema({
     required: true,
     ref: 'Account'
   },
-  origin: {
-    type: String,
-    required: true,
-    enum: ['owner', 'participant', 'admin']
+  originId: {
+    type: ObjectId,
+    ref: 'Account'
   },
   status: {
     type: Boolean,

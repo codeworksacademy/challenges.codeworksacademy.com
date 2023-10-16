@@ -17,8 +17,7 @@ export class ModeratorsController extends BaseController {
   async createModeration(req, res, next) {
     try {
       const moderatorData = req.body
-      // moderatorData.accountId = req.userInfo.id
-
+      moderatorData.originId = req.userInfo.id
       const moderation = await moderatorsService.createModeration(moderatorData)
       return res.send()
     } catch (error) {

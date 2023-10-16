@@ -62,13 +62,22 @@
             </div>
           </div>
           <p>Pending: <span class="text-secondary">You are waiting for permission</span></p>
+          <p class="text-secondary">Out going</p>
           <div v-for="challenge in moderatedChallenges" :key="challenge.id">
-            <div v-if="challenge.status == false">
+            <div v-if="challenge.status == false && challenge.originId == account.id">
               {{ challenge.challenge.name }} | {{ challenge.challenge.creator.name }} <i
                 @click="removeModeration(challenge.id)" class="mdi mdi-delete text-danger selectable"></i>
             </div>
           </div>
-          <h3>Needs Permission: <span class="text-secondary">These need you approval</span></h3>
+          <p class="text-secondary">In coming</p>
+          <div v-for="challenge in moderatedChallenges" :key="challenge.id">
+            <div v-if="challenge.status == false && challenge.originId != account.id">
+              {{ challenge.challenge.name }} | {{ challenge.challenge.creator.name }} <i
+                @click="ApproveModeration(challenge.id)" class="mdi mdi-check-circle text-success selectable"></i> <i
+                @click="removeModeration(challenge.id)" class="mdi mdi-delete text-danger selectable"></i>
+            </div>
+          </div>
+          <h3>Needs Permission: <span class="text-secondary">These need your approval</span></h3>
           <div v-for="exMod in externalModerators" :key="exMod.id">
             <div v-if="exMod.status == false">
               {{ exMod.challenge.name }} | {{ exMod.profile.name }} <i @click="ApproveModeration(exMod.id)"
