@@ -4,82 +4,82 @@ import { challengesService } from "./ChallengesService.js"
 
 class ParticipantsService {
 
-    async createParticipant(participantData) {
+	async createParticipant(participantData) {
 
-			const challenge = await challengesService.getChallengeById(participantData.challengeId)
+		const challenge = await challengesService.getChallengeById(participantData.challengeId)
 
-			if(challenge.isCancelled == true){
-				throw new BadRequest('This challenge has been cancelled. You may not join a cancelled challenge.')
+		if (challenge.isCancelled == true) {
+			throw new BadRequest('This challenge has been cancelled. You may not join a cancelled challenge.')
+		}
+
+		const participant = await dbContext.Participants.create(participantData)
+
+		await participant.populate('profile', 'name picture')
+
+		await participant.populate({
+			path: 'challenge',
+			populate: {
+				path: 'creator participantCount'
 			}
+		})
 
-			const participant = await dbContext.Participants.create(participantData)
+		return participant
+	}
 
-			await participant.populate('profile', 'name picture')
+	async getParticipantsByChallengeId(challengeId) {
+		const participants = await dbContext.Participants.find({ challengeId }).populate({
+			path: 'challenge',
+			populate: { path: 'creator participantCount' }
+		}).populate('profile', 'name picture')
+		return participants
+	}
 
-			await participant.populate({
-				path: 'challenge',
-				populate: {
-					path: 'creator participantCount'
-				}
-			})
+	async getParticipantsByAccount(userId) {
+		const participants = await dbContext.Participants.find({ accountId: userId }).populate({
+			path: 'challenge',
+			populate: { path: 'creator participantCount' }
+		})
 
-			return participant
-    }
+		return participants
+	}
 
-    async getParticipantsByChallengeId(challengeId) {
-			const participants = await dbContext.Participants.find({challengeId}).populate({
-				path: 'challenge',
-				populate: {path: 'creator participantCount'}
-			}).populate('profile', 'name picture')
-			return participants
-    }
+	async leaveChallenge(participantId, userId) {
+		const participantToRemove = await dbContext.Participants.findById(participantId)
 
-    async getParticipantsByAccount(userId) {
-			const participants = await dbContext.Participants.find({accountId: userId}).populate({
-				path: 'challenge', 
-				populate: {path: 'creator participantCount'}
-			})
+		if (!participantToRemove) {
+			throw new BadRequest("Invalid participant ID.")
+		}
 
-			return participants
-    }
+		if (userId != participantToRemove.accountId) {
+			throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this participant's. You may not remove other participants.")
+		}
 
-    async leaveChallenge(participantId, userId) {
-			const participantToRemove = await dbContext.Participants.findById(participantId)
+		await participantToRemove.remove()
 
-			if (!participantToRemove) {
-				throw new BadRequest("Invalid participant ID.")
-			}
+		return participantToRemove
+	}
 
-			if (userId != participantToRemove.accountId) {
-				throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this participant's. You may not remove other participants.")
-			}
+	async removeParticipant(challengeId, userId, participantData) {
+		const challenge = await challengesService.getChallengeById(challengeId)
 
-			await participantToRemove.remove()
+		const participantToRemove = await dbContext.Participants.findById(participantData.id)
 
-			return participantToRemove
-    }
+		if (!challenge) {
+			throw new BadRequest('Invalid challenge ID.')
+		}
 
-		async removeParticipant(challengeId, userId, participantData) {
-      const challenge = await challengesService.getChallengeById(challengeId)
+		if (!participantToRemove) {
+			throw new BadRequest('Invalid participant ID.')
+		}
 
-			const participantToRemove = await dbContext.Participants.findById(participantData.id)
+		if (userId != challenge.creatorId) {
+			throw new Forbidden(`[PERMISSIONS ERROR]: You are not the creator of ${challenge.name}. You may not remove participants from it.`)
+		}
 
-			if(!challenge){
-				throw new BadRequest('Invalid challenge ID.')
-			}
+		await participantToRemove.remove()
 
-			if(!participantToRemove){
-				throw new BadRequest('Invalid participant ID.')
-			}
-
-			if(userId != challenge.creatorId){
-				throw new Forbidden(`[PERMISSIONS ERROR]: You are not the creator of ${challenge.name}. You may not remove participants from it.`)
-			}
-
-			await participantToRemove.remove()
-
-			return participantToRemove
-    }
+		return participantToRemove
+	}
 }
 
 export const participantsService = new ParticipantsService()

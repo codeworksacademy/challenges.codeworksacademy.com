@@ -57,7 +57,7 @@
         Challenges Joined:
         <h3 v-if="joinedChallenges.length === 0">You haven't joined any challenges</h3>
         <div v-else v-for="challenge in joinedChallenges" :key="challenge.id">
-          <ChallengeCard :challenge="challenge" />
+          <ChallengeCard :challenge="challenge.challenge" />
         </div>
       </h2>
     </section>
@@ -99,6 +99,8 @@ import { logger } from "../utils/Logger.js";
 import ChallengeCard from '../components/ChallengeCard.vue'
 import { moderatorsService } from "../services/ModeratorsService.js";
 import AccountModerator from "../components/AccountModerator.vue";
+import { participantsService } from "../services/ParticipantsService.js";
+import { accountService } from "../services/AccountService.js";
 export default {
   setup() {
     async function getMyChallenges() {
@@ -126,17 +128,26 @@ export default {
       // }
     }
 
+    async function getParticipantsByAccount() {
+      try {
+        await accountService.getParticipantsByAccount()
+      } catch (error) {
+        Pop.toast(error, 'error')
+      }
+    }
+
     watchEffect(() => {
       if (AppState.account.id) {
         getMyChallenges()
         getMyBadges()
         getMyJoinedChallenges()
+        getParticipantsByAccount()
       }
     })
     return {
       account: computed(() => AppState.account),
       myChallenges: computed(() => AppState.myChallenges),
-      joinedChallenges: computed(() => []),
+      joinedChallenges: computed(() => AppState.myParticipants),
       completedChallenges: computed(() => []),
     };
   },
