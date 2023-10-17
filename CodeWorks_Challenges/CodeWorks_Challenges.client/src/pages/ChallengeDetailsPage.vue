@@ -1,5 +1,12 @@
 <template>
   <section v-if="challenge" :key="challenge?.id" class="container-fluid text-light">
+    <!-- This could be added to navbar  -->
+    <div class="row bg-dark">
+      <router-link :to="{ name: 'Challenges' }" title="This link routes you to the challenges page">
+        <button class="text-success fs-5 btn btn-secondary">Challenges</button>
+      </router-link>
+    </div>
+    <!--  -->
     <div class="row bg-img d-flex justify-content-center align-items-center"
       :style="`background-image: url(${challenge.coverImg}); opacity: .9;`">
       <div class="text-box">
