@@ -19,49 +19,55 @@
   this.participantCount = data.participantCount # shown, thumbnails of first 5 users followed by "+ participantCount others"  
   merge test--> 
 <template>
-  <section class="container-fluid">
-    <form @submit.prevent="updateChallenge"></form>
-    <input type="text" class="form-control" id="name" v-model="editable.name" required> 
-    <textarea type="text" class="form-control" id="description" v-model="editable.description" required></textarea> 
-    <div>
-      <section>
-        <h4>Add a step</h4>
-        <textarea name="" id="stepText" cols="30" rows="10" ></textarea>
-        <i class="mdi mdi-plus-box fs-1" @click="addStep"></i>
-      </section>
-      <section class="container-fluid" v-for="(step, index) in challenge.steps">
-        <h1>{{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteStep(index)"></i></h1>
-        <textarea name="" id="" cols="30" rows="10">{{ step }}</textarea>
-      </section>
-    </div>
-    <input type="text" class="form-control" id="coverImg" v-model="editable.coverImage" required> 
-    <!-- //REPLACE Textarea with Step thing -->
-    <textarea name="supportLinks" id="" cols="30" rows="10">Support Links</textarea>
-    <textarea name="answers" id="" cols="30" rows="10">Answers</textarea>
-    <button @click="">Cancel Challenge</button>
-    <button @click="">Resume Challenge</button>
-    <button @click="">Start Challenge</button>
-  </section>
-  <section class="container-fluid" v-if="challenge" :key="challenge?.id">
-    <button @click="editChallenge()" class="btn btn-info" v-if="!editing">Edit Challenge</button>
-    <button @click="editChallenge()" class="btn btn-warning" v-if="editing">Cancel Edit</button>
-    <button @click="updateChallenge()" class="btn btn-success" v-if="editing">Update Challenge</button>
-  </section>
-  <form v-for="(value, key) in challenge" :key="key" id="challengeForm" v-if="editing">
-    <div class="d-flex justify-content-between">
-      <h1>{{ key }}</h1>
-      <input type="text" :value="value" class="form-control w-50">
-    </div>
-  </form>
-  <section>
-    <h4>Add a step</h4>
-    <textarea name="" id="stepText" cols="30" rows="10" ></textarea>
-    <i class="mdi mdi-plus-box fs-1" @click="addStep"></i>
-  </section>
-  <section class="container-fluid" v-for="(step, index) in challenge.steps">
-    <h1>{{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteStep(index)"></i></h1>
-    <textarea name="" id="" cols="30" rows="10">{{ step }}</textarea>
-  </section>
+  <article class="text-dark">
+    <section class="container-fluid">
+      <h1 v-if="!challenge.valid" class="text-warning">Challenge is invalid</h1>
+      <form @submit.prevent="updateChallenge"></form>
+      <label for="name">Challenge Name</label>
+      <input type="text" class="form-control" id="name" v-model="editable.name" required> 
+      <label for="description">Challenge Description</label>
+      <textarea type="text" class="form-control" id="description" v-model="editable.description" required></textarea> 
+      <div>
+        <section>
+          <h1 v-if="challenge.steps.length == 0" class="">This challenge has zero steps</h1>
+          <label for="steps">Challenge Steps</label>
+          <h4>Add a step</h4>
+          <textarea name="" id="stepText" cols="30" rows="10"></textarea>
+          <i class="mdi mdi-plus-box fs-1" @click="addStep"></i>
+        </section>
+        <section class="container-fluid" v-for="(step, index) in challenge.steps" :key="index">
+          <h1>{{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteStep(index)"></i></h1>
+          <textarea name="" id="" cols="30" rows="10" v-model="challenge.steps[index]"></textarea>
+        </section>
+      </div>
+      <input type="text" class="form-control" id="coverImg" v-model="editable.coverImage" required> 
+      <!-- //REPLACE Textarea with Step thing -->
+      <textarea name="supportLinks" id="" cols="30" rows="10">Support Links</textarea>
+      <textarea name="answers" id="" cols="30" rows="10">Answers</textarea>
+      <button @click="cancelChallenge()">Cancel Challenge</button>
+      <button @click="">Start Challenge</button>
+    </section>
+    <section class="container-fluid" v-if="challenge" :key="challenge?.id">
+      <button @click="editChallenge()" class="btn btn-info" v-if="!editing">Edit Challenge</button>
+      <button @click="editChallenge()" class="btn btn-warning" v-if="editing">Cancel Edit</button>
+      <button @click="updateChallenge()" class="btn btn-success" v-if="editing">Update Challenge</button>
+    </section>
+    <form v-for="(value, key) in challenge" :key="key" id="challengeEditForm" v-if="editing" class="form-box">
+      <div class="d-flex justify-content-between">
+        <h1 class="">{{ key }}</h1>
+        <input type="text" :value="value" class="form-control w-50">
+      </div>
+    </form>
+    <section>
+      <h4>Add a step</h4>
+      <textarea name="" id="stepText" cols="30" rows="10" ></textarea>
+      <i class="mdi mdi-plus-box fs-1" @click="addStep"></i>
+    </section>
+    <section class="container-fluid" v-for="(step, index) in challenge.steps" :key="index">
+      <h1>{{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteStep(index)"></i></h1>
+      <textarea name="" id="" cols="30" rows="10" v-model="challenge.steps[index]"></textarea>
+    </section>
+  </article>
 </template>
 
 <script>
@@ -80,6 +86,7 @@ export default {
   setup() {
 
     let editing = ref(false);
+    const editable = ref({})
 
     async function setActiveChallenge() {
       try {
@@ -118,7 +125,7 @@ export default {
 
     function editChallenge(){
       editing.value = !editing.value
-      logger.log(`You are ${editing}`)
+      logger.log(`You are ${editing.value ? "now" : "no longer"} editing`)
     }
 
     function addStep(){
