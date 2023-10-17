@@ -55,7 +55,8 @@
     <div class="col-4">
       <div class="alt-badge blue2">
         <div class="circle"> <i class="mdi mdi-xml"></i></div>
-        <div class="ribbon">Malware Maven</div>
+        <div class="double-ribbon-top">Malware</div>
+        <div class="double-ribbon-bottom">Maven</div>
       </div>
     </div>
 
@@ -63,7 +64,8 @@
     <div class="col-4">
       <div class="alt-badge green-dark">
         <div class="circle"> <i class="mdi mdi-account mdi-chess-knight"></i></div>
-        <div class="ribbon">Pixel Paladin</div>
+        <div class="double-ribbon-top">Pixel</div>
+        <div class="double-ribbon-bottom">Paladin</div>
       </div>
     </div>
 
@@ -71,7 +73,8 @@
     <div class="col-4">
       <div class="alt-badge blue-dark">
         <div class="circle"> <i class="mdi mdi-chess-queen"></i></div>
-        <div class="ribbon">Code Conquerer</div>
+        <div class="double-ribbon-top">Code</div>
+        <div class="double-ribbon-bottom">Conquerer</div>
       </div>
     </div>
 
