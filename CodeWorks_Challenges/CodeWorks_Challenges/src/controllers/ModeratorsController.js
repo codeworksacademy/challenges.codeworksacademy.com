@@ -19,7 +19,7 @@ export class ModeratorsController extends BaseController {
       const moderatorData = req.body
       moderatorData.originId = req.userInfo.id
       const moderation = await moderatorsService.createModeration(moderatorData)
-      return res.send()
+      return res.send(moderation)
     } catch (error) {
       next(error);
     }

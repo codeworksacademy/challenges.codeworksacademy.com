@@ -20,7 +20,8 @@
           <div>
             Search Results:
             <div v-for="profile in Profiles" :key="profile.name">
-              {{ profile.name }} <button @click="createModeration(profile.id)" class="mb-3">Send Invite</button>
+              {{ profile.name }} <button v-if="!moderators.find(m => m.accountId == profile.id)"
+                @click="createModeration(profile.id)" class="mb-3">Send Invite</button>
             </div>
           </div>
         </div>
@@ -48,7 +49,10 @@ export default {
     const route = useRoute()
     return {
       editable,
-      Profiles: computed(() => AppState.profiles),
+      moderators: computed(() => AppState.moderators),
+      Profiles: computed(() => {
+        return AppState.profiles.filter((profile) => profile.id != AppState.account.id)
+      }),
       async getProfiles() {
         try {
           const name = editable.value.name

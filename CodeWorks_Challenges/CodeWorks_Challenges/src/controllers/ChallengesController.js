@@ -45,9 +45,7 @@ export class ChallengesController extends BaseController {
   async getModeratorsByChallengeId(req, res, next) {
     try {
       const challengeId = req.params.challengeId
-
       const moderators = await moderatorsService.getModeratorsByChallengeId(challengeId)
-
       return res.send(moderators)
     } catch (error) {
       next(error)

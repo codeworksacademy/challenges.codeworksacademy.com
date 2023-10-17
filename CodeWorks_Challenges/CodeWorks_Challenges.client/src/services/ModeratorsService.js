@@ -3,12 +3,6 @@ import { AppState } from "../AppState.js"
 import { logger } from "../utils/Logger.js"
 import { Moderator } from "../models/Moderator.js"
 class ModeratorsService {
-  // TODO 
-  // Create a moderator one to one moderator Id - challenge Id
-  // Delete a moderator - as the moderator and as the challenge owner
-  // Moderator must recieve approval 
-  // From owner to user - by user
-  // From user to owner - by owner
 
   async createModeration(moderatorData) {
     const res = await api.post('api/moderators', moderatorData)
