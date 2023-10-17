@@ -45,10 +45,17 @@
         <h1>Rewards:</h1>
       </div>
     </div>
-    <div class="row">
-      <div class="col-12 d-flex justify-content-center align-items-center">
+    <div class="row" style="overflow-x: hidden;">
+      <div class="col-12 d-flex justify-content-center align-items-center ms-5">
           <RewardCard />
           <Completionist />
+          <EarlyBird />
+          <Architect />
+          <ChallengeSlayer />
+          <Collaborator />
+      </div>
+      <div class="col-12 d-flex justify-content-center align-items-center">
+        <LesserBadges />
       </div>
     </div>
 
@@ -74,12 +81,21 @@ import { challengesService } from '../services/ChallengesService';
 import { participantsService } from "../services/ParticipantsService.js";
 import RewardCard from '../components/Rewards/RewardCard.vue'
 import Completionist from '../components/Rewards/Badges/Completionist.vue'
-import { router } from '../router';
+import EarlyBird from '../components/Rewards/Badges/EarlyBird.vue'
+import Architect from '../components/Rewards/Badges/Architect.vue'
+import ChallengeSlayer from '../components/Rewards/Badges/ChallengeSlayer.vue'
+import Collaborator from '../components/Rewards/Badges/Collaborator.vue'
+import LesserBadges from '../components/Rewards/Badges/LesserBadges.vue'
 
 export default {
   components: {
     RewardCard,
-    Completionist
+    Completionist,
+    EarlyBird,
+    Architect,
+    ChallengeSlayer,
+    Collaborator,
+    LesserBadges
   },
   setup() {
     const loading = ref(false)

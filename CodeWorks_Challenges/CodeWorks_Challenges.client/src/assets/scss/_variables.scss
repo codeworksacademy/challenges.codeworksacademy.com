@@ -1,5 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
 @import url(https://fonts.googleapis.com/css?family=Fjalla+One);
+@import url(https://fonts.googleapis.com/css?family=uBuntu:400,700);
 
 :root {
   --bg-main: #00000080;
@@ -1312,6 +1313,11 @@ select:not(:placeholder-shown):invalid:focus {
       font-size: 2em;
       margin-top: 8px;
     }
+    img {
+      width: 2em;
+      height: 2em;
+      margin-top: 8px;
+    }
   }
   .font {
     display: flex;
@@ -1334,6 +1340,49 @@ select:not(:placeholder-shown):invalid:focus {
     text-transform: uppercase;
     background: linear-gradient(to bottom right, #555 0%, #333 100%);
     cursor: default;
+    transform: rotate(-2.5deg);
+  }
+  .double-ribbon-top {
+    position: absolute;
+    border-radius: 4px;
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    padding: 2.5px;
+    width: 100px;
+    z-index: 10;
+    color: #fff;
+    top: 0px;
+    left: 55%;
+    margin-left: -55px;
+    height: 25px;
+    font-size: 14px;
+    box-shadow: 0 1px 2px #00000045;
+    text-shadow: 0 2px 2px #0000001a;
+    text-transform: uppercase;
+    background: linear-gradient(to bottom right, #4d0600 0%, #333 100%);
+    cursor: default;
+    transform: rotate(-2.5deg);
+  }
+  .double-ribbon-bottom {
+    position: absolute;
+    border-radius: 4px;
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    padding: 2.5px;
+    width: 100px;
+    z-index: 10;
+    color: #fff;
+    bottom: 0px;
+    left: 60%;
+    margin-left: -55px;
+    height: 25px;
+    font-size: 14px;
+    box-shadow: 0 1px 2px #00000045;
+    text-shadow: 0 2px 2px #0000001a;
+    text-transform: uppercase;
+    background: linear-gradient(to bottom right, #4d0600 0%, #333 100%);
+    cursor: default;
+    transform: rotate(-2.5deg);
   }
 }
 
@@ -1388,7 +1437,7 @@ select:not(:placeholder-shown):invalid:focus {
 }
 
 /* NOTE - PINK AND RED ARE NOT BEING USED - BUT IT CAN BE. JUST SET THE INITIAL CHILDREN UNDER MAIN PARENT DIV TAG OF CLASS NAME 'MAIN-WRAPPER' TO 'PINK' INSTEAD OF THE CURRENT COLOR IT IS NAMED AFTER AS A CLASS ATTRIBUTE. */
-.pink2 {
+.pink {
   background: linear-gradient(to bottom right, #F48FB1 0%, #d81b60 100%);
   color: #dc306f;
 }
