@@ -6,7 +6,8 @@
     <div class="col-4">
       <div class="alt-badge pink">
         <div class="circle"> <i class="mdi mdi-rabbit"></i></div>
-        <div class="ribbon">Bugs Bunny</div>
+        <div class="double-ribbon-top lvl1-ribbon">Bugs</div>
+        <div class="double-ribbon-bottom lvl1-ribbon">Bunny</div>
       </div>
     </div>
 
@@ -14,7 +15,8 @@
     <div class="col-4">
       <div class="alt-badge orange2">
         <div class="circle"> <i class="mdi mdi-food-hot-dog"></i></div>
-        <div class="ribbon">Widget Weenie</div>
+        <div class="double-ribbon-top lvl2-ribbon">Widget</div>
+        <div class="double-ribbon-bottom lvl2-ribbon">Weenie</div>
       </div>
     </div>
 
@@ -22,7 +24,8 @@
     <div class="col-4">
       <div class="alt-badge yellow2">
         <div class="circle"> <i class="mdi mdi-chevron-up"></i></div>
-        <div class="ribbon">Code Cadet</div>
+        <div class="double-ribbon-top lvl3-ribbon">Code</div>
+        <div class="double-ribbon-bottom lvl3-ribbon">Cadet</div>
       </div>
     </div>
 
@@ -31,7 +34,8 @@
     <div class="col-4">
       <div class="alt-badge blue-dark">
         <div class="circle"> <img src="../../../assets/img/fox-icon.png" alt=""></div>
-        <div class="ribbon">Function Fox</div>
+        <div class="double-ribbon-top lvl4-ribbon">Function</div>
+        <div class="double-ribbon-bottom lvl4-ribbon">Fox</div>
       </div>
     </div>
 
@@ -39,7 +43,8 @@
     <div class="col-4">
       <div class="alt-badge purple2">
         <div class="circle"> <i class="mdi mdi-magic-staff"></i></div>
-        <div class="ribbon">Bit Bender</div>
+        <div class="double-ribbon-top lvl5-ribbon">Bit</div>
+        <div class="double-ribbon-bottom lvl5-ribbon">Bender</div>
       </div>
     </div>
 
@@ -47,7 +52,8 @@
     <div class="col-4">
       <div class="alt-badge teal2">
         <div class="circle"> <i class="mdi mdi-human-male-board-poll"></i></div>
-        <div class="ribbon">Logic Lord</div>
+        <div class="double-ribbon-top lvl6-ribbon">Logic</div>
+        <div class="double-ribbon-bottom lvl6-ribbon">Lord</div>
       </div>
     </div>
     
@@ -55,7 +61,8 @@
     <div class="col-4">
       <div class="alt-badge blue2">
         <div class="circle"> <i class="mdi mdi-xml"></i></div>
-        <div class="ribbon">Malware Maven</div>
+        <div class="double-ribbon-top lvl7-ribbon">Malware</div>
+        <div class="double-ribbon-bottom lvl7-ribbon">Maven</div>
       </div>
     </div>
 
@@ -63,7 +70,8 @@
     <div class="col-4">
       <div class="alt-badge green-dark">
         <div class="circle"> <i class="mdi mdi-account mdi-chess-knight"></i></div>
-        <div class="ribbon">Pixel Paladin</div>
+        <div class="double-ribbon-top lvl8-ribbon">Pixel</div>
+        <div class="double-ribbon-bottom lvl8-ribbon">Paladin</div>
       </div>
     </div>
 
@@ -71,34 +79,35 @@
     <div class="col-4">
       <div class="alt-badge blue-dark">
         <div class="circle"> <i class="mdi mdi-chess-queen"></i></div>
-        <div class="ribbon">Code Conquerer</div>
+        <div class="double-ribbon-top lvl9-ribbon">Code</div>
+        <div class="double-ribbon-bottom lvl9-ribbon">Conquerer</div>
       </div>
     </div>
 
     <!-- SECTION Rank Level 10 Badge -->
     <div class="col-4">
-      <div class="alt-badge red2">
+      <div class="alt-badge matrix-green">
         <div class="circle pt-1"> <i class="mdi mdi-account mdi-matrix"></i></div>
-        <div class="double-ribbon-top">Matrix</div>
-        <div class="double-ribbon-bottom">Master</div>
+        <div class="double-ribbon-top lvl10-ribbon">Matrix</div>
+        <div class="double-ribbon-bottom lvl10-ribbon">Master</div>
       </div>
     </div>
     
     <!-- SECTION Rank Level 11 Badge -->
     <div class="col-4">
-      <div class="alt-badge pink">
+      <div class="alt-badge demigod-steel">
         <div class="circle pt-1"> <i class="mdi mdi-account mdi-office-building-cog-outline"></i></div>
-        <div class="double-ribbon-top">Data</div>
-        <div class="double-ribbon-bottom">Demigod</div>
+        <div class="double-ribbon-top lvl11-ribbon">Data</div>
+        <div class="double-ribbon-bottom lvl11-ribbon">Demigod</div>
       </div>
     </div>
-    
+
     <!-- SECTION Rank Level 12 Badge -->
     <div class="col-4">
-      <div class="alt-badge gold2">
+      <div class="alt-badge celestial-gold">
         <div class="circle"> <i class="mdi mdi-podium-gold"></i></div>
-        <div class="double-ribbon-top">Celestial</div>
-        <div class="double-ribbon-bottom">Scripter</div>
+        <div class="double-ribbon-top lvl12-ribbon">Celestial</div>
+        <div class="double-ribbon-bottom lvl12-ribbon">Scripter</div>
       </div>
     </div>
   </div>

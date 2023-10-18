@@ -1426,20 +1426,60 @@ select:not(:placeholder-shown):invalid:focus {
   color: #00944a;
 }
 
-.silver2 {
-  background: linear-gradient(to bottom right, #E0E0E0 0%, #BDBDBD 100%);
-  color: #9e9e9e;
+.matrix-green {
+  background: linear-gradient(to bottom right, #2d9431 0%, #000 100%);
+  .lvl10-ribbon {
+    background: linear-gradient(to bottom right, #2d9431 0%, #000 100%);
+  }
+  .circle {
+    background: #000;
+    i {
+      color: #2eff3c;
+    }
+  }
 }
 
-.gold2 {
-  background: linear-gradient(to bottom right, #e6ce6a 0%, #b7892b 100%);
-  color: #b7892b;
+.demigod-steel {
+  background: linear-gradient(to bottom right, #5c5c5c 0%, #373737 33%, #2b2b25 66%, #bb7777 100%);
+  color: #656565;
+  .lvl11-ribbon {
+    background: linear-gradient(to bottom right, #464647 0%, rgb(19, 27, 34) 100%);
+  }
+  .circle {
+    background: #000;
+    box-shadow: 0 0 3px 3px #464647;
+                i {
+      color: #bb7777;
+      filter: drop-shadow(0 0 3px #420000);
+    }
+  }
+}
+
+.celestial-gold {
+  background: linear-gradient(to bottom right, #f5f5dc 0%, #5f98e7 33%, #e0f3fb 66%, #f5f5dc 100%);
+  color: #f5f5dc;
+  border: 3px ridge #aeae91;
+  .lvl12-ribbon {
+    background: linear-gradient(170deg, #e35133 0%, #000 110%);
+    color: #ffffed;
+  }
+  .circle {
+    background: #060335;
+    box-shadow: 0 0 6px 6px #f5f5dc;
+      i {
+        color: transparent;
+        background: linear-gradient(0deg, #f5f5dc 25%, #e35113 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        filter: drop-shadow(0 0 20px #f5f5dc);
+      }
+  }
 }
 
 /* NOTE - PINK AND RED ARE NOT BEING USED - BUT IT CAN BE. JUST SET THE INITIAL CHILDREN UNDER MAIN PARENT DIV TAG OF CLASS NAME 'MAIN-WRAPPER' TO 'PINK' INSTEAD OF THE CURRENT COLOR IT IS NAMED AFTER AS A CLASS ATTRIBUTE. */
-.pink {
-  background: linear-gradient(to bottom right, #F48FB1 0%, #d81b60 100%);
+.pink {, #F48FB1 0%, #d81b60 100%);
   color: #dc306f;
+  background: linear-gradient(to bottom right
 }
 .red2 {
   background: linear-gradient(to bottom right, #f4511e 0%, #b71c1c 100%);

@@ -24,12 +24,23 @@
 </template>
 
 <script>
+import { Reward } from '../../../models/Reward.js'
+import { ref } from 'vue'
 
 export default {
+  props: {
+    reward: {
+      type: Reward || Object,
+      required: true
+    }
+  },
+  setup(props) {
 
-  setup() {
-
-    
+    const badgeName = ref({
+      name: 'Completionist',
+      description: 'Complete All Checks',
+      image: 'https://i.imgur.com/2ZQ4U0w.png'
+    })
 
     return {
 
