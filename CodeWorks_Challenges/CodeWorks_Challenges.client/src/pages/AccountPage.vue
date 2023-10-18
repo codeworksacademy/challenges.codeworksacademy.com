@@ -15,8 +15,7 @@
           <h2>{{ account.email }}</h2>
           <p>About: {{ account.aboutContent }}</p>
 
-          <!-- Button trigger modal -->
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#accountFormModal">
             Edit Account
           </button>
         </div>
@@ -25,7 +24,7 @@
     </section>
 
     <section class="row">
-      <h2 class="col-8 mx-auto">
+      <h2 class="col-12">
         Reputation:
         <h3 v-if="account.reputation === 0">You don't have any reputation</h3>
         <h3 v-else>{{ account.reputation }}</h3>
@@ -33,16 +32,16 @@
     </section>
 
     <section class="row">
-      <h2 class="col-8 mx-auto">
+      <h2 class="col-12">
         Badges:
         <h3>You don't have any badges</h3>
       </h2>
     </section>
 
     <section class="row">
-      <h2 class="col-8 mx-auto">
-        Challeges Owned:
-        <h3 v-if="myChallenges.length === 0">You havn't made any challenges</h3>
+      <h2 class="col-12">
+        Challenges Owned:
+        <h3 v-if="myChallenges.length === 0">You haven't made any challenges</h3>
         <div v-else v-for="challenge in myChallenges" :key="challenge.id" class="col-12 px-3 mb-1 position-relative">
           <ChallengeCard :challenge="challenge" />
         </div>
@@ -50,27 +49,21 @@
     </section>
 
     <section class="row">
-      <h2 class="col-8 mx-auto">
-        Challenges Moderator:
-        <h3 v-if="moderatedChallenges.length === 0">You don't moderate any challenges</h3>
-        <div v-else v-for="challenge in moderatedChallenges" :key="challenge.id">
-          <ChallengeCard :challenge="challenge" />
-        </div>
-      </h2>
+      <AccountModerator />
     </section>
 
     <section class="row">
-      <h2 class="col-8 mx-auto">
+      <h2 class="col-12">
         Challenges Joined:
         <h3 v-if="joinedChallenges.length === 0">You haven't joined any challenges</h3>
         <div v-else v-for="challenge in joinedChallenges" :key="challenge.id">
-          <ChallengeCard :challenge="challenge" />
+          <ChallengeCard :challenge="challenge.challenge" />
         </div>
       </h2>
     </section>
 
     <section class="row">
-      <h2 class="col-8 mx-auto">
+      <h2 class="col-12">
         Challenges Completed:
         <h3 v-if="completedChallenges.length === 0">You haven't completed any challenges</h3>
         <div v-else v-for="challenge in completedChallenges" :key="challenge.id">
@@ -81,11 +74,11 @@
 
   </div>
   <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="accountFormModal" tabindex="-1" aria-labelledby="accountFormModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Account</h1>
+          <h1 class="modal-title fs-5" id="accountFormModalLabel">Edit Account</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -104,6 +97,10 @@ import Pop from "../utils/Pop.js";
 import { challengesService } from "../services/ChallengesService.js";
 import { logger } from "../utils/Logger.js";
 import ChallengeCard from '../components/ChallengeCard.vue'
+import { moderatorsService } from "../services/ModeratorsService.js";
+import AccountModerator from "../components/AccountModerator.vue";
+import { participantsService } from "../services/ParticipantsService.js";
+import { accountService } from "../services/AccountService.js";
 export default {
   setup() {
     async function getMyChallenges() {
@@ -123,13 +120,6 @@ export default {
       // }
     }
 
-    async function getMyModeratorChallenges() {
-      // try {
-      //   await challengesService.getMyModeratorChallenges(AppState.account.id)
-      // } catch (error) {
-      //   Pop.toast(error, 'error')
-      // }
-    }
     async function getMyJoinedChallenges() {
       // try {
       //   await challengesService.getMyJoinedChallenges(AppState.account.id)
@@ -138,24 +128,30 @@ export default {
       // }
     }
 
+    async function getParticipantsByAccount() {
+      try {
+        await accountService.getParticipantsByAccount()
+      } catch (error) {
+        Pop.toast(error, 'error')
+      }
+    }
+
     watchEffect(() => {
       if (AppState.account.id) {
         getMyChallenges()
         getMyBadges()
-        getMyModeratorChallenges()
         getMyJoinedChallenges()
+        getParticipantsByAccount()
       }
     })
     return {
       account: computed(() => AppState.account),
       myChallenges: computed(() => AppState.myChallenges),
-      joinedChallenges: computed(() => []),
+      joinedChallenges: computed(() => AppState.myParticipants),
       completedChallenges: computed(() => []),
-      moderatedChallenges: computed(() => []),
-
     };
   },
-  components: { AccountForm, ChallengeCard }
+  components: { AccountForm, ChallengeCard, AccountModerator }
 }
 </script>
 
