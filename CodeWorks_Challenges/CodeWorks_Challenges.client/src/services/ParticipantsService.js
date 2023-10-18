@@ -16,6 +16,11 @@ class ParticipantsService {
     let participantToRemove = AppState.participants.findIndex(p => p.id === participantId)
     AppState.participants.splice(participantToRemove, 1)
   }
+  async getParticipantsByChallengeId(challengeId) {
+    const res = await api.get(`api/challenges/${challengeId}/participants`)
+    AppState.participants = res.data.map(p => new Participant(p))
+    logger.log('[Participants in this challenge]:', AppState.participants)
+  }
 }
 
 export const participantsService = new ParticipantsService()

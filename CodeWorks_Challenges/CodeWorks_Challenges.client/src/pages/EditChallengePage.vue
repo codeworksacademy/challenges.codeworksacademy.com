@@ -73,7 +73,7 @@
       <textarea name="" id="stepText" cols="30" rows="10" ></textarea>
       <i class="mdi mdi-plus-box fs-1" @click="addStep"></i>
     </section>
-    <section class="container-fluid" v-for="(step, index) in challenge.steps">
+    <section class="container-fluid" v-for="(step, index) in challenge.steps" :key="index">
       <h1>{{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteStep(index)"></i></h1>
       <textarea name="" id="" cols="30" rows="10">{{ step }}</textarea>
     </section> -->
@@ -147,7 +147,7 @@ export default {
 
     function editChallenge(){
       editing.value = !editing.value
-      logger.log(`You are ${editing}`)
+      logger.log(`You are ${editing.value ? "now" : "no longer"} editing`)
     }
 
     function addStep(){
