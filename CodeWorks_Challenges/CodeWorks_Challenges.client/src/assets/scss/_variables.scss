@@ -1326,6 +1326,8 @@ select:not(:placeholder-shown):invalid:focus {
   .ribbon {
     position: absolute;
     border-radius: 4px;
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px;
     padding: 5px 5px 4px;
     width: 120px;
     z-index: 10;
@@ -1334,7 +1336,7 @@ select:not(:placeholder-shown):invalid:focus {
     left: 45%;
     margin-left: -55px;
     height: 30px;
-    font-size: 14px;
+    font-size: 12px;
     box-shadow: 0 1px 2px #00000045;
     text-shadow: 0 2px 2px #0000001a;
     text-transform: uppercase;
@@ -1355,7 +1357,7 @@ select:not(:placeholder-shown):invalid:focus {
     left: 55%;
     margin-left: -55px;
     height: 25px;
-    font-size: 14px;
+    font-size: 12px;
     box-shadow: 0 1px 2px #00000045;
     text-shadow: 0 2px 2px #0000001a;
     text-transform: uppercase;
@@ -1376,7 +1378,7 @@ select:not(:placeholder-shown):invalid:focus {
     left: 60%;
     margin-left: -55px;
     height: 25px;
-    font-size: 14px;
+    font-size: 12px;
     box-shadow: 0 1px 2px #00000045;
     text-shadow: 0 2px 2px #0000001a;
     text-transform: uppercase;

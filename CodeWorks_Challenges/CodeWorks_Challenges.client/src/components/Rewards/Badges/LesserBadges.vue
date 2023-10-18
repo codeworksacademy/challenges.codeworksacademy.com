@@ -70,8 +70,7 @@
     <div class="col-4">
       <div class="alt-badge green-dark">
         <div class="circle"> <i class="mdi mdi-account mdi-chess-knight"></i></div>
-        <div class="double-ribbon-top lvl8-ribbon">Pixel</div>
-        <div class="double-ribbon-bottom lvl8-ribbon">Paladin</div>
+        <div class="ribbon">Pixel Paladin</div>
       </div>
     </div>
 
@@ -79,8 +78,7 @@
     <div class="col-4">
       <div class="alt-badge blue-dark">
         <div class="circle"> <i class="mdi mdi-chess-queen"></i></div>
-        <div class="double-ribbon-top lvl9-ribbon">Code</div>
-        <div class="double-ribbon-bottom lvl9-ribbon">Conquerer</div>
+        <div class="ribbon">Code Conquerer</div>
       </div>
     </div>
 

@@ -4,6 +4,7 @@ import { ValueSchema } from '../models/Value'
 import { ChallengeSchema } from '../models/Challenge';
 import { ParticipantSchema } from '../models/Participant';
 import { RewardSchema } from '../models/Reward';
+import { ModeratorSchema } from "../models/Moderator.js";
 
 class DbContext {
   Values = mongoose.model('Value', ValueSchema);
@@ -11,6 +12,7 @@ class DbContext {
   Challenges = mongoose.model('Challenge', ChallengeSchema);
   Participants = mongoose.model('Participant', ParticipantSchema);
   Rewards = mongoose.model('Reward', RewardSchema);
+  Moderators = mongoose.model('Moderator', ModeratorSchema);
 }
 
 export const dbContext = new DbContext()
