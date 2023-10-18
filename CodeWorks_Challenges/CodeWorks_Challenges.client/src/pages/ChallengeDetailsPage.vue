@@ -132,7 +132,7 @@ export default {
 
     async function getParticipantsByChallengeId() {
       try {
-        await challengesService.getParticipantsByChallengeId(route.params.challengeId)
+        await participantsService.getParticipantsByChallengeId(route.params.challengeId)
       } catch (error) {
         logger.error(error)
         Pop.toast(error, 'error')
@@ -140,7 +140,7 @@ export default {
     }
     async function getModeratorsByChallengeId() {
       try {
-        await challengesService.getModeratorsByChallengeId(route.params.challengeId)
+        await moderatorsService.getModeratorsByChallengeId(route.params.challengeId)
       } catch (error) {
         logger.error(error)
         Pop.toast(error, 'error')
