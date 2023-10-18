@@ -1,3 +1,7 @@
+Add offcanvas overflow-auto for challenge editing
+add ul, li, ol, and img tags for steps
+add markdown handling for description and steps,
+
 CodeWorks Vue Starter
 =====================
 This template is designed to help get students started building vue applications
