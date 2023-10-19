@@ -12,7 +12,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form @submit.prevent="getProfiles()" class="form-group d-flex">
+          <form @submit.prevent="searchProfiles()" class="form-group d-flex">
             <button class="btn btn-primary">Search</button>
             <input v-model="editable.name" class="form-control" type="text" placeholder="Profile Name" min-length="3"
               maxlength="150" required>
@@ -45,7 +45,9 @@ import { moderatorsService } from "../services/ModeratorsService.js";
 
 export default {
   setup() {
-    const editable = ref({})
+    const editable = ref({
+      name: ''
+    })
     const route = useRoute()
     return {
       editable,
@@ -53,11 +55,11 @@ export default {
       Profiles: computed(() => {
         return AppState.profiles.filter((profile) => profile.id != AppState.account.id)
       }),
-      async getProfiles() {
+      async searchProfiles() {
         try {
           const name = editable.value.name
-          await profilesService.getProfiles(name)
-          editable.value = {}
+          await profilesService.searchProfiles(name)
+          editable.value.name = AppState.query
         } catch (error) {
           logger.error(error)
           Pop.toast(error, 'error')
