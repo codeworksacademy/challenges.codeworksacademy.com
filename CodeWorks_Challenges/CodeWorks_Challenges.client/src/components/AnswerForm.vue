@@ -33,7 +33,7 @@ import { ref } from 'vue';
 
 export default {
   setup(){
-    const editable = ref({})
+    const editable = ref('')
 
     const route = useRoute()
 

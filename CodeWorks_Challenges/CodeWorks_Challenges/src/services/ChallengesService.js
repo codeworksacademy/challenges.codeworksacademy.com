@@ -23,7 +23,8 @@ class ChallengesService {
   }
 
   async getChallengeById(challengeId){
-    const challenge = (await dbContext.Challenges.findById(challengeId)).populate('creator', 'name picture')
+    const challenge = await dbContext.Challenges.findById(challengeId)
+    .populate('creator', 'name picture')
 
     if(!challenge){
       throw new BadRequest('Invalid Challenge ID.')
@@ -94,7 +95,7 @@ class ChallengesService {
       throw new Forbidden('[PERMISSIONS ERROR]: This challenge has no participants. You cannot submit answers to a challenge you have not joined.')
     }
 
-    const participant = participants.find(p => p.id == participantId)
+    const participant = participants.find(p => p.accountId == participantId)
 
     if(!participant){
       throw new Forbidden('[PERMISSIONS ERROR]:You are not a participant for this challenge. You cannot submit answers to a challenge you have not joined.')

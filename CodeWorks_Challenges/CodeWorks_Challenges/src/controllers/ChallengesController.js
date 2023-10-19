@@ -106,7 +106,7 @@ export class ChallengesController extends BaseController {
 
       const answerData = req.body
 
-      const challengeId = req.params.getModeratorsByChallengeId
+      const challengeId = req.params.challengeId
 
       const message = await challengesService.submitAnswer(participantId, answerData, challengeId)
 
