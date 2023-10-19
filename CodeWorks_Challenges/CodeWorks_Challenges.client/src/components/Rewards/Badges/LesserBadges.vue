@@ -4,7 +4,7 @@
   <!-- SECTION Rank Level 1 Badge -->
   <div class="row">
     <div class="col-4">
-      <div class="alt-badge pink">
+      <div class="alt-badge bunny-pink">
         <div class="circle pt-1"> <i class="mdi mdi-rabbit"></i></div>
         <div class="double-ribbon-top lvl1-ribbon">Bugs</div>
         <div class="double-ribbon-bottom lvl1-ribbon">Bunny</div>
@@ -13,7 +13,7 @@
 
     <!-- SECTION Rank Level 2 Badge -->
     <div class="col-4">
-      <div class="alt-badge orange2">
+      <div class="alt-badge weenie-green">
         <div class="circle pt-1"> <i class="mdi mdi-food-hot-dog"></i></div>
         <div class="double-ribbon-top lvl2-ribbon">Widget</div>
         <div class="double-ribbon-bottom lvl2-ribbon">Weenie</div>
@@ -22,7 +22,7 @@
 
     <!-- SECTION Rank Level 3 Badge -->
     <div class="col-4">
-      <div class="alt-badge yellow2">
+      <div class="alt-badge cadet-yellow">
         <div class="circle pt-1"> <i class="mdi mdi-chevron-up"></i></div>
         <div class="double-ribbon-top lvl3-ribbon">Code</div>
         <div class="double-ribbon-bottom lvl3-ribbon">Cadet</div>
@@ -32,7 +32,7 @@
     
     <!-- SECTION Rank Level 4 Badge -->
     <div class="col-4">
-      <div class="alt-badge silver-fox">
+      <div class="alt-badge fulvous-fox">
         <div class="circle pt-1"> <img src="../../../assets/img/fox-icon.png" alt=""></div>
         <div class="double-ribbon-top lvl4-ribbon">Function</div>
         <div class="double-ribbon-bottom lvl4-ribbon">Fox</div>
