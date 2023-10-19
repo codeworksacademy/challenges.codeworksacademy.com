@@ -44,6 +44,23 @@ const routes = [
     path: '/profile/:profileId',
     name: 'Profile',
     component: loadPage('ProfilePage'),
+  },
+  {
+    path: '/routetestpage',
+    name:'RouteTestPage',
+    component: loadPage('RouteTestPage'),
+    children: [
+      {
+        path: 'edit',
+        name: 'EditChallenge',
+        component: loadPage('HomePage'),
+      },
+      {
+        path: 'edit2',
+        name: 'Edit2',
+        component: loadPage('AboutPage')
+      }
+    ]
   }
 ]
 
