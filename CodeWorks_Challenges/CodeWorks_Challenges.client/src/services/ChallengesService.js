@@ -64,6 +64,14 @@ class ChallengesService {
     AppState.activeChallenge = res.data
     return res.data
   }
+
+  async submitAnswer(answerData, challengeId){
+    const res = await api.put(`api/challenges/${challengeId}/participants`, answerData)
+
+    logger.log('[SUBMITTING ANSWER]', res.data)
+
+    return res.data
+  }
 }
 
 export const challengesService = new ChallengesService()

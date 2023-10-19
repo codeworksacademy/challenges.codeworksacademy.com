@@ -17,6 +17,7 @@ export class ChallengesController extends BaseController {
 
       .post('', this.createChallenge)
       .put('/:challengeId', this.editChallenge)
+      .put('/:challengeId/participants', this.submitAnswer)
       .put('/:challengeId', this.cancelChallenge)
       .delete('/:challengeId', this.deleteChallenge)
       .delete('/:challengeId/participants', this.removeParticipant)
@@ -60,7 +61,7 @@ export class ChallengesController extends BaseController {
 
       const userId = req.userInfo.id
 
-      const participantToRemove = await participantsService.removeParticipant(challengeId, userId, participantData)
+      await participantsService.removeParticipant(challengeId, userId, participantData)
     } catch (error) {
       next(error)
     }
@@ -94,6 +95,23 @@ export class ChallengesController extends BaseController {
       const challenge = await challengesService.editChallenge(newChallenge, userId, challengeId)
       return res.send(challenge)
     } catch (error) {
+      next(error)
+    }
+  }
+
+  async submitAnswer(req, res, next) {
+    try{
+
+      const participantId = req.userInfo.id
+
+      const answerData = req.body
+
+      const challengeId = req.params.getModeratorsByChallengeId
+
+      const message = await challengesService.submitAnswer(participantId, answerData, challengeId)
+
+      return res.send(message)
+    } catch (error){
       next(error)
     }
   }

@@ -3,11 +3,13 @@
     <div v-if="user.id === challenge?.creatorId">
       <router-view />
     </div>
-    <h1 @click="editChallenge()" class="text-info">Edit Challenge</h1>
     <div class="row bg-img d-flex justify-content-center align-items-center"
-      :style="`background-image: url(${challenge.coverImg}); opacity: .9;`">
-      <div class="text-box">
-        <div class="header flex-grow-1 d-flex justify-content-between">
+    :style="`background-image: url(${challenge.coverImg}); opacity: .9;`">
+    <div class="text-box">
+      <div class="text-end mb-2" v-if="isModeratorStatus == 'approved' || isOwned">
+        <button @click="editChallenge()" class="btn btn-info">Edit Challenge</button>
+      </div>
+      <div class="header flex-grow-1 d-flex justify-content-between">
           <h1>{{ challenge.name }}</h1>
           <h1>{{ challenge.id }}</h1>
         </div>
@@ -68,7 +70,7 @@
     </section>
     <section class="row mb-5">
       <div class="col-8 d-flex justify-content-around">
-        <button class="btn btn-success">
+        <button data-bs-toggle="modal" data-bs-target="#submitAnswerModal" class="btn btn-success" v-if="isParticipant">
           Submit For Review
         </button>
         <div v-if="!isOwned">
@@ -98,8 +100,9 @@
     </div>
     <router-view />
   </section>
+
 </template>
-  
+
 <script>
 import { computed, onMounted, watchEffect, ref, popScopeId } from 'vue'
 import { AppState } from '../AppState'
@@ -117,6 +120,7 @@ import ChallengeSlayer from '../components/Rewards/Badges/ChallengeSlayer.vue'
 import Collaborator from '../components/Rewards/Badges/Collaborator.vue'
 import LesserBadges from '../components/Rewards/Badges/LesserBadges.vue'
 import ModSearchForm from '../components/ModSearchForm.vue'
+import AnswerForm from '../components/AnswerForm.vue';
 
 export default {
   components: {
@@ -126,8 +130,9 @@ export default {
     Architect,
     ChallengeSlayer,
     Collaborator,
-    LesserBadges
-  },
+    LesserBadges,
+    AnswerForm
+},
   setup() {
     const loading = ref(false)
     const route = useRoute()
