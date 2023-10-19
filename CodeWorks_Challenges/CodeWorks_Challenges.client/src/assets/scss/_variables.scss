@@ -375,7 +375,6 @@ $gradient: linear-gradient(180deg, hsla(0, 0%, 100%, 0.15), hsla(0, 0%, 100%, 0)
   }
   100% {
     background-position: 0 0
-    //This animation is not seamlessly looping. To fix this, we need to change the background-position value to 0px 0px when the percentage 
   }
 }
 
