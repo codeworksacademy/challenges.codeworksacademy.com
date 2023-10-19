@@ -360,6 +360,25 @@ $gradient: linear-gradient(180deg, hsla(0, 0%, 100%, 0.15), hsla(0, 0%, 100%, 0)
   }
 }
 
+.shimmer {
+  background-image: linear-gradient(linear, left top, right top, color-stop(0%, #1e0a0a00), color-stop(25%, #1e0a0a00), color-stop(60%, #dbc7c7d9), color-stop(100%, #1e0a0a00));
+  background-image: linear-gradient(120deg, #1e0a0a00 0%, #1e0a0a00 25%, #dbc7c7d9 60%, #1e0a0a00 100%);
+  background-repeat: repeat-y;
+  background-position: -400px 0;
+  animation: shimmer 60s linear infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 800px 0;
+    border-radius: 50%;
+  }
+  100% {
+    background-position: 0 0
+    //This animation is not seamlessly looping. To fix this, we need to change the background-position value to 0px 0px when the percentage 
+  }
+}
+
 
 
 /*SECTION - Challenge Form Styles Start */
@@ -1198,8 +1217,38 @@ select:not(:placeholder-shown):invalid:focus {
     border-radius: 8px 8px 0 0;
     text-align: center;
     width: 100%;
+    height: 35px;
     background: red;
     padding: 12px 0;
+  }
+  .subtitle-line-one {
+    position: absolute;
+    font-family: "Fjalla One", sans-serif;
+    font-size: .8em;
+    width: 100%;
+    text-align: center;
+    color: white;
+    top: 45px;
+    word-spacing: 2px;
+  }
+  .subtitle-line-two {
+    position: absolute;
+    font-family: "Fjalla One", sans-serif;
+    font-size: .8em;
+    width: 100%;
+    text-align: center;
+    color: white;
+    top: 60px;
+    word-spacing: 2px;
+    &:after {
+      content: "★ ★ ★";
+      color: goldenrod;
+      display: block;
+      font-size: .4em;
+      position: relative;
+      margin: 12px 0 0;
+      transition: all .3s;
+    }
   }
   .subtitle {
     position: absolute;
@@ -1208,7 +1257,6 @@ select:not(:placeholder-shown):invalid:focus {
     width: 100%;
     text-align: center;
     color: white;
-    position: absolute;
     top: 50px;
     word-spacing: 2px;
     &:after {
@@ -1220,7 +1268,8 @@ select:not(:placeholder-shown):invalid:focus {
       transition: all .3s;
     }
   }
-  &:hover .subtitle:after {
+  &:hover .subtitle:after,
+  &:hover .subtitle-line-two:after {
     word-spacing: 10px; 
   }
 }

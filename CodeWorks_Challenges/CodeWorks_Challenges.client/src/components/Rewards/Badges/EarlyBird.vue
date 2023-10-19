@@ -14,7 +14,7 @@
         />
       </svg>
       <div class="text-uppercase">
-        <p class="title">Early Bird</p>
+        <p class="title pt-3">Early Bird</p>
         <p class="subtitle">First to Complete</p>
       </div>
     </div>

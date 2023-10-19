@@ -104,7 +104,7 @@
 
     <!-- SECTION Rank Level 12 Badge -->
     <div class="col-4">
-      <div class="alt-badge celestial-gold">
+      <div class="alt-badge celestial-gold shimmer">
         <div class="circle pt-1"> <i class="mdi mdi-podium-gold"></i></div>
         <div class="double-ribbon-top lvl12-ribbon">Celestial</div>
         <div class="double-ribbon-bottom lvl12-ribbon">Scripter</div>

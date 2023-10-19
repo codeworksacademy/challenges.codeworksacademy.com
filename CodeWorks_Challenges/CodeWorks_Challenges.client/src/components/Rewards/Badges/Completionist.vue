@@ -15,8 +15,9 @@
         />
       </svg>
       <div class="text-uppercase">
-        <p class="title">Completionist</p>
-        <p class="subtitle">Complete All Checks</p>
+        <p class="title pt-3">Completionist</p>
+        <p class="subtitle-line-one">Complete All Checks</p>
+        <p class="subtitle-line-two">on 15 Challenges</p>
       </div>
     </div>
   </div>
