@@ -75,41 +75,6 @@ class ChallengesService {
     return challenge
   }
 
-  async submitAnswer(participantId, answerData, challengeId) {
-    if(answerData == null || !answerData){
-      throw new BadRequest('Invalid Answer Data')
-    }
-
-    const challenge = await this.getChallengeById(challengeId)
-    if(!challenge){
-      throw new BadRequest('Invalid ID')
-    }
-
-    if(challenge.isCancelled == true){
-      throw new Forbidden('This challenge has been cancelled. You cannot submit answers for it.')
-    }
-
-    const participants = await participantsService.getParticipantsByChallengeId(challenge.id)
-
-    if(!participants){
-      throw new Forbidden('[PERMISSIONS ERROR]: This challenge has no participants. You cannot submit answers to a challenge you have not joined.')
-    }
-
-    const participant = participants.find(p => p.accountId == participantId)
-
-    if(!participant){
-      throw new Forbidden('[PERMISSIONS ERROR]:You are not a participant for this challenge. You cannot submit answers to a challenge you have not joined.')
-    }
-
-    challenge.answers.push(answerData)
-
-    await challenge.save()
-
-    const message = 'Answer submitted successfully'
-
-    return message
-  }
-
   async cancelChallenge(challengeId, userId) {
     const challenge = await this.setActiveChallenge(challengeId)
     if (challenge.creatorId != userId) {

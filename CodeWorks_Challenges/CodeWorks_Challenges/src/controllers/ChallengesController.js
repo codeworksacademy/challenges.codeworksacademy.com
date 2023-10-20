@@ -3,6 +3,7 @@ import { Auth0Provider } from '@bcwdev/auth0provider'
 import { challengesService } from '../services/ChallengesService.js'
 import { participantsService } from '../services/ParticipantsService.js'
 import { moderatorsService } from "../services/ModeratorsService.js"
+import { answersService } from '../services/AnswersService.js'
 
 export class ChallengesController extends BaseController {
   constructor() {
@@ -12,12 +13,12 @@ export class ChallengesController extends BaseController {
       .get('/:challengeId', this.setActiveChallenge)
       .get('/:challengeId/participants', this.getParticipantsByChallengeId)
       .get('/:challengeId/moderators', this.getModeratorsByChallengeId)
-
+      
       .use(Auth0Provider.getAuthorizedUserInfo)
-
+      
+      .get('/:challengeId/answers', this.getAnswersByChallengeId)
       .post('', this.createChallenge)
       .put('/:challengeId', this.editChallenge)
-      .put('/:challengeId/participants', this.submitAnswer)
       .put('/:challengeId', this.cancelChallenge)
       .delete('/:challengeId', this.deleteChallenge)
       .delete('/:challengeId/participants', this.removeParticipant)
@@ -48,6 +49,18 @@ export class ChallengesController extends BaseController {
       const challengeId = req.params.challengeId
       const moderators = await moderatorsService.getModeratorsByChallengeId(challengeId)
       return res.send(moderators)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getAnswersByChallengeId(req, res, next) {
+    try {
+      const challengeId = req.params.challengeId
+
+      const answers = await answersService.getAnswersByChallengeId(challengeId)
+
+      return res.send(answers)
     } catch (error) {
       next(error)
     }
@@ -95,23 +108,6 @@ export class ChallengesController extends BaseController {
       const challenge = await challengesService.editChallenge(newChallenge, userId, challengeId)
       return res.send(challenge)
     } catch (error) {
-      next(error)
-    }
-  }
-
-  async submitAnswer(req, res, next) {
-    try{
-
-      const participantId = req.userInfo.id
-
-      const answerData = req.body
-
-      const challengeId = req.params.challengeId
-
-      const message = await challengesService.submitAnswer(participantId, answerData, challengeId)
-
-      return res.send(message)
-    } catch (error){
       next(error)
     }
   }
