@@ -100,6 +100,13 @@ ChallengeSchema.virtual('participantCount', {
   count: true
 })
 
+ChallengeSchema.virtual('answerCount', {
+  localField: '_id',
+  foreignField: 'challengeId',
+  ref: 'Answer',
+  count: true
+})
+
 ChallengeSchema.virtual('event', {
   localField: '_id',
   foreignField: 'eventId',
