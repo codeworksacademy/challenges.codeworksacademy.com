@@ -17,8 +17,9 @@ export const ModeratorSchema = new Schema({
     ref: 'Account'
   },
   status: {
-    type: Boolean,
-    default: false
+    type: String,
+    enum: ['Pending', 'Active', 'Inactive', 'Banned'],
+    required: true
   }
 },
   { timestamps: true, toJSON: { virtuals: true } }
