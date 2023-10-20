@@ -12,14 +12,15 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form @submit.prevent="getProfiles()" class="form-group d-flex">
+          <form @submit.prevent="getProfiles(), editable.hasSearched = true" class="form-group d-flex">
             <button class="btn btn-primary">Search</button>
             <input v-model="editable.name" class="form-control" type="text" placeholder="Profile Name" min-length="3"
               maxlength="150" required>
           </form>
           <div>
             Search Results:
-            <div v-for="profile in Profiles" :key="profile.name">
+            <div v-if="!Profiles.length > 0 && editable.hasSearched">No results Match Search Criteria</div>
+            <div v-for=" profile  in  Profiles " :key="profile.name">
               {{ profile.name }} <button v-if="!moderators.find(m => m.accountId == profile.id)"
                 @click="createModeration(profile.id)" class="mb-3">Send Invite</button>
             </div>
@@ -57,7 +58,7 @@ export default {
         try {
           const name = editable.value.name
           await profilesService.getProfiles(name)
-          editable.value = {}
+          editable.value.name = ''
         } catch (error) {
           logger.error(error)
           Pop.toast(error, 'error')
