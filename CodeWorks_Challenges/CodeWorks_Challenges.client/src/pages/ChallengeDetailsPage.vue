@@ -184,7 +184,7 @@ export default {
       },
       participants: computed(() => AppState.participants),
       rewards: computed(() => AppState.rewards),
-      moderators: computed(() => AppState.moderators.filter(m => m.status == true)),
+      moderators: computed(() => AppState.moderators.filter(m => m.status == 'Active')),
 
       difficulty: computed(() => {
         const dif = AppState.activeChallenge.difficulty

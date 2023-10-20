@@ -71,7 +71,7 @@ class ModeratorsService {
       }
     }
 
-    moderation.status = true
+    moderation.status = 'Active'
 
     await moderation.save()
 
@@ -89,7 +89,9 @@ class ModeratorsService {
     if (userId != moderatorToRemove.accountId && userId != challenge.creatorId) {
       throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this moderator's. You may not remove other moderator.")
     }
-    await moderatorToRemove.remove()
+
+    moderatorToRemove.status = 'Terminated'
+    await moderatorToRemove.save()
 
     return moderatorToRemove
   }
