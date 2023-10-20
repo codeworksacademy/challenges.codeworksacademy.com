@@ -58,7 +58,9 @@ export class ChallengesController extends BaseController {
     try {
       const challengeId = req.params.challengeId
 
-      const answers = await answersService.getAnswersByChallengeId(challengeId)
+      const userId = req.userInfo.id
+
+      const answers = await answersService.getAnswersByChallengeId(challengeId, userId)
 
       return res.send(answers)
     } catch (error) {

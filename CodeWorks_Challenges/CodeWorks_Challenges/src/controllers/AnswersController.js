@@ -27,7 +27,17 @@ export class AnswersController extends BaseController{
     }
   }
 
-  removeAnswer(arg0, removeAnswer) {
-    throw new Error("Method not implemented.");
+  async removeAnswer(req, res, next) {
+    try {
+      const userId = req.userInfo.id
+
+      const answerId = req.params.answerId
+
+      await answersService.removeAnswer(userId, answerId)
+
+      res.send('Answer has been successfully removed!')
+    } catch (error) {
+      next(error)
+    }
   }
 }
