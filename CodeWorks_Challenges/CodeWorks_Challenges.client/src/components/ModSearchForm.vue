@@ -59,7 +59,6 @@ export default {
         try {
           const name = editable.value.name
           await profilesService.searchProfiles(name)
-          editable.value.name = AppState.query
         } catch (error) {
           logger.error(error)
           Pop.toast(error, 'error')

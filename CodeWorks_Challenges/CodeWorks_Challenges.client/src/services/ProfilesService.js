@@ -5,8 +5,8 @@ import { api } from "./AxiosService"
 
 class ProfilesService {
 
-  async searchProfiles(query) {
-    const res = await api.get(`api/profiles?name=${query}`)
+  async searchProfiles(name) {
+    const res = await api.get(`api/profiles?name=${name}`)
     AppState.profiles = res.data.map(p => new Profile(p))
     logger.log('[RETRIEVED PROFILES]', AppState.profiles)
   }
