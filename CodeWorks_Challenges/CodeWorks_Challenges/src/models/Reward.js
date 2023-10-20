@@ -16,10 +16,13 @@ export const RewardSchema = new Schema({
     type: String,
     required: true
   },
-  badge:{
-    type: String,
-    required: true
-  },
+  badges:[
+    {
+      name: String,
+      description: String,
+      image: String
+    }
+  ],
   points:{
     type: Number,
     required: true

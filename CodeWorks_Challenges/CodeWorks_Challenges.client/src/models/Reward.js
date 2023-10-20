@@ -6,7 +6,7 @@ export class Reward {
     this.challengeId = data.challengeId
     this.accountId = data.accountId
     this.name = data.name
-    this.badge = data.badge
+    this.badges = data.badges
     this.points = data.points
     this.experience = data.experience
     this.claimed = data.claimed

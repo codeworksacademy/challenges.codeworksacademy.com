@@ -1,3 +1,4 @@
+import { Reward } from './Reward.js';
 import { StrDifficultyNum } from '../utils/StrDifficultyNum.js';
 import { DateTime } from '../utils/DateTime.js';
 
@@ -17,8 +18,10 @@ export class Challenge {
     this.supportLinks = data.supportLinks || []
     this.difficulty = StrDifficultyNum(data.difficulty) || 1
     this.pointValue = data.pointValue || 1
+    this.badges = data.badges ? new Reward(data.badges) : null
     this.answers = data.answers || []
     this.isCancelled = data.isCancelled || false
     this.participantCount = data.participantCount
+    this.valid = data.valid
   }
 }

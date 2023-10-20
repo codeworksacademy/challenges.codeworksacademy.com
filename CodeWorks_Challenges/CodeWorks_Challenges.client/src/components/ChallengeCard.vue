@@ -1,5 +1,5 @@
 <template>
-  <section v-if="challenge" :key="challenge?.id" class="container-fluid">
+  <section v-if="challenge" class="container-fluid">
     <router-link :to="{ name: 'ChallengeDetails', params: { challengeId: challenge.id } }" class="" style="z-index: 0;">
       <div class="card card-custom-image d-flex flex-row bg-dark align-items-center p-3 rounded-3"
         style="height: 100px; font-weight: 500;" :style="`background-image: url(${challenge.coverImg}); opacity: .9;`">
@@ -14,7 +14,7 @@
           </div>
         </div>
         <div class="col-1 d-flex flex-column justify-content-center align-items-center mx-auto ms-3">
-          <p class="text-center text-secondary" style="font-size: .9rem; text-wrap: nowrap; line-height: 0;">Creator:</p>
+          <p class="text-center" style="font-size: .9rem; text-wrap: nowrap; line-height: 0;">Creator:</p>
           <router-link :to="{ name: 'Profile', params: { profileId: challenge.creatorId } }">
             <img :src="challenge.creator.picture" :alt="`Picture of ${challenge.creator.name} (Challenge Creator / Host)`"
               class="creator-img img-fluid rounded-circle">
@@ -120,10 +120,11 @@ export default {
   background-repeat: no-repeat;
   border: 1px solid var(--primary-blue);
   box-shadow: var(--shadow);
+  text-shadow: 0 1px #000000;
   transition: all .3s ease-in-out;
 
   &::before {
-    background: linear-gradient(90deg, #00000080 0%, transparent 100%);
+    background: linear-gradient(90deg, #00000080 0%, transparent 150%);
     content: '';
     position: absolute;
     top: 0;
@@ -165,5 +166,4 @@ export default {
   &:hover {
     color: blue !important;
   }
-}
-</style>
+}</style>
