@@ -16,13 +16,6 @@ class AnswersService{
   getAnswersByChallengeId(challengeId) {
     throw new Error('Method not implemented.')
   }
-  
-  // Purpose of function is internal to check if a user has already submitted an answer before creating a new one. Moderator/Creator checks have been removed for this.
-  async getAnswerByChallengeIdForSumbission() {
-    const answers = await dbContext.Answers.find({})
-
-    return answers
-  }
 
   async createAnswer(answerData) {
 
