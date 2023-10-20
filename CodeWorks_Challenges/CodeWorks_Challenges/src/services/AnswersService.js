@@ -43,18 +43,18 @@ class AnswersService{
     if(inChallenge){
       const userAnswers = await this.getMyAnswers(answerData.creatorId)
 
-      const challengeAnswer = userAnswers.find(a => a.challengeId == answerData.challengeId)
+      const existingAnswer = userAnswers.find(a => a.challengeId == answerData.challengeId)
 
-      if(challengeAnswer){
-        challengeAnswer.body = answerData.body || challengeAnswer.body
+      if(existingAnswer){
+        existingAnswer.body = answerData.body || existingAnswer.body
 
-        challengeAnswer.save()
+        existingAnswer.save()
 
-        return challengeAnswer
+        return existingAnswer
       }else{
-        const answer = await dbContext.Answers.create(answerData)
+        const newAnswer = await dbContext.Answers.create(answerData)
 
-        return answer
+        return newAnswer
       }
     }
 
