@@ -1,9 +1,11 @@
 <template>
-  <section class="container-fluid position-relative">
+  <section class="container-fluid position-relative p-3">
     <div class="background-box m-auto">
       <div class="img-box m-auto">
+        <span class="top-ribbon"></span>
         <img src="../../../assets/img/ultimate-hacker.png" alt="Ultimate Hacker Badge Image">
         <img src="../../../assets/img/gold-ribbon.png" alt="Small Gold Ribbon Image" class="gold-ribbon">
+        <span class="bottom-ribbon"></span>
       </div>
     </div>
   </section>
@@ -25,15 +27,38 @@ export default {
 <style scoped lang="scss">
 .background-box {
   position: relative;
-  width: 300px;
-  height: 300px;
-  padding: 50px 200px 0 150px;
-  background-image: url(../../../assets/img/bg-custom-badge.png);
-  background-size: cover;
-  background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 300px;
+  min-height: 350px;
+  background-image: url(../../../assets/img/bg-custom-badge.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: drop-shadow(2px 1px 5px #222222);
+  z-index: 100;
+  &:before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 350px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    clip-path: path('M150 25 L300 85 Q290 285 150 325 Q10 275 0 85 L150 25');
+    background: radial-gradient(
+      circle at 50% 50%,
+      transparent 0% 10%,
+      transparent 25%,
+      #11111199 50% 51%,
+      #21221299 51% 52%,
+      transparent 80% 100%
+    );
+    opacity: .5;
+    z-index: -1000;
+  }
   .img-box {
     position: relative;
     padding: 0;
@@ -41,7 +66,7 @@ export default {
     width: 200px;
     height: 200px;
     background-repeat: no-repeat;
-    z-index: 1000;
+    z-index: 1;
     &:before {
       content: '';
       position: absolute;
@@ -128,6 +153,33 @@ export default {
       transform: scale(.4) rotate(-15deg);
       filter: drop-shadow(0 3px 5px goldenrod) brightness(.9);
       z-index: 4;
+    }
+    .top-ribbon {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 200px;
+      height: 200px;
+      clip-path: path('M0,60 C0,50 50,50 100,50 C150,50 200,50 200,60 C200,25 0,25 0,60');
+      transition: .5s;
+      transform: scale(1.1);
+      z-index: 1000;
+      background-color: goldenrod;
+    }
+    .bottom-ribbon {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 8rem;
+      width: 200px;
+      height: 200px;
+      clip-path: path('M0,140 C0,150 50,150 100,150 C150,150 200,150 200,140 C200,175 0,175 0,140');
+      transition: .5s;
+      transform: scale(1.1);
+      z-index: 1000;
+      background-color: goldenrod;
     }
   }
 }
