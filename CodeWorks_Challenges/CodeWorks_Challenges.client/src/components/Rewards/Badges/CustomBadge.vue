@@ -5,12 +5,24 @@
         <img src="../../../assets/img/ultimate-hacker.png" alt="Ultimate Hacker Badge Image">
         <img src="../../../assets/img/gold-ribbon.png" alt="Small Gold Ribbon Image" class="gold-ribbon">
         <svg viewBox="0 0 500 500">
+          <defs>
+            <linearGradient id="ribbonGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color: #FFD700; stop-opacity: 1" />
+              <stop offset="100%" style="stop-color: #FFA500; stop-opacity: 1">
+                <animate
+                  attributeName="stop-color"
+                  values="#FFD700; white; #FFA500"
+                  dur="2s"
+                  repeatCount="once"
+                />
+              </stop>
+            </linearGradient>
+          </defs>
           <path
             id="curve"
             d="M0 140 C200 300 300 50 500 150"
-            fill="transparent"
-            stroke="darkgoldenrod"
             stroke-width="50"
+            stroke="url(#ribbonGradient)"
           />
           <text width="500">
             <textPath
@@ -18,7 +30,8 @@
               startOffset="50%"
               text-anchor="middle"
               fill="black"
-              stroke="black"
+              stroke="var(--primary-blue)"
+              stroke-opacity=".3"
             >
               Founder of 'App Name'
             </textPath>
@@ -67,6 +80,7 @@ export default {
     right: 0;
     bottom: 0;
     clip-path: path('M150 25 L300 85 Q290 285 150 325 Q10 275 0 85 L150 25');
+    background-color: #11111199 !important;
     background: radial-gradient(
       circle at 50% 50%,
       transparent 0% 10%,
@@ -75,8 +89,25 @@ export default {
       #21221299 51% 52%,
       transparent 80% 100%
     );
+    background-size: 400% 400%;
     opacity: .5;
-    z-index: -1000;
+    z-index: 0;
+    animation: shimmerBackground 3s ease-in-out 5s forwards;
+  }
+
+  @keyframes shimmerBackground {
+    0% {
+      background-position: 0% 0%;
+      background-size: 400% 400%;
+    }
+    50% {
+      background-position: 0% 0%;
+    }
+    100% {
+      background-position: -200% -200%;
+      background-size: 400% 400%;
+      background-color: #11111199;
+    }
   }
   .img-box {
     position: relative;
@@ -151,6 +182,7 @@ export default {
       opacity: .7;
       z-index: 1;
       filter: brightness(.8) saturate(1.2) grayscale(.75);
+      animation: makeConicGradientLookLikeChasingLights 2s ease-in-out infinite;
     }
     img {
       position: relative;
@@ -215,8 +247,12 @@ export default {
     transform: scale(1.1);
     z-index: 3;
     fill: transparent;
-    stroke: rgb(144, 106, 9);
-
+    animation: translateRibbon 2s ease-in-out forwards;
+    stroke-dasharray: 0 1000;
+    animate {
+      stroke-dasharray: 1000 0;
+      
+    }
     text {
       font-family: 'Lobster';
       stroke-width: 1px;
@@ -229,6 +265,17 @@ export default {
       letter-spacing: 0px;
     }
   }
+
+  @keyframes translateRibbon {
+    0% {
+      stroke-dasharray: 0 1000;
+    }
+    100% {
+      stroke-dasharray: 1000 0;
+    }
+  }
+
+  
 }
 
 </style>
