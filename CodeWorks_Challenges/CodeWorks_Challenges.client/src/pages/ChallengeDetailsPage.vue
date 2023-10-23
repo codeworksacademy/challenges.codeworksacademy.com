@@ -12,7 +12,7 @@
           <h1>{{ challenge.id }}</h1>
         </div>
         <div class="body">
-          <p>{{ challenge.description }}</p>
+          <!-- <p>{{ challenge.description }}</p> -->
           <p>Points: {{ challenge.pointValue }}</p>
           <p>Difficulty: {{ difficulty }}</p>
           <p>Created by: {{ challenge.creator.name }}</p>
@@ -36,40 +36,8 @@
       </div>
     </div>
 
-    <div class="row m-auto">
-      <div class="col-12 d-flex justify-content-center align-items-center text-dark">
-        <h1>Rewards:</h1>
-      </div>
-    </div>
-    <div class="row" style="overflow-x: hidden;">
-      <div class="col-12 d-flex justify-content-center align-items-center ms-5">
-        <RewardCard />
-        <Completionist />
-        <EarlyBird />
-        <Architect />
-        <ChallengeSlayer />
-        <Collaborator />
-      </div>
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <LesserBadges />
-      </div>
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <CustomBadge />
-      </div>
-    </div>
-
-    <section v-if="isParticipant" class="row mb-5">
-      <!-- v-if is here because participants can be created with out being assigned a status -->
-      <div class="col-4 text-dark" v-if="isParticipant.status">Status: <span class="">{{ isParticipant.status
-      }}</span>
-      </div>
-      <div class="col-4 text-dark" v-else>
-        Participant is missing status
-      </div>
-      <div class="col-4 text-dark">Progress: <span class="">-1/10 // 50% Etc</span> </div>
-      <div class="col-4 text-dark">Started: <span class="">{{ isParticipant.createdAt }}</span></div>
-    </section>
-    <section class="row mb-5">
+    <!-- Interactions with Challenge -->
+    <section class="row bg-dark text-light p-3 mb-1">
       <div class="col-8 d-flex justify-content-around">
         <button class="btn btn-success">
           Submit For Review
@@ -95,6 +63,72 @@
         </button>
       </div>
     </section>
+
+    <!-- Particiapnt data -->
+    <section v-if="isParticipant" class="row bg-dark text-light p-3 mb-1">
+      <!-- v-if is here because participants can be created with out being assigned a status -->
+      <div class="col-4" v-if="isParticipant.status">Status: <span class="">{{ isParticipant.status
+      }}</span>
+      </div>
+      <div class="col-4" v-else>
+        Participant is missing status
+      </div>
+      <div class="col-4">Progress: <span class="">-1/10 // 50% Etc</span> </div>
+      <div class="col-4">Started: <span class="">{{ isParticipant.createdAt }}</span></div>
+    </section>
+
+    <!-- Description and Steps -->
+    <section class="row">
+      <div class="col-12 bg-dark text-light p-3 mb-1">
+        <i>Description:</i>
+        <p>
+          {{ challenge.description }}
+        </p>
+      </div>
+      <div v-if="challenge.supportLinks.length > 0" class="col-12 bg-dark text-light p-3 mb-1">
+        <div v-for="(link, index) in challenge.supportLinks" :key="link">
+          <i class="text-light">
+            Support Link {{ index + 1 }}:
+          </i>
+          <p>
+            {{ link }}
+          </p>
+        </div>
+      </div>
+      <div v-for="(step, index) in challenge.steps" :key="step" class="col-12 bg-dark text-light p-3 mb-1">
+        <i class="text-light">
+          Step {{ index + 1 }}:
+        </i>
+        <p>
+          {{ step }}
+        </p>
+      </div>
+    </section>
+
+
+    <div class="row m-auto">
+      <div class="col-12 d-flex justify-content-center align-items-center text-dark">
+        <h1>Rewards:</h1>
+      </div>
+    </div>
+    <div class="row" style="overflow-x: hidden;">
+      <div class="col-12 d-flex justify-content-center align-items-center ms-5">
+        <RewardCard />
+        <Completionist />
+        <EarlyBird />
+        <Architect />
+        <ChallengeSlayer />
+        <Collaborator />
+      </div>
+      <div class="col-12 d-flex justify-content-center align-items-center">
+        <LesserBadges />
+      </div>
+      <div class="col-12 d-flex justify-content-center align-items-center">
+        <CustomBadge />
+      </div>
+    </div>
+
+
 
     <div v-if="user.id === challenge?.creatorId">
       <router-view />
