@@ -53,7 +53,7 @@ const routes = [
       {
         path: 'edit',
         name: 'EditChallenge',
-        component: loadPage('HomePage'),
+        component: loadPage('EditChallengePage'),
       },
       {
         path: 'edit2',

@@ -1,7 +1,7 @@
   <template>
     <section class="container-fluid">
       <div class="row">
-        <div class="col-md-2 bg-info overflow-auto p-0" id="menu">
+        <div class="col-md-3 overflow-auto p-0 border-end" id="menu">
           <h4 class="ps-3 py-3">Edit Challenge</h4>
           <div class="accordion accordion-flush" id="accordionFlushExample">
             <div class="accordion-item">
@@ -29,7 +29,7 @@
                 <div class="accordion-body">
                   <h5 class="p-3 border-dark border-bottom">Users</h5>
                   <h5 class="p-3 border-dark border-bottom">Moderators</h5>
-                  <h5 class="p-3 border-dark border-bottom">Notifications</h5>
+                  <h5 class="p-3 border-dark border-bottom d-flex flex-row justify-content-between">Notifications<span class="ps-1 text-danger">12<i class="mdi mdi-alert-box text-danger"></i></span></h5>
                 </div>
               </div>
             </div>
@@ -47,7 +47,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-10 h-100 bg-warning">
+        <div class="col-md-8 h-100">
           <router-view/>
         </div>
       </div>
