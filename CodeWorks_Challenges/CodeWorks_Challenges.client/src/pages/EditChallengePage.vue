@@ -2,37 +2,42 @@
   <div class="" v-if="challenge">
     <section class="container-fluid text-dark">
       <form @submit.prevent="updateChallenge">
-        <h1 for="name">{{ editable.name }}</h1>
-        <span v-if="challenge.name.length == 0" class="text-danger">You need a name!</span>
-        <input type="text" class="form-control" id="name" v-model="editable.name" required> 
-        <h2 for="description">Description</h2>
-        <span v-if="challenge.description.length == 0" class="text-danger">You need a description!</span>
-        <textarea type="text" class="form-control" id="description" v-model="editable.description" required></textarea> 
+        <div class="border-dark border-bottom my-3">
+          <h3 for="name">Challenge Name</h3>
+          <span v-if="challenge.name.length == 0" class="text-danger">You need a name!</span>
+          <input type="text" class="form-control mb-3" id="name" v-model="editable.name" required> 
+          <h3 for="description">Description</h3>
+          <span v-if="challenge.description.length == 0" class="text-danger">You need a description!</span>
+          <textarea type="text" cols="30" rows="10" class="form-control mb-3" id="description" v-model="editable.description" required></textarea> 
+        </div>
           <div>
             <section>
-              <h1 for="steps">Challenge Steps</h1>
+              <h3 for="steps">Challenge Steps</h3>
               <span v-if="challenge.steps.length == 0" class="text-danger">You need at least one step!</span>
               <h4>Add a step  <i class="mdi mdi-plus-box fs-1" @click="addStep"></i></h4>
               <textarea name="" id="stepText" cols="30" rows="10" class="form-control mb-3"></textarea>
             </section>
             <section class="" v-for="(step, index) in challenge.steps">
-              <h1>Step {{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteStep(index)"></i></h1>
+              <h4>Step {{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteStep(index)"></i></h4>
               <textarea name="" id="" cols="30" rows="10" class="form-control mb-3">{{ step }}</textarea>
             </section>
           </div>
           <h3>Difficulty</h3>
-          <select class="form-select" aria-label="Type Selection" v-model="editable.difficulty" placeholder="Select Difficulty">
+          <select class="form-select mb-3" aria-label="Type Selection" v-model="editable.difficulty" placeholder="Select Difficulty">
             <option selected>Select Difficulty</option>
             <option value="1">Easy</option>
             <option value="2">Medium</option>
             <option value="3">Hard</option>
           </select>
-          <h1>Cover Image</h1>
+          <h3 class="mb-3">Cover Image</h3>
           <img :src="editable.coverImg" alt="" class="object-fit-cover w-100 rounded-top">
           <input type="text" class="form-control mb-3" id="coverImg" v-model="editable.coverImg" required> 
-          <textarea name="supportLinks" id="" cols="30" rows="10" class="form-control mb-3">Support Links</textarea>
-          <textarea name="answers" id="" cols="30" rows="10" class="form-control mb-3">Answers</textarea>
-          <button @click="updateChallenge()" class="btn btn-success">Update Challenge</button>
+          <h4>Support Links</h4>
+          <span v-if="challenge.supportLinks.length == 0" class="text-danger">You need at least 1 support link!</span>
+          <textarea name="supportLinks" id="" cols="30" rows="10" class="form-control mb-3"></textarea>
+          <h4>Answers</h4>
+          <textarea name="answers" id="" cols="30" rows="10" class="form-control mb-3"></textarea>
+          <button @click="updateChallenge()" class="btn btn-success mb-3">Update Challenge</button>
       </form>
     </section>
   </div>
@@ -70,14 +75,14 @@ export default {
 
     async function updateChallenge() {
       try {
-        const stepsLength = AppState.activeChallenge.steps;
-        const description = AppState.activeChallenge.description;
-        if(stepsLength.length == 0){
+        // const stepsLength = AppState.activeChallenge.steps;
+        // const description = AppState.activeChallenge.description;
+        if(AppState.activeChallenge.steps == 0){
           // console.log("Challenge is invalid");
           Pop.error("Challenge needs at least 1 step.")
           return;
         }
-        if(description.length == 0){
+        if(AppState.activeChallenge.description == 0){
           Pop.error("You cannot have an empty description")
           return;
         }
@@ -147,5 +152,15 @@ export default {
 <style scoped lang="scss">
   i:hover{
     color: rgb(163, 235, 47);
+  }
+
+  .mdi-trash-can{
+    color: rgb(242, 114, 114);
+  }
+  .mdi-trash-can:hover{
+    color: rgb(255, 4, 4);
+  }
+  .form-control{
+    background-color: white
   }
 </style>
