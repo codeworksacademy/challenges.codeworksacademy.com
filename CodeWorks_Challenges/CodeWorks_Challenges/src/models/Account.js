@@ -10,7 +10,8 @@ export const AccountSchema = new Schema(
     // NOTE If you wish to add additional properties do so here
     coverImage: { type: String },
     aboutContent: { type: String },
-    reputation: { type: Number }
+    reputation: { type: Number },
+    rank: { type: Number }
 
   },
   { timestamps: true, toJSON: { virtuals: true } }

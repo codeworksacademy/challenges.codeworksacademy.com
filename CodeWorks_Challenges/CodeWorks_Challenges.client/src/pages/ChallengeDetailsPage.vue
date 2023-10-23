@@ -9,7 +9,7 @@
       <div class="text-box">
         <div class="header flex-grow-1 d-flex justify-content-between">
           <h1>{{ challenge.name }}</h1>
-          <h1>{{ challenge.id }}</h1>
+          <!-- <h1>{{ challenge.id }}</h1> -->
         </div>
         <div class="body">
           <!-- <p>{{ challenge.description }}</p> -->
@@ -37,8 +37,8 @@
     </div>
 
     <!-- Interactions with Challenge -->
-    <section class="row bg-dark text-light p-3 mb-1">
-      <div class="col-8 d-flex justify-content-around">
+    <section class="row bg-dark text-light p-3 my-1">
+      <div class="col-8 d-flex justify-content-between">
         <button class="btn btn-success">
           Submit For Review
         </button>
@@ -49,12 +49,13 @@
           <button v-if="isModeratorStatus == 'pending'" class="btn btn-primary">Request pending</button>
           <button v-if="isModeratorStatus == 'approved'" class="btn btn-primary">You are a Moderator</button>
         </div>
-        <div v-else>
+        <!-- Move this button and its functionality into the edit challenges -->
+        <!-- <div v-else> 
           <ModSearchForm />
-        </div>
+        </div> -->
       </div>
       <div class="col-4">
-        <button class="btn btn-primary" @click="joinChallenge()" v-if="!isParticipant">
+        <button class="btn btn-primary" @click="joinChallenge()" v-if="!isParticipant && !isOwned">
           Join Challenge
         </button>
 
