@@ -16,7 +16,7 @@
           <p>Created: {{ date }}</p>
           <!-- <p>{{ challenge.description }}</p> -->
           <p>Points: {{ challenge.pointValue }}</p>
-          <p>Difficulty: {{ difficulty }}</p>
+          <p Use v-html="difficulty.html"></p>
           <p>Created by: {{ challenge.creator.name }}</p>
           <p v-if="challenge.supportLinks.length > 0">Support Links: {{ challenge.supportLinks }}</p>
           <div class="d-flex mb-3">Moderators:
@@ -155,6 +155,7 @@ import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
 import { DateTime } from '../utils/DateTime.js';
+import { StrDifficultyNum } from '../utils/StrDifficultyNum.js';
 import { useRoute, useRouter } from 'vue-router';
 import { challengesService } from '../services/ChallengesService';
 import { participantsService } from "../services/ParticipantsService.js";
@@ -239,24 +240,9 @@ export default {
       rewards: computed(() => AppState.rewards),
       moderators: computed(() => AppState.moderators.filter(m => m.status == 'Active')),
 
-      difficulty: computed(() => {
-        const dif = AppState.activeChallenge.difficulty
-        // Switch statement converting the challenges difficulty into words- Change the string at will
-        switch (dif) {
-          case 1:
-            return 'Easy'
-          case 2:
-            return 'Medium'
-          case 3:
-            return 'Hard'
-          case 4:
-            return 'Unforgiving'
-          case 5:
-            return 'Milk Shoes'
-          default:
-            return 'N/A'
-        }
-      }),
+      difficulty: computed(() =>
+        StrDifficultyNum(AppState.activeChallenge.difficulty)
+      ),
 
 
       isParticipant: computed(() =>
