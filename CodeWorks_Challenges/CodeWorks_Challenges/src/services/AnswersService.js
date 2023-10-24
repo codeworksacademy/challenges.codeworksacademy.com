@@ -48,9 +48,9 @@ class AnswersService{
   async createAnswer(answerData) {
 
     // Check to see if user is participant in challenge.
-    const userChallenges = await challengesService.getMyChallenges(answerData.creatorId)
+    const challengeParticipants = participantsService.getParticipantsByChallengeId(answerData.challengeId)
 
-    const inChallenge = userChallenges.find(c => c.id == answerData.challengeId)
+    const inChallenge = (await challengeParticipants).find(p => p.accountId == answerData.creatorId)
 
     if(!inChallenge){
       throw new Forbidden('You are not a participant of this challenge. You cannot submit answers for it.')

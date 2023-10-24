@@ -8,10 +8,10 @@
       </div>
       <div class="col-12">
         <form @submit.prevent="submitAnswer()">
-          <label for="answer" class="text-light form-label">
+          <label for="body" class="text-light form-label">
             Link
           </label>
-          <input v-model="editable.answer" type="url" name="answer" id="answer" placeholder="Source Code Link" class="form-control bg-light">
+          <input v-model="editable.body" type="url" name="body" id="body" placeholder="Source Code Link" class="form-control bg-light">
           <div class="text-end mt-3">
             <button class="btn btn-success" type="submit" title="Submit Answer">
               Submit
@@ -26,14 +26,14 @@
 
 <script>
 import { useRoute } from 'vue-router';
-import { challengesService } from '../services/ChallengesService';
+import { answersService } from '../services/AnswersService';
 import { logger } from '../utils/Logger';
 import Pop from '../utils/Pop';
 import { ref } from 'vue';
 
 export default {
   setup(){
-    const editable = ref('')
+    const editable = ref({})
 
     const route = useRoute()
 
@@ -42,11 +42,9 @@ export default {
 
       async submitAnswer(){
         try {
-          const answerData = editable.value
+          const answerData = {body: editable.value.body, challengeId: route.params.challengeId}
 
-          const challengeId = route.params.challengeId
-
-          await challengesService.submitAnswer(answerData, challengeId)
+          await answersService.createAnswer(answerData)
 
           editable.value = {}
 

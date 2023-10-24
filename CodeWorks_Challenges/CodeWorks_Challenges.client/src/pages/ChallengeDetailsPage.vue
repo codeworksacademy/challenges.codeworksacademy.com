@@ -121,6 +121,7 @@ import Collaborator from '../components/Rewards/Badges/Collaborator.vue'
 import LesserBadges from '../components/Rewards/Badges/LesserBadges.vue'
 import ModSearchForm from '../components/ModSearchForm.vue'
 import AnswerForm from '../components/AnswerForm.vue';
+import { answersService } from '../services/AnswersService';
 
 export default {
   components: {
@@ -165,12 +166,22 @@ export default {
       }
     }
 
+    async function getAnswersByChallengeId(){
+      try {
+        await answersService.getAnswersByChallengeId(route.params.challengeId)
+      } catch (error) {
+        logger.error(error)
+        Pop.error(error.message)
+      }
+    }
+
     onMounted(() => {
     })
 
     watchEffect(() => {
       getParticipantsByChallengeId()
       getModeratorsByChallengeId()
+      getAnswersByChallengeId()
       setActiveChallenge()
     })
 
