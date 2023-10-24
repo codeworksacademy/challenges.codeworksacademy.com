@@ -43,7 +43,7 @@
     </div>
     <div class="row" style="overflow-x: hidden;">
       <div class="col-12 d-flex justify-content-center align-items-center ms-5">
-        <RewardCard />
+        <!-- <RewardCard /> -->
         <Completionist />
         <EarlyBird />
         <Architect />
@@ -71,9 +71,15 @@
     </section>
     <section class="row mb-5">
       <div class="col-8 d-flex justify-content-around">
-        <button class="btn btn-success">
-          Submit For Review
-        </button>
+        
+          <button
+            v-if="isParticipant && isParticipant.status == 'registered'"
+            :disabled="isParticipant.status == 'submitted'"
+            @click="updateParticipant()"
+            class="btn btn-primary"
+          >
+            Submit For Review
+          </button>
         <div v-if="!isOwned">
           <button v-if="isModeratorStatus == 'null'" class="btn btn-primary" @click="createModeration()">
             Request to become a moderator
@@ -138,10 +144,38 @@ export default {
     const route = useRoute()
     const router = useRouter()
 
+    const isParticipant = computed(() => {
+      const participant = AppState.participants.find(p => p.accountId == AppState.account.id)
+      return participant
+    })
+
     async function setActiveChallenge() {
       try {
         const challengeId = route.params.challengeId
         await challengesService.setActiveChallenge(challengeId)
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error, 'error')
+      }
+    }
+
+    async function updateParticipant() {
+      try {
+        const confirmComplete = await Pop.confirm('Are you sure you want to complete this challenge?')
+
+        if (!confirmComplete) {
+          return
+        }
+
+        const participantId = isParticipant.value.id
+
+        const newParticipant = {
+          status: 'submitted'
+        }
+
+        await participantsService.updateParticipant(participantId, newParticipant)
+
+        Pop.success(`Great job ${AppState.account.name}! Your challenge submission for ${AppState.activeChallenge?.name} has been received. Once your submission has been reviewed, you will be notified of any rewards you have earned! 🏆💹🎉`)
       } catch (error) {
         logger.error(error)
         Pop.toast(error, 'error')
@@ -172,21 +206,16 @@ export default {
       getParticipantsByChallengeId()
       getModeratorsByChallengeId()
       setActiveChallenge()
+      logger.log(getParticipantsByChallengeId())
     })
 
     return {
+      updateParticipant,
+
+      isParticipant,
       loading,
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.activeChallenge),
-      editChallenge() {
-        logger.log("Pushing to", AppState.activeChallenge.id)
-        router.push({
-          name: 'EditChallenge',
-          params: {
-            challengeId: AppState.activeChallenge.id
-          }
-        })
-      },
       participants: computed(() => AppState.participants),
       rewards: computed(() => AppState.rewards),
       moderators: computed(() => AppState.moderators.filter(m => m.status == true)),
@@ -194,6 +223,7 @@ export default {
       difficulty: computed(() => {
         const dif = AppState.activeChallenge.difficulty
         // Switch statement converting the challenges difficulty into words- Change the string at will
+        // ANCHOR - To who created this computed difficulty -- there is already a util that handles this entire switch statement. It should be imported and used directly here instead of re-creating it. If you would like to add some more return values to the util, feel free to do so in the utils folder within the StringDificultyNum.js file, as at the moment there are only values for numbers 1-3 🙂.
         switch (dif) {
           case 1:
             return 'Easy'
@@ -210,10 +240,12 @@ export default {
         }
       }),
 
-
-      isParticipant: computed(() =>
-        AppState.participants.find(p => p.accountId == AppState.account.id)
-      ),
+      participantStatus: computed(() => {
+        const participant = AppState.participants.find(p => p.accountId == AppState.account.id)
+        if (participant) {
+          return participant.status
+        } else return 'null'
+      }),
 
       isModeratorStatus: computed(() => {
         const isMod = AppState.moderators.find(m => m.accountId == AppState.account.id)
@@ -225,6 +257,36 @@ export default {
       }),
       isOwned: computed(() => AppState.activeChallenge.creator.id === AppState.account.id),
 
+      editChallenge() {
+        logger.log("Pushing to", AppState.activeChallenge.id)
+        router.push({
+          name: 'EditChallenge',
+          params: {
+            challengeId: AppState.activeChallenge.id
+          }
+        })
+      },
+
+      
+      // async updateParticipant() {
+      //   try {
+      //     const confirmComplete = await Pop.confirm('Are you sure you want to complete this challenge?')
+
+      //     if (!confirmComplete) {
+      //       return
+      //     }
+
+      //     const participant = AppState.participants.find(p => p.accountId == AppState.account.id)
+
+      //     await participantsService.updateParticipant(participant.id)
+
+      //     Pop.success('completed challenge!')
+      //   } catch (error) {
+      //     logger.error(error)
+      //     Pop.toast(error, 'error')
+      //   }
+      // },
+
       async joinChallenge() {
         try {
           const addConfirm = await Pop.confirm('Would you like to join this challenge? This will use your points.')
@@ -235,7 +297,8 @@ export default {
 
           const newParticipant = {
             challengeId: route.params.challengeId,
-            accountId: AppState.user.id
+            accountId: AppState.user.id,
+            status: 'registered'
           }
 
           await participantsService.createParticipant(newParticipant)
@@ -257,8 +320,13 @@ export default {
 
           let participant = AppState.participants.find(p => p.accountId == AppState.account.id)
 
+          participant = {
+            ...participant,
+            status: 'inactive'
+          }
+          
           await participantsService.leaveChallenge(participant.id)
-
+          
           Pop.success('left challenge!')
         } catch (error) {
           logger.error(error)
