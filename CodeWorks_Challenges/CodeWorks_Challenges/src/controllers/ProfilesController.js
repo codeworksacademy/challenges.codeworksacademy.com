@@ -1,5 +1,6 @@
 import { challengesService } from '../services/ChallengesService.js'
 import { profileService } from '../services/ProfileService.js'
+import { rewardsService } from '../services/RewardsService.js'
 import BaseController from '../utils/BaseController'
 
 export class ProfilesController extends BaseController {
@@ -9,6 +10,7 @@ export class ProfilesController extends BaseController {
       .get('', this.getProfiles)
       .get('/:id', this.getProfile)
       .get('/:id/challenges', this.getProfileChallenges)
+      .get('/:id/rewards', this.getProfileRewards)
   }
 
   async getProfiles(req, res, next) {
@@ -33,6 +35,15 @@ export class ProfilesController extends BaseController {
     try {
       const challenges = await challengesService.getProfileChallenges(req.params.id)
       return res.send(challenges)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getProfileRewards(req, res, next) {
+    try {
+      const rewards = await rewardsService.getProfileRewards(req.params.id)
+      return res.send(rewards)
     } catch (error) {
       next(error)
     }

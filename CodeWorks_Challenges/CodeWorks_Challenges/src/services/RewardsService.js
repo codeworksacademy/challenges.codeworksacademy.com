@@ -2,6 +2,14 @@ import { dbContext } from "../db/DbContext.js"
 import { BadRequest } from "../utils/Errors.js"
 
 class RewardsService {
+
+  async getProfileRewards(profileId) {
+    const rewards = await dbContext.Rewards.find({ accountId: profileId }).populate('challenge')
+    if (!rewards) {
+      throw new BadRequest('This user has not yet earned any rewards.')
+    }
+    return rewards
+  }
   async createReward(newReward) {
     const reward = await dbContext.Rewards.create(newReward)
     await reward.populate('challenge participant')

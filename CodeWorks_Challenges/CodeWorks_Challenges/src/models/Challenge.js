@@ -52,7 +52,7 @@ export const ChallengeSchema = new Schema({
     min: 1,
     max: 3
   },
-  badges:[
+  badges: [
     {
       type: ObjectId,
       ref: 'Reward'

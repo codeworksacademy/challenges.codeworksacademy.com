@@ -360,21 +360,27 @@ $gradient: linear-gradient(180deg, hsla(0, 0%, 100%, 0.15), hsla(0, 0%, 100%, 0)
   }
 }
 
-.shimmer {
-  background-image: linear-gradient(linear, left top, right top, color-stop(0%, #1e0a0a00), color-stop(25%, #1e0a0a00), color-stop(60%, #dbc7c7d9), color-stop(100%, #1e0a0a00));
-  background-image: linear-gradient(120deg, #1e0a0a00 0%, #1e0a0a00 25%, #dbc7c7d9 60%, #1e0a0a00 100%);
-  background-repeat: repeat-y;
-  background-position: -400px 0;
-  animation: shimmer 60s linear infinite;
-}
-
-@keyframes shimmer {
+@keyframes particalize {
   0% {
-    background-position: 800px 0;
+    background-position: 1000px 0;
     border-radius: 50%;
   }
+  50% {
+    border-radius: 25%;
+    filter: brightness(1.2);
+  }
   100% {
-    background-position: 0 0
+    background-position: 0 0;
+    border-radius: 50%;
+  }
+}
+
+@keyframes flame-on {
+  0%, 100% {
+    background: linear-gradient(0deg, #f5f5dc 25%, #e35113 100%) !important;
+  }
+  50% {
+    background: linear-gradient(0deg, #f5f5dc 25%, black 100%) !important;
   }
 }
 
@@ -1597,19 +1603,30 @@ select:not(:placeholder-shown):invalid:focus {
   }
 }
 
+.particalize-badge {
+  background-image: linear-gradient(linear, left top, right top, color-stop(0%, #1e0a0a00), color-stop(25%, #1e0a0a00), color-stop(60%, #f5f5dc), color-stop(100%, #1e0a0a00));
+  background-image: linear-gradient(120deg, #1e0a0a00 0%, #1e0a0a00 25%, #f5f5dc 60%, #1e0a0a00 100%);
+  background-repeat: repeat-y;
+  background-position: 0 0;
+  animation: particalize 120s linear infinite;
+  background-size: 100% 100%;
+}
+
 .celestial-gold {
-  background: linear-gradient(to bottom right, #f5f5dc 0%, #5f98e7 33%, #e0f3fb 66%, #f5f5dc 100%);
+  background: linear-gradient(to bottom right, #f5f5dc 0%, #5f98e7ff 33%, #e0f3fb 66%, #f5f5dc 100%);
   color: #f5f5dc;
   border: 3px ridge #aeae918a;
   z-index: 10;
   &:before {
     border-top: 2px ridge #72a3e88b;
     border-bottom: 2px ridge #72a3e88b;
+    filter: drop-shadow(inset 0 0 3px #72a3e8);
     z-index: 1;
   }
   &:after {
     border-top: 3px ridge #f5f5dc;
     border-bottom: 3px ridge #f5f5dc;
+    filter: drop-shadow(inset 0 0 3px #f5f5dc);
     z-index: 1;
   }
   .lvl12-ribbon {
@@ -1619,13 +1636,34 @@ select:not(:placeholder-shown):invalid:focus {
   .circle {
     background: #060335;
     box-shadow: 0 0 6px 6px #f5f5dc;
+    animation: fix-background 60s linear infinite;
       i {
         color: transparent;
         background: linear-gradient(0deg, #f5f5dc 25%, #e35113 100%);
-        background-clip: text;
         -webkit-background-clip: text;
+        background-clip: text;
         filter: drop-shadow(0 0 20px #f5f5dc);
+        animation: flame-on 60s linear infinite;
       }
+  }
+
+  @keyframes fix-background {
+    0%, 100% {
+      background: #060335;
+    }
+  }
+
+  @keyframes flame-on {
+    0%, 100% {
+      background: linear-gradient(0deg, #f5f5dc 25%, #e35113 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+    50% {
+      background: linear-gradient(0deg, #f5f5dc 25%, #fb8e40 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
   }
 }
 

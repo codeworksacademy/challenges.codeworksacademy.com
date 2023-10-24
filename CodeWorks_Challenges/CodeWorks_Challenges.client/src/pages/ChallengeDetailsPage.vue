@@ -55,6 +55,9 @@
       <div class="col-12 d-flex justify-content-center align-items-center">
         <LesserBadges />
       </div>
+      <div class="col-12 d-flex justify-content-center align-items-center">
+        <CustomBadge />
+      </div>
     </div>
 
     <section v-if="isParticipant" class="row mb-5">
@@ -119,6 +122,7 @@ import Architect from '../components/Rewards/Badges/Architect.vue'
 import ChallengeSlayer from '../components/Rewards/Badges/ChallengeSlayer.vue'
 import Collaborator from '../components/Rewards/Badges/Collaborator.vue'
 import LesserBadges from '../components/Rewards/Badges/LesserBadges.vue'
+import CustomBadge from '../components/Rewards/Badges/CustomBadge.vue'
 import ModSearchForm from '../components/ModSearchForm.vue'
 import AnswerForm from '../components/AnswerForm.vue';
 import { answersService } from '../services/AnswersService';
@@ -131,6 +135,7 @@ export default {
     Architect,
     ChallengeSlayer,
     Collaborator,
+    CustomBadge,
     LesserBadges,
     AnswerForm
 },
