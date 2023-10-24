@@ -13,6 +13,7 @@
           <!-- <h1>{{ challenge.id }}</h1> -->
         </div>
         <div class="body">
+          <p>Created: {{ date }}</p>
           <!-- <p>{{ challenge.description }}</p> -->
           <p>Points: {{ challenge.pointValue }}</p>
           <p>Difficulty: {{ difficulty }}</p>
@@ -153,6 +154,7 @@ import { computed, onMounted, watchEffect, ref, popScopeId } from 'vue'
 import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
+import { DateTime } from '../utils/DateTime.js';
 import { useRoute, useRouter } from 'vue-router';
 import { challengesService } from '../services/ChallengesService';
 import { participantsService } from "../services/ParticipantsService.js";
@@ -223,6 +225,7 @@ export default {
       loading,
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.activeChallenge),
+      date: computed(() => DateTime(AppState.activeChallenge.createdAt)),
       editChallenge() {
         logger.log("Pushing to", AppState.activeChallenge.id)
         router.push({
