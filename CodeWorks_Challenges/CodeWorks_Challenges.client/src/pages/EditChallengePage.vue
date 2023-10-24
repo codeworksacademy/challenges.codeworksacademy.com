@@ -34,7 +34,17 @@
           <input type="text" class="form-control mb-3" id="coverImg" v-model="editable.coverImg" required> 
           <h4>Support Links</h4>
           <span v-if="challenge.supportLinks.length == 0" class="text-danger">You need at least 1 support link!</span>
-          <textarea name="supportLinks" id="" cols="30" rows="10" class="form-control mb-3"></textarea>
+          <!-- <textarea name="supportLinks" id="" cols="30" rows="10" class="form-control mb-3" v-model="editable.supportLinks" required></textarea> -->
+          <div class="d-flex">
+            <input type="text" class="form-control mb-3" id="supportLinkType" placeholder="Link Type"> 
+            <input type="text" class="form-control mb-3" id="supportLink" placeholder="Link"> 
+            <i class="mdi mdi-plus-box fs-2" @click="addSupportLink"></i>
+          </div>
+          <section class="row justify-content-between" v-for="(link, index) in challenge.supportLinks">
+            <h4 class="text-success col-md-6">{{ link.name }} </h4>
+            <h4 class="text-dark col-md-6">{{ link.url }} <i class="mdi mdi-trash-can float-end" @click="deleteSupportLink(index)"></i></h4>
+            
+          </section>
           <h4>Answers</h4>
           <textarea name="answers" id="" cols="30" rows="10" class="form-control mb-3"></textarea>
           <button @click="updateChallenge()" class="btn btn-success mb-3">Update Challenge</button>
@@ -129,19 +139,45 @@ export default {
         challenge.value.steps.splice(index, 1)
     }
 
+    function addSupportLink(){
+      const newSupportLinkType = document.getElementById("supportLinkType")
+      const newSupportLink = document.getElementById("supportLink")
+      logger.log("values",newSupportLinkType.value, newSupportLink.value)
+      if(newSupportLinkType.value.length == 0){
+        Pop.error("You must specify a link type.")
+        return;
+      }
+      if(newSupportLink.value.length == 0){
+        Pop.error("You cannot add an empty link.")
+        return;
+      }
+      challenge.value.supportLinks.push({
+        name: newSupportLinkType.value,
+        url: newSupportLink.value
+      })
+      // logger.log(challenge.value.supportLinks)
+      Pop.success("Link Added")
+    }
+
+    function deleteSupportLink(index){
+      logger.log("Deleting support link at index", challenge.value.supportLinks[index])
+      challenge.value.supportLinks.splice(index, 1)
+    }
+
     // Dont use below
     function cancelEdit(key,value){
       document.getElementById(key).innerHTML = `<p>Edit Cancelled</p>`
     }
     return {
       editable,
-
       updateChallenge,
       challenge: computed(() => AppState.activeChallenge),
       editChallenge,
       editing,
       addStep,
       deleteStep,
+      addSupportLink,
+      deleteSupportLink,
       toggleEdit,
       cancelEdit
     } 
