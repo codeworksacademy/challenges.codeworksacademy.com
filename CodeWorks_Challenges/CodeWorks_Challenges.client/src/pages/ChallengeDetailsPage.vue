@@ -48,7 +48,7 @@
         <div class="collapse" id="collapseExample">
           <div class="card card-body text-box">
             <div class="row" style="overflow-x: hidden;">
-              <div class="col-12 d-flex justify-content-center align-items-center ms-5">
+              <div class="col-12 d-flex justify-content-center align-items-center">
                 <RewardCard />
                 <Completionist />
                 <EarlyBird />
