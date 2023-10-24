@@ -1,5 +1,5 @@
 <template>
-  <section v-if="challenge" :key="challenge?.id" class="container-fluid text-light">
+  <section v-if="challenge" :key="challenge?.id" class="container-fluid text-light bg-secondary">
     <div v-if="user.id === challenge?.creatorId">
       <router-view />
     </div>
@@ -34,33 +34,67 @@
             </a>
           </p>
         </div>
+
+        <div class="col-12 d-flex justify-content-center align-items-center mt-3">
+          <!-- Temporary collapse to make challenge page more legible -->
+          <p class="d-inline-flex gap-1">
+            <button class="btn btn-outline-warning fs-4" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+              Rewards
+            </button>
+          </p>
+        </div>
+        <div class="collapse" id="collapseExample">
+          <div class="card card-body text-box">
+            <div class="row" style="overflow-x: hidden;">
+              <div class="col-12 d-flex justify-content-center align-items-center ms-5">
+                <RewardCard />
+                <Completionist />
+                <EarlyBird />
+                <Architect />
+                <ChallengeSlayer />
+                <Collaborator />
+              </div>
+              <div class="col-12 d-flex justify-content-center align-items-center">
+                <LesserBadges />
+              </div>
+              <div class="col-12 d-flex justify-content-center align-items-center">
+                <CustomBadge />
+              </div>
+            </div>
+            <div class="d-flex justify-content-center">
+              <button class="btn btn-outline-warning fs-4" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Interactions with Challenge -->
-    <section class="row bg-dark text-light p-3 my-1">
+    <section v-if="!isOwned" class="row bg-dark text-light p-3 mt-1">
       <div class="col-8 d-flex justify-content-between">
-        <button class="btn btn-success">
+        <button class="btn btn-outline-success">
           Submit For Review
         </button>
-        <div v-if="!isOwned">
-          <button v-if="isModeratorStatus == 'null'" class="btn btn-primary" @click="createModeration()">
-            Request to become a moderator
-          </button>
-          <button v-if="isModeratorStatus == 'pending'" class="btn btn-primary">Request pending</button>
-          <button v-if="isModeratorStatus == 'approved'" class="btn btn-primary">You are a Moderator</button>
-        </div>
+        <button v-if="isModeratorStatus == 'null'" class="btn btn-outline-primary" @click="createModeration()">
+          Request to become a moderator
+        </button>
+        <button v-if="isModeratorStatus == 'pending'" class="btn btn-outline-primary">Request pending</button>
+        <button v-if="isModeratorStatus == 'approved'" class="btn btn-outline-primary">You are a Moderator</button>
         <!-- Move this button and its functionality into the edit challenges -->
         <!-- <div v-else> 
           <ModSearchForm />
         </div> -->
       </div>
       <div class="col-4">
-        <button class="btn btn-primary" @click="joinChallenge()" v-if="!isParticipant && !isOwned">
+        <button class="btn btn-outline-primary" @click="joinChallenge()" v-if="!isParticipant">
           Join Challenge
         </button>
 
-        <button class="btn btn-danger" @click="leaveChallenge()" v-if="isParticipant">
+        <button class="btn btn-outline-danger" @click="leaveChallenge()" v-if="isParticipant">
           Leave Challenge
         </button>
       </div>
@@ -81,13 +115,13 @@
 
     <!-- Description and Steps -->
     <section class="row">
-      <div class="col-12 bg-dark text-light p-3 mb-1">
+      <div class="col-12 bg-dark text-light px-5 py-3 mt-1 mb-1">
         <i>Description:</i>
         <p>
           {{ challenge.description }}
         </p>
       </div>
-      <div v-if="challenge.supportLinks.length > 0" class="col-12 bg-dark text-light p-3 mb-1">
+      <div v-if="challenge.supportLinks.length > 0" class="col-12 bg-dark text-light px-5 py-3  mb-1">
         <div v-for="(link, index) in challenge.supportLinks" :key="link">
           <i class="text-light">
             Support Link {{ index + 1 }}:
@@ -97,7 +131,7 @@
           </p>
         </div>
       </div>
-      <div v-for="(step, index) in challenge.steps" :key="step" class="col-12 bg-dark text-light p-3 mb-1">
+      <div v-for="(step, index) in challenge.steps" :key="step" class="col-12 bg-dark text-light px-5 py-3  mb-1">
         <i class="text-light">
           Step {{ index + 1 }}:
         </i>
@@ -106,44 +140,6 @@
         </p>
       </div>
     </section>
-
-
-    <div class="row m-auto">
-      <!-- Temporary collapse to make challenge page more legible -->
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <p class="d-inline-flex gap-1">
-          <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
-            aria-expanded="false" aria-controls="collapseExample">
-            Rewards
-          </button>
-        </p>
-      </div>
-      <div class="collapse" id="collapseExample">
-        <div class="card card-body">
-          <div class="row" style="overflow-x: hidden;">
-            <div class="col-12 d-flex justify-content-center align-items-center ms-5">
-              <RewardCard />
-              <Completionist />
-              <EarlyBird />
-              <Architect />
-              <ChallengeSlayer />
-              <Collaborator />
-            </div>
-            <div class="col-12 d-flex justify-content-center align-items-center">
-              <LesserBadges />
-            </div>
-            <div class="col-12 d-flex justify-content-center align-items-center">
-              <CustomBadge />
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-
-
-
 
     <div v-if="user.id === challenge?.creatorId">
       <router-view />
