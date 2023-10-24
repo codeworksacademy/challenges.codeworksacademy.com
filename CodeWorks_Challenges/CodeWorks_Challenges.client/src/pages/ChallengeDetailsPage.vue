@@ -3,12 +3,13 @@
     <div v-if="user.id === challenge?.creatorId">
       <router-view />
     </div>
-    <h1 @click="editChallenge()" class="text-info">Edit Challenge</h1>
     <div class="row bg-img d-flex justify-content-center align-items-center"
       :style="`background-image: url(${challenge.coverImg}); opacity: .9;`">
       <div class="text-box">
         <div class="header flex-grow-1 d-flex justify-content-between">
           <h1>{{ challenge.name }}</h1>
+          <h1 v-if="isOwned || isModeratorStatus == 'approved'" @click="editChallenge()" class="btn btn-outline-info">Edit
+            Challenge</h1>
           <!-- <h1>{{ challenge.id }}</h1> -->
         </div>
         <div class="body">
@@ -108,26 +109,39 @@
 
 
     <div class="row m-auto">
-      <div class="col-12 d-flex justify-content-center align-items-center text-dark">
-        <h1>Rewards:</h1>
-      </div>
-    </div>
-    <div class="row" style="overflow-x: hidden;">
-      <div class="col-12 d-flex justify-content-center align-items-center ms-5">
-        <RewardCard />
-        <Completionist />
-        <EarlyBird />
-        <Architect />
-        <ChallengeSlayer />
-        <Collaborator />
-      </div>
+      <!-- Temporary collapse to make challenge page more legible -->
       <div class="col-12 d-flex justify-content-center align-items-center">
-        <LesserBadges />
+        <p class="d-inline-flex gap-1">
+          <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+            aria-expanded="false" aria-controls="collapseExample">
+            Rewards
+          </button>
+        </p>
       </div>
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <CustomBadge />
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+          <div class="row" style="overflow-x: hidden;">
+            <div class="col-12 d-flex justify-content-center align-items-center ms-5">
+              <RewardCard />
+              <Completionist />
+              <EarlyBird />
+              <Architect />
+              <ChallengeSlayer />
+              <Collaborator />
+            </div>
+            <div class="col-12 d-flex justify-content-center align-items-center">
+              <LesserBadges />
+            </div>
+            <div class="col-12 d-flex justify-content-center align-items-center">
+              <CustomBadge />
+            </div>
+          </div>
+        </div>
       </div>
+
     </div>
+
+
 
 
 
