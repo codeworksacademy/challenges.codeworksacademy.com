@@ -144,9 +144,16 @@ export default {
     const route = useRoute()
     const router = useRouter()
 
+    
     const isParticipant = computed(() => {
       const participant = AppState.participants.find(p => p.accountId == AppState.account.id)
       return participant
+    })
+
+    const participantStatus = computed(() => {
+      if (isParticipant.value) {
+        return isParticipant.value.status
+      } else return 'null'
     })
 
     async function setActiveChallenge() {
@@ -212,8 +219,9 @@ export default {
     return {
       updateParticipant,
 
-      isParticipant,
       loading,
+      isParticipant,
+      participantStatus,
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.activeChallenge),
       participants: computed(() => AppState.participants),
@@ -238,13 +246,6 @@ export default {
           default:
             return 'N/A'
         }
-      }),
-
-      participantStatus: computed(() => {
-        const participant = AppState.participants.find(p => p.accountId == AppState.account.id)
-        if (participant) {
-          return participant.status
-        } else return 'null'
       }),
 
       isModeratorStatus: computed(() => {
@@ -319,20 +320,16 @@ export default {
           }
 
           let participant = AppState.participants.find(p => p.accountId == AppState.account.id)
-
-          participant = {
-            ...participant,
-            status: 'inactive'
-          }
-          
           await participantsService.leaveChallenge(participant.id)
-          
+
           Pop.success('left challenge!')
+
         } catch (error) {
           logger.error(error)
           Pop.toast(error, 'error')
         }
       },
+
       async createModeration() {
         try {
           const moderatorData = {

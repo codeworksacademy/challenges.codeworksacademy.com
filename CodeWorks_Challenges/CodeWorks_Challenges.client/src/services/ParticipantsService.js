@@ -21,23 +21,6 @@ class ParticipantsService {
     }
   }
 
-// //   async updateParticipant(participantId, participantData) {
-//     const res = await api.put(`api/participants/${participantId}`, participantData)
-//     logger.log('Updated participant:', res.data)
-
-//     // Assuming that the response data contains the updated participant
-//     const updatedParticipant = res.data
-
-//     // Find the index of the participant in AppState.participants
-//     const participantIndex = AppState.participants.findIndex(p => p.id === participantId)
-
-//     if (participantIndex !== -1) {
-//         // Replace the old participant with the updated one
-//         AppState.participants.splice(participantIndex, 1, updatedParticipant)
-//     }
-// }
-
-
   async leaveChallenge(participantId) {
 
     const res = await api.delete(`api/participants/${participantId}`)
