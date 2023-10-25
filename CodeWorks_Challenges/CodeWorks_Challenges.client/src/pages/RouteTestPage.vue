@@ -13,9 +13,10 @@
               <div id="flush-collapseOne" class="accordion-collapse collapse">
                 <div class="accordion-body">
                   <h5 class="p-3 border-dark border-bottom" @click="changeRoute('edit')">Details</h5>
-                  <h5 class="p-3 border-dark border-bottom" @click="changeRoute('edit2')">Steps</h5>
+                  <h5 class="p-3 border-dark border-bottom">Steps</h5>
                   <h5 class="p-3 border-dark border-bottom">Answers</h5>
                   <h5 class="p-3 border-dark border-bottom">Support Links</h5>
+                  
                 </div>
               </div>
             </div>
@@ -47,7 +48,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-8 h-100">
+        <div class="col-md-8 h-100 overflow-auto" style="height: 1080px">
           <router-view/>
         </div>
       </div>
