@@ -36,57 +36,52 @@
           </p>
         </div>
 
-        <div class="col-12 d-flex justify-content-center align-items-center mt-3">
-          <!-- Temporary collapse to make challenge page more legible -->
-          <p class="d-inline-flex gap-1">
-            <button class="btn btn-outline-warning fs-4" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-              Rewards
-            </button>
-          </p>
-        </div>
-        <div class="collapse" id="collapseExample">
-          <div class="card card-body text-box">
-            <div class="row" style="overflow-x: hidden;">
-              <div class="col-12 d-flex justify-content-center align-items-center">
-                <RewardCard />
-                <Completionist />
-                <EarlyBird />
-                <Architect />
-                <ChallengeSlayer />
-                <Collaborator />
-              </div>
-              <div class="col-12 d-flex justify-content-center align-items-center">
-                <LesserBadges />
-              </div>
-              <div class="col-12 d-flex justify-content-center align-items-center">
-                <CustomBadge />
-              </div>
-            </div>
-            <div class="d-flex justify-content-center">
-              <button class="btn btn-outline-warning fs-4" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
+    <div class="row m-auto">
+      <div class="col-12 d-flex justify-content-center align-items-center text-dark">
+        <h1>Rewards:</h1>
+      </div>
+    </div>
+    <div class="row" style="overflow-x: hidden;">
+      <div class="col-12 d-flex justify-content-center align-items-center ms-5">
+        <RewardCard />
+        <Completionist />
+        <EarlyBird />
+        <Architect />
+        <ChallengeSlayer />
+        <Collaborator />
+      </div>
+      <div class="col-12 d-flex justify-content-center align-items-center">
+        <LesserBadges />
+      </div>
+      <div class="col-12 d-flex justify-content-center align-items-center">
+        <CustomBadge />
       </div>
     </div>
 
-    <!-- Interactions with Challenge -->
-    <section v-if="!isOwned" class="row bg-dark text-light p-3 mt-1">
-      <div class="col-8 d-flex justify-content-between">
-        <button class="btn btn-outline-success">
+    <section v-if="isParticipant" class="row mb-5">
+      <!-- v-if is here because participants can be created with out being assigned a status -->
+      <div class="col-4 text-dark" v-if="isParticipant.status">Status: <span class="">{{ isParticipant.status
+      }}</span>
+      </div>
+      <div class="col-4 text-dark" v-else>
+        Participant is missing status
+      </div>
+      <div class="col-4 text-dark">Progress: <span class="">-1/10 // 50% Etc</span> </div>
+      <div class="col-4 text-dark">Started: <span class="">{{ isParticipant.createdAt }}</span></div>
+    </section>
+    <section class="row mb-5">
+      <div class="col-8 d-flex justify-content-around">
+        <button class="btn btn-success">
           Submit For Review
         </button>
-        <button v-if="isModeratorStatus == 'null'" class="btn btn-outline-primary" @click="createModeration()">
-          Request to become a moderator
-        </button>
-        <button v-if="isModeratorStatus == 'pending'" class="btn btn-outline-primary">Request pending</button>
-        <button v-if="isModeratorStatus == 'approved'" class="btn btn-outline-primary">You are a Moderator</button>
-        <!-- Move this button and its functionality into the edit challenges -->
-        <!-- <div v-else> 
+        <div v-if="!isOwned">
+          <button v-if="isModeratorStatus == 'null'" class="btn btn-primary" @click="createModeration()">
+            Request to become a moderator
+          </button>
+          <button v-if="isModeratorStatus == 'pending'" class="btn btn-primary">Request pending</button>
+          <button v-if="isModeratorStatus == 'approved'" class="btn btn-primary">You are a Moderator</button>
+        </div>
+        <div v-else>
           <ModSearchForm />
         </div> -->
       </div>
@@ -186,10 +181,45 @@ export default {
     const route = useRoute()
     const router = useRouter()
 
+    
+    const isParticipant = computed(() => {
+      const participant = AppState.participants.find(p => p.accountId == AppState.account.id)
+      return participant
+    })
+
+    const participantStatus = computed(() => {
+      if (isParticipant.value) {
+        return isParticipant.value.status
+      } else return 'null'
+    })
+
     async function setActiveChallenge() {
       try {
         const challengeId = route.params.challengeId
         await challengesService.setActiveChallenge(challengeId)
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error, 'error')
+      }
+    }
+
+    async function updateParticipant() {
+      try {
+        const confirmComplete = await Pop.confirm('Are you sure you want to complete this challenge?')
+
+        if (!confirmComplete) {
+          return
+        }
+
+        const participantId = isParticipant.value.id
+
+        const newParticipant = {
+          status: 'submitted'
+        }
+
+        await participantsService.updateParticipant(participantId, newParticipant)
+
+        Pop.success(`Great job ${AppState.account.name}! Your challenge submission for ${AppState.activeChallenge?.name} has been received. Once your submission has been reviewed, you will be notified of any rewards you have earned! 🏆💹🎉`)
       } catch (error) {
         logger.error(error)
         Pop.toast(error, 'error')
@@ -220,13 +250,17 @@ export default {
       getParticipantsByChallengeId()
       getModeratorsByChallengeId()
       setActiveChallenge()
+      logger.log(getParticipantsByChallengeId())
     })
 
     return {
+      updateParticipant,
+
       loading,
+      isParticipant,
+      participantStatus,
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.activeChallenge),
-      date: computed(() => DateTime(AppState.activeChallenge.createdAt)),
       editChallenge() {
         logger.log("Pushing to", AppState.activeChallenge.id)
         router.push({
@@ -240,14 +274,24 @@ export default {
       rewards: computed(() => AppState.rewards),
       moderators: computed(() => AppState.moderators.filter(m => m.status == 'Active')),
 
-      difficulty: computed(() =>
-        StrDifficultyNum(AppState.activeChallenge.difficulty)
-      ),
-
-
-      isParticipant: computed(() =>
-        AppState.participants.find(p => p.accountId == AppState.account.id)
-      ),
+      difficulty: computed(() => {
+        const dif = AppState.activeChallenge.difficulty
+        // Switch statement converting the challenges difficulty into words- Change the string at will
+        switch (dif) {
+          case 1:
+            return 'Easy'
+          case 2:
+            return 'Medium'
+          case 3:
+            return 'Hard'
+          case 4:
+            return 'Unforgiving'
+          case 5:
+            return 'Milk Shoes'
+          default:
+            return 'N/A'
+        }
+      }),
 
       isModeratorStatus: computed(() => {
         const isMod = AppState.moderators.find(m => m.accountId == AppState.account.id)
@@ -259,6 +303,36 @@ export default {
       }),
       isOwned: computed(() => AppState.activeChallenge.creator.id === AppState.account.id),
 
+      editChallenge() {
+        logger.log("Pushing to", AppState.activeChallenge.id)
+        router.push({
+          name: 'EditChallenge',
+          params: {
+            challengeId: AppState.activeChallenge.id
+          }
+        })
+      },
+
+      
+      // async updateParticipant() {
+      //   try {
+      //     const confirmComplete = await Pop.confirm('Are you sure you want to complete this challenge?')
+
+      //     if (!confirmComplete) {
+      //       return
+      //     }
+
+      //     const participant = AppState.participants.find(p => p.accountId == AppState.account.id)
+
+      //     await participantsService.updateParticipant(participant.id)
+
+      //     Pop.success('completed challenge!')
+      //   } catch (error) {
+      //     logger.error(error)
+      //     Pop.toast(error, 'error')
+      //   }
+      // },
+
       async joinChallenge() {
         try {
           const addConfirm = await Pop.confirm('Would you like to join this challenge? This will use your points.')
@@ -269,7 +343,8 @@ export default {
 
           const newParticipant = {
             challengeId: route.params.challengeId,
-            accountId: AppState.user.id
+            accountId: AppState.user.id,
+            status: 'registered'
           }
 
           await participantsService.createParticipant(newParticipant)
@@ -290,15 +365,16 @@ export default {
           }
 
           let participant = AppState.participants.find(p => p.accountId == AppState.account.id)
-
           await participantsService.leaveChallenge(participant.id)
 
           Pop.success('left challenge!')
+
         } catch (error) {
           logger.error(error)
           Pop.toast(error, 'error')
         }
       },
+
       async createModeration() {
         try {
           const moderatorData = {

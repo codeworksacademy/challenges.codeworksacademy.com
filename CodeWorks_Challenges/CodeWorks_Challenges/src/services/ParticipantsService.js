@@ -43,6 +43,30 @@ class ParticipantsService {
 		return participants
 	}
 
+	async updateParticipant(participantId, userId, participantData) {
+		const participantToUpdate = await dbContext.Participants.findById(participantId)
+
+		if (!participantToUpdate) {
+			throw new BadRequest("Invalid participant ID.")
+		}
+		if (userId != participantToUpdate.accountId) {
+			throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this participant's. You may not edit other participants.")
+		}
+
+		const updatedParticipant = await dbContext.Participants.findByIdAndUpdate(participantId, participantData, { new: true })
+
+		await updatedParticipant.populate('profile', 'name picture')
+		await updatedParticipant.populate({
+			path: 'challenge',
+			populate: {
+				path: 'creator participantCount'
+			}
+		})
+		
+		await updatedParticipant.save()
+		return updatedParticipant
+	}
+
 	async leaveChallenge(participantId, userId) {
 		const participantToRemove = await dbContext.Participants.findById(participantId)
 

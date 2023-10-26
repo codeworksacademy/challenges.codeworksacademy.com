@@ -2,7 +2,7 @@
   <section class="container-fluid position-relative p-3">
     <div class="background-box m-auto">
       <div class="img-box m-auto">
-        <img src="../../../assets/img/ultimate-hacker.png" alt="Ultimate Hacker Badge Image">
+        <img src="../../../assets/img/ultimate-hacker.png" alt="Ultimate Hacker Badge Image" style="filter: brightness(1.2);">
         <img src="../../../assets/img/gold-ribbon.png" alt="Small Gold Ribbon Image" class="gold-ribbon">
         <svg viewBox="0 0 500 500">
           <defs>
@@ -12,7 +12,7 @@
                 <animate
                   attributeName="stop-color"
                   values="#FFD700; white; #FFA500"
-                  dur="2s"
+                  dur="3s"
                   repeatCount="once"
                 />
               </stop>
@@ -70,11 +70,10 @@ export default {
   background-repeat: no-repeat;
   filter: drop-shadow(2px 1px 5px #222222);
   z-index: 100;
+  transform: scale(.75);
   &:before {
     content: '';
     position: absolute;
-    width: 300px;
-    height: 350px;
     top: 0;
     left: 0;
     right: 0;
@@ -93,6 +92,7 @@ export default {
     opacity: .5;
     z-index: 0;
     animation: shimmerBackground 3s ease-in-out 5s forwards;
+    transform: scale(.9);
   }
 
   @keyframes shimmerBackground {
@@ -161,13 +161,6 @@ export default {
       filter: brightness(.8);
     }
     &:after {
-      background: conic-gradient(
-        #222222 0%,
-        var(--primary-green) 25%,
-        var(--primary-blue) 50%,
-        var(--secondary-magenta) 75%,
-        #222222 100%,
-      );
       content: '';
       position: absolute;
       top: 0;
@@ -176,13 +169,19 @@ export default {
       bottom: 0;
       width: 100%;
       height: 100%;
+      background: conic-gradient(
+        #222222 0%,
+        var(--primary-green) 25%,
+        var(--primary-blue) 50%,
+        var(--secondary-magenta) 75%,
+        #222222 100%,
+      );
       clip-path: path('M100 0 L200 35 Q190 175 100 200 Q10 175 0 35 L100 0');
       transition: .5s;
       transform: scale(1.1);
       opacity: .7;
       z-index: 1;
       filter: brightness(.8) saturate(1.2) grayscale(.75);
-      animation: makeConicGradientLookLikeChasingLights 2s ease-in-out infinite;
     }
     img {
       position: relative;
@@ -208,33 +207,6 @@ export default {
       filter: drop-shadow(0 3px 5px goldenrod) brightness(.9);
       z-index: 4;
     }
-    .top-ribbon {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 200px;
-      height: 200px;
-      clip-path: path('M0,60 C0,50 50,50 100,50 C150,50 200,50 200,60 C200,25 0,25 0,60');
-      transition: .5s;
-      transform: scale(1.1);
-      z-index: 1000;
-      background-color: goldenrod;
-    }
-    .bottom-ribbon {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 8rem;
-      width: 200px;
-      height: 200px;
-      clip-path: path('M0,140 C0,150 50,150 100,150 C150,150 200,150 200,140 C200,175 0,175 0,140');
-      transition: .5s;
-      transform: scale(1.1);
-      z-index: 1000;
-      background-color: goldenrod;
-    }
   }
   svg {
     position: relative;
@@ -247,7 +219,7 @@ export default {
     transform: scale(1.1);
     z-index: 3;
     fill: transparent;
-    animation: translateRibbon 2s ease-in-out forwards;
+    animation: translateRibbon 1s ease-in-out forwards;
     stroke-dasharray: 0 1000;
     animate {
       stroke-dasharray: 1000 0;
@@ -263,19 +235,31 @@ export default {
       transform: translateY(.75rem);
       text-shadow: 0 .5px .5px #fff;
       letter-spacing: 0px;
+      visibility: hidden;
+      animation: translateText .5s ease-in-out 1s forwards !important;
+    }
+  }
+
+  @keyframes translateText {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+      visibility: visible;
     }
   }
 
   @keyframes translateRibbon {
     0% {
       stroke-dasharray: 0 1000;
+      stroke-opacity: .5;
     }
     100% {
       stroke-dasharray: 1000 0;
+      stroke-opacity: 1;
     }
   }
-
-  
 }
 
 </style>

@@ -7,48 +7,39 @@ export const RewardSchema = new Schema({
     ref: 'Challenge',
     required: true
   },
-  accountId:{
-    type: ObjectId,
-    ref: 'Account',
-    required: true
-  },
   name:{
     type: String,
     required: true
   },
-  badges:[
-    {
-      name: String,
-      description: String,
-      image: String
-    }
-  ],
-  points:{
-    type: Number,
-    required: true
-  },
-  experience:{
-    type: Number,
-    required: true
-  },
+  //FIXME - JAKE - I just want to be sure that I understood correctly and am removing all the correct fields for a reward before delete these fields 🤓 - AJ
+  // badges:[
+  //   {
+  //     name: String,
+  //     description: String,
+  //     image: String
+  //   }
+  // ],
+  // points:{
+  //   type: Number,
+  //   required: true
+  // },
+  // experience:{
+  //   type: Number,
+  //   required: true
+  // },
   claimed:{
     type: Boolean,
     required: true,
     default: false
   },
-  claimedBy:{
-    type: ObjectId,
-    ref: 'Profile',
-    required: true
-  },
+  // claimedBy:{
+  //   type: ObjectId,
+  //   ref: 'Profile',
+  //   required: true
+  // },
   claimedAt:{
     type: Date
   },
-  participantId:{
-    type: ObjectId,
-    ref: 'Participant',
-    required: true
-  }
 },
   { timestamps: true, toJSON: { virtuals: true }
 })
