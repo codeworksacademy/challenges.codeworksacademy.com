@@ -33,7 +33,7 @@ class AnswersService{
 
     const isModerator = challengeModerators.find(m => m.accountId == userId)
 
-    if(!isModerator || challenge.creatorId != userId){
+    if(challenge.creatorId != userId && !isModerator){
       throw new Forbidden('[PERMISSIONS ERROR]: You did not create this challenge and/or are not a moderator of it. You may not access the answers for it.')
     }
 

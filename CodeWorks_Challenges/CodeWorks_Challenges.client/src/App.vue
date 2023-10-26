@@ -8,20 +8,21 @@
       <SubmitChallengeForm />
     </ModalWrapper>
 
-    <ModalWrapper id="submitAnswerModal" class="w-75 h-50 rounded d-flex justify-content-center align-items-center m-3">
-      <template #header>
-        <h3>
-          Submit Answer
-        </h3>
-      </template>
-      <template #body>
-        <AnswerForm />
-      </template>
-    </ModalWrapper>
   </main>
-   <footer class="bg-dark text-light">
+  <footer class="bg-dark text-light">
     Made with 💖 by CodeWorks
   </footer>
+
+  <ModalWrapper id="submitAnswerModal">
+    <template #header>
+      <h3>
+        Submit Answer
+      </h3>
+    </template>
+    <template #body>
+      <AnswerForm />
+    </template>
+  </ModalWrapper>
 
 </template>
 

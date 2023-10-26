@@ -6,9 +6,6 @@
     <div class="row bg-img d-flex justify-content-center align-items-center"
     :style="`background-image: url(${challenge.coverImg}); opacity: .9;`">
     <div class="text-box">
-      <div class="text-end mb-2" v-if="isModeratorStatus == 'approved' || isOwned">
-        <button @click="editChallenge()" class="btn btn-info">Edit Challenge</button>
-      </div>
       <div class="header flex-grow-1 d-flex justify-content-between">
           <h1>{{ challenge.name }}</h1>
           <h1>{{ challenge.id }}</h1>
@@ -173,7 +170,17 @@ export default {
 
     async function getAnswersByChallengeId(){
       try {
-        await answersService.getAnswersByChallengeId(route.params.challengeId)
+        const moderatorStatus = computed(() => AppState.moderators.find(m => m.accountId == AppState.account.id))
+
+        const account = computed(() => AppState.account)
+
+        const activeChallenge = computed(() => AppState.activeChallenge)
+
+        if(moderatorStatus != 'approved' && activeChallenge.creatorId != account.id){
+          return
+        } else{
+          await answersService.getAnswersByChallengeId(route.params.challengeId)
+        }
       } catch (error) {
         logger.error(error)
         Pop.error(error.message)
