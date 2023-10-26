@@ -136,7 +136,6 @@ export default {
   }
 
   &:hover {
-    transform: scale(1.005);
     box-shadow: var(--shadow-magenta);
   }
 
