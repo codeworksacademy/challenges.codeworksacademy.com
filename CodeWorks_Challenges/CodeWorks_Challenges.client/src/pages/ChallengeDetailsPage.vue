@@ -128,7 +128,9 @@
             Support Link {{ index + 1 }}:
           </i>
           <p>
-            {{ link }}
+            <a :href="link.url" :title="`Project Links: ${challenge.supportLinks}`" class="fw-bold hover-text-primary">
+              {{ link.name }}
+            </a>
           </p>
         </div>
       </div>
