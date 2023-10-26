@@ -1,82 +1,55 @@
-  <!-- <section v-if="challenge" :key="challenge?.id" class="container-fluid">
-    <SubmitChallengeForm :challenge="challenge" @submit="updateChallenge" />
-    {{ challenge }}
-  </section> -->
-  <!-- this.id = data.id || data._id # visible only in route
-  this.creatorId = data.creatorId # hidden
-  this.creator = data.creator # shown with creator picture
-  this.name = data.name || '' # shown, required
-  this.description = data.description || '' # shown, required
-  this.steps = data.steps || [] # shown, minimum of 1 step
-  this.coverImg = data.coverImg || 'https://placehold.it/200x200' #shown
-  this.createdAt = DateTime(data.createdAt) # shown side by side with updatedAt
-  this.updatedAt = DateTime(data.updatedAt) # shown, see above
-  this.supportLinks = data.supportLinks || [] # shown, links must be shown as text hyperlinks
-  this.difficulty = StrDifficultyNum(data.difficulty) || 1 # shown, color changes follow challenge page styling
-  this.pointValue = data.pointValue || 1 # shown, un changeable
-  this.answers = data.answers || [] # shown only upon completion, answers should not be in the client side object
-  this.isCancelled = data.isCancelled || false # shown
-  this.participantCount = data.participantCount # shown, thumbnails of first 5 users followed by "+ participantCount others"  
-  merge test --> 
 <template>
-  <div class="">
+  <div class="" v-if="challenge">
     <section class="container-fluid text-dark">
       <form @submit.prevent="updateChallenge">
-        <h1 for="name">{{ editable.name }}</h1>
-        <input type="text" class="form-control" id="name" v-model="editable.name" required> 
-        <h2 for="description">Description</h2>
-        <span v-if="challenge.description.length == 0" class="text-danger">You need a description!</span>
-        <textarea type="text" class="form-control" id="description" v-model="editable.description" required></textarea> 
+        <div class="border-dark border-bottom my-3">
+          <h3 for="name">Challenge Name</h3>
+          <span v-if="challenge.name.length == 0" class="text-danger">You need a name!</span>
+          <input type="text" class="form-control mb-3" id="name" v-model="editable.name" required> 
+          <h3 for="description">Description</h3>
+          <span v-if="challenge.description.length == 0" class="text-danger">You need a description!</span>
+          <textarea type="text" cols="30" rows="10" class="form-control mb-3" id="description" v-model="editable.description" required></textarea> 
+        </div>
           <div>
             <section>
-              <h1 for="steps">Challenge Steps</h1>
+              <h3 for="steps">Challenge Steps</h3>
               <span v-if="challenge.steps.length == 0" class="text-danger">You need at least one step!</span>
               <h4>Add a step  <i class="mdi mdi-plus-box fs-1" @click="addStep"></i></h4>
               <textarea name="" id="stepText" cols="30" rows="10" class="form-control mb-3"></textarea>
             </section>
             <section class="" v-for="(step, index) in challenge.steps">
-              <h1>Step {{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteStep(index)"></i></h1>
+              <h4>Step {{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteStep(index)"></i></h4>
               <textarea name="" id="" cols="30" rows="10" class="form-control mb-3">{{ step }}</textarea>
             </section>
           </div>
           <h3>Difficulty</h3>
-          <select class="form-select" aria-label="Type Selection" v-model="editable.difficulty" placeholder="Select Difficulty">
+          <select class="form-select mb-3" aria-label="Type Selection" v-model="editable.difficulty" placeholder="Select Difficulty">
             <option selected>Select Difficulty</option>
             <option value="1">Easy</option>
             <option value="2">Medium</option>
             <option value="3">Hard</option>
           </select>
-          <h1>Cover Image</h1>
+          <h3 class="mb-3">Cover Image</h3>
           <img :src="editable.coverImg" alt="" class="object-fit-cover w-100 rounded-top">
           <input type="text" class="form-control mb-3" id="coverImg" v-model="editable.coverImg" required> 
-          <textarea name="supportLinks" id="" cols="30" rows="10" class="form-control mb-3">Support Links</textarea>
-          <textarea name="answers" id="" cols="30" rows="10" class="form-control mb-3">Answers</textarea>
-          <button @click="updateChallenge()" class="btn btn-success">Update Challenge</button>
+          <h4>Support Links</h4>
+          <span v-if="challenge.supportLinks.length == 0" class="text-danger">You need at least 1 support link!</span>
+          <!-- <textarea name="supportLinks" id="" cols="30" rows="10" class="form-control mb-3" v-model="editable.supportLinks" required></textarea> -->
+          <div class="d-flex">
+            <input type="text" class="form-control mb-3" id="supportLinkType" placeholder="Link Type"> 
+            <input type="text" class="form-control mb-3" id="supportLink" placeholder="Link"> 
+            <i class="mdi mdi-plus-box fs-2" @click="addSupportLink"></i>
+          </div>
+          <section class="row justify-content-between" v-for="(link, index) in challenge.supportLinks">
+            <h4 class="text-success col-md-6">{{ link.name }} </h4>
+            <h4 class="text-dark col-md-6">{{ link.url }} <i class="mdi mdi-trash-can float-end" @click="deleteSupportLink(index)"></i></h4>
+            
+          </section>
+          <h4>Answers</h4>
+          <textarea name="answers" id="" cols="30" rows="10" class="form-control mb-3"></textarea>
+          <button @click="updateChallenge()" class="btn btn-success mb-3">Update Challenge</button>
       </form>
     </section>
-      <!-- //REPLACE Textarea with Step thing -->
-      <!-- <button @click="cancelChallenge()">Cancel Challenge</button>
-      <button @click="">Start Challenge</button> -->
-    <!-- <section class="container-fluid" v-if="challenge" :key="challenge?.id">
-      <button @click="editChallenge()" class="btn btn-info" v-if="!editing">Edit Challenge</button>
-      <button @click="editChallenge()" class="btn btn-warning" v-if="editing">Cancel Edit</button>
-      <button @click="updateChallenge()" class="btn btn-success" v-if="editing">Update Challenge</button>
-    </section>
-    <form v-for="(value, key) in challenge" :key="key" id="challengeEditForm" v-if="editing" class="">
-      <div class="d-flex justify-content-between text-dark">
-        <h1 class="">{{ key }}</h1>
-        <input type="text" :value="value" class="form-control w-50 input-box">
-      </div>
-    </form> -->
-    <!-- <section>
-      <h4>Add a step</h4>
-      <textarea name="" id="stepText" cols="30" rows="10" ></textarea>
-      <i class="mdi mdi-plus-box fs-1" @click="addStep"></i>
-    </section>
-    <section class="container-fluid" v-for="(step, index) in challenge.steps" :key="index">
-      <h1>{{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteStep(index)"></i></h1>
-      <textarea name="" id="" cols="30" rows="10">{{ step }}</textarea>
-    </section> -->
   </div>
 </template>
 
@@ -112,14 +85,14 @@ export default {
 
     async function updateChallenge() {
       try {
-        const stepsLength = AppState.activeChallenge.steps;
-        const description = AppState.activeChallenge.description;
-        if(stepsLength.length == 0){
+        // const stepsLength = AppState.activeChallenge.steps;
+        // const description = AppState.activeChallenge.description;
+        if(AppState.activeChallenge.steps == 0){
           // console.log("Challenge is invalid");
           Pop.error("Challenge needs at least 1 step.")
           return;
         }
-        if(description.length == 0){
+        if(AppState.activeChallenge.description == 0){
           Pop.error("You cannot have an empty description")
           return;
         }
@@ -157,11 +130,38 @@ export default {
         return;
       }
       challenge.value.steps.push(newStep.value)
+      Pop.success("Step Added")
+      newStep.value = '';
     }
 
     function deleteStep(index){
         logger.log("Deleting",challenge.value.steps[index])
         challenge.value.steps.splice(index, 1)
+    }
+
+    function addSupportLink(){
+      const newSupportLinkType = document.getElementById("supportLinkType")
+      const newSupportLink = document.getElementById("supportLink")
+      logger.log("values",newSupportLinkType.value, newSupportLink.value)
+      if(newSupportLinkType.value.length == 0){
+        Pop.error("You must specify a link type.")
+        return;
+      }
+      if(newSupportLink.value.length == 0){
+        Pop.error("You cannot add an empty link.")
+        return;
+      }
+      challenge.value.supportLinks.push({
+        name: newSupportLinkType.value,
+        url: newSupportLink.value
+      })
+      // logger.log(challenge.value.supportLinks)
+      Pop.success("Link Added")
+    }
+
+    function deleteSupportLink(index){
+      logger.log("Deleting support link at index", challenge.value.supportLinks[index])
+      challenge.value.supportLinks.splice(index, 1)
     }
 
     // Dont use below
@@ -170,13 +170,14 @@ export default {
     }
     return {
       editable,
-
       updateChallenge,
       challenge: computed(() => AppState.activeChallenge),
       editChallenge,
       editing,
       addStep,
       deleteStep,
+      addSupportLink,
+      deleteSupportLink,
       toggleEdit,
       cancelEdit
     } 
@@ -187,5 +188,15 @@ export default {
 <style scoped lang="scss">
   i:hover{
     color: rgb(163, 235, 47);
+  }
+
+  .mdi-trash-can{
+    color: rgb(242, 114, 114);
+  }
+  .mdi-trash-can:hover{
+    color: rgb(255, 4, 4);
+  }
+  .form-control{
+    background-color: white
   }
 </style>
