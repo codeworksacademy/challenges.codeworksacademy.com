@@ -142,10 +142,11 @@
       </div>
     </section>
 
-    <div v-if="user.id === challenge?.creatorId">
+    <!-- This was commented out, I was rendering the edit Challenges two additional times. Left in for verification before delete -->
+    <!-- <div v-if="user.id === challenge?.creatorId">
       <router-view />
     </div>
-    <router-view />
+    <router-view /> -->
   </section>
 </template>
   
