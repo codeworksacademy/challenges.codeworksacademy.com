@@ -16,6 +16,7 @@ class ParticipantsService {
 
     const participant = res.data
     const participantToUpdate = AppState.participants.findIndex(p => p.id === participant.id)
+    //FIXME - JAKE - Is the if statement necessary? I was thinking as a safety check...but if not it can be removed! - AJ
     if (participantToUpdate !== -1) {
       AppState.participants.splice(participantToUpdate, 1, participant)
     }

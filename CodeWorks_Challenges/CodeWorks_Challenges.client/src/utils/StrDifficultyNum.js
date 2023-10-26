@@ -4,6 +4,7 @@ import { logger } from './Logger.js';
 
 //NOTE - Use {{ difficulty.text }} in your template to display the difficulty level in plain text.
 
+//FIXME - JAKE - This is the switch statement util I was talking about today in the meeting and how it is taking the difficulty with type Number from the backend and parses it into a string...but were you saying this logic should be handled in the backend somehow with our cases of parsing rewards? I'm curious how that would be handled - and if this should also be back-end logic? - AJ
 export const StrDifficultyNum = (difficulty) => {
   switch (difficulty) {
     case 1:

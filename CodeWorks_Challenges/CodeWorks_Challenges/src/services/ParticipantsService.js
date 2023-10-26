@@ -49,7 +49,6 @@ class ParticipantsService {
 		if (!participantToUpdate) {
 			throw new BadRequest("Invalid participant ID.")
 		}
-
 		if (userId != participantToUpdate.accountId) {
 			throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this participant's. You may not edit other participants.")
 		}
@@ -57,7 +56,6 @@ class ParticipantsService {
 		const updatedParticipant = await dbContext.Participants.findByIdAndUpdate(participantId, participantData, { new: true })
 
 		await updatedParticipant.populate('profile', 'name picture')
-
 		await updatedParticipant.populate({
 			path: 'challenge',
 			populate: {
@@ -66,7 +64,6 @@ class ParticipantsService {
 		})
 		
 		await updatedParticipant.save()
-
 		return updatedParticipant
 	}
 

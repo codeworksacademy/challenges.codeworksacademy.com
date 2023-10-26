@@ -7,11 +7,12 @@ export const ParticipantSchema = new Schema({
       required: true,
       ref: 'Challenge'
     },
-    status: {
-      type: String,
-      enum: ['registered', 'submitted', 'graded', 'completed', 'inactive'],
-      required: true
-    },
+    //FIXME - JAKE - So the below field can be deleted? We do not need this, correct? - AJ
+    // status: {
+    //   type: String,
+    //   enum: ['registered', 'submitted', 'graded', 'completed', 'inactive'],
+    //   required: true
+    // },
     accountId: { 
       type: ObjectId,
       required: true,
