@@ -227,24 +227,13 @@ export default {
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.activeChallenge),
       date: computed(() => DateTime(AppState.activeChallenge.createdAt)),
-      editChallenge() {
-        logger.log("Pushing to", AppState.activeChallenge.id)
-        router.push({
-          name: 'EditChallenge',
-          params: {
-            challengeId: AppState.activeChallenge.id
-          }
-        })
-      },
       participants: computed(() => AppState.participants),
       rewards: computed(() => AppState.rewards),
       moderators: computed(() => AppState.moderators.filter(m => m.status == 'Active')),
-
       difficulty: computed(() =>
         StrDifficultyNum(AppState.activeChallenge.difficulty)
       ),
-
-
+      isOwned: computed(() => AppState.activeChallenge.creator.id === AppState.account.id),
       isParticipant: computed(() =>
         AppState.participants.find(p => p.accountId == AppState.account.id)
       ),
@@ -257,7 +246,16 @@ export default {
           } else return 'approved'
         } else return 'null'
       }),
-      isOwned: computed(() => AppState.activeChallenge.creator.id === AppState.account.id),
+
+      editChallenge() {
+        logger.log("Pushing to", AppState.activeChallenge.id)
+        router.push({
+          name: 'EditChallenge',
+          params: {
+            challengeId: AppState.activeChallenge.id
+          }
+        })
+      },
 
       async joinChallenge() {
         try {
