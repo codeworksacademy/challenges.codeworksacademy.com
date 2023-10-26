@@ -168,6 +168,7 @@ export default {
       }
     }
 
+    // FIXME - JAKE - WIP (Intention is to prevent function from firing if a user is not a moderator or creator of challenge. Still fires on other pages.)
     async function getAnswersByChallengeId(){
       try {
         const moderatorStatus = computed(() => AppState.moderators.find(m => m.accountId == AppState.account.id))
