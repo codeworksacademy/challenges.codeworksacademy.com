@@ -274,9 +274,10 @@ export default {
         StrDifficultyNum(AppState.activeChallenge.difficulty)
       ),
       isOwned: computed(() => AppState.activeChallenge.creator.id === AppState.account.id),
-      isParticipant: computed(() =>
-        AppState.participants.find(p => p.accountId == AppState.account.id)
-      ),
+      // Duplicate key created during merge, Verifying redudancy before delete
+      // isParticipant: computed(() =>
+      //   AppState.participants.find(p => p.accountId == AppState.account.id)
+      // ),
 
       isModeratorStatus: computed(() => {
         const isMod = AppState.moderators.find(m => m.accountId == AppState.account.id)
