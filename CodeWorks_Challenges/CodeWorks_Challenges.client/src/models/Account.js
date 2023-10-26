@@ -8,5 +8,6 @@ export class Account {
     this.coverImage = data.coverImage
     this.aboutContent = data.aboutContent
     this.reputation = data.reputation || 0
+    this.rank = data.rank || 0
   }
 }

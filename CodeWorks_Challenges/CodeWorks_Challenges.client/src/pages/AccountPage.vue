@@ -24,9 +24,14 @@
     </section>
 
     <section class="row">
-      <h2 class="col-12">
+      <h2 class="col-6">
         Reputation:
         <h3 v-if="account.reputation === 0">You don't have any reputation</h3>
+        <h3 v-else>{{ account.reputation }}</h3>
+      </h2>
+      <h2 class="col-6">
+        Rank:
+        <h3 v-if="account.rank === 0">New Challenger</h3>
         <h3 v-else>{{ account.reputation }}</h3>
       </h2>
     </section>
@@ -42,7 +47,7 @@
       <h2 class="col-12">
         Challenges Owned:
         <h3 v-if="myChallenges.length === 0">You haven't made any challenges</h3>
-        <div v-else v-for="challenge in myChallenges" :key="challenge.id" class="col-12 px-3 mb-1 position-relative">
+        <div v-else v-for="challenge in myChallenges" :key="challenge.id" class="col-12 mb-1 position-relative">
           <ChallengeCard :challenge="challenge" />
         </div>
       </h2>
@@ -56,7 +61,7 @@
       <h2 class="col-12">
         Challenges Joined:
         <h3 v-if="joinedChallenges.length === 0">You haven't joined any challenges</h3>
-        <div v-else v-for="challenge in joinedChallenges" :key="challenge.id">
+        <div v-else v-for="challenge in joinedChallenges" :key="challenge.id" class="mb-1">
           <ChallengeCard :challenge="challenge.challenge" />
         </div>
       </h2>

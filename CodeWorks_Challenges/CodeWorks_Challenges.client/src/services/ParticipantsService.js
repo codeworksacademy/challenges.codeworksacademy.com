@@ -10,7 +10,20 @@ class ParticipantsService {
     AppState.participants.push(new Participant(res.data))
   }
 
+  async updateParticipant(participantId, newParticipant) {
+    const res = await api.put(`api/participants/${participantId}`, newParticipant)
+    logger.log('Updated participant:', res.data)
+
+    const participant = res.data
+    const participantToUpdate = AppState.participants.findIndex(p => p.id === participant.id)
+    //FIXME - JAKE - Is the if statement necessary? I was thinking as a safety check...but if not it can be removed! - AJ
+    if (participantToUpdate !== -1) {
+      AppState.participants.splice(participantToUpdate, 1, participant)
+    }
+  }
+
   async leaveChallenge(participantId) {
+
     const res = await api.delete(`api/participants/${participantId}`)
     logger.log('Deleted participant:', res.data)
     let participantToRemove = AppState.participants.findIndex(p => p.id === participantId)

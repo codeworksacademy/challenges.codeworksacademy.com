@@ -1,3 +1,4 @@
+import { challengesService } from "../services/ChallengesService.js";
 import { participantsService } from "../services/ParticipantsService.js";
 import BaseController from "../utils/BaseController.js"
 import { Auth0Provider } from "@bcwdev/auth0provider";
@@ -8,6 +9,8 @@ export class ParticipantsController extends BaseController {
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createParticipant)
+      .put('/:participantId', this.updateParticipant)
+      
       .delete('/:participantId', this.leaveChallenge)
   }
 
@@ -20,6 +23,19 @@ export class ParticipantsController extends BaseController {
       const participant = await participantsService.createParticipant(participantData)
 
       return res.send(participant)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async updateParticipant(req, res, next) {
+    try {
+      const participantId = req.params.participantId
+      const userId = req.userInfo.id
+      const participantData = req.body
+
+      const uodatedParticipant = await participantsService.updateParticipant(participantId, userId, participantData)
+      return res.send(uodatedParticipant)
     } catch (error) {
       next(error)
     }

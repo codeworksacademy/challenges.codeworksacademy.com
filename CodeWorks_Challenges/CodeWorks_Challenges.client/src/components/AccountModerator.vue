@@ -5,7 +5,7 @@
     <div v-else>
       <p>My Active Moderations:</p>
       <div v-for="challenge in myModerations" :key="challenge.id">
-        <div v-if="challenge.status == true">
+        <div v-if="challenge.status == 'Active'">
           <ChallengeCard :challenge="challenge.challenge" /><i @click="removeModeration(challenge.id)"
             class="mdi mdi-delete text-danger selectable"></i>
         </div>
@@ -13,7 +13,7 @@
       <p>Pending:</p>
       <p class="text-secondary">you're waiting to be approved</p>
       <div v-for="challenge in myModerations" :key="challenge.id">
-        <div v-if="challenge.status == false && challenge.originId == account.id">
+        <div v-if="challenge.status == 'Pending' && challenge.originId == account.id">
           <div class="bg-primary mb-3 rounded">
             <h6>
               ID-{{ challenge.id }}
@@ -38,7 +38,7 @@
       </div>
       <p class="text-secondary">your moderation has been requested</p>
       <div v-for="challenge in myModerations" :key="challenge.id">
-        <div v-if="challenge.status == false && challenge.originId != account.id">
+        <div v-if="challenge.status == 'Pending' && challenge.originId != account.id">
           <div class="bg-primary mb-3 rounded">
             <h6>
               ID-{{ challenge.id }}
@@ -64,7 +64,7 @@
       </div>
       <p class="text-secondary">Someone wants to moderate your challenge</p>
       <div v-for="challenge in moderators" :key="challenge.id">
-        <div v-if="challenge.status == false && challenge.originId != account.id">
+        <div v-if="challenge.status == 'Pending' && challenge.originId != account.id">
           <div class="bg-primary mb-3 rounded">
             <h6>
               ID-{{ challenge.id }}
@@ -91,7 +91,7 @@
 
       <p class="text-secondary">Moderators you've asked to join</p>
       <div v-for="challenge in  moderators " :key="challenge.id">
-        <div v-if="challenge.status == false && challenge.originId == account.id">
+        <div v-if="challenge.status == 'Pending' && challenge.originId == account.id">
           <div class="bg-primary mb-3 rounded">
             <h6>
               ID-{{ challenge.id }}

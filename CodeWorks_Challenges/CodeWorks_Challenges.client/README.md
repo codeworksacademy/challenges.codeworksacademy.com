@@ -1,3 +1,7 @@
+This sometimes happens when updating the support links
+
+VersionError: No matching document found for id "652c4c37e2d60112d08adcd0" version 21 modifiedPaths "supportLinks"
+
 CodeWorks Vue Starter
 =====================
 This template is designed to help get students started building vue applications
