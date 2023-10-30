@@ -5,6 +5,7 @@
   
   Accessing this page will create the request for milestone_checks={createdChallenge, joinedChallenge, completedChallenge, moderateChallenge}
   milestone_checks will be sent up as a payload to the back end where the controller will individually send to the service for each value in milestone_checks
+
   service -- if (string == createdChallenge){ milestoneGet = dbContext.milestone_rewards.find({check: createdChallenge}) }
   logic = milestoneGet.logic.split(' ')
   if (logic[0] == $gte){ 
@@ -15,8 +16,8 @@
       m_reward = dbContext.milestone_rewards.post(accountId)
       return m_reward
     } else return
-   }
- -->
+  }
+  -->
 
 <template>
   <h1>Badges</h1>
@@ -75,22 +76,42 @@
       <li>10 Challenge <span class="mdi mdi-close text-danger"></span></li>
     </ul>
   </h2>
-  <!-- <h2 class="col-4">
-        Complete Challenges:
-        <ul>
-          <li>1 Challenge</li>
-          <li>2 Challenge</li>
-          <li>3 Challenge</li>
-          <li>4 Challenge</li>
-          <li>5 Challenge</li>
-          <li>10 Challenge</li>
-        </ul>
-      </h2> -->
 </template>
 
 <script>
+import { watchEffect } from "vue";
+import { AppState } from "../AppState.js";
+import Pop from "../utils/Pop.js";
+import { MilestonesService } from "../services/MilestonesService.js"
+
 export default {
   setup() {
+
+    async function checkMilestonesByAccountId() {
+      try {
+        const userId = AppState.account.id
+        const checks = AppState.milestoneChecks
+        await MilestonesService.checkMilestonesByAccountId(userId, checks)
+      } catch (error) {
+        Pop.error(error)
+      }
+    }
+
+    async function getAccountMilestones() {
+      try {
+        const userId = AppState.account.id
+        await MilestonesService.getAccountMilestones(userId)
+      } catch (error) {
+        Pop.error(error)
+      }
+    }
+
+    watchEffect(() => {
+      if (AppState.account.id) {
+        checkMilestonesByAccountId()
+        getAccountMilestones()
+      }
+    })
     return {}
   }
 }

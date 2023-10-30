@@ -28,4 +28,9 @@ export const AppState = reactive({
   activeProfile: null,
   profiles: [],
   // query: '',
+
+  milestones: [],
+  milestoneChecks: [
+    "createdChallenge", "joinedChallenge", "completedChallenge", "moderateChallenge"
+  ]
 })
