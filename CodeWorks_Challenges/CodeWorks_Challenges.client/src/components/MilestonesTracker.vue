@@ -1,3 +1,23 @@
+<!-- 
+  This Tracker component is meant to render the condition of these various Milestones.
+  There will be a milestone qualifying ojbect on the backend -milestone_reward-
+  This reward will have a logic variable that can be parsed to retrieve the variables necessary to decide if a user has obtained the milestone
+  
+  Accessing this page will create the request for milestone_checks={createdChallenge, joinedChallenge, completedChallenge, moderateChallenge}
+  milestone_checks will be sent up as a payload to the back end where the controller will individually send to the service for each value in milestone_checks
+  service -- if (string == createdChallenge){ milestoneGet = dbContext.milestone_rewards.find({check: createdChallenge}) }
+  logic = milestoneGet.logic.split(' ')
+  if (logic[0] == $gte){ 
+    challenge = challengeService.getchallengesbyaccountId
+    cCount = challenge.count()??
+    if (cCount >= logic[1]) 
+    this.createMilestoneReward(accountId){
+      m_reward = dbContext.milestone_rewards.post(accountId)
+      return m_reward
+    } else return
+   }
+ -->
+
 <template>
   <h1>Badges</h1>
   <h2 class="col-4">
@@ -67,7 +87,6 @@
         </ul>
       </h2> -->
 </template>
-
 
 <script>
 export default {
