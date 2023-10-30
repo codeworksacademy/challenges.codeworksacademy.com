@@ -37,10 +37,7 @@
     </section>
 
     <section class="row">
-      <h2 class="col-12">
-        Badges:
-        <h3>You don't have any badges</h3>
-      </h2>
+      <MilestonesTracker />
     </section>
 
     <section class="row">
@@ -125,13 +122,13 @@ export default {
       // }
     }
 
-    async function getMyJoinedChallenges() {
-      // try {
-      //   await challengesService.getMyJoinedChallenges(AppState.account.id)
-      // } catch (error) {
-      //   Pop.toast(error, 'error')
-      // }
-    }
+    // async function getMyJoinedChallenges() {
+    // try {
+    //   await challengesService.getMyJoinedChallenges(AppState.account.id)
+    // } catch (error) {
+    //   Pop.toast(error, 'error')
+    // }
+    // }
 
     async function getParticipantsByAccount() {
       try {
@@ -145,7 +142,7 @@ export default {
       if (AppState.account.id) {
         getMyChallenges()
         getMyBadges()
-        getMyJoinedChallenges()
+        // getMyJoinedChallenges()
         getParticipantsByAccount()
       }
     })
