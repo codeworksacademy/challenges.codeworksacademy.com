@@ -46,11 +46,28 @@
             
           </section>
           <h4>Answers</h4>
-          <textarea name="answers" id="" cols="30" rows="10" class="form-control mb-3"></textarea>
+          <textarea name="answers" id="" cols="30" rows="10" class="form-control mb-3" v-model="editable.answers"></textarea>
           <button @click="updateChallenge()" class="btn btn-success mb-3">Update Challenge</button>
       </form>
     </section>
   </div>
+  <section class="container-fluid">
+    <div class="row">
+      <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-sm">Answer</span>
+        <input type="text" class="form-control" v-model="answer">
+        <button class="btn btn-success" type="button" id="button-addon1" @click="answerChallenge()">Check</button>
+      </div>
+      <div>
+        <!-- <p class="text-danger" v-if="puzzle.correct == false">
+          Your answer is not correct!
+        </p>
+        <p class="green-color" v-if="puzzle.correct">
+          Great job!
+        </p> -->
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -69,6 +86,7 @@ export default {
   setup() {
 
     let editing = ref(false);
+    const answer = ref('')
     const editable = ref({})
     watchEffect(() => {
       editable.value = AppState.activeChallenge
@@ -100,6 +118,14 @@ export default {
         Pop.success('Challenge Updated')
       } catch (error) {
         Pop.toast(error.message, 'error')
+      }
+    }
+
+    async function answerChallenge(){
+      try{
+        await challengesService.submitAnswer(AppState.activeChallenge.id, answer.value)
+      } catch(error){
+        Pop.error(error.message)
       }
     }
     onMounted(() => {
@@ -170,9 +196,11 @@ export default {
     }
     return {
       editable,
+      answer,
       updateChallenge,
       challenge: computed(() => AppState.activeChallenge),
       editChallenge,
+      answerChallenge,
       editing,
       addStep,
       deleteStep,
