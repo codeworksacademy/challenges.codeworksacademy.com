@@ -46,8 +46,13 @@ const routes = [
     component: loadPage('ProfilePage'),
   },
   {
+    path: '/milestones',
+    name: 'Milestones',
+    component: loadPage('MilestonesPage'),
+  },
+  {
     path: '/routetestpage',
-    name:'RouteTestPage',
+    name: 'RouteTestPage',
     component: loadPage('RouteTestPage'),
     children: [
       {

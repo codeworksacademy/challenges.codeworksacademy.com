@@ -82,7 +82,8 @@
 import { watchEffect } from "vue";
 import { AppState } from "../AppState.js";
 import Pop from "../utils/Pop.js";
-import { MilestonesService } from "../services/MilestonesService.js"
+import { milestonesService } from "../services/MilestonesService.js";
+
 
 export default {
   setup() {
@@ -91,7 +92,7 @@ export default {
       try {
         const userId = AppState.account.id
         const checks = AppState.milestoneChecks
-        await MilestonesService.checkMilestonesByAccountId(userId, checks)
+        await milestonesService.checkMilestonesByAccountId(userId, checks)
       } catch (error) {
         Pop.error(error)
       }
@@ -100,7 +101,7 @@ export default {
     async function getAccountMilestones() {
       try {
         const userId = AppState.account.id
-        await MilestonesService.getAccountMilestones(userId)
+        await milestonesService.getAccountMilestones(userId)
       } catch (error) {
         Pop.error(error)
       }
