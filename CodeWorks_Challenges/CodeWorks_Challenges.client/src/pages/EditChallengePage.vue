@@ -124,6 +124,7 @@ export default {
     async function answerChallenge(){
       try{
         await challengesService.submitAnswer(AppState.activeChallenge.id, answer.value)
+        // logger.log(answer.value)
       } catch(error){
         Pop.error(error.message)
       }
