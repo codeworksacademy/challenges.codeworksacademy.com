@@ -6,6 +6,7 @@ import { ParticipantSchema } from '../models/Participant';
 import { RewardSchema } from '../models/Reward';
 import { ModeratorSchema } from "../models/Moderator.js";
 import { AnswerSchema } from '../models/Answer.js';
+import { MilestoneSchema } from "../models/Milestone.js";
 
 class DbContext {
   Values = mongoose.model('Value', ValueSchema);
@@ -15,6 +16,7 @@ class DbContext {
   Rewards = mongoose.model('Reward', RewardSchema);
   Moderators = mongoose.model('Moderator', ModeratorSchema);
   Answers = mongoose.model('Answer', AnswerSchema);
+  Milestones = mongoose.model('Milestones', MilestoneSchema);
 }
 
 export const dbContext = new DbContext()

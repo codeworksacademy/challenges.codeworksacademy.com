@@ -4,12 +4,12 @@ import { api } from "./AxiosService.js"
 class MilestonesService {
 
   async checkMilestonesByAccountId(userId, checks) {
-    // const res = await api.get(`api/milestones/${userId}`, checks)
-    // logger.log('[checkMilestonesByAccountId]', res.data)
+    const res = await api.get(`api/milestones/${userId}`, checks)
+    logger.log('[checkMilestonesByAccountId]', res.data)
   }
 
   async getAccountMilestones(userId) {
-    // const res = await api.get(`api/milestones/${userId}`)
+    // const res = await api.get(`api/account/${userId}/milestones`)
     // logger.log('[getAccountMilestones]', res.data)
   }
 
