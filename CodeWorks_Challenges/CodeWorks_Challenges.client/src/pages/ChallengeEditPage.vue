@@ -10,7 +10,7 @@
                   Challenge Details
                 </button>
               </h2>
-              <div id="flush-collapseOne" class="accordion-collapse collapse">
+              <div id="flush-collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushExample">
                 <div class="accordion-body">
                   <h5 class="p-3 border-dark border-bottom">Details</h5>
                   <h5 class="p-3 border-dark border-bottom">Steps</h5>
@@ -25,7 +25,7 @@
                   Challenge Moderation
                 </button>
               </h2>
-              <div id="flush-collapseTwo" class="accordion-collapse collapse">
+              <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                 <div class="accordion-body">
                   <h5 class="p-3 border-dark border-bottom">Users</h5>
                   <h5 class="p-3 border-dark border-bottom">Moderators</h5>
@@ -39,7 +39,7 @@
                   Another thing?
                 </button>
               </h2>
-              <div id="flush-collapseThree" class="accordion-collapse collapse">
+              <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                 <div class="accordion-body">
                   <img src="https://imgs.search.brave.com/PquqEeuG_6NAbGfVRYdgETPj46OsY7tbYiGmlkT3_QI/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAwLzMzLzMzLzgw/LzM2MF9GXzMzMzM4/MDc2X3k0bWY1cnFo/eGRleW5wUjY3ZWxv/TEZtMERrTEVEbHQy/LmpwZw" class="object-fit-cover w-100 h-100">
                 </div>
@@ -78,7 +78,7 @@
       } 
       onMounted(() => {
         setActiveChallenge()
-        changeRoute(`edit/details`)
+        changeRoute(`details`)
       })
       async function setActiveChallenge(){
         try{
