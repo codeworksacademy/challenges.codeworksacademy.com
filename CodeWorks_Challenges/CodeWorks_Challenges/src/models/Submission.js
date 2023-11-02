@@ -2,19 +2,35 @@ import { Schema } from "mongoose";
 const ObjectId = Schema.Types.ObjectId;
 
 export const SubmissionSchema = new Schema({
-  creatorId: {type: ObjectId, ref: 'Account', required: true},
-  challengeId: {type: ObjectId, ref: 'Challenge', required: true},
-  supportLink: [ { name: String, url: String, description: String } ],
-  status: {type: String, enum: ['incomplete', 'submitted', 'graded'], required: true, default: 'incomplete'},
-  // grade: {type: Number, min: 0, max: 100},
-  // gradeComment: {type: String, maxlength: 250},
-  // isPassing: {type: Boolean, default: false}
-}, { timestamps: true, toJSON: { virtuals: true }})
+  participantId: {
+    type: ObjectId,
+    ref: 'Participant',
+    required: true
+  },
+  challengeId: {
+    type: ObjectId,
+    ref: 'Challenge',
+    required: true
+  },
+  supportLinks: [{
+    name: String,
+    url: String
+  }],
+  isSubmitted: {
+    type: Boolean,
+    default: false
+  },
+  submittedAt: {
+    type: Date
+  }
+},
+  { timestamps: true, toJSON: { virtuals: true } }
+)
 
-SubmissionSchema.virtual('creator', {
-  localField: 'creatorId',
+SubmissionSchema.virtual('participant', {
+  localField: 'participantId',
   foreignField: '_id',
-  ref: 'Account',
+  ref: 'Participant',
   justOne: true
 })
 

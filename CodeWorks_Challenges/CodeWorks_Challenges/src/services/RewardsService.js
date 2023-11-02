@@ -10,12 +10,6 @@ class RewardsService {
     }
     return rewards
   }
-  // FIXME - JAKE - Would the reward be retrieved by the claimedBy field or the accountId field in relation to the profileId? Would it not matter since they are the same value? - AJ
-  // async getProfileRewards(profileId) {
-  //   const rewards = await dbContext.Rewards.find({ claimedBy: profileId })
-  //   .sort({ claimedAt: -1 })
-  //   return rewards
-  // }
 
   async createReward(newReward) {
     const reward = await dbContext.Rewards.create(newReward)

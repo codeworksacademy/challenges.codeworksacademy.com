@@ -4,24 +4,24 @@ import { challengesService } from "./ChallengesService";
 import { participantsService } from "./ParticipantsService";
 
 class SubmissionsService {
-  async submitChallengeToBeGraded(submissionData) {
+  async createChallengeSubmission(newSubmission) {
     const challenge = await challengesService.getChallengeById(
-      submissionData.challengeId
+      newSubmission.challengeId
     );
     if (challenge.isCancelled == true) {
       throw new BadRequest(
-        "This challenge has been cancelled. You may not submit to a cancelled challenge."
+        "This challenge has been cancelled. You may not submit a challenge that was cancelled by the creator."
       );
     }
     const participant = await participantsService.getParticipantById(
-      submissionData.participantId
+      newSubmission.participantId
     );
-    if (participant.challengeId != submissionData.challengeId) {
+    if (participant.challengeId != newSubmission.challengeId) {
       throw new BadRequest(
         "This participant is not enrolled in this challenge."
       );
     }
-    const submission = await dbContext.Submissions.create(submissionData);
+    const submission = await dbContext.Submissions.create(newSubmission);
     await submission.populate("participant", "name picture");
     await submission.populate({
       path: "challenge",
@@ -38,30 +38,45 @@ class SubmissionsService {
     });
     return submissions;
   }
-  async getSubmissionsByParticipantId(participantId) {
-    const submissions = await dbContext.Submissions.find({
-      participantId,
-    }).populate({
+
+  async getSubmissionById(participantId) {
+    const submission = await dbContext.Submissions.findById(participantId);
+    if (!submission) {
+      throw new BadRequest("Invalid submission ID.");
+    }
+    await submission.populate("participant", "name picture");
+    await submission.populate({
       path: "challenge",
       populate: { path: "creator participantCount" },
     });
-    return submissions;
+    return submission;
   }
-  async updateSubmission(submissionId, userId, submissionData) {
+
+  // async getSubmissionsByParticipantId(participantId) {
+  //   const submissions = await dbContext.Submissions.find({
+  //     participantId,
+  //   }).populate({
+  //     path: "challenge",
+  //     populate: { path: "creator participantCount" },
+  //   })
+  //   return submissions;
+  // }
+
+  async updateSubmission(submissionId, userId, newSubmission) {
     const submissionToUpdate = await dbContext.Submissions.findById(
       submissionId
     );
     if (!submissionToUpdate) {
       throw new BadRequest("Invalid submission ID.");
     }
-    if (userId != submissionToUpdate.creatorId) {
+    if (userId != submissionToUpdate.participantId) {
       throw new Forbidden(
         "[PERMISSIONS ERROR]: Your information does not match this submission's. You may not edit other submissions."
       );
     }
     const updatedSubmission = await dbContext.Submissions.findByIdAndUpdate(
       submissionId,
-      submissionData,
+      newSubmission,
       { new: true }
     );
     await updatedSubmission.populate("participant", "name picture");

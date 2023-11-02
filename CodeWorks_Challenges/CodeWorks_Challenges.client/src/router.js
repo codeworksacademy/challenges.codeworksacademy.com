@@ -39,9 +39,15 @@ const routes = [
         beforeEnter: authGuard
       },
       {
-        path: 'grade',
-        name: 'GradeChallenge',
-        component: loadPage('GradeChallengePage'),
+        path: 'submissions',
+        name: 'ChallengeSubmissions',
+        component: loadPage('ChallengeSubmissionsPage'),
+        beforeEnter: authGuard
+      },
+      {
+        path: '/submissions/:submissionId',
+        name: 'GradeSubmission',
+        component: loadPage('GradeSubmissionPage'),
         beforeEnter: authGuard
       }
     ]

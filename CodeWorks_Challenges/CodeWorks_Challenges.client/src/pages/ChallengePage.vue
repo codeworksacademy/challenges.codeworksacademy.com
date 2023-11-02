@@ -4,10 +4,10 @@
       <div class="col-12 d-flex justify-content-end position-absolute top-0 right-2 p-1">
         <a
           ref="challenge"
-          id="challengeFormButton"
+          id="createChallengeButton"
           type="button"
           role="button"
-          data-bs-target="#submitChallengeForm"
+          data-bs-target="#createChallengeForm"
           data-bs-toggle="modal"
           aria-label="Go to Active Challenge Modal"
           class="mdi mdi-plus-circle border-none fs-1"

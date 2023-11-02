@@ -44,6 +44,16 @@ class ChallengesService {
     return challenges
   }
 
+  async getSubmitterChallenges(submitterId) {
+    const challenges = await dbContext.Challenges.find({submitterId}).populate('creator')
+
+    if (!challenges) {
+      throw new BadRequest('This participant has not submitted any challenges yet.')
+    }
+
+    return challenges
+  }
+
   async setActiveChallenge(challengeId) {
     const challenge = await dbContext.Challenges.findById(challengeId)
       .populate('creator', 'name picture')

@@ -4,6 +4,7 @@ import { challengesService } from '../services/ChallengesService.js'
 import { participantsService } from '../services/ParticipantsService.js'
 import { moderatorsService } from "../services/ModeratorsService.js"
 import { answersService } from '../services/AnswersService.js'
+import { submissionsService } from '../services/SubmissionsService.js'
 
 export class ChallengesController extends BaseController {
   constructor() {
@@ -22,6 +23,8 @@ export class ChallengesController extends BaseController {
       .put('/:challengeId', this.cancelChallenge)
       .delete('/:challengeId', this.deleteChallenge)
       .delete('/:challengeId/participants', this.removeParticipant)
+
+      .get('/:challengeId/submissions', this.getSubmissionsByChallengeId)
   }
 
   async getAllChallenges(req, res, next) {
@@ -131,6 +134,17 @@ export class ChallengesController extends BaseController {
       const userId = req.userInfo.id
       await challengesService.deleteChallenge(challengeId, userId)
       return res.send(challengeId)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+
+  async getSubmissionsByChallengeId(req, res, next) {
+    try {
+      const challengeId = req.params.challengeId
+      const submissions = await submissionsService.getSubmissionsByChallengeId(challengeId)
+      return res.send(submissions)
     } catch (error) {
       next(error)
     }

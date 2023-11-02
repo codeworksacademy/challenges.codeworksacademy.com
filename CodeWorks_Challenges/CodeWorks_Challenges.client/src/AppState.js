@@ -21,11 +21,18 @@ export const AppState = reactive({
   moderators: [],
   myModerations: [],
 
+  /** @type {import('./models/Submission.js').Submission[]} */
+  submissions: [],
+  mySubmissions: [],
+
   /** @type {import('./models/Challenge.js')|null} */
   activeChallenge: null,
 
   /** @type {import('./models/Profile.js')|null} */
   activeProfile: null,
   profiles: [],
-  // query: '',
+
+  /** @type {import('./models/Submission.js')|null} */
+  activeSubmission: null,
+  
 })
