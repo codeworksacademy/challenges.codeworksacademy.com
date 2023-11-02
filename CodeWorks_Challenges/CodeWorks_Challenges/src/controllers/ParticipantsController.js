@@ -9,6 +9,7 @@ export class ParticipantsController extends BaseController {
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createParticipant)
+      .get('/:participantId', this.getParticipantById)
       .put('/:participantId', this.updateParticipant)
       
       .delete('/:participantId', this.leaveChallenge)
@@ -22,6 +23,16 @@ export class ParticipantsController extends BaseController {
 
       const participant = await participantsService.createParticipant(participantData)
 
+      return res.send(participant)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getParticipantById(req, res, next) {
+    try {
+      const participantId = req.params.participantId
+      const participant = await participantsService.getParticipantById(participantId)
       return res.send(participant)
     } catch (error) {
       next(error)
