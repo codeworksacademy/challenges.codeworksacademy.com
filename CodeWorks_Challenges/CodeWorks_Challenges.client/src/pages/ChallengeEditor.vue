@@ -2,7 +2,7 @@
   <div class="" v-if="challenge">
     <section class="container-fluid text-dark">
       <form @submit.prevent="updateChallenge">
-        <div class="border-dark border-bottom my-3">
+        <div class="border-dark border-bottom my-3" id="details-section">
           <h3 for="name">Challenge Name</h3>
           <span v-if="challenge.name.length == 0" class="text-danger">You need a name!</span>
           <input type="text" class="form-control mb-3" id="name" v-model="editable.name" required> 
@@ -11,7 +11,7 @@
           <textarea type="text" cols="30" rows="10" class="form-control mb-3" id="description" v-model="editable.description" required></textarea> 
         </div>
           <div>
-            <section>
+            <section id="steps-section">
               <h3 for="steps">Challenge Steps</h3>
               <span v-if="challenge.steps.length == 0" class="text-danger">You need at least one step!</span>
               <h4>Add a step  <i class="mdi mdi-plus-box fs-1" @click="addStep"></i></h4>
@@ -43,11 +43,12 @@
           <section class="row justify-content-between" v-for="(link, index) in challenge.supportLinks">
             <h4 class="text-success col-md-6">{{ link.name }} </h4>
             <h4 class="text-dark col-md-6">{{ link.url }} <i class="mdi mdi-trash-can float-end" @click="deleteSupportLink(index)"></i></h4>
-            
           </section>
-          <h4>Answers</h4>
-          <textarea name="answers" id="" cols="30" rows="10" class="form-control mb-3" v-model="editable.answers"></textarea>
-          <button @click="updateChallenge()" class="btn btn-success mb-3">Update Challenge</button>
+          <section id="answers-section">
+            <h4>Answers</h4>
+            <textarea name="answers" id="" cols="30" rows="10" class="form-control mb-3" v-model="editable.answers"></textarea>
+            <button @click="updateChallenge()" class="btn btn-success mb-3">Update Challenge</button>
+          </section>
       </form>
     </section>
   </div>
