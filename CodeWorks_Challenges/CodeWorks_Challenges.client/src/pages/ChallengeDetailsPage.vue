@@ -1,7 +1,7 @@
 <template>
   <section v-if="challenge" :key="challenge?.id" class="container-fluid text-light bg-secondary">
     <div v-if="user.id === challenge?.creatorId">
-      <router-view />
+      <!-- <router-view /> -->
     </div>
     <div class="row bg-img d-flex justify-content-center align-items-center"
     :style="`background-image: url(${challenge.coverImg}); opacity: .9;`">

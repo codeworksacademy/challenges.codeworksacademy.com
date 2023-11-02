@@ -6,7 +6,7 @@
           <h3 for="name">Challenge Name</h3>
           <span v-if="challenge.name.length == 0" class="text-danger">You need a name!</span>
           <input type="text" class="form-control mb-3" id="name" v-model="editable.name" required> 
-          <h3 for="description">Description</h3>
+          <h3 for="description">Challenge Description</h3>
           <span v-if="challenge.description.length == 0" class="text-danger">You need a description!</span>
           <textarea type="text" cols="30" rows="10" class="form-control mb-3" id="description" v-model="editable.description" required></textarea> 
         </div>
@@ -92,14 +92,14 @@ export default {
       editable.value = AppState.activeChallenge
     })
     
-    async function setActiveChallenge() {
-      try {
-        await challengesService.setActiveChallenge(AppState.activeChallenge?.id)
-      } catch (error) {
-        logger.error(error)
-        Pop.toast(error, 'error')
-      }
-    }
+    // async function setActiveChallenge() {
+    //   try {
+    //     await challengesService.setActiveChallenge(AppState.activeChallenge?.id)
+    //   } catch (error) {
+    //     logger.error(error)
+    //     Pop.toast(error, 'error')
+    //   }
+    // }
 
     async function updateChallenge() {
       try {
@@ -130,7 +130,7 @@ export default {
       }
     }
     onMounted(() => {
-      setActiveChallenge()
+
     })
 
     const challenge = computed(() => AppState.activeChallenge)

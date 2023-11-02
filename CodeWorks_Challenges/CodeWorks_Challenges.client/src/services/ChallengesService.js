@@ -69,9 +69,9 @@ class ChallengesService {
     const res = await api.post(`api/challenges/${challengeId}/answers`, {
       answer: answerData
     })
-    logger.log(answerData)
-    // logger.log('[SUBMITTING ANSWER]', res.data)
-
+    // logger.log(answerData)
+    logger.log('[SUBMITTING ANSWER]', res.data)
+    
     return res.data
   }
 }
