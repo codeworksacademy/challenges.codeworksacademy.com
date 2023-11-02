@@ -320,7 +320,7 @@ export default {
       editChallenge() {
         logger.log("Pushing to", AppState.activeChallenge.id)
         router.push({
-          path: `edit`
+          path: `${AppState.activeChallenge.id}/edit`
         })
       },
 

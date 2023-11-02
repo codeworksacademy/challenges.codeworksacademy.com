@@ -78,7 +78,7 @@
       } 
       onMounted(() => {
         setActiveChallenge()
-        // changeRoute('details')
+        changeRoute(`edit/details`)
       })
       async function setActiveChallenge(){
         try{
