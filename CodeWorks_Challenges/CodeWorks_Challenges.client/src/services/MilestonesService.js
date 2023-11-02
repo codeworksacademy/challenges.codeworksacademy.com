@@ -3,6 +3,11 @@ import { api } from "./AxiosService.js"
 
 class MilestonesService {
 
+  async createMilestone(milestoneData) {
+    const res = await api.post('api/milestones', milestoneData)
+    logger.log(`[createMilestone]`, res.data)
+  }
+
   async checkMilestonesByAccountId(userId, checks) {
     const res = await api.get(`api/milestones/${userId}`, checks)
     logger.log('[checkMilestonesByAccountId]', res.data)

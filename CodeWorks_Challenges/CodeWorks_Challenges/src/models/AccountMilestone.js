@@ -15,7 +15,17 @@ export const AccountMilestoneSchema = new Schema({
   claimed: {
     type: Boolean,
     default: false
+  },
+  tier: {
+    type: Number,
+    default: 0
   }
 },
   { timestamps: true, toJSON: { virtuals: true } }
 )
+AccountMilestoneSchema.index({
+  milestoneId: 1,
+  accountId: 1
+}, {
+  unique: true
+})

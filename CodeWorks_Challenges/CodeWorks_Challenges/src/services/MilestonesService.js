@@ -6,20 +6,9 @@ import { profileService } from "./ProfileService.js";
 
 class MilestonesService {
 
-  milestone = {
-    // Inside of this object add your function that corresponds to your milestone check
-    createdChallengeCheck: async (check, userId) => {
-      const logicArr = check.logic.split(' ');
-      if (logicArr[0] == '$gte') {
-        // check first for if the user already has accountMilestone so process can be interuppted
-        // else all created challenges need to be retrieved and counted then compared to logicArr[1]
-        const challengeCount = await challengesService.getMyChallenges(userId)
-        if (challengeCount.length >= logicArr[1]) {
-          return true;
-          // will need to create the accountMilestone for this user to prevent running this function unnecessarily
-        }
-      }
-    }
+  async createMilestone(milestoneData) {
+    const milestone = await dbContext.Milestones.create(milestoneData)
+    return milestone
   }
 
   async checkMilestonesByAccountId(userId, checks) {
@@ -40,7 +29,56 @@ class MilestonesService {
     return pulledChecks;
   }
 
-  async milestoneCreatedChallengeCheck() { }
+  async createAccountMilestone(AccountMilestoneData) {
+    const accountMilestone = await dbContext.Milestones.create(AccountMilestoneData)
+    return accountMilestone
+  }
+  async getAccountMilestoneById(milestoneId, userId) {
+    const foundAccountMilestone = await dbContext.AccountMilestones.findOne({ milestoneId: milestoneId, accountId: userId })
+    if (!foundAccountMilestone) {
+      // new Error('No account Milestone with that Id exits')
+      // I don't think it should be an error necessarily?
+      return
+    }
+    return foundAccountMilestone
+  }
+
+  milestone = {
+    // Inside of this object add your function that corresponds to your milestone check
+    createdChallengeCheck: async (check, userId) => {
+      // example string '5-$gte%1-2-3-4-5-10'
+      // MaxTier-function-thresholds
+      const logicArr = check.logic.split('%');
+      const thresholdArr = logicArr[1].split('-')
+      logicArr.length = 1
+      logicArr.split('-')
+      const accountMilestoneData = {}
+      const foundAccountMilestone = await this.getAccountMilestoneById(check.id, userId)
+      if (foundAccountMilestone) {
+        if (foundAccountMilestone.tier >= logicArr[0]) {
+          // AccountMilestone is maxed no more work to do
+          return
+        } else {
+          // AccountMilestone is not maxed out
+          const challengeCount = await challengesService.getMyChallenges(userId)
+          let tier = 0;
+          for (let i = 0; i < logicArr[0]; i++) {
+            challengeCount.length >= thresholdArr[i];
+            tier = i + 1
+          }
+          foundAccountMilestone.tier = tier
+          await foundAccountMilestone.save()
+          return foundAccountMilestone
+        }
+      } else {
+        // No AccountMilestone data found, start from scratch
+        accountMilestoneData.milestoneId = check.id
+        accountMilestoneData.accountId = userId
+        this.createAccountMilestone(accountMilestoneData)
+      }
+
+    }
+  }
 
 }
 

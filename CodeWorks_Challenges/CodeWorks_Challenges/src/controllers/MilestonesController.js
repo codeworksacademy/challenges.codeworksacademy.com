@@ -7,7 +7,17 @@ export class MilestonesController extends BaseController {
     super('api/milestones')
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
+      .post('', this.createMilestone)
       .get('/:userId', this.checkMilestonesByAccountId)
+  }
+  async createMilestone(req, res, next) {
+    try {
+      const milestoneData = req.body
+      const milestone = await milestonesService.createMilestone(milestoneData)
+      return res.send(milestone)
+    } catch (error) {
+      next(error);
+    }
   }
   async checkMilestonesByAccountId(req, res, next) {
     try {

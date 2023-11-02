@@ -29,6 +29,9 @@ export const AppState = reactive({
   profiles: [],
   // query: '',
 
+  /** @type {import('./models/Milestone.js').Milestone[]} */
+  myMilestone: [],
+
   milestones: [
     {
       description: "Test Description",

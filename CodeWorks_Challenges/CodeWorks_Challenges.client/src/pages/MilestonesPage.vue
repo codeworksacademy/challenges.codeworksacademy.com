@@ -53,6 +53,7 @@
 <script>
 import { computed, ref } from "vue";
 import MilestonesTracker from "../components/MilestonesTracker.vue";
+import { milestoneService } from "../services/MilestonesService.js"
 import { AppState } from "../AppState.js";
 import Pop from "../utils/Pop.js";
 
@@ -62,6 +63,14 @@ export default {
     return {
       editable,
       milestones: computed(() => AppState.milestones),
+      async createMilestone() {
+        try {
+          const milestoneData = editable.value
+          await milestoneService.createMilestone(milestoneData)
+        } catch (error) {
+          Pop.error(error)
+        }
+      },
       async removeMilestone() {
         try {
           // Delete milestone
