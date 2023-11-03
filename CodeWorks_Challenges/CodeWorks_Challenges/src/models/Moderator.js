@@ -18,11 +18,11 @@ export const ModeratorSchema = new Schema({
   },
   status: {
     type: String,
-    // Pending - The begining of the moderation relationship that carries no priviliges
-    // Inactive - an account that has not participated in modertating in a long time
+    // Pending - The beginning of the moderation relationship that carries no privileges
+    // Inactive - an account that has not participated in moderating in a long time
     // Terminated - Moderation relationship is considered Terminated
     // Banned - A more serious termination, ALL moderation relationships between user to user 'Banned'
-    // Blacklisted- A more serious Banning, All moderations relationships 'Blacklisted'
+    // Blacklisted- A more serious Banning, All moderation relationships 'Blacklisted'
     enum: ['Pending', 'Active', 'Inactive', 'Terminated', 'Banned', 'BlackListed'],
     default: 'Pending'
   }
