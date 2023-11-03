@@ -83,48 +83,27 @@ class AccountMilestonesService {
         let tier = 0;
         if (check.check == 'createdChallenge') {
           const challengeCount = await challengesService.getMyChallenges(userId)
-          // let tier = 0;
           for (let i = 0; i < operationsArr[0]; i++) {
             if (challengeCount.length >= thresholdArr[i]) {
               tier = i + 1
             }
           }
-          // if (foundAccountMilestone.tier != tier) {
-          //   foundAccountMilestone.claimed = false
-          // }
-          // foundAccountMilestone.tier = tier
-          // await foundAccountMilestone.save()
-          // return foundAccountMilestone
         }
         if (check.check == 'joinedChallenge') {
           const participantCount = await participantsService.getParticipantsByAccount(userId)
-          // let tier = 0;
           for (let i = 0; i < operationsArr[0]; i++) {
             if (participantCount.length >= thresholdArr[i]) {
               tier = i + 1
             }
           }
-          // if (foundAccountMilestone.tier != tier) {
-          //   foundAccountMilestone.claimed = false
-          // }
-          // foundAccountMilestone.tier = tier
-          // await foundAccountMilestone.save()
-          // return foundAccountMilestone
         }
         if (check.check == 'moderateChallenge') {
           const moderationCount = await moderatorsService.getMyModerationsByProfileId(userId)
-          // let tier = 0;
           for (let i = 0; i < operationsArr[0]; i++) {
             if (moderationCount.length >= thresholdArr[i]) {
               tier = i + 1
             }
           }
-          // if (foundAccountMilestone.tier != tier) {
-          //   foundAccountMilestone.claimed = false
-          // }
-          // foundAccountMilestone.tier = tier
-          // await foundAccountMilestone.save()
-          // return foundAccountMilestone
         }
         if (foundAccountMilestone.tier != tier) {
           foundAccountMilestone.claimed = false
