@@ -23,7 +23,7 @@
   <h1>Badges</h1>
   <h2 class="col-4">
     Create Challenges:
-    <ul>
+    <ul v-if="cCMilestone">
       <li>1 Challenge <span v-if="cCMilestone.tier < 1" class="mdi mdi-close text-danger"></span><span v-else
           class="mdi mdi-check text-success"></span></li>
       <li>2 Challenge <span v-if="cCMilestone.tier < 2" class="mdi mdi-close text-danger"></span><span v-else

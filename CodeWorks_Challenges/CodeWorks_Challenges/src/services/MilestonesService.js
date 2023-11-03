@@ -70,25 +70,37 @@ class MilestonesService {
   }
 
   async checkMilestones(check, userId) {
-    // Example string '5-$gte%1-2-3-4-5-10'
-    const logicArr = check.logic; // Assuming check.logic is the input string
-    const logicParts = logicArr.split('%'); // Split by '%' to get two parts
-
-    const operations = logicParts[0].split('-'); // The second part should contain the operations
-    const thresholdArr = logicParts[1].split('-'); // Split the first part by '-'
-
+    // Get the account Milestone, if one doesn't exist create one.
+    // It will be assumed that this is a new account or new milestone
+    // If this is an existing account that should return a higher tier, 
+    // running the function a second time (frontend) may be required.
     const accountMilestoneData = {}
-    if (check.check == 'createdChallenge') {
-      const foundAccountMilestone = await this.getAccountMilestoneById(check.id, userId)
-      if (foundAccountMilestone) {
-        if (foundAccountMilestone.tier >= operations[0]) {
-          // AccountMilestone is maxed no more work to do
+    const foundAccountMilestone = await this.getAccountMilestoneById(check.id, userId)
+
+    if (!foundAccountMilestone) {
+      accountMilestoneData.milestoneId = check.id
+      accountMilestoneData.accountId = userId
+      this.createAccountMilestone(accountMilestoneData)
+    }
+
+
+    if (foundAccountMilestone) {
+      // Example string '5-$gte%1-2-3-4-5-10'
+      const logicArr = check.logic;
+      const logicParts = logicArr.split('%');
+      const operationsArr = logicParts[0].split('-');
+      const thresholdArr = logicParts[1].split('-');
+      // This string parser will return 
+      // operationsArr = ['5', '$gte']
+      // thresholdsArr = ['1','2','3','4','5','10']
+
+      if (check.check == 'createdChallenge') {
+        if (foundAccountMilestone.tier >= operationsArr[0]) {
           return
         } else {
-          // AccountMilestone is not maxed out
           const challengeCount = await challengesService.getMyChallenges(userId)
           let tier = 0;
-          for (let i = 0; i < operations[0]; i++) {
+          for (let i = 0; i < operationsArr[0]; i++) {
             if (challengeCount.length >= thresholdArr[i]) {
               tier = i + 1
             }
@@ -97,14 +109,8 @@ class MilestonesService {
           await foundAccountMilestone.save()
           return foundAccountMilestone
         }
-      } else {
-        // No AccountMilestone data found, start from scratch
-        accountMilestoneData.milestoneId = check.id
-        accountMilestoneData.accountId = userId
-        this.createAccountMilestone(accountMilestoneData)
       }
     }
-
   }
 }
 
