@@ -24,7 +24,7 @@ export class ChallengesController extends BaseController {
       .delete('/:challengeId', this.deleteChallenge)
       .delete('/:challengeId/participants', this.removeParticipant)
 
-      .get('/:challengeId/submissions', this.getSubmissionsByChallengeId)
+      // .get('/:challengeId/submissions', this.getSubmissionsByChallengeId)
   }
 
   async getAllChallenges(req, res, next) {
@@ -140,13 +140,13 @@ export class ChallengesController extends BaseController {
   }
 
 
-  async getSubmissionsByChallengeId(req, res, next) {
-    try {
-      const challengeId = req.params.challengeId
-      const submissions = await submissionsService.getSubmissionsByChallengeId(challengeId)
-      return res.send(submissions)
-    } catch (error) {
-      next(error)
-    }
-  }
+  // async getSubmissionsByChallengeId(req, res, next) {
+  //   try {
+  //     const challengeId = req.params.challengeId
+  //     const submissions = await submissionsService.getSubmissionsByChallengeId(challengeId)
+  //     return res.send(submissions)
+  //   } catch (error) {
+  //     next(error)
+  //   }
+  // }
 }

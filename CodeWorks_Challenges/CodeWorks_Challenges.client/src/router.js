@@ -38,19 +38,19 @@ const routes = [
         component: loadPage('EditChallengePage'),
         beforeEnter: authGuard
       },
-      {
-        path: 'submissions',
-        name: 'ChallengeSubmissions',
-        component: loadPage('ChallengeSubmissionsPage'),
-        beforeEnter: authGuard
-      },
-      {
-        path: '/submissions/:submissionId',
-        name: 'GradeSubmission',
-        component: loadPage('GradeSubmissionPage'),
-        beforeEnter: authGuard
-      }
+      // {
+      //   path: '/submissions/:submissionId',
+      //   name: 'GradeSubmission',
+      //   component: loadPage('GradeSubmissionPage'),
+      //   beforeEnter: authGuard
+      // }
     ]
+  },
+  {
+    path: '/submissions',
+    name: 'ChallengeSubmissions',
+    component: loadPage('ChallengeSubmissionsPage'),
+    beforeEnter: authGuard
   },
   {
     path: '/profile/:profileId',

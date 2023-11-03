@@ -3,6 +3,7 @@ import { Auth0Provider } from "@bcwdev/auth0provider"
 import { submissionsService } from "../services/SubmissionsService.js"
 import { submittersService } from "../services/SubmittersService.js"
 import { challengesService } from "../services/ChallengesService.js"
+import { participantsService } from "../services/ParticipantsService.js"
 
 
 export class SubmissionsController extends BaseController {
@@ -22,8 +23,10 @@ export class SubmissionsController extends BaseController {
     try {
       const newSubmission = req.body
       newSubmission.participantId = req.userInfo.id
-      // const submission = await submissionsService.createChallengeSubmission(newSubmission)
-      res.send(newSubmission)
+      await participantsService.getParticipantById(newSubmission.participantId)
+      newSubmission.challengeId = await challengesService.setActiveChallenge(newSubmission.challengeId)
+      const submission = await submissionsService.createSubmission(newSubmission)
+      res.send(submission)
     } catch (error) {
       next(error)
     }
