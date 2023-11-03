@@ -1,10 +1,12 @@
 import { dbContext } from "../db/DbContext.js"
+import { BadRequest } from "../utils/Errors.js";
 import { accountService } from "./AccountService.js";
 import { challengesService } from "./ChallengesService.js";
 import { profileService } from "./ProfileService.js";
 
 
 class MilestonesService {
+
 
   async createMilestone(milestoneData) {
     const milestone = await dbContext.Milestones.create(milestoneData)
@@ -13,6 +15,14 @@ class MilestonesService {
   async getMilestones() {
     const milestones = await dbContext.Milestones.find()
     return milestones
+  }
+
+  async removeMilestone(milestoneId) {
+    const milestone = await dbContext.Milestones.findById(milestoneId)
+    if (!milestone) {
+      throw new BadRequest(`milestone with ID ${milestoneId} does not exist`)
+    }
+    await milestone.remove()
   }
 
   async checkMilestonesByAccountId(userId, checks) {

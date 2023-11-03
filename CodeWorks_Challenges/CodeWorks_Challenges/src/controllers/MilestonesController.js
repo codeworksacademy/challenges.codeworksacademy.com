@@ -11,6 +11,7 @@ export class MilestonesController extends BaseController {
       .get('', this.getMilestones)
       .get('/:userId', this.getAccountMilestones)
       .put('/:userId', this.checkMilestonesByAccountId)
+      .delete('/:milestoneId', this.removeMilestone)
   }
   async createMilestone(req, res, next) {
     try {
@@ -25,6 +26,15 @@ export class MilestonesController extends BaseController {
     try {
       const milestones = await milestonesService.getMilestones()
       return res.send(milestones)
+    } catch (error) {
+      next(error);
+    }
+  }
+  async removeMilestone(req, res, next) {
+    try {
+      const milestoneId = req.params.milestoneId
+      const milestone = await milestonesService.removeMilestone(milestoneId)
+      return res.send(milestone)
     } catch (error) {
       next(error);
     }

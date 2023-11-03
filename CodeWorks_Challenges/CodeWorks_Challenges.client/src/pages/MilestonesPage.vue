@@ -1,27 +1,33 @@
 <template>
   Milestones Page
   <section class="row">
-    <div class="col-4">
-      <h1> Milestones </h1>
-      <div v-for="milestone in milestones" :key="milestone">
-        <span @click="removeMilestone()" class="mdi mdi-delete selectable"></span>
+    <h1> Milestones </h1>
+    <div class="col-4" v-for="milestone in milestones" :key="milestone">
+      <div>
         <div>
-          Check:
+          <span @click="removeMilestone(milestone.id)" class="mdi mdi-delete selectable"></span>
+          <div>
+            Check:
+          </div>
+          {{ milestone.check }}
+          <div>
+            Logic:
+          </div>
+          {{ milestone.logic }}
+          <div>
+            Ref:
+          </div>
+          {{ milestone.ref }}
+          <div>
+            Description:
+          </div>
+          {{ milestone.description }}
         </div>
-        {{ milestone.check }}
-        <div>
-          Logic:
-        </div>
-        {{ milestone.logic }}
-        <div>
-          Ref:
-        </div>
-        {{ milestone.ref }}
-        <div>
-          Description:
-        </div>
-        {{ milestone.description }}
       </div>
+    </div>
+  </section>
+  <section class="row">
+    <div class="col-4 mx-auto">
       <h1> Create a milestone </h1>
       <form @submit.prevent="createMilestone()" action="" class="d-flex flex-column form-control">
         <div class="d-flex">
@@ -56,6 +62,7 @@ import MilestonesTracker from "../components/MilestonesTracker.vue";
 import { milestonesService } from "../services/MilestonesService.js"
 import { AppState } from "../AppState.js";
 import Pop from "../utils/Pop.js";
+import { logger } from "../utils/Logger.js";
 
 export default {
   setup() {
@@ -92,9 +99,14 @@ export default {
           Pop.error(error)
         }
       },
-      async removeMilestone() {
+      async removeMilestone(milestoneId) {
         try {
-          // Delete milestone
+          logger.log('MILESTONEID???', milestoneId)
+          const confirm = await Pop.confirm('Delete yes?')
+          if (!confirm) {
+            return
+          }
+          await milestonesService.removeMilestone(milestoneId)
         } catch (error) {
           Pop.error(error)
         }
