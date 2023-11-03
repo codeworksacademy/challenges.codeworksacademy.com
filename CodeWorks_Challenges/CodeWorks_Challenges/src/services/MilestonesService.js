@@ -18,6 +18,7 @@ class MilestonesService {
   }
 
   async removeMilestone(milestoneId) {
+    // const milestone = await dbContext.AccountMilestones.remove()
     const milestone = await dbContext.Milestones.findById(milestoneId)
     if (!milestone) {
       throw new BadRequest(`milestone with ID ${milestoneId} does not exist`)
@@ -51,7 +52,7 @@ class MilestonesService {
     return accountMilestone
   }
   async getAccountMilestones(userId) {
-    const foundAccountMilestones = await dbContext.AccountMilestones.find({ accountId: userId })
+    const foundAccountMilestones = await dbContext.AccountMilestones.find({ accountId: userId }).populate('milestone')
     if (!foundAccountMilestones) {
       new Error('This user does not have any milestones')
       return

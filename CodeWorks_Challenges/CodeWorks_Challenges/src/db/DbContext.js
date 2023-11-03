@@ -17,8 +17,8 @@ class DbContext {
   Rewards = mongoose.model('Reward', RewardSchema);
   Moderators = mongoose.model('Moderator', ModeratorSchema);
   Answers = mongoose.model('Answer', AnswerSchema);
-  Milestones = mongoose.model('Milestones', MilestoneSchema);
-  AccountMilestones = mongoose.model('AccountMilestones', AccountMilestoneSchema);
+  Milestones = mongoose.model('Milestone', MilestoneSchema);
+  AccountMilestones = mongoose.model('AccountMilestone', AccountMilestoneSchema);
 }
 
 export const dbContext = new DbContext()

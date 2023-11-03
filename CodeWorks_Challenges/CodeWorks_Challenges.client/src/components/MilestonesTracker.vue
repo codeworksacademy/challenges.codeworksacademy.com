@@ -24,12 +24,18 @@
   <h2 class="col-4">
     Create Challenges:
     <ul>
-      <li>1 Challenge <span class="mdi mdi-close text-danger"></span></li>
-      <li>2 Challenge <span class="mdi mdi-close text-danger"></span></li>
-      <li>3 Challenge <span class="mdi mdi-close text-danger"></span></li>
-      <li>4 Challenge <span class="mdi mdi-close text-danger"></span></li>
-      <li>5 Challenge <span class="mdi mdi-close text-danger"></span></li>
-      <li>10 Challenge <span class="mdi mdi-close text-danger"></span></li>
+      <li>1 Challenge <span v-if="cCMilestone.tier < 1" class="mdi mdi-close text-danger"></span><span v-else
+          class="mdi mdi-check text-success"></span></li>
+      <li>2 Challenge <span v-if="cCMilestone.tier < 2" class="mdi mdi-close text-danger"></span><span v-else
+          class="mdi mdi-check text-success"></span></li>
+      <li>3 Challenge <span v-if="cCMilestone.tier < 3" class="mdi mdi-close text-danger"></span><span v-else
+          class="mdi mdi-check text-success"></span></li>
+      <li>4 Challenge <span v-if="cCMilestone.tier < 4" class="mdi mdi-close text-danger"></span><span v-else
+          class="mdi mdi-check text-success"></span></li>
+      <li>5 Challenge <span v-if="cCMilestone.tier < 5" class="mdi mdi-close text-danger"></span><span v-else
+          class="mdi mdi-check text-success"></span></li>
+      <li>10 Challenge <span v-if="cCMilestone.tier < 10" class="mdi mdi-close text-danger"></span><span v-else
+          class="mdi mdi-check text-success"></span></li>
     </ul>
   </h2>
   <h2 class="col-4">
@@ -79,7 +85,7 @@
 </template>
 
 <script>
-import { watchEffect } from "vue";
+import { computed, watchEffect } from "vue";
 import { AppState } from "../AppState.js";
 import Pop from "../utils/Pop.js";
 import { milestonesService } from "../services/MilestonesService.js";
@@ -114,7 +120,9 @@ export default {
         getAccountMilestones()
       }
     })
-    return {}
+    return {
+      cCMilestone: computed(() => AppState.myMilestone.find(m => m.milestone.check == 'createdChallenge'))
+    }
   }
 }
 </script>

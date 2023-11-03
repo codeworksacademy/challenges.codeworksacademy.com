@@ -30,16 +30,16 @@
     <div class="col-4 mx-auto">
       <h1> Create a milestone </h1>
       <form @submit.prevent="createMilestone()" action="" class="d-flex flex-column form-control">
-        <div class="d-flex">
-          <div>
+        <div>
+          <div class="d-flex flex-column">
             <label for="">Check</label>
             <input v-model="editable.check" type="text" placeholder="check" class="bg-light">
           </div>
-          <div>
+          <div class="d-flex flex-column">
             <label for="">Logic</label>
             <input v-model="editable.logic" type="text" placeholder="logic" class="bg-light">
           </div>
-          <div>
+          <div class="d-flex flex-column">
             <label for="">Ref</label>
             <input v-model="editable.ref" type="text" placeholder="ref" class="bg-light">
           </div>

@@ -29,3 +29,10 @@ AccountMilestoneSchema.index({
 }, {
   unique: true
 })
+
+AccountMilestoneSchema.virtual('milestone', {
+  localField: 'milestoneId',
+  foreignField: '_id',
+  ref: 'Milestone',
+  justOne: true
+})
