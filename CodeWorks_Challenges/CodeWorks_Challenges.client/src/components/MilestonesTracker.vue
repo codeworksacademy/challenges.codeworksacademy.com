@@ -117,7 +117,7 @@ export default {
     watchEffect(() => {
       if (AppState.account.id) {
         checkMilestonesByAccountId()
-        getAccountMilestones()
+        // getAccountMilestones()
       }
     })
     return {

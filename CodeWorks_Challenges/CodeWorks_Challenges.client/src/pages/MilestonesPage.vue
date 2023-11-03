@@ -4,32 +4,47 @@
     <h1> Milestones </h1>
     <div class="col-4" v-for="milestone in milestones" :key="milestone">
       <div>
-        <div>
-          <span @click="removeMilestone(milestone.id)" class="mdi mdi-delete selectable"></span>
+        <div class="bg-dark rounded p-3 border border-5 border-success text-success">
+          <span @click="removeMilestone(milestone.id)" class="mdi mdi-delete selectable text-danger fs-3"></span>
+          <span @click="editMode = true, editable.value = milestone"
+            class="mdi mdi-pencil selectable text-warning ms-3 fs-3"></span>
           <div>
-            Check:
+            ID:
+            <div class="text-light">
+              {{ milestone.id }}
+            </div>
           </div>
-          {{ milestone.check }}
+          CHECK:
+          <div class="text-light">
+            {{ milestone.check }}
+          </div>
           <div>
-            Logic:
+            LOGIC:
           </div>
-          {{ milestone.logic }}
+          <div class="text-light">
+            {{ milestone.logic }}
+          </div>
           <div>
-            Ref:
+            REF:
           </div>
-          {{ milestone.ref }}
+          <div class="text-light">
+            {{ milestone.ref }}
+          </div>
           <div>
-            Description:
+            DESCRIPTION:
           </div>
-          {{ milestone.description }}
+          <div class="text-light">
+            {{ milestone.description }}
+          </div>
         </div>
       </div>
     </div>
   </section>
   <section class="row">
     <div class="col-4 mx-auto">
-      <h1> Create a milestone </h1>
-      <form @submit.prevent="createMilestone()" action="" class="d-flex flex-column form-control">
+      <h1 v-if="editMode == false"> Create a milestone </h1>
+      <h1 v-else> Edit a milestone </h1>
+      <form @submit.prevent="submitForm()" action="" class="d-flex flex-column form-control">
         <div>
           <div class="d-flex flex-column">
             <label for="">Check</label>
@@ -67,6 +82,7 @@ import { logger } from "../utils/Logger.js";
 export default {
   setup() {
     const editable = ref({})
+    const editMode = ref(false)
     async function getMilestones() {
       try {
         await milestonesService.getMilestones()
@@ -85,16 +101,35 @@ export default {
     watchEffect(() => {
       if (AppState.account.id) {
         getMilestones()
-        getAccountMilestones()
+        // getAccountMilestones()
       }
     })
     return {
       editable,
+      editMode,
       milestones: computed(() => AppState.milestones),
+      submitForm() {
+        if (editMode.value == false) {
+          this.createMilestone()
+        } else {
+          this.editMilestone()
+        }
+      },
       async createMilestone() {
         try {
+          editable.value.id = ''
           const milestoneData = editable.value
           await milestonesService.createMilestone(milestoneData)
+          editable.value = {}
+        } catch (error) {
+          Pop.error(error)
+        }
+      },
+      async editMilestone() {
+        try {
+          const milestoneData = editable.value
+          await milestonesService.editMilestone(milestoneData)
+          editable.value = {}
         } catch (error) {
           Pop.error(error)
         }

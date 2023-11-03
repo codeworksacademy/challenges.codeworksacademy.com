@@ -16,6 +16,10 @@ class MilestonesService {
     logger.log('[getMilestones]', res.data)
     AppState.milestones = res.data.map(m => new Milestone(m))
   }
+  async editMilestone(milestoneData) {
+    const res = await api.put(`api/milestones/${milestoneData.id}`, milestoneData)
+    logger.log('[editMilestone]', res.data)
+  }
   async removeMilestone(milestoneId) {
     const res = await api.delete(`api/milestones/${milestoneId}`)
     const removeMilestone = AppState.milestones.findIndex(m => m.id == milestoneId)
@@ -25,6 +29,7 @@ class MilestonesService {
   async checkMilestonesByAccountId(userId, checks) {
     const res = await api.put(`api/milestones/${userId}`, checks)
     logger.log('[checkMilestonesByAccountId]', res.data)
+    AppState.myMilestone = res.data.map(m => new AccountMilestone(m))
   }
 
   async getAccountMilestones(userId) {

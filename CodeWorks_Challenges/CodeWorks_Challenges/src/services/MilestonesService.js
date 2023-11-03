@@ -6,7 +6,7 @@ import { profileService } from "./ProfileService.js";
 
 
 class MilestonesService {
-
+  // FIXME JAKE Should I have seperate controller/service for milestone and accountMilestones?
 
   async createMilestone(milestoneData) {
     const milestone = await dbContext.Milestones.create(milestoneData)
@@ -18,7 +18,6 @@ class MilestonesService {
   }
 
   async removeMilestone(milestoneId) {
-    // const milestone = await dbContext.AccountMilestones.remove()
     const milestone = await dbContext.Milestones.findById(milestoneId)
     if (!milestone) {
       throw new BadRequest(`milestone with ID ${milestoneId} does not exist`)
@@ -62,8 +61,6 @@ class MilestonesService {
   async getAccountMilestoneById(milestoneId, userId) {
     const foundAccountMilestone = await dbContext.AccountMilestones.findOne({ milestoneId: milestoneId, accountId: userId })
     if (!foundAccountMilestone) {
-      // new Error('No account Milestone with that Id exits')
-      // I don't think it should be an error necessarily?
       return
     }
     return foundAccountMilestone
