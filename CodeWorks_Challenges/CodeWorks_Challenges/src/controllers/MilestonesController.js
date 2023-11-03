@@ -8,7 +8,9 @@ export class MilestonesController extends BaseController {
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createMilestone)
-      .get('/:userId', this.checkMilestonesByAccountId)
+      .get('', this.getMilestones)
+      .get('/:userId', this.getAccountMilestones)
+      .put('/:userId', this.checkMilestonesByAccountId)
   }
   async createMilestone(req, res, next) {
     try {
@@ -19,12 +21,29 @@ export class MilestonesController extends BaseController {
       next(error);
     }
   }
+  async getMilestones(req, res, next) {
+    try {
+      const milestones = await milestonesService.getMilestones()
+      return res.send(milestones)
+    } catch (error) {
+      next(error);
+    }
+  }
+  async getAccountMilestones(req, res, next) {
+    try {
+      const userId = req.params.userId
+      const accountMilestones = await milestonesService.getAccountMilestones(userId)
+      return res.send(accountMilestones)
+    } catch (error) {
+      next(error);
+    }
+  }
   async checkMilestonesByAccountId(req, res, next) {
     try {
       const userId = req.params.userId
       const checks = req.body
-      const userChecks = await milestonesService.checkMilestonesByAccountId(userId, checks)
-      return res.send(userChecks)
+      const milestones = await milestonesService.checkMilestonesByAccountId(userId, checks)
+      return res.send(milestones)
     } catch (error) {
       next(error);
     }

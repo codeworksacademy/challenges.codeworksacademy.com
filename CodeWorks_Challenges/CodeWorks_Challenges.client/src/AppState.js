@@ -29,7 +29,7 @@ export const AppState = reactive({
   profiles: [],
   // query: '',
 
-  /** @type {import('./models/Milestone.js').Milestone[]} */
+  /** @type {import('./models/AccountMilestone.js').Milestone[]} */
   myMilestone: [],
 
   milestones: [
@@ -43,4 +43,5 @@ export const AppState = reactive({
   milestoneChecks: [
     "createdChallenge", "joinedChallenge", "completedChallenge", "moderateChallenge"
   ]
+
 })

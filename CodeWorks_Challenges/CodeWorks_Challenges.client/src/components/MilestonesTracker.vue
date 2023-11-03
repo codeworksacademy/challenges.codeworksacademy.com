@@ -83,6 +83,7 @@ import { watchEffect } from "vue";
 import { AppState } from "../AppState.js";
 import Pop from "../utils/Pop.js";
 import { milestonesService } from "../services/MilestonesService.js";
+import { logger } from "../utils/Logger.js";
 
 
 export default {
