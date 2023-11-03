@@ -2,11 +2,12 @@ import { dbContext } from "../db/DbContext.js"
 import { BadRequest } from "../utils/Errors.js";
 import { accountService } from "./AccountService.js";
 import { challengesService } from "./ChallengesService.js";
+import { moderatorsService } from "./ModeratorsService.js";
+import { participantsService } from "./ParticipantsService.js";
 import { profileService } from "./ProfileService.js";
 
 
 class AccountMilestonesService {
-
   async checkMilestonesByAccountId(userId, checks) {
     const pulledChecks = await this.pullMilestoneChecks(checks)
     const checkPromises = pulledChecks.map(async pc => {
@@ -47,6 +48,12 @@ class AccountMilestonesService {
     }
     return foundAccountMilestone
   }
+  async claimMilestone(milestoneId) {
+    const claimMilestone = await dbContext.AccountMilestones.findById(milestoneId)
+    claimMilestone.claimed = true
+    await claimMilestone.save()
+    return claimMilestone
+  }
 
   async checkMilestones(check, userId) {
     // Get the account Milestone, if one doesn't exist create one.
@@ -72,22 +79,59 @@ class AccountMilestonesService {
       // This string parser will return 
       // operationsArr = ['5', '$gte']
       // thresholdsArr = ['1','2','3','4','5','10']
-
-      if (check.check == 'createdChallenge') {
-        if (foundAccountMilestone.tier >= operationsArr[0]) {
-          return
-        } else {
+      if (foundAccountMilestone.tier < operationsArr[0]) { //This checks to see if the milestone is maxed out
+        let tier = 0;
+        if (check.check == 'createdChallenge') {
           const challengeCount = await challengesService.getMyChallenges(userId)
-          let tier = 0;
+          // let tier = 0;
           for (let i = 0; i < operationsArr[0]; i++) {
             if (challengeCount.length >= thresholdArr[i]) {
               tier = i + 1
             }
           }
-          foundAccountMilestone.tier = tier
-          await foundAccountMilestone.save()
-          return foundAccountMilestone
+          // if (foundAccountMilestone.tier != tier) {
+          //   foundAccountMilestone.claimed = false
+          // }
+          // foundAccountMilestone.tier = tier
+          // await foundAccountMilestone.save()
+          // return foundAccountMilestone
         }
+        if (check.check == 'joinedChallenge') {
+          const participantCount = await participantsService.getParticipantsByAccount(userId)
+          // let tier = 0;
+          for (let i = 0; i < operationsArr[0]; i++) {
+            if (participantCount.length >= thresholdArr[i]) {
+              tier = i + 1
+            }
+          }
+          // if (foundAccountMilestone.tier != tier) {
+          //   foundAccountMilestone.claimed = false
+          // }
+          // foundAccountMilestone.tier = tier
+          // await foundAccountMilestone.save()
+          // return foundAccountMilestone
+        }
+        if (check.check == 'moderateChallenge') {
+          const moderationCount = await moderatorsService.getMyModerationsByProfileId(userId)
+          // let tier = 0;
+          for (let i = 0; i < operationsArr[0]; i++) {
+            if (moderationCount.length >= thresholdArr[i]) {
+              tier = i + 1
+            }
+          }
+          // if (foundAccountMilestone.tier != tier) {
+          //   foundAccountMilestone.claimed = false
+          // }
+          // foundAccountMilestone.tier = tier
+          // await foundAccountMilestone.save()
+          // return foundAccountMilestone
+        }
+        if (foundAccountMilestone.tier != tier) {
+          foundAccountMilestone.claimed = false
+        }
+        foundAccountMilestone.tier = tier
+        await foundAccountMilestone.save()
+        return foundAccountMilestone
       }
     }
   }

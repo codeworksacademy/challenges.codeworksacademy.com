@@ -6,7 +6,7 @@
       <div>
         <div class="bg-dark rounded p-3 border border-5 border-success text-success">
           <span @click="removeMilestone(milestone.id)" class="mdi mdi-delete selectable text-danger fs-3"></span>
-          <span @click="editMode = true, editable.value = milestone"
+          <span @click="editMode = true, editable = milestone"
             class="mdi mdi-pencil selectable text-warning ms-3 fs-3"></span>
           <div>
             ID:
@@ -131,6 +131,7 @@ export default {
           const milestoneData = editable.value
           await milestonesService.editMilestone(milestoneData)
           editable.value = {}
+          editMode.value = false
         } catch (error) {
           Pop.error(error)
         }
