@@ -7,23 +7,6 @@ import { profileService } from "./ProfileService.js";
 
 class AccountMilestonesService {
 
-  // async createMilestone(milestoneData) {
-  //   const milestone = await dbContext.Milestones.create(milestoneData)
-  //   return milestone
-  // }
-  // async getMilestones() {
-  //   const milestones = await dbContext.Milestones.find()
-  //   return milestones
-  // }
-
-  // async removeMilestone(milestoneId) {
-  //   const milestone = await dbContext.Milestones.findById(milestoneId)
-  //   if (!milestone) {
-  //     throw new BadRequest(`milestone with ID ${milestoneId} does not exist`)
-  //   }
-  //   await milestone.remove()
-  // }
-
   async checkMilestonesByAccountId(userId, checks) {
     const pulledChecks = await this.pullMilestoneChecks(checks)
     const checkPromises = pulledChecks.map(async pc => {

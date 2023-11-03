@@ -10,8 +10,6 @@ export class MilestonesController extends BaseController {
       .post('', this.createMilestone)
       .get('', this.getMilestones)
       .put('/:milestoneId', this.editMilestone)
-      // .get('/:userId', this.getAccountMilestones)
-      // .put('/:userId', this.checkMilestonesByAccountId)
       .delete('/:milestoneId', this.removeMilestone)
   }
   async createMilestone(req, res, next) {
@@ -50,23 +48,4 @@ export class MilestonesController extends BaseController {
       next(error);
     }
   }
-  // async getAccountMilestones(req, res, next) {
-  //   try {
-  //     const userId = req.params.userId
-  //     const accountMilestones = await milestonesService.getAccountMilestones(userId)
-  //     return res.send(accountMilestones)
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // }
-  // async checkMilestonesByAccountId(req, res, next) {
-  //   try {
-  //     const userId = req.params.userId
-  //     const checks = req.body
-  //     const milestones = await milestonesService.checkMilestonesByAccountId(userId, checks)
-  //     return res.send(milestones)
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // }
 }

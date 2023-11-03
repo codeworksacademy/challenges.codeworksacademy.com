@@ -26,18 +26,6 @@ class MilestonesService {
     AppState.milestones.splice(removeMilestone)
   }
 
-  // async checkMilestonesByAccountId(userId, checks) {
-  //   const res = await api.put(`api/milestones/${userId}`, checks)
-  //   logger.log('[checkMilestonesByAccountId]', res.data)
-  //   AppState.myMilestone = res.data.map(m => new AccountMilestone(m))
-  // }
-
-  // async getAccountMilestones(userId) {
-  //   const res = await api.get(`api/milestones/${userId}`)
-  //   logger.log('[getAccountMilestones]', res.data)
-  //   AppState.myMilestone = res.data.map(m => new AccountMilestone(m))
-  // }
-
 }
 
 export const milestonesService = new MilestonesService()

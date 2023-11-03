@@ -89,6 +89,7 @@ import { computed, watchEffect } from "vue";
 import { AppState } from "../AppState.js";
 import Pop from "../utils/Pop.js";
 import { milestonesService } from "../services/MilestonesService.js";
+import { accountMilestonesService } from "../services/AccountMilestonesService.js";
 import { logger } from "../utils/Logger.js";
 
 
@@ -99,7 +100,7 @@ export default {
       try {
         const userId = AppState.account.id
         const checks = AppState.milestoneChecks
-        await milestonesService.checkMilestonesByAccountId(userId, checks)
+        await accountMilestonesService.checkMilestonesByAccountId(userId, checks)
       } catch (error) {
         Pop.error(error)
       }
@@ -108,7 +109,7 @@ export default {
     async function getAccountMilestones() {
       try {
         const userId = AppState.account.id
-        await milestonesService.getAccountMilestones(userId)
+        await accountMilestonesService.getAccountMilestones(userId)
       } catch (error) {
         Pop.error(error)
       }

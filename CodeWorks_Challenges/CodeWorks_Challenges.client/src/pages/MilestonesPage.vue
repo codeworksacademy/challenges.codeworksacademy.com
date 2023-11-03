@@ -75,6 +75,7 @@
 import { computed, ref, watchEffect } from "vue";
 import MilestonesTracker from "../components/MilestonesTracker.vue";
 import { milestonesService } from "../services/MilestonesService.js"
+import { accountMilestonesService } from "../services/AccountMilestonesService.js";
 import { AppState } from "../AppState.js";
 import Pop from "../utils/Pop.js";
 import { logger } from "../utils/Logger.js";
@@ -93,7 +94,7 @@ export default {
     async function getAccountMilestones() {
       try {
         const userId = AppState.account.id
-        await milestonesService.getAccountMilestones(userId)
+        await accountMilestonesService.getAccountMilestones(userId)
       } catch (error) {
         Pop.error(error.message, '[getAccountMilestones]')
       }
