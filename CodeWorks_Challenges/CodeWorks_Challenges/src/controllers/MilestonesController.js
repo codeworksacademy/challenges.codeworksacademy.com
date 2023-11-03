@@ -9,8 +9,9 @@ export class MilestonesController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createMilestone)
       .get('', this.getMilestones)
-      .get('/:userId', this.getAccountMilestones)
-      .put('/:userId', this.checkMilestonesByAccountId)
+      .put('/:milestoneId', this.editMilestone)
+      // .get('/:userId', this.getAccountMilestones)
+      // .put('/:userId', this.checkMilestonesByAccountId)
       .delete('/:milestoneId', this.removeMilestone)
   }
   async createMilestone(req, res, next) {
@@ -30,6 +31,16 @@ export class MilestonesController extends BaseController {
       next(error);
     }
   }
+  async editMilestone(req, res, next) {
+    try {
+      const milestoneData = req.body
+      const milestoneId = req.params.milestoneId
+      const milestone = await milestonesService.editMilestone(milestoneId, milestoneData)
+      return res.send(milestone)
+    } catch (error) {
+      next(error);
+    }
+  }
   async removeMilestone(req, res, next) {
     try {
       const milestoneId = req.params.milestoneId
@@ -39,23 +50,23 @@ export class MilestonesController extends BaseController {
       next(error);
     }
   }
-  async getAccountMilestones(req, res, next) {
-    try {
-      const userId = req.params.userId
-      const accountMilestones = await milestonesService.getAccountMilestones(userId)
-      return res.send(accountMilestones)
-    } catch (error) {
-      next(error);
-    }
-  }
-  async checkMilestonesByAccountId(req, res, next) {
-    try {
-      const userId = req.params.userId
-      const checks = req.body
-      const milestones = await milestonesService.checkMilestonesByAccountId(userId, checks)
-      return res.send(milestones)
-    } catch (error) {
-      next(error);
-    }
-  }
+  // async getAccountMilestones(req, res, next) {
+  //   try {
+  //     const userId = req.params.userId
+  //     const accountMilestones = await milestonesService.getAccountMilestones(userId)
+  //     return res.send(accountMilestones)
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // }
+  // async checkMilestonesByAccountId(req, res, next) {
+  //   try {
+  //     const userId = req.params.userId
+  //     const checks = req.body
+  //     const milestones = await milestonesService.checkMilestonesByAccountId(userId, checks)
+  //     return res.send(milestones)
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // }
 }
