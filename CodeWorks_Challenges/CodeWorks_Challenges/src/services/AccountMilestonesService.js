@@ -105,7 +105,7 @@ class AccountMilestonesService {
             }
           }
         }
-        if (foundAccountMilestone.tier != tier) {
+        if (foundAccountMilestone.tier > tier) {
           foundAccountMilestone.claimed = false
         }
         foundAccountMilestone.tier = tier
