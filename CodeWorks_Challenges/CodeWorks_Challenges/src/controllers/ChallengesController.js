@@ -17,6 +17,7 @@ export class ChallengesController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       
       .get('/:challengeId/answers', this.getAnswersByChallengeId)
+      .post('/:challengeId/answers', this.submitAnswer)
       .post('', this.createChallenge)
       .put('/:challengeId', this.editChallenge)
       .put('/:challengeId', this.cancelChallenge)
@@ -132,6 +133,18 @@ export class ChallengesController extends BaseController {
       await challengesService.deleteChallenge(challengeId, userId)
       return res.send(challengeId)
     } catch (error) {
+      next(error)
+    }
+  }
+
+  async submitAnswer(req,res,next){
+    try{
+      const answer = req.body
+      const challengeId = req.params.challengeId
+      const userId = req.userInfo.id
+      const challenge = await challengesService.submitAnswer(challengeId, userId, answer)
+      return res.send(challenge)
+    } catch (error){
       next(error)
     }
   }

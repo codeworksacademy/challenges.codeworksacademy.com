@@ -65,11 +65,13 @@ class ChallengesService {
     return res.data
   }
 
-  async submitAnswer(answerData, challengeId){
-    const res = await api.put(`api/challenges/${challengeId}/participants`, answerData)
-
+  async submitAnswer(challengeId, answerData){
+    const res = await api.post(`api/challenges/${challengeId}/answers`, {
+      answer: answerData
+    })
+    // logger.log(answerData)
     logger.log('[SUBMITTING ANSWER]', res.data)
-
+    
     return res.data
   }
 }

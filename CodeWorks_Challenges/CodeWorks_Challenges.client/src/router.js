@@ -28,15 +28,24 @@ const routes = [
     component: loadPage('ChallengePage'),
   },
   {
-    path: '/challenges/:challengeId',
+    path: '/challenge/:challengeId',
     name: 'ChallengeDetails',
     component: loadPage('ChallengeDetailsPage'),
+  },
+  {
+    path: '/challenge/:challengeId/edit',
+    name: 'ChallengeEditPage',
+    component: loadPage('ChallengeEditPage'),
     children: [
       {
-        path: 'edit',
-        name: 'EditChallenge',
-        component: loadPage('EditChallengePage'),
-        beforeEnter: authGuard
+        path: 'details',
+        name: 'ChallengeEditor',
+        component: loadPage('ChallengeEditor')
+      },
+      {
+        path:'moderation',
+        name: 'ChallengeModeration',
+        component: loadPage('ChallengeModerationPage')
       }
     ]
   },
@@ -45,23 +54,23 @@ const routes = [
     name: 'Profile',
     component: loadPage('ProfilePage'),
   },
-  {
-    path: '/routetestpage',
-    name:'RouteTestPage',
-    component: loadPage('RouteTestPage'),
-    children: [
-      {
-        path: 'edit',
-        name: 'EditChallenge',
-        component: loadPage('EditChallengePage'),
-      },
-      {
-        path: 'edit2',
-        name: 'Edit2',
-        component: loadPage('AboutPage')
-      }
-    ]
-  }
+  // {
+  //   path: '/routetestpage',
+  //   name:'RouteTestPage',
+  //   component: loadPage('RouteTestPage'),
+  //   children: [
+  //     {
+  //       path: 'edit',
+  //       name: 'EditChallenge',
+  //       component: loadPage('EditChallengePage'),
+  //     },
+  //     {
+  //       path: 'edit2',
+  //       name: 'Edit2',
+  //       component: loadPage('AboutPage')
+  //     }
+  //   ]
+  // }
 ]
 
 export const router = createRouter({
