@@ -1,0 +1,119 @@
+import { dbContext } from "../db/DbContext.js"
+import { BadRequest } from "../utils/Errors.js";
+import { accountService } from "./AccountService.js";
+import { challengesService } from "./ChallengesService.js";
+import { moderatorsService } from "./ModeratorsService.js";
+import { participantsService } from "./ParticipantsService.js";
+import { profileService } from "./ProfileService.js";
+
+
+class AccountMilestonesService {
+  async checkMilestonesByAccountId(userId, checks) {
+    const pulledChecks = await this.pullMilestoneChecks(checks)
+    const checkPromises = pulledChecks.map(async pc => {
+      await this.checkMilestones(pc, userId);
+    });
+    await Promise.all(checkPromises);
+    // After all of the checks are performed a blanket get all accountMilestones can be performed because any relevant accountMilestones will have been created, Then that can be returned.
+    const milestones = await this.getAccountMilestones(userId)
+    return milestones
+  }
+
+  async pullMilestoneChecks(checks) {
+    // This function is meant to retrieve all of the milestone checks via the checks submitted by the front end
+    const queryChecks = { $or: [] }
+    checks.forEach(c => {
+      queryChecks.$or.push({ check: c })
+    });
+    const pulledChecks = await dbContext.Milestones.find(queryChecks)
+    return pulledChecks;
+  }
+
+  async createAccountMilestone(AccountMilestoneData) {
+    const accountMilestone = await dbContext.AccountMilestones.create(AccountMilestoneData)
+    return accountMilestone
+  }
+  async getAccountMilestones(userId) {
+    const foundAccountMilestones = await dbContext.AccountMilestones.find({ accountId: userId }).populate('milestone')
+    if (!foundAccountMilestones) {
+      new Error('This user does not have any milestones')
+      return
+    }
+    return foundAccountMilestones
+  }
+  async getAccountMilestoneById(milestoneId, userId) {
+    const foundAccountMilestone = await dbContext.AccountMilestones.findOne({ milestoneId: milestoneId, accountId: userId })
+    if (!foundAccountMilestone) {
+      return
+    }
+    return foundAccountMilestone
+  }
+  async claimMilestone(milestoneId) {
+    const claimMilestone = await dbContext.AccountMilestones.findById(milestoneId)
+    claimMilestone.claimed = true
+    await claimMilestone.save()
+    return claimMilestone
+  }
+
+  async checkMilestones(check, userId) {
+    // Get the account Milestone, if one doesn't exist create one.
+    // It will be assumed that this is a new account or new milestone
+    // If this is an existing account that should return a higher tier, 
+    // running the function a second time (frontend) may be required.
+    const accountMilestoneData = {}
+    const foundAccountMilestone = await this.getAccountMilestoneById(check.id, userId)
+
+    if (!foundAccountMilestone) {
+      accountMilestoneData.milestoneId = check.id
+      accountMilestoneData.accountId = userId
+      this.createAccountMilestone(accountMilestoneData)
+    }
+
+
+    if (foundAccountMilestone) {
+      // Example string '5-$gte%1-2-3-4-5-10'
+      const logicArr = check.logic;
+      const logicParts = logicArr.split('%');
+      const operationsArr = logicParts[0].split('-');
+      const thresholdArr = logicParts[1].split('-');
+      // This string parser will return 
+      // operationsArr = ['5', '$gte']
+      // thresholdsArr = ['1','2','3','4','5','10']
+      if (foundAccountMilestone.tier < operationsArr[0]) { //This checks to see if the milestone is maxed out
+        let tier = 0;
+        if (check.check == 'createdChallenge') {
+          const challengeCount = await challengesService.getMyChallenges(userId)
+          for (let i = 0; i < operationsArr[0]; i++) {
+            if (challengeCount.length >= thresholdArr[i]) {
+              tier = i + 1
+            }
+          }
+        }
+        if (check.check == 'joinedChallenge') {
+          const participantCount = await participantsService.getParticipantsByAccount(userId)
+          for (let i = 0; i < operationsArr[0]; i++) {
+            if (participantCount.length >= thresholdArr[i]) {
+              tier = i + 1
+            }
+          }
+        }
+        if (check.check == 'moderateChallenge') {
+          const moderationCount = await moderatorsService.getMyModerationsByProfileId(userId)
+          for (let i = 0; i < operationsArr[0]; i++) {
+            if (moderationCount.length >= thresholdArr[i]) {
+              tier = i + 1
+            }
+          }
+        }
+        if (foundAccountMilestone.tier > tier) {
+          foundAccountMilestone.claimed = false
+        }
+        foundAccountMilestone.tier = tier
+        await foundAccountMilestone.save()
+        return foundAccountMilestone
+      }
+    }
+  }
+}
+
+export const accountMilestonesService = new AccountMilestonesService()

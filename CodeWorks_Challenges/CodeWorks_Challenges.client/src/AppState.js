@@ -28,4 +28,20 @@ export const AppState = reactive({
   activeProfile: null,
   profiles: [],
   // query: '',
+
+  /** @type {import('./models/AccountMilestone.js').Milestone[]} */
+  myMilestone: [],
+
+  milestones: [
+    {
+      description: "Test Description",
+      check: "Test check",
+      logic: "Test logic",
+      ref: "Test ref"
+    }
+  ],
+  milestoneChecks: [
+    "createdChallenge", "joinedChallenge", "completedChallenge", "moderateChallenge"
+  ]
+
 })

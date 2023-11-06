@@ -43,7 +43,7 @@ const routes = [
         component: loadPage('ChallengeEditor')
       },
       {
-        path:'moderation',
+        path: 'moderation',
         name: 'ChallengeModeration',
         component: loadPage('ChallengeModerationPage')
       }
@@ -54,9 +54,14 @@ const routes = [
     name: 'Profile',
     component: loadPage('ProfilePage'),
   },
+  {
+    path: '/milestones',
+    name: 'Milestones',
+    component: loadPage('MilestonesPage'),
+  },
   // {
   //   path: '/routetestpage',
-  //   name:'RouteTestPage',
+  //   name: 'RouteTestPage',
   //   component: loadPage('RouteTestPage'),
   //   children: [
   //     {
