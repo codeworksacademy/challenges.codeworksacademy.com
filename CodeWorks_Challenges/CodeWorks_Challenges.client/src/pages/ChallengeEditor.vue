@@ -207,7 +207,8 @@ export default {
         name: newSupportLinkType.value,
         url: newSupportLink.value
       })
-      // logger.log(challenge.value.supportLinks)
+      newSupportLinkType.value = ''
+      newSupportLink.value = ''
       Pop.success("Link Added")
     }
     function addAnswer(){
@@ -226,6 +227,8 @@ export default {
         description: newAnswerDesctiption.value,
         answer: newAnswer.value
       })
+      newAnswerDesctiption.value = ''
+      newAnswer.value = ''
       logger.log(challenge.value.answers)
       Pop.success("Answer Added")
     }
