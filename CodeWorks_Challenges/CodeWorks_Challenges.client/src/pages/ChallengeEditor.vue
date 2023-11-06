@@ -55,13 +55,24 @@
           <section id="answers-section">
             <h4>Answers</h4>
             <div class="d-flex input-group mb-3">
-              <input type="text" class="form-control" id="supportLinkType" placeholder="Answer Description"> 
-              <input type="text" class="form-control" id="supportLink" placeholder="Answer"> 
-              <button class="btn btn-success" type="button" id="button-addon1" @click="answerChallenge()">Add</button>
+              <input type="text" class="form-control" id="answerDescription" placeholder="Answer Description"> 
+              <input type="text" class="form-control" id="answer" placeholder="Answer"> 
+              <button class="btn btn-success" type="button" id="button-addon1" @click="addAnswer()">Add</button>
             </div>
-            <textarea name="answers" id="" cols="30" rows="10" class="form-control mb-3" v-model="editable.answers"></textarea>
+            <!-- <textarea name="answers" id="" cols="30" rows="10" class="form-control mb-3" v-model="editable.answers"></textarea> -->
           </section>
-          <button @click="updateChallenge()" class="btn btn-success mb-3">Update Challenge</button>
+          <section class="row justify-content-between" v-for="(answer, index) in challenge.answers">
+            <!-- <h4 class="text-success col-md-6">{{ link.name }} </h4>
+            <h4 class="text-dark col-md-6">{{ link.url }} <i class="mdi mdi-trash-can float-end" @click="deleteSupportLink(index)"></i></h4> -->
+            <ul class="list-group list-group-horizontal p-3">
+              <li class="list-group-item list-group-item-dark flex-fill w-50">{{ answer.description }}</li>
+              <li class="list-group-item list-group-item-dark flex-fill w-50">{{ answer.answer }} 
+                <i class="mdi mdi-trash-can float-end fs-5 p-0" @click="deleteAnswer(index)"></i>
+              </li>
+              
+            </ul>
+          </section>
+          <button class="btn btn-success mb-3">Update Challenge</button>
       </form>
     </section>
   </div>
@@ -199,6 +210,30 @@ export default {
       // logger.log(challenge.value.supportLinks)
       Pop.success("Link Added")
     }
+    function addAnswer(){
+      const newAnswerDesctiption = document.getElementById("answerDescription")
+      const newAnswer = document.getElementById("answer")
+      logger.log("new Answer" ,newAnswerDesctiption.value, newAnswer.value)
+      if(newAnswerDesctiption.value.length == 0){
+        Pop.error("You must specify an answer description.")
+        return;
+      }
+      if(newAnswer.value.length == 0){
+        Pop.error("You cannot add an empty answer.")
+        return;
+      }
+      challenge.value.answers.push({
+        description: newAnswerDesctiption.value,
+        answer: newAnswer.value
+      })
+      logger.log(challenge.value.answers)
+      Pop.success("Answer Added")
+    }
+
+    function deleteAnswer(index){
+      logger.log("Deleting answer at index", challenge.value.answers[index])
+      challenge.value.answers.splice(index, 1)
+    }
 
     function deleteSupportLink(index){
       logger.log("Deleting support link at index", challenge.value.supportLinks[index])
@@ -221,6 +256,8 @@ export default {
       deleteStep,
       addSupportLink,
       deleteSupportLink,
+      addAnswer,
+      deleteAnswer,
       toggleEdit,
       cancelEdit
     } 

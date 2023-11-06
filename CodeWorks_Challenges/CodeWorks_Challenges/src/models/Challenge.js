@@ -60,8 +60,8 @@ export const ChallengeSchema = new Schema({
   ],
   answers: [
     { 
-      type: String,
-      default: []
+      description: String,
+      answer: String
     }
   ],
   isCancelled: {
