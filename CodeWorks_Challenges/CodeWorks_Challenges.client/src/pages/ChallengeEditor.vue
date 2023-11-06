@@ -35,20 +35,33 @@
           <h4>Support Links</h4>
           <span v-if="challenge.supportLinks.length == 0" class="text-danger">You need at least 1 support link!</span>
           <!-- <textarea name="supportLinks" id="" cols="30" rows="10" class="form-control mb-3" v-model="editable.supportLinks" required></textarea> -->
-          <div class="d-flex">
-            <input type="text" class="form-control mb-3" id="supportLinkType" placeholder="Link Type"> 
-            <input type="text" class="form-control mb-3" id="supportLink" placeholder="Link"> 
-            <i class="mdi mdi-plus-box fs-2" @click="addSupportLink"></i>
+          <div class="d-flex input-group mb-3">
+            <input type="text" class="form-control" id="supportLinkType" placeholder="Link Type"> 
+            <input type="text" class="form-control" id="supportLink" placeholder="Link"> 
+            <!-- <i class="mdi mdi-plus-box fs-2" @click="addSupportLink"></i> -->
+            <button class="btn btn-success" type="button" id="button-addon1" @click="addSupportLink">Add</button>
           </div>
           <section class="row justify-content-between" v-for="(link, index) in challenge.supportLinks">
-            <h4 class="text-success col-md-6">{{ link.name }} </h4>
-            <h4 class="text-dark col-md-6">{{ link.url }} <i class="mdi mdi-trash-can float-end" @click="deleteSupportLink(index)"></i></h4>
+            <!-- <h4 class="text-success col-md-6">{{ link.name }} </h4>
+            <h4 class="text-dark col-md-6">{{ link.url }} <i class="mdi mdi-trash-can float-end" @click="deleteSupportLink(index)"></i></h4> -->
+            <ul class="list-group list-group-horizontal p-3">
+              <li class="list-group-item list-group-item-dark flex-fill w-50">{{ link.name }}</li>
+              <li class="list-group-item list-group-item-dark flex-fill w-50">{{ link.url }} 
+                <i class="mdi mdi-trash-can float-end fs-5 p-0" @click="deleteSupportLink(index)"></i>
+              </li>
+              
+            </ul>
           </section>
           <section id="answers-section">
             <h4>Answers</h4>
+            <div class="d-flex input-group mb-3">
+              <input type="text" class="form-control" id="supportLinkType" placeholder="Answer Description"> 
+              <input type="text" class="form-control" id="supportLink" placeholder="Answer"> 
+              <button class="btn btn-success" type="button" id="button-addon1" @click="answerChallenge()">Add</button>
+            </div>
             <textarea name="answers" id="" cols="30" rows="10" class="form-control mb-3" v-model="editable.answers"></textarea>
-            <button @click="updateChallenge()" class="btn btn-success mb-3">Update Challenge</button>
           </section>
+          <button @click="updateChallenge()" class="btn btn-success mb-3">Update Challenge</button>
       </form>
     </section>
   </div>
