@@ -64,7 +64,7 @@ export default {
       ],
       isSubmitted: false,
     })
-
+    
     async function createChallengeSubmission() {
       try {
         editable.value.isSubmitted = true
