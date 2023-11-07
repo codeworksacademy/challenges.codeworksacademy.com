@@ -87,7 +87,6 @@ export class ChallengesController extends BaseController {
     }
   }
 
-<<<<<<< HEAD
   // FIXME important to remember delete requests do not include a body
   async removeParticipant(req, res, next) {
     try {
@@ -149,16 +148,4 @@ export class ChallengesController extends BaseController {
   }
 
   //#endregion
-=======
-
-  // async getSubmissionsByChallengeId(req, res, next) {
-  //   try {
-  //     const challengeId = req.params.challengeId
-  //     const submissions = await submissionsService.getSubmissionsByChallengeId(challengeId)
-  //     return res.send(submissions)
-  //   } catch (error) {
-  //     next(error)
-  //   }
-  // }
->>>>>>> 9337487010152b54d5695a0e414ade387c90b454
 }
