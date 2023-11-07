@@ -71,6 +71,11 @@ class AccountMilestonesService {
 
     // REVIEW I would like some explanation on the tier being used here.
 
+    // REVIEW KYLE
+    // tier is being used to track the level of a given milestone, a milestone has several versions of it's self. create 1 challenge, create 2 challenges, create 100 challenges. 
+    // Since these are nearly Identical I was using the threshold array to decide if the relevant tier (the position it has in the threshold array) had been achieved. 
+    // Instead of creating 5 createChallenge Achievements, tier is being used to simulate this. Tier is also the value responsible for making these milestones 'claimable' again. (if tier> foundAccountMilestone.tier) {claimed = false;}
+
     if (foundAccountMilestone) {
       // Example string '5-$gte%1-2-3-4-5-10'
       const logicArr = check.logic;
@@ -106,12 +111,12 @@ class AccountMilestonesService {
       //       }
       //     }
       //   }
-        // if (foundAccountMilestone.tier > tier) {
-        //   foundAccountMilestone.claimedAt = null
-        // }
-        // foundAccountMilestone.tier = tier
-        // await foundAccountMilestone.save()
-        // return foundAccountMilestone
+      // if (foundAccountMilestone.tier > tier) {
+      //   foundAccountMilestone.claimedAt = null
+      // }
+      // foundAccountMilestone.tier = tier
+      // await foundAccountMilestone.save()
+      // return foundAccountMilestone
       // }
     }
   }
