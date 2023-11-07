@@ -26,9 +26,9 @@
               Filter Status
             </button>
             <ul class="dropdown-menu">
-              <li class="dropdown-item">Newest to Oldest</li>
-              <li class="dropdown-item">Oldest to Newest</li>
-              <li class="dropdown-item">Cancelled</li>
+              <li @click="filterType('newest')" class="dropdown-item">Newest to Oldest</li>
+              <li @click="filterType('oldest')" class="dropdown-item">Oldest to Newest</li>
+              <li @click="filterType('cancelled')" class="dropdown-item">Cancelled</li>
             </ul>
           </div>
           <div class="dropdown m-2">
@@ -90,8 +90,16 @@ export default {
       challenges: computed(() => AppState.challenges),
       async filterDifficulty(difficulty){
         try {
-          // logger.log(difficulty)
           await challengesService.filterDifficulty(difficulty);
+        } catch (error) {
+          logger.error(error)
+          Pop.error(error.message)
+        }
+      },
+
+      async filterType(type){
+        try {
+          await challengesService.filterType(type);
         } catch (error) {
           logger.error(error)
           Pop.error(error.message)
