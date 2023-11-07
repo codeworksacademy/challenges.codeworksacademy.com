@@ -20,6 +20,30 @@
         <h1 class="text-center">Active Challenges</h1>
       </div>
       <div class="row">
+        <div class="col-12 d-flex justify-content-end pe-4">
+          <div class="dropdown m-2">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Filter Status
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Newest to Oldest</a></li>
+              <li><a class="dropdown-item" href="#">Oldest to Newest</a></li>
+              <li><a class="dropdown-item" href="#">Cancelled</a></li>
+            </ul>
+          </div>
+          <div class="dropdown m-2">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Filter Difficulty
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Easy</a></li>
+              <li><a class="dropdown-item" href="#">Medium</a></li>
+              <li><a class="dropdown-item" href="#">Hard</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
         <div 
           v-for="(c, index) in challenges"
           :key="index"
