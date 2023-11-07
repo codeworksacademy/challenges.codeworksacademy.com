@@ -6,7 +6,7 @@ import { api } from "./AxiosService.js"
 
 class AccountMilestonesService {
 
-  async checkMilestonesByAccountId(userId, checks) {
+  async checkMilestonesByAccountId(userId, checks) { //STUB Kyle -- this is a post because a get can't carry a payload and it creates one if it isn't already there~~
     const res = await api.post(`api/accountMilestones/${userId}`, checks)
     logger.log('[checkMilestonesByAccountId]', res.data)
     AppState.myMilestone = res.data.map(m => new AccountMilestone(m))
@@ -17,6 +17,7 @@ class AccountMilestonesService {
     logger.log('[getAccountMilestones]', res.data)
     AppState.myMilestone = res.data.map(m => new AccountMilestone(m))
   }
+
   async claimMilestone(accountMilestone) {
     const res = await api.put(`api/accountMilestones/${accountMilestone.id}`)
     logger.log('[claimMilestone]', res.data)

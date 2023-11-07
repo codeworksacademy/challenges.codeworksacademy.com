@@ -15,7 +15,7 @@ class AccountMilestonesService {
     });
     await Promise.all(checkPromises);
     // After all of the checks are performed a blanket get all accountMilestones can be performed because any relevant accountMilestones will have been created, Then that can be returned.
-    const milestones = await this.getAccountMilestones(userId)
+    const milestones = await this.getAccountMilestones(userId) //STUB Kyle - This could be made more specific with the $or get I learned.
     return milestones
   }
 
@@ -48,7 +48,7 @@ class AccountMilestonesService {
     }
     return foundAccountMilestone
   }
-  async claimMilestone(milestoneId) {
+  async claimMilestone(milestoneId) { //STUB Kyle - This could probably use a user check
     const claimMilestone = await dbContext.AccountMilestones.findById(milestoneId)
     claimMilestone.claimedAt = new Date()
     await claimMilestone.save()
@@ -76,6 +76,9 @@ class AccountMilestonesService {
     // Since these are nearly Identical I was using the threshold array to decide if the relevant tier (the position it has in the threshold array) had been achieved. 
     // Instead of creating 5 createChallenge Achievements, tier is being used to simulate this. Tier is also the value responsible for making these milestones 'claimable' again. (if tier> foundAccountMilestone.tier) {claimed = false;}
 
+    // STUB Kyle operationsArr[0] is also a tier checker, it checks to see if the tier is at it's highest value and exits the function and avoids the extra calls to other services, It looks like the value might have needed to be different though.
+    // STUB Kyle I see that ref is removed, I had questions about that thank you.
+
     if (foundAccountMilestone) {
       // Example string '5-$gte%1-2-3-4-5-10'
       const logicArr = check.logic;
@@ -87,7 +90,9 @@ class AccountMilestonesService {
       // thresholdsArr = ['1','2','3','4','5','10']
       // if (foundAccountMilestone.tier < operationsArr[0]) { //This checks to see if the milestone is maxed out
       //   let tier = 0;
-      //   if (check.check == 'createdChallenge') {
+      // STUB Kyle This might be able to be refactored better so that the $gte calls the for loop as it is identical for this type of milestone check.
+      // STUB that might better relfect the plugin pattern, as I've written it $gte isn't doing anything other than being a reference to the developer.
+      //   if (check.check == 'createdChallenge') { 
       //     const challengeCount = await challengesService.getChallengesCreatedBy(userId)
       //     for (let i = 0; i < operationsArr[0]; i++) {
       //       if (challengeCount.length >= thresholdArr[i]) {

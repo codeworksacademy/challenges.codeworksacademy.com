@@ -12,7 +12,7 @@ export class AccountMilestonesController extends BaseController {
       .put('/:milestoneId', this.claimMilestone)
   }
 
-  async getAccountMilestones(req, res, next) {
+  async getAccountMilestones(req, res, next) { //STUB Kyle -- The account controller might be a better spot for this call.
     try {
       const userId = req.params.userId
       const accountMilestones = await accountMilestonesService.getAccountMilestones(userId)
