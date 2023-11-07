@@ -51,10 +51,11 @@ export default {
   setup() {
 
     const route = useRoute()
+    const router = useRouter()
 
     const editable = ref({
-      challengeId: route.params.challengeId,
       participantId: AppState.user.id,
+      challenge: {},
       supportLinks: [
         {
           name: '',
