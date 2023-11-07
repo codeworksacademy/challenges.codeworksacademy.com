@@ -58,10 +58,10 @@ export const ChallengeSchema = new Schema({
   // REVIEW why are there multiple answers?
   answers: [
     { 
-      description: String,
-      answer: String
+      description: { type: String, required: true },
+      answer: { type: String, required: true }
     }
-  ],
+  ]
   // TODO respect points???
 },
   {

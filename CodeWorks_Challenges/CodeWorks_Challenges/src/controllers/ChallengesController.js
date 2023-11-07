@@ -17,7 +17,7 @@ export class ChallengesController extends BaseController {
 
       .post('', this.createChallenge)
       .put('/:challengeId', this.editChallenge)
-      .put('/:challengeId', this.deprecateChallenge)
+      // .put('/:challengeId', this.deprecateChallenge)
       .put('/:challengeId/grade/:participantId', this.gradeSubmittedChallenge)
       .delete('/:challengeId', this.deleteChallenge)
       .delete('/:challengeId/participants/:participantId', this.removeParticipant)

@@ -115,16 +115,36 @@
       <div class="col-4">Progress: <span class="">-1/10 // 50% Etc</span> </div>
       <div class="col-4">Started: <span class="">{{ isParticipant.createdAt }}</span></div>
     </section>
-
-    <!-- Description and Steps -->
-    <section class="row">
-      <div class="col-12 bg-dark text-light px-5 py-3 mt-1 mb-1">
+    <section class="row justify-content-center">
+      <div class="col-md-8 bg-dark text-light p-3 mb-3">
+          <h4>{{ challenge.name }}</h4>
+      </div>
+      <div class="col-md-8 bg-dark text-light p-3 mb-3">
+          <p>Created {{ date }}</p>
+      </div>
+      <div class="col-md-8 bg-dark text-light p-3 mb-3">
+          <p>{{ challenge.pointValue }} Points</p>
+      </div>
+      <div class="col-md-8 bg-dark text-light p-3 mb-3">
+          <p>{{ challenge.moderators }} Moderators</p>
+          <p>{{ participants.length }} Participants</p>
+      </div>
+      <div class="col-md-8 bg-dark text-light p-3 mb-3">
+        <p v-html="difficulty.html"></p>
+      </div>  
+      {{ challenge.answers }}
+      <!-- <div class="col-md-8 bg-dark text-light p-3 mb-3">
+      </div> -->
+      <div class="col-md-8  bg-dark text-light p-3 mb-3">
+        <p>Created by {{ challenge.creator.name }} <img :src="challenge.creator.picture" alt="" class="img-fluid h-25"></p>
+      </div>
+      <div class="col-md-8 bg-dark text-light p-3 mb-3">
         <i>Description:</i>
         <p>
           {{ challenge.description }}
         </p>
       </div>
-      <div v-if="challenge.supportLinks.length > 0" class="col-12 bg-dark text-light px-5 py-3  mb-1">
+      <div v-if="challenge.supportLinks.length > 0" class="col-md-8 bg-dark text-light p-3 mb-3">
         <div v-for="(link, index) in challenge.supportLinks" :key="link">
           <i class="text-light">
             Support Link {{ index + 1 }}:
@@ -136,7 +156,7 @@
           </p>
         </div>
       </div>
-      <div v-for="(step, index) in challenge.steps" :key="step" class="col-12 bg-dark text-light px-5 py-3  mb-1">
+      <div v-for="(step, index) in challenge.steps" :key="step" class="col-md-8 bg-dark text-light p-3 mb-3">
         <i class="text-light">
           Step {{ index + 1 }}:
         </i>
@@ -144,7 +164,39 @@
           {{ step }}
         </p>
       </div>
+      <div class="col-md-8 bg-dark text-light p-3 mb-3">
+          <p>{{ challenge.answers }} Points</p>
+      </div>
     </section>
+    <!-- Description and Steps -->
+    <!-- <section class="row">
+      <div class="col-md-8 bg-dark text-light p-3 mb-3">
+        <i>Description:</i>
+        <p>
+          {{ challenge.description }}
+        </p>
+      </div>
+      <div v-if="challenge.supportLinks.length > 0" class="col-md-8 bg-dark text-light p-3 mb-3">
+        <div v-for="(link, index) in challenge.supportLinks" :key="link">
+          <i class="text-light">
+            Support Link {{ index + 1 }}:
+          </i>
+          <p>
+            <a :href="link.url" :title="`Project Links: ${challenge.supportLinks}`" class="fw-bold hover-text-primary">
+              {{ link.name }}
+            </a>
+          </p>
+        </div>
+      </div>
+      <div v-for="(step, index) in challenge.steps" :key="step" class="col-md-8 bg-dark text-light p-3 mb-3">
+        <i class="text-light">
+          Step {{ index + 1 }}:
+        </i>
+        <p>
+          {{ step }}
+        </p>
+      </div>
+    </section> -->
 
     <!-- This was commented out, I was rendering the edit Challenges two additional times. Left in for verification before delete -->
     <!-- <div v-if="user.id === challenge?.creatorId">
@@ -259,22 +311,23 @@ export default {
     // This is now handled in the backend... Need to look at separating the challenge management page from the challenge participation page
     // FIXME - JAKE - WIP (Intention is to prevent function from firing if a user is not a moderator or creator of challenge. Still fires on other pages.)
     async function getAnswersByChallengeId() {
-      try {
-        const moderatorStatus = computed(() => AppState.moderators.find(m => m.accountId == AppState.account.id))
+      // try {
+      //   const moderatorStatus = computed(() => AppState.moderators.find(m => m.accountId == AppState.account.id))
 
-        const account = computed(() => AppState.account)
+      //   const account = computed(() => AppState.account)
 
-        const activeChallenge = computed(() => AppState.activeChallenge)
+      //   const activeChallenge = computed(() => AppState.activeChallenge)
 
-        if (moderatorStatus.value != 'approved' && activeChallenge.value.creatorId != account.value.id) {
-          return
-        } else {
-          await answersService.getAnswersByChallengeId(route.params.challengeId)
-        }
-      } catch (error) {
-        logger.error(error)
-        Pop.error(error.message)
-      }
+      //   if (moderatorStatus.value != 'approved' && activeChallenge.value.creatorId != account.value.id) {
+      //     return
+      //   } else {
+      //     await answersService.getAnswersByChallengeId(route.params.challengeId)
+      //   }
+      // } catch (error) {
+      //   logger.error(error)
+      //   Pop.error(error.message)
+      // }
+      logger.log("Line 261 getAnswersByChallengeId has been commented out")
     }
 
     watchEffect(() => {
