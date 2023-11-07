@@ -56,7 +56,7 @@ export default {
       try {
         if (await Pop.confirm('Are you sure you want to cancel this challenge?')) {
           const challengeId = props.challenge.id
-          await challengesService.cancelChallenge(challengeId)
+          await challengesService.deprecateChallenge(challengeId)
         }
       } catch (error) {
         logger.error(error)

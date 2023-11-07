@@ -4,81 +4,82 @@
       <!-- <router-view /> -->
     </div>
     <div class="row bg-img d-flex justify-content-center align-items-center"
-    :style="`background-image: url(${challenge.coverImg}); opacity: .9;`">
-    <div class="text-box">
-      <div class="header flex-grow-1 d-flex justify-content-between">
+      :style="`background-image: url(${challenge.coverImg}); opacity: .9;`">
+      <div class="text-box">
+        <div class="header flex-grow-1 d-flex justify-content-between">
           <h1>{{ challenge.name }}</h1>
           <h1 v-if="isOwned || isModeratorStatus == 'approved'" @click="editChallenge()" class="btn btn-outline-info">Edit
             Challenge</h1>
           <!-- <h1>{{ challenge.id }}</h1> -->
         </div>
-    </div>
-        <div class="body">
-          <p>Created: {{ date }}</p>
-          <!-- <p>{{ challenge.description }}</p> -->
-          <p>Points: {{ challenge.pointValue }}</p>
-          <p Use v-html="difficulty.html"></p>
-          <p>Created by: {{ challenge.creator.name }}</p>
-          <p v-if="challenge.supportLinks.length > 0">Support Links: {{ challenge.supportLinks }}</p>
-          <div class="d-flex mb-3">Moderators:
-            <div v-for="mod in moderators" :key="mod.id">
-              <img @click="removeModeration(mod.id)" class="moderator selectable ms-2" :src="mod.profile.picture"
-                :alt="mod.profile.name" :title="mod.profile.name">
+      </div>
+      <div class="body">
+        <p>Created: {{ date }}</p>
+        <!-- <p>{{ challenge.description }}</p> -->
+        <p>Points: {{ challenge.pointValue }}</p>
+        <p Use v-html="difficulty.html"></p>
+        <p>Created by: {{ challenge.creator.name }}</p>
+        <p v-if="challenge.supportLinks.length > 0">Support Links: {{ challenge.supportLinks }}</p>
+        <div class="d-flex mb-3">Moderators:
+          <div v-for="mod in moderators" :key="mod.id">
+            <img @click="removeModeration(mod.id)" class="moderator selectable ms-2" :src="mod.profile.picture"
+              :alt="mod.profile.name" :title="mod.profile.name">
+          </div>
+        </div>
+
+        <p>Participants: {{ participants.length }}</p>
+      </div>
+      <div v-for="(link, i) in challenge.supportLinks" :key="i" class="footer">
+        <p class="col-8 ps-3" style="font-size: .65rem;">
+          <a :href="link.url" :title="`Project Links: ${challenge.supportLinks}`" class="fw-bold hover-text-primary">
+            {{ link.name }}
+          </a>
+        </p>
+      </div>
+
+      <div class="col-12 d-flex justify-content-center align-items-center mt-3">
+        <!-- Temporary collapse to make challenge page more legible -->
+        <p class="d-inline-flex gap-1">
+          <button class="btn btn-outline-warning fs-4" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Rewards
+          </button>
+        </p>
+      </div>
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body text-box">
+          <div class="row" style="overflow-x: hidden;">
+            <div class="col-12 d-flex justify-content-center align-items-center">
+              <RewardCard />
+              <Completionist />
+              <EarlyBird />
+              <Architect />
+              <ChallengeSlayer />
+              <Collaborator />
+            </div>
+            <div class="col-12 d-flex justify-content-center align-items-center">
+              <LesserBadges />
+            </div>
+            <div class="col-12 d-flex justify-content-center align-items-center">
+              <CustomBadge />
             </div>
           </div>
-
-          <p>Participants: {{ participants.length }}</p>
-        </div>
-        <div v-for="(link, i) in challenge.supportLinks" :key="i" class="footer">
-          <p class="col-8 ps-3" style="font-size: .65rem;">
-            <a :href="link.url" :title="`Project Links: ${challenge.supportLinks}`" class="fw-bold hover-text-primary">
-              {{ link.name }}
-            </a>
-          </p>
-        </div>
-
-        <div class="col-12 d-flex justify-content-center align-items-center mt-3">
-          <!-- Temporary collapse to make challenge page more legible -->
-          <p class="d-inline-flex gap-1">
+          <div class="d-flex justify-content-center">
             <button class="btn btn-outline-warning fs-4" type="button" data-bs-toggle="collapse"
               data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-              Rewards
+              Close
             </button>
-          </p>
-        </div>
-        <div class="collapse" id="collapseExample">
-          <div class="card card-body text-box">
-            <div class="row" style="overflow-x: hidden;">
-              <div class="col-12 d-flex justify-content-center align-items-center">
-                <RewardCard />
-                <Completionist />
-                <EarlyBird />
-                <Architect />
-                <ChallengeSlayer />
-                <Collaborator />
-              </div>
-              <div class="col-12 d-flex justify-content-center align-items-center">
-                <LesserBadges />
-              </div>
-              <div class="col-12 d-flex justify-content-center align-items-center">
-                <CustomBadge />
-              </div>
-            </div>
-            <div class="d-flex justify-content-center">
-              <button class="btn btn-outline-warning fs-4" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                Close
-              </button>
-            </div>
           </div>
         </div>
       </div>
-    
+    </div>
+
 
     <!-- Interactions with Challenge -->
     <section v-if="!isOwned" class="row bg-dark text-light p-3 mt-1">
       <div class="col-8 d-flex justify-content-between">
-        <button data-bs-toggle="modal" data-bs-target="#submitAnswerModal" class="btn btn-outline-success" v-if="isParticipant">
+        <button data-bs-toggle="modal" data-bs-target="#submitAnswerModal" class="btn btn-outline-success"
+          v-if="isParticipant">
           Submit For Review
         </button>
         <button v-if="isModeratorStatus == 'null'" class="btn btn-outline-primary" @click="createModeration()">
@@ -151,7 +152,6 @@
     </div>
     <router-view /> -->
   </section>
-
 </template>
 
 <script>
@@ -187,12 +187,12 @@ export default {
     Collaborator,
     CustomBadge,
     LesserBadges,
-    AnswerForm
-},
+  },
   setup() {
     const loading = ref(false)
     const route = useRoute()
     const router = useRouter()
+    let challengeId = ''
 
 
     const isParticipant = computed(() => {
@@ -256,8 +256,9 @@ export default {
       }
     }
 
+    // This is now handled in the backend... Need to look at separating the challenge management page from the challenge participation page
     // FIXME - JAKE - WIP (Intention is to prevent function from firing if a user is not a moderator or creator of challenge. Still fires on other pages.)
-    async function getAnswersByChallengeId(){
+    async function getAnswersByChallengeId() {
       try {
         const moderatorStatus = computed(() => AppState.moderators.find(m => m.accountId == AppState.account.id))
 
@@ -265,9 +266,9 @@ export default {
 
         const activeChallenge = computed(() => AppState.activeChallenge)
 
-        if(moderatorStatus != 'approved' && activeChallenge.creatorId != account.id){
+        if (moderatorStatus.value != 'approved' && activeChallenge.value.creatorId != account.value.id) {
           return
-        } else{
+        } else {
           await answersService.getAnswersByChallengeId(route.params.challengeId)
         }
       } catch (error) {
@@ -276,15 +277,15 @@ export default {
       }
     }
 
-    onMounted(() => {
-    })
-
     watchEffect(() => {
-      getParticipantsByChallengeId()
-      getModeratorsByChallengeId()
-      getAnswersByChallengeId()
-      setActiveChallenge()
-      logger.log(getParticipantsByChallengeId())
+      if (route.params.challengeId != challengeId) {
+        challengeId = route.params.challengeId
+        getParticipantsByChallengeId()
+        getModeratorsByChallengeId()
+        getAnswersByChallengeId()
+        setActiveChallenge()
+        logger.log(getParticipantsByChallengeId())
+      }
     })
 
     return {
@@ -326,19 +327,18 @@ export default {
 
       async joinChallenge() {
         try {
-          const addConfirm = await Pop.confirm('Would you like to join this challenge? This will use your points.')
+          // const addConfirm = await Pop.confirm('Would you like to join this challenge? This will use your points.')
 
-          if (!addConfirm) {
-            return
-          }
+          // if (!addConfirm) {
+          //   return
+          // }
 
           const newParticipant = {
             challengeId: route.params.challengeId,
             accountId: AppState.user.id,
-            status: 'registered'
           }
 
-          await participantsService.createParticipant(newParticipant)
+          await participantsService.joinChallenge(newParticipant)
 
           Pop.success('joined challenge!')
         } catch (error) {

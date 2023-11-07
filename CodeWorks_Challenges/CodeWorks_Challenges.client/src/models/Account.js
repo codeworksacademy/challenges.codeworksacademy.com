@@ -9,5 +9,6 @@ export class Account {
     this.aboutContent = data.aboutContent
     this.reputation = data.reputation || 0
     this.rank = data.rank || 0
+    this.title = data.title
   }
 }

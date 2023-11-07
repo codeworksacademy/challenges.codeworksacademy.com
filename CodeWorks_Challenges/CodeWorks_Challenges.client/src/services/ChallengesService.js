@@ -3,8 +3,6 @@ import { logger } from "../utils/Logger.js"
 import { api } from './AxiosService'
 import { Challenge } from "../models/Challenge.js"
 import Pop from "../utils/Pop.js"
-import { Participant } from "../models/Participant.js"
-import { Moderator } from "../models/Moderator.js"
 
 class ChallengesService {
 
@@ -15,8 +13,8 @@ class ChallengesService {
     return res.data
   }
 
-  async getMyChallenges(accountId) {
-    const res = await api.get(`/account/${accountId}/challenges`)
+  async getMyChallenges() {
+    const res = await api.get(`/account/challenges`)
     AppState.myChallenges = res.data.map(c => new Challenge(c))
     logger.log('My Challenges:', AppState.myChallenges)
   }
@@ -42,12 +40,12 @@ class ChallengesService {
     logger.log('Active Challenge:', AppState.activeChallenge)
   }
 
-  async cancelChallenge(challengeId) {
+  async deprecateChallenge(challengeId) {
     const res = await api.delete(`/api/challenges/${challengeId}`)
-    logger.log('Cancelling Challenge ⏩', res.data)
-    let indexToCancel = AppState.challenges.findIndex(c => c.id == challengeId)
-    AppState.challenges.splice(indexToCancel, 1)
-    Pop.toast('You have cancelled your challenge.', 'success')
+    logger.log('deprecating Challenge ⏩', res.data)
+    let i = AppState.challenges.findIndex(c => c.id == challengeId)
+    AppState.challenges.splice(i, 1)
+    Pop.toast('Your challenges has been marked as deprecated.', 'success')
   }
 
   async deleteChallenge(challengeId) {
@@ -65,13 +63,13 @@ class ChallengesService {
     return res.data
   }
 
-  async submitAnswer(challengeId, answerData){
+  async submitAnswer(challengeId, answerData) {
     const res = await api.post(`api/challenges/${challengeId}/answers`, {
       answer: answerData
     })
     // logger.log(answerData)
     logger.log('[SUBMITTING ANSWER]', res.data)
-    
+
     return res.data
   }
 }

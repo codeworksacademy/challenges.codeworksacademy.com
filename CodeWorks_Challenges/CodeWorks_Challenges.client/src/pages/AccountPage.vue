@@ -132,7 +132,7 @@ export default {
 
     async function getParticipantsByAccount() {
       try {
-        await accountService.getParticipantsByAccount()
+        await accountService.getMyParticipations()
       } catch (error) {
         Pop.toast(error, 'error')
       }
