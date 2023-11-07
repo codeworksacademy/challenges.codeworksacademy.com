@@ -10,12 +10,12 @@
           <h1>{{ challenge.name }}</h1>
           <h1 v-if="isOwned || isModeratorStatus == 'approved'" @click="editChallenge()" class="btn btn-outline-info">Edit
             Challenge</h1>
-          <!-- <h1>{{ challenge.id }}</h1> -->
+
         </div>
       </div>
-      <div class="body">
+      <!-- <div class="body">
         <p>Created: {{ date }}</p>
-        <!-- <p>{{ challenge.description }}</p> -->
+        <p>{{ challenge.description }}</p>
         <p>Points: {{ challenge.pointValue }}</p>
         <p Use v-html="difficulty.html"></p>
         <p>Created by: {{ challenge.creator.name }}</p>
@@ -28,7 +28,7 @@
         </div>
 
         <p>Participants: {{ participants.length }}</p>
-      </div>
+      </div> -->
       <div v-for="(link, i) in challenge.supportLinks" :key="i" class="footer">
         <p class="col-8 ps-3" style="font-size: .65rem;">
           <a :href="link.url" :title="`Project Links: ${challenge.supportLinks}`" class="fw-bold hover-text-primary">
@@ -132,7 +132,6 @@
       <div class="col-md-8 bg-dark text-light p-3 mb-3">
         <p v-html="difficulty.html"></p>
       </div>  
-      {{ challenge.answers }}
       <!-- <div class="col-md-8 bg-dark text-light p-3 mb-3">
       </div> -->
       <div class="col-md-8  bg-dark text-light p-3 mb-3">
@@ -164,8 +163,14 @@
           {{ step }}
         </p>
       </div>
-      <div class="col-md-8 bg-dark text-light p-3 mb-3">
-          <p>{{ challenge.answers }} Points</p>
+      <div v-for="(answer, index) in challenge.answers" :key="answer" class="col-md-8 bg-dark text-light p-3 mb-3">
+        <i class="text-light">
+          Answer {{ index + 1 }}:
+        </i>
+        <p>{{ answer.description }}</p>
+        <p>
+          {{ answer.answer }} Answer
+        </p>
       </div>
     </section>
     <!-- Description and Steps -->

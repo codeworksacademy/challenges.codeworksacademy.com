@@ -227,8 +227,8 @@ export default {
         return;
       }
       challenge.value.answers.push({
-        description: newAnswerDescription.value,
-        answer: newAnswer.value
+        answer: newAnswer.value,
+        description: newAnswerDescription.value
       })
       newAnswerDescription.value = ''
       newAnswer.value = ''

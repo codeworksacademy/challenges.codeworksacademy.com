@@ -23,7 +23,7 @@ class ChallengesService {
   async getChallengeById(challengeId) {
     const challenge = await dbContext.Challenges.findById(challengeId)
       .populate('creator', PROFILE_FIELDS)
-      .select('-answers')
+      // .select('-answers')  //FIXME - This gets the challenge without the answer attached, uncommenting when done
 
     if (!challenge) {
       throw new BadRequest('Invalid Challenge ID.')
