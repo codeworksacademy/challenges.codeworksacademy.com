@@ -8,10 +8,11 @@ export const AccountSchema = new Schema(
     name: { type: String, required: true },
     picture: { type: String },
     // NOTE If you wish to add additional properties do so here
-    coverImage: { type: String },
+    coverImg: { type: String },
     aboutContent: { type: String },
-    reputation: { type: Number },
-    rank: { type: Number }
+    reputation: { type: Number, default: 0 },
+    rank: { type: Number, default: 0 },
+    title: { type: String, default: 'n00b' },
 
   },
   { timestamps: true, toJSON: { virtuals: true } }

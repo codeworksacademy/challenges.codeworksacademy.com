@@ -11,8 +11,8 @@
         placeholder="Profile Picture...">
     </div>
     <div class="form-group py-2">
-      <label for="coverImage">Cover Image</label>
-      <input v-model="editable.coverImage" id="coverImage" class="form-control" type="url" minlength="3" maxlength="300"
+      <label for="coverImg">Cover Image</label>
+      <input v-model="editable.coverImg" id="coverImg" class="form-control" type="url" minlength="3" maxlength="300"
         placeholder="Cover Image">
     </div>
     <div class="form-group py-2">

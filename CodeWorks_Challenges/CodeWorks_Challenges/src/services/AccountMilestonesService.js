@@ -50,7 +50,7 @@ class AccountMilestonesService {
   }
   async claimMilestone(milestoneId) {
     const claimMilestone = await dbContext.AccountMilestones.findById(milestoneId)
-    claimMilestone.claimed = true
+    claimMilestone.claimedAt = new Date()
     await claimMilestone.save()
     return claimMilestone
   }
@@ -69,6 +69,7 @@ class AccountMilestonesService {
       this.createAccountMilestone(accountMilestoneData)
     }
 
+    // REVIEW I would like some explanation on the tier being used here.
 
     if (foundAccountMilestone) {
       // Example string '5-$gte%1-2-3-4-5-10'
@@ -79,39 +80,39 @@ class AccountMilestonesService {
       // This string parser will return 
       // operationsArr = ['5', '$gte']
       // thresholdsArr = ['1','2','3','4','5','10']
-      if (foundAccountMilestone.tier < operationsArr[0]) { //This checks to see if the milestone is maxed out
-        let tier = 0;
-        if (check.check == 'createdChallenge') {
-          const challengeCount = await challengesService.getMyChallenges(userId)
-          for (let i = 0; i < operationsArr[0]; i++) {
-            if (challengeCount.length >= thresholdArr[i]) {
-              tier = i + 1
-            }
-          }
-        }
-        if (check.check == 'joinedChallenge') {
-          const participantCount = await participantsService.getParticipantsByAccount(userId)
-          for (let i = 0; i < operationsArr[0]; i++) {
-            if (participantCount.length >= thresholdArr[i]) {
-              tier = i + 1
-            }
-          }
-        }
-        if (check.check == 'moderateChallenge') {
-          const moderationCount = await moderatorsService.getMyModerationsByProfileId(userId)
-          for (let i = 0; i < operationsArr[0]; i++) {
-            if (moderationCount.length >= thresholdArr[i]) {
-              tier = i + 1
-            }
-          }
-        }
-        if (foundAccountMilestone.tier > tier) {
-          foundAccountMilestone.claimed = false
-        }
-        foundAccountMilestone.tier = tier
-        await foundAccountMilestone.save()
-        return foundAccountMilestone
-      }
+      // if (foundAccountMilestone.tier < operationsArr[0]) { //This checks to see if the milestone is maxed out
+      //   let tier = 0;
+      //   if (check.check == 'createdChallenge') {
+      //     const challengeCount = await challengesService.getChallengesCreatedBy(userId)
+      //     for (let i = 0; i < operationsArr[0]; i++) {
+      //       if (challengeCount.length >= thresholdArr[i]) {
+      //         tier = i + 1
+      //       }
+      //     }
+      //   }
+      //   if (check.check == 'joinedChallenge') {
+      //     const participantCount = await participantsService.getParticipantsByAccount(userId)
+      //     for (let i = 0; i < operationsArr[0]; i++) {
+      //       if (participantCount.length >= thresholdArr[i]) {
+      //         tier = i + 1
+      //       }
+      //     }
+      //   }
+      //   if (check.check == 'moderateChallenge') {
+      //     const moderationCount = await moderatorsService.getMyModerationsByProfileId(userId)
+      //     for (let i = 0; i < operationsArr[0]; i++) {
+      //       if (moderationCount.length >= thresholdArr[i]) {
+      //         tier = i + 1
+      //       }
+      //     }
+      //   }
+        // if (foundAccountMilestone.tier > tier) {
+        //   foundAccountMilestone.claimedAt = null
+        // }
+        // foundAccountMilestone.tier = tier
+        // await foundAccountMilestone.save()
+        // return foundAccountMilestone
+      // }
     }
   }
 }

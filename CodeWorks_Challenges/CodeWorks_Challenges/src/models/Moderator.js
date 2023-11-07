@@ -23,8 +23,9 @@ export const ModeratorSchema = new Schema({
     // Terminated - Moderation relationship is considered Terminated
     // Banned - A more serious termination, ALL moderation relationships between user to user 'Banned'
     // Blacklisted- A more serious Banning, All moderation relationships 'Blacklisted'
-    enum: ['Pending', 'Active', 'Inactive', 'Terminated', 'Banned', 'BlackListed'],
-    default: 'Pending'
+    enum: ['pending', 'active', 'inactive', 'terminated', 'banned', 'blacklisted'],
+    default: 'pending',
+    lowercase: true
   }
 },
   { timestamps: true, toJSON: { virtuals: true } }

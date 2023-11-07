@@ -71,7 +71,7 @@ class ModeratorsService {
       }
     }
 
-    moderation.status = 'Active'
+    moderation.status = 'active'
 
     await moderation.save()
 
@@ -90,7 +90,7 @@ class ModeratorsService {
       throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this moderator's. You may not remove other moderator.")
     }
 
-    moderatorToRemove.status = 'Terminated'
+    moderatorToRemove.status = 'terminated'
     await moderatorToRemove.save()
 
     return moderatorToRemove

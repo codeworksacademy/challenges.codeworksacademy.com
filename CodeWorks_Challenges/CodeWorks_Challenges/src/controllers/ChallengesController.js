@@ -3,100 +3,46 @@ import { Auth0Provider } from '@bcwdev/auth0provider'
 import { challengesService } from '../services/ChallengesService.js'
 import { participantsService } from '../services/ParticipantsService.js'
 import { moderatorsService } from "../services/ModeratorsService.js"
-import { answersService } from '../services/AnswersService.js'
 
 export class ChallengesController extends BaseController {
   constructor() {
     super('api/challenges')
     this.router
       .get('', this.getAllChallenges)
-      .get('/:challengeId', this.setActiveChallenge)
+      .get('/:challengeId', this.getChallengeById)
       .get('/:challengeId/participants', this.getParticipantsByChallengeId)
       .get('/:challengeId/moderators', this.getModeratorsByChallengeId)
-      
+
       .use(Auth0Provider.getAuthorizedUserInfo)
-      
-      .get('/:challengeId/answers', this.getAnswersByChallengeId)
-      .post('/:challengeId/answers', this.submitAnswer)
+
       .post('', this.createChallenge)
       .put('/:challengeId', this.editChallenge)
-      .put('/:challengeId', this.cancelChallenge)
+      .put('/:challengeId', this.deprecateChallenge)
+      .put('/:challengeId/grade/:participantId', this.gradeSubmittedChallenge)
       .delete('/:challengeId', this.deleteChallenge)
-      .delete('/:challengeId/participants', this.removeParticipant)
+      .delete('/:challengeId/participants/:participantId', this.removeParticipant)
   }
 
-  async getAllChallenges(req, res, next) {
-    try {
-      const challenges = await challengesService.getAllChallenges()
-      return res.send(challenges)
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  async getParticipantsByChallengeId(req, res, next) {
+  async gradeSubmittedChallenge(req, res, next) {
     try {
       const challengeId = req.params.challengeId
-
-      const participants = await participantsService.getParticipantsByChallengeId(challengeId)
-
-      return res.send(participants)
-    } catch (error) {
-      next(error)
-    }
-  }
-  async getModeratorsByChallengeId(req, res, next) {
-    try {
-      const challengeId = req.params.challengeId
-      const moderators = await moderatorsService.getModeratorsByChallengeId(challengeId)
-      return res.send(moderators)
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  async getAnswersByChallengeId(req, res, next) {
-    try {
-      const challengeId = req.params.challengeId
-
+      const participantId = req.params.participantId
       const userId = req.userInfo.id
-
-      const answers = await answersService.getAnswersByChallengeId(challengeId, userId)
-
-      return res.send(answers)
+      // FIXME this needs some work.... expand on this
+      // const challenge = await challengesService.submitAnswer(challengeId, userId, answer)
+      // return res.send()
+      throw new Error('NOT IMPLEMENTED')
     } catch (error) {
       next(error)
     }
   }
 
-  async removeParticipant(req, res, next) {
-    try {
-      const challengeId = req.params.challengeId
-
-      const participantData = req.body
-
-      const userId = req.userInfo.id
-
-      await participantsService.removeParticipant(challengeId, userId, participantData)
-    } catch (error) {
-      next(error)
-    }
-  }
+  //#region MANAGE_CHALLENGE_ACTIONS
 
   async createChallenge(req, res, next) {
     try {
       req.body.creatorId = req.userInfo.id
       const challenge = await challengesService.createChallenge(req.body)
-      return res.send(challenge)
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  async setActiveChallenge(req, res, next) {
-    try {
-      const challengeId = req.params.challengeId
-      const challenge = await challengesService.setActiveChallenge(challengeId)
       return res.send(challenge)
     } catch (error) {
       next(error)
@@ -115,11 +61,11 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  async cancelChallenge(req, res, next) {
+  async deprecateChallenge(req, res, next) {
     try {
       const challengeId = req.params.challengeId
       const userId = req.userInfo.id
-      await challengesService.cancelChallenge(challengeId, userId)
+      await challengesService.deprecateChallenge(challengeId, userId)
       return res.send(challengeId)
     } catch (error) {
       next(error)
@@ -137,15 +83,65 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  async submitAnswer(req,res,next){
-    try{
-      const answer = req.body
-      const challengeId = req.params.challengeId
-      const userId = req.userInfo.id
-      const challenge = await challengesService.submitAnswer(challengeId, userId, answer)
-      return res.send(challenge)
-    } catch (error){
+  // FIXME important to remember delete requests do not include a body
+  async removeParticipant(req, res, next) {
+    try {
+      // const challengeId = req.params.challengeId
+
+      // const participantData = req.body
+
+      // const userId = req.userInfo.id
+
+      // await participantsService.removeParticipant(challengeId, userId, participantData)
+    } catch (error) {
       next(error)
     }
   }
+
+  //#endregion
+
+  //#region PARTICIPANT_ACTIONS
+
+  async getAllChallenges(req, res, next) {
+    try {
+      const challenges = await challengesService.getAllChallenges()
+      return res.send(challenges)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getChallengeById(req, res, next) {
+    try {
+      const challengeId = req.params.challengeId
+      const challenge = await challengesService.getChallengeById(challengeId)
+      return res.send(challenge)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getParticipantsByChallengeId(req, res, next) {
+    try {
+      const challengeId = req.params.challengeId
+
+      const participants = await participantsService.getParticipantsByChallengeId(challengeId)
+
+      return res.send(participants)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getModeratorsByChallengeId(req, res, next) {
+    try {
+      const challengeId = req.params.challengeId
+      const moderators = await moderatorsService.getModeratorsByChallengeId(challengeId)
+      return res.send(moderators)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  //#endregion
 }

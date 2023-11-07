@@ -2,7 +2,7 @@
   <div class="container">
     <section class="row pt-3">
       <div class="col-12 bg-success position-relative">
-        <img style="z-index: -1;" class="cover-image rounded position-absolute" :src="account.coverImage" alt="">
+        <img style="z-index: -1;" class="cover-image rounded position-absolute" :src="account.coverImg" alt="">
       </div>
 
       <div class="col-12">

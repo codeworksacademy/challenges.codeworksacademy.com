@@ -1,9 +1,5 @@
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest } from "../utils/Errors.js";
-import { accountService } from "./AccountService.js";
-import { challengesService } from "./ChallengesService.js";
-import { profileService } from "./ProfileService.js";
-
 
 class MilestonesService {
 
