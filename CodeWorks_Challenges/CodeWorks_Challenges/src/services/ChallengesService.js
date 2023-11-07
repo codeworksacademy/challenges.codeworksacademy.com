@@ -40,8 +40,6 @@ class ChallengesService {
     return challenges
   }
 
-<<<<<<< HEAD
-=======
   async getSubmitterChallenges(submitterId) {
     const challenges = await dbContext.Challenges.find({submitterId}).populate('creator')
 
@@ -61,7 +59,6 @@ class ChallengesService {
     return challenge
   }
 
->>>>>>> 9337487010152b54d5695a0e414ade387c90b454
   async editChallenge(newChallenge, userId, challengeId) {
     const challenge = await this.getChallengeById(challengeId)
     // FIXME needs to allow for moderators
