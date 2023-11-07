@@ -3,11 +3,7 @@ import { Auth0Provider } from '@bcwdev/auth0provider'
 import { challengesService } from '../services/ChallengesService.js'
 import { participantsService } from '../services/ParticipantsService.js'
 import { moderatorsService } from "../services/ModeratorsService.js"
-<<<<<<< HEAD
-=======
-import { answersService } from '../services/AnswersService.js'
 import { submissionsService } from '../services/SubmissionsService.js'
->>>>>>> 9337487010152b54d5695a0e414ade387c90b454
 
 export class ChallengesController extends BaseController {
   constructor() {
@@ -25,13 +21,9 @@ export class ChallengesController extends BaseController {
       .put('/:challengeId', this.deprecateChallenge)
       .put('/:challengeId/grade/:participantId', this.gradeSubmittedChallenge)
       .delete('/:challengeId', this.deleteChallenge)
-<<<<<<< HEAD
-      .delete('/:challengeId/participants/:participantId', this.removeParticipant)
-=======
       .delete('/:challengeId/participants', this.removeParticipant)
 
       // .get('/:challengeId/submissions', this.getSubmissionsByChallengeId)
->>>>>>> 9337487010152b54d5695a0e414ade387c90b454
   }
 
   async gradeSubmittedChallenge(req, res, next) {
@@ -94,7 +86,6 @@ export class ChallengesController extends BaseController {
     }
   }
 
-<<<<<<< HEAD
   // FIXME important to remember delete requests do not include a body
   async removeParticipant(req, res, next) {
     try {
@@ -156,16 +147,4 @@ export class ChallengesController extends BaseController {
   }
 
   //#endregion
-=======
-
-  // async getSubmissionsByChallengeId(req, res, next) {
-  //   try {
-  //     const challengeId = req.params.challengeId
-  //     const submissions = await submissionsService.getSubmissionsByChallengeId(challengeId)
-  //     return res.send(submissions)
-  //   } catch (error) {
-  //     next(error)
-  //   }
-  // }
->>>>>>> 9337487010152b54d5695a0e414ade387c90b454
 }
