@@ -92,7 +92,7 @@ class ChallengesService {
   // REVIEW - I believe that I mistakenly left this in here while creating my Answer backend, I will delete it after the team has had a chance to review Jake's feedback. (Becca)
   async submitAnswer(challengeId, userId, answer) {
     const challenge = await this.getChallengeById(challengeId)
-    if (challenge.answers[0] === answer.answer) {
+    if (challenge.answers[0].answer === answer.answerData) {
       // return 'You are correct!'
       return {
         correct: true
@@ -103,7 +103,7 @@ class ChallengesService {
         correct: false
       }
     }
-    // return `${challenge.answers}, Answer: ${answer.answer}`;
+    // return `${challenge.answers}, Answer: ${answer.answerData}`;
   }
 }
 

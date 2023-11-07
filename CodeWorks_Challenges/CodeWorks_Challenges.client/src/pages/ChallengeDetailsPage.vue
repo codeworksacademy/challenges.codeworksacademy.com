@@ -174,9 +174,9 @@
       </div>
       <div class="col-md-8">
         <div class="input-group input-group-sm mb-3">
-          <span class="input-group-text" id="inputGroup-sizing-sm">Answer</span>
+          <span class="input-group-text">Answer</span>
           <input type="text" class="form-control" v-model="answer">
-          <button class="btn btn-success" type="button" id="button-addon1" @click="answerChallenge()">Check</button>
+          <button class="btn btn-success" type="button" @click="answerChallenge()">Check</button>
         </div>
       </div>
     </section>
@@ -323,7 +323,7 @@ export default {
     async function answerChallenge(){
       try{
         await challengesService.submitAnswer(AppState.activeChallenge.id, answer.value)
-        // logger.log("Answer ", answer.value)
+        logger.log("Answer ", answer.value)
       } catch(error){
         Pop.error(error.message)
       }
