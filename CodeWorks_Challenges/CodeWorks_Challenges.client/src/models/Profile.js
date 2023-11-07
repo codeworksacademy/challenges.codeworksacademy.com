@@ -5,5 +5,7 @@ export class Profile {
     this.picture = data.picture
     this.experience = data.experience
     this.reputation = data.reputation
+    this.rank = data.rank
+    this.title = data.title
   }
 }

@@ -9,7 +9,11 @@
       </div>
       <div class="col-12 fs-5">
         <p>
-          Rank: {{ activeProfile.experience }}
+          Rank: {{ activeProfile.rank }} <br>
+          Title: {{ activeProfile.title }}
+        </p>
+        <p>
+          Experience: {{ activeProfile.experience }}
         </p>
         <p>
           Reputation: {{ activeProfile.reputation }}

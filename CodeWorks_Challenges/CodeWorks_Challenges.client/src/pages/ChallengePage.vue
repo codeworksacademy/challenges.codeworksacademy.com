@@ -20,6 +20,30 @@
         <h1 class="text-center">Active Challenges</h1>
       </div>
       <div class="row">
+        <div class="col-12 d-flex justify-content-end pe-4">
+          <div class="dropdown m-2">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Filter Status
+            </button>
+            <ul class="dropdown-menu">
+              <li @click="filterType('newest')" class="dropdown-item">Newest to Oldest</li>
+              <li @click="filterType('oldest')" class="dropdown-item">Oldest to Newest</li>
+              <li @click="filterType('cancelled')" class="dropdown-item">Cancelled</li>
+            </ul>
+          </div>
+          <div class="dropdown m-2">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Filter Difficulty
+            </button>
+            <ul class="dropdown-menu">
+              <li @click="filterDifficulty('Easy')" class="dropdown-item">Easy</li>
+              <li @click="filterDifficulty('Medium')" class="dropdown-item">Medium</li>
+              <li @click="filterDifficulty('Hard')" class="dropdown-item">Hard</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
         <div 
           v-for="(c, index) in challenges"
           :key="index"
@@ -64,6 +88,23 @@ export default {
 
     return {
       challenges: computed(() => AppState.challenges),
+      async filterDifficulty(difficulty){
+        try {
+          await challengesService.filterDifficulty(difficulty);
+        } catch (error) {
+          logger.error(error)
+          Pop.error(error.message)
+        }
+      },
+
+      async filterType(type){
+        try {
+          await challengesService.filterType(type);
+        } catch (error) {
+          logger.error(error)
+          Pop.error(error.message)
+        }
+      }
     }
 
   }

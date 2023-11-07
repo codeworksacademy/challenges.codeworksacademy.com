@@ -40,6 +40,35 @@ class ChallengesService {
     logger.log('Active Challenge:', AppState.activeChallenge)
   }
 
+  async filterDifficulty(difficulty){
+    await this.getAllChallenges()
+    let challenges = await AppState.challenges.filter(c => c.difficulty.text == difficulty)
+
+    AppState.challenges = challenges
+  }
+
+  async filterType(type){
+    if(type == 'newest'){
+      await this.getAllChallenges()
+
+      let challenges = await AppState.challenges.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+
+      logger.log(challenges)
+    }else if(type == 'oldest'){
+      await this.getAllChallenges()
+
+      let challenges = await AppState.challenges.sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt))
+
+      logger.log(challenges)
+    }else if(type == 'cancelled'){
+      await this.getAllChallenges()
+
+      let challenges = await AppState.challenges.filter(c => c.isCancelled == true)
+
+      AppState.challenges = challenges
+    }
+  }
+
   async deprecateChallenge(challengeId) {
     const res = await api.delete(`/api/challenges/${challengeId}`)
     logger.log('deprecating Challenge ⏩', res.data)

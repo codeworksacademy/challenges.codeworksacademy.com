@@ -34,8 +34,8 @@ class ChallengesService {
 
   async getChallengesCreatedBy(profileId, accountId) {
     const challenges = accountId != profileId
-      ? await dbContext.Challenges.find({ creatorId: profileId })
-      : await dbContext.Challenges.find({ creatorId: profileId }).select('-answers')
+      ? await dbContext.Challenges.find({ creatorId: profileId }).populate('creator', PROFILE_FIELDS)
+      : await dbContext.Challenges.find({ creatorId: profileId }).select('-answers').populate('creator', PROFILE_FIELDS)
 
     return challenges
   }
