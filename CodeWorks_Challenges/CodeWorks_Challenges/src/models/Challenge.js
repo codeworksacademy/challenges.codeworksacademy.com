@@ -57,9 +57,9 @@ export const ChallengeSchema = new Schema({
   },
   // REVIEW why are there multiple answers?
   answers: [
-    {
-      type: String,
-      default: []
+    { 
+      description: String,
+      answer: String
     }
   ],
   // TODO respect points???
