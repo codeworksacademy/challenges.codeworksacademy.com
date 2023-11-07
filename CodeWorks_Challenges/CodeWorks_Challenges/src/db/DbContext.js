@@ -3,13 +3,8 @@ import { AccountSchema } from '../models/Account'
 import { ChallengeSchema } from '../models/Challenge';
 import { ChallengeParticipantSchema } from '../models/Participant';
 import { ModeratorSchema } from "../models/Moderator.js";
-<<<<<<< HEAD
-import { MilestoneSchema } from "../models/Milestone.js";
-import { AccountMilestoneSchema } from "../models/AccountMilestone.js";
-=======
 import { AnswerSchema } from '../models/Answer.js';
 import { SubmissionSchema } from '../models/Submission.js';
->>>>>>> 9337487010152b54d5695a0e414ade387c90b454
 
 class DbContext {
   Account = mongoose.model('Account', AccountSchema);
