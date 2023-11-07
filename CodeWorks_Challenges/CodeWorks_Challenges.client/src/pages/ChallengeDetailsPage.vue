@@ -29,13 +29,13 @@
 
         <p>Participants: {{ participants.length }}</p>
       </div> -->
-      <div v-for="(link, i) in challenge.supportLinks" :key="i" class="footer">
+      <!-- <div v-for="(link, i) in challenge.supportLinks" :key="i" class="footer">
         <p class="col-8 ps-3" style="font-size: .65rem;">
           <a :href="link.url" :title="`Project Links: ${challenge.supportLinks}`" class="fw-bold hover-text-primary">
             {{ link.name }}
           </a>
         </p>
-      </div>
+      </div> -->
 
       <div class="col-12 d-flex justify-content-center align-items-center mt-3">
         <!-- Temporary collapse to make challenge page more legible -->
@@ -172,6 +172,13 @@
           {{ answer.answer }} Answer
         </p>
       </div>
+      <div class="col-md-8">
+        <div class="input-group input-group-sm mb-3">
+          <span class="input-group-text" id="inputGroup-sizing-sm">Answer</span>
+          <input type="text" class="form-control" v-model="answer">
+          <button class="btn btn-success" type="button" id="button-addon1" @click="answerChallenge()">Check</button>
+        </div>
+      </div>
     </section>
     <!-- Description and Steps -->
     <!-- <section class="row">
@@ -249,6 +256,7 @@ export default {
     const loading = ref(false)
     const route = useRoute()
     const router = useRouter()
+    const answer = ref('')
     let challengeId = ''
 
 
@@ -312,6 +320,14 @@ export default {
         Pop.toast(error, 'error')
       }
     }
+    async function answerChallenge(){
+      try{
+        await challengesService.submitAnswer(AppState.activeChallenge.id, answer.value)
+        // logger.log("Answer ", answer.value)
+      } catch(error){
+        Pop.error(error.message)
+      }
+    }
 
     // This is now handled in the backend... Need to look at separating the challenge management page from the challenge participation page
     // FIXME - JAKE - WIP (Intention is to prevent function from firing if a user is not a moderator or creator of challenge. Still fires on other pages.)
@@ -348,10 +364,11 @@ export default {
 
     return {
       updateParticipant,
-
+      answer,
       loading,
       isParticipant,
       participantStatus,
+      answerChallenge,
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.activeChallenge),
       date: computed(() => DateTime(AppState.activeChallenge.createdAt)),
