@@ -88,6 +88,8 @@ class ChallengesService {
   // SUGGESTIONS: 
   //   - simplify to a single answer 
   //   - or validate all answers all correct order
+
+  // REVIEW - I believe that I mistakenly left this in here while creating my Answer backend, I will delete it after the team has had a chance to review Jake's feedback. (Becca)
   async submitAnswer(challengeId, userId, answer) {
     const challenge = await this.getChallengeById(challengeId)
     if (challenge.answers[0] === answer.answer) {
