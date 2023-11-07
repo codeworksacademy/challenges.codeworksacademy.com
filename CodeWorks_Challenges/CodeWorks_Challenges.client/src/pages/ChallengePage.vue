@@ -26,9 +26,9 @@
               Filter Status
             </button>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Newest to Oldest</a></li>
-              <li><a class="dropdown-item" href="#">Oldest to Newest</a></li>
-              <li><a class="dropdown-item" href="#">Cancelled</a></li>
+              <li class="dropdown-item">Newest to Oldest</li>
+              <li class="dropdown-item">Oldest to Newest</li>
+              <li class="dropdown-item">Cancelled</li>
             </ul>
           </div>
           <div class="dropdown m-2">
@@ -36,9 +36,9 @@
               Filter Difficulty
             </button>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Easy</a></li>
-              <li><a class="dropdown-item" href="#">Medium</a></li>
-              <li><a class="dropdown-item" href="#">Hard</a></li>
+              <li @click="filterDifficulty('Easy')" class="dropdown-item">Easy</li>
+              <li @click="filterDifficulty('Medium')" class="dropdown-item">Medium</li>
+              <li @click="filterDifficulty('Hard')" class="dropdown-item">Hard</li>
             </ul>
           </div>
         </div>
@@ -88,6 +88,15 @@ export default {
 
     return {
       challenges: computed(() => AppState.challenges),
+      async filterDifficulty(difficulty){
+        try {
+          // logger.log(difficulty)
+          await challengesService.filterDifficulty(difficulty);
+        } catch (error) {
+          logger.error(error)
+          Pop.error(error.message)
+        }
+      }
     }
 
   }

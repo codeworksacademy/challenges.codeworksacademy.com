@@ -40,6 +40,13 @@ class ChallengesService {
     logger.log('Active Challenge:', AppState.activeChallenge)
   }
 
+  async filterDifficulty(difficulty){
+    await this.getAllChallenges()
+    let challenges = await AppState.challenges.filter(c => c.difficulty.text == difficulty)
+
+    AppState.challenges = challenges
+  }
+
   async deprecateChallenge(challengeId) {
     const res = await api.delete(`/api/challenges/${challengeId}`)
     logger.log('deprecating Challenge ⏩', res.data)
