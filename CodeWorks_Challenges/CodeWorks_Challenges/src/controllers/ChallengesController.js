@@ -3,7 +3,6 @@ import { Auth0Provider } from '@bcwdev/auth0provider'
 import { challengesService } from '../services/ChallengesService.js'
 import { participantsService } from '../services/ParticipantsService.js'
 import { moderatorsService } from "../services/ModeratorsService.js"
-import { answersService } from '../services/AnswersService.js'
 import { submissionsService } from '../services/SubmissionsService.js'
 
 export class ChallengesController extends BaseController {
