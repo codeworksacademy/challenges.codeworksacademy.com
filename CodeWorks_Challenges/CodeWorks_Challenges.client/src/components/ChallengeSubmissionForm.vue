@@ -55,7 +55,6 @@ export default {
     const editable = ref({
       challengeId: route.params.challengeId,
       participantId: AppState.user.id,
-      challenge: {},
       supportLinks: [
         {
           name: '',
@@ -64,7 +63,11 @@ export default {
       ],
       isSubmitted: false,
     })
-    
+
+    watchEffect(() => {
+      editable.value.challenge = AppState.challenges.find(c => c.id === editable.value.challengeId)
+    })
+
     async function createChallengeSubmission() {
       try {
         editable.value.isSubmitted = true
@@ -72,7 +75,7 @@ export default {
         await submissionsService.createSubmission(newSubmission)
         Modal.getOrCreateInstance('#createSubmissionForm').hide()
         AppState.activeSubmission = newSubmission
-        logger.log(`Created submission to be graded for `)
+        logger.log('New submission created:', newSubmission)
       } catch (error) {
         logger.error(error)
         Pop.toast(error.message, 'error')

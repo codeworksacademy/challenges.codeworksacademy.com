@@ -56,7 +56,8 @@ import AnswerForm from './components/AnswerForm.vue'
 export default {
   setup() {
     return {
-      appState: computed(() => AppState)
+      appState: computed(() => AppState),
+      submission: computed(() => AppState.activeSubmission)
     }
   },
   components: { 

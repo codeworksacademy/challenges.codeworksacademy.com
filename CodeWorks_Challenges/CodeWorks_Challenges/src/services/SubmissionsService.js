@@ -4,23 +4,7 @@ import { challengesService } from "./ChallengesService";
 import { participantsService } from "./ParticipantsService";
 
 class SubmissionsService {
-  async createChallengeSubmission(newSubmission) {
-    const challenge = await challengesService.getChallengeById(
-      newSubmission.challengeId
-    );
-    if (challenge.isCancelled == true) {
-      throw new BadRequest(
-        "This challenge has been cancelled. You may not submit a challenge that was cancelled by the creator."
-      );
-    }
-    const participant = await participantsService.getParticipantById(
-      newSubmission.participantId
-    );
-    if (participant.challengeId != newSubmission.challengeId) {
-      throw new BadRequest(
-        "This participant is not enrolled in this challenge."
-      );
-    }
+  async createSubmission(newSubmission) {
     const submission = await dbContext.Submissions.create(newSubmission);
     await submission.populate("participant", "name picture");
     await submission.populate({
