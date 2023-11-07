@@ -74,8 +74,9 @@ export default {
         const newSubmission = { ...editable.value }
         await submissionsService.createSubmission(newSubmission)
         Modal.getOrCreateInstance('#createSubmissionForm').hide()
-        AppState.activeSubmission = newSubmission
-        logger.log('New submission created:', newSubmission)
+        Pop.toast('Submission Created')
+        router.push(
+          { name: ''})
       } catch (error) {
         logger.error(error)
         Pop.toast(error.message, 'error')
