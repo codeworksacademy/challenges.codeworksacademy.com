@@ -30,6 +30,7 @@
                   <h5 class="p-3 border-dark border-bottom">Users</h5>
                   <h5 class="p-3 border-dark border-bottom">Moderators</h5>
                   <h5 class="p-3 border-dark border-bottom d-flex flex-row justify-content-between">Notifications<span class="ps-1 text-danger">12<i class="mdi mdi-alert-box text-danger"></i></span></h5>
+                  <h5 class="p-3 border-dark border-bottom">Submissions</h5>
                 </div>
               </div>
             </div>
