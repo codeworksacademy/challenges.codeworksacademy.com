@@ -22,13 +22,9 @@ export class ChallengesController extends BaseController {
       .put('/:challengeId', this.deprecateChallenge)
       .put('/:challengeId/grade/:participantId', this.gradeSubmittedChallenge)
       .delete('/:challengeId', this.deleteChallenge)
-<<<<<<< HEAD
-      .delete('/:challengeId/participants/:participantId', this.removeParticipant)
-=======
       .delete('/:challengeId/participants', this.removeParticipant)
 
       // .get('/:challengeId/submissions', this.getSubmissionsByChallengeId)
->>>>>>> 9337487010152b54d5695a0e414ade387c90b454
   }
 
   async gradeSubmittedChallenge(req, res, next) {

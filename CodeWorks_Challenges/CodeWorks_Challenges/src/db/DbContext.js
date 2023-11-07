@@ -16,13 +16,8 @@ class DbContext {
   Challenges = mongoose.model('Challenge', ChallengeSchema);
   Participants = mongoose.model('Participant', ChallengeParticipantSchema);
   Moderators = mongoose.model('Moderator', ModeratorSchema);
-<<<<<<< HEAD
-  Milestones = mongoose.model('Milestone', MilestoneSchema);
-  AccountMilestones = mongoose.model('AccountMilestone', AccountMilestoneSchema);
-=======
   Answers = mongoose.model('Answer', AnswerSchema);
   Submissions = mongoose.model('Submission', SubmissionSchema);
->>>>>>> 9337487010152b54d5695a0e414ade387c90b454
 }
 
 export const dbContext = new DbContext()
