@@ -12,6 +12,7 @@
             Challenge</h1>
           <!-- <h1>{{ challenge.id }}</h1> -->
         </div>
+<<<<<<< HEAD
       </div>
       <div class="body">
         <p>Created: {{ date }}</p>
@@ -65,6 +66,56 @@
             </div>
           </div>
           <div class="d-flex justify-content-center">
+=======
+    </div>
+        <div class="body row">
+          <div class="col-3">
+            <p>Created: {{ date }}</p>
+
+            <!-- <p>{{ challenge.description }}</p> -->
+            <p>Points: {{ challenge.pointValue }}</p>
+            <p Use v-html="difficulty.html"></p>
+            <p>Created by: {{ challenge.creator.name }}</p>
+            <p v-if="challenge.supportLinks.length > 0">Support Links: {{ challenge.supportLinks }}</p>
+
+            <div class="d-flex mb-3">Moderators:
+              <div v-for="mod in moderators" :key="mod.id">
+                <img @click="removeModeration(mod.id)" class="moderator selectable ms-2" :src="mod.profile.picture"
+                  :alt="mod.profile.name" :title="mod.profile.name">
+              </div>
+            </div>
+  
+            <p>Participants: {{ participants.length }}</p>
+
+            <div v-for="(link, i) in challenge.supportLinks" :key="i" class="footer">
+              <p class="col-8 ps-3" style="font-size: .65rem;">
+                <a :href="link.url" :title="`Project Links: ${challenge.supportLinks}`" class="fw-bold hover-text-primary">
+                  {{ link.name }}
+                </a>
+              </p>
+            </div>
+          </div>
+          <div v-if="isParticipant" class="col-6 d-flex justify-content-center align-items-end">
+            <a
+              ref="submission"
+              id="challengeSubmissionButton"
+              type="button"
+              role="button"
+              data-bs-target="#createSubmissionForm"
+              data-bs-toggle="modal"
+              aria-label="Go to Active Challenge Modal"
+              class="mdi mdi-chevron-triple-right border-none fs-2 hover-orange shadow-none"
+              title="Create a new challenge"
+            >
+              Submit Your Challenge For Grading?
+            </a>
+          </div>
+        </div>
+
+        <div class="col-12 d-flex justify-content-center align-items-center mt-3">
+          <!-- Temporary collapse to make challenge page more legible -->
+          <p class="d-inline-flex gap-1">
+>>>>>>> 9337487010152b54d5695a0e414ade387c90b454
             <button class="btn btn-outline-warning fs-4" type="button" data-bs-toggle="collapse"
               data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
               Close

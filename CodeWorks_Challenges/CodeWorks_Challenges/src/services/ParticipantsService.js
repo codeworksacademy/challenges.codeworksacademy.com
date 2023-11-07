@@ -35,6 +35,14 @@ class ParticipantsService {
 		return participant
 	}
 
+	async getParticipantById(participantId) {
+		const participant = await dbContext.Participants.findById(participantId).populate({
+			path: 'challenge',
+			populate: { path: 'creator participantCount' }
+		}).populate('profile', 'name picture')
+		return participant
+	}
+
 	async getParticipantsByChallengeId(challengeId) {
 		const participants = await dbContext.Participants.find({ challengeId })
 			.populate('profile', PROFILE_FIELDS)

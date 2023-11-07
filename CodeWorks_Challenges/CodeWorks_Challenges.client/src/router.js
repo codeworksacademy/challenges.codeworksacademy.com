@@ -38,6 +38,7 @@ const routes = [
     component: loadPage('ChallengeEditPage'),
     children: [
       {
+<<<<<<< HEAD
         path: 'details',
         name: 'ChallengeEditor',
         component: loadPage('ChallengeEditor')
@@ -47,7 +48,26 @@ const routes = [
         name: 'ChallengeModeration',
         component: loadPage('ChallengeModerationPage')
       }
+=======
+        path: 'edit',
+        name: 'EditChallenge',
+        component: loadPage('EditChallengePage'),
+        beforeEnter: authGuard
+      },
+      // {
+      //   path: '/submissions/:submissionId',
+      //   name: 'GradeSubmission',
+      //   component: loadPage('GradeSubmissionPage'),
+      //   beforeEnter: authGuard
+      // }
+>>>>>>> 9337487010152b54d5695a0e414ade387c90b454
     ]
+  },
+  {
+    path: '/submissions',
+    name: 'ChallengeSubmissions',
+    component: loadPage('ChallengeSubmissionsPage'),
+    beforeEnter: authGuard
   },
   {
     path: '/profile/:profileId',

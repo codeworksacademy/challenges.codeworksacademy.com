@@ -51,8 +51,9 @@ class ChallengesService {
   async deleteChallenge(challengeId) {
     const res = await api.delete(`/api/challenges/${challengeId}`)
     logger.log('Deleting Challenge ⏩', res.data)
-    let foundChallenge = AppState.challenges.find(c => c.id == challengeId)
-    AppState.challenges.splice(foundChallenge, 1)
+    let indexToDelete = AppState.challenges.findIndex(c => c.id == challengeId)
+    AppState.challenges.splice(indexToDelete, 1)
+    AppState.activeChallenge = res.data
     Pop.toast('You have successfully deleted this challenge!', 'success')
   }
 

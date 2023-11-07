@@ -4,8 +4,26 @@
   </header>
   <main>
     <router-view />
-    <ModalWrapper id="submitChallengeForm">
-      <SubmitChallengeForm />
+    <ModalWrapper id="createChallengeForm">
+      <template #header>
+        <h3 class="m-auto">
+          Create Challenge
+        </h3>
+      </template>
+      <template #body>
+        <CreateChallengeForm />
+      </template>
+    </ModalWrapper>
+
+    <ModalWrapper id="createSubmissionForm">
+      <template #header>
+        <h3 class="m-auto">
+          Submit Challenge
+        </h3>
+      </template>
+      <template #body>
+        <ChallengeSubmissionForm />
+      </template>
     </ModalWrapper>
 
   </main>
@@ -31,19 +49,23 @@ import { computed } from 'vue'
 import { AppState } from './AppState'
 import Navbar from './components/Navbar.vue'
 import ModalWrapper from './components/ModalWrapper.vue'
-import SubmitChallengeForm from './components/SubmitChallengeForm.vue'
+import CreateChallengeForm from './components/CreateChallengeForm.vue'
+import ChallengeSubmissionForm from './components/ChallengeSubmissionForm.vue'
 import AnswerForm from './components/AnswerForm.vue'
 
 export default {
   setup() {
     return {
-      appState: computed(() => AppState)
+      appState: computed(() => AppState),
+      submission: computed(() => AppState.activeSubmission)
     }
   },
   components: { 
     Navbar,
     ModalWrapper,
-    SubmitChallengeForm }
+    CreateChallengeForm,
+    ChallengeSubmissionForm,
+   }
 }
 </script>
 <style lang="scss">

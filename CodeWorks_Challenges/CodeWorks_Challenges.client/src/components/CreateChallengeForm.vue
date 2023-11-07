@@ -1,6 +1,6 @@
 <template>
   <section v-if="user.isAuthenticated" class="container-fluid">
-    <form @submit.prevent="createChallenge" id="submitChallengeForm">
+    <form @submit.prevent="createChallenge" id="createChallengeForm">
       <div class="form-group">
         <label for="name">Challenge Name</label>
         <input type="text" class="form-control" id="name" v-model="editable.name" required> 
@@ -54,7 +54,7 @@ export default {
         const newChallenge = editable.value
         editable.value = { ...editable.value, ...props.challenge }
         await challengesService.createChallenge(newChallenge)
-        Modal.getOrCreateInstance('#submitChallengeForm').hide()
+        Modal.getOrCreateInstance('#createChallengeForm').hide()
         Pop.toast('Challenge Created')
         router.push(
           { name: 'EditChallenge',
