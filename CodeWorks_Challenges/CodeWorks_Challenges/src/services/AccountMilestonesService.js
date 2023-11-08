@@ -78,6 +78,7 @@ class AccountMilestonesService {
 
     // STUB Kyle operationsArr[0] is also a tier checker, it checks to see if the tier is at it's highest value and exits the function and avoids the extra calls to other services, It looks like the value might have needed to be different though.
     // STUB Kyle I see that ref is removed, I had questions about that thank you.
+    // STUB Kyle Claimed could be an integer instead of a bool and if your claimed is lower than your tier that tier is considered unclaimed - This would allow you to claim each individual tier instead of all of them at once in case you go from tier 0 to tier 10
 
     if (foundAccountMilestone) {
       // Example string '5-$gte%1-2-3-4-5-10'
