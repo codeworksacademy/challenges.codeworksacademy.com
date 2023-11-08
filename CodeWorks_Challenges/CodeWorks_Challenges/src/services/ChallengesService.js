@@ -23,7 +23,7 @@ class ChallengesService {
   async getChallengeById(challengeId) {
     const challenge = await dbContext.Challenges.findById(challengeId)
       .populate('creator', PROFILE_FIELDS)
-      // .select('-answers')  //FIXME - This gets the challenge without the answer attached, uncommenting when done
+      .select('-answers')  //FIXME - This gets the challenge without the answer attached, uncommenting when done
 
     if (!challenge) {
       throw new BadRequest('Invalid Challenge ID.')
@@ -32,6 +32,7 @@ class ChallengesService {
     return challenge
   }
 
+  //This is where editing the challenge will have answers populated
   async getChallengesCreatedBy(profileId, accountId) {
     const challenges = accountId != profileId
       ? await dbContext.Challenges.find({ creatorId: profileId })
@@ -90,6 +91,7 @@ class ChallengesService {
   //   - or validate all answers all correct order
 
   // REVIEW - I believe that I mistakenly left this in here while creating my Answer backend, I will delete it after the team has had a chance to review Jake's feedback. (Becca)
+  //NOTE - Keeping This -Chantha
   async submitAnswer(challengeId, userId, answer) {
     const challenge = await this.getChallengeById(challengeId)
     if (challenge.answers[0].answer === answer.answerData) {
