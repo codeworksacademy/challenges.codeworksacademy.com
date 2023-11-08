@@ -18,7 +18,8 @@ export class ChallengesController extends BaseController {
 
       .post('', this.createChallenge)
       .put('/:challengeId', this.editChallenge)
-      .put('/:challengeId', this.deprecateChallenge)
+      .post('/:challengeId/answers', this.submitAnswer)
+      // .put('/:challengeId', this.deprecateChallenge)
       .put('/:challengeId/grade/:participantId', this.gradeSubmittedChallenge)
       .delete('/:challengeId', this.deleteChallenge)
       .delete('/:challengeId/participants', this.removeParticipant)
@@ -37,6 +38,18 @@ export class ChallengesController extends BaseController {
       throw new Error('NOT IMPLEMENTED')
     } catch (error) {
       next(error)
+    }
+  }
+
+  async submitAnswer(req, res, next){
+    try{
+      const challengeId = req.params.challengeId
+      const userId = req.userInfo.id
+      const answer = req.body
+      const result = await challengesService.submitAnswer(challengeId, userId, answer)
+      return res.send(result) //FIXME - Working on this
+    } catch (e){
+      next(e)
     }
   }
 

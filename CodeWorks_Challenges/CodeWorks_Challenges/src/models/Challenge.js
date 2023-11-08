@@ -56,12 +56,14 @@ export const ChallengeSchema = new Schema({
     default: ''
   },
   // REVIEW why are there multiple answers?
+  //Change this to puzzles --> outputs 
+  //I will be using the index of the answer in the array to compare to the index of the answer
   answers: [
     { 
-      description: String,
-      answer: String
+      description: { type: String, required: true },
+      answer: { type: String, required: true }
     }
-  ],
+  ]
   // TODO respect points???
 },
   {

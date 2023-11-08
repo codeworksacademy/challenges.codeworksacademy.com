@@ -95,10 +95,10 @@ class ChallengesService {
 
   async submitAnswer(challengeId, answerData) {
     const res = await api.post(`api/challenges/${challengeId}/answers`, {
-      answer: answerData
+      answerData
     })
     // logger.log(answerData)
-    logger.log('[SUBMITTING ANSWER]', res.data)
+    // logger.log('[SUBMITTING ANSWER]', res.data)
 
     return res.data
   }

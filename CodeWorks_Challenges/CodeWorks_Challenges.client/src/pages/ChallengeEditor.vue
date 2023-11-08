@@ -212,10 +212,13 @@ export default {
       Pop.success("Link Added")
     }
     function addAnswer(){
-      const newAnswerDesctiption = document.getElementById("answerDescription")
+      if (!challenge.value.answers) {
+        challenge.value.answers = [];
+      }
+      const newAnswerDescription = document.getElementById("answerDescription")
       const newAnswer = document.getElementById("answer")
-      logger.log("new Answer" ,newAnswerDesctiption.value, newAnswer.value)
-      if(newAnswerDesctiption.value.length == 0){
+      logger.log("new Answer" ,newAnswerDescription.value, newAnswer.value)
+      if(newAnswerDescription.value.length == 0){
         Pop.error("You must specify an answer description.")
         return;
       }
@@ -224,10 +227,10 @@ export default {
         return;
       }
       challenge.value.answers.push({
-        description: newAnswerDesctiption.value,
-        answer: newAnswer.value
+        answer: newAnswer.value,
+        description: newAnswerDescription.value
       })
-      newAnswerDesctiption.value = ''
+      newAnswerDescription.value = ''
       newAnswer.value = ''
       logger.log(challenge.value.answers)
       Pop.success("Answer Added")
