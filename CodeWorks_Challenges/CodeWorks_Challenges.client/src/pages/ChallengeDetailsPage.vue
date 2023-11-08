@@ -13,11 +13,11 @@
 
         </div>
     </div>
-        <div class="body row">
+        <!-- <div class="body row">
           <div class="col-3">
             <p>Created: {{ date }}</p>
 
-            <!-- <p>{{ challenge.description }}</p> -->
+            <p>{{ challenge.description }}</p>
             <p>Points: {{ challenge.pointValue }}</p>
             <p Use v-html="difficulty.html"></p>
             <p>Created by: {{ challenge.creator.name }}</p>
@@ -55,7 +55,7 @@
               Submit Your Challenge For Grading?
             </a>
           </div>
-        </div>
+        </div> -->
 
         <div class="col-12 d-flex justify-content-center align-items-center mt-3">
           <!-- Temporary collapse to make challenge page more legible -->
@@ -66,7 +66,7 @@
             </button>
           </p>
         </div>
-      </div>
+    </div>
 
 
     <!-- Interactions with Challenge -->

@@ -31,7 +31,6 @@ export const AppState = reactive({
   /** @type {import('./models/Profile.js')|null} */
   activeProfile: null,
   profiles: [],
-<<<<<<< HEAD
   // query: '',
 
   /** @type {import('./models/AccountMilestone.js').Milestone[]} */
@@ -49,10 +48,4 @@ export const AppState = reactive({
     "createdChallenge", "joinedChallenge", "completedChallenge", "moderateChallenge"
   ]
 
-=======
-
-  /** @type {import('./models/Submission.js')|null} */
-  activeSubmission: null,
-  
->>>>>>> 9337487010152b54d5695a0e414ade387c90b454
 })
