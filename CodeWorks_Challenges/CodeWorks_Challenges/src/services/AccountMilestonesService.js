@@ -76,7 +76,7 @@ class AccountMilestonesService {
 
 
     if (foundAccountMilestone) {
-      // Example string '5-$gte%1-2-3-4-5-10'
+      // Example string '6-$gte%1-2-3-4-5-10'
       const logicArr = milestone.logic;
       const logicParts = logicArr.split('%');
       const operationsArr = logicParts[0].split('-');
