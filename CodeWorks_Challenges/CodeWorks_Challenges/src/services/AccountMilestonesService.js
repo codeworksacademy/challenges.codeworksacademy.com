@@ -55,60 +55,61 @@ class AccountMilestonesService {
     return claimMilestone
   }
 
-  async checkMilestones(check, userId) {
+  async checkMilestones(milestone, userId) {
     // Get the account Milestone, if one doesn't exist create one.
     // It will be assumed that this is a new account or new milestone
     // If this is an existing account that should return a higher tier, 
     // running the function a second time (frontend) may be required.
     const accountMilestoneData = {}
-    const foundAccountMilestone = await this.getAccountMilestoneById(check.id, userId)
+    const foundAccountMilestone = await this.getAccountMilestoneById(milestone.id, userId)
 
     if (!foundAccountMilestone) {
-      accountMilestoneData.milestoneId = check.id
+      accountMilestoneData.milestoneId = milestone.id
       accountMilestoneData.accountId = userId
       this.createAccountMilestone(accountMilestoneData)
     }
 
+    // REVIEW Code Review Reflection - Kyle
+    // It looks like my approach is not a plugin approach but, my code can be made better by --
+    // Utilizing ref - ref can be set as a string to the same name as the schema on the back end, Allowing for a more efficient counting function
+    // $gte can be checked against to push the function to the correct comparison
+
 
     if (foundAccountMilestone) {
       // Example string '5-$gte%1-2-3-4-5-10'
-      const logicArr = check.logic;
+      const logicArr = milestone.logic;
       const logicParts = logicArr.split('%');
       const operationsArr = logicParts[0].split('-');
-      const thresholdArr = logicParts[1].split('-');
+      const tierThresholdArr = logicParts[1].split('-');
       // This string parser will return 
       // operationsArr = ['5', '$gte']
-      // thresholdsArr = ['1','2','3','4','5','10']
+      // tierThresholdArr = ['1','2','3','4','5','10'] -- The positions of the array are the level of tier they represent +1, The value of the position is the requirement needed to get the tier.
+
+      const filterKey = {
+        createdChallenge: ['creatorId'],
+        joinedChallenge: ['accountId'],
+        moderateChallenge: ['accountId', { status: 'Active' }]
+      };
+
+      // milestone.ref == Challenges
+
+      const additionalConditions = filterKey[milestone.check][1] || {}; // Get the additional conditions, or an empty object if not present
+
+      const milestoneCheckCount = await dbContext[milestone.ref].find({ [filterKey[milestone.check][0]]: userId, ...additionalConditions }).count();
+
       if (foundAccountMilestone.tier < operationsArr[0]) { //This checks to see if the milestone is maxed out
         let tier = 0;
-        if (check.check == 'createdChallenge') {
-          const challengeCount = await challengesService.getMyChallenges(userId)
-          for (let i = 0; i < operationsArr[0]; i++) {
-            if (challengeCount.length >= thresholdArr[i]) {
-              tier = i + 1
-            }
+
+        for (let i = 0; i < operationsArr[0]; i++) {
+          if (milestoneCheckCount >= tierThresholdArr[i]) {
+            tier = i + 1
           }
         }
-        if (check.check == 'joinedChallenge') {
-          const participantCount = await participantsService.getParticipantsByAccount(userId)
-          for (let i = 0; i < operationsArr[0]; i++) {
-            if (participantCount.length >= thresholdArr[i]) {
-              tier = i + 1
-            }
-          }
-        }
-        if (check.check == 'moderateChallenge') {
-          const moderationCount = await moderatorsService.getMyModerationsByProfileId(userId)
-          for (let i = 0; i < operationsArr[0]; i++) {
-            if (moderationCount.length >= thresholdArr[i]) {
-              tier = i + 1
-            }
-          }
-        }
-        if (foundAccountMilestone.tier > tier) {
+
+        if (tier > foundAccountMilestone.tier) {
           foundAccountMilestone.claimed = false
+          foundAccountMilestone.tier = tier
         }
-        foundAccountMilestone.tier = tier
         await foundAccountMilestone.save()
         return foundAccountMilestone
       }

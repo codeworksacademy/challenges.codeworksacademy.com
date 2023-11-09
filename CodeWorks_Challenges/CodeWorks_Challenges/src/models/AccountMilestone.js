@@ -14,7 +14,7 @@ export const AccountMilestoneSchema = new Schema({
   },
   claimed: {
     type: Boolean,
-    default: false
+    default: true
   },
   tier: {
     type: Number,
