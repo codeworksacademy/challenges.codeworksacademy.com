@@ -1,28 +1,57 @@
 <template>
-  <div class="bg-dark text-light p-2 mb-3 m-2 rounded">
-    <div class="d-flex justify-content-evenly">
-      <p>
-        Profile: {{ moderationProp.profile.name }}
-      </p>
-      <p>
-        Challenge: {{ moderationProp.challenge.name }}
-      </p>
-      <p>
-        Creator: {{ moderationProp.challenge.creator.name }}
-      </p>
-      <p>
-        Status: {{ moderationProp.status }}
-      </p>
-    </div>
-    <div>
-      <button v-if="moderationProp.originId != account.id" class="btn" @click="approveModeration(moderationProp.id)" title="approve moderation">
-        <i class="mdi mdi-check-circle text-success selectable"></i>
-      </button>
-      <button class="btn" @click="removeModeration(moderationProp.id)" title="remove moderation">
-        <i class="mdi mdi-delete text-danger selectable"></i>
-      </button>
-    </div>
+  <div class="table-responsive">
+    <table class="table table-dark table-sm">
+      <thead>
+        <tr>
+          <th scope="col">Profile</th>
+          <th scope="col">Challenge</th>
+          <th scope="col">Creator</th>
+          <th scope="col">Status</th>
+          <th scope="col">Remove</th>
+          <th scope="col">
+            <span v-if="moderationProp.originId != account.id">
+              Approve
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="table-col-style">
+            <span class="d-block w-75 text-truncate">
+              {{ moderationProp.profile.name }}
+            </span>
+          </td>
+          <td class="table-col-style">
+            <span class="d-block w-75 text-truncate">
+              {{ moderationProp.challenge.name }}
+            </span>
+          </td>
+          <td class="table-col-style text-truncate">
+            <span class="d-block w-75 text-truncate">
+              {{ moderationProp.challenge.creator.name }}
+            </span>
+          </td>
+          <td class="table-col-style text-truncate">
+            <span class="d-block w-75 text-truncate">
+              {{ moderationProp.status }}
+            </span>
+          </td>
+          <td>
+            <button class="btn" @click="removeModeration(moderationProp.id)" title="remove moderation">
+              <i class="mdi mdi-delete text-danger selectable"></i>
+            </button>
+          </td>
+          <td>
+            <button v-if="moderationProp.originId != account.id" class="btn" @click="approveModeration(moderationProp.id)" title="approve moderation">
+              <i class="mdi mdi-check-circle text-success selectable"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+
 </template>
 
 
@@ -70,5 +99,7 @@ export default {
 
 
 <style lang="scss" scoped>
-
+.table-col-style{
+  width: 20%;
+}
 </style>

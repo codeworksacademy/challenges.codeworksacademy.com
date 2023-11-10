@@ -5,6 +5,7 @@
         Moderations:
       </h4>
     </div>
+
     <div class="col-12" v-if="myModerations.length === 0 && moderators.length == 0">
       <p>
         You don't moderate any challenges
@@ -33,47 +34,31 @@
       </div>
 
       <div class="col-12">
-        <section class="row justify-content-center">
-          <div class="col-12">
-            <p class="text-secondary">you're waiting to be approved</p>
-          </div>
-          <div class="col-6" v-for="moderation in myModerations" :key="moderation.id">
-            <ModerationCard :moderationProp="moderation" />
-          </div>
-        </section>
+        <p class="text-secondary">you're waiting to be approved</p>
+        <div v-for="moderation in myModerations" :key="moderation.id">
+          <ModerationCard :moderationProp="moderation" />
+        </div>
       </div>
 
       <div class="col-12">
-        <section class="row justify-content-center">
-          <div class="col-12">
-            <p class="text-secondary">your moderation has been requested</p>
-          </div>
-          <div class="col-6" v-for="moderation in myModerations" :key="moderation.id">
-            <ModerationCard :moderationProp="moderation" />
-          </div>
-        </section>
+        <p class="text-secondary">your moderation has been requested</p>
+        <div v-for="moderation in myModerations" :key="moderation.id">
+          <ModerationCard :moderationProp="moderation" />
+        </div>
       </div>
 
       <div class="col-12">
-        <section class="row justify-content-center">
-          <div class="col-12">
-            <p class="text-secondary">Someone wants to moderate your challenge</p>
-          </div>
-          <div class="col-6" v-for="moderation in moderators" :key="moderation.id">
-            <ModerationCard :moderationProp="moderation" />
-          </div>
-        </section>
+        <p class="text-secondary">Someone wants to moderate your challenge</p>
+        <div v-for="moderation in moderators" :key="moderation.id">
+          <ModerationCard :moderationProp="moderation" />
+        </div>
       </div>
 
       <div class="col-12">
-        <section class="row justify-content-center">
-          <div class="col-12">
-            <p class="text-secondary">Moderators you've asked to join</p>
-          </div>
-          <div class="col-6" v-for="moderation in moderators" :key="moderation.id">
-            <ModerationCard :moderationProp="moderation" />
-          </div>
-        </section>
+        <p class="text-secondary">Moderators you've asked to join</p>
+        <div v-for="moderation in moderators" :key="moderation.id">
+          <ModerationCard :moderationProp="moderation" />
+        </div>
       </div>
     </div>
   </section>
