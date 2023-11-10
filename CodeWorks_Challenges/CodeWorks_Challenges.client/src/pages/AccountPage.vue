@@ -1,80 +1,116 @@
 <template>
-  <div class="container">
-    <section class="row pt-3">
-      <div class="col-12 bg-success position-relative">
-        <img style="z-index: -1;" class="cover-image rounded position-absolute" :src="account.coverImg" alt="">
+  <div class="container-fluid" v-if="account.id">
+    <section class="row">
+      <div class="p-0">
+        <img class="coverImg-style" :src="account.coverImg" alt="Cover Image">
       </div>
 
+      <div class="d-flex col-md-10 col-12">
+        <img :src="account.picture" :alt="account.name" class="avatar-md mx-4 avatar-style">
+        <div class="d-flex flex-column">
+          <p class="fs-2 m-0">
+            {{ account.name }}
+          </p>
+          <p>
+            Rank: {{ account.title }} 
+            <span class="ms-2">
+              {{ account.rank }} XP
+            </span>
+            <span title="challenges" class="ms-2">
+              {{ (myChallenges.length + joinedChallenges.length) }}
+              <i class="mdi mdi-head-lightbulb fs-5"></i>
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-2 col-12 text-md-end">
+        <button type="button" class="btn btn-primary my-2 ms-md-0 ms-2" data-bs-toggle="modal" data-bs-target="#accountFormModal">
+          Edit Account
+        </button>
+      </div>
+    </section>
+
+<!-- TODO Add computed in Style section which sets the width of the progress bar (i.e., percentile based on next rank and current rank) -->
+    <section class="rank-card-style row m-2 mb-3 p-2 rounded">
+      <div class="col-12 fs-2">
+        {{ account.title }}
+      </div>
       <div class="col-12">
-        <div class="account d-flex flex-column align-items-center justify-content-center">
-          <h1>Welcome {{ account.name }}</h1>
-          <img class="rounded" :src="account.picture" :alt="account.name" />
-
-        </div>
-        <div class="about text-center mt-3">
-          <h2>{{ account.email }}</h2>
-          <p>About: {{ account.aboutContent }}</p>
-
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#accountFormModal">
-            Edit Account
-          </button>
+        <div class="row">
+          <div class="col-md-3 col-12 d-flex align-items-end">
+            <span>
+              CURRENT RANK
+            </span>
+          </div>
+          <div class="col-md-9 col-12 text-start text-md-end">
+            <span>
+              NEXT RANK [RANK NUMBER]
+            </span>
+            <div class="progress" role="progressbar" aria-label="example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar bg-primary" style="width: 50%"></div>
+            </div>
+          </div>
         </div>
       </div>
-
     </section>
 
-    <section class="row">
-      <h2 class="col-6">
-        Reputation:
-        <h3 v-if="account.reputation === 0">You don't have any reputation</h3>
-        <h3 v-else>{{ account.reputation }}</h3>
-      </h2>
-      <h2 class="col-6">
-        Rank:
-        <h3 v-if="account.rank === 0">New Challenger</h3>
-        <h3 v-else>{{ account.reputation }}</h3>
-      </h2>
-    </section>
-
-    <section class="row">
-      <MilestonesTracker />
-    </section>
-
-    <section class="row">
-      <h2 class="col-12">
-        Challenges Owned:
-        <h3 v-if="myChallenges.length === 0">You haven't made any challenges</h3>
+    <section class="row mb-3">
+      <div class="col-12">
+        <h4>
+          Challenges Owned:
+        </h4>
+        <h5 v-if="myChallenges.length === 0">You haven't made any challenges</h5>
         <div v-else v-for="challenge in myChallenges" :key="challenge.id" class="col-12 mb-1 position-relative">
           <ChallengeCard :challenge="challenge" />
         </div>
-      </h2>
+      </div>
     </section>
 
-    <section class="row">
+    <section class="row mb-3">
       <AccountModerator />
     </section>
 
-    <section class="row">
-      <h2 class="col-12">
-        Challenges Joined:
-        <h3 v-if="joinedChallenges.length === 0">You haven't joined any challenges</h3>
+    <section class="row mb-3">
+      <div class="col-12">
+        <h4>
+          Challenges Joined:
+        </h4>
+        <h5 v-if="joinedChallenges.length === 0">You haven't joined any challenges</h5>
         <div v-else v-for="challenge in joinedChallenges" :key="challenge.id" class="mb-1">
           <ChallengeCard :challenge="challenge.challenge" />
         </div>
-      </h2>
+      </div>
     </section>
 
-    <section class="row">
-      <h2 class="col-12">
-        Challenges Completed:
-        <h3 v-if="completedChallenges.length === 0">You haven't completed any challenges</h3>
+    <section class="row mb-3">
+      <div class="col-12">
+        <h4>
+          Challenges Completed:
+        </h4>
+        <h5 v-if="completedChallenges.length === 0">You haven't completed any challenges</h5>
         <div v-else v-for="challenge in completedChallenges" :key="challenge.id">
           <ChallengeCard :challenge="challenge" />
         </div>
-      </h2>
+      </div>
     </section>
 
+    <section class="row my-2">
+      <div>
+        <a class="btn btn-primary" data-bs-toggle="collapse" href="#milestonesTracker" role="button" aria-expanded="false" aria-controls="milestonesTrackerToggle">Toggle Milestones Tracker</a>
+      </div>
+      <div class="collapse" id="milestonesTracker">
+        <MilestonesTracker />
+      </div>
+    </section>
   </div>
+
+  <div class="container-fluid" v-else>
+    <h1 class="fs-1 fw-bold">
+      Loading... <i class="mdi mdi-loading mdi-spin"></i>
+    </h1>
+  </div>
+
   <!-- Modal -->
   <div class="modal fade" id="accountFormModal" tabindex="-1" aria-labelledby="accountFormModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -122,14 +158,6 @@ export default {
       // }
     }
 
-    // async function getMyJoinedChallenges() {
-    // try {
-    //   await challengesService.getMyJoinedChallenges(AppState.account.id)
-    // } catch (error) {
-    //   Pop.toast(error, 'error')
-    // }
-    // }
-
     async function getParticipantsByAccount() {
       try {
         await accountService.getMyParticipations()
@@ -142,7 +170,6 @@ export default {
       if (AppState.account.id) {
         getMyChallenges()
         getMyBadges()
-        // getMyJoinedChallenges()
         getParticipantsByAccount()
       }
     })
@@ -158,31 +185,20 @@ export default {
 </script>
 
 <style scoped>
-h2 {
-  margin-bottom: 32px;
+.rank-card-style{
+  height: fit-content;
+  background-color: slategray;
+  color: white;
 }
-
-h3 {
-  margin-top: 16px;
-}
-
-img {
-  max-width: 100px;
-}
-
-.row {
-  font-weight: bold;
-  margin-bottom: 16px;
-}
-
-.cover-image {
-  height: 40vh;
-  min-width: 100%;
+.coverImg-style{
   object-fit: cover;
   object-position: center;
+  height: 15vh;
+  width: 100%;
 }
 
-.account {
-  min-height: 40vh;
+.avatar-style{
+  position: relative;
+  top: -5.5vh;
 }
 </style>

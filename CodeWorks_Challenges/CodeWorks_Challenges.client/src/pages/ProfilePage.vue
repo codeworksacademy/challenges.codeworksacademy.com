@@ -5,7 +5,7 @@
         <img :src="activeProfile.coverImg" alt="Cover Image" class="coverImg-style">
       </div>
       <div class="d-flex col-12">
-        <img :src="activeProfile.picture" :alt="activeProfile.name" class="avatar-md me-4 avatar-style">
+        <img :src="activeProfile.picture" :alt="activeProfile.name" class="avatar-md mx-4 avatar-style">
         <div class="d-flex flex-column">
           <p class="fs-2 m-0">
             {{ activeProfile.name }}

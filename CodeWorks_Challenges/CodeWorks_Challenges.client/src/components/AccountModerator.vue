@@ -1,16 +1,18 @@
 <template>
-  <h2 class="col-12">
-    Moderations:
-    <h3 v-if="myModerations.length === 0 && moderators.length == 0">You don't moderate any challenges</h3>
+  <div class="col-12">
+    <h4>
+      Moderations:
+    </h4>
+    <h4 v-if="myModerations.length === 0 && moderators.length == 0">You don't moderate any challenges</h4>
     <div v-else>
-      <p>My Active Moderations:</p>
+      <p class="fs-5">My Active Moderations:</p>
       <div v-for="challenge in myModerations" :key="challenge.id">
         <div v-if="challenge.status == 'Active'">
           <ChallengeCard :challenge="challenge.challenge" /><i @click="removeModeration(challenge.id)"
             class="mdi mdi-delete text-danger selectable"></i>
         </div>
       </div>
-      <p>Pending:</p>
+      <p class="fs-5">Pending:</p>
       <p class="text-secondary">you're waiting to be approved</p>
       <div v-for="challenge in myModerations" :key="challenge.id">
         <div v-if="challenge.status == 'Pending' && challenge.originId == account.id">
@@ -115,7 +117,7 @@
         </div>
       </div>
     </div>
-  </h2>
+  </div>
 </template>
 
 

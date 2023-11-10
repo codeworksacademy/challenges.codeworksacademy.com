@@ -51,7 +51,10 @@ class ParticipantsService {
 	}
 
 	async getMyParticipations(accountId) {
-		const participants = await dbContext.Participants.find({ accountId }).populate('challenge', 'name coverImg')
+		const participants = await dbContext.Participants.find({ accountId }).populate({
+			path: 'challenge',
+			populate: { path: 'creator' }
+		}).populate('profile', PROFILE_FIELDS)
 		return participants
 	}
 
