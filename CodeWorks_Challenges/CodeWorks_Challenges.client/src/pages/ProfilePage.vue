@@ -97,12 +97,4 @@ export default {
 
 
 <style lang="scss" scoped>
-.avatar-sm{
-  height: 5rem;
-  width: 5rem;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: center;
-}
-
 </style>

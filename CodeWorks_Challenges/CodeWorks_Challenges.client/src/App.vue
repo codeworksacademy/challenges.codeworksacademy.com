@@ -81,4 +81,20 @@ footer {
   place-content: center;
   height: 32px;
 }
+
+.avatar-sm{
+  height: 5rem;
+  width: 5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.avatar-xs{
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+}
 </style>

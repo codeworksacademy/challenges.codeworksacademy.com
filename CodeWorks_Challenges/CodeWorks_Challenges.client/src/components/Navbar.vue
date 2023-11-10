@@ -11,11 +11,6 @@
     </button>
     <div class="collapse navbar-collapse bg-dark" id="navbarText">
       <ul class="navbar-nav me-auto" style="z-index: 1000;">
-        <li>
-          <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
-            About
-          </router-link>
-        </li>
       </ul>
       <!-- LOGIN COMPONENT HERE -->
       <Login />

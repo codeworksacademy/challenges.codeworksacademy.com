@@ -7,8 +7,23 @@
     <div v-else>
       <div class="dropdown my-2 my-lg-0">
         <div type="button" class="bg-dark border-0 selectable no-select" data-bs-toggle="dropdown" aria-expanded="false">
-          <div v-if="account.picture || user.picture">
-            <img :src="account.picture || user.picture" alt="account photo" height="40" class="rounded" /> <span class="text-success text-uppercase lighten-30">Manage Account</span>
+          <div v-if="account.picture || user.picture" class="d-flex align-items-center p-1">
+            <div class="me-2">
+              <img :src="account.picture || user.picture" alt="account photo" class="avatar-xs" />
+            </div>
+            <div class="">
+              <p class="fs-5 m-0">
+                {{ account.name }}
+              </p>
+              <p class="m-0">
+                Rank: {{ account.title }} 
+
+                <span class="ms-2">
+                  {{ account.rank }} XP
+                </span>
+              </p>
+            </div>
+
           </div>
         </div>
         <div class="dropdown-menu dropdown-menu-lg-end dropdown-menu-start p-0" aria-labelledby="authDropdown">
