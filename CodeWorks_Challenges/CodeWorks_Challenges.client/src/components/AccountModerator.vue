@@ -1,123 +1,82 @@
 <template>
-  <div class="col-12">
-    <h4>
-      Moderations:
-    </h4>
-    <h4 v-if="myModerations.length === 0 && moderators.length == 0">You don't moderate any challenges</h4>
-    <div v-else>
-      <p class="fs-5">My Active Moderations:</p>
-      <div v-for="challenge in myModerations" :key="challenge.id">
-        <div v-if="challenge.status == 'Active'">
-          <ChallengeCard :challenge="challenge.challenge" /><i @click="removeModeration(challenge.id)"
-            class="mdi mdi-delete text-danger selectable"></i>
-        </div>
-      </div>
-      <p class="fs-5">Pending:</p>
-      <p class="text-secondary">you're waiting to be approved</p>
-      <div v-for="challenge in myModerations" :key="challenge.id">
-        <div v-if="challenge.status == 'Pending' && challenge.originId == account.id">
-          <div class="bg-primary mb-3 rounded">
-            <h6>
-              ID-{{ challenge.id }}
-            </h6>
-            <h6>
-              AccountID-{{ challenge.accountId }}
-            </h6>
-            <h6>
-              ChallengeID-{{ challenge.challengeId }}
-            </h6>
-            <h6>
-              OriginID- {{ challenge.originId }}
-            </h6>
+  <section class="row">
+    <div class="col-12">
+      <h4>
+        Moderations:
+      </h4>
+    </div>
+    <div class="col-12" v-if="myModerations.length === 0 && moderators.length == 0">
+      <p>
+        You don't moderate any challenges
+      </p>
+    </div>
 
-            <h4>Profile: {{ challenge.profile.name }} | {{ challenge.profile.id }}</h4>
-            <h4>Challenge: {{ challenge.challenge.name }} | {{ challenge.challenge.id }} </h4>
-            <h4>Creator: {{ challenge.challenge.creator.name }} | {{ challenge.challenge.creator.id }}</h4>
-            <h4>Status: {{ challenge.status }}</h4>
-            <i @click="removeModeration(challenge.id)" class="mdi mdi-delete text-danger selectable"></i>
+    <div class="col-12" v-else>
+      <section class="row">
+        <div class="col-12">
+          <p class="fs-5">
+            My Active Moderations:
+          </p>
+        </div>
+        <div class="col-12" v-for="moderation in myModerations" :key="moderation.id">
+          <div v-if="moderation.status == 'Active'">
+            <ChallengeCard :challenge="moderation.challenge" /><i @click="removeModeration(challenge.id)"
+              class="mdi mdi-delete text-danger selectable"></i>
           </div>
         </div>
-      </div>
-      <p class="text-secondary">your moderation has been requested</p>
-      <div v-for="challenge in myModerations" :key="challenge.id">
-        <div v-if="challenge.status == 'Pending' && challenge.originId != account.id">
-          <div class="bg-primary mb-3 rounded">
-            <h6>
-              ID-{{ challenge.id }}
-            </h6>
-            <h6>
-              AccountID-{{ challenge.accountId }}
-            </h6>
-            <h6>
-              ChallengeID-{{ challenge.challengeId }}
-            </h6>
-            <h6>
-              OriginID- {{ challenge.originId }}
-            </h6>
+      </section>
 
-            <h4>Profile: {{ challenge.profile.name }} | {{ challenge.profile.id }}</h4>
-            <h4>Challenge: {{ challenge.challenge.name }} | {{ challenge.challenge.id }} </h4>
-            <h4>Creator: {{ challenge.challenge.creator.name }} | {{ challenge.challenge.creator.id }}</h4>
-            <h4>Status: {{ challenge.status }}</h4>
-            <i @click="ApproveModeration(challenge.id)" class="mdi mdi-check-circle text-success selectable"></i>
-            <i @click="removeModeration(challenge.id)" class="mdi mdi-delete text-danger selectable"></i>
-          </div>
-        </div>
-      </div>
-      <p class="text-secondary">Someone wants to moderate your challenge</p>
-      <div v-for="challenge in moderators" :key="challenge.id">
-        <div v-if="challenge.status == 'Pending' && challenge.originId != account.id">
-          <div class="bg-primary mb-3 rounded">
-            <h6>
-              ID-{{ challenge.id }}
-            </h6>
-            <h6>
-              AccountID-{{ challenge.accountId }}
-            </h6>
-            <h6>
-              ChallengeID-{{ challenge.challengeId }}
-            </h6>
-            <h6>
-              OriginID- {{ challenge.originId }}
-            </h6>
-
-            <h4>Profile: {{ challenge.profile.name }} | {{ challenge.profile.id }}</h4>
-            <h4>Challenge: {{ challenge.challenge.name }} | {{ challenge.challenge.id }} </h4>
-            <h4>Creator: {{ challenge.challenge.creator.name }} | {{ challenge.challenge.creator.id }}</h4>
-            <h4>Status: {{ challenge.status }}</h4>
-            <i @click="ApproveModeration(challenge.id)" class="mdi mdi-check-circle text-success selectable"></i>
-            <i @click="removeModeration(challenge.id)" class="mdi mdi-delete text-danger selectable"></i>
-          </div>
-        </div>
+      <div class="col-12">
+        <p class="fs-5">
+          Pending:
+        </p>
       </div>
 
-      <p class="text-secondary">Moderators you've asked to join</p>
-      <div v-for="challenge in  moderators " :key="challenge.id">
-        <div v-if="challenge.status == 'Pending' && challenge.originId == account.id">
-          <div class="bg-primary mb-3 rounded">
-            <h6>
-              ID-{{ challenge.id }}
-            </h6>
-            <h6>
-              AccountID-{{ challenge.accountId }}
-            </h6>
-            <h6>
-              ChallengeID-{{ challenge.challengeId }}
-            </h6>
-            <h6>
-              OriginID- {{ challenge.originId }}
-            </h6>
-
-            <h4>Profile: {{ challenge.profile.name }} | {{ challenge.profile.id }}</h4>
-            <h4>Challenge: {{ challenge.challenge.name }} | {{ challenge.challenge.id }} </h4>
-            <h4>Creator: {{ challenge.challenge.creator.name }} | {{ challenge.challenge.creator.id }}</h4>
-            <h4>Status: {{ challenge.status }}</h4>
-            <i @click="removeModeration(challenge.id)" class="mdi mdi-delete text-danger selectable"></i>
+      <div class="col-12">
+        <section class="row justify-content-center">
+          <div class="col-12">
+            <p class="text-secondary">you're waiting to be approved</p>
           </div>
-        </div>
+          <div class="col-6" v-for="moderation in myModerations" :key="moderation.id">
+            <ModerationCard :moderationProp="moderation" />
+          </div>
+        </section>
+      </div>
+
+      <div class="col-12">
+        <section class="row justify-content-center">
+          <div class="col-12">
+            <p class="text-secondary">your moderation has been requested</p>
+          </div>
+          <div class="col-6" v-for="moderation in myModerations" :key="moderation.id">
+            <ModerationCard :moderationProp="moderation" />
+          </div>
+        </section>
+      </div>
+
+      <div class="col-12">
+        <section class="row justify-content-center">
+          <div class="col-12">
+            <p class="text-secondary">Someone wants to moderate your challenge</p>
+          </div>
+          <div class="col-6" v-for="moderation in moderators" :key="moderation.id">
+            <ModerationCard :moderationProp="moderation" />
+          </div>
+        </section>
+      </div>
+
+      <div class="col-12">
+        <section class="row justify-content-center">
+          <div class="col-12">
+            <p class="text-secondary">Moderators you've asked to join</p>
+          </div>
+          <div class="col-6" v-for="moderation in moderators" :key="moderation.id">
+            <ModerationCard :moderationProp="moderation" />
+          </div>
+        </section>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 
@@ -126,64 +85,43 @@ import { computed, watchEffect } from "vue"
 import { AppState } from "../AppState.js"
 import { moderatorsService } from "../services/ModeratorsService.js"
 import Pop from "../utils/Pop.js"
+import ModerationCard from "./ModerationCard.vue"
 
 export default {
-  setup() {
-
-    // This returns moderations where the accountId is the same as account.id
-    async function getMyModerationsByUserId() {
-      try {
-        await moderatorsService.getMyModerationsByUserId(AppState.account.id)
-      } catch (error) {
-        Pop.toast(error, 'error')
-      }
-    }
-
-
-    // This is returning moderations that have challenge Ids that belong to you
-    async function getModerationsByChallengeCreatorId() {
-      try {
-        await moderatorsService.getModerationsByChallengeCreatorId(AppState.account.id)
-      } catch (error) {
-        Pop.toast(error, 'error')
-      }
-    }
-    watchEffect(() => {
-      if (AppState.account.id) {
-        getMyModerationsByUserId()
-        getModerationsByChallengeCreatorId()
-      }
-    })
-    return {
-      account: computed(() => AppState.account),
-      myChallenges: computed(() => AppState.myChallenges),
-      myModerations: computed(() => AppState.myModerations),
-      moderators: computed(() => AppState.moderators),
-
-      async removeModeration(moderationId) {
-        try {
-          const confirmRemove = await Pop.confirm('Delete Moderation?')
-          if (!confirmRemove) {
-            return
-          }
-          await moderatorsService.removeModeration(moderationId)
-        } catch (error) {
-          Pop.toast(error, 'error')
+    setup() {
+        // This returns moderations where the accountId is the same as account.id
+        async function getMyModerationsByUserId() {
+            try {
+                await moderatorsService.getMyModerationsByUserId(AppState.account.id);
+            }
+            catch (error) {
+                Pop.toast(error, 'error');
+            }
         }
-      },
-      async ApproveModeration(moderationId) {
-        try {
-          const confirmApprove = await Pop.confirm('Approve Moderation?')
-          if (!confirmApprove) {
-            return
-          }
-          await moderatorsService.ApproveModeration(moderationId)
-        } catch (error) {
-          Pop.toast(error, 'error')
+        // This is returning moderations that have challenge Ids that belong to you
+        async function getModerationsByChallengeCreatorId() {
+            try {
+                await moderatorsService.getModerationsByChallengeCreatorId(AppState.account.id);
+            }
+            catch (error) {
+                Pop.toast(error, 'error');
+            }
         }
-      },
-    }
-  }
+        watchEffect(() => {
+            if (AppState.account.id) {
+                getMyModerationsByUserId();
+                getModerationsByChallengeCreatorId();
+            }
+        });
+        return {
+            account: computed(() => AppState.account),
+            myChallenges: computed(() => AppState.myChallenges),
+            myModerations: computed(() => AppState.myModerations),
+            moderators: computed(() => AppState.moderators),
+
+        };
+    },
+    components: { ModerationCard }
 }
 </script>
 

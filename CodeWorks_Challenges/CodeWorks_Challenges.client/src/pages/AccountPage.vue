@@ -32,7 +32,7 @@
     </section>
 
 <!-- TODO Add computed in Style section which sets the width of the progress bar (i.e., percentile based on next rank and current rank) -->
-    <section class="rank-card-style row m-2 mb-3 p-2 rounded">
+    <section class="rank-card-style bg-dark text-light row m-2 mb-3 p-2 rounded">
       <div class="col-12 fs-2">
         {{ account.title }}
       </div>
@@ -187,8 +187,6 @@ export default {
 <style scoped>
 .rank-card-style{
   height: fit-content;
-  background-color: slategray;
-  color: white;
 }
 .coverImg-style{
   object-fit: cover;

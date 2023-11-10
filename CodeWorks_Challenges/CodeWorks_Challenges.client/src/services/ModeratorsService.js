@@ -6,13 +6,13 @@ class ModeratorsService {
 
   async createModeration(moderatorData) {
     const res = await api.post('api/moderators', moderatorData)
-    // logger.log('[New moderation]:', res.data)
+    logger.log('[New moderation]:', res.data)
     AppState.moderators.push(new Moderator(res.data))
   }
 
   async getMyModerationsByUserId(userId) {
     const res = await api.get(`api/moderators/${userId}/profiles`)
-    // logger.log('[MODERATIONS BY USERID]', res.data)
+    logger.log('[MODERATIONS BY USERID]', res.data)
     AppState.myModerations = res.data.map(m => new Moderator(m))
   }
 
@@ -25,13 +25,13 @@ class ModeratorsService {
 
   async getModerationsByChallengeCreatorId(userId) {
     const res = await api.get(`api/moderators/challenges/${userId}`)
-    // logger.log('[MODERATIONS BY CHALLENGEID]', res.data)
+    logger.log('[MODERATIONS BY CHALLENGEID]', res.data)
     AppState.moderators = res.data.map(m => new Moderator(m))
   }
 
-  async ApproveModeration(moderationId) {
+  async approveModeration(moderationId) {
     const res = await api.put(`api/moderators/${moderationId}`)
-    // logger.log('[Approved moderation]:', res.data)
+    logger.log('[Approved moderation]:', res.data)
     let moderatorToEdit = AppState.moderators.find(m => m.id == res.data.id)
     if (moderatorToEdit)
       moderatorToEdit.status = true
@@ -42,7 +42,7 @@ class ModeratorsService {
 
   async removeModeration(moderationId) {
     const res = await api.delete(`api/moderators/${moderationId}`)
-    // logger.log('Deleted [moderation]:', res.data)
+    logger.log('Deleted [moderation]:', res.data)
     // Remove moderation from challenge render
     let moderatorToRemove = AppState.moderators.findIndex(m => m.id == moderationId)
     if (moderatorToRemove != -1) {
