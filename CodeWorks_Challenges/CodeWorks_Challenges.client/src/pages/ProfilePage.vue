@@ -1,23 +1,26 @@
 <template>
   <div class="container-fluid" v-if="activeProfile">
     <section class="row">
-      <div class="d-flex align-items-center col-12 my-3">
-        <img :src="activeProfile.picture" :alt="activeProfile.name" class="avatar-sm me-4">
-        <p class="fs-2 fw-semibold">
-          {{ activeProfile.name }}
-        </p>
+      <div class="p-0">
+        <img :src="activeProfile.coverImg" alt="Cover Image" class="coverImg-style">
       </div>
-      <div class="col-12 fs-5">
-        <p>
-          Rank: {{ activeProfile.rank }} <br>
-          Title: {{ activeProfile.title }}
-        </p>
-        <p>
-          Experience: {{ activeProfile.experience }}
-        </p>
-        <p>
-          Reputation: {{ activeProfile.reputation }}
-        </p>
+      <div class="d-flex col-12">
+        <img :src="activeProfile.picture" :alt="activeProfile.name" class="avatar-md me-4 avatar-style">
+        <div class="d-flex flex-column">
+          <p class="fs-2 m-0">
+            {{ activeProfile.name }}
+          </p>
+          <p>
+            Rank: {{ activeProfile.title }} 
+            <span class="ms-2">
+              {{ activeProfile.rank }} XP
+            </span>
+            <span title="challenges created" class="ms-2">
+              {{ challenges.length }}
+              <i class="mdi mdi-head-lightbulb fs-5"></i>
+            </span>
+          </p>
+        </div>
       </div>
     </section>
     <section class="row">
@@ -97,4 +100,15 @@ export default {
 
 
 <style lang="scss" scoped>
+.coverImg-style{
+  object-fit: cover;
+  object-position: center;
+  height: 15vh;
+  width: 100%;
+}
+
+.avatar-style{
+  position: relative;
+  top: -5.5vh;
+}
 </style>

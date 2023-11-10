@@ -65,7 +65,7 @@ export default {
     ModalWrapper,
     CreateChallengeForm,
     ChallengeSubmissionForm,
-   }
+  }
 }
 </script>
 <style lang="scss">
@@ -82,6 +82,14 @@ footer {
   height: 32px;
 }
 
+.avatar-xs{
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+}
+
 .avatar-sm{
   height: 5rem;
   width: 5rem;
@@ -90,11 +98,12 @@ footer {
   object-position: center;
 }
 
-.avatar-xs{
-  height: 3rem;
-  width: 3rem;
+.avatar-md{
+  height: 6rem;
+  width: 6rem;
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
 }
+
 </style>
