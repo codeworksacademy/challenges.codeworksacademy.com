@@ -65,23 +65,11 @@ const routes = [
     name: 'Milestones',
     component: loadPage('MilestonesPage'),
   },
-  // {
-  //   path: '/routetestpage',
-  //   name: 'RouteTestPage',
-  //   component: loadPage('RouteTestPage'),
-  //   children: [
-  //     {
-  //       path: 'edit',
-  //       name: 'EditChallenge',
-  //       component: loadPage('EditChallengePage'),
-  //     },
-  //     {
-  //       path: 'edit2',
-  //       name: 'Edit2',
-  //       component: loadPage('AboutPage')
-  //     }
-  //   ]
-  // }
+  {
+    path: '/dev',
+    name: 'dev',
+    component: loadPage('OffCanvasPage'),
+  }
 ]
 
 export const router = createRouter({
