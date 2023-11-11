@@ -77,8 +77,6 @@ class AccountMilestonesService {
     // Instead of creating 5 createChallenge Achievements, tier is being used to simulate this. Tier is also the value responsible for making these milestones 'claimable' again. (if tier> foundAccountMilestone.tier) {claimed = false;}
 
     // STUB Kyle operationsArr[0] is also a tier checker, it checks to see if the tier is at it's highest value and exits the function and avoids the extra calls to other services, It looks like the value might have needed to be different though.
-    // STUB Kyle I see that ref is removed, I had questions about that thank you.
-    // STUB Kyle Claimed could be an integer instead of a bool and if your claimed is lower than your tier that tier is considered unclaimed - This would allow you to claim each individual tier instead of all of them at once in case you go from tier 0 to tier 10
 
     if (foundAccountMilestone) {
       // Example string '6-$gte%1-2-3-4-5-10'
@@ -87,7 +85,7 @@ class AccountMilestonesService {
       const operationsArr = logicParts[0].split('-');
       const tierThresholdArr = logicParts[1].split('-');
       // This string parser will return 
-      // operationsArr = ['5', '$gte']
+      // operationsArr = ['6', '$gte']
       // tierThresholdArr = ['1','2','3','4','5','10'] -- The positions of the array are the level of tier they represent +1, The value of the position is the requirement needed to get the tier.
 
       const filterKey = {
