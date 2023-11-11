@@ -86,16 +86,12 @@ class AccountMilestonesService {
       // tierThresholdArr = ['1','2','3','4','5','10'] -- The positions of the array are the level of tier they represent +1, The value of the position is the requirement needed to get the tier.
 
       const filterKey = {
-        createdChallenge: ['creatorId'],
-        joinedChallenge: ['accountId'],
-        moderateChallenge: ['accountId', { status: 'Active' }]
+        createdChallenge: { creatorId: userId },
+        joinedChallenge: { accountId: userId },
+        moderateChallenge: { $and: [{ accountId: userId }, { status: 'Active' }] }
       };
 
-      // milestone.ref == Challenges
-
-      const additionalConditions = filterKey[milestone.check][1] || {}; // Get the additional conditions, or an empty object if not present
-
-      const milestoneCheckCount = await dbContext[milestone.ref].find({ [filterKey[milestone.check][0]]: userId, ...additionalConditions }).count();
+      const milestoneCheckCount = await dbContext[milestone.ref].find(filterKey[milestone.check]).count();
 
       if (foundAccountMilestone.tier < operationsArr[0]) { //This checks to see if the milestone is maxed out
         let tier = 0;
