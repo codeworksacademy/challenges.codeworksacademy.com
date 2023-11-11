@@ -12,7 +12,7 @@ class ModeratorsService {
 
   async getMyModerationsByUserId(userId) {
     const res = await api.get(`api/moderators/${userId}/profiles`)
-    // logger.log('[MODERATIONS BY USERID]', res.data)
+    logger.log('[MODERATIONS BY USERID]', res.data)
     AppState.myModerations = res.data.map(m => new Moderator(m))
   }
 

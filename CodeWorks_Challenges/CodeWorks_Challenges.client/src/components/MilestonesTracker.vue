@@ -35,7 +35,7 @@
           class="mdi mdi-check text-success"></span></li>
       <li>5 Challenge <span v-if="pCMilestone.tier < 5" class="mdi mdi-close text-danger"></span><span v-else
           class="mdi mdi-check text-success"></span></li>
-      <li>10 Challenge <span v-if="pCMilestone.tier < 10" class="mdi mdi-close text-danger"></span><span v-else
+      <li>6 Challenge <span v-if="pCMilestone.tier < 6" class="mdi mdi-close text-danger"></span><span v-else
           class="mdi mdi-check text-success"></span></li>
     </ul>
   </h5>
