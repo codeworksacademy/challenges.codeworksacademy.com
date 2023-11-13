@@ -46,6 +46,11 @@ const routes = [
         path: 'moderation',
         name: 'ChallengeModeration',
         component: loadPage('ChallengeModerationPage')
+      },
+      {
+        path: 'grading',
+        name: 'GradeSubmissionPage',
+        component: loadPage('GradeSubmissionPage')
       }
     ]
   },

@@ -3,7 +3,8 @@
     v-if="isModeratorStatus == 'approved' || challengeCreator"
     class="container-fluid"
   >
-  </section>
+</section>
+<h1>Challenge Grading</h1>
 </template>
   
 <script>
