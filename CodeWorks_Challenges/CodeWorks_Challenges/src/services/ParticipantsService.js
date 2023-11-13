@@ -15,6 +15,7 @@ class ParticipantsService {
 	async joinChallenge(participantData) {
 
 		const challenge = await challengesService.getChallengeById(participantData.challengeId)
+		challenge.status = 'published'
 
 		if (challenge.status != 'published') {
 			throw new BadRequest(`[CHALLENGE_STATE::${challenge.status}] This challenge cannot be joined at this time.`)
