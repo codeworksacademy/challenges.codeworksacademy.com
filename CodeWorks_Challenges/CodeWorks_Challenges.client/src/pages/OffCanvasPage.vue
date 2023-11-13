@@ -6,15 +6,15 @@
                 <nav class="navbar navbar-dark">
                     <div class="container-fluid">
                         <button class="navbar-toggler btn-info ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBody" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle side navigation">
-                        <span class="navbar-toggler-icon ps-3 text-info fs-5 "></span>
+                        <span class="navbar-toggler-icon  text-info fs-5 "></span>
                         </button>
                     </div>
                 </nav>
-                <div style="min-height: 120px;" class="">
+                <div class="">
                     <div class="collapse collapse-horizontal" id="collapseBody">
                         <div class="p-3 text-nowrap">
                             <div class="mb-3 accordion">
-                                <button href="#home" data-bs-toggle="collapse" class="d-flex accordion-button gap-1 fs-4"><i class="mdi mdi-home fs-3"></i>Home</button>
+                                <button href="#home" data-bs-toggle="collapse" class="d-flex accordion-button fs-4"><i class="mdi mdi-home fs-3"></i>Home</button>
                                 <ul class="collapse show flex-column border-bottom bg-light text-dark rounded-bottom" id="home">
                                     <h5><a href="" class="text-dark">Banana</a></h5>
                                     <h5><a href="" class="text-dark">Apple</a></h5>
@@ -43,7 +43,7 @@
 
 <style scoped>
 .collapse-horizontal {
-    transition: width 0.3s ease-in-out;
+    transition: width 0.3s ease;
 }
 
 
