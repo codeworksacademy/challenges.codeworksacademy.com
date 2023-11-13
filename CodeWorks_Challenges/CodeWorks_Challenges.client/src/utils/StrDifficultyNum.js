@@ -31,6 +31,22 @@ export const StrDifficultyNum = (difficulty) => {
         `,
         text: 'Hard',
       };
+    case 4:
+      return {
+        html:
+        `
+          <span class="text-light">Difficulty: <span class="text-danger position-relative" style="top: .05rem; font-size: .95rem;">Very Hard</span></span>
+        `,
+        text: 'Very Hard',
+      };
+    case 5:
+      return {
+        html:
+        `
+          <span class="text-light">Difficulty: <span class="text-danger position-relative" style="top: .05rem; font-size: .95rem;">Expert</span></span>
+        `,
+        text: 'Expert',
+      };
     default:
       return {
         html: 

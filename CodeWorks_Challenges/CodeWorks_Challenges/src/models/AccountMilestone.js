@@ -12,8 +12,13 @@ export const AccountMilestoneSchema = new Schema({
     required: true,
     ref: 'Account'
   },
-  claimedAt: {
-    type: Date
+  claimed: {
+    type: Boolean,
+    default: true
+  },
+  tier: {
+    type: Number,
+    default: 0
   }
 },
   { timestamps: true, toJSON: { virtuals: true } }
