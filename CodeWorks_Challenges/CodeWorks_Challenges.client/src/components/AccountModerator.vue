@@ -36,28 +36,28 @@
       <div class="col-12">
         <p class="text-secondary">you're waiting to be approved</p>
         <div v-for="moderation in myModerations" :key="moderation.id">
-          <ModerationCard :moderationProp="moderation" />
+          <ModerationCard :moderationProp="moderation"  v-if="moderation.originId == account.id" />
         </div>
       </div>
 
       <div class="col-12">
         <p class="text-secondary">your moderation has been requested</p>
         <div v-for="moderation in myModerations" :key="moderation.id">
-          <ModerationCard :moderationProp="moderation" />
+          <ModerationCard :moderationProp="moderation" v-if="moderation.originId != account.id" />
         </div>
       </div>
 
       <div class="col-12">
         <p class="text-secondary">Someone wants to moderate your challenge</p>
         <div v-for="moderation in moderators" :key="moderation.id">
-          <ModerationCard :moderationProp="moderation" />
+          <ModerationCard :moderationProp="moderation" v-if="moderation.originId != account.id" />
         </div>
       </div>
 
       <div class="col-12">
         <p class="text-secondary">Moderators you've asked to join</p>
         <div v-for="moderation in moderators" :key="moderation.id">
-          <ModerationCard :moderationProp="moderation" />
+          <ModerationCard :moderationProp="moderation" v-if="moderation.originId == account.id" />
         </div>
       </div>
     </div>

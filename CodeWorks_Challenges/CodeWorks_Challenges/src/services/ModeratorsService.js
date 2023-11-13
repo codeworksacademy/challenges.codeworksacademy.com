@@ -34,10 +34,7 @@ class ModeratorsService {
     const moderators = await dbContext.Moderators.find({ challengeId: { $in: challenges } })
       .populate({
         path: 'challenge',
-        populate: [
-          { path: 'creator', select: '_id' },
-          { path: 'participantCount' }
-        ]
+        populate: { path: 'creator participantCount' }
       })
       .populate('profile', 'name picture');
 
