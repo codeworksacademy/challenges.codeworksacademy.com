@@ -1,6 +1,7 @@
 <template>
   <header>
     <Navbar />
+    <OffCanvasMenu/>
   </header>
   <main>
     <router-view />
@@ -52,6 +53,7 @@ import ModalWrapper from './components/ModalWrapper.vue'
 import CreateChallengeForm from './components/CreateChallengeForm.vue'
 import ChallengeSubmissionForm from './components/ChallengeSubmissionForm.vue'
 import AnswerForm from './components/AnswerForm.vue'
+import OffCanvasMenu from './components/OffCanvasMenu.vue'
 
 export default {
   setup() {
@@ -62,6 +64,7 @@ export default {
   },
   components: { 
     Navbar,
+    OffCanvasMenu,
     ModalWrapper,
     CreateChallengeForm,
     ChallengeSubmissionForm,

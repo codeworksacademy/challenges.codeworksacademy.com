@@ -65,11 +65,11 @@ const routes = [
     name: 'Milestones',
     component: loadPage('MilestonesPage'),
   },
-  {
-    path: '/dev',
-    name: 'dev',
-    component: loadPage('OffCanvasPage'),
-  }
+  // {
+  //   path: '/dev',
+  //   name: 'dev',
+  //   component: loadPage('OffCanvasPage'),
+  // }
 ]
 
 export const router = createRouter({
