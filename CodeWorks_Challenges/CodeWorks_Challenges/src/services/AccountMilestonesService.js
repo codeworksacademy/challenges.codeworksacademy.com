@@ -2,7 +2,7 @@ import { dbContext } from "../db/DbContext.js"
 import { BadRequest } from "../utils/Errors.js";
 import { accountService } from "./AccountService.js";
 import { challengesService } from "./ChallengesService.js";
-import { moderatorsService } from "./ModeratorsService.js";
+import { challengeModeratorsService } from "./ChallengeModeratorsService.js";
 import { participantsService } from "./ParticipantsService.js";
 import { profileService } from "./ProfileService.js";
 

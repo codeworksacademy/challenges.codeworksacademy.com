@@ -91,8 +91,8 @@
             Challenge</h1>
 
         </div>
-    </div>
-        <!-- <div class="body row">
+      </div>
+      <!-- <div class="body row">
           <div class="col-3">
             <p>Created: {{ date }}</p>
 
@@ -119,32 +119,24 @@
               </p>
             </div>
           </div> -->
-          <div v-if="isParticipant" class="col-6 d-flex justify-content-center align-items-end">
-            <a
-              ref="submission"
-              id="challengeSubmissionButton"
-              type="button"
-              role="button"
-              data-bs-target="#createSubmissionForm"
-              data-bs-toggle="modal"
-              aria-label="Go to Active Challenge Modal"
-              class="mdi mdi-chevron-triple-right border-none fs-2 hover-orange shadow-none"
-              title="Create a new challenge"
-            >
-              Submit Your Challenge For Grading?
-            </a>
-          </div>
-        <!-- </div> -->
+      <div v-if="isParticipant" class="col-6 d-flex justify-content-center align-items-end">
+        <a ref="submission" id="challengeSubmissionButton" type="button" role="button"
+          data-bs-target="#createSubmissionForm" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal"
+          class="mdi mdi-chevron-triple-right border-none fs-2 hover-orange shadow-none" title="Create a new challenge">
+          Submit Your Challenge For Grading?
+        </a>
+      </div>
+      <!-- </div> -->
 
-        <div class="col-12 d-flex justify-content-center align-items-center mt-3">
-          <!-- Temporary collapse to make challenge page more legible -->
-          <p class="d-inline-flex gap-1">
-            <button class="btn btn-outline-warning fs-4" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-              Close
-            </button>
-          </p>
-        </div>
+      <div class="col-12 d-flex justify-content-center align-items-center mt-3">
+        <!-- Temporary collapse to make challenge page more legible -->
+        <p class="d-inline-flex gap-1">
+          <button class="btn btn-outline-warning fs-4" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Close
+          </button>
+        </p>
+      </div>
     </div>
 
 
@@ -190,25 +182,26 @@
     </section>
     <section class="row justify-content-center">
       <div class="col-md-8 bg-dark text-light p-3 mb-3">
-          <h4>{{ challenge.name }}</h4>
+        <h4>{{ challenge.name }}</h4>
       </div>
       <div class="col-md-8 bg-dark text-light p-3 mb-3">
-          <p>Created {{ date }}</p>
+        <p>Created {{ date }}</p>
       </div>
       <div class="col-md-8 bg-dark text-light p-3 mb-3">
-          <p>{{ challenge.pointValue }} Points</p>
+        <p>{{ challenge.pointValue }} Points</p>
       </div>
       <div class="col-md-8 bg-dark text-light p-3 mb-3">
-          <p>{{ challenge.moderators }} Moderators</p>
-          <p>{{ participants.length }} Participants</p>
+        <p>{{ challenge.moderators }} Moderators</p>
+        <p>{{ participants.length }} Participants</p>
       </div>
       <div class="col-md-8 bg-dark text-light p-3 mb-3">
         <p v-html="difficulty.html"></p>
-      </div>  
+      </div>
       <!-- <div class="col-md-8 bg-dark text-light p-3 mb-3">
       </div> -->
       <div class="col-md-8  bg-dark text-light p-3 mb-3">
-        <p>Created by {{ challenge.creator.name }} <img :src="challenge.creator.picture" alt="" class="img-fluid h-25"></p>
+        <p>Created by {{ challenge.creator.name }} <img :src="challenge.creator.picture" alt="" class="img-fluid h-25">
+        </p>
       </div>
       <div class="col-md-8 bg-dark text-light p-3 mb-3">
         <i>Description:</i>
@@ -301,7 +294,7 @@ import { StrDifficultyNum } from '../utils/StrDifficultyNum.js';
 import { useRoute, useRouter } from 'vue-router';
 import { challengesService } from '../services/ChallengesService';
 import { participantsService } from "../services/ParticipantsService.js";
-import { moderatorsService } from "../services/ModeratorsService.js";
+import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js";
 import RewardCard from '../components/Rewards/RewardCard.vue'
 import Completionist from '../components/Rewards/Badges/Completionist.vue'
 import EarlyBird from '../components/Rewards/Badges/EarlyBird.vue'
@@ -379,17 +372,17 @@ export default {
     }
     async function getModeratorsByChallengeId() {
       try {
-        await moderatorsService.getModeratorsByChallengeId(route.params.challengeId)
+        await challengeModeratorsService.getModeratorsByChallengeId(route.params.challengeId)
       } catch (error) {
         logger.error(error)
         Pop.toast(error, 'error')
       }
     }
-    async function answerChallenge(){
-      try{
+    async function answerChallenge() {
+      try {
         await challengesService.submitAnswer(AppState.activeChallenge.id, answer.value)
         logger.log("Answer ", answer.value)
-      } catch(error){
+      } catch (error) {
         Pop.error(error.message)
       }
     }
@@ -512,7 +505,7 @@ export default {
             challengeId: route.params.challengeId,
             accountId: AppState.user.id
           }
-          await moderatorsService.createModeration(moderatorData)
+          await challengeModeratorsService.createModeration(moderatorData)
           Pop.success('You have requested to become a moderator for this challenge, please be patient while the owner of this challenge reviews your request')
         } catch (error) {
           Pop.toast(error, 'error')
@@ -524,7 +517,7 @@ export default {
           if (!confirmRemove) {
             return
           }
-          await moderatorsService.removeModeration(moderationId)
+          await challengeModeratorsService.removeModeration(moderationId)
         } catch (error) {
           Pop.toast(error, 'error')
         }

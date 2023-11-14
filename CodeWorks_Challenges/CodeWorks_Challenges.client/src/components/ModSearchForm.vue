@@ -42,7 +42,7 @@ import { profilesService } from "../services/ProfilesService.js";
 import { logger } from "../utils/Logger.js";
 import Pop from "../utils/Pop.js";
 import { useRoute } from "vue-router";
-import { moderatorsService } from "../services/ModeratorsService.js";
+import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js";
 
 export default {
   setup() {
@@ -70,7 +70,7 @@ export default {
             challengeId: route.params.challengeId,
             accountId: profileId
           }
-          await moderatorsService.createModeration(moderatorData)
+          await challengeModeratorsService.createModeration(moderatorData)
           Pop.success('You have requested that this profile become a moderator, Please be patient while they review your request')
         } catch (error) {
           logger.error(error)

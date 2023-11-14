@@ -1,7 +1,7 @@
 import { Schema } from "mongoose";
 const ObjectId = Schema.Types.ObjectId
 
-export const ModeratorSchema = new Schema({
+export const ChallengeModeratorSchema = new Schema({
   challengeId: {
     type: ObjectId,
     required: true,
@@ -31,21 +31,21 @@ export const ModeratorSchema = new Schema({
   { timestamps: true, toJSON: { virtuals: true } }
 )
 
-ModeratorSchema.index({
+ChallengeModeratorSchema.index({
   challengeId: 1,
   accountId: 1
 }, {
   unique: true
 })
 
-ModeratorSchema.virtual('profile', {
+ChallengeModeratorSchema.virtual('profile', {
   localField: 'accountId',
   foreignField: '_id',
   ref: 'Account',
   justOne: true
 })
 
-ModeratorSchema.virtual('challenge', {
+ChallengeModeratorSchema.virtual('challenge', {
   localField: 'challengeId',
   foreignField: '_id',
   ref: 'Challenge',

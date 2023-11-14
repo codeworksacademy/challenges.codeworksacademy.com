@@ -12,7 +12,7 @@
             {{ account.name }}
           </p>
           <p>
-            Rank: {{ account.title }} 
+            Rank: {{ account.title }}
             <span class="ms-2">
               {{ account.rank }} XP
             </span>
@@ -25,13 +25,14 @@
       </div>
 
       <div class="col-md-2 col-12 text-md-end">
-        <button type="button" class="btn btn-primary my-2 ms-md-0 ms-2" data-bs-toggle="modal" data-bs-target="#accountFormModal">
+        <button type="button" class="btn btn-primary my-2 ms-md-0 ms-2" data-bs-toggle="modal"
+          data-bs-target="#accountFormModal">
           Edit Account
         </button>
       </div>
     </section>
 
-<!-- TODO Add computed in Style section which sets the width of the progress bar (i.e., percentile based on next rank and current rank) -->
+    <!-- TODO Add computed in Style section which sets the width of the progress bar (i.e., percentile based on next rank and current rank) -->
     <section class="rank-card-style bg-dark text-light row m-2 mb-3 p-2 rounded">
       <div class="col-12 fs-2">
         {{ account.title }}
@@ -47,7 +48,8 @@
             <span>
               NEXT RANK [RANK NUMBER]
             </span>
-            <div class="progress" role="progressbar" aria-label="example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress" role="progressbar" aria-label="example" aria-valuenow="50" aria-valuemin="0"
+              aria-valuemax="100">
               <div class="progress-bar bg-primary" style="width: 50%"></div>
             </div>
           </div>
@@ -97,7 +99,8 @@
 
     <section class="row my-2">
       <div>
-        <a class="btn btn-primary" data-bs-toggle="collapse" href="#milestonesTracker" role="button" aria-expanded="false" aria-controls="milestonesTrackerToggle">Toggle Milestones Tracker</a>
+        <a class="btn btn-primary" data-bs-toggle="collapse" href="#milestonesTracker" role="button" aria-expanded="false"
+          aria-controls="milestonesTrackerToggle">Toggle Milestones Tracker</a>
       </div>
       <div class="collapse" id="milestonesTracker">
         <MilestonesTracker />
@@ -135,7 +138,7 @@ import Pop from "../utils/Pop.js";
 import { challengesService } from "../services/ChallengesService.js";
 import { logger } from "../utils/Logger.js";
 import ChallengeCard from '../components/ChallengeCard.vue'
-import { moderatorsService } from "../services/ModeratorsService.js";
+import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js";
 import AccountModerator from "../components/AccountModerator.vue";
 import { participantsService } from "../services/ParticipantsService.js";
 import { accountService } from "../services/AccountService.js";
@@ -185,18 +188,18 @@ export default {
 </script>
 
 <style scoped>
-.rank-card-style{
+.rank-card-style {
   height: fit-content;
 }
-.coverImg-style{
+
+.coverImg-style {
   object-fit: cover;
   object-position: center;
   height: 15vh;
   width: 100%;
 }
 
-.avatar-style{
+.avatar-style {
   position: relative;
   top: -5.5vh;
-}
-</style>
+}</style>
