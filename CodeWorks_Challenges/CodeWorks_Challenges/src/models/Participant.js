@@ -14,7 +14,6 @@ export const ChallengeParticipantSchema = new Schema({
     required: true,
     ref: 'Account'
   },
-
   submission: { type: String, maxLength: 700, minLength: 3, default: '' },
   status: { type: String, enum: SUBMISSION_TYPES, required: true, default: 'incomplete', lowercase: true },
   claimedAt: { type: Date }

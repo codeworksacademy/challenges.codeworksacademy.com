@@ -13,6 +13,8 @@ export const AppState = reactive({
   participants: [],
   myParticipants: [],
 
+
+
   /** @type {import('./models/Reward.js').Reward[]} */
   rewards: [],
   myRewards: [],
@@ -27,6 +29,9 @@ export const AppState = reactive({
 
   /** @type {import('./models/Challenge.js')|null} */
   activeChallenge: null,
+
+  /** @type {import('./models/Participant.js')|null}*/
+  activeParticipant: null,
 
   /** @type {import('./models/Profile.js')|null} */
   activeProfile: null,

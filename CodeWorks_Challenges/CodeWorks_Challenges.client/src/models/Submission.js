@@ -9,7 +9,6 @@ export class Submission {
     this.challengeId = data.challengeId
     this.supportLinks = data.supportLinks
     this.isSubmitted = data.isSubmitted
-    this.participant = data.participant ? new Participant(data.participant) : null
     this.challenge = data.challenge ? new Challenge(data.challenge) : null
     this.submittedAt = DateTime(data.submittedAt)
   }

@@ -104,11 +104,11 @@ export class ChallengesController extends BaseController {
     try {
       // const challengeId = req.params.challengeId
 
-      // const participantData = req.body
+      // const newParticipant = req.body
 
       // const userId = req.userInfo.id
 
-      // await participantsService.removeParticipant(challengeId, userId, participantData)
+      // await participantsService.removeParticipant(challengeId, userId, newParticipant)
     } catch (error) {
       next(error)
     }
