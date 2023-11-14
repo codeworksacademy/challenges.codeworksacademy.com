@@ -1,8 +1,87 @@
 <template>
-  <section v-if="challenge" :key="challenge?.id" class="container-fluid text-light bg-secondary">
+  <section v-if="challenge" :key="challenge?.id" class="container-fluid text-light bg-dark pb-5">
     <div v-if="user.id === challenge?.creatorId">
       <!-- <router-view /> -->
     </div>
+    <section class="row m-auto bg-dark py-5">
+      <div class="col-1 fs-1">
+        🔐
+      </div>
+      <div class="col-7">
+        <div class="col-3 d-flex flex-column">
+          CHALLENGE NAME
+          <div class="row">
+            <div class="col-3">
+              EASY
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="col-12 d-flex justify-content-center align-items-center">
+          .|!;:,.
+        </div>
+        <div class="col-12 d-flex justify-content-center align-items-center">
+          DIFFICULTY RATING
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="col-12 d-flex justify-content-center align-items-center">
+          💠
+        </div>
+        <div class="col-12 d-flex justify-content-center align-items-center">
+          40 POINTS
+        </div>
+      </div>
+    </section>
+
+    <section class="row m-auto pt-3">
+      <div class="row">
+        <div class="col-12">
+          <h5>CHALLENGE DESCRIPTION</h5>
+        </div>
+        <div class="col-12">
+          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus vitae consectetur cupiditate sint excepturi, minus vitae consectetur cupiditate sint excepturi. Minus vitae consectetur cupiditate sint excepturi, quisquam commodi harum iusto porro pariatur vel nesciunt?</p>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="row m-auto pt-3">
+      <div class="col-4">
+        <div class="card m-3">
+          <div class="col-12">
+            <i class="mdi mdi-star"></i>
+          </div>
+          <div class="col-12">
+            4.8
+          </div>
+          <div class="col-12">
+            CHALLENGE RATING
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="card m-3">
+          
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="card m-3">
+          
+        </div>
+      </div>
+    </section>
+
+    <section class="row m-auto pt-3">
+      <div class="col-4">
+
+      </div>
+      <div class="col-8">
+
+      </div>
+    </section>
+
     <div class="row bg-img d-flex justify-content-center align-items-center"
       :style="`background-image: url(${challenge.coverImg}); opacity: .9;`">
       <div class="text-box">
@@ -39,7 +118,7 @@
                 </a>
               </p>
             </div>
-          </div>
+          </div> -->
           <div v-if="isParticipant" class="col-6 d-flex justify-content-center align-items-end">
             <a
               ref="submission"
@@ -55,7 +134,7 @@
               Submit Your Challenge For Grading?
             </a>
           </div>
-        </div> -->
+        <!-- </div> -->
 
         <div class="col-12 d-flex justify-content-center align-items-center mt-3">
           <!-- Temporary collapse to make challenge page more legible -->

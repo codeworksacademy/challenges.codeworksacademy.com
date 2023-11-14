@@ -12,15 +12,15 @@ class ParticipantsService {
 		return rewards
 	}
 
-	async joinChallenge(participantData) {
+	async joinChallenge(newParticipant) {
 
-		const challenge = await challengesService.getChallengeById(participantData.challengeId)
+		const challenge = await challengesService.getChallengeById(newParticipant.challengeId)
 
 		if (challenge.status != 'published') {
 			throw new BadRequest(`[CHALLENGE_STATE::${challenge.status}] This challenge cannot be joined at this time.`)
 		}
 
-		const participant = await dbContext.Participants.create(participantData)
+		const participant = await dbContext.Participants.create(newParticipant)
 
 		// REVIEW PROBABLY UNNECESSARY this can be handled purely on the client 
 		// subsequent requests for the data will include newly joined participant 
@@ -58,7 +58,7 @@ class ParticipantsService {
 		return participants
 	}
 
-	async submitChallengeForGrading(participantId, userId, participantData) {
+	async submitChallengeForGrading(participantId, userId, newParticipant) {
 		const participantToUpdate = await dbContext.Participants.findById(participantId)
 
 		if (!participantToUpdate) {
@@ -68,7 +68,7 @@ class ParticipantsService {
 			throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this participant's. You may not edit other participants.")
 		}
 
-		participantToUpdate.submission = participantData.submission
+		participantToUpdate.submission = newParticipant.submission
 		if (participantToUpdate.status != 'completed') {
 			participantToUpdate.status = 'submitted'
 		}
@@ -110,10 +110,10 @@ class ParticipantsService {
 		return participantToRemove
 	}
 
-	async removeParticipant(challengeId, userId, participantData) {
+	async removeParticipant(challengeId, userId, newParticipant) {
 		const challenge = await challengesService.getChallengeById(challengeId)
 
-		const participantToRemove = await dbContext.Participants.findById(participantData.id)
+		const participantToRemove = await dbContext.Participants.findById(newParticipant.id)
 
 		if (!challenge) {
 			throw new BadRequest('Invalid challenge ID.')

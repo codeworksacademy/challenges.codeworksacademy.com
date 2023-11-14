@@ -140,9 +140,20 @@ export default {
           return;
         }
         await challengesService.updateChallenge(AppState.activeChallenge, AppState.activeChallenge.id)
+        await this.updateChallengeStatus()
         Pop.success('Challenge Updated')
       } catch (error) {
         Pop.toast(error.message, 'error')
+      }
+    }
+
+    async function updateChallengeStatus() {
+      try {
+        const challenge = AppState.activeChallenge
+        challenge.status = 'published'
+      } catch (error) {
+        Pop.toast(error.message, 'error')
+        logger.error(error)
       }
     }
 
@@ -254,6 +265,7 @@ export default {
       editable,
       answer,
       updateChallenge,
+      updateChallengeStatus,
       challenge: computed(() => AppState.activeChallenge),
       editChallenge,
       answerChallenge,

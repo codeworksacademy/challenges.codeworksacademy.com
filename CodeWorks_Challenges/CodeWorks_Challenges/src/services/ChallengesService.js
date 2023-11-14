@@ -41,16 +41,6 @@ class ChallengesService {
     return challenges
   }
 
-  async getSubmitterChallenges(submitterId) {
-    const challenges = await dbContext.Challenges.find({submitterId}).populate('creator')
-
-    if (!challenges) {
-      throw new BadRequest('This participant has not submitted any challenges yet.')
-    }
-
-    return challenges
-  }
-
   async setActiveChallenge(challengeId) {
     const challenge = await dbContext.Challenges.findById(challengeId)
       .populate('creator', 'name picture')
@@ -77,10 +67,12 @@ class ChallengesService {
     challenge.supportLinks = newChallenge.supportLinks || challenge.supportLinks
     challenge.answers = newChallenge.answers || challenge.answers
     challenge.difficulty = newChallenge.difficulty || challenge.difficulty
+    challenge.status = newChallenge.status || challenge.status
 
     await challenge.save()
     return challenge
   }
+
 
   async deprecateChallenge(challengeId, userId) {
     const challenge = await this.getChallengeById(challengeId)

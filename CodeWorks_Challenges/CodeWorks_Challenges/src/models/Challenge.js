@@ -64,6 +64,22 @@ export const ChallengeSchema = new Schema({
       answer: { type: String, required: true }
     }
   ]
+  // answers: [
+  //   {
+  //     puzzles: [
+  //       {
+  //         type: String,
+  //         required: true
+  //       }
+  //     ],
+  //     outputs: [
+  //       {
+  //         type: String,
+  //         required: true
+  //       }
+  //     ]
+  //   }
+  // ]
   // TODO respect points???
 },
   {

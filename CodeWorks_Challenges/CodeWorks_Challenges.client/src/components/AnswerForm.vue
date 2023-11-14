@@ -30,6 +30,8 @@ import { answersService } from '../services/AnswersService';
 import { logger } from '../utils/Logger';
 import Pop from '../utils/Pop';
 import { ref } from 'vue';
+import { Modal } from 'bootstrap';
+
 
 export default {
   setup(){

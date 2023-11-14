@@ -55,8 +55,8 @@ const routes = [
     ]
   },
   {
-    path: '/submissions',
-    name: 'ChallengeSubmissions',
+    path: '/participants/:participantId',
+    name: 'ChallengeSubmissionsPage',
     component: loadPage('ChallengeSubmissionsPage'),
     beforeEnter: authGuard
   },

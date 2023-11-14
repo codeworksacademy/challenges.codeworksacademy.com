@@ -15,11 +15,11 @@ export class ParticipantsController extends BaseController {
 
   async joinChallenge(req, res, next) {
     try {
-      const participantData = req.body
+      const newParticipant = req.body
 
-      participantData.accountId = req.userInfo.id
+      newParticipant.accountId = req.userInfo.id
 
-      const participant = await participantsService.joinChallenge(participantData)
+      const participant = await participantsService.joinChallenge(newParticipant)
 
       return res.send(participant)
     } catch (error) {
@@ -31,9 +31,9 @@ export class ParticipantsController extends BaseController {
     try {
       const participantId = req.params.participantId
       const userId = req.userInfo.id
-      const participantData = req.body
+      const newParticipant = req.body
 
-      const updatedParticipant = await participantsService.submitChallengeForGrading(participantId, userId, participantData)
+      const updatedParticipant = await participantsService.submitChallengeForGrading(participantId, userId, newParticipant)
       return res.send(updatedParticipant)
     } catch (error) {
       next(error)
