@@ -21,15 +21,16 @@
                                     <h5><a href="" class="text-dark">Orange</a></h5>
                                 </ul>
                             </div>
-                                <div class="mb-3 accordion">
+                                <!--NOTE Conditionally render different pages menus-->
+                                <div class="mb-3 accordion" v-if="route.name != 'Home'">
                                     <button href="#editChallenge" data-bs-toggle="collapse" class="accordion-button collapsed fs-4">Edit Challenge</button>
                                     <ul class="collapse flex-column border-bottom bg-light text-dark rounded-bottom" id="editChallenge">
                                         <h5><a href="" class="text-dark">Banana</a></h5>
                                         <h5><a href="" class="text-dark">Apple</a></h5>
                                         <h5><a href="" class="text-dark">Orange</a></h5>
+                                        <h1 v-if="route.name == 'Home'">here</h1>
                                     </ul>
                                 </div>
-                            <!-- <Login class="mx-3"/> -->
                         </div>
                     </div>
                 </div>
