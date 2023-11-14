@@ -2,7 +2,7 @@
 <template>
     <section class="container-fluid bg-dark">
         <div class="d-flex flex-row">
-            <div class="">
+            <div class="sticky-top">
                 <nav class="navbar navbar-dark">
                     <div class="container-fluid">
                         <button class="navbar-toggler btn-info ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBody" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle side navigation">
@@ -11,7 +11,7 @@
                     </div>
                 </nav>
                 <div class="">
-                    <div class="collapse collapse-horizontal" id="collapseBody">
+                    <div class="collapse collapse-horizontal show" id="collapseBody">
                         <div class="p-3 text-nowrap">
                             <div class="mb-3 accordion">
                                 <button href="#home" data-bs-toggle="collapse" class="d-flex accordion-button fs-4"><i class="mdi mdi-home fs-3"></i>Home</button>
@@ -29,13 +29,13 @@
                                         <h5><a href="" class="text-dark">Orange</a></h5>
                                     </ul>
                                 </div>
-                            <Login class="mx-3"/>
+                            <!-- <Login class="mx-3"/> -->
                         </div>
                     </div>
                 </div>
             </div>
             <div class="bg-dark p-3">
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nobis, nostrum quis! Enim eveniet, commodi pariatur fuga perspiciatis sit alias sint natus vero quisquam nobis obcaecati cum nemo ipsa sunt. Ratione!</p>
+                <slot></slot>
             </div>
         </div>
     </section>

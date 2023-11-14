@@ -1,10 +1,17 @@
 <template>
   <header>
-    <Navbar />
-    <OffCanvasMenu/>
+    <Navbar class="sticky-top"/>
+    <section class="container-fluid">
+      <div class="d-flex flex-row">
+
+      </div>
+    </section>
+    <OffCanvasMenu>
+      <!-- <h1>Hey</h1> -->
+      <router-view />
+    </OffCanvasMenu>
   </header>
   <main>
-    <router-view />
     <ModalWrapper id="createChallengeForm">
       <template #header>
         <h3 class="m-auto">
