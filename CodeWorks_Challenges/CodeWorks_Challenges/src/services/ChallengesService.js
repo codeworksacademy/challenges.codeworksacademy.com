@@ -15,7 +15,7 @@ class ChallengesService {
 
     const challenges = await dbContext.Challenges.find()
       .populate('creator', PROFILE_FIELDS)
-      .select('-answers')
+      .select('-answer')
       .sort({ createdAt: -1 })
     return challenges
   }
@@ -23,8 +23,8 @@ class ChallengesService {
   async getChallengeById(challengeId) {
     const challenge = await dbContext.Challenges.findById(challengeId)
       .populate('creator', PROFILE_FIELDS)
-      // .select('-answers')  //FIXME - This gets the challenge without the answer attached, uncommenting when done
-
+      .select('-answers')  //FIXME - This gets the challenge without the answer attached, uncommenting when done
+      .select('-answer')
     if (!challenge) {
       throw new BadRequest('Invalid Challenge ID.')
     }
@@ -104,7 +104,9 @@ class ChallengesService {
   // REVIEW - I believe that I mistakenly left this in here while creating my Answer backend, I will delete it after the team has had a chance to review Jake's feedback. (Becca)
   //NOTE - Keeping This -Chantha
   async submitAnswer(challengeId, userId, answer) {
-    const challenge = await this.getChallengeById(challengeId)
+    // const challenge = await this.getChallengeById(challengeId)
+    const challenge = await dbContext.Challenges.findById(challengeId)
+      .populate('creator', PROFILE_FIELDS)
     if (challenge.answer === answer.answerData) {
       // return 'You are correct!'
       return {
