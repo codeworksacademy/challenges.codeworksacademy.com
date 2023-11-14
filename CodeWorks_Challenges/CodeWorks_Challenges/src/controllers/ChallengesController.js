@@ -2,7 +2,7 @@ import BaseController from '../utils/BaseController.js'
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { challengesService } from '../services/ChallengesService.js'
 import { participantsService } from '../services/ParticipantsService.js'
-import { moderatorsService } from "../services/ModeratorsService.js"
+import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js"
 import { submissionsService } from '../services/SubmissionsService.js'
 
 export class ChallengesController extends BaseController {
@@ -24,7 +24,7 @@ export class ChallengesController extends BaseController {
       .delete('/:challengeId', this.deleteChallenge)
       .delete('/:challengeId/participants', this.removeParticipant)
 
-      // .get('/:challengeId/submissions', this.getSubmissionsByChallengeId)
+    // .get('/:challengeId/submissions', this.getSubmissionsByChallengeId)
   }
 
   async gradeSubmittedChallenge(req, res, next) {
@@ -41,14 +41,14 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  async submitAnswer(req, res, next){
-    try{
+  async submitAnswer(req, res, next) {
+    try {
       const challengeId = req.params.challengeId
       const userId = req.userInfo.id
       const answer = req.body
       const result = await challengesService.submitAnswer(challengeId, userId, answer)
       return res.send(result) //FIXME - Working on this
-    } catch (e){
+    } catch (e) {
       next(e)
     }
   }
@@ -152,7 +152,7 @@ export class ChallengesController extends BaseController {
   async getModeratorsByChallengeId(req, res, next) {
     try {
       const challengeId = req.params.challengeId
-      const moderators = await moderatorsService.getModeratorsByChallengeId(challengeId)
+      const moderators = await challengeModeratorsService.getModeratorsByChallengeId(challengeId)
       return res.send(moderators)
     } catch (error) {
       next(error)

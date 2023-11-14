@@ -2,16 +2,16 @@ import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { challengesService } from "./ChallengesService.js"
 
-class ModeratorsService {
+class ChallengeModeratorsService {
 
   async createModeration(moderatorData) {
-    const moderation = await dbContext.Moderators.create(moderatorData)
+    const moderation = await dbContext.ChallengeModerators.create(moderatorData)
     return moderation
   }
 
   async getModeratorsByChallengeId(challengeId) {
     // const moderators = await dbContext.Moderators.find({ challengeId: challengeId, status: true })
-    const moderators = await dbContext.Moderators.find({ challengeId: challengeId }).populate({
+    const moderators = await dbContext.ChallengeModerators.find({ challengeId: challengeId }).populate({
       path: 'challenge',
       populate: { path: 'creator participantCount' }
     }).populate('profile', 'name picture')
@@ -19,7 +19,7 @@ class ModeratorsService {
   }
 
   async getMyModerationsByProfileId(profileId) {
-    const moderators = await dbContext.Moderators.find({ accountId: profileId }).populate({
+    const moderators = await dbContext.ChallengeModerators.find({ accountId: profileId }).populate({
       path: 'challenge',
       populate: { path: 'creator participantCount' }
     }).populate('profile', 'name picture')
@@ -31,7 +31,7 @@ class ModeratorsService {
     const challenges = await dbContext.Challenges.find({ creatorId: userId });
 
     // Then, get the moderators for these challenges.
-    const moderators = await dbContext.Moderators.find({ challengeId: { $in: challenges } })
+    const moderators = await dbContext.ChallengeModerators.find({ challengeId: { $in: challenges } })
       .populate({
         path: 'challenge',
         populate: { path: 'creator participantCount' }
@@ -42,7 +42,7 @@ class ModeratorsService {
   }
 
   async getModerationById(moderationId) {
-    const moderation = await dbContext.Moderators.findById(moderationId)
+    const moderation = await dbContext.ChallengeModerators.findById(moderationId)
     if (!moderation) {
       throw new BadRequest("Invalid Moderation ID.")
     }
@@ -76,7 +76,7 @@ class ModeratorsService {
   }
 
   async removeModeratoration(moderatorId, userId) {
-    const moderatorToRemove = await dbContext.Moderators.findById(moderatorId)
+    const moderatorToRemove = await dbContext.ChallengeModerators.findById(moderatorId)
     const challenge = await challengesService.getChallengeById(moderatorToRemove.challengeId)
 
     if (!moderatorToRemove) {
@@ -94,4 +94,4 @@ class ModeratorsService {
   }
 }
 
-export const moderatorsService = new ModeratorsService()
+export const challengeModeratorsService = new ChallengeModeratorsService()

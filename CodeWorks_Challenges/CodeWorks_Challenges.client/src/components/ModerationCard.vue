@@ -43,7 +43,8 @@
             </button>
           </td>
           <td>
-            <button v-if="moderationProp.originId != account.id" class="btn" @click="approveModeration(moderationProp.id)" title="approve moderation">
+            <button v-if="moderationProp.originId != account.id" class="btn" @click="approveModeration(moderationProp.id)"
+              title="approve moderation">
               <i class="mdi mdi-check-circle text-success selectable"></i>
             </button>
           </td>
@@ -51,21 +52,22 @@
       </tbody>
     </table>
   </div>
-
 </template>
 
 
 <script>
 import { computed } from 'vue'
-import { Moderator } from '../models/Moderator'
+import { ChallengeModerator } from '../models/ChallengeModerator'
 import { AppState } from '../AppState'
+import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js"
+import Pop from "../utils/Pop.js"
 
 export default {
   props: {
-    moderationProp: {Type: Moderator, required: true}
+    moderationProp: { Type: ChallengeModerator, required: true }
   },
 
-  setup(){
+  setup() {
     return {
       account: computed(() => AppState.account),
 
@@ -75,7 +77,7 @@ export default {
           if (!confirmRemove) {
             return
           }
-          await moderatorsService.removeModeration(moderationId)
+          await challengeModeratorsService.removeModeration(moderationId)
         } catch (error) {
           Pop.toast(error, 'error')
         }
@@ -87,7 +89,7 @@ export default {
           if (!confirmApprove) {
             return
           }
-          await moderatorsService.approveModeration(moderationId)
+          await challengeModeratorsService.approveModeration(moderationId)
         } catch (error) {
           Pop.toast(error, 'error')
         }
@@ -99,7 +101,7 @@ export default {
 
 
 <style lang="scss" scoped>
-.table-col-style{
+.table-col-style {
   width: 20%;
 }
 </style>

@@ -36,7 +36,7 @@
       <div class="col-12">
         <p class="text-secondary">you're waiting to be approved</p>
         <div v-for="moderation in myModerations" :key="moderation.id">
-          <ModerationCard :moderationProp="moderation"  v-if="moderation.originId == account.id" />
+          <ModerationCard :moderationProp="moderation" v-if="moderation.originId == account.id" />
         </div>
       </div>
 
@@ -68,45 +68,45 @@
 <script>
 import { computed, watchEffect } from "vue"
 import { AppState } from "../AppState.js"
-import { moderatorsService } from "../services/ModeratorsService.js"
+import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js"
 import Pop from "../utils/Pop.js"
 import ModerationCard from "./ModerationCard.vue"
 
 export default {
-    setup() {
-        // This returns moderations where the accountId is the same as account.id
-        async function getMyModerationsByUserId() {
-            try {
-                await moderatorsService.getMyModerationsByUserId(AppState.account.id);
-            }
-            catch (error) {
-                Pop.toast(error, 'error');
-            }
-        }
-        // This is returning moderations that have challenge Ids that belong to you
-        async function getModerationsByChallengeCreatorId() {
-            try {
-                await moderatorsService.getModerationsByChallengeCreatorId(AppState.account.id);
-            }
-            catch (error) {
-                Pop.toast(error, 'error');
-            }
-        }
-        watchEffect(() => {
-            if (AppState.account.id) {
-                getMyModerationsByUserId();
-                getModerationsByChallengeCreatorId();
-            }
-        });
-        return {
-            account: computed(() => AppState.account),
-            myChallenges: computed(() => AppState.myChallenges),
-            myModerations: computed(() => AppState.myModerations),
-            moderators: computed(() => AppState.moderators),
+  setup() {
+    // This returns moderations where the accountId is the same as account.id
+    async function getMyModerationsByUserId() {
+      try {
+        await challengeModeratorsService.getMyModerationsByUserId(AppState.account.id);
+      }
+      catch (error) {
+        Pop.toast(error, 'error');
+      }
+    }
+    // This is returning moderations that have challenge Ids that belong to you
+    async function getModerationsByChallengeCreatorId() {
+      try {
+        await challengeModeratorsService.getModerationsByChallengeCreatorId(AppState.account.id);
+      }
+      catch (error) {
+        Pop.toast(error, 'error');
+      }
+    }
+    watchEffect(() => {
+      if (AppState.account.id) {
+        getMyModerationsByUserId();
+        getModerationsByChallengeCreatorId();
+      }
+    });
+    return {
+      account: computed(() => AppState.account),
+      myChallenges: computed(() => AppState.myChallenges),
+      myModerations: computed(() => AppState.myModerations),
+      moderators: computed(() => AppState.moderators),
 
-        };
-    },
-    components: { ModerationCard }
+    };
+  },
+  components: { ModerationCard }
 }
 </script>
 

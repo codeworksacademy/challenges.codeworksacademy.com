@@ -1,8 +1,8 @@
-import { moderatorsService } from "../services/ModeratorsService.js";
+import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js";
 import BaseController from "../utils/BaseController.js"
 import { Auth0Provider } from "@bcwdev/auth0provider";
 
-export class ModeratorsController extends BaseController {
+export class ChallengeModeratorsController extends BaseController {
   constructor() {
     super('api/moderators')
     this.router
@@ -18,7 +18,7 @@ export class ModeratorsController extends BaseController {
     try {
       const moderatorData = req.body
       moderatorData.originId = req.userInfo.id
-      const moderation = await moderatorsService.createModeration(moderatorData)
+      const moderation = await challengeModeratorsService.createModeration(moderatorData)
       return res.send(moderation)
     } catch (error) {
       next(error);
@@ -28,7 +28,7 @@ export class ModeratorsController extends BaseController {
   async getMyModerationsByProfileId(req, res, next) {
     try {
       const profileId = req.params.userId
-      const moderations = await moderatorsService.getMyModerationsByProfileId(profileId)
+      const moderations = await challengeModeratorsService.getMyModerationsByProfileId(profileId)
       return res.send(moderations)
     } catch (error) {
       next(error);
@@ -38,7 +38,7 @@ export class ModeratorsController extends BaseController {
   async getModerationsByChallengeCreatorId(req, res, next) {
     try {
       const userId = req.params.userId
-      const moderations = await moderatorsService.getModerationsByChallengeCreatorId(userId)
+      const moderations = await challengeModeratorsService.getModerationsByChallengeCreatorId(userId)
       return res.send(moderations)
     } catch (error) {
       next(error);
@@ -49,7 +49,7 @@ export class ModeratorsController extends BaseController {
     try {
       const moderatorId = req.params.moderatorId
       const userId = req.userInfo.id
-      const moderatorToApprove = await moderatorsService.ApproveModeration(moderatorId, userId)
+      const moderatorToApprove = await challengeModeratorsService.ApproveModeration(moderatorId, userId)
       return res.send(moderatorToApprove)
     } catch (error) {
       next(error);
@@ -59,7 +59,7 @@ export class ModeratorsController extends BaseController {
     try {
       const moderatorId = req.params.moderatorId
       const userId = req.userInfo.id
-      const moderatorToRemove = await moderatorsService.removeModeratoration(moderatorId, userId)
+      const moderatorToRemove = await challengeModeratorsService.removeModeratoration(moderatorId, userId)
       return res.send(moderatorToRemove)
     } catch (error) {
       next(error);
