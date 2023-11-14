@@ -91,6 +91,7 @@ class ChallengesService {
     logger.log('Updating Challenge ⏩', res.data)
     AppState.activeChallenge = res.data
     return res.data
+    // return newChallenge;
   }
 
   async submitAnswer(challengeId, answerData) {

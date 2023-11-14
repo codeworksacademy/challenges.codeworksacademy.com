@@ -65,7 +65,7 @@ class ChallengesService {
     challenge.steps = newChallenge.steps || challenge.steps
     challenge.coverImg = newChallenge.coverImg || challenge.coverImg
     challenge.supportLinks = newChallenge.supportLinks || challenge.supportLinks
-    challenge.answers = newChallenge.answers || challenge.answers
+    challenge.answer = newChallenge.answer || challenge.answer
     challenge.difficulty = newChallenge.difficulty || challenge.difficulty
     challenge.status = newChallenge.status || challenge.status
 
@@ -105,7 +105,7 @@ class ChallengesService {
   //NOTE - Keeping This -Chantha
   async submitAnswer(challengeId, userId, answer) {
     const challenge = await this.getChallengeById(challengeId)
-    if (challenge.answers[0].answer === answer.answerData) {
+    if (challenge.answer === answer.answerData) {
       // return 'You are correct!'
       return {
         correct: true
@@ -116,7 +116,8 @@ class ChallengesService {
         correct: false
       }
     }
-    // return `${challenge.answers}, Answer: ${answer.answerData}`;
+    // return challenge;
+    // return `${challenge.answer}, Answer: ${answer.answerData}`;
   }
 }
 
