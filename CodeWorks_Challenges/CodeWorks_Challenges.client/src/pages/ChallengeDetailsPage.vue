@@ -191,7 +191,7 @@
         <p>{{ challenge.pointValue }} Points</p>
       </div>
       <div class="col-md-8 bg-dark text-light p-3 mb-3">
-        <p>{{ challenge.moderators }} Moderators</p>
+        <p>{{ moderators.length }} Moderators</p>
         <p>{{ participants.length }} Participants</p>
       </div>
       <div class="col-md-8 bg-dark text-light p-3 mb-3">
