@@ -10,8 +10,8 @@ class ParticipantsService {
     AppState.participants.push(new Participant(res.data))
   }
 
-  async updateParticipant(participantId, newParticipant) {
-    const res = await api.put(`api/participants/${participantId}`, newParticipant)
+  async submitChallengeForGrading(participantId, newParticipant) {
+    const res = await api.post(`api/participants/${participantId}`, newParticipant)
     logger.log('Updated participant:', res.data)
     const participant = res.data
     const participantToUpdate = AppState.participants.findIndex(p => p.id === participant.id)
@@ -19,6 +19,7 @@ class ParticipantsService {
     if (participantToUpdate !== -1) {
       AppState.participants.splice(participantToUpdate, 1, participant)
     }
+    return res.data
   }
 
   async leaveChallenge(participantId) {
@@ -33,6 +34,13 @@ class ParticipantsService {
     AppState.participants = res.data.map(p => new Participant(p))
     logger.log('[Participants in this challenge]:', AppState.participants)
   }
+
+  // async submitChallengeForGrading(participantId,  newSubmission) {
+  //   const res = await api.put('api/participants/' + participantId, newSubmission)
+  //   logger.log('Participant Updated ⏩', res.data)
+  //   AppState.activeParticipant = res.data
+  //   return res.data
+  // }
 }
 
 export const participantsService = new ParticipantsService()
