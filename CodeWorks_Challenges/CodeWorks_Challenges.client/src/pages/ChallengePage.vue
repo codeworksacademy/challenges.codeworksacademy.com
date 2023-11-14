@@ -121,7 +121,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  * {
-    border: 1px red solid
-  }
+  // * {
+  //   border: 1px red solid
+  // }
 </style>
