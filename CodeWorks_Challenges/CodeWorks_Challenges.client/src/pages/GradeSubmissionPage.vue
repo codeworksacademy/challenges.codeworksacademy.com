@@ -3,7 +3,9 @@
     v-if="isModeratorStatus == 'approved' || challengeCreator"
     class="container-fluid"
   >
-  </section>
+</section>
+<h1>Challenge Grading</h1>
+<SubmissionCard/>
 </template>
   
 <script>
@@ -11,10 +13,11 @@ import { computed, onMounted, ref } from 'vue'
 import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"  
+import SubmissionCard from '../components/SubmissionCard.vue'
 
 export default {
   components: {
-
+    SubmissionCard
   },
   setup() {
 

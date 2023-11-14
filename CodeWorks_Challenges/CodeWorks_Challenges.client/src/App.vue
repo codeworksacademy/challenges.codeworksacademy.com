@@ -1,9 +1,17 @@
 <template>
   <header>
-    <Navbar />
+    <Navbar class="sticky-top"/>
+    <section class="container-fluid">
+      <div class="d-flex flex-row">
+
+      </div>
+    </section>
+    <OffCanvasMenu>
+      <!-- <h1>Hey</h1> -->
+      <router-view />
+    </OffCanvasMenu>
   </header>
   <main>
-    <router-view />
     <ModalWrapper id="createChallengeForm">
       <template #header>
         <h3 class="m-auto">
@@ -22,6 +30,7 @@
         </h3>
       </template>
       <template #body>
+        <!--Fix Me Comment Back in-->
         <ChallengeSubmissionForm />
       </template>
     </ModalWrapper>
@@ -52,6 +61,7 @@ import ModalWrapper from './components/ModalWrapper.vue'
 import CreateChallengeForm from './components/CreateChallengeForm.vue'
 import ChallengeSubmissionForm from './components/ChallengeSubmissionForm.vue'
 import AnswerForm from './components/AnswerForm.vue'
+import OffCanvasMenu from './components/OffCanvasMenu.vue'
 
 export default {
   setup() {
@@ -62,6 +72,7 @@ export default {
   },
   components: { 
     Navbar,
+    OffCanvasMenu,
     ModalWrapper,
     CreateChallengeForm,
     ChallengeSubmissionForm,

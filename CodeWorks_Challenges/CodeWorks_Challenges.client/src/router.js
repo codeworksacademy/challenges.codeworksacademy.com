@@ -46,6 +46,11 @@ const routes = [
         path: 'moderation',
         name: 'ChallengeModeration',
         component: loadPage('ChallengeModerationPage')
+      },
+      {
+        path: 'grading',
+        name: 'GradeSubmissionPage',
+        component: loadPage('GradeSubmissionPage')
       }
     ]
   },
@@ -66,21 +71,9 @@ const routes = [
     component: loadPage('MilestonesPage'),
   },
   // {
-  //   path: '/routetestpage',
-  //   name: 'RouteTestPage',
-  //   component: loadPage('RouteTestPage'),
-  //   children: [
-  //     {
-  //       path: 'edit',
-  //       name: 'EditChallenge',
-  //       component: loadPage('EditChallengePage'),
-  //     },
-  //     {
-  //       path: 'edit2',
-  //       name: 'Edit2',
-  //       component: loadPage('AboutPage')
-  //     }
-  //   ]
+  //   path: '/dev',
+  //   name: 'dev',
+  //   component: loadPage('OffCanvasPage'),
   // }
 ]
 
