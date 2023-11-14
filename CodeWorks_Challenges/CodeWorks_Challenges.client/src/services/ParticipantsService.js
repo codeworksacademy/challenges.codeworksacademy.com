@@ -10,8 +10,8 @@ class ParticipantsService {
     AppState.participants.push(new Participant(res.data))
   }
 
-  async submitChallengeForGrading(participantId, newParticipant) {
-    const res = await api.post(`api/participants/${participantId}`, newParticipant)
+  async submitChallengeForGrading(newParticipant) {
+    const res = await api.put(`api/participants/${participantId}`, newParticipant)
     logger.log('Updated participant:', res.data)
     const participant = res.data
     const participantToUpdate = AppState.participants.findIndex(p => p.id === participant.id)

@@ -3,7 +3,7 @@
     <div v-if="user.id === challenge?.creatorId">
       <!-- <router-view /> -->
     </div>
-    <section class="row m-auto bg-dark py-5">
+    <!-- <section class="row m-auto bg-dark py-5">
       <div class="col-1 fs-1">
         🔐
       </div>
@@ -80,7 +80,7 @@
       <div class="col-8">
 
       </div>
-    </section>
+    </section> -->
 
     <div class="row bg-img d-flex justify-content-center align-items-center"
       :style="`background-image: url(${challenge.coverImg}); opacity: .9;`">
