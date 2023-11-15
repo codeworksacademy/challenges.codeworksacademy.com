@@ -2,7 +2,7 @@ import { Schema } from 'mongoose';
 
 const ObjectId = Schema.Types.ObjectId;
 
-const CATEGORY_TYPES = ['full_stack','front_end', 'back_end', 'puzzles', 'data_structures', 'style_and_design', 'other'];
+const CATEGORY_TYPES = ['full_stack', 'front_end', 'back_end', 'puzzles', 'data_structures', 'style_and_design', 'other'];
 
 const STATUS_TYPES = ['draft', 'under-review', 'published', 'deprecated'];
 

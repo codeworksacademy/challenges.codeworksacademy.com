@@ -4,14 +4,16 @@
       class="row bg-light p-3 rounded shadow"
       @submit.prevent="submitChallengeForGrading" id="createSubmissionForm"
     >
-      <div class="row">
-        <div class="col-12">
+      <div class="col-12">
+        <div class="mb-3">
           <label for="submission" class="form-label">Submission</label>
-          <textarea v-model="editable.submission" name="submission" id="submission" cols="30" rows="10" class="form-control"></textarea>
+          <input v-model="editableSubmission.submission" type="url" name="submission" id="submission" placeholder="Source Code Link" class="form-control bg-light">
         </div>
       </div>
 
-      <button type="submit" class="btn btn-primary">Submit Application</button>
+      <div class="button-container col-12 d-flex justify-content-between">
+      <button class="btn text-dark btn-outline-secondary text-light mdi mdi-plus-circle fw-700"> Submit Application</button>
+      </div>
     </form>
   </section>
 </template>
@@ -32,55 +34,79 @@ export default {
     const route = useRoute()
     const router = useRouter()
 
-    // const participantId = ref(route.params.participantId)
-    const editable = ref({
-      accountId: AppState.account.id,
-      challengeId: route.params.challengeId,
-      submission: '',
-      status: 'submitted'
+    const editableSubmission = ref([])
+    const editableIndex = ref(false)
+
+    const editableParticipant = computed(() => {
+      return AppState.participants.find(p => p.id === AppState.activeParticipant?.id)
     })
 
-    const participant = computed(() => {
-      return AppState.participants.find(p => p.id === route.params.participantId)
-    })
-    
     watchEffect(() => {
-      if (participant.value) {
-        editable.value = { ...participant.value }
-      }
+      
     })
 
     async function submitChallengeForGrading() {
-  try {
-    const newSubmission = { 
-      accountId: AppState.account.id,
-      challengeId: route.params.challengeId,
-      submission: editable.value.submission, 
-      status: editable.value.status,
-    }
-    logger.log('Your Participant ID:', participant)
-    await participantsService.submitChallengeForGrading(newSubmission)
-    editable.value = ''
-    Modal.getOrCreateInstance('#createSubmissionForm').hide();
-    Pop.toast('Submission Created');
+      try {
+      
+        const newSubmission = { 
+          accountId: AppState.user.id,
+          challengeId: route.params.challengeId,
+          submission: editableSubmission.value.submission,
+          status: 'submitted'
+         }        
+        logger.log('Your Participant ID:', editableParticipant)
+        await participantsService.submitChallengeForGrading(newSubmission)
+        editableParticipant.value = ''
+        Modal.getOrCreateInstance('#createSubmissionForm').hide();
+        Pop.toast('Submission Added');
 
-    router.push({
-      name: 'ChallengeSubmissionsPage',
-      params: { challengeId: route.params.challengeId },
-    });
-  } catch (error) {
-    logger.error(error);
-    Pop.toast(error.message, 'error');
-  }
-}
+        router.push({
+          name: 'ChallengeSubmissionsPage',
+          params: { challengeId: route.params.challengeId },
+        });
+      } catch (error) {
+        logger.error(error);
+        Pop.toast(error.message, 'error');
+      }
+    }
+
+    async function removeSubmission() {
+      try {
+        const participantId = AppState.activeParticipant?.id
+        const newSubmission = {
+          submission: editableSubmission.value.submission,
+          status: editableSubmission.value.status
+        }
+        logger.log('Your Participant ID:', editableParticipant)
+        await participantsService.removeSubmission(newSubmission, participantId)
+        editableParticipant.value = ''
+        Modal.getOrCreateInstance('#createSubmissionForm').hide();
+        Pop.toast('Submission Removed');
+
+        router.push({
+          name: 'ChallengeSubmissionsPage',
+          params: { challengeId: route.params.challengeId },
+        });
+      } catch (error) {
+        logger.error(error);
+        Pop.toast(error.message, 'error');
+      }
+    }
 
 
 
     return {
-      // participant: computed(() => AppState.participants.find(p => p.id === AppState.activeParticipant?.id)),
       user: computed(() => AppState.user),
-      editable,
+      editableParticipant,
+      editableSubmission,
+      editableIndex,
       submitChallengeForGrading,
+      removeSubmission,
+
+      editParticipant(index) {
+        editableIndex.value = index
+        editableParticipant.value = { ...AppState.activeParticipant[index] }
+      }
     } 
   }
 }
@@ -146,7 +172,7 @@ export default {
     const router = useRouter()
 
     const editable = ref({
-      participantId: AppState.user.id,
+      accountId: AppState.user.id,
       submission: '',
       status: 'submitted'
     })
@@ -158,11 +184,11 @@ export default {
     async function submitChallengeForGrading() {
       try {
         const newParticipant = { 
-          participantId: route.params.participantId,
+          accountId: route.params.accountId,
           submission: editable.value.submission, 
           status: editable.value.status, 
         }
-        logger.log('Your Participant ID:', newParticipant.participantId)
+        logger.log('Your Participant ID:', newParticipant.accountId)
         await participantsService.updateParticipant(newParticipant)
         editable.value = ''
         Modal.getOrCreateInstance('#createSubmissionForm').hide()
