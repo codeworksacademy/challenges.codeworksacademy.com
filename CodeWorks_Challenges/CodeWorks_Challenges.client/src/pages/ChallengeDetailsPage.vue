@@ -199,7 +199,6 @@
         <div class="header flex-grow-1 d-flex justify-content-between">
           <h1 v-if="isOwned || isModeratorStatus == 'approved'" @click="editChallenge()" class="btn btn-outline-info">Edit
             Challenge</h1>
-
         </div>
       </div>
     </section>
