@@ -16,6 +16,8 @@
               </label>
         </div>
       </section>
+      <h3>Comments</h3>
+      <textarea name="" id="" cols="30" rows="10" class="form-control mb-3"></textarea>
       <button class="btn btn-success mb-3">Update Grade</button>
   </form>
   </section>
