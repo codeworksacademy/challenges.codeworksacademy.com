@@ -1,6 +1,6 @@
 <template>
   <div class="" v-if="challenge">
-    <section class="container-fluid text-dark">
+    <section class="container-fluid text-light">
       <form @submit.prevent="updateChallenge">
         <div class="border-dark border-bottom my-3" id="details-section">
           <h3 for="name">Challenge Name</h3>

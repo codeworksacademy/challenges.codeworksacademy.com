@@ -47,7 +47,7 @@ export default {
       } else return 'null'
     }
     onMounted(() => {
-      setActiveChallenge()
+      // setActiveChallenge()
     })
     return {
       user: computed(() => AppState.user),
