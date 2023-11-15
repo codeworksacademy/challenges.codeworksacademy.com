@@ -34,25 +34,30 @@ const routes = [
   },
   {
     path: '/challenge/:challengeId/edit',
-    name: 'ChallengeEditPage',
-    component: loadPage('ChallengeEditPage'),
-    children: [
-      {
-        path: 'details',
-        name: 'ChallengeEditor',
-        component: loadPage('ChallengeEditor')
-      },
-      {
-        path: 'moderation',
-        name: 'ChallengeModeration',
-        component: loadPage('ChallengeModerationPage')
-      },
-      {
-        path: 'grading',
-        name: 'GradeSubmissionPage',
-        component: loadPage('GradeSubmissionPage')
-      }
-    ]
+    name: 'ChallengeEditor',
+    component: loadPage('ChallengeEditor'),
+    // children: [
+    //   {
+    //     path: 'details',
+    //     name: 'ChallengeEditor',
+    //     component: loadPage('ChallengeEditor')
+    //   },
+    //   {
+    //     path: 'moderation',
+    //     name: 'ChallengeModeration',
+    //     component: loadPage('ChallengeModerationPage')
+    //   },
+    //   {
+    //     path: 'grading',
+    //     name: 'GradeSubmissionPage',
+    //     component: loadPage('GradeSubmissionPage')
+    //   }
+    // ]
+  },
+  {
+    path: '/challenge/:challengeId/grading',
+    name: 'GradeSubmissionPage',
+    component: loadPage('GradeSubmissionPage')
   },
   {
     path: '/participants/:participantId',

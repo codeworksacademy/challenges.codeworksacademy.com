@@ -1,6 +1,6 @@
 <template>
   <div class="" v-if="challenge">
-    <section class="container-fluid text-dark">
+    <section class="container-fluid text-light">
       <form @submit.prevent="updateChallenge">
         <div class="border-dark border-bottom my-3" id="details-section">
           <h3 for="name">Challenge Name</h3>
@@ -55,22 +55,22 @@
           <section id="answers-section">
             <h4>Answers</h4>
             <div class="d-flex input-group mb-3">
-              <input type="text" class="form-control" id="answerDescription" placeholder="Answer Description"> 
+              <!-- <input type="text" class="form-control" id="answerDescription" placeholder="Answer Description">  -->
               <input type="text" class="form-control" id="answer" placeholder="Answer"> 
               <button class="btn btn-success" type="button" id="button-addon1" @click="addAnswer()">Add</button>
             </div>
             <!-- <textarea name="answers" id="" cols="30" rows="10" class="form-control mb-3" v-model="editable.answers"></textarea> -->
           </section>
-          <section class="row justify-content-between" v-for="(answer, index) in challenge.answers">
-            <!-- <h4 class="text-success col-md-6">{{ link.name }} </h4>
-            <h4 class="text-dark col-md-6">{{ link.url }} <i class="mdi mdi-trash-can float-end" @click="deleteSupportLink(index)"></i></h4> -->
+          <!-- <section class="row justify-content-between" v-for="(answer, index) in challenge.answers">
             <ul class="list-group list-group-horizontal p-3">
               <li class="list-group-item list-group-item-dark flex-fill w-50">{{ answer.description }}</li>
               <li class="list-group-item list-group-item-dark flex-fill w-50">{{ answer.answer }} 
                 <i class="mdi mdi-trash-can float-end fs-5 p-0" @click="deleteAnswer(index)"></i>
               </li>
-              
             </ul>
+          </section> -->
+          <section class="row">
+            {{ answer }}
           </section>
           <button class="btn btn-success mb-3">Update Challenge</button>
       </form>
@@ -223,27 +223,29 @@ export default {
       Pop.success("Link Added")
     }
     function addAnswer(){
-      if (!challenge.value.answers) {
-        challenge.value.answers = [];
-      }
-      const newAnswerDescription = document.getElementById("answerDescription")
+      // if (!challenge.value.answers) {
+      //   challenge.value.answers = [];
+      // }
+      // const newAnswerDescription = document.getElementById("answerDescription")
       const newAnswer = document.getElementById("answer")
-      logger.log("new Answer" ,newAnswerDescription.value, newAnswer.value)
-      if(newAnswerDescription.value.length == 0){
-        Pop.error("You must specify an answer description.")
-        return;
-      }
+      logger.log("new Answer", newAnswer.value)
+      // if(newAnswerDescription.value.length == 0){
+      //   Pop.error("You must specify an answer description.")
+      //   return;
+      // }
       if(newAnswer.value.length == 0){
         Pop.error("You cannot add an empty answer.")
         return;
       }
-      challenge.value.answers.push({
-        answer: newAnswer.value,
-        description: newAnswerDescription.value
-      })
-      newAnswerDescription.value = ''
-      newAnswer.value = ''
-      logger.log(challenge.value.answers)
+      // challenge.value.answers.push({
+      //   answer: newAnswer.value,
+      //   description: newAnswerDescription.value
+      // })
+      challenge.value.answer = newAnswer.value
+      delete challenge.value.answers
+      // newAnswerDescription.value = ''
+      // newAnswer.value = ''
+      logger.log(challenge.value)
       Pop.success("Answer Added")
     }
 

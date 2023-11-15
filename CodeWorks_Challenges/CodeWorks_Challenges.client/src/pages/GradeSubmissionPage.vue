@@ -3,9 +3,22 @@
     v-if="isModeratorStatus == 'approved' || challengeCreator"
     class="container-fluid"
   >
-</section>
-<h1>Challenge Grading</h1>
-<SubmissionCard/>
+    <h1>Challenge Grading</h1>
+    <h3>User Name</h3>
+    <a href=""><p>Repo Link</p></a>
+    <p>Submit Date</p>
+    <form @submit.prevent="">
+      <section class="" v-for="(step, index) in challenge.steps">
+        <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" :id="step">
+                  <label class="form-check-label" :for="step">
+                    {{ step }}
+              </label>
+        </div>
+      </section>
+      <button class="btn btn-success mb-3">Update Grade</button>
+  </form>
+  </section>
 </template>
   
 <script>
@@ -34,7 +47,7 @@ export default {
       } else return 'null'
     }
     onMounted(() => {
-      setActiveChallenge()
+      // setActiveChallenge()
     })
     return {
       user: computed(() => AppState.user),

@@ -15,7 +15,7 @@ class ChallengesService {
 
     const challenges = await dbContext.Challenges.find()
       .populate('creator', PROFILE_FIELDS)
-      .select('-answers')
+      .select('-answer')
       .sort({ createdAt: -1 })
     return challenges
   }
@@ -23,8 +23,8 @@ class ChallengesService {
   async getChallengeById(challengeId) {
     const challenge = await dbContext.Challenges.findById(challengeId)
       .populate('creator', PROFILE_FIELDS)
-      // .select('-answers')  //FIXME - This gets the challenge without the answer attached, uncommenting when done
-
+      .select('-answers')  //FIXME - This gets the challenge without the answer attached, uncommenting when done
+      .select('-answer')
     if (!challenge) {
       throw new BadRequest('Invalid Challenge ID.')
     }
@@ -65,7 +65,7 @@ class ChallengesService {
     challenge.steps = newChallenge.steps || challenge.steps
     challenge.coverImg = newChallenge.coverImg || challenge.coverImg
     challenge.supportLinks = newChallenge.supportLinks || challenge.supportLinks
-    challenge.answers = newChallenge.answers || challenge.answers
+    challenge.answer = newChallenge.answer || challenge.answer
     challenge.difficulty = newChallenge.difficulty || challenge.difficulty
     challenge.status = newChallenge.status || challenge.status
 
@@ -104,8 +104,10 @@ class ChallengesService {
   // REVIEW - I believe that I mistakenly left this in here while creating my Answer backend, I will delete it after the team has had a chance to review Jake's feedback. (Becca)
   //NOTE - Keeping This -Chantha
   async submitAnswer(challengeId, userId, answer) {
-    const challenge = await this.getChallengeById(challengeId)
-    if (challenge.answers[0].answer === answer.answerData) {
+    // const challenge = await this.getChallengeById(challengeId)
+    const challenge = await dbContext.Challenges.findById(challengeId)
+      .populate('creator', PROFILE_FIELDS)
+    if (challenge.answer === answer.answerData) {
       // return 'You are correct!'
       return {
         correct: true
@@ -116,7 +118,8 @@ class ChallengesService {
         correct: false
       }
     }
-    // return `${challenge.answers}, Answer: ${answer.answerData}`;
+    // return challenge;
+    // return `${challenge.answer}, Answer: ${answer.answerData}`;
   }
 }
 
