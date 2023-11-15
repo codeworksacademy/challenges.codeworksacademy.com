@@ -89,7 +89,6 @@
           <h1>{{ challenge.name }}</h1>
           <h1 v-if="isOwned || isModeratorStatus == 'approved'" @click="editChallenge()" class="btn btn-outline-info">Edit
             Challenge</h1>
-
         </div>
     </div>
         <!-- <div class="body row">

@@ -7,7 +7,7 @@
     <h3>User Name</h3>
     <a href=""><p>Repo Link</p></a>
     <p>Submit Date</p>
-    <form @submit.prevent="">
+    <form @submit.prevent="" v-if="challenge">
       <section class="" v-for="(step, index) in challenge.steps">
         <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" :id="step">
@@ -27,15 +27,24 @@ import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"  
 import SubmissionCard from '../components/SubmissionCard.vue'
+import { challengesService } from '../services/ChallengesService'
+import { useRoute } from 'vue-router'
 
 export default {
   components: {
     SubmissionCard
   },
   setup() {
+    let route = useRoute()
 
-    function setActiveChallenge() {
-      AppState.activeChallenge = AppState.challenges.find(c => c.id == AppState.activeChallenge.id)
+    async function setActiveChallenge() {
+      try {
+        await challengesService.setActiveChallenge(route.params.challengeId)
+        logger.log(route.params.challengeId)
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error, 'error')
+      }
     }
 
     function isModeratorStatus() {
@@ -47,7 +56,7 @@ export default {
       } else return 'null'
     }
     onMounted(() => {
-      // setActiveChallenge()
+      setActiveChallenge()
     })
     return {
       user: computed(() => AppState.user),

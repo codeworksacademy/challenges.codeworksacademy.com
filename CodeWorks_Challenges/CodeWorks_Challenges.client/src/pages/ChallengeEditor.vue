@@ -102,14 +102,14 @@ import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
 import { challengesService } from "../services/ChallengesService.js"
 import { Modal } from "bootstrap"
-import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 
 export default {
   components: {
     
   },
   setup() {
-
+    let route = useRoute()
     let editing = ref(false);
     const answer = ref('')
     const editable = ref({})
@@ -117,14 +117,15 @@ export default {
       editable.value = AppState.activeChallenge
     })
     
-    // async function setActiveChallenge() {
-    //   try {
-    //     await challengesService.setActiveChallenge(AppState.activeChallenge?.id)
-    //   } catch (error) {
-    //     logger.error(error)
-    //     Pop.toast(error, 'error')
-    //   }
-    // }
+    async function setActiveChallenge() {
+      try {
+        await challengesService.setActiveChallenge(route.params.challengeId)
+        logger.log(route.params.challengeId)
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error, 'error')
+      }
+    }
 
     async function updateChallenge() {
       try {
@@ -166,7 +167,7 @@ export default {
       }
     }
     onMounted(() => {
-
+      setActiveChallenge()
     })
 
     const challenge = computed(() => AppState.activeChallenge)
