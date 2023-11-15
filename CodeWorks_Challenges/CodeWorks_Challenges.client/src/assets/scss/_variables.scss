@@ -219,6 +219,93 @@ $gradient: linear-gradient(180deg, hsla(0, 0%, 100%, 0.15), hsla(0, 0%, 100%, 0)
   bottom: 10rem;
 }
 
+.fw-100 {
+  font-weight: 100;
+}
+
+.fw-150 {
+  font-weight: 150;
+}
+
+.fw-200 {
+  font-weight: 200;
+}
+
+.fw-250 {
+  font-weight: 250;
+}
+
+.fw-300 {
+  font-weight: 300;
+}
+
+.fw-350 {
+  font-weight: 350;
+}
+
+.fw-400 {
+  font-weight: 400;
+}
+
+.fw-450 {
+  font-weight: 450;
+}
+
+.fw-500 {
+  font-weight: 500;
+}
+
+.fw-550 {
+  font-weight: 550;
+}
+
+.fw-600 {
+  font-weight: 600;
+}
+
+.fw-650 {
+  font-weight: 650;
+}
+
+.fw-700 {
+  font-weight: 700;
+}
+
+.fw-750 {
+  font-weight: 750;
+}
+
+.fw-800 {
+  font-weight: 800;
+}
+
+.fw-850 {
+  font-weight: 850;
+}
+
+.fw-900 {
+  font-weight: 900;
+}
+
+.fw-950 {
+  font-weight: 950;
+}
+
+.fw-1000 {
+  font-weight: 1000;
+}
+
+.subtle-header {
+  color: var(--text-subheader);
+  text-shadow: .5px .5px 1px #362d2d;
+}
+
+.subheader {
+  -webkit-filter: brightness(.5);
+  filter: brightness(.5);
+  text-shadow: .5px .5px 1px #362d2d;
+}
+
 .hover-blue {
   &:hover {
     color: var(--primary-blue);

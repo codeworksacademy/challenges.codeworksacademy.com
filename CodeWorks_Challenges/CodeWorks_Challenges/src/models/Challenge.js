@@ -2,16 +2,28 @@ import { Schema } from 'mongoose';
 
 const ObjectId = Schema.Types.ObjectId;
 
+const CATEGORY_TYPES = ['full_stack','front_end', 'back_end', 'puzzles', 'data_structures', 'style_and_design', 'other'];
+
+const STATUS_TYPES = ['draft', 'under-review', 'published', 'deprecated'];
+
 export const ChallengeSchema = new Schema({
   creatorId: {
     type: ObjectId,
     required: true,
     ref: 'Account'
   },
+  category: {
+    type: String,
+    enum: CATEGORY_TYPES,
+    required: true,
+    lowercase: true
+  },
   status: {
     type: String,
-    enum: ['draft', 'under-review', 'published', 'deprecated'],
-    default: 'draft'
+    enum: STATUS_TYPES,
+    required: true,
+    default: 'draft',
+    lowercase: true
   },
   name: {
     type: String,
