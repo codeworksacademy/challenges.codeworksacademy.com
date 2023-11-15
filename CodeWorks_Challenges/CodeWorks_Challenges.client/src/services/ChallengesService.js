@@ -102,6 +102,13 @@ class ChallengesService {
 
     return res.data
   }
+
+  async submitChallenge(challengeId, submissionData) {
+    const res = await api.post(`api/challenges/${challengeId}/submissions`, submissionData)
+    logger.log('[SUBMITTING CHALLENGE]', res.data)
+
+    return res.data
+  }
 }
 
 export const challengesService = new ChallengesService()

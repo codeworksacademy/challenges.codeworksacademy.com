@@ -9,6 +9,7 @@ export class Challenge {
     this.creatorId = data.creatorId
     this.creator = data.creator
     this.name = data.name || ''
+    this.category = data.category
     this.description = data.description || ''
     this.steps = data.steps || []
     this.coverImg = data.coverImg || 'https://i.ibb.co/b1bXrRw/card-gradient.png'

@@ -1,6 +1,6 @@
 import { AppState } from '../AppState'
 import { Account } from '../models/Account.js'
-import { Participant } from "../models/Participant.js"
+import { ChallengeParticipant } from "../models/ChallengeParticipant.js"
 import { logger } from '../utils/Logger'
 import { api } from './AxiosService'
 
@@ -32,7 +32,7 @@ class AccountService {
 
   async getMyParticipations() {
     const res = await api.get('/account/participations')
-    AppState.myParticipants = res.data.map(p => new Participant(p))
+    AppState.myParticipants = res.data.map(p => new ChallengeParticipant(p))
     logger.log('[GET PARTICIPANTS BY ACCOUNT]', AppState.myParticipants)
   }
 }

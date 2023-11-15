@@ -1,6 +1,6 @@
 import { Challenge } from './Challenge'
 
-export class Participant {
+export class ChallengeParticipant {
   constructor(data) {
     this.id = data.id
     this.challengeId = data.challengeId
