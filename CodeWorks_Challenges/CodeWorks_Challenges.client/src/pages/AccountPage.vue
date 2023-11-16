@@ -1,6 +1,112 @@
 <template>
   <div class="container-fluid" v-if="account.id">
+
+    <section class="row bg-dark">
+      <div class="col-2">
+        <img :src="account.picture" alt="" class="rounded-circle img-fluid">
+      </div>
+      <div class="col-10">
+        <div class="col-7 d-flex flex-column">
+          <div class="d-flex flex-row">
+            <div class="col-6 text-uppercase fw-500">
+              {{ account.name }}
+            </div>
+            <div class="col-6 fw-500">
+              #426580
+            </div>
+          </div>
+          <div class="col-8 d-flex justify-content-between">
+              <i class="col-2 mdi mdi-diamond"> 0</i>
+              <i class="col-2 mdi mdi-table-account"> 0</i>
+              <i class="col-2 mdi mdi-file"> 0</i>
+              <i class="col-2 mdi mdi-emoticon"> 0</i>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="row">
+      <div class="col-8 bg-dark d-flex justify-content-between align-items-center text-uppercase my-3">
+        <a href="">Profile</a>
+        <a href="">Profile Settings</a>
+        <a href="">Billing and Plans</a>
+        <a href="">Create Team</a>
+      </div>
+    </section>
+
+    <section class="row">
+      <div class="col-6 bg-dark d-flex justify-content-between align-items-center text-uppercase my-3">
+        <a href="">Overview</a>
+        <a href="">Activity</a>
+        <a href="">Badges</a>
+        <a href="">Certificates</a>
+      </div>
+    </section>
+
+    <section class="row">
+      <div class="col-9 bg-image d-flex justify-content-center align-items-center" :style="`background-image: url(${account.coverImg}); opacity: .9; background-repeat: no-repeat; background-size: cover;`">
+
+        <div class="col-6">
+          <div id="bugs-bunny" class="alt-badge bunny-pink">
+            <div class="circle pt-1"> <i class="mdi mdi-rabbit"></i></div>
+            <div class="double-ribbon-top lvl1-ribbon">Bugs</div>
+            <div class="double-ribbon-bottom lvl1-ribbon">Bunny</div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <h5>Bugs Bunny</h5>
+          <p class="text-uppercase">Current Rank</p>
+        </div>
+      </div>
+
+      <div class="col-3">
+        <div class="card bg-dark p-3 shadow-lg">
+          <h6 class="text-uppercase subheader">Rank Progress</h6>
+          <p>0% towards Widget Weenie</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="row">
+      <div class="col-5 card bg-dark d-flex justify-content-center align-items-center p-3 m-3">
+          <div class="">
+            <i class="mdi mdi-flag bg-primary fs-3"></i>
+          </div>
+          <div class="">
+            <i class="mdi mdi-source-commit-local fs-3"></i>
+          </div>
+          <p class="col-12 text-center text-uppercase">System Owns</p>
+      </div>
+      <div class="col-5 card bg-dark d-flex justify-content-center align-items-center p-3 m-3">
+          <div class="">
+            <i class="mdi mdi-emoticon bg-info fs-3"></i>
+          </div>
+          <div class="">
+            <i class="mdi mdi-source-commit-local fs-3"></i>
+          </div>
+          <p class="col-12 text-center text-uppercase">Respect</p>
+      </div>
+    </section>
+
+    <section class="row mb-5 pb-5">
+      <div style="height: 1000px;"></div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <section class="row mt-5 pt-5">
       <div class="p-0">
         <img class="coverImg-style" :src="account.coverImg" alt="Cover Image">
       </div>
@@ -175,6 +281,7 @@ export default {
     })
     return {
       account: computed(() => AppState.account),
+      challenge: computed(() => AppState.activeChallenge),
       myChallenges: computed(() => AppState.myChallenges),
       joinedChallenges: computed(() => AppState.myParticipants),
       completedChallenges: computed(() => []),
@@ -185,6 +292,28 @@ export default {
 </script>
 
 <style scoped>
+
+.bg-image {
+  border-radius: .5rem;
+  &::before {
+    content: '';
+    background: linear-gradient(90deg, #00000090 0%, transparent 150%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: .5rem;
+    z-index: -1;
+  }
+
+  &:hover {
+    box-shadow: var(--shadow-magenta);
+  }
+}
+.card {
+  border-radius: .5rem;
+}
 .rank-card-style{
   height: fit-content;
 }
