@@ -25,6 +25,16 @@
             {{ milestone.logic }}
           </div>
           <div>
+            Logic breakdown:
+          </div>
+          <div class="text-light">
+            Maximum Tiers - {{ milestone.maxTierLevel }} <br> Operation - {{ milestone.operation }}
+            <div>Tier Levels:</div>
+            <div v-for="(n, index) in milestone.maxTierLevel" :key="index">
+              {{ index + 1 }}: requires {{ milestone.tierThresholdArr[n - 1] }} items
+            </div>
+          </div>
+          <div>
             REF:
           </div>
           <div class="text-light">
@@ -109,6 +119,7 @@ export default {
       editable,
       editMode,
       milestones: computed(() => AppState.milestones),
+
       submitForm() {
         if (editMode.value == false) {
           this.createMilestone()
