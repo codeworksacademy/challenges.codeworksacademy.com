@@ -1,56 +1,61 @@
 <template>
   <div class="container-fluid" v-if="account.id">
 
-    <section class="row bg-dark">
+    <section class="row p-4" style="background-color: #131923;">
       <div class="col-2">
-        <img :src="account.picture" alt="" class="rounded-circle img-fluid">
+        <img :src="account.picture" alt="" class="rounded-circle img-fluid w-75">
       </div>
       <div class="col-10">
-        <div class="col-7 d-flex flex-column">
+        <div class="col-7 d-flex flex-column justify-content-center mt-2">
           <div class="d-flex flex-row">
-            <div class="col-6 text-uppercase fw-500">
-              {{ account.name }}
+            <div class="col-6 text-capitalize fw-500">
+              <h5>{{ account.name }}</h5>
             </div>
-            <div class="col-6 fw-500">
+            <div class="col-6 fw-600 subheader">
               #426580
             </div>
           </div>
-          <div class="col-8 d-flex justify-content-between">
-              <i class="col-2 mdi mdi-diamond"> 0</i>
-              <i class="col-2 mdi mdi-table-account"> 0</i>
-              <i class="col-2 mdi mdi-file"> 0</i>
-              <i class="col-2 mdi mdi-emoticon"> 0</i>
+          <div class="col-8 d-flex justify-content-start me-5">
+            <i class="col-1 mdi mdi-diamond-outline fs-5"></i>
+            <span class="col-2 fw-500 p-1">0</span>
+            <i class="col-1 mdi mdi-table-account fs-5"></i>
+            <span class="col-2 fw-500 p-1">0</span>
+            <i class="col-1 mdi mdi-file-outline fs-5"></i>
+            <span class="col-2 fw-500 p-1">0</span>
+            <i class="col-1 mdi mdi-emoticon-outline fs-5"></i>
+            <span class="col-2 fw-500 p-1">0</span>
           </div>
         </div>
       </div>
     </section>
-
-    <section class="row">
-      <div class="col-8 bg-dark d-flex justify-content-between align-items-center text-uppercase my-3">
+    <section class="row mt-3 p-3" style="background-color: #161d2b;">
+      <div class="col-8 d-flex justify-content-between align-items-center text-uppercase fw-500">
         <a href="">Profile</a>
         <a href="">Profile Settings</a>
         <a href="">Billing and Plans</a>
         <a href="">Create Team</a>
       </div>
     </section>
-
-    <section class="row">
-      <div class="col-6 bg-dark d-flex justify-content-between align-items-center text-uppercase my-3">
+    <hr class="" style="color: #3d4450; margin-top: .1rem; margin-bottom: .1rem;">
+    <section class="row p-3 mb-5">
+      <div class="col-6 d-flex justify-content-between align-items-center text-uppercase fw-500">
         <a href="">Overview</a>
         <a href="">Activity</a>
         <a href="">Badges</a>
         <a href="">Certificates</a>
       </div>
-    </section>
 
-    <section class="row">
+    </section>
+    <section class="row ps-3">
       <div class="col-9 bg-image d-flex justify-content-center align-items-center" :style="`background-image: url(${account.coverImg}); opacity: .9; background-repeat: no-repeat; background-size: cover;`">
 
         <div class="col-6">
           <div id="bugs-bunny" class="alt-badge bunny-pink">
+            <div class="text-center">
             <div class="circle pt-1"> <i class="mdi mdi-rabbit"></i></div>
-            <div class="double-ribbon-top lvl1-ribbon">Bugs</div>
-            <div class="double-ribbon-bottom lvl1-ribbon">Bunny</div>
+              <div class="double-ribbon-top lvl1-ribbon">Bugs</div>
+              <div class="double-ribbon-bottom lvl1-ribbon">Bunny</div>
+            </div>
           </div>
         </div>
 
@@ -68,10 +73,10 @@
       </div>
     </section>
 
-    <section class="row">
+    <section class="row px-5 pt-5 ms-3">
       <div class="col-5 card bg-dark d-flex justify-content-center align-items-center p-3 m-3">
           <div class="">
-            <i class="mdi mdi-flag bg-primary fs-3"></i>
+            <i class="mdi mdi-flag text-primary fs-3"></i>
           </div>
           <div class="">
             <i class="mdi mdi-source-commit-local fs-3"></i>
@@ -80,7 +85,7 @@
       </div>
       <div class="col-5 card bg-dark d-flex justify-content-center align-items-center p-3 m-3">
           <div class="">
-            <i class="mdi mdi-emoticon bg-info fs-3"></i>
+            <i class="mdi mdi-emoticon text-info fs-3"></i>
           </div>
           <div class="">
             <i class="mdi mdi-source-commit-local fs-3"></i>
@@ -293,8 +298,19 @@ export default {
 
 <style scoped>
 
+.container-fluid {
+  background-color: #161d2b;
+}
+
+a {
+  color: #9f9f9f;
+  &:active {
+    color: #f0f0f0;
+  }
+}
 .bg-image {
   border-radius: .5rem;
+  position: relative;
   &::before {
     content: '';
     background: linear-gradient(90deg, #00000090 0%, transparent 150%);
@@ -312,6 +328,7 @@ export default {
   }
 }
 .card {
+  background-color: #161d2b;
   border-radius: .5rem;
 }
 .rank-card-style{
