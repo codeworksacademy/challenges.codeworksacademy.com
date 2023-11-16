@@ -55,7 +55,7 @@ class AccountMilestonesService {
     return claimMilestone
   }
 
-  async getAccountMilestone(milestone, userId, accountMilestoneData) {
+  async getOrCreateAccountMilestone(milestone, userId, accountMilestoneData) {
     let foundAccountMilestone = await this.getAccountMilestoneById(milestone.id, userId);
 
     if (!foundAccountMilestone) {
@@ -69,7 +69,7 @@ class AccountMilestonesService {
   async checkMilestones(milestone, userId) {
 
     const accountMilestoneData = {}
-    const foundAccountMilestone = await this.getAccountMilestone(milestone, userId, accountMilestoneData);
+    const foundAccountMilestone = await this.getOrCreateAccountMilestone(milestone, userId, accountMilestoneData);
 
     // Example string '6-$gte%1-2-3-4-5-10'
     const logicArr = milestone.logic;
@@ -94,17 +94,17 @@ class AccountMilestonesService {
 
     const milestoneCheckCount = await dbContext[milestone.ref].find(filterKey[milestone.check]).count();
 
-    let tier = 0;
+    let tierToAssign = 0;
 
     for (let i = 0; i < maxTierLevel; i++) {
       if (milestoneCheckCount >= tierThresholdArr[i]) {
-        tier = i + 1
+        tierToAssign = i + 1
       }
     }
 
-    if (tier > foundAccountMilestone.tier) {
+    if (tierToAssign > foundAccountMilestone.tier) {
       foundAccountMilestone.claimed = false
-      foundAccountMilestone.tier = tier
+      foundAccountMilestone.tier = tierToAssign
       await foundAccountMilestone.save()
     }
     return foundAccountMilestone
