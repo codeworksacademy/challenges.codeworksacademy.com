@@ -4,7 +4,7 @@
   <!-- SECTION Rank Level 1 Badge -->
   <div class="row">
     <div class="col-2">
-      <div class="alt-badge bunny-pink">
+      <div id="bugs-bunny" class="alt-badge bunny-pink">
         <div class="circle pt-1"> <i class="mdi mdi-rabbit"></i></div>
         <div class="double-ribbon-top lvl1-ribbon">Bugs</div>
         <div class="double-ribbon-bottom lvl1-ribbon">Bunny</div>
@@ -13,7 +13,7 @@
 
     <!-- SECTION Rank Level 2 Badge -->
     <div class="col-2">
-      <div class="alt-badge weenie-green">
+      <div id="widget-weenie" class="alt-badge weenie-green">
         <div class="circle pt-1"> <i class="mdi mdi-food-hot-dog"></i></div>
         <div class="double-ribbon-top lvl2-ribbon">Widget</div>
         <div class="double-ribbon-bottom lvl2-ribbon">Weenie</div>

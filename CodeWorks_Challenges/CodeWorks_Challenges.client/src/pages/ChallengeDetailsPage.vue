@@ -488,6 +488,7 @@ export default {
           const newParticipant = {
             challengeId: route.params.challengeId,
             accountId: AppState.user.id,
+            status: 'started',
           }
 
           await participantsService.joinChallenge(newParticipant)
