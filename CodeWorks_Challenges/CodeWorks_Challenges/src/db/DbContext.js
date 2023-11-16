@@ -11,7 +11,7 @@ import { MilestoneSchema } from "../models/Milestone.js";
 class DbContext {
   Account = mongoose.model('Account', AccountSchema);
   Challenges = mongoose.model('Challenge', ChallengeSchema);
-  Participants = mongoose.model('Participant', ChallengeParticipantSchema);
+  ChallengeParticipants = mongoose.model('Challenge_Participant', ChallengeParticipantSchema);
   Moderators = mongoose.model('Moderator', ModeratorSchema);
   // Answers = mongoose.model('Answer', AnswerSchema);
   Submissions = mongoose.model('Submission', SubmissionSchema);

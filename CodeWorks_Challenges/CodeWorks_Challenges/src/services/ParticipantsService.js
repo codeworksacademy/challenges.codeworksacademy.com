@@ -6,7 +6,7 @@ const PROFILE_FIELDS = 'name picture reputation title';
 
 class ParticipantsService {
 	async getChallengeRewards(accountId) {
-		const rewards = await dbContext.Participants.find({ accountId, status: 'completed' })
+		const rewards = await dbContext.ChallengeParticipants.find({ accountId, status: 'completed' })
 			.populate('challenge', 'name badgeImg')
 			.select('-submission')
 		return rewards
@@ -20,7 +20,7 @@ class ParticipantsService {
 			throw new BadRequest(`[CHALLENGE_STATE::${challenge.status}] This challenge cannot be joined at this time.`)
 		}
 
-		const participant = await dbContext.Participants.create(newParticipant)
+		const participant = await dbContext.ChallengeParticipants.create(newParticipant)
 
 		// REVIEW PROBABLY UNNECESSARY this can be handled purely on the client 
 		// subsequent requests for the data will include newly joined participant 
@@ -36,7 +36,7 @@ class ParticipantsService {
 	}
 
 	async getParticipantById(participantId) {
-		const participant = await dbContext.Participants.findById(participantId).populate({
+		const participant = await dbContext.ChallengeParticipants.findById(participantId).populate({
 			path: 'challenge',
 			populate: { path: 'creator participantCount' }
 		}).populate('profile', 'name picture')
@@ -44,14 +44,14 @@ class ParticipantsService {
 	}
 
 	async getParticipantsByChallengeId(challengeId) {
-		const participants = await dbContext.Participants.find({ challengeId })
+		const participants = await dbContext.ChallengeParticipants.find({ challengeId })
 			.populate('profile', PROFILE_FIELDS)
 			.select('-submission')
 		return participants
 	}
 
 	async getMyParticipations(accountId) {
-		const participants = await dbContext.Participants.find({ accountId }).populate({
+		const participants = await dbContext.ChallengeParticipants.find({ accountId }).populate({
 			path: 'challenge',
 			populate: { path: 'creator' }
 		}).populate('profile', PROFILE_FIELDS)
@@ -59,7 +59,7 @@ class ParticipantsService {
 	}
 
 	async submitChallengeForGrading(participantId, userId, newParticipant) {
-		const participantToUpdate = await dbContext.Participants.findById(participantId)
+		const participantToUpdate = await this.getParticipantById(participantId)
 
 		if (!participantToUpdate) {
 			throw new BadRequest("Invalid participant ID.")
@@ -85,7 +85,7 @@ class ParticipantsService {
 
 	async acknowledgeReward(id, accountId) {
 		// TODO write this
-		const participant = await dbContext.Participants.findOne({ _id: id, accountId })
+		const participant = await dbContext.ChallengeParticipants.findOne({ _id: id, accountId })
 		if (!participant || participant.status != 'completed' || participant.claimedAt) {
 			throw new BadRequest('Unable to claim badge')
 		}
@@ -95,7 +95,7 @@ class ParticipantsService {
 	}
 
 	async leaveChallenge(participantId, userId) {
-		const participantToRemove = await dbContext.Participants.findById(participantId)
+		const participantToRemove = await dbContext.ChallengeParticipants.findById(participantId)
 
 		if (!participantToRemove) {
 			throw new BadRequest("Invalid participant ID.")
@@ -113,7 +113,7 @@ class ParticipantsService {
 	async removeParticipant(challengeId, userId, newParticipant) {
 		const challenge = await challengesService.getChallengeById(challengeId)
 
-		const participantToRemove = await dbContext.Participants.findById(newParticipant.id)
+		const participantToRemove = await dbContext.ChallengeParticipants.findById(newParticipant.id)
 
 		if (!challenge) {
 			throw new BadRequest('Invalid challenge ID.')

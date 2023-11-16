@@ -107,7 +107,7 @@ ChallengeSchema.virtual('creator', {
 ChallengeSchema.virtual('participantCount', {
   localField: '_id',
   foreignField: 'challengeId',
-  ref: 'Participant',
+  ref: 'Challenge_Participant',
   count: true
 })
 
@@ -115,7 +115,7 @@ ChallengeSchema.virtual('participantCount', {
 ChallengeSchema.virtual('completedCount', {
   localField: '_id',
   foreignField: 'challengeId',
-  ref: 'Participant',
+  ref: 'Challenge_Participant',
   count: true,
   match: {
     status: 'completed'

@@ -1,5 +1,5 @@
 <template>
-  <section class="container-fluid position-relative bg-secondary pt-5">
+  <section class="container-fluid position-relative pt-5">
     <div class="row">
       <div class="col-12 d-flex justify-content-end position-absolute top-0 right-2 p-1">
         <a

@@ -103,7 +103,7 @@
           <div class="col-12 d-flex justify-content-center align-items-center subtle-header my-1">
             <i class="mdi mdi-shape fs-2"></i>
           </div>
-          <div class="col-12 d-flex justify-content-center align-items-center text-capitalize my-1 fs-2">
+          <div class="col-12 d-flex justify-content-center align-items-center text-capitalize my-1 fs-1">
             <span>Full Stack</span>
           </div>
           <div class="col-12 d-flex justify-content-center align-items-center subheader my-1">
@@ -115,7 +115,7 @@
 
     <section class="row pt-3 fw-500">
       <div class="col-4">
-        <div class="flash-card bg-dark m-1">
+        <div class="time-card bg-dark m-1">
           <div class="col-12 d-flex justify-content-center align-items-center subtle-header my-1">
             <i class="mdi mdi-calendar-multiselect-outline fs-2"></i>
           </div>
@@ -128,20 +128,20 @@
         </div>
       </div>
       <div class="col-8">
-        <div class="flash-card bg-dark text-uppercase m-1">
+        <div class="creator-card bg-dark text-uppercase m-1">
           <div class="d-flex align-items-center subtle-header">
             <img
               :src="challenge.creator.picture"
               :alt='`Image of ${challenge.creator.name}`'
               :title='`Name of Challenge Creator: "${challenge.creator.name}"`'
-              class="img-fluid m-3"
+              class="img-fluid m-3 creator-card-img"
             />
               <div class="my-1 fw-600 fs-3">
                 <span>{{ challenge.creator.name }}</span>
               </div>
             </div>
           <div class="d-flex col-12 justify-content-between align-items-center m-3">
-            <div class="col-5">
+            <div class="">
               <span class="subheader me-3 mt-5">Challenge Creator</span>
               <button class="btn bg-dark btn-success text-success" style="width: 150px; height: 35px; line-height: 0;"><small>Give Respect</small></button>
             </div>
@@ -162,7 +162,7 @@
     </section>
 
     <section class="row bg-img d-flex justify-content-center align-items-center">
-      <div v-if="isParticipant" class="col-6 d-flex justify-content-center align-items-end">
+      <div v-if="isParticipant" class="col-12 d-flex justify-content-center align-items-end">
         <a
           ref="submission"
           id="challengeSubmissionButton"
@@ -556,22 +556,29 @@ export default {
 }
 
 .flash-card {
-  height: 18vh;
+  height: 25vh;
   object-fit: cover;
   object-position: center;
   border-radius: .5rem;
   padding: 1rem;
   margin: 1rem;
   box-shadow: 0 0 10px #00000080;
-    img {
-      height: 50px;
-      width: 50px;
-      object-fit: cover;
-      object-position: center;
-      border-radius: .5rem;
-    }
 }
-
+.time-card {
+  height: 18vh;
+  border-radius: .5rem;
+}
+.creator-card {
+  height: 18vh;
+  border-radius: .5rem;
+  img {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: .5rem;
+  }
+}
 .bg-img {
   background-size: cover;
   background-repeat: no-repeat;
