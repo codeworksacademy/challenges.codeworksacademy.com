@@ -11,6 +11,5 @@ export class ChallengeParticipant {
     this.profile = data.profile
     this.createdAt = data.createdAt
     this.updatedAt = data.updatedAt
-    // this.pointValue = data.challenge ? new Challenge(data.challenge).pointValue : 0
   }
 }

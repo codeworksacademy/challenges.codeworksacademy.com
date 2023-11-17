@@ -1,4 +1,11 @@
 <template>
+
+
+  <GradeSubmissionForm />
+
+
+
+
   <div class="container-fluid" v-if="account.id">
     <section class="row p-4" style="background-color: #131923;">
       <div class="col-2">
@@ -238,6 +245,7 @@
 </template>
 
 <script>
+import GradeSubmissionForm from "../components/GradeSubmissionForm.vue";
 import { computed, watchEffect } from 'vue'
 import { AppState } from '../AppState';
 import AccountForm from "../components/AccountForm.vue";
@@ -290,7 +298,7 @@ export default {
       completedChallenges: computed(() => []),
     };
   },
-  components: { AccountForm, ChallengeCard, AccountModerator }
+  components: { AccountForm, ChallengeCard, AccountModerator, GradeSubmissionForm }
 }
 </script>
 
