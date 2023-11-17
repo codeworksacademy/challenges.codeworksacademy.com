@@ -11,14 +11,14 @@
           <textarea type="text" cols="30" rows="10" class="form-control mb-3" id="description" v-model="editable.description" required></textarea> 
         </div>
           <div>
-            <section id="steps-section">
-              <h3 for="steps">Challenge Steps</h3>
-              <span v-if="challenge.steps.length == 0" class="text-danger">You need at least one step!</span>
-              <h4>Add a step  <i class="mdi mdi-plus-box fs-1" @click="addStep"></i></h4>
-              <textarea name="" id="stepText" cols="30" rows="10" class="form-control mb-3"></textarea>
+            <section id="requirements-section">
+              <h3 for="steps">Challenge Requirements</h3>
+              <!-- <span v-if="challenge.requirements.length == 0" class="text-danger">You need at least one step!</span> -->
+              <h4>Add a requirement  <i class="mdi mdi-plus-box fs-1" @click="addRequirement"></i></h4>
+              <textarea name="" id="requirementText" cols="30" rows="10" class="form-control mb-3"></textarea>
             </section>
-            <section class="" v-for="(step, index) in challenge.steps">
-              <h4>Step {{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteStep(index)"></i></h4>
+            <section class="" v-for="(requirement, index) in challenge.requirements">
+              <h4>Requirement {{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteRequirement(index)"></i></h4>
               <textarea name="" id="" cols="30" rows="10" class="form-control mb-3">{{ step }}</textarea>
             </section>
           </div>
@@ -28,6 +28,18 @@
             <option value="1">Easy</option>
             <option value="2">Medium</option>
             <option value="3">Hard</option>
+          </select>
+          <h3>Category</h3>
+          <select class="form-select mb-3" aria-label="Category Selection" v-model="editable.category">
+            <option selected>Select Category</option>
+            <option value="full_stack">Full-Stack</option>
+            <option value="front_end">Frontend</option>
+            <option value="back_end">Backend</option>
+            <option value="puzzles">Puzzle</option>
+            <option value="data_structures">Data Structures</option>
+            <option value="style_and_design">Style and Design</option>
+            <option value="other">Other</option>
+            <!-- 'full_stack', 'front_end', 'back_end', 'puzzles', 'data_structures', 'style_and_design', 'other' -->
           </select>
           <h3 class="mb-3">Cover Image</h3>
           <img :src="editable.coverImg" alt="" class="object-fit-cover w-100 rounded-top">
@@ -187,20 +199,20 @@ export default {
       logger.log(`You are ${editing.value ? "now" : "no longer"} editing`)
     }
 
-    function addStep(){
-      const newStep = document.getElementById("stepText")
-      if(newStep.value.length == 0){
-        Pop.error("You cannot create an empty step.")
+    function addRequirement(){
+      const newRequirement = document.getElementById("requirementText")
+      if(newRequirement.value.length == 0){
+        Pop.error("You cannot create an empty requirement.")
         return;
       }
-      challenge.value.steps.push(newStep.value)
-      Pop.success("Step Added")
+      challenge.value.requirements.push(newRequirement.value)
+      Pop.success("Requirement Added")
       newStep.value = '';
     }
 
-    function deleteStep(index){
-        logger.log("Deleting",challenge.value.steps[index])
-        challenge.value.steps.splice(index, 1)
+    function deleteRequirement(index){
+        logger.log("Deleting",challenge.value.requirements[index])
+        challenge.value.requirements.splice(index, 1)
     }
 
     function addSupportLink(){
@@ -273,8 +285,8 @@ export default {
       editChallenge,
       answerChallenge,
       editing,
-      addStep,
-      deleteStep,
+      addRequirement,
+      deleteRequirement,
       addSupportLink,
       deleteSupportLink,
       addAnswer,

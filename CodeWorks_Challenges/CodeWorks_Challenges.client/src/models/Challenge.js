@@ -9,7 +9,7 @@ export class Challenge {
     this.creatorId = data.creatorId
     this.creator = data.creator
     this.name = data.name || ''
-    this.category = data.category
+    this.category = data.category || ''
     this.description = data.description || ''
     // this.steps = data.steps || []
     this.requirements = data.requirements || []
