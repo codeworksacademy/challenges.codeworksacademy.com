@@ -19,7 +19,7 @@
             </section>
             <section class="" v-for="(requirement, index) in challenge.requirements">
               <h4>Requirement {{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteRequirement(index)"></i></h4>
-              <textarea name="" id="" cols="30" rows="10" class="form-control mb-3">{{ step }}</textarea>
+              <textarea name="" id="" cols="30" rows="10" class="form-control mb-3">{{ requirement.step }}</textarea>
             </section>
           </div>
           <h3>Difficulty</h3>
@@ -39,7 +39,6 @@
             <option value="data_structures">Data Structures</option>
             <option value="style_and_design">Style and Design</option>
             <option value="other">Other</option>
-            <!-- 'full_stack', 'front_end', 'back_end', 'puzzles', 'data_structures', 'style_and_design', 'other' -->
           </select>
           <h3 class="mb-3">Cover Image</h3>
           <img :src="editable.coverImg" alt="" class="object-fit-cover w-100 rounded-top">
@@ -205,7 +204,9 @@ export default {
         Pop.error("You cannot create an empty requirement.")
         return;
       }
-      challenge.value.requirements.push(newRequirement.value)
+      challenge.value.requirements.push({
+        step: newRequirement.value
+      })
       Pop.success("Requirement Added")
       newStep.value = '';
     }

@@ -9,6 +9,17 @@
         <label for="description">Challenge Description</label>
         <textarea class="form-control" id="description" v-model="editable.description" required></textarea>
       </div>
+      <label for="category">Category</label>
+      <select class="form-group form-select mb-3" aria-label="Category Selection" v-model="editable.category">
+            <option selected>Select Category</option>
+            <option value="full_stack">Full-Stack</option>
+            <option value="front_end">Frontend</option>
+            <option value="back_end">Backend</option>
+            <option value="puzzles">Puzzle</option>
+            <option value="data_structures">Data Structures</option>
+            <option value="style_and_design">Style and Design</option>
+            <option value="other">Other</option>
+      </select>
       <button type="submit" class="btn btn-primary">Get Started</button>
     </form>
   </section>
@@ -57,7 +68,7 @@ export default {
         Modal.getOrCreateInstance('#createChallengeForm').hide()
         Pop.toast('Challenge Created')
         router.push(
-          { name: 'EditChallenge',
+          { name: 'ChallengeEditor',
             params: {
               challengeId: AppState.activeChallenge?.id
             }
