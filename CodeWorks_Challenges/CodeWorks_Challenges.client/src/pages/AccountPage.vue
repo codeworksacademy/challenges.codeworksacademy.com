@@ -1,65 +1,5 @@
 <template>
   <div class="container-fluid" v-if="account.id">
-
-    <section class="row">
-      <div class="col-12 d-flex flex-column justify-content-center align-items-center">
-        <h1>Grade Challenge</h1>
-        <form @submit.prevent="submitGrade">
-          <div class="col-12 form-group px-5 mb-5">
-            <label for="grade">Grade</label>
-            <input type="number" name="grade" id="grade" class="form-control input-box" v-model="grade" />
-          </div>
-          <div v-for="field in challengeFieldsToGrade" :key="field.requirement" class="d-flex flex-column px-5 py-1">
-            <div class="col-12 form-group mt-3">
-              <!-- <label for="requirements">Requirement</label> -->
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" v-model="field.requirement.completed" :id="`field-${field.requirement.step}`">
-                <label class="form-check-label" :for="`field-${field.requirement.step}`">{{ field.requirement.step }}</label>
-              </div>
-            </div>
-            <div class="col-12 form-group mt-1">
-              <label for="comment">Comment</label>
-              <textarea type="text" name="comment" id="comment" class="form-control input-box mt-1" placeholder="Leave some insight..." rows="1" v-model="field.requirement.comment" />
-            </div>
-          </div>
-          <div class="form-check" v-for="field in challengeFieldsToGrade" :key="field.requirement.comment">
-          </div>
-          <div class="form-group">
-            <label for="feedback">Feedback</label>
-            <textarea type="text" name="feedback" id="feedback" class="form-control" v-model="feedback" />
-          </div>
-          <div class="form-group">
-            <label for="completed">Completed</label>
-            <input type="checkbox" name="completed" id="completed" class="form-control" v-model="completed" />
-          </div>
-          <button type="submit" class="btn btn-success">Submit</button>
-        </form>
-      </div>
-    </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <section class="row p-4" style="background-color: #131923;">
       <div class="col-2">
         <img :src="account.picture" alt="" class="rounded-circle img-fluid w-75">
@@ -298,66 +238,18 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, watchEffect } from 'vue'
+import { computed, watchEffect } from 'vue'
 import { AppState } from '../AppState';
 import AccountForm from "../components/AccountForm.vue";
 import Pop from "../utils/Pop.js";
 import { challengesService } from "../services/ChallengesService.js";
 import { logger } from "../utils/Logger.js";
 import ChallengeCard from '../components/ChallengeCard.vue'
-import { moderatorsService } from "../services/ModeratorsService.js";
 import AccountModerator from "../components/AccountModerator.vue";
-import { participantsService } from "../services/ParticipantsService.js";
 import { accountService } from "../services/AccountService.js";
-
-
-
-import { GRADE_FIELDS } from "../constants/index.js"
 
 export default {
   setup() {
-
-    const grade = ref(0)
-    const feedback = ref("")
-    const completed = ref(false)
-    const challengeFieldsToGrade = ref([])
-
-    // Initialize challengeFieldsToGrade with the correct structure
-    onMounted(() => {
-      challengeFieldsToGrade.value = GRADE_FIELDS.map(field => ({
-        requirement: field.requirement,
-        completed: false
-      }))
-    })
-
-    const challenge = computed(() => {
-      return AppState.challenges.find(c => c.id === AppState.activeChallenge.id)
-    })
-    const participant = computed(() => {
-      return AppState.participants.find(p => p.id === AppState.activeParticipant.id)
-    })
-
-    async function submitGrade() {
-      try {
-        const newSubmission = {
-          grade: grade.value,
-          feedback: feedback.value,
-          completed: completed.value,
-          challengeId: challenge.value.id,
-          participantId: participant.value.id,
-          requirements: challengeFieldsToGrade.value
-        }
-        await challengesService.submitChallengeForGrading(newSubmission, participant.value.id)
-      } catch (error) {
-        logger.error(error)
-      }
-    }
-
-
-
-
-
-
     async function getMyChallenges() {
       try {
         logger.log(AppState.account.id)
@@ -391,19 +283,6 @@ export default {
       }
     })
     return {
-      grade,
-      feedback,
-      completed,
-      challengeFieldsToGrade,
-      challenge,
-      participant,
-      submitGrade,
-
-
-
-
-
-
       account: computed(() => AppState.account),
       // challenge: computed(() => AppState.activeChallenge),
       myChallenges: computed(() => AppState.myChallenges),

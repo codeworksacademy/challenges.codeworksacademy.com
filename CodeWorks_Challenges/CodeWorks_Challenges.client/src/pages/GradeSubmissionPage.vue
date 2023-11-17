@@ -7,11 +7,11 @@
     <h3>User Name</h3>
     <a href=""><p>Repo Link</p></a>
     <p>Submit Date</p>
-    <form @submit.prevent="" v-if="challenge">
-      <section class="" v-for="(step, index) in challenge.steps">
+    <form @submit.prevent="submitGrade" v-if="challenge">
+      <section class="" v-for="(step, index) in challenge.steps" :key="index">
         <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" :id="step">
-                  <label class="form-check-label" :for="step">
+              <input class="form-check-input" type="checkbox" value="" :id="step + index">
+                  <label class="form-check-label" :for="step + index">
                     {{ step }}
               </label>
         </div>
@@ -31,6 +31,8 @@ import { logger } from "../utils/Logger.js"
 import SubmissionCard from '../components/SubmissionCard.vue'
 import { challengesService } from '../services/ChallengesService'
 import { useRoute } from 'vue-router'
+import { GRADE_FIELDS } from '../constants/index.js'
+import { participantsService } from '../services/ParticipantsService'
 
 export default {
   components: {
@@ -57,10 +59,56 @@ export default {
         } else return 'approved'
       } else return 'null'
     }
+
+    const grade = ref(0)
+    const feedback = ref("")
+    const completed = ref(false)
+    const challengeFieldsToGrade = ref([])
+
+    // Initialize challengeFieldsToGrade with the correct structure
+    onMounted(() => {
+      challengeFieldsToGrade.value = GRADE_FIELDS.map(field => ({
+        requirement: field.requirement,
+        completed: false
+      }))
+    })
+
+    const challenge = computed(() => {
+      return AppState.challenges.find(c => c.id === AppState.activeChallenge.id)
+    })
+    const participant = computed(() => {
+      return AppState.participants.find(p => p.id === AppState.activeParticipant.id)
+    })
+
+    async function submitGrade() {
+      try {
+        const newSubmission = {
+          grade: grade.value,
+          feedback: feedback.value,
+          completed: completed.value,
+          challengeId: challenge.value.id,
+          participantId: participant.value.id,
+          requirements: challengeFieldsToGrade.value
+        }
+        await participantsService.submitChallengeForGrading(newSubmission, participant.value.id)
+      } catch (error) {
+        logger.error(error)
+      }
+    }
+
     onMounted(() => {
       setActiveChallenge()
     })
+
     return {
+      grade,
+      feedback,
+      completed,
+      challengeFieldsToGrade,
+      challenge,
+      participant,
+      submitGrade,
+
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.activeChallenge),
       challengeCreator: computed(() => AppState.user.id === AppState.activeChallenge?.creatorId),

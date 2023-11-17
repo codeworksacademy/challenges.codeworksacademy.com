@@ -83,3 +83,68 @@ export const GRADE_FIELDS = [
     }
   },
 ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// async submitChallengeForGrading() {
+//   try {
+//     if (await Pop.confirm(`This will submit your challenge to be graded. This cannot be undone! If you completed this challenge successfully, the appropriate rewards will be distributed to your account once the challenge has been graded. Are you sure you want to submit?`)) {
+//       const participantToUpdate = AppState.participants.find(p => p.id === AppState.activeParticipant.id)
+//       participantToUpdate.status = 'submitted'
+//       participantToUpdate.submission = AppState.activeParticipant.submission
+//       const res = await api.put(`api/participants/${AppState.activeParticipant.id}`, participantToUpdate)
+//       logger.log('Participant Updated ⏩', res.data)
+//       AppState.activeParticipant = res.data
+
+      // AppState.participants.forEach((p, i) => {
+      //   const participantUpdate = participantsService.submitChallengeForGrading(p.id, { status: 'submitted', submission: p.submission })
+      //   logger.log('Participant Updated ⏩', participantUpdate)
+      //   AppState.participants[0].status = 'submitted'
+        
+      // });
+//       AppState.activeChallenge.isFinished = true
+//       const finishedChallenge = await challengesService.editChallenge(AppState.activeChallenge.id, { isFinished: true })
+//       challengesService.setActiveChallenge
+//       logger.log("[FINISHED TOURNAMENT DATA]", finishedChallenge)
+//     }
+//   } catch (error) {
+//     logger.log(error);
+//   }
+// },
