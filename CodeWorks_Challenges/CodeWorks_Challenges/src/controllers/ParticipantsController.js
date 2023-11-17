@@ -31,10 +31,11 @@ export class ParticipantsController extends BaseController {
     try {
       const participantId = req.params.participantId
       const userId = req.userInfo.id
-      const newParticipant = req.body
+      const newSubmission = req.body
 
-      const updatedParticipant = await participantsService.submitChallengeForGrading(participantId, userId, newParticipant)
-      return res.send(updatedParticipant)
+      const participant = await participantsService.submitChallengeForGrading(participantId, userId, newSubmission)
+
+      return res.send(participant)
     } catch (error) {
       next(error)
     }

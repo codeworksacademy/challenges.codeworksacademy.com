@@ -1,4 +1,5 @@
 import { Challenge } from './Challenge'
+import { Profile } from './Profile'
 
 export class ChallengeParticipant {
   constructor(data) {
@@ -10,5 +11,6 @@ export class ChallengeParticipant {
     this.profile = data.profile
     this.createdAt = data.createdAt
     this.updatedAt = data.updatedAt
+    // this.pointValue = data.challenge ? new Challenge(data.challenge).pointValue : 0
   }
 }

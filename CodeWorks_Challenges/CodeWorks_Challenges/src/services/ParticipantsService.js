@@ -58,25 +58,20 @@ class ParticipantsService {
 		return participants
 	}
 
-	async submitChallengeForGrading(participantId, userId, newParticipant) {
-		const participantToUpdate = await this.getParticipantById(participantId)
+	async submitChallengeForGrading(participantId, userId, newSubmission) {
+		const participant = await this.getParticipantById(participantId)
 
-		if (!participantToUpdate) {
-			throw new BadRequest("Invalid participant ID.")
-		}
-		if (userId != participantToUpdate.accountId) {
-			throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this participant's. You may not edit other participants.")
+		if (participant.accountId != userId) {
+			throw new Forbidden(`[PERMISSIONS ERROR]: You are not a participant of this challenge. You may not submit it for grading.`)
 		}
 
-		participantToUpdate.submission = newParticipant.submission
-		if (participantToUpdate.status != 'completed') {
-			participantToUpdate.status = 'submitted'
+		if (participant.status != 'completed') {
+			participant.status = 'submitted'
 		}
 
-		// TODO trigger autograder if possible
-
-		await participantToUpdate.save()
-		return participantToUpdate
+		participant.submission = newSubmission || participant.submission
+		await participant.save()
+		return participant
 	}
 
 	async gradeChallenge(submission, graderAccountId) {
