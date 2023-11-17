@@ -1,7 +1,7 @@
 import { Schema } from "mongoose";
 const ObjectId = Schema.Types.ObjectId
 
-export const SUBMISSION_TYPES = ['incomplete', 'started', 'submitted', 'returned_for_review', 'completed'];
+export const SUBMISSION_TYPES = ['incomplete', 'started', 'submitted', 'returned_for_review', 'completed', 'graded', 'removed', 'left'];
 
 export const ChallengeParticipantSchema = new Schema({
   challengeId: {

@@ -509,6 +509,7 @@ export default {
           }
 
           let participant = AppState.participants.find(p => p.accountId == AppState.account.id)
+          participant.status = 'left'
           await participantsService.leaveChallenge(participant.id)
 
           Pop.success('left challenge!')

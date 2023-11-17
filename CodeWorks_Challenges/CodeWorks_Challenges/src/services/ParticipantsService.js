@@ -8,7 +8,7 @@ class ParticipantsService {
 	async getChallengeRewards(accountId) {
 		const rewards = await dbContext.ChallengeParticipants.find({ accountId, status: 'completed' })
 			.populate('challenge', 'name badgeImg')
-			.select('-submission')
+			// .select('-submission')
 		return rewards
 	}
 
@@ -46,7 +46,7 @@ class ParticipantsService {
 	async getParticipantsByChallengeId(challengeId) {
 		const participants = await dbContext.ChallengeParticipants.find({ challengeId })
 			.populate('profile', PROFILE_FIELDS)
-			.select('-submission')
+			// .select('-submission')
 		return participants
 	}
 
@@ -59,7 +59,7 @@ class ParticipantsService {
 	}
 
 	async submitChallengeForGrading(participantId, userId, newSubmission) {
-		const participant = await this.getParticipantById(participantId)
+		const participant = await dbContext.ChallengeParticipants.findById(participantId)
 
 		if (participant.accountId != userId) {
 			throw new Forbidden(`[PERMISSIONS ERROR]: You are not a participant of this challenge. You may not submit it for grading.`)
@@ -69,7 +69,8 @@ class ParticipantsService {
 			participant.status = 'submitted'
 		}
 
-		participant.submission = newSubmission || participant.submission
+		participant.submission = newSubmission.submission || participant.submission
+
 		await participant.save()
 		return participant
 	}
@@ -91,6 +92,7 @@ class ParticipantsService {
 
 	async leaveChallenge(participantId, userId) {
 		const participantToRemove = await dbContext.ChallengeParticipants.findById(participantId)
+		const participantStatus = participantToRemove.status
 
 		if (!participantToRemove) {
 			throw new BadRequest("Invalid participant ID.")
@@ -99,6 +101,8 @@ class ParticipantsService {
 		if (userId != participantToRemove.accountId) {
 			throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this participant's. You may not remove other participants.")
 		}
+
+		participantToRemove.status = 'left'
 
 		await participantToRemove.remove()
 

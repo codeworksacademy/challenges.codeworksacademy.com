@@ -28,6 +28,7 @@ class ParticipantsService {
     logger.log('Deleted participant:', res.data)
     let participantToRemove = AppState.participants.findIndex(p => p.id === participantId)
     AppState.participants.splice(participantToRemove, 1)
+    return res.data
   }
 
   async getParticipantsByChallengeId(challengeId) {

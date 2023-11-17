@@ -7,7 +7,14 @@
       <div class="col-12">
         <div class="mb-3">
           <label for="submission" class="form-label">Submission</label>
-          <input v-model="editableSubmission.submission" type="url" name="submission" id="submission" placeholder="Source Code Link" class="form-control bg-light">
+          <input
+            v-model="editableSubmission.submission"
+            type="url"
+            name="submission"
+            id="submission"
+            placeholder="Source Code Link"
+            class="form-control bg-light"
+          >
         </div>
       </div>
 
@@ -33,20 +40,22 @@ export default {
 
     const route = useRoute()
     const router = useRouter()
-
+    
     const editableSubmission = ref({
+      accountId: AppState.account.id,
+      challengeId: route.params.challengeId,
       submission: '',
       status: 'submitted'
     })
-    const editableIndex = ref(false)
 
     const participantToUpdate = computed(() => {
       return AppState.participants.find(p => p.accountId === AppState.account.id)
     })
 
+
     watchEffect(() => {
-      
     })
+    
 
     async function submitChallengeForGrading() {
       try {
@@ -54,6 +63,8 @@ export default {
           const participantId = participantToUpdate.value.id
           const newParticipant = { 
             ...participantToUpdate.value,
+            submission: editableSubmission.value.submission,
+            status: editableSubmission.value.status
           }
           logger.log('Your Participation:', editableSubmission.value)
           await participantsService.submitChallengeForGrading(newParticipant, participantId)
@@ -61,8 +72,8 @@ export default {
           Modal.getOrCreateInstance('#createSubmissionForm').hide();
           Pop.toast('Challenge Submitted!');
           router.push({
-            name: 'ChallengeSubmissionsPage',
-            params: { challengeId: route.params.challengeId },
+            name: 'Account',
+            path: '/account'
           })
         }
       } catch (error) {
@@ -85,7 +96,7 @@ export default {
         Pop.toast('Submission Removed');
 
         router.push({
-          name: 'ChallengeSubmissionsPage',
+          name: 'GradeSubmissionsPage',
           params: { challengeId: route.params.challengeId },
         });
       } catch (error) {
@@ -100,14 +111,8 @@ export default {
       user: computed(() => AppState.user),
       participantToUpdate,
       editableSubmission,
-      editableIndex,
       submitChallengeForGrading,
       removeSubmission,
-
-      // editParticipant(index) {
-      //   editableIndex.value = index
-      //   participantToUpdate.value = { ...AppState.activeParticipant[index] }
-      // }
     } 
   }
 }
