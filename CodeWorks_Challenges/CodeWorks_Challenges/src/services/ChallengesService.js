@@ -62,7 +62,8 @@ class ChallengesService {
     // REVIEW SCHEMA CHANGES
     challenge.name = newChallenge.name || challenge.name
     challenge.description = newChallenge.description || challenge.description
-    challenge.steps = newChallenge.steps || challenge.steps
+    // challenge.steps = newChallenge.steps || challenge.steps
+    challenge.requirements = newChallenge.requirements || challenge.requirements
     challenge.coverImg = newChallenge.coverImg || challenge.coverImg
     challenge.supportLinks = newChallenge.supportLinks || challenge.supportLinks
     challenge.answer = newChallenge.answer || challenge.answer

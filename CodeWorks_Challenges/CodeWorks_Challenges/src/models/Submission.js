@@ -40,3 +40,4 @@ SubmissionSchema.virtual('challenge', {
   ref: 'Challenge',
   justOne: true
 })
+

@@ -34,14 +34,20 @@ export const ChallengeSchema = new Schema({
   description: {
     type: String,
     required: true,
-    maxLength: 1500,
+    maxLength: 5000,
     minLength: 3
   },
-  
-  steps: [
+  // steps: [
+  //   {
+  //     type: String,
+  //     default: []
+  //   }
+  // ],
+  requirements: [
     {
-      type: String,
-      default: []
+      step: { type: String, required: true},
+      completed: {type: Boolean, required: true},
+      comment: {type: String, required: false}
     }
   ],
   supportLinks: [
@@ -72,7 +78,8 @@ export const ChallengeSchema = new Schema({
   //Change this to puzzles --> outputs 
   //I will be using the index of the answer in the array to compare to the index of the answer
   answer: {
-    type: String
+    type: String,
+    required: false
   }
   // answers: [
   //   {

@@ -11,7 +11,8 @@ export class Challenge {
     this.name = data.name || ''
     this.category = data.category
     this.description = data.description || ''
-    this.steps = data.steps || []
+    // this.steps = data.steps || []
+    this.requirements = data.requirements || []
     this.coverImg = data.coverImg || 'https://i.ibb.co/b1bXrRw/card-gradient.png'
     this.createdAt = DateTime(data.createdAt)
     this.updatedAt = DateTime(data.updatedAt)
@@ -19,7 +20,7 @@ export class Challenge {
     this.difficulty = StrDifficultyNum(data.difficulty) || 1
     this.pointValue = data.difficulty || 1
     this.badges = data.badges ? new Reward(data.badges) : null
-    this.answers = data.answers || ''
+    // this.answers = data.answers || ''
     this.answer = data.answer || ''
     this.isCancelled = data.isCancelled || false
     this.participantCount = data.participantCount
