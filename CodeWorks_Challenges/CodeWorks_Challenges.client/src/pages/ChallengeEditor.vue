@@ -43,26 +43,21 @@
           <h3 class="mb-3">Cover Image</h3>
           <img :src="editable.coverImg" alt="" class="object-fit-cover w-100 rounded-top">
           <input type="text" class="form-control mb-3" id="coverImg" v-model="editable.coverImg" required> 
-          <h4>Support Links</h4>
+          <!-- <h4>Support Links</h4>
           <span v-if="challenge.supportLinks.length == 0" class="text-danger">You need at least 1 support link!</span>
-          <!-- <textarea name="supportLinks" id="" cols="30" rows="10" class="form-control mb-3" v-model="editable.supportLinks" required></textarea> -->
           <div class="d-flex input-group mb-3">
             <input type="text" class="form-control" id="supportLinkType" placeholder="Link Type"> 
             <input type="text" class="form-control" id="supportLink" placeholder="Link"> 
-            <!-- <i class="mdi mdi-plus-box fs-2" @click="addSupportLink"></i> -->
             <button class="btn btn-success" type="button" id="button-addon1" @click="addSupportLink">Add</button>
           </div>
           <section class="row justify-content-between" v-for="(link, index) in challenge.supportLinks">
-            <!-- <h4 class="text-success col-md-6">{{ link.name }} </h4>
-            <h4 class="text-dark col-md-6">{{ link.url }} <i class="mdi mdi-trash-can float-end" @click="deleteSupportLink(index)"></i></h4> -->
             <ul class="list-group list-group-horizontal p-3">
               <li class="list-group-item list-group-item-dark flex-fill w-50">{{ link.name }}</li>
               <li class="list-group-item list-group-item-dark flex-fill w-50">{{ link.url }} 
                 <i class="mdi mdi-trash-can float-end fs-5 p-0" @click="deleteSupportLink(index)"></i>
               </li>
-              
             </ul>
-          </section>
+          </section> -->
           <section id="answers-section">
             <h4>Answers</h4>
             <div class="d-flex input-group mb-3">
@@ -80,9 +75,6 @@
               </li>
             </ul>
           </section> -->
-          <section class="row">
-            {{ answer }}
-          </section>
           <button class="btn btn-success mb-3">Update Challenge</button>
       </form>
     </section>
@@ -171,8 +163,7 @@ export default {
 
     async function answerChallenge(){
       try{
-        await challengesService.submitAnswer(AppState.activeChallenge.id, answer.value)
-        // logger.log(answer.value)
+        const res = await challengesService.submitAnswer(AppState.activeChallenge.id, answer.value)
       } catch(error){
         Pop.error(error.message)
       }
