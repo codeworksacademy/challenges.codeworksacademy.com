@@ -46,8 +46,8 @@ export const ChallengeSchema = new Schema({
   requirements: [
     {
       step: { type: String, required: true},
-      completed: {type: Boolean, required: false},
-      comment: {type: String, required: false}
+      completed: {type: Boolean, required: false, default: 'false'},
+      comment: {type: String, required: false, default: ''}
     }
   ],
   supportLinks: [

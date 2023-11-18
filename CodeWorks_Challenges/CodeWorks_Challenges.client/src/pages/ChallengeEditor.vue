@@ -199,7 +199,7 @@ export default {
         step: newRequirement.value
       })
       Pop.success("Requirement Added")
-      newStep.value = '';
+      newRequirement.value = '';
     }
 
     function deleteRequirement(index){
