@@ -78,6 +78,11 @@ const routes = [
     name: 'Milestones',
     component: loadPage('MilestonesPage'),
   },
+  {
+    path: '/markdown',
+    name: 'Markdown',
+    component: loadPage('MarkdownPage')
+  }
   // {
   //   path: '/dev',
   //   name: 'dev',
