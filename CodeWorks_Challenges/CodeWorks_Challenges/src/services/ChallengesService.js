@@ -32,6 +32,21 @@ class ChallengesService {
     return challenge
   }
 
+  /**
+  * @param {string} name
+   */
+  async findChallenges(name = '', offset = 0) {
+    const filter = new RegExp(name, 'ig')
+    return await dbContext.Challenges
+      .aggregate([{
+        $match: { name: filter }
+      }])
+      .collation({ locale: 'en_US', strength: 1 })
+      .skip(Number(offset))
+      .limit(20)
+      .exec()
+  }
+
   //This is where editing the challenge will have answers populated
   async getChallengesCreatedBy(profileId, accountId) {
     const challenges = accountId != profileId
@@ -102,8 +117,6 @@ class ChallengesService {
   // SUGGESTIONS: 
   //   - simplify to a single answer 
   //   - or validate all answers all correct order
-
-  // REVIEW - I believe that I mistakenly left this in here while creating my Answer backend, I will delete it after the team has had a chance to review Jake's feedback. (Becca)
   //NOTE - Keeping This -Chantha
   async submitAnswer(challengeId, userId, answer) {
     // const challenge = await this.getChallengeById(challengeId)

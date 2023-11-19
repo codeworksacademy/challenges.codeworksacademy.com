@@ -17,7 +17,32 @@
       </div>
       
       <div class="col-12 mb-5" style="color: var(--text-primary);">
-        <h1 class="text-center">Active Challenges</h1>
+        <h5 class="text-center">Search Challenges</h5>
+      </div>
+      <div class="col-12">
+        <form
+          @submit.prevent="findChallenges"
+        >
+        <div class="input-group mb-3">
+          <input
+            v-model="search.name"
+            type="text"
+            name="name"
+            id="name"
+            class="form-control"
+            placeholder="Search by name"
+            aria-label="Search by name"
+            aria-describedby="search"
+          />
+          <button
+            type="submit"
+            class="btn btn-outline-secondary"
+            id="search"
+          >
+            Search
+          </button>
+        </div>
+      </form>
       </div>
       <div class="row">
         <div class="col-12 d-flex justify-content-end pe-4">
@@ -66,13 +91,15 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
 import ChallengeCard from '../components/ChallengeCard.vue'
 import { challengesService } from "../services/ChallengesService.js"
 import { Modal } from "bootstrap"
+import { useRouter } from "vue-router"
+import { loadPage } from "../router.js"
 
 export default {
 
@@ -81,6 +108,21 @@ export default {
   },
 
   setup() {
+    const search = ref({})
+    const filterBy = ref('')
+    const router = useRouter()
+
+    async function findChallenges() {
+      try {
+        const nameQuery = search.value.name
+        await challengesService.findChallenges(nameQuery)
+        search.value = {}
+        loadPage(`?name=${nameQuery}`)
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error, 'error')
+      }
+    }
 
     async function getAllChallenges() {
       try {
@@ -96,7 +138,18 @@ export default {
     })
 
     return {
+      search,
+      filterBy,
       challenges: computed(() => AppState.challenges),
+      filteredChallenges: computed(() => {
+        if (!search.value) {
+          return AppState.challenges
+        }
+        return AppState.challenges.filter(c => c.name === search.value.name)
+      }),
+
+      findChallenges,
+
       async filterDifficulty(difficulty){
         try {
           await challengesService.filterDifficulty(difficulty);

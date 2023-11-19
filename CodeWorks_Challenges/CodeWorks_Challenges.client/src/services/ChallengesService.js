@@ -13,6 +13,12 @@ class ChallengesService {
     return res.data
   }
 
+  async findChallenges(nameQuery) {
+    const res = await api.get(`/api/challenges?name=${nameQuery}`)
+    AppState.challenges = res.data.map(c => new Challenge(c))
+    logger.log('Queried Challenges by name:', AppState.challenges)
+  }
+
   async getMyChallenges() {
     const res = await api.get(`/account/challenges`)
     AppState.myChallenges = res.data.map(c => new Challenge(c))

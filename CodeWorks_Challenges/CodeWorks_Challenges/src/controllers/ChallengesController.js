@@ -11,6 +11,7 @@ export class ChallengesController extends BaseController {
     this.router
       .get('', this.getAllChallenges)
       .get('/:challengeId', this.getChallengeById)
+      .get('', this.findChallenges)
       .get('/:challengeId/participants', this.getParticipantsByChallengeId)
       .get('/:challengeId/moderators', this.getModeratorsByChallengeId)
 
@@ -133,6 +134,15 @@ export class ChallengesController extends BaseController {
       const challengeId = req.params.challengeId
       const challenge = await challengesService.getChallengeById(challengeId)
       return res.send(challenge)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async findChallenges(req, res, next) {
+    try {
+      const challenges = await challengesService.findChallenges(req.query.name, req.query.offset)
+      res.send(challenges)
     } catch (error) {
       next(error)
     }
