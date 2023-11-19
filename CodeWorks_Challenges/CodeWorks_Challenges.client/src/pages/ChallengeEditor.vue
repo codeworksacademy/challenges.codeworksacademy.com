@@ -19,6 +19,7 @@
             </section>
             <section class="" v-for="(requirement, index) in challenge.requirements" :key="index">
               <h4>Requirement {{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteRequirement(index)"></i></h4>
+              <!-- NOTE - CHANTHA - Since a challenge has potentially a surmountable amount of steps -- making this textarea an input field would be better for UX and UI. But I didn't want to change your code without your permission! Let me know your thoughts. -AJ 11/18 -->
               <textarea v-model="requirement.step" name="" id="" cols="30" rows="10" class="form-control mb-3"></textarea>
             </section>
           </div>
@@ -61,6 +62,7 @@
               </li>
             </ul>
           </section> -->
+          <!-- TODO - Make it so only CodeWorks staff and/or curator's of the application can change this. I'm guessing this will be a computed property that checks if the user is an admin or not by using the AppState.user.role property. - AJ 11/18 -->
           <div class="my-4">
             <h4 class="text-center mb-3">Set Challenge Status</h4>
             <div class="col-12 d-flex justify-content-center align-items-center mb-3">
@@ -135,6 +137,7 @@ export default {
         value: 'deprecated'
       }
     ])
+
     async function setActiveChallenge() {
       try {
         await challengesService.setActiveChallenge(route.params.challengeId)
@@ -286,8 +289,6 @@ export default {
     return {
       editable,
       answer,
-      filterBy,
-      statusOptions,
       updateChallenge,
       updateChallengeStatus,
       challenge: computed(() => AppState.activeChallenge),
@@ -301,7 +302,16 @@ export default {
       addAnswer,
       deleteAnswer,
       toggleEdit,
-      cancelEdit
+      cancelEdit,
+      statusOptions,
+
+      filterBy,
+      challengeStatusEnum: computed(() => {
+        if (!filterBy.value) {
+          return AppState.challenges
+        }
+        return AppState.challenges.filter(challenge => challenge.status === filterBy.value)
+      }),
     } 
   }
 }

@@ -54,6 +54,7 @@ export default {
 
 
     watchEffect(() => {
+
     })
     
 
@@ -64,7 +65,8 @@ export default {
           const newParticipant = { 
             ...participantToUpdate.value,
             submission: editableSubmission.value.submission,
-            status: editableSubmission.value.status
+            //ANCHOR - For some reason, the enum status of the participant does update, but the status of the participant in the AppState does not update. It logs the status as 'submitted' but then comes back as 'started' like it was before it was updated. I'm not sure why this is happening. I've tried a few different things to fix it, but nothing has worked so far. I'm going to leave it as is for now, but I'll come back to it later and ask what may be causing this behavior. - AJ 11/18
+            status: editableSubmission.value.status,
           }
           logger.log('Your Participation:', editableSubmission.value)
           await participantsService.updateChallengeParticipant(newParticipant, participantId)
@@ -86,12 +88,14 @@ export default {
       try {
         const participantId = AppState.activeParticipant?.id
         const newSubmission = {
+          ...participantToUpdate.value,
           submission: editableSubmission.value.submission,
           status: editableSubmission.value.status
         }
         logger.log('Your Participant ID:', participantToUpdate)
         await participantsService.removeSubmission(newSubmission, participantId)
         participantToUpdate.value = ''
+        editableSubmission.value = ''
         Modal.getOrCreateInstance('#createSubmissionForm').hide();
         Pop.toast('Submission Removed');
 

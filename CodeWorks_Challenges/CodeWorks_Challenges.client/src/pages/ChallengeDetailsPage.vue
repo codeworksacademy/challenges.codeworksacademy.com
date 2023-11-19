@@ -360,19 +360,19 @@ export default {
       } else return 'null'
     })
 
-    const statusOptions = computed(() => {
-      const statusOptions = []
-      AppState.participants.forEach(p => {
-        if (!statusOptions.find(s =>
-         s.value === p.status)) {
-          statusOptions.push({ name: 
-                            p.status,
-                           value: 
-                            p.status })
-        }
-      })
-      return statusOptions
-    })
+    // const statusOptions = computed(() => {
+    //   const statusOptions = []
+    //   AppState.challenges.forEach(c => {
+    //     if (!statusOptions.find(s =>
+    //      s.value === c.status)) {
+    //       statusOptions.push({ name: 
+    //                         c.status,
+    //                        value: 
+    //                         c.status })
+    //     }
+    //   })
+    //   return statusOptions
+    // })
 
     async function setActiveChallenge() {
       try {
@@ -470,7 +470,6 @@ export default {
       answer,
       loading,
       isParticipant,
-      statusOptions,
       participantStatus,
       answerChallenge,
       user: computed(() => AppState.user),
