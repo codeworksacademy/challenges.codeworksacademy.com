@@ -17,9 +17,9 @@
               <h4>Add a requirement  <i class="mdi mdi-plus-box fs-1" @click="addRequirement"></i></h4>
               <textarea name="" id="requirementText" cols="30" rows="10" class="form-control mb-3"></textarea>
             </section>
-            <section class="" v-for="(requirement, index) in challenge.requirements">
+            <section class="" v-for="(requirement, index) in challenge.requirements" :key="index">
               <h4>Requirement {{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteRequirement(index)"></i></h4>
-              <textarea name="" id="" cols="30" rows="10" class="form-control mb-3">{{ requirement.step }}</textarea>
+              <textarea v-model="requirement.step" name="" id="" cols="30" rows="10" class="form-control mb-3"></textarea>
             </section>
           </div>
           <h3>Difficulty</h3>
@@ -43,21 +43,7 @@
           <h3 class="mb-3">Cover Image</h3>
           <img :src="editable.coverImg" alt="" class="object-fit-cover w-100 rounded-top">
           <input type="text" class="form-control mb-3" id="coverImg" v-model="editable.coverImg" required> 
-          <!-- <h4>Support Links</h4>
-          <span v-if="challenge.supportLinks.length == 0" class="text-danger">You need at least 1 support link!</span>
-          <div class="d-flex input-group mb-3">
-            <input type="text" class="form-control" id="supportLinkType" placeholder="Link Type"> 
-            <input type="text" class="form-control" id="supportLink" placeholder="Link"> 
-            <button class="btn btn-success" type="button" id="button-addon1" @click="addSupportLink">Add</button>
-          </div>
-          <section class="row justify-content-between" v-for="(link, index) in challenge.supportLinks">
-            <ul class="list-group list-group-horizontal p-3">
-              <li class="list-group-item list-group-item-dark flex-fill w-50">{{ link.name }}</li>
-              <li class="list-group-item list-group-item-dark flex-fill w-50">{{ link.url }} 
-                <i class="mdi mdi-trash-can float-end fs-5 p-0" @click="deleteSupportLink(index)"></i>
-              </li>
-            </ul>
-          </section> -->
+          
           <section id="answers-section">
             <h4>Answers</h4>
             <div class="d-flex input-group mb-3">
@@ -75,6 +61,17 @@
               </li>
             </ul>
           </section> -->
+          <div class="my-4">
+            <h4 class="text-center mb-3">Set Challenge Status</h4>
+            <div class="col-12 d-flex justify-content-center align-items-center mb-3">
+              <div  v-for="s in statusOptions" :key="s.value">
+                <div class="d-flex flex-column radio-status-button">
+                  <input type="radio" :value="s.value" v-model="editable.status" name="status" id="status" class="text-center fs-5">
+                  <label for="status">{{ s.text }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
           <button class="btn btn-success mb-3">Update Challenge</button>
       </form>
     </section>
@@ -116,10 +113,28 @@ export default {
     let editing = ref(false);
     const answer = ref('')
     const editable = ref({})
+    const filterBy = ref('')
     watchEffect(() => {
       editable.value = AppState.activeChallenge
     })
-    
+    const statusOptions = ref([
+      {
+        text: 'Draft',
+        value: 'draft'
+      },
+      {
+        text: 'Under Review',
+        value: 'under-review'
+      },
+      {
+        text: 'Published',
+        value: 'published'
+      },
+      {
+        text: 'Deprecated',
+        value: 'deprecated'
+      }
+    ])
     async function setActiveChallenge() {
       try {
         await challengesService.setActiveChallenge(route.params.challengeId)
@@ -199,7 +214,7 @@ export default {
         step: newRequirement.value
       })
       Pop.success("Requirement Added")
-      newStep.value = '';
+      newRequirement.value.step = ''
     }
 
     function deleteRequirement(index){
@@ -271,6 +286,8 @@ export default {
     return {
       editable,
       answer,
+      filterBy,
+      statusOptions,
       updateChallenge,
       updateChallengeStatus,
       challenge: computed(() => AppState.activeChallenge),
@@ -303,5 +320,12 @@ export default {
   }
   .form-control{
     background-color: white
+  }
+  .radio-status-button{
+    margin: 0 10px;
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
   }
 </style>

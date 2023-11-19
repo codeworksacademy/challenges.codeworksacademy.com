@@ -22,7 +22,7 @@
         </div>
         <div class="form-check" v-for="field in challengeFieldsToGrade" :key="field.requirement.comment">
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label for="feedback">Feedback</label>
           <textarea type="text" name="feedback" id="feedback" class="form-control" v-model="feedback" />
         </div>
@@ -31,6 +31,23 @@
             <label for="completed">Completed</label>
             <input type="checkbox" name="completed" id="completed" class="form-control w-25" v-model="completed" />
           </div>
+        </div> -->
+        <div class="col-12 d-flex justify-content-center align-items-center">
+          <select 
+            v-model="filterBy"
+            name="status"
+            id="status" 
+            class="col-3 text-center fs-5"
+          >
+            <option 
+              v-for="s in participant.status" 
+              :value="s.value" 
+              :key="s.value" 
+              class=""
+            >
+              {{ s }}
+            </option>
+          </select>
         </div>
         <button type="submit" class="btn btn-success">Submit</button>
       </form>
@@ -44,9 +61,13 @@ import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
 import { GRADE_FIELDS } from '../constants/index.js'
 import { participantsService } from '../services/ParticipantsService'
+import { useRoute } from "vue-router"
+import Pop from "../utils/Pop"
 
 export default {
   setup() {
+
+    const route = useRoute()
     
     const grade = ref(0)
     const feedback = ref("")
@@ -55,11 +76,23 @@ export default {
 
     // Initialize challengeFieldsToGrade with the correct structure
     onMounted(() => {
-      challengeFieldsToGrade.value = GRADE_FIELDS.map(field => ({
-        requirement: field.requirement,
+      getParticipantsByChallengeId()
+      const challenge = challenge.value
+      challengeFieldsToGrade.value = challenge.map(field => ({
+        requirements: field.challenge.requirements,
         completed: false
       }))
     })
+
+    async function getParticipantsByChallengeId() {
+      try {
+        const challengeId = route.params.challengeId
+        await participantsService.getParticipantsByChallengeId(challengeId)
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error, 'error')
+      }
+    }
 
     const challenge = computed(() => {
       return AppState.challenges.find(c => c.id === AppState.activeChallenge.id)
@@ -70,20 +103,31 @@ export default {
 
     async function submitGrade() {
       try {
+        const participantId = participant.value.id
         const newSubmission = {
-          grade: grade.value,
-          feedback: feedback.value,
-          completed: completed.value,
-          challengeId: challenge.value.id,
-          participantId: participant.value.id,
+          ...challenge.value,
           requirements: challengeFieldsToGrade.value
         }
-        await participantsService.submitChallengeForGrading(newSubmission, participant.value.id)
+        await participantsService.updateChallengeParticipant(newSubmission, participantId)
       } catch (error) {
         logger.error(error)
       }
     }
 
+    // const statusOptions = computed(() => {
+    //   const statusOptions = []
+    //   AppState.participants.forEach(p => {
+    //     if (!statusOptions.find(s =>
+    //      s.value === p.status)) {
+    //       statusOptions.push({ name: 
+    //                         p.status,
+    //                        value: 
+    //                         p.status })
+    //     }
+    //   })
+    //   return statusOptions
+    // })
+    
     return {
       grade,
       feedback,

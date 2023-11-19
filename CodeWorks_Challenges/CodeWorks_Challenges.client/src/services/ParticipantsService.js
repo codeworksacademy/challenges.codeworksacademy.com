@@ -16,7 +16,7 @@ class ParticipantsService {
     AppState.participants.push(new ChallengeParticipant(res.data))
   }
 
-  async submitChallengeForGrading(newSubmission, participantId) {
+  async updateChallengeParticipant(newSubmission, participantId) {
     const res = await api.put(`api/participants/${participantId}`, newSubmission)
     logger.log('Participant Updated ⏩', res.data)
     AppState.activeParticipant = res.data
@@ -33,11 +33,11 @@ class ParticipantsService {
 
   async getParticipantsByChallengeId(challengeId) {
     const res = await api.get(`api/challenges/${challengeId}/participants`)
-    AppState.participants = res.data.map(p => new ChallengeParticipant(p))
+    AppState.participants = res.data
     logger.log('[Participants in this challenge]:', AppState.participants)
   }
 
-  // async submitChallengeForGrading(participantId,  newSubmission) {
+  // async updateChallengeParticipant(participantId,  newSubmission) {
   //   const res = await api.put('api/participants/' + participantId, newSubmission)
   //   logger.log('Participant Updated ⏩', res.data)
   //   AppState.activeParticipant = res.data

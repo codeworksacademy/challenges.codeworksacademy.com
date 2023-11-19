@@ -22,11 +22,11 @@
                                 </ul>
                             </div>
                             <!--NOTE Conditionally render different pages menus-->
-                            <div class="mb-3 accordion" v-if="route.name == 'ChallengeEditor' || route.name == 'GradeSubmissionPage'">
+                            <div class="mb-3 accordion" v-if="route.name == 'ChallengeEditor' || route.name == 'GradeSubmissionsPage'">
                                 <button href="#editChallenge" data-bs-toggle="collapse" class="accordion-button collapsed fs-4" @click="changeRoute('Edit')">Edit Challenge</button>
                                 <ul class="collapse flex-column border-bottom bg-light text-dark rounded-bottom" id="editChallenge">
                                     <h5 @click="changeRoute('Edit')">Edit Details</h5>
-                                    <h5>Participants</h5>
+                                    <h5 @click="changeRoute('participants')">Participants</h5>
                                     <h5>Notifications</h5>
                                     <h5 @click="changeRoute('grading')">Submissions</h5>
                                 </ul>
@@ -64,11 +64,19 @@ export default {
             router.push({
                     path: `${route}`
             })
-        } 
+        }
+        const participant = computed(() => {
+            return AppState.participants.find(p => p.accountId = AppState.activeParticipant?.accountId)
+        })
+        const participantId = computed(() => {
+            return participant.value.id
+        })
         return {
             AppState: computed(() => AppState),
             route,
-            changeRoute
+            changeRoute,
+            participant,
+            participantId,
         };
     },
     components: { Login }

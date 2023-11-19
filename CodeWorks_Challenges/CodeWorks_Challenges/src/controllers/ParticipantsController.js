@@ -9,7 +9,7 @@ export class ParticipantsController extends BaseController {
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.joinChallenge)
-      .put('/:participantId', this.submitChallengeForGrading)
+      .put('/:participantId', this.updateChallengeParticipant)
       .delete('/:participantId', this.leaveChallenge)
   }
 
@@ -27,13 +27,13 @@ export class ParticipantsController extends BaseController {
     }
   }
 
-  async submitChallengeForGrading(req, res, next) {
+  async updateChallengeParticipant(req, res, next) {
     try {
       const participantId = req.params.participantId
       const userId = req.userInfo.id
       const newSubmission = req.body
 
-      const participant = await participantsService.submitChallengeForGrading(participantId, userId, newSubmission)
+      const participant = await participantsService.updateChallengeParticipant(participantId, userId, newSubmission)
 
       return res.send(participant)
     } catch (error) {

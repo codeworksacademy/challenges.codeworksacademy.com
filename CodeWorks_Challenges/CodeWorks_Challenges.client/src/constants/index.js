@@ -123,7 +123,7 @@ export const GRADE_FIELDS = [
 
 
 
-// async submitChallengeForGrading() {
+// async updateChallengeParticipant() {
 //   try {
 //     if (await Pop.confirm(`This will submit your challenge to be graded. This cannot be undone! If you completed this challenge successfully, the appropriate rewards will be distributed to your account once the challenge has been graded. Are you sure you want to submit?`)) {
 //       const participantToUpdate = AppState.participants.find(p => p.id === AppState.activeParticipant.id)
@@ -134,7 +134,7 @@ export const GRADE_FIELDS = [
 //       AppState.activeParticipant = res.data
 
       // AppState.participants.forEach((p, i) => {
-      //   const participantUpdate = participantsService.submitChallengeForGrading(p.id, { status: 'submitted', submission: p.submission })
+      //   const participantUpdate = participantsService.updateChallengeParticipant(p.id, { status: 'submitted', submission: p.submission })
       //   logger.log('Participant Updated ⏩', participantUpdate)
       //   AppState.participants[0].status = 'submitted'
         

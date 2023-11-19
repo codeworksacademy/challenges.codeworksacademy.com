@@ -58,15 +58,15 @@ class ParticipantsService {
 		return participants
 	}
 
-	async submitChallengeForGrading(participantId, userId, newSubmission) {
+	async updateChallengeParticipant(participantId, userId, newSubmission) {
 		const participant = await dbContext.ChallengeParticipants.findById(participantId)
 
 		if (participant.accountId != userId) {
 			throw new Forbidden(`[PERMISSIONS ERROR]: You are not a participant of this challenge. You may not submit it for grading.`)
 		}
 
-		if (participant.status != 'completed') {
-			participant.status = 'submitted'
+		if (participant.status != 'submitted') {
+			throw new BadRequest(`[CHALLENGE_STATE::${participant.status}] This challenge is not ready for grading.`)
 		}
 
 		participant.submission = newSubmission.submission || participant.submission

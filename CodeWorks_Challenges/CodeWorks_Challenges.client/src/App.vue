@@ -7,7 +7,6 @@
       </div>
     </section>
     <OffCanvasMenu>
-      <!-- <h1>Hey</h1> -->
       <router-view />
     </OffCanvasMenu>
   </header>
@@ -30,26 +29,38 @@
         </h3>
       </template>
       <template #body>
-        <!--Fix Me Comment Back in-->
         <ChallengeSubmissionForm />
       </template>
     </ModalWrapper>
 
+    <ModalWrapper id="submitAnswerModal">
+      <template #header>
+        <h3>
+          Submit Answer
+        </h3>
+      </template>
+      <template #body>
+        <AnswerForm />
+      </template>
+    </ModalWrapper>
+
+    <BottomOffcanvasWrapper id="gradeSubmissionsOffcanvas">
+      <template #header>
+        <h3 class="m-auto">
+          Submissions you can Grade:
+        </h3>
+      </template>
+      <template #body>
+          <div v-for="participant in submissions" :key="participant.id">
+            <ParticipantCard :participant="participant" />
+          </div>
+      </template>
+    </BottomOffcanvasWrapper>
   </main>
   <footer class="bg-dark text-light">
     Made with 💖 by CodeWorks
   </footer>
 
-  <ModalWrapper id="submitAnswerModal">
-    <template #header>
-      <h3>
-        Submit Answer
-      </h3>
-    </template>
-    <template #body>
-      <AnswerForm />
-    </template>
-  </ModalWrapper>
 
 </template>
 
@@ -62,12 +73,17 @@ import CreateChallengeForm from './components/CreateChallengeForm.vue'
 import ChallengeSubmissionForm from './components/ChallengeSubmissionForm.vue'
 import AnswerForm from './components/AnswerForm.vue'
 import OffCanvasMenu from './components/OffCanvasMenu.vue'
+import BottomOffcanvasWrapper from './components/BottomOffcanvasWrapper.vue'
+import ParticipantCard from './components/ParticipantCard.vue'
 
 export default {
   setup() {
     return {
       appState: computed(() => AppState),
-      submission: computed(() => AppState.activeSubmission)
+      submissions: computed(() => AppState.participants),
+      // Submissions: computed(() => {
+      //   return AppState.participants.filter(p => p.status === 'submitted')
+      // })
     }
   },
   components: { 
@@ -76,6 +92,8 @@ export default {
     ModalWrapper,
     CreateChallengeForm,
     ChallengeSubmissionForm,
+    BottomOffcanvasWrapper,
+    ParticipantCard,
   }
 }
 </script>

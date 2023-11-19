@@ -2,7 +2,7 @@
   <section v-if="user.isAuthenticated" class="container-fluid position-relative pt-5">
     <form
       class="row bg-light p-3 rounded shadow"
-      @submit.prevent="submitChallengeForGrading" id="createSubmissionForm"
+      @submit.prevent="updateChallengeParticipant" id="createSubmissionForm"
     >
       <div class="col-12">
         <div class="mb-3">
@@ -57,7 +57,7 @@ export default {
     })
     
 
-    async function submitChallengeForGrading() {
+    async function updateChallengeParticipant() {
       try {
         if (await Pop.confirm(`This will submit your challenge to be graded. This cannot be undone! If you completed this challenge successfully, the appropriate rewards will be distributed to your account once the challenge has been graded. Are you sure you want to submit?`)) {
           const participantId = participantToUpdate.value.id
@@ -67,13 +67,13 @@ export default {
             status: editableSubmission.value.status
           }
           logger.log('Your Participation:', editableSubmission.value)
-          await participantsService.submitChallengeForGrading(newParticipant, participantId)
+          await participantsService.updateChallengeParticipant(newParticipant, participantId)
           editableSubmission.value = ''
           Modal.getOrCreateInstance('#createSubmissionForm').hide();
-          Pop.toast('Challenge Submitted!');
+          Pop.success('Challenge Submitted!');
           router.push({
-            name: 'Account',
-            path: '/account'
+            name: 'Home',
+            path: '/'
           })
         }
       } catch (error) {
@@ -111,7 +111,7 @@ export default {
       user: computed(() => AppState.user),
       participantToUpdate,
       editableSubmission,
-      submitChallengeForGrading,
+      updateChallengeParticipant,
       removeSubmission,
     } 
   }
@@ -141,7 +141,7 @@ export default {
   <section v-if="user.isAuthenticated">
     <div class="row">
       <div class="col-12">
-        <form @submit.prevent="submitChallengeForGrading()">
+        <form @submit.prevent="updateChallengeParticipant()">
           <div class="mb-3">
             <label for="submission" class="form-label">Submission</label>
             <input v-model="editable.submission" type="url" name="submission" id="submission" placeholder="Source Code Link" class="form-control bg-light">
@@ -187,7 +187,7 @@ export default {
       
     })
 
-    async function submitChallengeForGrading() {
+    async function updateChallengeParticipant() {
       try {
         const newParticipant = { 
           accountId: route.params.accountId,
@@ -206,7 +206,7 @@ export default {
     return {
       user: computed(() => AppState.user),
       editable,
-      submitChallengeForGrading,
+      updateChallengeParticipant,
     } 
   }
 }

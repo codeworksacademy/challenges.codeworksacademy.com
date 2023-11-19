@@ -177,7 +177,19 @@
           Submit Your Challenge For Grading?
         </a>
       </div>
-      
+
+      <div v-for="(requirement, index) in challenge.requirements" :key="index">
+        <i class="text-light">
+          {{ index + 1 }}:
+        </i>
+        <p>
+          Step: {{ requirement.step }}
+          Comment: {{ requirement.comment }}
+        </p>
+      </div>
+
+
+
       <!-- Particiapnt data -->
       <section v-if="isParticipant" class="row text-light p-3 mb-1">
         <!-- v-if is here because participants can be created with out being assigned a status -->
@@ -348,6 +360,20 @@ export default {
       } else return 'null'
     })
 
+    const statusOptions = computed(() => {
+      const statusOptions = []
+      AppState.participants.forEach(p => {
+        if (!statusOptions.find(s =>
+         s.value === p.status)) {
+          statusOptions.push({ name: 
+                            p.status,
+                           value: 
+                            p.status })
+        }
+      })
+      return statusOptions
+    })
+
     async function setActiveChallenge() {
       try {
         const challengeId = route.params.challengeId
@@ -444,6 +470,7 @@ export default {
       answer,
       loading,
       isParticipant,
+      statusOptions,
       participantStatus,
       answerChallenge,
       user: computed(() => AppState.user),

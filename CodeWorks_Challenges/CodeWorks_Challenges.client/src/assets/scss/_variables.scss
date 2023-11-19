@@ -537,14 +537,14 @@ input:not(:placeholder-shown):invalid,
 textarea:not(:placeholder-shown):invalid,
 select:not(:placeholder-shown):invalid {
   border: 1px solid #BB383833 !important;
-  box-shadow: 0 0 0 1px #BB388FAB !important;
+  /*box-shadow: 0 0 0 1px #BB388FAB !important;*/
 }
 
 input:not(:placeholder-shown):valid,
 textarea:not(:placeholder-shown):valid,
 select:not(:placeholder-shown):valid {
   border: 1px solid #38BB6433 !important;
-  box-shadow: 0 0 0 1px #388FBBab !important;
+  /*box-shadow: 0 0 0 1px #388FBBab !important;*/
 }
 
 input:checked {
@@ -559,7 +559,7 @@ input:not(:checked) {
   background-size: 18px 18px;
   background-position-y: -1.75px;
   background-position-x: -2px;
-  background-color: #555;
+  /* background-color: #555; */
   border-color: #141b23; /* Change the border color when checked */
 }
 
@@ -631,7 +631,7 @@ input:not(:placeholder-shown):invalid:focus,
 textarea:not(:placeholder-shown):invalid:focus,
 select:not(:placeholder-shown):invalid:focus {
   border: 1px solid #38BB6433 !important;
-  box-shadow: 0 0 0 1px #388FBBab !important;
+  /*box-shadow: 0 0 0 1px #388FBBab !important;*/
   --bs-form-switch-bg: url(
     "https://clipart-library.com/images_k/black-circle-with-transparent-background/black-circle-with-transparent-background-13.png") !important;
 }
@@ -949,7 +949,7 @@ input:not(:placeholder-shown):valid,
 textarea:not(:placeholder-shown):valid,
 select:not(:placeholder-shown):valid {
   border: 1px solid #38BB6433 !important;
-  box-shadow: 0 0 0 1px #388FBBab !important;
+  /*box-shadow: 0 0 0 1px #388FBBab !important;*/
 }
 
 input:checked {
@@ -1036,7 +1036,7 @@ input:not(:placeholder-shown):invalid:focus,
 textarea:not(:placeholder-shown):invalid:focus,
 select:not(:placeholder-shown):invalid:focus {
   border: 1px solid #38BB6433 !important;
-  box-shadow: 0 0 0 1px #388FBBab !important;
+  /*box-shadow: 0 0 0 1px #388FBBab !important;*/
   --bs-form-switch-bg: url(
     "https://clipart-library.com/images_k/black-circle-with-transparent-background/black-circle-with-transparent-background-13.png") !important;
 }
