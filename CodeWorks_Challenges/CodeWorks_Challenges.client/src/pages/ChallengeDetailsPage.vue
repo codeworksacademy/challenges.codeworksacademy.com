@@ -1,7 +1,6 @@
 <!-- NOTE - Use this bound style tag to set a background image on the challenge details page or any other section that needs a background image
   :style="`background-image: url(${challenge.coverImg}); opacity: .9; background-repeat: no-repeat; background-size: cover;`"
 -->
-
 <template>
   <section
     v-if="challenge"
@@ -48,7 +47,7 @@
           <h5>CHALLENGE DESCRIPTION</h5>
         </div>
         <div class="col-6">
-          <section v-if="!isOwned" class="row text-light">
+          <div v-if="!isOwned" class="row text-light">
             <div class="col-7 d-flex justify-content-end">
               <button data-bs-toggle="modal" data-bs-target="#submitAnswerModal" class="btn btn-outline-success"
                 v-if="isParticipant">
@@ -64,7 +63,13 @@
                 Leave Challenge
               </button>
             </div>
-          </section>
+          </div>
+          <div class="text-box px-2">
+            <div class="header flex-grow-1 d-flex justify-content-end">
+              <h1 v-if="isOwned || isModeratorStatus == 'approved'" @click="editChallenge()" class="btn btn-outline-info">Edit
+                Challenge</h1>
+            </div>
+          </div>
         </div>
         <div class="col-12 pt-2 pb-4">
           <p> {{ challenge.description }} </p>
@@ -113,8 +118,8 @@
       </div>
     </section>
 
-    <section class="row py-3 fw-500">
-      <div class="col-4">
+    <section class="col-12 d-flex py-3 fw-500">
+      <div class="col-4 ps-1 p-3 m-auto">
         <div class="time-card bg-dark d-flex flex-column justify-content-center align-items-center">
           <i class="mdi mdi-calendar-multiselect-outline fs-2"></i>
           <div class="col-12 d-flex justify-content-center align-items-center text-capitalize fs-2">
@@ -126,7 +131,7 @@
         </div>
       </div>
       <div class="col-8">
-        <div class="creator-card bg-dark text-uppercase m-1">
+        <div class="creator-card ps-1 m-3 me-1 bg-dark text-uppercase m-1">
           <div class="d-flex align-items-center subtle-header">
             <img
               :src="challenge.creator.picture"
@@ -184,84 +189,25 @@
       </section>
     </section>
 
-
     <!-- Interactions with Challenge -->
 
-    <section>
+    <section class="card bg-dark p-3 m-1 ms-0">
       <div class="col-12 d-flex justify-content-center align-items-center">
-        <h3 class="text-uppercase">Challenge Requirements</h3>
+        <h3 class="text-center text-uppercase">Challenge Requirements</h3>
       </div>
-      <div class="" v-for="(requirement, index) in challenge.requirements" :key="index">
-        <div class="form-check">
-          <input type="checkbox" class="form-check-input" v-model="requirement.completed" :id="`field-${requirement.step}`">
-          <label class="form-check-label" :for="`field-${requirement.step}`">{{ requirement.step }}</label>
-        </div>
-      </div>
-    </section>
-    <!-- STUB - This iteration over `requirement.comment` is not needed here as participants do not need to see comments on steps before their challenge has been graded. But we can stub out and use this once we are creating the form that grades the participant. - AJ 11/18 -->
-    <!-- <div class="col-12 d-flex form-group mt-1">
-      <label for="comment">Comment</label>
-      <textarea type="text" name="comment" id="comment" class="form-control input-box mt-1" placeholder="Leave some insight..." rows="1" v-model="requirement.comment" />
-    </div> -->
-
-
-
-
-    <section>
-      <div class="text-box">
-        <div class="header flex-grow-1 d-flex justify-content-between">
-          <h1 v-if="isOwned || isModeratorStatus == 'approved'" @click="editChallenge()" class="btn btn-outline-info">Edit
-            Challenge</h1>
-        </div>
-      </div>
+        <ol class="col-12 justify-content-center align-items-center">
+          <li v-for="(requirement, index) in challenge.requirements" :key="index" class="py-2">
+            <span>{{ requirement.step }}</span>
+          </li>
+        </ol>
+        <!-- STUB - This iteration over `requirement.comment` is not needed here as participants do not need to see comments on steps before their challenge has been graded. But we can stub out and use this once we are creating the form that grades the participant. - AJ 11/18 -->
+        <!-- <div class="col-12 d-flex form-group mt-1">
+          <label for="comment">Comment</label>
+          <textarea type="text" name="comment" id="comment" class="form-control input-box mt-1" placeholder="Leave some insight..." rows="1" v-model="requirement.comment" />
+        </div> -->
     </section>
 
     <section class="row justify-content-center">
-      <div class="col-md-8 bg-dark text-light p-3 mb-3">
-          
-      </div>
-      <div class="col-md-8 bg-dark text-light p-3 mb-3">
-          <p>{{ challenge.pointValue }} Points</p>
-      </div>
-      <div class="col-md-8 bg-dark text-light p-3 mb-3">
-          <p>{{ challenge.moderators }} Moderators</p>
-          <p>{{ participants.length }} Participants</p>
-      </div>
-      <div class="col-md-8 bg-dark text-light p-3 mb-3">
-        <p v-html="difficulty.html"></p>
-      </div>  
-      <!-- <div class="col-md-8 bg-dark text-light p-3 mb-3">
-      </div> -->
-      <div class="col-md-8  bg-dark text-light p-3 mb-3">
-        <p>Created by {{ challenge.creator.name }} <img :src="challenge.creator.picture" alt="" class="img-fluid h-25"></p>
-      </div>
-      <div class="col-md-8 bg-dark text-light p-3 mb-3">
-        <i>Description:</i>
-        <p>
-          {{ challenge.description }}
-        </p>
-      </div>
-      <div v-if="challenge.supportLinks.length > 0" class="col-md-8 bg-dark text-light p-3 mb-3">
-        <div v-for="(link, index) in challenge.supportLinks" :key="link">
-          <i class="text-light">
-            Support Link {{ index + 1 }}:
-          </i>
-          <p>
-            <a :href="link.url" :title="`Project Links: ${challenge.supportLinks}`" class="fw-bold hover-text-primary">
-              {{ link.name }}
-            </a>
-          </p>
-        </div>
-      </div>
-      <!-- FIXME - This wasn't being iterated over properly, but it has been fixed. Inspect around line 200 to see the changes. AJ -11/18 -->
-      <!-- <div v-for="(step, index) in challenge.steps" :key="step" class="col-md-8 bg-dark text-light p-3 mb-3">
-        <i class="text-light">
-          Step {{ index + 1 }}:
-        </i>
-        <p>
-          {{ step }}
-        </p>
-      </div> -->
       <div v-for="(answer, index) in challenge.answers" :key="answer" class="col-md-8 bg-dark text-light p-3 mb-3">
         <i class="text-light">
           Answer {{ index + 1 }}:
@@ -279,6 +225,36 @@
         </div>
       </div>
     </section>
+
+
+
+      <!-- <div class="col-md-8 bg-dark text-light p-3 mb-3">
+          <p>{{ challenge.moderators }} Moderators</p>
+          <p>{{ participants.length }} Participants</p>
+      </div>
+      <div class="col-md-8 bg-dark text-light p-3 mb-3">
+        <p v-html="difficulty.html"></p>
+      </div>  
+      <div class="col-md-8 bg-dark text-light p-3 mb-3">
+      </div> -->
+      <!-- <div>
+        <h2>Challenge Support Links</h2>
+        <ul>
+          <li v-for="(link, i) in challenge.supportLinks" :key="i">
+            <strong>Challenge Link Name:</strong> {{ link.name }}<br>
+            <strong>Challenge Link URL:</strong> <a :href="link.url" target="_blank">{{ link.url }}</a>
+          </li>
+        </ul>
+      </div> -->
+      <!-- FIXME - This wasn't being iterated over properly, but it has been fixed. Inspect around line 200 to see the changes. AJ -11/18 -->
+      <!-- <div v-for="(step, index) in challenge.steps" :key="step" class="col-md-8 bg-dark text-light p-3 mb-3">
+        <i class="text-light">
+          Step {{ index + 1 }}:
+        </i>
+        <p>
+          {{ step }}
+        </p>
+      </div> -->
     <!-- Description and Steps -->
     <!-- <section class="row">
       <div class="col-md-8 bg-dark text-light p-3 mb-3">
