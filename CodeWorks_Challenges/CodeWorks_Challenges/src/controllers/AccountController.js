@@ -18,7 +18,6 @@ export class AccountController extends BaseController {
 
   async getUserAccount(req, res, next) {
     try {
-      await accountService.calculateAccountRank(req.userInfo)
       const account = await accountService.getAccount(req.userInfo)
       res.send(account)
     } catch (error) {
