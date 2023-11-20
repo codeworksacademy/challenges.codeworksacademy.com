@@ -79,5 +79,20 @@ class AccountService {
     )
     return account
   }
+  async increaseAccountExperienceByChallengeDifficulty(userId, challengeDifficulty) { //FIXME would this be better in the profileService, since account owner is not making this change?
+    if (challengeDifficulty != Number && (challengeDifficulty < 0 || challengeDifficulty > 1000)) {
+      new Error('You must supply a number, with value between 1-1000')
+    }
+    const update = challengeDifficulty
+    const account = await dbContext.Account.findOneAndUpdate(
+      { _id: userId },
+      { $set: update },
+      { runValidators: true, setDefaultsOnInsert: true, new: true }
+    )
+    const accountToBeReturned = {}
+    accountToBeReturned.id = account.id
+    accountToBeReturned.experience = account.experience
+    return accountToBeReturned
+  }
 }
 export const accountService = new AccountService()
