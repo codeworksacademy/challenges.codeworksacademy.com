@@ -1,10 +1,8 @@
 import mongoose from 'mongoose'
 import { AccountSchema } from '../models/Account'
 import { ChallengeSchema } from '../models/Challenge';
-import { ChallengeParticipantSchema } from '../models/Participant';
-import { ChallengeModeratorSchema } from "../models/ChallengeModerator.js";
 import { ChallengeParticipantSchema } from '../models/ChallengeParticipant';
-import { ModeratorSchema } from "../models/Moderator.js";
+import { ChallengeModeratorSchema } from "../models/ChallengeModerator.js";
 // import { AnswerSchema } from '../models/Answer.js';
 import { SubmissionSchema } from '../models/Submission.js';
 import { MilestoneSchema } from "../models/Milestone.js";
