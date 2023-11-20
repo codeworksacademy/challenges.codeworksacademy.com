@@ -51,9 +51,9 @@
         </h3>
       </template>
       <template #body>
-          <div>
-            <ParticipantCard />
-          </div>
+        <div v-for="participant in submissions" :key="participant.id">
+          <ParticipantCard :participant="participant" />
+        </div>
       </template>
     </BottomOffcanvasWrapper>
   </main>

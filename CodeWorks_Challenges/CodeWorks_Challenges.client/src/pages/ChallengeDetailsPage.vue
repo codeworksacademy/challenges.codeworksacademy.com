@@ -113,16 +113,14 @@
       </div>
     </section>
 
-    <section class="row pt-3 fw-500">
+    <section class="row py-3 fw-500">
       <div class="col-4">
-        <div class="time-card bg-dark m-1">
-          <div class="col-12 d-flex justify-content-center align-items-center subtle-header my-1">
-            <i class="mdi mdi-calendar-multiselect-outline fs-2"></i>
-          </div>
+        <div class="time-card bg-dark d-flex flex-column justify-content-center align-items-center">
+          <i class="mdi mdi-calendar-multiselect-outline fs-2"></i>
           <div class="col-12 d-flex justify-content-center align-items-center text-capitalize fs-2">
             <span>1252 Days</span>
           </div>
-          <div class="col-12 d-flex justify-content-center align-items-center subheader text-uppercase my-1">
+          <div class="col-12 d-flex justify-content-center align-items-center subheader text-uppercase m-1">
             <span>Released: {{ date }} </span>
           </div>
         </div>
@@ -140,29 +138,25 @@
                 <span>{{ challenge.creator.name }}</span>
               </div>
             </div>
-          <div class="d-flex col-12 justify-content-between align-items-center m-3">
-            <div class="">
-              <span class="subheader me-3 mt-5">Challenge Creator</span>
-              <button class="btn bg-dark btn-success text-success" style="width: 150px; height: 35px; line-height: 0;"><small>Give Respect</small></button>
-            </div>
-            <div class="me-4">
-                <button v-if="isModeratorStatus == 'null'" class="btn btn-outline-primary me-auto" style="width: 250px; height: 35px; line-height: 0;" @click="createModeration()">
-                  Request to become moderator
-                </button>
-                <button v-if="isModeratorStatus == 'pending'" class="btn btn-outline-primary">Request pending</button>
-                <button v-if="isModeratorStatus == 'approved'" class="btn btn-outline-primary">You are a Moderator</button>
-                <!-- Move this button and its functionality into the edit challenges -->
-                <!-- <div v-else> 
-                  <ModSearchForm />
-                </div> -->
-            </div>
+            <span class="ps-3 subheader">Challenge Creator</span>
+          <div class="col-12 d-flex justify-content-between align-items-center mt-3 m-auto">
+            <button class="btn bg-dark btn-success text-success ms-3"><small>Give Respect</small></button>
+            <button v-if="isModeratorStatus == 'null'" class="btn btn-outline-primary me-3" @click="createModeration()">
+              Request to become moderator
+            </button>
+            <button v-if="isModeratorStatus == 'pending'" class="btn btn-outline-primary">Request pending</button>
+            <button v-if="isModeratorStatus == 'approved'" class="btn btn-outline-primary">You are a Moderator</button>
+            <!-- Move this button and its functionality into the edit challenges -->
+            <!-- <div v-else> 
+              <ModSearchForm />
+            </div> -->
           </div>
         </div>
       </div>
     </section>
 
-    <section class="row bg-img d-flex justify-content-center align-items-center">
-      <div v-if="isParticipant" class="col-12 d-flex justify-content-center align-items-end">
+    <section class="col-12 bg-img">
+      <div v-if="isParticipant" class="d-flex justify-content-center align-items-end">
         <a
           ref="submission"
           id="challengeSubmissionButton"
@@ -178,7 +172,7 @@
         </a>
       </div>
       <!-- Particiapnt data -->
-      <section v-if="isParticipant" class="row text-light p-3 mb-1">
+      <section v-if="isParticipant" class="row text-light p-3 mb-3">
         <!-- v-if is here because participants can be created with out being assigned a status -->
         <div class="col-4" v-if="isParticipant.status">Status: <span class="">{{ isParticipant.status
         }}</span>
@@ -606,11 +600,11 @@ export default {
   box-shadow: 0 0 10px #00000080;
 }
 .time-card {
-  height: 18vh;
+  height: 23vh;
   border-radius: .5rem;
 }
 .creator-card {
-  height: 18vh;
+  height: 23vh;
   border-radius: .5rem;
   img {
     height: 50px;
