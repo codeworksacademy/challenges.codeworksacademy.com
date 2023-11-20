@@ -64,7 +64,7 @@
               </button>
             </div>
           </div>
-          <div class="text-box px-2">
+          <div class="text-box">
             <div class="header flex-grow-1 d-flex justify-content-end">
               <h1 v-if="isOwned || isModeratorStatus == 'approved'" @click="editChallenge()" class="btn btn-outline-info">Edit
                 Challenge</h1>
@@ -158,7 +158,7 @@
           </div>
         </div>
       </div>
-    </section> -->
+    </section>
 
     <section class="col-12 bg-img">
       <div v-if="isParticipant" class="d-flex justify-content-center align-items-end">
@@ -401,11 +401,11 @@ export default {
         Pop.toast(error, 'error')
       }
     }
-    async function answerChallenge() {
-      try {
+    async function answerChallenge(){
+      try{
         await challengesService.submitAnswer(AppState.activeChallenge.id, answer.value)
         logger.log("Answer ", answer.value)
-      } catch (error) {
+      } catch(error){
         Pop.error(error.message)
       }
     }
