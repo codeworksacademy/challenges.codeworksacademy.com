@@ -7,6 +7,7 @@ export class AccountMilestonesController extends BaseController {
     super('api/accountMilestones')
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
+      // REVIEW I save over the permission check that I meant to save
       .get('/:userId', this.getAccountMilestones)
       .post('/:userId', this.checkMilestonesByAccountId)
       .put('/:milestoneId', this.claimMilestone)

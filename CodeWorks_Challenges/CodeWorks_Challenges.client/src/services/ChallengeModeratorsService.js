@@ -1,32 +1,32 @@
 import { api } from './AxiosService'
 import { AppState } from "../AppState.js"
 import { logger } from "../utils/Logger.js"
-import { Moderator } from "../models/Moderator.js"
-class ModeratorsService {
+import { ChallengeModerator } from "../models/ChallengeModerator"
+class ChallengeModeratorsService {
 
   async createModeration(moderatorData) {
     const res = await api.post('api/moderators', moderatorData)
     logger.log('[New moderation]:', res.data)
-    AppState.moderators.push(new Moderator(res.data))
+    AppState.moderators.push(new ChallengeModerator(res.data))
   }
 
   async getMyModerationsByUserId(userId) {
     const res = await api.get(`api/moderators/${userId}/profiles`)
     logger.log('[MODERATIONS BY USERID]', res.data)
-    AppState.myModerations = res.data.map(m => new Moderator(m))
+    AppState.myModerations = res.data.map(m => new ChallengeModerator(m))
   }
 
 
   async getModeratorsByChallengeId(challengeId) {
     const res = await api.get(`api/challenges/${challengeId}/moderators`)
-    AppState.moderators = res.data.map(m => new Moderator(m))
+    AppState.moderators = res.data.map(m => new ChallengeModerator(m))
     // logger.log('[Moderators in this challenge]:', AppState.moderators)
   }
 
   async getModerationsByChallengeCreatorId(userId) {
     const res = await api.get(`api/moderators/challenges/${userId}`)
     logger.log('[MODERATIONS BY CHALLENGEID]', res.data)
-    AppState.moderators = res.data.map(m => new Moderator(m))
+    AppState.moderators = res.data.map(m => new ChallengeModerator(m))
   }
 
   async approveModeration(moderationId) {
@@ -56,4 +56,4 @@ class ModeratorsService {
   }
 }
 
-export const moderatorsService = new ModeratorsService()
+export const challengeModeratorsService = new ChallengeModeratorsService()

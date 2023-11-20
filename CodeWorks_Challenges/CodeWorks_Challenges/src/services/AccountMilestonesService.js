@@ -2,7 +2,7 @@ import { dbContext } from "../db/DbContext.js"
 import { BadRequest } from "../utils/Errors.js";
 import { accountService } from "./AccountService.js";
 import { challengesService } from "./ChallengesService.js";
-import { moderatorsService } from "./ModeratorsService.js";
+import { challengeModeratorsService } from "./ChallengeModeratorsService.js";
 import { participantsService } from "./ParticipantsService.js";
 import { profileService } from "./ProfileService.js";
 
@@ -55,64 +55,59 @@ class AccountMilestonesService {
     return claimMilestone
   }
 
-  async checkMilestones(milestone, userId) {
-    // Get the account Milestone, if one doesn't exist create one.
-    // It will be assumed that this is a new account or new milestone
-    // If this is an existing account that should return a higher tier, 
-    // running the function a second time (frontend) may be required.
-    const accountMilestoneData = {}
-    const foundAccountMilestone = await this.getAccountMilestoneById(milestone.id, userId)
+  async getOrCreateAccountMilestone(milestone, userId, accountMilestoneData) {
+    let foundAccountMilestone = await this.getAccountMilestoneById(milestone.id, userId);
 
     if (!foundAccountMilestone) {
-      accountMilestoneData.milestoneId = milestone.id
-      accountMilestoneData.accountId = userId
-      this.createAccountMilestone(accountMilestoneData)
+      accountMilestoneData.milestoneId = milestone.id;
+      accountMilestoneData.accountId = userId;
+      foundAccountMilestone = await this.createAccountMilestone(accountMilestoneData);
+    }
+    return foundAccountMilestone;
+  }
+
+  async checkMilestones(milestone, userId) {
+
+    const accountMilestoneData = {}
+    const foundAccountMilestone = await this.getOrCreateAccountMilestone(milestone, userId, accountMilestoneData);
+
+    // Example string '6-$gte%1-2-3-4-5-10'
+    const logicArr = milestone.logic;
+    const logicParts = logicArr.split('%');
+    const operationsArr = logicParts[0].split('-');
+    const tierThresholdArr = logicParts[1].split('-');
+    const maxTierLevel = operationsArr[0]
+    // This string parser will return 
+    // operationsArr = ['6', '$gte']
+    // maxTierLevel = 6
+    // tierThresholdArr = ['1','2','3','4','5','10'] -- The positions of the array are the level of tier they represent +1, The value of the position is the requirement needed to get the tier.
+
+    if (foundAccountMilestone.tier > maxTierLevel) {
+      return foundAccountMilestone
     }
 
-    // REVIEW I would like some explanation on the tier being used here.
+    const filterKey = {
+      createdChallenge: { creatorId: userId },
+      joinedChallenge: { accountId: userId },
+      moderateChallenge: { $and: [{ accountId: userId }, { status: 'Active' }] }
+    };
 
-    // REVIEW KYLE
-    // tier is being used to track the level of a given milestone, a milestone has several versions of it's self. create 1 challenge, create 2 challenges, create 100 challenges. 
-    // Since these are nearly Identical I was using the threshold array to decide if the relevant tier (the position it has in the threshold array) had been achieved. 
-    // Instead of creating 5 createChallenge Achievements, tier is being used to simulate this. Tier is also the value responsible for making these milestones 'claimable' again. (if tier> foundAccountMilestone.tier) {claimed = false;}
+    const milestoneCheckCount = await dbContext[milestone.ref].find(filterKey[milestone.check]).count();
 
-    // STUB Kyle operationsArr[0] is also a tier checker, it checks to see if the tier is at it's highest value and exits the function and avoids the extra calls to other services, It looks like the value might have needed to be different though.
+    let tierToAssign = 0;
 
-    if (foundAccountMilestone) {
-      // Example string '6-$gte%1-2-3-4-5-10'
-      const logicArr = milestone.logic;
-      const logicParts = logicArr.split('%');
-      const operationsArr = logicParts[0].split('-');
-      const tierThresholdArr = logicParts[1].split('-');
-      // This string parser will return 
-      // operationsArr = ['6', '$gte']
-      // tierThresholdArr = ['1','2','3','4','5','10'] -- The positions of the array are the level of tier they represent +1, The value of the position is the requirement needed to get the tier.
-
-      const filterKey = {
-        createdChallenge: { creatorId: userId },
-        joinedChallenge: { accountId: userId },
-        moderateChallenge: { $and: [{ accountId: userId }, { status: 'Active' }] }
-      };
-
-      const milestoneCheckCount = await dbContext[milestone.ref].find(filterKey[milestone.check]).count();
-
-      if (foundAccountMilestone.tier < operationsArr[0]) { //This checks to see if the milestone is maxed out
-        let tier = 0;
-
-        for (let i = 0; i < operationsArr[0]; i++) {
-          if (milestoneCheckCount >= tierThresholdArr[i]) {
-            tier = i + 1
-          }
-        }
-
-        if (tier > foundAccountMilestone.tier) {
-          foundAccountMilestone.claimed = false
-          foundAccountMilestone.tier = tier
-        }
-        await foundAccountMilestone.save()
-        return foundAccountMilestone
+    for (let i = 0; i < maxTierLevel; i++) {
+      if (milestoneCheckCount >= tierThresholdArr[i]) {
+        tierToAssign = i + 1
       }
     }
+
+    if (tierToAssign > foundAccountMilestone.tier) {
+      foundAccountMilestone.claimed = false
+      foundAccountMilestone.tier = tierToAssign
+      await foundAccountMilestone.save()
+    }
+    return foundAccountMilestone
   }
 }
 

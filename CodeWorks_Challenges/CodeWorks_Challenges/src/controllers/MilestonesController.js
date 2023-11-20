@@ -6,7 +6,8 @@ export class MilestonesController extends BaseController {
   constructor() {
     super('api/milestones')
     this.router
-      .use(Auth0Provider.hasPermissions('manage:milestone'))
+      // .use(Auth0Provider.hasPermissions('manage:milestone'))
+      .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createMilestone)
       .get('', this.getMilestones)
       .put('/:milestoneId', this.editMilestone)

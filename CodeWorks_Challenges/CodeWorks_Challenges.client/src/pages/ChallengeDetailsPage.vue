@@ -158,7 +158,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <section class="col-12 bg-img">
       <div v-if="isParticipant" class="d-flex justify-content-center align-items-end">
@@ -303,7 +303,7 @@ import { StrDifficultyNum } from '../utils/StrDifficultyNum.js';
 import { useRoute, useRouter } from 'vue-router';
 import { challengesService } from '../services/ChallengesService';
 import { participantsService } from "../services/ParticipantsService.js";
-import { moderatorsService } from "../services/ModeratorsService.js";
+import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js";
 import RewardCard from '../components/Rewards/RewardCard.vue'
 import Completionist from '../components/Rewards/Badges/Completionist.vue'
 import EarlyBird from '../components/Rewards/Badges/EarlyBird.vue'
@@ -395,17 +395,17 @@ export default {
     }
     async function getModeratorsByChallengeId() {
       try {
-        await moderatorsService.getModeratorsByChallengeId(route.params.challengeId)
+        await challengeModeratorsService.getModeratorsByChallengeId(route.params.challengeId)
       } catch (error) {
         logger.error(error)
         Pop.toast(error, 'error')
       }
     }
-    async function answerChallenge(){
-      try{
+    async function answerChallenge() {
+      try {
         await challengesService.submitAnswer(AppState.activeChallenge.id, answer.value)
         logger.log("Answer ", answer.value)
-      } catch(error){
+      } catch (error) {
         Pop.error(error.message)
       }
     }
@@ -536,7 +536,7 @@ export default {
             challengeId: route.params.challengeId,
             accountId: AppState.user.id
           }
-          await moderatorsService.createModeration(moderatorData)
+          await challengeModeratorsService.createModeration(moderatorData)
           Pop.success('You have requested to become a moderator for this challenge, please be patient while the owner of this challenge reviews your request')
         } catch (error) {
           Pop.toast(error, 'error')
@@ -548,7 +548,7 @@ export default {
           if (!confirmRemove) {
             return
           }
-          await moderatorsService.removeModeration(moderationId)
+          await challengeModeratorsService.removeModeration(moderationId)
         } catch (error) {
           Pop.toast(error, 'error')
         }
