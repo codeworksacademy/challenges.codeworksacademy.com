@@ -29,7 +29,7 @@
 
 
 <template>
-  <section class="container-fluid">
+  <section class="container-fluid" v-if="challengeCreator">
 
     <div v-if="challenge" :key="challenge.id" class="row d-flex justify-content-center align-items-center">
       <div class="col-12 d-flex justify-content-center align-items-center">
@@ -71,18 +71,19 @@
 
 
 
-  <div v-if="isParticipant" class="col-9 d-flex justify-content-center align-items-center position-fixed bottom-2 hover-magenta">
-    <!-- STUB - OFFCANVAS BUTTON - Grade Submissions Offcanvas -->
+  <div v-if="challengeCreator" class="col-9 d-flex justify-content-center align-items-center position-fixed bottom-2 hover-magenta">
+    <!-- STUB - OFFCANVAS BUTTON - Array of Submitted Challenge Participants -->
     <a
       role="button"
       class="d-flex justify-content-center align-items-center mdi mdi-chevron-up text-warning bg-primary rounded-circle fs-1"
       style="aspect-ratio: 1/1; height: 50px; width: 50px;"
       type="button"
       data-bs-toggle="offcanvas"
-      data-bs-target="#gradeSubmissionsOffcanvas"
+      data-bs-target="#submissionsOffcanvas"
       aria-controls="offcanvasBottom">
     </a>
   </div>
+
   <GradeSubmissionForm />
     
   </section>

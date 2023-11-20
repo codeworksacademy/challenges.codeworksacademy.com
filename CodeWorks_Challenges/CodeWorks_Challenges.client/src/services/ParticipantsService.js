@@ -1,5 +1,5 @@
 import { api } from './AxiosService'
-import { AppState } from "../AppState.js"
+import { AppState } from "../AppState"
 import { ChallengeParticipant } from "../models/ChallengeParticipant.js"
 import { logger } from './../utils/Logger';
 

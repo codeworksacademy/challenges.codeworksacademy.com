@@ -44,15 +44,15 @@
       </template>
     </ModalWrapper>
 
-    <BottomOffcanvasWrapper id="gradeSubmissionsOffcanvas">
+    <BottomOffcanvasWrapper id="submissionsOffcanvas">
       <template #header>
         <h3 class="m-auto">
           Submissions you can Grade:
         </h3>
       </template>
       <template #body>
-          <div v-for="participant in submissions" :key="participant.id">
-            <ParticipantCard :participant="participant" />
+          <div>
+            <ParticipantCard />
           </div>
       </template>
     </BottomOffcanvasWrapper>

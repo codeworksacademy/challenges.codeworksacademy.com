@@ -177,19 +177,6 @@
           Submit Your Challenge For Grading?
         </a>
       </div>
-
-      <div v-for="(requirement, index) in challenge.requirements" :key="index">
-        <i class="text-light">
-          {{ index + 1 }}:
-        </i>
-        <p>
-          Step: {{ requirement.step }}
-          Comment: {{ requirement.comment }}
-        </p>
-      </div>
-
-
-
       <!-- Particiapnt data -->
       <section v-if="isParticipant" class="row text-light p-3 mb-1">
         <!-- v-if is here because participants can be created with out being assigned a status -->
@@ -205,6 +192,26 @@
 
 
     <!-- Interactions with Challenge -->
+
+    <section>
+      <div class="col-12 d-flex justify-content-center align-items-center">
+        <h3 class="text-uppercase">Challenge Requirements</h3>
+      </div>
+      <div class="" v-for="(requirement, index) in challenge.requirements" :key="index">
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" v-model="requirement.completed" :id="`field-${requirement.step}`">
+          <label class="form-check-label" :for="`field-${requirement.step}`">{{ requirement.step }}</label>
+        </div>
+      </div>
+    </section>
+    <!-- STUB - This iteration over `requirement.comment` is not needed here as participants do not need to see comments on steps before their challenge has been graded. But we can stub out and use this once we are creating the form that grades the participant. - AJ 11/18 -->
+    <!-- <div class="col-12 d-flex form-group mt-1">
+      <label for="comment">Comment</label>
+      <textarea type="text" name="comment" id="comment" class="form-control input-box mt-1" placeholder="Leave some insight..." rows="1" v-model="requirement.comment" />
+    </div> -->
+
+
+
 
     <section>
       <div class="text-box">
@@ -252,14 +259,15 @@
           </p>
         </div>
       </div>
-      <div v-for="(step, index) in challenge.steps" :key="step" class="col-md-8 bg-dark text-light p-3 mb-3">
+      <!-- FIXME - This wasn't being iterated over properly, but it has been fixed. Inspect around line 200 to see the changes. AJ -11/18 -->
+      <!-- <div v-for="(step, index) in challenge.steps" :key="step" class="col-md-8 bg-dark text-light p-3 mb-3">
         <i class="text-light">
           Step {{ index + 1 }}:
         </i>
         <p>
           {{ step }}
         </p>
-      </div>
+      </div> -->
       <div v-for="(answer, index) in challenge.answers" :key="answer" class="col-md-8 bg-dark text-light p-3 mb-3">
         <i class="text-light">
           Answer {{ index + 1 }}:
@@ -384,7 +392,7 @@ export default {
       }
     }
 
-    async function updateParticipant() {
+    async function updateChallengeParticipant() {
       try {
         const confirmComplete = await Pop.confirm('Are you sure you want to complete this challenge?')
 
@@ -398,7 +406,7 @@ export default {
           status: 'submitted'
         }
 
-        await participantsService.updateParticipant(participantId, newParticipant)
+        await participantsService.updateChallengeParticipant(participantId, newParticipant)
 
         Pop.success(`Great job ${AppState.account.name}! Your challenge submission for ${AppState.activeChallenge?.name} has been received. Once your submission has been reviewed, you will be notified of any rewards you have earned! 🏆💹🎉`)
       } catch (error) {
@@ -466,7 +474,7 @@ export default {
     })
 
     return {
-      updateParticipant,
+      updateChallengeParticipant,
       answer,
       loading,
       isParticipant,
@@ -515,6 +523,12 @@ export default {
             challengeId: route.params.challengeId,
             accountId: AppState.user.id,
             status: 'started',
+            supportLinks: [
+              {
+                name: '',
+                url: ''
+              }
+            ],
           }
 
           await participantsService.joinChallenge(newParticipant)

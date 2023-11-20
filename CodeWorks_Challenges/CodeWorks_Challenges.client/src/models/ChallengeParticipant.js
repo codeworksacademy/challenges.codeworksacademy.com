@@ -12,6 +12,6 @@ export class ChallengeParticipant {
     this.createdAt = data.createdAt
     this.updatedAt = data.updatedAt
     this.requirements = data.requirements
-    // this.pointValue = data.challenge ? new Challenge(data.challenge).pointValue : 0
+    this.challenge = data.challenge ? new Challenge(data.challenge) : {}
   }
 }

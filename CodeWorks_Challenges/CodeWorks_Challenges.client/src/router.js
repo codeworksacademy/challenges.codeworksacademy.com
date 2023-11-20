@@ -28,12 +28,12 @@ const routes = [
     component: loadPage('ChallengePage'),
   },
   {
-    path: '/challenge/:challengeId',
+    path: '/challenges/:challengeId',
     name: 'ChallengeDetails',
     component: loadPage('ChallengeDetailsPage'),
   },
   {
-    path: '/challenge/:challengeId/edit',
+    path: '/challenges/:challengeId/edit',
     name: 'ChallengeEditor',
     component: loadPage('ChallengeEditor'),
     // children: [
@@ -55,7 +55,7 @@ const routes = [
     // ]
   },
   {
-    path: '/challenge/:challengeId/grading',
+    path: '/challenges/:challengeId/grading',
     name: 'GradeSubmissionsPage',
     component: loadPage('GradeSubmissionsPage')
   },

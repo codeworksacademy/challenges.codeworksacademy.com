@@ -65,9 +65,9 @@ class ParticipantsService {
 			throw new Forbidden(`[PERMISSIONS ERROR]: You are not a participant of this challenge. You may not submit it for grading.`)
 		}
 
-		// if (participant.status != 'submitted') {
-		// 	throw new BadRequest(`[CHALLENGE_STATE::${participant.status}] This challenge is not ready for grading.`)
-		// }
+		if (participant.status != 'completed') {
+			participant.status = 'submitted'
+		}
 
 		participant.submission = newSubmission.submission || participant.submission
 

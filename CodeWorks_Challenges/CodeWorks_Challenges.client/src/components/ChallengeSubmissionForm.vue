@@ -8,7 +8,7 @@
         <div class="mb-3">
           <label for="submission" class="form-label">Submission</label>
           <input
-            v-model="editableSubmission.submission"
+            v-model="editable.submission"
             type="url"
             name="submission"
             id="submission"
@@ -41,36 +41,33 @@ export default {
     const route = useRoute()
     const router = useRouter()
     
-    const editableSubmission = ref({
+    const editable = ref({
       accountId: AppState.account.id,
       challengeId: route.params.challengeId,
       submission: '',
-      status: 'submitted'
+      status: 'submitted',
     })
 
-    const participantToUpdate = computed(() => {
+    const participant = computed(() => {
       return AppState.participants.find(p => p.accountId === AppState.account.id)
     })
 
 
     watchEffect(() => {
-
     })
     
 
     async function updateChallengeParticipant() {
       try {
-        if (await Pop.confirm(`This will submit your challenge to be graded. This cannot be undone! If you completed this challenge successfully, the appropriate rewards will be distributed to your account once the challenge has been graded. Are you sure you want to submit?`)) {
-          const participantId = participantToUpdate.value.id
+        if (await Pop.confirm(`Are you sure you are ready to submit ${AppState.activeChallenge?.name} to be graded? This cannot be undone!`)) {
+          const participantId = participant.value.id
           const newParticipant = { 
-            ...participantToUpdate.value,
-            submission: editableSubmission.value.submission,
-            //ANCHOR - For some reason, the enum status of the participant does update, but the status of the participant in the AppState does not update. It logs the status as 'submitted' but then comes back as 'started' like it was before it was updated. I'm not sure why this is happening. I've tried a few different things to fix it, but nothing has worked so far. I'm going to leave it as is for now, but I'll come back to it later and ask what may be causing this behavior. - AJ 11/18
-            status: editableSubmission.value.status,
+            ...editable.value,
+            challengeId: route.params.challengeId,
           }
-          logger.log('Your Participation:', editableSubmission.value)
+          logger.log('Your Participation:', editable.value)
           await participantsService.updateChallengeParticipant(newParticipant, participantId)
-          editableSubmission.value = ''
+          editable.value = ''
           Modal.getOrCreateInstance('#createSubmissionForm').hide();
           Pop.success('Challenge Submitted!');
           router.push({
@@ -88,14 +85,14 @@ export default {
       try {
         const participantId = AppState.activeParticipant?.id
         const newSubmission = {
-          ...participantToUpdate.value,
-          submission: editableSubmission.value.submission,
-          status: editableSubmission.value.status
+          ...participant.value,
+          submission: editable.value.submission,
+          status: editable.value.status
         }
-        logger.log('Your Participant ID:', participantToUpdate)
+        logger.log('Your Participant ID:', participant)
         await participantsService.removeSubmission(newSubmission, participantId)
-        participantToUpdate.value = ''
-        editableSubmission.value = ''
+        participant.value = ''
+        editable.value = ''
         Modal.getOrCreateInstance('#createSubmissionForm').hide();
         Pop.toast('Submission Removed');
 
@@ -113,8 +110,8 @@ export default {
 
     return {
       user: computed(() => AppState.user),
-      participantToUpdate,
-      editableSubmission,
+      participant,
+      editable,
       updateChallengeParticipant,
       removeSubmission,
     } 

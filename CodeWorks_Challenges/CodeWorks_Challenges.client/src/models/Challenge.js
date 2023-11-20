@@ -18,7 +18,7 @@ export class Challenge {
     this.updatedAt = DateTime(data.updatedAt)
     this.supportLinks = data.supportLinks || []
     this.difficulty = StrDifficultyNum(data.difficulty) || 1
-    this.pointValue = data.difficulty || 1
+    // this.pointValue = data.difficulty || 1
     this.badges = data.badges ? new Reward(data.badges) : null
     // this.answers = data.answers || ''
     this.answer = data.answer || ''
