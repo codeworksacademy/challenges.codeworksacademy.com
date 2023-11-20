@@ -12,8 +12,7 @@ export const AccountSchema = new Schema(
     aboutContent: { type: String },
     reputation: { type: Number, default: 0 },
     rank: { type: Number, default: 0 },
-    title: { type: String, default: 'n00b' },
-
+    experience: { type: Number, default: 0 }
   },
   { timestamps: true, toJSON: { virtuals: true } }
 )

@@ -73,6 +73,20 @@ class ChallengesService {
     return challenge
   }
 
+  async giveReputation(challengeId, userId) {
+    const challenge = await this.getChallengeById(challengeId)
+
+    const foundUserId = challenge.reputationIds.find(i => i == userId)
+
+    if(foundUserId){
+      throw new Forbidden('You have already given reputation to this challenge. You cannot give reputation twice.')
+    }
+
+    challenge.reputationIds += userId
+
+    return challenge
+  }
+
 
   async deprecateChallenge(challengeId, userId) {
     const challenge = await this.getChallengeById(challengeId)
