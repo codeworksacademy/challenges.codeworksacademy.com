@@ -1,234 +1,213 @@
+<!-- NOTE - Use this bound style tag to set a background image on the challenge details page or any other section that needs a background image
+  :style="`background-image: url(${challenge.coverImg}); opacity: .9; background-repeat: no-repeat; background-size: cover;`"
+-->
 <template>
-  <section v-if="challenge" :key="challenge?.id" class="container-fluid text-light bg-dark pb-5">
+  <section
+    v-if="challenge"
+    :key="challenge?.id"
+    class="container-fluid text-light pb-5"
+  >
     <div v-if="user.id === challenge?.creatorId">
       <!-- <router-view /> -->
     </div>
-    <!-- <section class="row m-auto bg-dark py-5">
-      <div class="col-1 fs-1">
-        🔐
+    <section class="row bg-dark text-uppercase fw-500 pt-4 pb-3 mb-5">
+      <div class="col-1 fs-1 mt-3">
+        <i class="mdi mdi-archive-lock-open-outline subtle-header"></i>
       </div>
-      <div class="col-7">
-        <div class="col-3 d-flex flex-column">
-          CHALLENGE NAME
-          <div class="row">
-            <div class="col-3">
-              EASY
+      <div class="col-6 mt-3">
+        <div class="col-12 d-flex flex-column">
+          <span> {{ challenge.name }} </span>
+          <div class="row mt-1">
+            <div class="col-12 subtle-header">
+              Easy
             </div>
           </div>
         </div>
       </div>
-      <div class="col-2">
+      <div class="col-3">
         <div class="col-12 d-flex justify-content-center align-items-center">
-          .|!;:,.
+          <img src="../assets/img/chart-img.png" alt="Temporary Static image of Challenge Difficulty" class="img-fluid" style="height: 75px; width: 120px;">
         </div>
         <div class="col-12 d-flex justify-content-center align-items-center">
-          DIFFICULTY RATING
+          <p class="text-uppercase" style="filter:brightness(.85);" v-html="difficulty.html"></p>
         </div>
       </div>
-      <div class="col-2">
-        <div class="col-12 d-flex justify-content-center align-items-center">
-          💠
+      <div class="col-2 subtle-header">
+        <div class="col-12 d-flex justify-content-center align-items-center mt-3 mb-1">
+          <i class="mdi mdi-rhombus-split fs-3 text-primary"></i>
         </div>
-        <div class="col-12 d-flex justify-content-center align-items-center">
-          40 POINTS
+        <div class="col-12 d-flex justify-content-center align-items-center mb-3">
+          40 Points
         </div>
       </div>
     </section>
 
-    <section class="row m-auto pt-3">
-      <div class="row">
-        <div class="col-12">
+    <section class="row m-1">
+        <div class="col-6">
           <h5>CHALLENGE DESCRIPTION</h5>
         </div>
-        <div class="col-12">
-          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus vitae consectetur cupiditate sint excepturi, minus vitae consectetur cupiditate sint excepturi. Minus vitae consectetur cupiditate sint excepturi, quisquam commodi harum iusto porro pariatur vel nesciunt?</p>
+        <div class="col-6">
+          <div v-if="!isOwned" class="row text-light">
+            <div class="col-7 d-flex justify-content-end">
+              <button data-bs-toggle="modal" data-bs-target="#submitAnswerModal" class="btn btn-outline-success"
+                v-if="isParticipant">
+                Submit For Review
+              </button>
+            </div>
+            <div class="col-5 d-flex justify-content-end pe-1">
+              <button class="btn btn-outline-primary" @click="joinChallenge()" v-if="!isParticipant">
+                Join Challenge
+              </button>
+        
+              <button class="btn btn-outline-danger" @click="leaveChallenge()" v-if="isParticipant">
+                Leave Challenge
+              </button>
+            </div>
+          </div>
+          <div class="text-box">
+            <div class="header flex-grow-1 d-flex justify-content-end">
+              <h1 v-if="isOwned || isModeratorStatus == 'approved'" @click="editChallenge()" class="btn btn-outline-info">Edit
+                Challenge</h1>
+            </div>
+          </div>
         </div>
-      </div>
-
+        <div class="col-12 pt-2 pb-4">
+          <p> {{ challenge.description }} </p>
+        </div>
     </section>
 
-    <section class="row m-auto pt-3">
+    <section class="row pt-3 text-uppercase fw-500">
       <div class="col-4">
-        <div class="card m-3">
-          <div class="col-12">
-            <i class="mdi mdi-star"></i>
+        <div class="flash-card bg-dark m-1">
+          <div class="col-12 d-flex justify-content-center align-items-center subtle-header my-1">
+            <i class="mdi mdi-star-outline fs-2"></i>
           </div>
-          <div class="col-12">
-            4.8
+          <div class="col-12 d-flex justify-content-center align-items-center fs-1 my-1">
+            <span>4.8</span>
           </div>
-          <div class="col-12">
-            CHALLENGE RATING
+          <div class="col-12 d-flex justify-content-center align-items-center subheader my-1">
+            <span>Challenge Rating</span>
           </div>
         </div>
       </div>
       <div class="col-4">
-        <div class="card m-3">
-          
+        <div class="flash-card bg-dark m-1">
+          <div class="col-12 d-flex justify-content-center align-items-center subtle-header my-1">
+            <i class="mdi mdi-account fs-2"></i>
+          </div>
+          <div class="col-12 d-flex justify-content-center align-items-center my-1 fs-1">
+            <span>4515</span>
+          </div>
+          <div class="col-12 d-flex justify-content-center align-items-center subheader my-1">
+            <span>User Solves</span>
+          </div>
         </div>
       </div>
       <div class="col-4">
-        <div class="card m-3">
-          
+        <div class="flash-card bg-dark m-1">
+          <div class="col-12 d-flex justify-content-center align-items-center subtle-header my-1">
+            <i class="mdi mdi-shape fs-2"></i>
+          </div>
+          <div class="col-12 d-flex justify-content-center align-items-center text-capitalize my-1 fs-1">
+            <span>Full Stack</span>
+          </div>
+          <div class="col-12 d-flex justify-content-center align-items-center subheader my-1">
+            <span>Category</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="row m-auto pt-3">
-      <div class="col-4">
-
+    <section class="col-12 d-flex py-3 fw-500">
+      <div class="col-4 ps-1 p-3 m-auto">
+        <div class="time-card bg-dark d-flex flex-column justify-content-center align-items-center">
+          <i class="mdi mdi-calendar-multiselect-outline fs-2"></i>
+          <div class="col-12 d-flex justify-content-center align-items-center text-capitalize fs-2">
+            <span>1252 Days</span>
+          </div>
+          <div class="col-12 d-flex justify-content-center align-items-center subheader text-uppercase m-1">
+            <span>Released: {{ date }} </span>
+          </div>
+        </div>
       </div>
       <div class="col-8">
-
-      </div>
-    </section> -->
-
-    <div class="row bg-img d-flex justify-content-center align-items-center"
-      :style="`background-image: url(${challenge.coverImg}); opacity: .9;`">
-      <div class="text-box">
-        <div class="header flex-grow-1 d-flex justify-content-between">
-          <h1>{{ challenge.name }}</h1>
-          <h1 v-if="isOwned || isModeratorStatus == 'approved'" @click="editChallenge()" class="btn btn-outline-info">Edit
-            Challenge</h1>
-
-        </div>
-      </div>
-      <!-- <div class="body row">
-          <div class="col-3">
-            <p>Created: {{ date }}</p>
-
-            <p>{{ challenge.description }}</p>
-            <p>Points: {{ challenge.pointValue }}</p>
-            <p Use v-html="difficulty.html"></p>
-            <p>Created by: {{ challenge.creator.name }}</p>
-            <p v-if="challenge.supportLinks.length > 0">Support Links: {{ challenge.supportLinks }}</p>
-
-            <div class="d-flex mb-3">Moderators:
-              <div v-for="mod in moderators" :key="mod.id">
-                <img @click="removeModeration(mod.id)" class="moderator selectable ms-2" :src="mod.profile.picture"
-                  :alt="mod.profile.name" :title="mod.profile.name">
+        <div class="creator-card ps-1 m-3 me-1 bg-dark text-uppercase m-1">
+          <div class="d-flex align-items-center subtle-header">
+            <img
+              :src="challenge.creator.picture"
+              :alt='`Image of ${challenge.creator.name}`'
+              :title='`Name of Challenge Creator: "${challenge.creator.name}"`'
+              class="img-fluid m-3 creator-card-img"
+            />
+              <div class="my-1 fw-600 fs-3">
+                <span>{{ challenge.creator.name }}</span>
               </div>
             </div>
-  
-            <p>Participants: {{ participants.length }}</p>
+            <span class="ps-3 subheader">Challenge Creator</span>
+          <div class="col-12 d-flex justify-content-between align-items-center mt-3 m-auto">
+            <button class="btn bg-dark btn-success text-success ms-3"><small>Give Respect</small></button>
+            <button v-if="isModeratorStatus == 'null'" class="btn btn-outline-primary me-3" @click="createModeration()">
+              Request to become moderator
+            </button>
+            <button v-if="isModeratorStatus == 'pending'" class="btn btn-outline-primary">Request pending</button>
+            <button v-if="isModeratorStatus == 'approved'" class="btn btn-outline-primary">You are a Moderator</button>
+            <!-- Move this button and its functionality into the edit challenges -->
+            <!-- <div v-else> 
+              <ModSearchForm />
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </section>
 
-            <div v-for="(link, i) in challenge.supportLinks" :key="i" class="footer">
-              <p class="col-8 ps-3" style="font-size: .65rem;">
-                <a :href="link.url" :title="`Project Links: ${challenge.supportLinks}`" class="fw-bold hover-text-primary">
-                  {{ link.name }}
-                </a>
-              </p>
-            </div>
-          </div> -->
-      <div v-if="isParticipant" class="col-6 d-flex justify-content-center align-items-end">
-        <a ref="submission" id="challengeSubmissionButton" type="button" role="button"
-          data-bs-target="#createSubmissionForm" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal"
-          class="mdi mdi-chevron-triple-right border-none fs-2 hover-orange shadow-none" title="Create a new challenge">
+    <section class="col-12 bg-img">
+      <div v-if="isParticipant" class="d-flex justify-content-center align-items-end">
+        <a
+          ref="submission"
+          id="challengeSubmissionButton"
+          type="button"
+          role="button"
+          data-bs-target="#createSubmissionForm"
+          data-bs-toggle="modal"
+          aria-label="Go to Active Challenge Modal"
+          class="mdi mdi-chevron-triple-right border-none fs-2 hover-orange shadow-none"
+          title="Create a new challenge"
+        >
           Submit Your Challenge For Grading?
         </a>
       </div>
-      <!-- </div> -->
-
-      <div class="col-12 d-flex justify-content-center align-items-center mt-3">
-        <!-- Temporary collapse to make challenge page more legible -->
-        <p class="d-inline-flex gap-1">
-          <button class="btn btn-outline-warning fs-4" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            Close
-          </button>
-        </p>
-      </div>
-    </div>
-
+      <!-- Particiapnt data -->
+      <section v-if="isParticipant" class="row text-light p-3 mb-3">
+        <!-- v-if is here because participants can be created with out being assigned a status -->
+        <div class="col-4" v-if="isParticipant.status">Status: <span class="">{{ isParticipant.status
+        }}</span>
+        </div>
+        <div class="col-4" v-else>
+          Participant is missing status
+        </div>
+        <div class="col-4">Progress: <span class="">-1/10 // 50% Etc</span> </div>
+      </section>
+    </section>
 
     <!-- Interactions with Challenge -->
-    <section v-if="!isOwned" class="row bg-dark text-light p-3 mt-1">
-      <div class="col-8 d-flex justify-content-between">
-        <button data-bs-toggle="modal" data-bs-target="#submitAnswerModal" class="btn btn-outline-success"
-          v-if="isParticipant">
-          Submit For Review
-        </button>
-        <button v-if="isModeratorStatus == 'null'" class="btn btn-outline-primary" @click="createModeration()">
-          Request to become a moderator
-        </button>
-        <button v-if="isModeratorStatus == 'pending'" class="btn btn-outline-primary">Request pending</button>
-        <button v-if="isModeratorStatus == 'approved'" class="btn btn-outline-primary">You are a Moderator</button>
-        <!-- Move this button and its functionality into the edit challenges -->
-        <!-- <div v-else> 
-          <ModSearchForm />
+
+    <section class="card bg-dark p-3 m-1 ms-0">
+      <div class="col-12 d-flex justify-content-center align-items-center">
+        <h3 class="text-center text-uppercase">Challenge Requirements</h3>
+      </div>
+        <ol class="col-12 justify-content-center align-items-center">
+          <li v-for="(requirement, index) in challenge.requirements" :key="index" class="py-2">
+            <span>{{ requirement.step }}</span>
+          </li>
+        </ol>
+        <!-- STUB - This iteration over `requirement.comment` is not needed here as participants do not need to see comments on steps before their challenge has been graded. But we can stub out and use this once we are creating the form that grades the participant. - AJ 11/18 -->
+        <!-- <div class="col-12 d-flex form-group mt-1">
+          <label for="comment">Comment</label>
+          <textarea type="text" name="comment" id="comment" class="form-control input-box mt-1" placeholder="Leave some insight..." rows="1" v-model="requirement.comment" />
         </div> -->
-      </div>
-      <div class="col-4">
-        <button class="btn btn-outline-primary" @click="joinChallenge()" v-if="!isParticipant">
-          Join Challenge
-        </button>
-
-        <button class="btn btn-outline-danger" @click="leaveChallenge()" v-if="isParticipant">
-          Leave Challenge
-        </button>
-      </div>
     </section>
 
-    <!-- Particiapnt data -->
-    <section v-if="isParticipant" class="row bg-dark text-light p-3 mb-1">
-      <!-- v-if is here because participants can be created with out being assigned a status -->
-      <div class="col-4" v-if="isParticipant.status">Status: <span class="">{{ isParticipant.status
-      }}</span>
-      </div>
-      <div class="col-4" v-else>
-        Participant is missing status
-      </div>
-      <div class="col-4">Progress: <span class="">-1/10 // 50% Etc</span> </div>
-      <div class="col-4">Started: <span class="">{{ isParticipant.createdAt }}</span></div>
-    </section>
     <section class="row justify-content-center">
-      <div class="col-md-8 bg-dark text-light p-3 mb-3">
-        <h4>{{ challenge.name }}</h4>
-      </div>
-      <div class="col-md-8 bg-dark text-light p-3 mb-3">
-        <p>Created {{ date }}</p>
-      </div>
-      <div class="col-md-8 bg-dark text-light p-3 mb-3">
-        <p>{{ challenge.pointValue }} Points</p>
-      </div>
-      <div class="col-md-8 bg-dark text-light p-3 mb-3">
-        <p>{{ moderators.length }} Moderators</p>
-        <p>{{ participants.length }} Participants</p>
-      </div>
-      <div class="col-md-8 bg-dark text-light p-3 mb-3">
-        <p v-html="difficulty.html"></p>
-      </div>
-      <!-- <div class="col-md-8 bg-dark text-light p-3 mb-3">
-      </div> -->
-      <div class="col-md-8  bg-dark text-light p-3 mb-3">
-        <p>Created by {{ challenge.creator.name }} <img :src="challenge.creator.picture" alt="" class="img-fluid h-25">
-        </p>
-      </div>
-      <div class="col-md-8 bg-dark text-light p-3 mb-3">
-        <i>Description:</i>
-        <p>
-          {{ challenge.description }}
-        </p>
-      </div>
-      <div v-if="challenge.supportLinks.length > 0" class="col-md-8 bg-dark text-light p-3 mb-3">
-        <div v-for="(link, index) in challenge.supportLinks" :key="link">
-          <i class="text-light">
-            Support Link {{ index + 1 }}:
-          </i>
-          <p>
-            <a :href="link.url" :title="`Project Links: ${challenge.supportLinks}`" class="fw-bold hover-text-primary">
-              {{ link.name }}
-            </a>
-          </p>
-        </div>
-      </div>
-      <div v-for="(step, index) in challenge.steps" :key="step" class="col-md-8 bg-dark text-light p-3 mb-3">
-        <i class="text-light">
-          Step {{ index + 1 }}:
-        </i>
-        <p>
-          {{ step }}
-        </p>
-      </div>
       <div v-for="(answer, index) in challenge.answers" :key="answer" class="col-md-8 bg-dark text-light p-3 mb-3">
         <i class="text-light">
           Answer {{ index + 1 }}:
@@ -246,6 +225,36 @@
         </div>
       </div>
     </section>
+
+
+
+      <!-- <div class="col-md-8 bg-dark text-light p-3 mb-3">
+          <p>{{ challenge.moderators }} Moderators</p>
+          <p>{{ participants.length }} Participants</p>
+      </div>
+      <div class="col-md-8 bg-dark text-light p-3 mb-3">
+        <p v-html="difficulty.html"></p>
+      </div>  
+      <div class="col-md-8 bg-dark text-light p-3 mb-3">
+      </div> -->
+      <!-- <div>
+        <h2>Challenge Support Links</h2>
+        <ul>
+          <li v-for="(link, i) in challenge.supportLinks" :key="i">
+            <strong>Challenge Link Name:</strong> {{ link.name }}<br>
+            <strong>Challenge Link URL:</strong> <a :href="link.url" target="_blank">{{ link.url }}</a>
+          </li>
+        </ul>
+      </div> -->
+      <!-- FIXME - This wasn't being iterated over properly, but it has been fixed. Inspect around line 200 to see the changes. AJ -11/18 -->
+      <!-- <div v-for="(step, index) in challenge.steps" :key="step" class="col-md-8 bg-dark text-light p-3 mb-3">
+        <i class="text-light">
+          Step {{ index + 1 }}:
+        </i>
+        <p>
+          {{ step }}
+        </p>
+      </div> -->
     <!-- Description and Steps -->
     <!-- <section class="row">
       <div class="col-md-8 bg-dark text-light p-3 mb-3">
@@ -329,6 +338,20 @@ export default {
       } else return 'null'
     })
 
+    // const statusOptions = computed(() => {
+    //   const statusOptions = []
+    //   AppState.challenges.forEach(c => {
+    //     if (!statusOptions.find(s =>
+    //      s.value === c.status)) {
+    //       statusOptions.push({ name: 
+    //                         c.status,
+    //                        value: 
+    //                         c.status })
+    //     }
+    //   })
+    //   return statusOptions
+    // })
+
     async function setActiveChallenge() {
       try {
         const challengeId = route.params.challengeId
@@ -339,7 +362,7 @@ export default {
       }
     }
 
-    async function updateParticipant() {
+    async function updateChallengeParticipant() {
       try {
         const confirmComplete = await Pop.confirm('Are you sure you want to complete this challenge?')
 
@@ -353,7 +376,7 @@ export default {
           status: 'submitted'
         }
 
-        await participantsService.updateParticipant(participantId, newParticipant)
+        await participantsService.updateChallengeParticipant(participantId, newParticipant)
 
         Pop.success(`Great job ${AppState.account.name}! Your challenge submission for ${AppState.activeChallenge?.name} has been received. Once your submission has been reviewed, you will be notified of any rewards you have earned! 🏆💹🎉`)
       } catch (error) {
@@ -378,11 +401,11 @@ export default {
         Pop.toast(error, 'error')
       }
     }
-    async function answerChallenge() {
-      try {
+    async function answerChallenge(){
+      try{
         await challengesService.submitAnswer(AppState.activeChallenge.id, answer.value)
         logger.log("Answer ", answer.value)
-      } catch (error) {
+      } catch(error){
         Pop.error(error.message)
       }
     }
@@ -421,7 +444,7 @@ export default {
     })
 
     return {
-      updateParticipant,
+      updateChallengeParticipant,
       answer,
       loading,
       isParticipant,
@@ -454,7 +477,7 @@ export default {
       editChallenge() {
         logger.log("Pushing to", AppState.activeChallenge.id)
         router.push({
-          path: `${AppState.activeChallenge.id}/edit/details`
+          path: `${AppState.activeChallenge.id}/edit`
         })
       },
 
@@ -469,6 +492,13 @@ export default {
           const newParticipant = {
             challengeId: route.params.challengeId,
             accountId: AppState.user.id,
+            status: 'started',
+            supportLinks: [
+              {
+                name: '',
+                url: ''
+              }
+            ],
           }
 
           await participantsService.joinChallenge(newParticipant)
@@ -489,6 +519,7 @@ export default {
           }
 
           let participant = AppState.participants.find(p => p.accountId == AppState.account.id)
+          participant.status = 'left'
           await participantsService.leaveChallenge(participant.id)
 
           Pop.success('left challenge!')
@@ -528,6 +559,37 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+.container-fluid {
+  min-height: 100vh;
+  min-width: 100%;
+  background-color: #000000bf;
+}
+
+.flash-card {
+  height: 25vh;
+  object-fit: cover;
+  object-position: center;
+  border-radius: .5rem;
+  padding: 1rem;
+  margin: 1rem;
+  box-shadow: 0 0 10px #00000080;
+}
+.time-card {
+  height: 23vh;
+  border-radius: .5rem;
+}
+.creator-card {
+  height: 23vh;
+  border-radius: .5rem;
+  img {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: .5rem;
+  }
+}
 .bg-img {
   background-size: cover;
   background-repeat: no-repeat;
