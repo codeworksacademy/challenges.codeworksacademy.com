@@ -105,9 +105,9 @@ class AccountService {
 
     const totalMilestoneExperience = await accountMilestonesService.getTotalMilestoneExperience(user)
 
-    let totalExperience = update.experience += totalMilestoneExperience
+    let totalExperience = update.experience + totalMilestoneExperience
 
-    update.rank = totalExperience += update.reputation
+    update.rank = totalExperience + update.reputation
 
     const account = await dbContext.Account.findOneAndUpdate(
       { _id: user.id },

@@ -8,20 +8,7 @@ import { profileService } from "./ProfileService.js";
 
 
 class AccountMilestonesService {
-  async getTotalMilestoneExperience(user) {
-    let experience = 0
-    const accountMilestones = await this.getAccountMilestones(user.id)
-    accountMilestones.forEach(am => {
-      let experienceBasedOnTier = 0
-      let tier = am.tier
-      while (tier != 0) {
-        experienceBasedOnTier += tier * 5
-        tier--
-      }
-      experience += experienceBasedOnTier
-    });
-    return experience
-  }
+
   async checkMilestonesByAccountId(userId, checks) {
     const pulledChecks = await this.pullMilestoneChecks(checks)
     const checkPromises = pulledChecks.map(async pc => {
@@ -122,6 +109,21 @@ class AccountMilestonesService {
       await foundAccountMilestone.save()
     }
     return foundAccountMilestone
+  }
+
+  async getTotalMilestoneExperience(user) {
+    let experience = 0
+    const accountMilestones = await this.getAccountMilestones(user.id)
+    accountMilestones.forEach(am => {
+      let experienceBasedOnTier = 0
+      let tier = am.tier
+      while (tier != 0) {
+        experienceBasedOnTier += tier * 5
+        tier--
+      }
+      experience += experienceBasedOnTier
+    });
+    return experience
   }
 }
 
