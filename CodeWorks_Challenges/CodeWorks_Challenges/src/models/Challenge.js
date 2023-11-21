@@ -81,7 +81,7 @@ export const ChallengeSchema = new Schema({
   //   }
   // ]
   reputationIds: [
-    {userId: {type: String, required: true}}
+    {type: String, required: true}
   ]
 },
   {
