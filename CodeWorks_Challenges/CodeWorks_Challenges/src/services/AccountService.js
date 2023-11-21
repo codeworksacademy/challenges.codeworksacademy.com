@@ -1,4 +1,5 @@
 import { dbContext } from '../db/DbContext'
+import { challengesService } from './ChallengesService.js'
 
 // Private Methods
 
@@ -65,6 +66,24 @@ class AccountService {
     return account
   }
 
+  async calculateMyReputation(userInfo) {
+    const challenges = await challengesService.getChallengesCreatedBy(userInfo.id)
+
+    const account = await this.getAccount(userInfo)
+
+    let reputationScore = 0
+
+    challenges.forEach(c => reputationScore += c.reputationIds.length)
+
+    if(account.reputation != reputationScore){
+      await this.updateReputation(userInfo, reputationScore)
+    }
+
+    let repScoreString = reputationScore.toString()
+
+    return repScoreString
+  }
+
   /**
    * Updates account with the request body, will only allow changes to editable fields
    *  @param {any} user Auth0 user object
@@ -78,6 +97,14 @@ class AccountService {
       { runValidators: true, setDefaultsOnInsert: true, new: true }
     )
     return account
+  }
+
+  async updateReputation(user, body){
+    const account = await this.getAccount(user)
+
+    account.reputation = body || account.reputation
+
+    await account.save()
   }
 }
 export const accountService = new AccountService()

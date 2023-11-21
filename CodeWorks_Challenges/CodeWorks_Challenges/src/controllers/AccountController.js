@@ -11,8 +11,9 @@ export class AccountController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getUserAccount)
       .get('/challenges', this.getMyChallenges)
-      .put('', this.updateAccount)
       .get('/participations', this.getMyParticipations)
+      .get('/reputation', this.calculateMyReputation)
+      .put('', this.updateAccount)
   }
 
   async getUserAccount(req, res, next) {
@@ -51,6 +52,16 @@ export class AccountController extends BaseController {
       const answers = await participantsService.getMyParticipations(accountId)
 
       res.send(answers)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async calculateMyReputation(req, res, next) {
+    try {
+      const reputationScore = await accountService.calculateMyReputation(req.userInfo)
+
+      res.send(reputationScore)
     } catch (error) {
       next(error)
     }
