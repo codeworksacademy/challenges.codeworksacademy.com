@@ -82,7 +82,7 @@ class AccountService {
   }
   async increaseAccountExperienceByChallengeDifficulty(user, challengeDifficulty) {
     if (challengeDifficulty != Number && (challengeDifficulty < 0 || challengeDifficulty > 1000)) {
-      new Error('You must supply a number, with value between 1-1000')
+      new Error('You must supply a number, with value between 1-999')
     }
 
     const update = await this.getAccount(user)
