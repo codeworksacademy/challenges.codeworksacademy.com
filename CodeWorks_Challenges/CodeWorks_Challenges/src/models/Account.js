@@ -11,6 +11,7 @@ export const AccountSchema = new Schema(
     coverImg: { type: String },
     aboutContent: { type: String },
     experience: { type: Number, default: 0 },
+    totalExperience: { type: Number, default: 0 },
     reputation: { type: Number, default: 0 },
     rank: { type: Number, default: 0 },
     title: { type: String, default: 'n00b' },

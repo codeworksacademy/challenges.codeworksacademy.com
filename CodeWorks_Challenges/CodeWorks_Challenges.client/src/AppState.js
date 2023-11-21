@@ -51,6 +51,16 @@ export const AppState = reactive({
   ],
   milestoneChecks: [
     "createdChallenge", "joinedChallenge", "completedChallenge", "moderateChallenge"
-  ]
+  ],
+  rankTitles: {
+    0: "n00b",
+    10: "geek",
+    50: "debugger",
+    100: "code monkey",
+    150: "jarvis",
+    300: "guru",
+    500: "ninja",
+    1000: "wizard"
+  }
 
 })
