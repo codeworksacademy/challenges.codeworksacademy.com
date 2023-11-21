@@ -142,7 +142,7 @@
 
     <!-- Interactions with Challenge -->
     <section v-if="!isOwned" class="row bg-dark text-light p-3 mt-1">
-      <div class="col-8 d-flex justify-content-between">
+      <div class="col-4 d-flex justify-content-between">
         <button data-bs-toggle="modal" data-bs-target="#submitAnswerModal" class="btn btn-outline-success"
           v-if="isParticipant">
           Submit For Review
@@ -164,6 +164,14 @@
 
         <button class="btn btn-outline-danger" @click="leaveChallenge()" v-if="isParticipant">
           Leave Challenge
+        </button>
+      </div>
+      <div class="col-4">
+        <button class="btn btn-outline-primary" @click="giveReputation()" v-if="!gaveReputation" title="give reputation to this creator?">
+          Give Reputation
+        </button>
+        <button class="btn btn-outline-primary" disabled v-else>
+          Give Reputation
         </button>
       </div>
     </section>
@@ -329,6 +337,16 @@ export default {
       } else return 'null'
     })
 
+    const gaveReputation = computed(() => {
+      const challenge = AppState.activeChallenge
+
+      if(challenge.reputationIds.find(r => r == AppState.account.id)){
+        return true
+      }
+
+      return false
+    })
+
     async function setActiveChallenge() {
       try {
         const challengeId = route.params.challengeId
@@ -387,34 +405,11 @@ export default {
       }
     }
 
-    // This is now handled in the backend... Need to look at separating the challenge management page from the challenge participation page
-    // FIXME - JAKE - WIP (Intention is to prevent function from firing if a user is not a moderator or creator of challenge. Still fires on other pages.)
-    async function getAnswersByChallengeId() {
-      // try {
-      //   const moderatorStatus = computed(() => AppState.moderators.find(m => m.accountId == AppState.account.id))
-
-      //   const account = computed(() => AppState.account)
-
-      //   const activeChallenge = computed(() => AppState.activeChallenge)
-
-      //   if (moderatorStatus.value != 'approved' && activeChallenge.value.creatorId != account.value.id) {
-      //     return
-      //   } else {
-      //     await answersService.getAnswersByChallengeId(route.params.challengeId)
-      //   }
-      // } catch (error) {
-      //   logger.error(error)
-      //   Pop.error(error.message)
-      // }
-      logger.log("Line 261 getAnswersByChallengeId has been commented out")
-    }
-
     watchEffect(() => {
       if (route.params.challengeId != challengeId) {
         challengeId = route.params.challengeId
         getParticipantsByChallengeId()
         getModeratorsByChallengeId()
-        getAnswersByChallengeId()
         setActiveChallenge()
         logger.log(getParticipantsByChallengeId())
       }
@@ -427,6 +422,7 @@ export default {
       isParticipant,
       participantStatus,
       answerChallenge,
+      gaveReputation,
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.activeChallenge),
       date: computed(() => DateTime(AppState.activeChallenge.createdAt)),
@@ -511,6 +507,7 @@ export default {
           Pop.toast(error, 'error')
         }
       },
+
       async removeModeration(moderationId) {
         try {
           const confirmRemove = await Pop.confirm('Delete Moderation?')
@@ -522,6 +519,14 @@ export default {
           Pop.toast(error, 'error')
         }
       },
+
+      async giveReputation(){
+        try {
+          await challengesService.giveReputation(route.params.challengeId)
+        } catch (error) {
+          Pop.error(error.message)
+        }
+      }
     }
   }
 }
