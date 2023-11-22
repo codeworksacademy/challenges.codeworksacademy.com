@@ -2,6 +2,8 @@ import { AppState } from "../AppState.js"
 import { logger } from "../utils/Logger.js"
 import { api } from './AxiosService'
 import { Challenge } from "../models/Challenge.js"
+import { participantsService } from "./ParticipantsService.js"
+import { challengeModeratorsService } from "./ChallengeModeratorsService.js"
 import Pop from "../utils/Pop.js"
 
 class ChallengesService {
@@ -43,6 +45,8 @@ class ChallengesService {
   async setActiveChallenge(challengeId) {
     const res = await api.get(`/api/challenges/${challengeId}`)
     AppState.activeChallenge = res.data
+    participantsService.getParticipantsByChallengeId(challengeId)
+    challengeModeratorsService.getModeratorsByChallengeId(challengeId)
     logger.log('Active Challenge:', AppState.activeChallenge)
   }
 

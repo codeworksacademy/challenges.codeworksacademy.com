@@ -82,6 +82,11 @@ const routes = [
     path: '/markdown',
     name: 'Markdown',
     component: loadPage('MarkdownPage')
+  },
+  {
+    path :'/refactor/:challengeId',
+    name: 'Refactor',
+    component: loadPage('ChallengeDetailsPageRefactor')
   }
   // {
   //   path: '/dev',

@@ -20,7 +20,7 @@ class ChallengeModeratorsService {
   async getModeratorsByChallengeId(challengeId) {
     const res = await api.get(`api/challenges/${challengeId}/moderators`)
     AppState.moderators = res.data.map(m => new ChallengeModerator(m))
-    // logger.log('[Moderators in this challenge]:', AppState.moderators)
+    logger.log('[Moderators in this challenge]:', AppState.moderators)
   }
 
   async getModerationsByChallengeCreatorId(userId) {

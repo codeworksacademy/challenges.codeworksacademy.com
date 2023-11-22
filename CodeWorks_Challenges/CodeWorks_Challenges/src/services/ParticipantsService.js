@@ -17,7 +17,7 @@ class ParticipantsService {
 		const challenge = await challengesService.getChallengeById(newParticipant.challengeId)
 
 		if (challenge.status != 'published') {
-			throw new BadRequest(`[CHALLENGE_STATE::${challenge.status}] This challenge cannot be joined at this time.`)
+			throw new BadRequest(`[CHALLENGE_STATUS::${challenge.status}] This challenge cannot be joined at this time.`)
 		}
 
 		const participant = await dbContext.ChallengeParticipants.create(newParticipant)
