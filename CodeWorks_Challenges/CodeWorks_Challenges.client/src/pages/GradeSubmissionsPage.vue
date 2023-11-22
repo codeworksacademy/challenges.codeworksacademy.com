@@ -116,8 +116,9 @@
   <div v-for="status in participantFilter.status" :key="status.id" class="col-12 d-flex justify-content-center align-items-center">
     <ParticipantCard :participant="status" />
   </div>
-  <div v-for="p in participants" :key="p.id" class="col-12 d-flex justify-content-center align-items-center pb-5 mb-5">
-    <GradeSubmissionForm :participants="p" />
+  <div v-for="p in participants" :key="p.name" class="col-12 d-flex justify-content-center align-items-center pb-5 mb-5">
+    <h1>{{p.profile.name}}</h1>
+    <GradeSubmissionForm :participant="p" />
   </div>
   </section>
 </template>

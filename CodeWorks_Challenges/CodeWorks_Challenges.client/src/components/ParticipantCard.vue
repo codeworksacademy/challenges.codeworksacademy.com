@@ -20,12 +20,12 @@ import { computed } from "vue";
 import { AppState } from "../AppState.js";
 
 export default {
-  // props: {
-  //   participant: {
-  //     type: ChallengeParticipant || Object,
-  //     required: true
-  //   }
-  // },
+  props: {
+    participant: {
+      type: ChallengeParticipant || Object,
+      required: true
+    }
+  },
   setup() {
 
 

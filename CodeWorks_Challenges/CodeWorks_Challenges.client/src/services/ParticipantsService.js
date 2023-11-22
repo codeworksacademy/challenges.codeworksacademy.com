@@ -33,7 +33,7 @@ class ParticipantsService {
 
   async getParticipantsByChallengeId(challengeId) {
     const res = await api.get(`api/challenges/${challengeId}/participants`)
-    AppState.participants = res.data
+    AppState.participants = res.data.map(p => new ChallengeParticipant(p))
     logger.log('[Participants in this challenge]:', AppState.participants)
   }
 

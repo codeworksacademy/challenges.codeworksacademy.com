@@ -152,11 +152,11 @@ export default {
       try {
         // const stepsLength = AppState.activeChallenge.steps;
         // const description = AppState.activeChallenge.description;
-        if(AppState.activeChallenge.steps == 0){
-          // console.log("Challenge is invalid");
-          Pop.error("Challenge needs at least 1 step.")
-          return;
-        }
+        // if(AppState.activeChallenge.steps == 0){
+        //   // console.log("Challenge is invalid");
+        //   Pop.error("Challenge needs at least 1 step.")
+        //   return;
+        // }
         if(AppState.activeChallenge.description == 0){
           Pop.error("You cannot have an empty description")
           return;

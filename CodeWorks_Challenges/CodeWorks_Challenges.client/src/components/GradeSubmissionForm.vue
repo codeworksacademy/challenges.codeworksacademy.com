@@ -1,5 +1,7 @@
 <template>
-  <section v-if="challengeParticipant" :key="challengeParticipant?.id" class="container-fluid">
+
+  {{ participant.submission  }} 
+  <section v-if="participant" :key="participant?.id" class="container-fluid">
     <div class="row justify-content-center align-items-center">
       <div class="col-12 text-center">
         <h1>Grade Challenge</h1>
@@ -86,6 +88,7 @@
         </div>
       </form>
     </div>
+
   </section>
 </template>
 
@@ -103,7 +106,7 @@ import Pop from "../utils/Pop"
 export default {
   props: {
     participant: {
-      type: ChallengeParticipant || Object,
+      type: ChallengeParticipant,
       required: true
     }
   },
