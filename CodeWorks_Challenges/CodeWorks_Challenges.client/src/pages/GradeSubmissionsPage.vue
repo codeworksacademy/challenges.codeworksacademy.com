@@ -89,7 +89,7 @@
 
 
 
-  <div v-if="challengeCreator" class="col-9 d-flex justify-content-center align-items-center position-fixed bottom-2 hover-magenta">
+  <div v-if="challengeCreator" class="col-9 d-flex justify-content-center align-items-center position-fixed bottom-2">
     <!-- STUB - OFFCANVAS BUTTON - Array of Submitted Challenge Participants -->
     <a
       role="button"
@@ -102,24 +102,40 @@
     </a>
   </div>
 
-  <GradeSubmissionForm />
-    
+  <div class="col-12 d-flex justiify-content-center align-items-center">
+    <select v-model="filterBy" name="status" id="status" class="col-3 text-center fs-5" style="">
+      <option @click="filterBy = ''" class="" :selected="true" :value="''">All</option>
+      <option @click="filterBy = 'returned_for_review'" class="">Return for Review</option>
+      <option @click="filterBy = 'left'" class="">No Longer Participating</option>
+      <option @click="filterBy = 'completed'" class="">Complete</option>
+      <option @click="filterBy = 'submitted'" class="">Submit</option>
+      <option @click="filterBy = 'removed'" class="">Remove</option>
+      <option @click="filterBy = 'graded'" class="">Grade</option>
+    </select>
+  </div>
+  <div v-for="status in participantFilter.status" :key="status.id" class="col-12 d-flex justify-content-center align-items-center">
+    <ParticipantCard :participant="status" />
+  </div>
+  <div v-for="p in participants" :key="p.id" class="col-12 d-flex justify-content-center align-items-center pb-5 mb-5">
+    <GradeSubmissionForm :participants="p" />
+  </div>
   </section>
 </template>
   
 <script>
 import GradeSubmissionForm from "../components/GradeSubmissionForm.vue"
 import ParticipantCard from "../components/ParticipantCard.vue"
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watchEffect } from 'vue'
 import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"  
 // import SubmissionCard from '../components/SubmissionCard.vue'
 import { challengesService } from '../services/ChallengesService'
 import { useRoute } from 'vue-router'
-import { GRADE_FIELDS } from '../constants/index.js'
 import { participantsService } from '../services/ParticipantsService'
 import { StrDifficultyNum } from "../utils/StrDifficultyNum.js"
+import { newChallengeParticipant } from "../utils/NewChallengeParticipant.js"
+import { ChallengeParticipant } from "../models/ChallengeParticipant.js"
 
 export default {
   components: {
@@ -130,15 +146,10 @@ export default {
   setup() {
     let route = useRoute()
 
-    const challengeRequirements = ref({
-      requirements: [
-        {
-          step: '',
-          completed: false,
-          comment: ''
-        }
-      ]
-    })
+    const filterBy = ref('')
+    const editable = computed(() => 
+      newChallengeParticipant({ state: AppState }, filterBy.value)
+    )
 
     async function setActiveChallenge() {
       try {
@@ -194,14 +205,28 @@ export default {
       getParticipantsByChallengeId()
     })
 
-    return {
+    watchEffect(() => {
+      editable.value.status = participant.value?.status
+    })
 
+    return {
+      filterBy,
+      editable,
       // challenge,
-      challenge: computed(() => AppState.activeChallenge),
-      challengeRequirements,
-      participant,
 
       user: computed(() => AppState.user),
+      challenge: computed(() => AppState.activeChallenge),
+      // challengeRequirements,
+      myModerations: computed(() => AppState.moderators.filter(m => m.accountId === AppState.account.id)),
+      participant,
+      participants: computed(() => AppState.participants),
+      participantFilter: computed(() => {
+        if (!filterBy.value) {
+          return AppState.participants
+        } else {
+          return AppState.participants.filter(p => p.status === filterBy.value)
+        }
+      }),
       // challenge: computed(() => AppState.activeChallenge),
       challengeCreator: computed(() => AppState.user.id === AppState.activeChallenge?.creatorId),
       isModeratorStatus,

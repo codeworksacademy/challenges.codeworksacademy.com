@@ -11,7 +11,7 @@ export class ChallengeParticipant {
     this.profile = data.profile ? new Profile(data.profile) : {}
     this.createdAt = data.createdAt
     this.updatedAt = data.updatedAt
-    this.requirements = data.requirements
+    this.requirements = data.requirements || []
     this.challenge = data.challenge ? new Challenge(data.challenge) : {}
   }
 }

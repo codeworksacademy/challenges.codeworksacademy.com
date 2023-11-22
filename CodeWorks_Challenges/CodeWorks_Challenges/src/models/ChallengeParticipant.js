@@ -16,6 +16,7 @@ export const ChallengeParticipantSchema = new Schema({
   },
   submission: { type: String, maxLength: 700, default: '' },
   status: { type: String, enum: SUBMISSION_TYPES, required: true, default: 'incomplete', lowercase: true },
+  
   claimedAt: { type: Date }
 
 },
@@ -37,7 +38,8 @@ ChallengeParticipantSchema.virtual('challenge', {
 })
 
 ChallengeParticipantSchema.virtual('requirements', {
-  localField: 'requirements',
-  foreignField: 'requirements',
-  ref: 'Challenge'
+  localField: 'challengeId',
+  foreignField: '_id',
+  ref: 'Challenge',
+  justOne: false,
 })
