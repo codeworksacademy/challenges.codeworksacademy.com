@@ -10,7 +10,7 @@
         <div class="col-12 form-group px-5 mb-5">
           <label for="submission" class="form-label">Submission</label>
           <input
-            v-model="editable.submission"
+            v-model="participant.submission"
             type="url"
             name="submission"
             id="submission"
@@ -56,7 +56,7 @@
         </div>
         <div class="my-4">
           <div class="col-12 d-flex justify-content-center align-items-center mb-3">
-            <div  v-for="s in editable.status" :key="s.value">
+            <div  v-for="s in statusOptions" :key="s.value">
               <div class="d-flex flex-column radio-status-button">
                 <input type="radio" :value="s.value" name="status" id="status" class="text-center fs-5">
                 <label for="status">{{ s.text }}</label>
