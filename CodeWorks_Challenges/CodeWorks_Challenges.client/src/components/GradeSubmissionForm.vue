@@ -1,5 +1,5 @@
 <template>
-  <section class="container-fluid">
+  <section v-if="challengeParticipant" :key="challengeParticipant?.id" class="container-fluid">
     <div class="row justify-content-center align-items-center">
       <div class="col-12 text-center">
         <h1>Grade Challenge</h1>
@@ -27,6 +27,17 @@
             class="form-control bg-light"
           >
         </div>
+        <div v-for="(requirement, index) in editable.challenge.requirements" :key="index">
+          <div class="form-check ps-5">
+            <input type="checkbox" class="form-check-input" v-model="requirement.completed" :id="`field-${requirement.step}`">
+            <label class="form-check-label" :for="`field-${requirement.step}`">{{ requirement.step }}</label>
+          </div>
+          <div class="col-12 d-flex align-items-center form-group mt-1 m-auto no-wrap mt-3">
+            <label class=" pe-3" for="comment">Comment:</label>
+            <input type="text" name="comment" id="comment" class="form-control mt-1" placeholder="Leave insight for this step..." rows="1" v-model="requirement.comment" />
+          </div>
+          <hr class="mb-4" style="color: white; opacity: .4;" />
+        </div>
         <div class="col-12 form-group px-5 mb-5">
           <label for="feedback" class="form-label">Feedback</label>
           <input
@@ -41,14 +52,35 @@
         <div class="col-12 text-center my-3">
           <h4>Set status for this Participant</h4>
         </div>
-        <div class="d-flex justify-content-around align-items-center">
-          <div class="" v-for="s in editable.status" :key="s.value">
-            <div class="col-6 col-md-12 d-flex flex-column radio-status-button mb-5">
-              <input type="radio" :value="s.value" v-model="editable.status" name="status" id="status" class="text-center fs-5">
-              <label class="" for="status">{{ s.text }}</label>
+        <div class="my-4">
+          <div class="col-12 d-flex justify-content-center align-items-center mb-3">
+            <div  v-for="s in editable.status" :key="s.value">
+              <div class="d-flex flex-column radio-status-button">
+                <input type="radio" :value="s.value" name="status" id="status" class="text-center fs-5">
+                <label for="status">{{ s.text }}</label>
+              </div>
             </div>
           </div>
         </div>
+        <!-- <div class="col-12 form-group px-5 mb-5">
+          <label for="status" class="form-label">Status</label>
+          <select
+            v-model="editable.status"
+            type="text"
+            name="status"
+            id="status"
+            placeholder="Status"
+            class="form-control bg-light"
+          >
+            <option value="incomplete">Incomplete</option>
+            <option value="submitted">Submitted</option>
+            <option value="returned_for_review">Returned for Review</option>
+            <option value="completed">Completed</option>
+            <option value="graded">Graded</option>
+            <option value="removed">Removed</option>
+            <option value="left">Left</option>
+          </select>
+        </div> -->
         <div class="col-12">
           <button type="submit" class="btn btn-success">Submit</button>
         </div>
@@ -63,73 +95,63 @@ import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
 import { GRADE_FIELDS } from '../constants/index.js'
 import { participantsService } from '../services/ParticipantsService'
+import { challengesService } from '../services/ChallengesService'
+import { ChallengeParticipant } from '../models/ChallengeParticipant'
 import { useRoute } from "vue-router"
 import Pop from "../utils/Pop"
 
 export default {
-  setup() {
-
-    // const challenge: ComputedRef<{
-    // id: any;
-    // creatorId: any;
-    // creator: any;
-    // name: any;
-    // category: any;
-    // description: any;
-    // requirements: any;
-    // coverImg: any;
-    // createdAt: string;
-    // updatedAt: string;
-    // supportLinks: any;
-    // difficulty: number
-
-    // <option value="incomplete">Incomplete</option>
-    //         <option value="submitted">Submitted</option>
-    //         <option value="returned_for_review">Returned for Review</option>
-    //         <option value="completed">Completed</option>
-    //         <option value="graded">Graded</option>
-    //         <option value="removed">Removed</option>
-    //         <option value="left">Left</option>
+  props: {
+    participant: {
+      type: ChallengeParticipant || Object,
+      required: true
+    }
+  },
+  setup(props) {
 
     const route = useRoute()
+    const filterBy = ref('')
 
     const editable = ref({
-      status: [
-          {
-            text: 'Incomplete',
-            value: 'incomplete'
-          },
-          {
-            text: 'Submitted',
-            value: 'submitted'
-          },
-          {
-            text: 'Returned for Review',
-            value: 'returned_for_review'
-          },
-          {
-            text: 'Completed',
-            value: 'completed'
-          },
-          {
-            text: 'Removed',
-            value: 'removed'
-          },
-          {
-            text: 'Left',
-            value: 'left'
-          }
-        ],
+      submission: '',
+      feedback: '',
+      grade: 0,
+      challenge: {
+        requirements: []
+      }
     })
+    const statusOptions = ref([
+      { text: 'Incomplete', value: 'incomplete' },
+      { text: 'Submitted', value: 'submitted' },
+      { text: 'Returned for Review', value: 'returned_for_review' },
+      { text: 'Completed', value: 'completed' },
+      { text: 'Graded', value: 'graded' },
+      { text: 'Removed', value: 'removed' },
+      { text: 'Left', value: 'left' },
+    ])
 
+    const participant = computed(() => {
+      return AppState.participants.find(p => p.id === props.participant?.id)
+    })
     // Initialize editable with the correct structure
     onMounted(() => {
+      setActiveChallenge()
       getParticipantsByChallengeId()
     })
 
     watchEffect(() => {
-      
+      editable.value.status = participant.value?.status
     })
+
+    async function setActiveChallenge() {
+      try {
+        await challengesService.setActiveChallenge(route.params.challengeId)
+        logger.log(route.params.challengeId)
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error, 'error')
+      }
+    }
 
     async function getParticipantsByChallengeId() {
       try {
@@ -141,21 +163,16 @@ export default {
       }
     }
 
-    const challenge = computed(() => {
-      return AppState.challenges.find(c => c.id === AppState.activeChallenge.id)
-    })
-    const participant = computed(() => {
-      return AppState.participants.find(p => p.id === AppState.activeParticipant.id)
-    })
+    // const participant = computed(() => {
+    //   return AppState.participants.find(p => p.challengeId === AppState.activeParticipant?.id)
+    // })
 
     async function submitGrade() {
       try {
-        const participantId = participant.value.id
-        const newSubmission = {
-          ...challenge.value,
-          requirements: editable.value
-        }
+        const participantId = editable.value.id
+        const newSubmission = { ...editable.value }
         await participantsService.updateChallengeParticipant(newSubmission, participantId)
+        editable.value = {}
       } catch (error) {
         logger.error(error)
       }
@@ -177,8 +194,10 @@ export default {
     
     return {
       editable,
-      challenge,
+      challenge: computed(() => AppState.activeChallenge),
       participant,
+      filterBy,
+      statusOptions,
       submitGrade,
     }
   }

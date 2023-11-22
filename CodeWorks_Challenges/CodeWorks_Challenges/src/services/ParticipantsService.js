@@ -4,6 +4,20 @@ import { challengesService } from "./ChallengesService.js"
 
 const PROFILE_FIELDS = 'name picture reputation title';
 
+/**
+ * @param {any} body
+ */
+
+function sanitizeBody(body) {
+	const writable = {
+		status: body.status,
+		submission: body.submission,
+		requirements: body.requirements,
+	}
+	return writable
+}
+
+
 class ParticipantsService {
 	async getChallengeRewards(accountId) {
 		const rewards = await dbContext.ChallengeParticipants.find({ accountId, status: 'completed' })
@@ -38,14 +52,17 @@ class ParticipantsService {
 	async getParticipantById(participantId) {
 		const participant = await dbContext.ChallengeParticipants.findById(participantId).populate({
 			path: 'challenge',
-			populate: { path: 'creator participantCount' }
+			populate: { path: 'creator requirements participantCount' }
 		}).populate('profile', 'name picture')
 		return participant
 	}
 
 	async getParticipantsByChallengeId(challengeId) {
 		const participants = await dbContext.ChallengeParticipants.find({ challengeId })
-			.populate('profile', PROFILE_FIELDS)
+			.populate({
+				path: 'challenge',
+				populate: { path: 'creator requirements participantCount' }
+			}).populate('profile', PROFILE_FIELDS)
 			// .select('-submission')
 		return participants
 	}
@@ -59,19 +76,16 @@ class ParticipantsService {
 	}
 
 	async updateChallengeParticipant(participantId, userId, newSubmission) {
-		const participant = await dbContext.ChallengeParticipants.findById(participantId)
-
-		if (participant.accountId != userId) {
-			throw new Forbidden(`[PERMISSIONS ERROR]: You are not a participant of this challenge. You may not submit it for grading.`)
+		const update = sanitizeBody(newSubmission)
+		const participant = await dbContext.ChallengeParticipants.findOneAndUpdate
+		(
+			{ _id: participantId, accountId: userId },
+			{ $set: update },
+			{ runValidators: true, setDefaultsOnInsert: true, new: true }
+		)
+		if (!participant) {
+			throw new BadRequest('Invalid participant ID.')
 		}
-
-		if (participant.status != 'completed') {
-			participant.status = 'submitted'
-		}
-
-		participant.submission = newSubmission.submission || participant.submission
-
-		await participant.save()
 		return participant
 	}
 
