@@ -7,8 +7,7 @@
     "completed",
     "graded",
     "removed",
-    "left",
-    "incomplete"
+    "left"
   ],
   "DEFAULT_SUBMISSION_TYPE": "incomplete",
   "CATEGORY_TYPES": [

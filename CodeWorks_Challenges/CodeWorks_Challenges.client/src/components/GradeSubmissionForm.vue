@@ -8,7 +8,7 @@
         <div class="col-12 form-group px-5 mb-5">
           <label for="submission" class="form-label">Submission</label>
           <input
-            v-model="participant.submission"
+            v-model="editable.submission"
             type="url"
             name="submission"
             id="submission"
@@ -58,7 +58,7 @@
               <div class="d-flex flex-column radio-status-button">
                 <input type="radio" :value="s.value" name="status" id="status" class="text-center fs-5">
                 <label for="status">
-                  <span class="text-center fs-6">{{ formatStatus(s) }}</span>
+                  <span class="text-center fs-6">{{ formatEnum(s) }}</span>
                 </label>
               </div>
             </div>
@@ -102,7 +102,7 @@ import { ChallengeParticipant } from '../models/ChallengeParticipant'
 import { useRoute } from "vue-router"
 import Pop from "../utils/Pop"
 import { SUBMISSION_TYPES } from "../constants/index.js"
-import { formatStatus } from "../utils/FormatStatus.js"
+import { formatEnum } from "../utils/FormatEnum.js"
 
 export default {
   props: {
@@ -133,6 +133,10 @@ export default {
     onMounted(() => {
       setActiveChallenge()
       getParticipantsByChallengeId()
+      // LIFEHACK - If a participant has submitted a challenge, remove the reactive status options that only apply to participants engaged in a challenge. This logic is reusable if on a page / component that needs any enum values filtered out.
+      editable.value.status = editable.value.status.filter(
+          s => !["started", "submitted", "left"].includes(s)
+        )
     })
 
     watchEffect(() => {
@@ -174,7 +178,7 @@ export default {
     }
 
     const submissionTypes = computed(() => {
-      const submissionTypes = []
+      const submissionTypes = ['']
       editable.value.status.forEach(p => {
         if (!submissionTypes.find(s =>
          s.value === p.status)) {
@@ -190,9 +194,9 @@ export default {
       // participant,
       filterBy,
       submissionTypes,
-      formatStatus,
+      formatEnum,
       submitGrade,
     }
   }
 }
-</script>
+</script>../utils/FormatJSON.js
