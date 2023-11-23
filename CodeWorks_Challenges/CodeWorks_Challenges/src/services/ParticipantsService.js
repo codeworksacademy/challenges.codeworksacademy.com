@@ -1,8 +1,7 @@
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { challengesService } from "./ChallengesService.js"
-
-const PROFILE_FIELDS = 'name picture reputation title';
+import { PROFILE_FIELDS } from '../constants'
 
 /**
  * @param {any} body

@@ -1,10 +1,7 @@
 import { Schema } from 'mongoose';
+import { CATEGORY_TYPES, STATUS_TYPES, DEFAULT_STATUS_TYPE } from '../constants';
 
 const ObjectId = Schema.Types.ObjectId;
-
-const CATEGORY_TYPES = ['full_stack', 'front_end', 'back_end', 'puzzles', 'data_structures', 'style_and_design', 'other'];
-
-const STATUS_TYPES = ['draft', 'under-review', 'published', 'deprecated'];
 
 export const ChallengeSchema = new Schema({
   creatorId: {
@@ -22,7 +19,7 @@ export const ChallengeSchema = new Schema({
     type: String,
     enum: STATUS_TYPES,
     required: true,
-    default: 'draft',
+    default: DEFAULT_STATUS_TYPE,
     lowercase: true
   },
   name: {

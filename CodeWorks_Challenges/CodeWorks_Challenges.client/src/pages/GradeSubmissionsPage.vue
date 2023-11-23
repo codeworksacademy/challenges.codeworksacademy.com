@@ -1,33 +1,3 @@
-<!-- "_id": "6557efba66199f59e5068cb7",
-    "creatorId": "6514ee35fc2dcbfab4c9c83b",
-    "category": "puzzles",
-    "status": "draft",
-    "name": "Potato Salad",
-    "description": "A potato salad consists of x potatoes, for each potato there needs to be twice as many carrots. How many carrots does a salad with 2 potatoes need?",
-    "difficulty": 1,
-    "coverImg": "https://i.ibb.co/c21hFZN/card-gradient.png",
-    "badgeImg": "",
-    "requirements": [
-      "step": "",
-      completed: false,
-      comment: ""
-    ],
-    "supportLinks": [],
-    "createdAt": "2023-11-17T22:56:58.697Z",
-    "updatedAt": "2023-11-17T23:02:18.393Z",
-    "__v": 0,
-    "creator": {
-        "title": "n00b",
-        "_id": "6514ee35fc2dcbfab4c9c83b",
-        "name": "Zoot",
-        "picture": "https://imgs.search.brave.com/4DE9jlqGa9EiokE2zWTSoP-XmG8pm-zs5RlkNpreB2A/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9paDAu/cmVkYnViYmxlLm5l/dC9pbWFnZS45ODk5/MjAyODIuMzAxOS9y/YWYsMzYweDM2MCww/NzUsdCxmYWZhZmE6/Y2E0NDNmNDc4Ni5q/cGc",
-        "reputation": 0,
-        "id": "6514ee35fc2dcbfab4c9c83b"
-    },
-    "id": "6557efba66199f59e5068cb7" -->
-
-
-
 <template>
   <section class="container-fluid" v-if="challengeCreator">
 
@@ -76,18 +46,7 @@
           </p>
         </div>
       </div> -->
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <h3 class="text-center"> {{ challenge.createdAt }} </h3>
-      </div>
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <h3 class="text-center"> {{ challenge.updatedAt }} </h3>
-      </div>
-
     </div>
-
-
-
-
 
   <div v-if="challengeCreator" class="col-9 d-flex justify-content-center align-items-center position-fixed bottom-2">
     <!-- STUB - OFFCANVAS BUTTON - Array of Submitted Challenge Participants -->
@@ -102,22 +61,10 @@
     </a>
   </div>
 
-  <div class="col-12 d-flex justiify-content-center align-items-center">
-    <select v-model="filterBy" name="status" id="status" class="col-3 text-center fs-5" style="">
-      <option @click="filterBy = ''" class="" :selected="true" :value="''">All</option>
-      <option @click="filterBy = 'returned_for_review'" class="">Return for Review</option>
-      <option @click="filterBy = 'left'" class="">No Longer Participating</option>
-      <option @click="filterBy = 'completed'" class="">Complete</option>
-      <option @click="filterBy = 'submitted'" class="">Submit</option>
-      <option @click="filterBy = 'removed'" class="">Remove</option>
-      <option @click="filterBy = 'graded'" class="">Grade</option>
-    </select>
-  </div>
   <div v-for="status in participantFilter.status" :key="status.id" class="col-12 d-flex justify-content-center align-items-center">
     <ParticipantCard :participant="status" />
   </div>
   <div v-for="p in participants" :key="p.name" class="col-12 d-flex justify-content-center align-items-center pb-5 mb-5">
-    <h1>{{p.profile.name}}</h1>
     <GradeSubmissionForm :participant="p" />
   </div>
   </section>
@@ -198,8 +145,6 @@ export default {
     const participant = computed(() => {
       return AppState.participants.find(p => p.accountId === AppState.account.id)
     })
-
-    
 
     onMounted(() => {
       setActiveChallenge()

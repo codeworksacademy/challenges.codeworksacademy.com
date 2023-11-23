@@ -126,7 +126,7 @@ export default {
       },
       {
         text: 'Under Review',
-        value: 'under-review'
+        value: 'under_review'
       },
       {
         text: 'Published',

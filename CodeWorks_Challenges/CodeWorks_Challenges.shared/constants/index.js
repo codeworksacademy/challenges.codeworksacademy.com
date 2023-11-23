@@ -1,4 +1,4 @@
-import * as data from '../../../CodeWorks_Challenges.shared/constants/data.json'
+import * as data from './data.json'
 
 export const SUBMISSION_TYPES = data.SUBMISSION_TYPES
 export const DEFAULT_SUBMISSION_TYPE = data.DEFAULT_SUBMISSION_TYPE

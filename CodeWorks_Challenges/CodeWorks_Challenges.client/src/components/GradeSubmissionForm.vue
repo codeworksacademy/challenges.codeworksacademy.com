@@ -1,6 +1,4 @@
 <template>
-
-  {{ participant.submission  }} 
   <section v-if="participant" :key="participant?.id" class="container-fluid">
     <div class="row justify-content-center align-items-center">
       <div class="col-12 text-center">
@@ -55,16 +53,18 @@
           <h4>Set status for this Participant</h4>
         </div>
         <div class="my-4">
-          <div class="col-12 d-flex justify-content-center align-items-center mb-3">
+          <div class="col-12 d-flex justify-content-between align-items-center mb-3">
             <div  v-for="s in editable.status" :key="s.value">
               <div class="d-flex flex-column radio-status-button">
                 <input type="radio" :value="s.value" name="status" id="status" class="text-center fs-5">
-                <label for="status">{{ s.text }}</label>
+                <label for="status">
+                  <span class="text-center fs-6">{{ formatStatus(s) }}</span>
+                </label>
               </div>
             </div>
           </div>
         </div>
-        <!-- <div class="col-12 form-group px-5 mb-5">
+        <div class="col-12 form-group px-5 mb-5">
           <label for="status" class="form-label">Status</label>
           <select
             v-model="editable.status"
@@ -82,7 +82,7 @@
             <option value="removed">Removed</option>
             <option value="left">Left</option>
           </select>
-        </div> -->
+        </div>
         <div class="col-12">
           <button type="submit" class="btn btn-success">Submit</button>
         </div>
@@ -96,12 +96,13 @@
 import { computed, onMounted, ref, watchEffect } from 'vue'
 import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
-import { GRADE_FIELDS } from '../constants/index.js'
 import { participantsService } from '../services/ParticipantsService'
 import { challengesService } from '../services/ChallengesService'
 import { ChallengeParticipant } from '../models/ChallengeParticipant'
 import { useRoute } from "vue-router"
 import Pop from "../utils/Pop"
+import { SUBMISSION_TYPES } from "../constants/index.js"
+import { formatStatus } from "../utils/FormatStatus.js"
 
 export default {
   props: {
@@ -119,23 +120,15 @@ export default {
       submission: '',
       feedback: '',
       grade: 0,
+      status: SUBMISSION_TYPES,
       challenge: {
         requirements: []
       }
     })
-    const statusOptions = ref([
-      { text: 'Incomplete', value: 'incomplete' },
-      { text: 'Submitted', value: 'submitted' },
-      { text: 'Returned for Review', value: 'returned_for_review' },
-      { text: 'Completed', value: 'completed' },
-      { text: 'Graded', value: 'graded' },
-      { text: 'Removed', value: 'removed' },
-      { text: 'Left', value: 'left' },
-    ])
+    // const submissionTypes = computed(() => {
+    //   return SUBMISSION_TYPES
+    // }) 
 
-    const participant = computed(() => {
-      return AppState.participants.find(p => p.id === props.participant?.id)
-    })
     // Initialize editable with the correct structure
     onMounted(() => {
       setActiveChallenge()
@@ -143,7 +136,6 @@ export default {
     })
 
     watchEffect(() => {
-      editable.value.status = participant.value?.status
     })
 
     async function setActiveChallenge() {
@@ -181,26 +173,24 @@ export default {
       }
     }
 
-    // const statusOptions = computed(() => {
-    //   const statusOptions = []
-    //   AppState.participants.forEach(p => {
-    //     if (!statusOptions.find(s =>
-    //      s.value === p.status)) {
-    //       statusOptions.push({ name: 
-    //                         p.status,
-    //                        value: 
-    //                         p.status })
-    //     }
-    //   })
-    //   return statusOptions
-    // })
+    const submissionTypes = computed(() => {
+      const submissionTypes = []
+      editable.value.status.forEach(p => {
+        if (!submissionTypes.find(s =>
+         s.value === p.status)) {
+          submissionTypes.push({ value: p.status, text: p.status })
+        }
+      })
+      return submissionTypes
+    })
     
     return {
       editable,
       challenge: computed(() => AppState.activeChallenge),
-      participant,
+      // participant,
       filterBy,
-      statusOptions,
+      submissionTypes,
+      formatStatus,
       submitGrade,
     }
   }

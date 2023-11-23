@@ -1,0 +1,31 @@
+{
+  "SUBMISSION_TYPES": [
+    "incomplete",
+    "started",
+    "submitted",
+    "returned_for_review",
+    "completed",
+    "graded",
+    "removed",
+    "left",
+    "incomplete"
+  ],
+  "DEFAULT_SUBMISSION_TYPE": "incomplete",
+  "CATEGORY_TYPES": [
+    "full_stack",
+    "front_end",
+    "back_end",
+    "puzzles",
+    "data_structures",
+    "style_and_design",
+    "other"
+  ],
+  "STATUS_TYPES": [
+    "draft",
+    "under_review",
+    "published",
+    "deprecated"
+  ],
+  "DEFAULT_STATUS_TYPE": "draft",
+  "PROFILE_FIELDS": "name picture reputation title"
+}

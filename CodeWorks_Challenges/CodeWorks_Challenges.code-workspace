@@ -8,6 +8,10 @@
     {
       "path": "CodeWorks_Challenges",
       "name": "server"
+    },
+    {
+      "path": "CodeWorks_Challenges.shared",
+      "name": "shared"
     }
   ],
   "settings": {
