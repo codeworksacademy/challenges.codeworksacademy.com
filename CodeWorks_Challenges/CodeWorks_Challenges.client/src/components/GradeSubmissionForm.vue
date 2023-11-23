@@ -8,7 +8,7 @@
         <div class="col-12 form-group px-5 mb-5">
           <label for="submission" class="form-label">Submission</label>
           <input
-            v-model="editable.submission"
+            v-model="participant.submission"
             type="url"
             name="submission"
             id="submission"
