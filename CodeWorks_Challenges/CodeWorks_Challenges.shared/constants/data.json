@@ -1,30 +1,30 @@
 {
-  "SUBMISSION_TYPES": [
-    "incomplete",
-    "started",
-    "submitted",
-    "returned_for_review",
-    "completed",
-    "graded",
-    "removed",
-    "left"
-  ],
-  "DEFAULT_SUBMISSION_TYPE": "incomplete",
-  "CATEGORY_TYPES": [
-    "full_stack",
-    "front_end",
-    "back_end",
-    "puzzles",
-    "data_structures",
-    "style_and_design",
-    "other"
-  ],
-  "STATUS_TYPES": [
-    "draft",
-    "under_review",
-    "published",
-    "deprecated"
-  ],
-  "DEFAULT_STATUS_TYPE": "draft",
+  "SUBMISSION_TYPES": {
+    "INCOMPLETE": "incomplete",
+    "STARTED": "started",
+    "SUBMITTED": "submitted",
+    "RETURNED_FOR_REVIEW": "returned_for_review",
+    "COMPLETED": "completed",
+    "GRADED": "graded",
+    "REMOVED": "removed",
+    "LEFT": "left",
+    "DEFAULT": "incomplete"
+  },
+  "CATEGORY_TYPES": {
+    "FULL_STACK": "full_stack",
+    "FRONT_END": "front_end",
+    "BACK_END": "back_end",
+    "PUZZLES": "puzzles",
+    "DATA_STRUCTURES": "data_structures",
+    "STYLE_AND_DESIGN": "style_and_design",
+    "OTHER": "other"
+  },
+  "STATUS_TYPES": {
+    "DRAFT": "draft",
+    "UNDER_REVIEW": "under_review",
+    "PUBLISHED": "published",
+    "DEPRECATED": "deprecated",
+    "DEFAULT": "draft"
+  },
   "PROFILE_FIELDS": "name picture reputation title"
 }

@@ -1,42 +1,35 @@
 <template>
   <section v-if="participant" :key="participant?.id" class="container-fluid">
     <div class="row justify-content-center align-items-center">
-      <div class="col-12 text-center">
-        <h1>Grade Challenge</h1>
+      <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+        <h1>Grade Challenge for {{ participant.profile.name }}</h1>
+      </div>
+      <div class="col-12 d-flex justify-content-center align-items-center">
+        <p>Submission Source Code Link: </p>
+        <a
+          :href="participant.submission"
+          target="_blank"
+          placeholder="Source Code Link"
+          class="text-decoration-none text-truncate mb-3 ms-2"
+        >
+          {{ participant.submission }}
+        </a>
       </div>
       <form @submit.prevent="submitGrade" id="gradeSubmissionForm" class="row">
-        <div class="col-12 form-group px-5 mb-5">
-          <label for="submission" class="form-label">Submission</label>
-          <input
-            v-model="editable.submission"
-            type="url"
-            name="submission"
-            id="submission"
-            placeholder="Source Code Link"
-            class="form-control bg-light"
-          >
-        </div>
-        <div class="col-12 form-group px-5 mb-5">
-          <label for="grade" class="form-label">Grade</label>
-          <input
-            v-model="editable.grade"
-            type="number"
-            name="grade"
-            id="grade"
-            placeholder="Grade"
-            class="form-control bg-light"
-          >
-        </div>
-        <div v-for="(requirement, index) in editable.challenge.requirements" :key="index">
-          <div class="form-check ps-5">
-            <input type="checkbox" class="form-check-input" v-model="requirement.completed" :id="`field-${requirement.step}`">
-            <label class="form-check-label" :for="`field-${requirement.step}`">{{ requirement.step }}</label>
-          </div>
-          <div class="col-12 d-flex align-items-center form-group mt-1 m-auto no-wrap mt-3">
-            <label class=" pe-3" for="comment">Comment:</label>
-            <input type="text" name="comment" id="comment" class="form-control mt-1" placeholder="Leave insight for this step..." rows="1" v-model="requirement.comment" />
-          </div>
-          <hr class="mb-4" style="color: white; opacity: .4;" />
+        <div v-if="participant?.challenge" class="col-12 d-flex justify-content-center align-items-center">
+          <ol>
+            <li v-for="(requirement, index) in challenge.requirements" :key="index">
+              <div class="form-check ps-5">
+                <input type="checkbox" class="form-check-input" v-model="requirement.completed" :id="`field-${requirement.step}`">
+                <label class="form-check-label" :for="`field-${requirement.step}`">{{ requirement.step }}</label>
+              </div>
+              <div class="col-12 d-flex align-items-center form-group mt-1 m-auto no-wrap mt-3">
+                <label class=" pe-3" for="comment">Comment:</label>
+                <input type="text" name="comment" id="comment" class="form-control mt-1" placeholder="Leave insight for this step..." rows="1" v-model="requirement.comment" />
+              </div>
+              <hr class="mb-4" style="color: white; opacity: .4;" />
+            </li>
+          </ol>
         </div>
         <div class="col-12 form-group px-5 mb-5">
           <label for="feedback" class="form-label">Feedback</label>
@@ -50,21 +43,22 @@
           >
         </div>
         <div class="col-12 text-center my-3">
-          <h4>Set status for this Participant</h4>
+          <h4>Set status for {{ participant.profile.name }}</h4>
         </div>
         <div class="my-4">
           <div class="col-12 d-flex justify-content-between align-items-center mb-3">
-            <div  v-for="s in editable.status" :key="s.value">
+            <div  v-for="(option, index) in editable.status" :key="index">
               <div class="d-flex flex-column radio-status-button">
-                <input type="radio" :value="s.value" name="status" id="status" class="text-center fs-5">
-                <label for="status">
-                  <span class="text-center fs-6">{{ formatEnum(s) }}</span>
+                <input @change="testStatusChange()" type="radio" v-model="editable.status"
+                :value="option" :name="`option-${index}`" :id="`option-${index}`" class="text-center fs-5">
+                <label :for="`option-${index}`">
+                  <small v-if="!option.SUBMITTED" class="text-center text-capitalize fs-6">{{ formatEnum(option) }}</small>
                 </label>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-12 form-group px-5 mb-5">
+        <!-- <div class="col-12 d-flex flex-column justify-content-center align-items-center form-group px-5 mb-5">
           <label for="status" class="form-label">Status</label>
           <select
             v-model="editable.status"
@@ -74,15 +68,9 @@
             placeholder="Status"
             class="form-control bg-light"
           >
-            <option value="incomplete">Incomplete</option>
-            <option value="submitted">Submitted</option>
-            <option value="returned_for_review">Returned for Review</option>
-            <option value="completed">Completed</option>
-            <option value="graded">Graded</option>
-            <option value="removed">Removed</option>
-            <option value="left">Left</option>
+            <option class="text-capitalize" v-for="s in editable.status" :key="s.value" :value="s.value">{{ formatEnum(s) }}</option>
           </select>
-        </div>
+        </div> -->
         <div class="col-12">
           <button type="submit" class="btn btn-success">Submit</button>
         </div>
@@ -101,8 +89,9 @@ import { challengesService } from '../services/ChallengesService'
 import { ChallengeParticipant } from '../models/ChallengeParticipant'
 import { useRoute } from "vue-router"
 import Pop from "../utils/Pop"
-import { SUBMISSION_TYPES } from "../constants/index.js"
+import { STATUS_TYPES, SUBMISSION_TYPES } from "../constants/index.js"
 import { formatEnum } from "../utils/FormatEnum.js"
+import { newChallengeParticipant } from "../utils/NewChallengeParticipant.js"
 
 export default {
   props: {
@@ -117,30 +106,36 @@ export default {
     const filterBy = ref('')
 
     const editable = ref({
+      challengeId: '',
+      accountId: '',
       submission: '',
       feedback: '',
-      grade: 0,
+      // grade: 0,
       status: SUBMISSION_TYPES,
       challenge: {
-        requirements: []
+        requirements: [],
       }
     })
-    // const submissionTypes = computed(() => {
-    //   return SUBMISSION_TYPES
-    // }) 
+    const challengeToGrade = ref({})
 
     // Initialize editable with the correct structure
     onMounted(() => {
       setActiveChallenge()
       getParticipantsByChallengeId()
-      // LIFEHACK - If a participant has submitted a challenge, remove the reactive status options that only apply to participants engaged in a challenge. This logic is reusable if on a page / component that needs any enum values filtered out.
-      editable.value.status = editable.value.status.filter(
-          s => !["started", "submitted", "left"].includes(s)
-        )
+      // sanitizeEnum(editable.value.status)
+    })
+    
+    watchEffect(() => {
+      
     })
 
-    watchEffect(() => {
-    })
+    async function testStatusChange() {
+      logger.log('editable status', editable.value.status)
+    }
+    
+    // function sanitizeEnum(value) {
+    //   value.filter(s => !["started", "submitted", "left"].includes(s))
+    // }
 
     async function setActiveChallenge() {
       try {
@@ -163,13 +158,23 @@ export default {
     }
 
     // const participant = computed(() => {
-    //   return AppState.participants.find(p => p.challengeId === AppState.activeParticipant?.id)
+    //   return )
     // })
 
     async function submitGrade() {
       try {
-        const participantId = editable.value.id
-        const newSubmission = { ...editable.value }
+        const participantId = props.participant?.id
+        const newSubmission = {
+          challengeId: AppState.activeChallenge.id,
+          accountId: AppState.account.id,
+          submission: editable.value.submission,
+          feedback: editable.value.feedback,
+          // grade: editable.value.grade,
+          status: editable.value.status,
+          challenge: {
+            requirements: editable.value.challenge.requirements,
+          }
+        }
         await participantsService.updateChallengeParticipant(newSubmission, participantId)
         editable.value = {}
       } catch (error) {
@@ -177,26 +182,46 @@ export default {
       }
     }
 
-    const submissionTypes = computed(() => {
-      const submissionTypes = ['']
-      editable.value.status.forEach(p => {
-        if (!submissionTypes.find(s =>
-         s.value === p.status)) {
-          submissionTypes.push({ value: p.status, text: p.status })
-        }
-      })
-      return submissionTypes
-    })
+    // const submissionTypes = computed(() => {
+    //   const submissionTypes = ['']
+    //   editable.value.status.forEach(p => {
+    //     if (!submissionTypes.find(s =>
+    //      s.value === p.status)) {
+    //       submissionTypes.push({ value: p.status, text: p.status })
+    //     }
+    //   })
+    //   return submissionTypes
+    // })
     
     return {
       editable,
       challenge: computed(() => AppState.activeChallenge),
       // participant,
       filterBy,
-      submissionTypes,
+      // submissionTypes,
       formatEnum,
       submitGrade,
+      testStatusChange,
     }
   }
 }
-</script>../utils/FormatJSON.js
+</script>
+
+<style scoped lang="scss">
+ol {
+  list-style: none;
+  counter-reset: my-counter;
+}
+ol li {
+  position: relative;
+  margin-bottom: 10px;
+  left: 0px;
+}
+ol li::before {
+  content: 'Check ' counter(my-counter) ':';
+  counter-increment: my-counter;
+  position: absolute;
+  left: -50px;
+  top: -1.5px;
+}
+</style>

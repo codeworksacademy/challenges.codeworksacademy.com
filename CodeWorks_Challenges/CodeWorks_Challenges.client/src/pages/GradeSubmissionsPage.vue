@@ -21,19 +21,7 @@
         <div class="col-12 d-flex justify-content-center align-items-center">
           <h3 class="text-uppercase">Challenge Requirements</h3>
         </div>
-        <ol>
-          <li v-for="(requirement, index) in challenge.requirements" :key="index">
-            <div class="form-check ps-5">
-              <input type="checkbox" class="form-check-input" v-model="requirement.completed" :id="`field-${requirement.step}`">
-              <label class="form-check-label" :for="`field-${requirement.step}`">{{ requirement.step }}</label>
-            </div>
-            <div class="col-12 d-flex align-items-center form-group mt-1 m-auto no-wrap mt-3">
-              <label class=" pe-3" for="comment">Comment:</label>
-              <input type="text" name="comment" id="comment" class="form-control mt-1" placeholder="Leave insight for this step..." rows="1" v-model="requirement.comment" />
-            </div>
-            <hr class="mb-4" style="color: white; opacity: .4;" />
-          </li>
-        </ol>
+        
       </section>
       <!-- <div v-if="challenge.requirements.length > 0" class="col-md-8 bg-dark text-light p-3 mb-3">
         <div v-for="(requirement, index) in challenge.requirements" :key="index">
@@ -61,8 +49,8 @@
     </a>
   </div>
 
-  <div v-for="status in participantFilter.status" :key="status.id" class="col-12 d-flex justify-content-center align-items-center">
-    <ParticipantCard :participant="status" />
+  <div v-for="p in participants.status" :key="p.id" class="col-12 d-flex justify-content-center align-items-center">
+    <ParticipantCard :participant="p" />
   </div>
   <div v-for="p in participants" :key="p.name" class="col-12 d-flex justify-content-center align-items-center pb-5 mb-5">
     <GradeSubmissionForm :participant="p" />
@@ -186,20 +174,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="scss">
-ol {
-  list-style: none;
-  counter-reset: my-counter;
-}
-ol li {
-  position: relative;
-  margin-bottom: 10px;
-  left: 0px;
-}
-ol li::before {
-  content: counter(my-counter) ':';
-  counter-increment: my-counter;
-  position: absolute;
-}
-</style>
