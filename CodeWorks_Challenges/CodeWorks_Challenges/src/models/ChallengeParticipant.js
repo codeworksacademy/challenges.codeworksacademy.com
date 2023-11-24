@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import { SUBMISSION_TYPES, DEFAULT_SUBMISSION_TYPE } from "../constants";
+import { SUBMISSION_TYPES } from "../constants";
 
 const ObjectId = Schema.Types.ObjectId
 
@@ -15,7 +15,7 @@ export const ChallengeParticipantSchema = new Schema({
     ref: 'Account'
   },
   submission: { type: String, maxLength: 700, default: '' },
-  status: { type: String, enum: SUBMISSION_TYPES, required: true, default: DEFAULT_SUBMISSION_TYPE, lowercase: true },
+  status: { type: String, enum: SUBMISSION_TYPES, required: true, default: 'incomplete', lowercase: true },
   
   claimedAt: { type: Date }
 

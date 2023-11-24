@@ -45,18 +45,58 @@
         <div class="col-12 text-center my-3">
           <h4>Set status for {{ participant.profile.name }}</h4>
         </div>
-        <div class="my-4">
-          <div class="col-12 d-flex justify-content-between align-items-center mb-3">
-            <div  v-for="(option, index) in editable.status" :key="index">
+        <div class="d-flex justify-content-center align-items-center my-3">
+          <div class="">
+            <!-- <div  v-for="(option, index) in editable.status" :key="index">
               <div class="d-flex flex-column radio-status-button">
                 <input @change="testStatusChange()" type="radio" v-model="editable.status"
                 :value="option" :name="`option-${index}`" :id="`option-${index}`" class="text-center fs-5">
                 <label :for="`option-${index}`">
-                  <small v-if="!option.SUBMITTED" class="text-center text-capitalize fs-6">{{ formatEnum(option) }}</small>
+                  <small class="text-center text-capitalize fs-6">{{ formatEnum(option) }}</small>
                 </label>
               </div>
-            </div>
+            </div> -->
+            <!-- FIXME - Fix the above statement -->
+            <div class="" v-for="(option, index) in submissionTypes" :key="index">
+              <div class="d-flex align-items-center radio-status-button">
+                <input @change="testStatusChange()" type="radio" v-model="editable.status"
+                :value="option.value" :name="`option-${index}`" :id="`option-${index}`" class="mt-1 me-3">
+                <label :for="`option-${index}`">
+                  <small class="text-capitalize fs-6">{{ formatEnum(option.text) }}</small>
+                </label>
+              </div>
+            <!-- <div class="col-12 form-group px-5 mb-5">
+              <label for="status" class="form-label">Status</label>
+              <select
+                @change="testStatusChange()"
+                v-model="editable.status"
+                type="text"
+                name="status"
+                id="status"
+                placeholder="Status"
+                class="form-control bg-light"
+              >
+              <option :value="null">Select a status</option>
+              <option v-for="s in submissionTypes" :key="s.value" :value="s.value">{{ formatEnum(s.text) }}</option>
+              </select>
+            </div> -->
           </div>
+        </div>
+            <!-- <div class="col-12 form-group px-5 mb-5">
+              <label for="status" class="form-label">Status</label>
+              <select
+                @change="testStatusChange()"
+                v-model="editable.status"
+                type="text"
+                name="status"
+                id="status"
+                placeholder="Status"
+                class="form-control bg-light"
+              >
+              <option :value="null">Select a status</option>
+              <option v-for="s in submissionTypes" :key="s.value" :value="s.value">{{ formatEnum(s.text) }}</option>
+              </select>
+            </div> -->
         </div>
         <!-- <div class="col-12 d-flex flex-column justify-content-center align-items-center form-group px-5 mb-5">
           <label for="status" class="form-label">Status</label>
@@ -130,7 +170,7 @@ export default {
     })
 
     async function testStatusChange() {
-      logger.log('editable status', editable.value.status)
+      logger.log('Participant Status: ', editable.value.status)
     }
     
     // function sanitizeEnum(value) {
@@ -182,6 +222,15 @@ export default {
       }
     }
 
+    const submissionTypes = computed(() => {
+      const types = []
+      SUBMISSION_TYPES.map(s => {
+        if (!types.find(t => t.value === s)) {
+          types.push({ value: s, text: s })
+        }
+      })
+      return types
+    })
     // const submissionTypes = computed(() => {
     //   const submissionTypes = ['']
     //   editable.value.status.forEach(p => {
@@ -198,7 +247,7 @@ export default {
       challenge: computed(() => AppState.activeChallenge),
       // participant,
       filterBy,
-      // submissionTypes,
+      submissionTypes,
       formatEnum,
       submitGrade,
       testStatusChange,

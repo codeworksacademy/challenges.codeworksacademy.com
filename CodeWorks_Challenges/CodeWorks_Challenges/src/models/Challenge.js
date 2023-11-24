@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import { CATEGORY_TYPES, STATUS_TYPES, DEFAULT_STATUS_TYPE } from '../constants';
+import { CATEGORY_TYPES, STATUS_TYPES } from '../constants';
 
 const ObjectId = Schema.Types.ObjectId;
 
@@ -19,7 +19,7 @@ export const ChallengeSchema = new Schema({
     type: String,
     enum: STATUS_TYPES,
     required: true,
-    default: DEFAULT_STATUS_TYPE,
+    default: 'draft',
     lowercase: true
   },
   name: {
