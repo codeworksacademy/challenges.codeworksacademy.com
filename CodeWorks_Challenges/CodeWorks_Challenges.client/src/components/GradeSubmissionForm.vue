@@ -131,7 +131,6 @@ import { useRoute } from "vue-router"
 import Pop from "../utils/Pop"
 import { STATUS_TYPES, SUBMISSION_TYPES } from "../constants/index.js"
 import { formatEnum } from "../utils/FormatEnum.js"
-import { newChallengeParticipant } from "../utils/NewChallengeParticipant.js"
 
 export default {
   props: {
@@ -146,37 +145,18 @@ export default {
     const filterBy = ref('')
 
     const editable = ref({
-      challengeId: '',
-      accountId: '',
-      submission: '',
-      feedback: '',
-      // grade: 0,
       status: SUBMISSION_TYPES,
       challenge: {
         requirements: [],
       }
     })
-    const challengeToGrade = ref({})
 
     // Initialize editable with the correct structure
     onMounted(() => {
       setActiveChallenge()
       getParticipantsByChallengeId()
-      // sanitizeEnum(editable.value.status)
     })
     
-    watchEffect(() => {
-      
-    })
-
-    async function testStatusChange() {
-      logger.log('Participant Status: ', editable.value.status)
-    }
-    
-    // function sanitizeEnum(value) {
-    //   value.filter(s => !["started", "submitted", "left"].includes(s))
-    // }
-
     async function setActiveChallenge() {
       try {
         await challengesService.setActiveChallenge(route.params.challengeId)
@@ -196,16 +176,20 @@ export default {
         Pop.toast(error, 'error')
       }
     }
+    
+    
+    async function testStatusChange() {
+      logger.log('Participant Status: ', editable.value.status)
+    }
 
-    // const participant = computed(() => {
-    //   return )
-    // })
+    watchEffect(() => {
+    })
 
     async function submitGrade() {
       try {
         const participantId = props.participant?.id
         const newSubmission = {
-          challengeId: AppState.activeChallenge.id,
+          challengeId: props.participant.challenge?.id,
           accountId: AppState.account.id,
           submission: editable.value.submission,
           feedback: editable.value.feedback,
@@ -224,28 +208,22 @@ export default {
 
     const submissionTypes = computed(() => {
       const types = []
-      SUBMISSION_TYPES.map(s => {
+      //NOTE - Change back to SUBMISSION_TYPES.map if selecting submission types throws an error again
+      SUBMISSION_TYPES.forEach(s => {
         if (!types.find(t => t.value === s)) {
           types.push({ value: s, text: s })
+        }
+        let sanitize = ['started', 'submitted', 'left']
+        if (sanitize.includes(s)) {
+          types.splice(types.findIndex(t => t.value === s), 1)
         }
       })
       return types
     })
-    // const submissionTypes = computed(() => {
-    //   const submissionTypes = ['']
-    //   editable.value.status.forEach(p => {
-    //     if (!submissionTypes.find(s =>
-    //      s.value === p.status)) {
-    //       submissionTypes.push({ value: p.status, text: p.status })
-    //     }
-    //   })
-    //   return submissionTypes
-    // })
-    
+
     return {
       editable,
       challenge: computed(() => AppState.activeChallenge),
-      // participant,
       filterBy,
       submissionTypes,
       formatEnum,
