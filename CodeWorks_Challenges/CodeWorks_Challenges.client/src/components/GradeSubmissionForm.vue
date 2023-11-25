@@ -2,7 +2,7 @@
   <section v-if="participant" :key="participant?.id" class="container-fluid">
     <div class="row justify-content-center align-items-center">
       <div class="col-12 d-flex flex-column justify-content-center align-items-center">
-        <h1>Grade Challenge for {{ participant.profile.name }}</h1>
+        <h1 class="text-center">Grade Challenge for {{ participant.profile.name }}</h1>
       </div>
       <div class="col-12 d-flex justify-content-center align-items-center">
         <p>Submission Source Code Link: </p>
@@ -19,7 +19,7 @@
         <div v-if="participant?.challenge" class="col-12 d-flex justify-content-center align-items-center">
           <ol>
             <li v-for="(requirement, index) in challenge.requirements" :key="index">
-              <div class="form-check ps-5">
+              <div class="form-check">
                 <input type="checkbox" class="form-check-input" v-model="requirement.completed" :id="`field-${requirement.step}`">
                 <label class="form-check-label" :for="`field-${requirement.step}`">{{ requirement.step }}</label>
               </div>
@@ -144,46 +144,6 @@ export default {
     const route = useRoute()
     const filterBy = ref('')
 
-    //NOTE - Participant of a Challenge Reference from backend for refactoring the editable object:
-//     challengeId: {
-//     type: ObjectId,
-//     required: true,
-//     ref: 'Challenge'
-//   },
-//   accountId: {
-//     type: ObjectId,
-//     required: true,
-//     ref: 'Account'
-//   },
-//   submission: { type: String, maxLength: 700, default: '' },
-//   status: { type: String, enum: SUBMISSION_TYPES, required: true, default: 'incomplete', lowercase: true },
-  
-//   claimedAt: { type: Date }
-
-// },
-//   { timestamps: true, toJSON: { virtuals: true } }
-// )
-
-// ChallengeParticipantSchema.virtual('profile', {
-//   localField: 'accountId',
-//   foreignField: '_id',
-//   ref: 'Account',
-//   justOne: true
-// })
-
-// ChallengeParticipantSchema.virtual('challenge', {
-//   localField: 'challengeId',
-//   foreignField: '_id',
-//   ref: 'Challenge',
-//   justOne: true
-// })
-
-// ChallengeParticipantSchema.virtual('requirements', {
-//   localField: 'challengeId',
-//   foreignField: '_id',
-//   ref: 'Challenge',
-//   justOne: false,
-// })
     const editable = ref({
       id: props.participant.id,
       profile: props.participant.profile,
@@ -275,17 +235,18 @@ export default {
 ol {
   list-style: none;
   counter-reset: my-counter;
+  width: 100%;
 }
 ol li {
   position: relative;
   margin-bottom: 10px;
-  left: 0px;
+  left: -10px;
 }
 ol li::before {
   content: 'Check ' counter(my-counter) ':';
   counter-increment: my-counter;
   position: absolute;
-  left: -50px;
+  left: -75px;
   top: -1.5px;
 }
 </style>

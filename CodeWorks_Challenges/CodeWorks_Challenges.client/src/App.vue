@@ -52,9 +52,9 @@
       </template>
       <template #body>
         <div  class="col-12 d-flex justify-content-center align-items-center">
-        <div v-for="p in participants" :key="p.id">
-          <ParticipantCard :participant="p" />
-        </div>
+          <div class="col-2 p-3"  v-for="p in participants" :key="p.id">
+            <ParticipantCard :participant="p" />
+          </div>
         </div>
       </template>
     </BottomOffcanvasWrapper>

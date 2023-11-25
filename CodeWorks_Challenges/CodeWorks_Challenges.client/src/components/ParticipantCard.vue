@@ -1,11 +1,14 @@
 <template>
   <section class="container-fluid" v-if="participant" :key="participant?.id">
-    <div class="col-3 d-flex justify-content-center align-items-center">
+    <div class="d-flex flex-column justify-content-center align-items-center">
+      
         <img
           :src="participant.profile.picture"
           :title="`PARTICIPANT: ${participant.profile.name} ➡️ STATUS: ${participant.status}`"
           :alt="`Participant Name: ${participant.profile.name} | Current Status: ${participant.status}`"
           class="rounded-circle img-fluid"
+          height="50"
+          width="50"
         />
       <small class="text-truncate"> {{ participant.profile.name }} </small>
     </div>

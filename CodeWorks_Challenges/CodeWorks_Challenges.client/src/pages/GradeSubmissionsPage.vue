@@ -61,9 +61,7 @@ import { ChallengeParticipant } from "../models/ChallengeParticipant.js"
 
 export default {
   components: {
-    // SubmissionCard,
     GradeSubmissionForm,
-    ParticipantCard
   },
   setup() {
     let route = useRoute()
@@ -92,15 +90,6 @@ export default {
         Pop.toast(error, 'error')
       }
     }
-
-    // async function submitGrade() {
-    //   try {
-        
-    //   } catch (error) {
-    //     logger.error(error)
-    //     Pop.toast(error, 'error')
-    //   }
-    // }
 
     function isModeratorStatus() {
       const isMod = AppState.moderators.find(m => m.accountId == AppState.account.id)
@@ -132,14 +121,18 @@ export default {
     return {
       filterBy,
       editable,
-      // challenge,
+      participant,
 
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.activeChallenge),
-      // challengeRequirements,
       myModerations: computed(() => AppState.moderators.filter(m => m.accountId === AppState.account.id)),
-      participant,
+      challengeCreator: computed(() => AppState.user.id === AppState.activeChallenge?.creatorId),
+      isModeratorStatus,
+      difficulty: computed(() => StrDifficultyNum(AppState.activeChallenge.difficulty)),
       participants: computed(() => AppState.participants),
+      isParticipant: computed(() => {
+        return AppState.participants.find(p => p.accountId === AppState.account.id)
+      }),
       participantFilter: computed(() => {
         if (!filterBy.value) {
           return AppState.participants
@@ -147,15 +140,6 @@ export default {
           return AppState.participants.filter(p => p.status === filterBy.value)
         }
       }),
-      // challenge: computed(() => AppState.activeChallenge),
-      challengeCreator: computed(() => AppState.user.id === AppState.activeChallenge?.creatorId),
-      isModeratorStatus,
-      isParticipant: computed(() => {
-        return AppState.participants.find(p => p.accountId === AppState.account.id)
-      }),
-      difficulty: computed(() =>
-        StrDifficultyNum(AppState.activeChallenge.difficulty)
-      ),
     } 
   }
 }

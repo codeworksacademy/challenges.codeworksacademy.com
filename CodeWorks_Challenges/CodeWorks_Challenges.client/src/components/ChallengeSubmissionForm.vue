@@ -54,6 +54,7 @@ export default {
 
 
     watchEffect(() => {
+      
     })
     
 
@@ -66,7 +67,7 @@ export default {
           }
           logger.log('Your Participation:', editable.value)
           await participantsService.updateChallengeParticipant(newParticipant, participantId)
-          editable.value = ''
+          editable.value = {}
           Modal.getOrCreateInstance('#createSubmissionForm').hide();
           Pop.success('Challenge Submitted!');
           router.push({
