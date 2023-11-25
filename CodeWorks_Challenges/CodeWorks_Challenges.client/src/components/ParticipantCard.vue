@@ -1,14 +1,12 @@
 <template>
-  <section class="container-fluid" v-if="participant" :key="participant.id">
-    <div v-for="p in activeSubmission" :key="p.id" class="col-1 m-auto d-flex flex-column align-items-center">
-      <router-link :to="{ name: 'Profile', params: { profileId: participant.profile.id } }">
+  <section class="container-fluid" v-if="participant" :key="participant?.id">
+    <div class="col-3 d-flex justify-content-center align-items-center">
         <img
           :src="participant.profile.picture"
           :title="`PARTICIPANT: ${participant.profile.name} ➡️ STATUS: ${participant.status}`"
           :alt="`Participant Name: ${participant.profile.name} | Current Status: ${participant.status}`"
           class="rounded-circle img-fluid"
         />
-      </router-link>
       <small class="text-truncate"> {{ participant.profile.name }} </small>
     </div>
   </section>
@@ -30,9 +28,11 @@ export default {
 
 
     return {
-      participant: computed(() => AppState.participants.find(p => p.id === AppState.activeParticipant?.id)),
+      profile: computed(() => {
+        return AppState.profiles.find(p => p.id === AppState.activeParticipant?.profile.id)
+      }),
       activeSubmission: computed(() => {
-        const participant = AppState.participants.find(p => p.id === AppState.activeParticipant.id)
+        const participant = AppState.participants.find(p => p.id === AppState.activeParticipant?.id)
         if (participant.value.status === 'submitted') {
           return AppState.challenges.find(challenge => challenge.id === participant.challengeId)
         }

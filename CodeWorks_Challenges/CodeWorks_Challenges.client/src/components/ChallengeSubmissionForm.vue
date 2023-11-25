@@ -43,7 +43,7 @@ export default {
     
     const editable = ref({
       accountId: AppState.account.id,
-      challengeId: route.params.challengeId,
+      challengeId: AppState.activeChallenge?.id,
       submission: '',
       status: 'submitted',
     })
@@ -62,8 +62,7 @@ export default {
         if (await Pop.confirm(`Are you sure you are ready to submit ${AppState.activeChallenge?.name} to be graded? This cannot be undone!`)) {
           const participantId = participant.value.id
           const newParticipant = { 
-            ...editable.value,
-            challengeId: route.params.challengeId,
+            ...editable.value
           }
           logger.log('Your Participation:', editable.value)
           await participantsService.updateChallengeParticipant(newParticipant, participantId)

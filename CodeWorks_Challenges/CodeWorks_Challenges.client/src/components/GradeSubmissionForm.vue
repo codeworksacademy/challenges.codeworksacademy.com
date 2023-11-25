@@ -144,11 +144,56 @@ export default {
     const route = useRoute()
     const filterBy = ref('')
 
+    //NOTE - Participant of a Challenge Reference from backend for refactoring the editable object:
+//     challengeId: {
+//     type: ObjectId,
+//     required: true,
+//     ref: 'Challenge'
+//   },
+//   accountId: {
+//     type: ObjectId,
+//     required: true,
+//     ref: 'Account'
+//   },
+//   submission: { type: String, maxLength: 700, default: '' },
+//   status: { type: String, enum: SUBMISSION_TYPES, required: true, default: 'incomplete', lowercase: true },
+  
+//   claimedAt: { type: Date }
+
+// },
+//   { timestamps: true, toJSON: { virtuals: true } }
+// )
+
+// ChallengeParticipantSchema.virtual('profile', {
+//   localField: 'accountId',
+//   foreignField: '_id',
+//   ref: 'Account',
+//   justOne: true
+// })
+
+// ChallengeParticipantSchema.virtual('challenge', {
+//   localField: 'challengeId',
+//   foreignField: '_id',
+//   ref: 'Challenge',
+//   justOne: true
+// })
+
+// ChallengeParticipantSchema.virtual('requirements', {
+//   localField: 'challengeId',
+//   foreignField: '_id',
+//   ref: 'Challenge',
+//   justOne: false,
+// })
     const editable = ref({
+      id: props.participant.id,
+      profile: props.participant.profile,
+      challengeId: props.participant.challengeId,
+      accountId: props.participant.accountId,
+      submission: props.participant.submission,
+      feedback: props.participant.feedback,
       status: SUBMISSION_TYPES,
-      challenge: {
-        requirements: [],
-      }
+      challenge: props.participant.challenge,
+      requirements: props.participant.challenge.requirements,
     })
 
     // Initialize editable with the correct structure
@@ -187,17 +232,9 @@ export default {
 
     async function submitGrade() {
       try {
-        const participantId = props.participant?.id
+        const participantId = props.participant.id
         const newSubmission = {
-          challengeId: props.participant.challenge?.id,
-          accountId: AppState.account.id,
-          submission: editable.value.submission,
-          feedback: editable.value.feedback,
-          // grade: editable.value.grade,
-          status: editable.value.status,
-          challenge: {
-            requirements: editable.value.challenge.requirements,
-          }
+          ...editable.value
         }
         await participantsService.updateChallengeParticipant(newSubmission, participantId)
         editable.value = {}

@@ -492,6 +492,7 @@ export default {
           const newParticipant = {
             challengeId: route.params.challengeId,
             accountId: AppState.user.id,
+            // profile: AppState.profiles.find(p => p.id === AppState.activeParticipant?.profile?.id),
             status: 'started',
             supportLinks: [
               {

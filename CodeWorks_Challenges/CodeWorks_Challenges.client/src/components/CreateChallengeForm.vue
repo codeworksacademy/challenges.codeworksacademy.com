@@ -67,12 +67,12 @@ export default {
         await challengesService.createChallenge(newChallenge)
         Modal.getOrCreateInstance('#createChallengeForm').hide()
         Pop.toast('Challenge Created')
-        router.push(
-          { name: 'ChallengeEditor',
-            params: {
-              challengeId: AppState.activeChallenge?.id
-            }
-          })
+        // router.push(
+        //   { name: 'ChallengeEditor',
+        //     params: {
+        //       challengeId: props.challenge?.id
+        //     }
+        //   })
       } catch (error) {
         Pop.toast(error.message, 'error')
       }

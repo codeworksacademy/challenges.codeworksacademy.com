@@ -51,8 +51,10 @@
         </h3>
       </template>
       <template #body>
-        <div v-for="participant in submissions" :key="participant.id">
-          <ParticipantCard :participant="participant" />
+        <div  class="col-12 d-flex justify-content-center align-items-center">
+        <div v-for="p in participants" :key="p.id">
+          <ParticipantCard :participant="p" />
+        </div>
         </div>
       </template>
     </BottomOffcanvasWrapper>
@@ -80,7 +82,7 @@ export default {
   setup() {
     return {
       appState: computed(() => AppState),
-      submissions: computed(() => AppState.participants),
+      participants: computed(() => AppState.participants),
       // Submissions: computed(() => {
       //   return AppState.participants.filter(p => p.status === 'submitted')
       // })

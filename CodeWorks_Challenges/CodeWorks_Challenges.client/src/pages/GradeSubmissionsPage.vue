@@ -23,17 +23,6 @@
         </div>
         
       </section>
-      <!-- <div v-if="challenge.requirements.length > 0" class="col-md-8 bg-dark text-light p-3 mb-3">
-        <div v-for="(requirement, index) in challenge.requirements" :key="index">
-          <i class="text-light">
-            {{ index + 1 }}:
-          </i>
-          <p>
-            Step: {{ requirement.step }}
-            Comment: {{ requirement.comment }}
-          </p>
-        </div>
-      </div> -->
     </div>
 
   <div v-if="challengeCreator" class="col-9 d-flex justify-content-center align-items-center position-fixed bottom-2">
@@ -49,9 +38,6 @@
     </a>
   </div>
 
-  <div v-for="p in participants.status" :key="p.id" class="col-12 d-flex justify-content-center align-items-center">
-    <ParticipantCard :participant="p" />
-  </div>
   <div v-for="p in participants" :key="p.name" class="col-12 d-flex justify-content-center align-items-center pb-5 mb-5">
     <GradeSubmissionForm :participant="p" />
   </div>
