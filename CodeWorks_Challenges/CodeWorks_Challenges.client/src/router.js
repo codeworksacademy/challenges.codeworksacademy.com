@@ -20,7 +20,29 @@ const routes = [
     path: '/account',
     name: 'Account',
     component: loadPage('AccountPage'),
-    beforeEnter: authGuard
+    beforeEnter: authGuard,
+      // children: [
+      //   {
+      //     path: 'overview',
+      //     name: 'AccountOverview',
+      //     component: loadPage('AccountOverviewPage')
+      //   },
+      //   {
+      //     path: 'activity',
+      //     name: 'AccountActivity',
+      //     component: loadPage('AccountActivityPage')
+      //   },
+      //   {
+      //     path: 'badges',
+      //     name: 'AccountBadges',
+      //     component: loadPage('AccountBadgesPage')
+      //   },
+      //   {
+      //     path: 'certificates',
+      //     name: 'AccountCertificates',
+      //     component: loadPage('AccountMilestonesPage')
+      //   }
+      // ]
   },
   {
     path: '/challenges',
@@ -49,15 +71,15 @@ const routes = [
     //   },
     //   {
     //     path: 'grading',
-    //     name: 'GradeSubmissionsPage',
-    //     component: loadPage('GradeSubmissionsPage')
+    //     name: 'GradeSubmissionPage',
+    //     component: loadPage('GradeSubmissionPage')
     //   }
     // ]
   },
   {
     path: '/challenges/:challengeId/grading',
-    name: 'GradeSubmissionsPage',
-    component: loadPage('GradeSubmissionsPage')
+    name: 'GradeSubmissionPage',
+    component: loadPage('GradeSubmissionPage')
   },
   {
     path: '/challenges/:challengeId/submissions',
@@ -65,11 +87,8 @@ const routes = [
     component: loadPage('ChallengeSubmissionsPage'),
     beforeEnter: authGuard
   },
-  //Looking at the path between ChallengeSubmissionsPage and GradeSubmissionsPage, it could be assumed that each page has the following logic:
-  // 1. ChallengeSubmissionsPage: Displays all submissions for a challenge. If the user is a participant, this page would also allow them to submit their own submission which means that the page would have to be able to handle both GET and POST requests. The use for this page is to display all submissions for a challenge, but also allow the user to submit their own submission. This is helpful for the user to see what other people have submitted and to also submit their own submission.
-  // 2. GradeSubmissionsPage: Displays all submissions for a challenge, but with the ability to grade them. This page would have to be able to handle GET and PUT requests. The use for this page is to display all submissions for a challenge, but also allow the user to grade them.
   {
-    path: '/profile/:profileId',
+    path: '/profiles/:profileId',
     name: 'Profile',
     component: loadPage('ProfilePage'),
   },

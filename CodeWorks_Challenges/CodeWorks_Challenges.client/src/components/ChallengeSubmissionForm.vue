@@ -97,7 +97,7 @@ export default {
         Pop.toast('Submission Removed');
 
         router.push({
-          name: 'GradeSubmissionsPage',
+          name: 'GradeSubmissionPage',
           params: { challengeId: route.params.challengeId },
         });
       } catch (error) {

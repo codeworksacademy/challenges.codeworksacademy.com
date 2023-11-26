@@ -5,6 +5,10 @@ export const AppState = reactive({
   user: {},
   /** @type {import('./models/Account.js').Account} */
   account: {},
+
+  /** @type {import('./models/Profile.js').Profile[]} */
+  profiles: [],
+
   /** @type {import('./models/Challenge.js').Challenge[]} */
   challenges: [],
   myChallenges: [],
@@ -12,8 +16,6 @@ export const AppState = reactive({
   /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]} */
   participants: [],
   myParticipants: [],
-
-
 
   /** @type {import('./models/Reward.js').Reward[]} */
   rewards: [],
@@ -35,7 +37,6 @@ export const AppState = reactive({
 
   /** @type {import('./models/Profile.js')|null} */
   activeProfile: null,
-  profiles: [],
   // query: '',
 
   /** @type {import('./models/AccountMilestone.js').Milestone[]} */

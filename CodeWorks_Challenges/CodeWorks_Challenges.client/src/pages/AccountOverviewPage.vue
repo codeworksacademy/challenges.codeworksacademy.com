@@ -28,34 +28,34 @@
       </div>
     </section>
     <section class="row mt-3 p-3" style="background-color: #161d2b;">
-      <div class="col-12 d-flex justify-content-center align-items-center text-uppercase fs-8 fw-500">
+      <div class="col-12 d-flex justify-content-around align-items-center text-uppercase fw-500">
         <!-- <a id="profile__link" :href="profile">My Profile</a> -->
-        <router-link class="col-3" :to="{ name: 'Profile', params: { profileId: account.id } }">
-          My Account
+        <router-link :to="{ name: 'Profile', params: { profileId: account.id } }">
+          My Profile
         </router-link>
-        <router-link class="col-3" :to="{ name: 'Account', params: { accountId: account.id } }"> <!--TODO [FEATURE RICH] - Implement route to a new page that holds logistics for app member services -->
-          Billing and Plans
+        <router-link :to="{ name: 'Account', params: { accountId: account.id } }"> <!--TODO [FEATURE RICH] - Implement route to a new page that holds logistics for app member services -->
+          <a id="services__link" href="">Billing and Plans</a>
         </router-link>
-        <router-link class="col-3" :to="{ name: 'Account', params: { accountId: account.id } }"> <!--TODO [FEATURE RICH] - Implement route to a new page that holds logistics for creating team collaborations -->
-          Create Team
+        <router-link :to="{ name: 'Account', params: { accountId: account.id } }"> <!--TODO [FEATURE RICH] - Implement route to a new page that holds logistics for creating team collaborations -->
+          <a id="collab__link" href="">Create Team</a>
         </router-link>
-        <div class="col-3 d-flex flex-end">
+        <div class="d-flex flex-end">
           <a type="button" title="Edit Account" class="" data-bs-toggle="modal"
             data-bs-target="#accountFormModal">
-            Account Settings
+            Profile Settings
           </a>
         </div>
       </div>
     </section>
     <hr class="" style="color: #3d4450; margin-top: .1rem; margin-bottom: .1rem;">
     <section class="row p-3 mb-5">
-      <div class="col-12 d-flex justify-content-center align-items-center text-uppercase fs-8 fw-500">
-        <router-link class="col-3" :to="{ name: '', params: { accountId: account.id } }">
+      <div class="col-6 d-flex justify-content-between align-items-center text-uppercase fw-500">
+        <router-link :to="{ name: '', params: { accountId: account.id } }">
           Overview
         </router-link>
-        <a class="col-3" href="">Activity</a>
-        <a class="col-3" href="">Badges</a>
-        <a class="col-3" href="">Certificates</a>
+        <a href="">Activity</a>
+        <a href="">Badges</a>
+        <a href="">Certificates</a>
       </div>
 
     </section>

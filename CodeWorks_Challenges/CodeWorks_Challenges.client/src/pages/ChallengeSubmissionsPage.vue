@@ -18,9 +18,16 @@
         <p v-html="difficulty.html"></p>
       </div>
       <section>
-        <div  class="col-12 d-flex justify-content-between align-items-center">
-          <div class="col-2 p-3"  v-for="p in participants" :key="p.id">
-            <ParticipantCard :participant="p" />
+        <div class="col-12 d-flex justify-content-between align-items-center">
+          <div v-for="p in participants" :key="p.id" class="col-2 p-3">
+            <div v-if="p.status === 'submitted'">
+              <ParticipantCard :participant="p" />
+              <small class="d-flex justify-content-center align-items-center text-success text-capitalize" style="font-style: bold;">gradable</small>
+            </div>
+            <div v-else class="not-submitted">
+              <ParticipantCard :participant="p" />
+              <small class="subtle-header text-capitalize text-center p-0 m-0" style="font-style: italic;">not submitted</small>
+            </div>
           </div>
         </div>
       </section>
@@ -146,3 +153,10 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+  .not-submitted {
+    opacity: 0.75;
+    filter: grayscale(100%);
+  }
+</style>
