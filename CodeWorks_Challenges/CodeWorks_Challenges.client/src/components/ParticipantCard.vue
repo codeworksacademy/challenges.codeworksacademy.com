@@ -45,7 +45,7 @@ export default {
 
     function changeRoute(route){
             router.push({
-                    path: `${route}`
+                    path: `${route}/`
             })
         }
 

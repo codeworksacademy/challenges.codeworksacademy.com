@@ -20,7 +20,9 @@
           <ol>
             <li v-for="(requirement, index) in challenge.requirements" :key="index">
               <div class="form-check">
-                <input type="checkbox" class="form-check-input" v-model="requirement.completed" :id="`field-${requirement.step}`">
+                <input
+                @change="toggleCompleted()"
+                type="checkbox" class="form-check-input" v-model="requirement.completed" :id="`field-${requirement.step}`">
                 <label class="form-check-label" :for="`field-${requirement.step}`">{{ requirement.step }}</label>
               </div>
               <div class="col-12 d-flex align-items-center form-group mt-1 m-auto no-wrap mt-3">
@@ -152,8 +154,9 @@ export default {
       submission: props.participant.submission,
       feedback: props.participant.feedback,
       status: SUBMISSION_TYPES,
+      grade: 0,
       challenge: props.participant.challenge,
-      requirements: props.participant.challenge.requirements,
+      requirements: props.participant.requirements
     })
 
     // Initialize editable with the correct structure
@@ -188,19 +191,35 @@ export default {
     }
 
     watchEffect(() => {
+
     })
 
     async function submitGrade() {
       try {
         const participantId = props.participant.id
         const newSubmission = {
-          ...editable.value
+          ...editable.value,
         }
         await participantsService.updateChallengeParticipant(newSubmission, participantId)
         editable.value = {}
       } catch (error) {
         logger.error(error)
       }
+    }
+
+    function toggleCompleted() {
+      editable.value.requirements.completed = !editable.value.requirements.completed
+
+      if (editable.value.requirements.completed == true) {
+        editable.value.grade += 1
+      } else if (editable.value.requirements.completed == false) {
+        editable.value.grade -= 1
+      }
+      // editable.value.grade = editable.value.requirements.filter(r => r.completed == true).length
+      
+      
+      logger.log('Requirement Completed: ', editable.value.requirements)
+      logger.log('Grade: ', editable.value.grade)
     }
 
     const submissionTypes = computed(() => {
@@ -220,12 +239,16 @@ export default {
 
     return {
       editable,
+      gradeCount: computed(() => {
+        return editable.value.requirements.filter(r => r.completed).length
+      }),
       challenge: computed(() => AppState.activeChallenge),
       filterBy,
       submissionTypes,
       formatEnum,
       submitGrade,
       testStatusChange,
+      toggleCompleted
     }
   }
 }

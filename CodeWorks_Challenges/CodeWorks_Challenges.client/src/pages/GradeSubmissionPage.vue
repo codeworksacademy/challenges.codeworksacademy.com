@@ -37,9 +37,13 @@
       aria-controls="offcanvasBottom">
     </a>
   </div>
-
-  <div v-for="p in participants" :key="p.name" class="col-12 d-flex justify-content-center align-items-center pb-5 mb-5">
-    <GradeSubmissionForm :participant="p" />
+  <!-- <div v-for="p in participants" :key="p.id" class="col-12 d-flex justify-content-center align-items-center pb-5 mb-5">
+    <GradeSubmissionForm v-if="p.status === 'submitted'" :participant="p" />
+  </div> -->
+  <div v-for="p in participants" :key="p.id" class="col-12 d-flex justify-content-center align-items-center pb-5 mb-5">
+    <div v-if="p.status === 'submitted'">
+      <GradeSubmissionForm :participant="p" />
+    </div>
   </div>
   </section>
 </template>
@@ -100,13 +104,11 @@ export default {
       } else return 'null'
     }
 
-    
-
     const challenge = computed(() => {
       return AppState.challenges.find(c => c.id === AppState.activeChallenge.id)
     })
     const participant = computed(() => {
-      return AppState.participants.find(p => p.accountId === AppState.account.id)
+      return AppState.participants.find(p => p.id === AppState.activeParticipant?.id)
     })
 
     onMounted(() => {

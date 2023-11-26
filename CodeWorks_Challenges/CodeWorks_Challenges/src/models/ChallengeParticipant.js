@@ -16,7 +16,7 @@ export const ChallengeParticipantSchema = new Schema({
   },
   submission: { type: String, maxLength: 700, default: '' },
   status: { type: String, enum: SUBMISSION_TYPES, required: true, default: 'incomplete', lowercase: true },
-  
+  grade: { type: Number, default: 0 },
   claimedAt: { type: Date }
 
 },
