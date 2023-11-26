@@ -21,7 +21,7 @@
             <li v-for="(requirement, index) in challenge.requirements" :key="index">
               <div class="form-check">
                 <input
-                @change="toggleCompleted()"
+                @change="addGradePoint(index)"
                 type="checkbox" class="form-check-input" v-model="requirement.completed" :id="`field-${requirement.step}`">
                 <label class="form-check-label" :for="`field-${requirement.step}`">{{ requirement.step }}</label>
               </div>
@@ -207,18 +207,16 @@ export default {
       }
     }
 
-    function toggleCompleted() {
-      editable.value.requirements.completed = !editable.value.requirements.completed
-
-      if (editable.value.requirements.completed == true) {
-        editable.value.grade += 1
-      } else if (editable.value.requirements.completed == false) {
-        editable.value.grade -= 1
-      }
-      // editable.value.grade = editable.value.requirements.filter(r => r.completed == true).length
-      
-      
-      logger.log('Requirement Completed: ', editable.value.requirements)
+    function addGradePoint(index) {
+      editable.value.requirements[index] = editable.value.grade
+      const checked = document.querySelectorAll('input[type="checkbox"]:checked')
+      editable.value.grade = checked.length
+      editable.value.requirements.forEach(r => {
+        if (r.completed === true) {
+          logger.log('Requirement Completed: ', r.step)
+        }
+      })
+      logger.log('Requirement Completed: ', editable.value.requirements[index])
       logger.log('Grade: ', editable.value.grade)
     }
 
@@ -248,7 +246,7 @@ export default {
       formatEnum,
       submitGrade,
       testStatusChange,
-      toggleCompleted
+      addGradePoint
     }
   }
 }
