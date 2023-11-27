@@ -196,7 +196,7 @@ export default {
     }
 
     watchEffect(() => {
-
+      
     })
 
     async function submitGrade() {
@@ -215,16 +215,21 @@ export default {
     function addGradePoint(index) {
       editable.value.requirements.map(r => ({ ...r, completed: false, comment: '' }))
       editable.value.requirements[index].completed = !editable.value.requirements[index].completed;
-
       editable.value.grade = editable.value.requirements.filter(r => r.completed).length;
 
       editable.value.requirements.forEach(r => {
         if (r.completed === true) {
-          logger.log('Completed Requirement: ', r.step);
+          logger.log(
+          `[NEW DATA] =>
+          * COMPLETED REQUIREMENT: 
+          -STEP: ${r.step}
+          -COMPLETED: ${r.completed}
+          -COMMENT: ${r.comment.length === 0 ? 'No comment provided' : r.comment} 
+          * TOTAL GRADE: ${editable.value.grade} / ${editable.value.requirements.length}`
+            );
         }
       });
-      logger.log('Requirement Completed: ', editable.value.requirements[index].completed);
-      logger.log(`Total Grade [GRADE VALUE / LENGTH OF REQUIREMENTS]: ${editable.value.grade} / ${editable.value.requirements.length}`);
+      logger.log(`Requirement Completed? ${editable.value.requirements[index].completed ? 'Yes' : 'No'}`);
     }
 
     const submissionTypes = computed(() => {
