@@ -1,7 +1,6 @@
 <template>
   <section class="container-fluid" v-if="participant" :key="participant?.id">
     <div class="d-flex flex-column justify-content-center align-items-center">
-      
         <img
           v-if="participant.status === 'submitted'"
           @click="changeRoute('grading')"
@@ -21,6 +20,7 @@
           height="50"
           width="50"
         />
+        <h1>{{ participant.status }}</h1>
       <small class="text-truncate"> {{ participant.profile.name }} </small>
     </div>
   </section>
