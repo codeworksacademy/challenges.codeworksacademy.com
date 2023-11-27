@@ -18,11 +18,12 @@
       <form @submit.prevent="submitGrade" id="gradeSubmissionForm" class="row">
         <div v-if="participant?.challenge" class="col-12 d-flex justify-content-center align-items-center">
           <ol>
+            <div class="d-flex justify-content-end align-items-center">
+              <span class="text-uppercase fw-bold p-3">Completed Steps: {{ gradeCount }} / {{ challenge.requirements.length }}</span>
+            </div>
             <li v-for="(requirement, index) in challenge.requirements" :key="index">
               <div class="form-check">
-                <input
-                @change="addGradePoint(index)"
-                type="checkbox" class="form-check-input" v-model="requirement.completed" :id="`field-${requirement.step}`">
+                <input class="form-check-input" type="checkbox" :id="`field-${requirement.step}`" v-model="requirement.completed" :value="requirement.completed" @change="addGradePoint(index)" :checked="requirement.completed">
                 <label class="form-check-label" :for="`field-${requirement.step}`">{{ requirement.step }}</label>
               </div>
               <div class="col-12 d-flex align-items-center form-group mt-1 m-auto no-wrap mt-3">
@@ -156,7 +157,11 @@ export default {
       status: SUBMISSION_TYPES,
       grade: 0,
       challenge: props.participant.challenge,
-      requirements: props.participant.requirements
+      requirements: props.participant.challenge.requirements
+    })
+
+    const gradeCount = computed(() => {
+      return editable.value.requirements.filter(r => r.completed).length
     })
 
     // Initialize editable with the correct structure
@@ -208,16 +213,18 @@ export default {
     }
 
     function addGradePoint(index) {
-      editable.value.requirements[index] = editable.value.grade
-      const checked = document.querySelectorAll('input[type="checkbox"]:checked')
-      editable.value.grade = checked.length
+      editable.value.requirements.map(r => ({ ...r, completed: false, comment: '' }))
+      editable.value.requirements[index].completed = !editable.value.requirements[index].completed;
+
+      editable.value.grade = editable.value.requirements.filter(r => r.completed).length;
+
       editable.value.requirements.forEach(r => {
         if (r.completed === true) {
-          logger.log('Requirement Completed: ', r.step)
+          logger.log('Completed Requirement: ', r.step);
         }
-      })
-      logger.log('Requirement Completed: ', editable.value.requirements[index])
-      logger.log('Grade: ', editable.value.grade)
+      });
+      logger.log('Requirement Completed: ', editable.value.requirements[index].completed);
+      logger.log(`Total Grade [GRADE VALUE / LENGTH OF REQUIREMENTS]: ${editable.value.grade} / ${editable.value.requirements.length}`);
     }
 
     const submissionTypes = computed(() => {

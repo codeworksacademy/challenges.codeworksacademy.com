@@ -65,8 +65,10 @@
             </div>
           </div>
           <div class="text-box">
-            <div class="header flex-grow-1 d-flex justify-content-end">
-              <h1 v-if="isOwned || isModeratorStatus == 'approved'" @click="editChallenge()" class="btn btn-outline-info">Edit
+            <div class="header flex-grow-1 d-flex justify-content-end" style="white-space: nowrap;">
+              <h1 @click="changeRoute(`${challenge.id}/submissions`)"
+                class="btn btn-outline-info no-wrap me-1">View Submissions</h1>
+              <h1 v-if="isOwned || isModeratorStatus == 'approved'" @click="editChallenge()" class="btn btn-outline-info ms-1">Edit
                 Challenge</h1>
             </div>
           </div>
@@ -326,6 +328,11 @@ export default {
     const answer = ref('')
     let challengeId = ''
 
+    function changeRoute(route){
+        router.push({
+          path: `${route}`
+        })
+      }
 
     const isParticipant = computed(() => {
       const participant = AppState.participants.find(p => p.accountId == AppState.account.id)
@@ -444,6 +451,7 @@ export default {
     })
 
     return {
+      changeRoute,
       updateChallengeParticipant,
       answer,
       loading,
