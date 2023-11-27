@@ -18,7 +18,6 @@ export const ChallengeParticipantSchema = new Schema({
   status: { type: String, enum: SUBMISSION_TYPES, required: true, default: 'incomplete', lowercase: true },
   grade: { type: Number, default: 0 },
   claimedAt: { type: Date }
-
 },
   { timestamps: true, toJSON: { virtuals: true } }
 )

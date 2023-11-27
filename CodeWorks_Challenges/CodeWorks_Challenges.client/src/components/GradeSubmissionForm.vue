@@ -203,6 +203,7 @@ export default {
       try {
         const participantId = props.participant.id
         const newSubmission = {
+          participant: editable.value,
           feedback: editable.value.feedback,
           status: editable.value.status,
           grade: editable.value.grade,

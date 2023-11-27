@@ -45,6 +45,9 @@
     <section class="row m-1">
         <div class="col-6">
           <h5>CHALLENGE DESCRIPTION</h5>
+          <button class="btn btn-outline-primary" @click="joinChallenge()" v-if="!isParticipant">
+                Join Challenge
+              </button>
         </div>
         <div class="col-6">
           <div v-if="!isOwned" class="row text-light">
