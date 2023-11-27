@@ -148,7 +148,6 @@ export default {
     const filterBy = ref('')
 
     const editable = ref({
-      id: props.participant.id,
       profile: props.participant.profile,
       challengeId: props.participant.challengeId,
       accountId: props.participant.accountId,
@@ -196,17 +195,26 @@ export default {
     }
 
     watchEffect(() => {
-      
+      AppState.activeChallenge = editable.value.challenge
+      AppState.activeParticipant = editable.value
     })
 
     async function submitGrade() {
       try {
         const participantId = props.participant.id
         const newSubmission = {
-          ...editable.value,
+          feedback: editable.value.feedback,
+          status: editable.value.status,
+          grade: editable.value.grade,
+          requirements: editable.value.requirements
         }
-        await participantsService.updateChallengeParticipant(newSubmission, participantId)
-        editable.value = {}
+        await participantsService.updateChallengeParticipant(participantId, newSubmission)
+        editable.value = {
+          feedback: '',
+          status: '',
+          grade: 0,
+          requirements: editable.value.requirements.map(r => ({ ...r, completed: false, comment: '' }))
+        }
       } catch (error) {
         logger.error(error)
       }

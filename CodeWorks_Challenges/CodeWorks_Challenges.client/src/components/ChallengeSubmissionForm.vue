@@ -66,7 +66,7 @@ export default {
             ...editable.value
           }
           logger.log('Your Participation:', editable.value)
-          await participantsService.updateChallengeParticipant(newParticipant, participantId)
+          await participantsService.updateChallengeParticipant(participantId, newParticipant)
           editable.value = {}
           Modal.getOrCreateInstance('#createSubmissionForm').hide();
           Pop.success('Challenge Submitted!');
