@@ -85,15 +85,15 @@ export default {
       }
     }
 
-    async function getParticipantsByChallengeId() {
-      try {
-        const challengeId = route.params.challengeId
-        await participantsService.getParticipantsByChallengeId(challengeId)
-      } catch (error) {
-        logger.error(error)
-        Pop.toast(error, 'error')
-      }
-    }
+    // async function getParticipantsByChallengeId() {
+    //   try {
+    //     const challengeId = route.params.challengeId
+    //     await participantsService.getParticipantsByChallengeId(challengeId)
+    //   } catch (error) {
+    //     logger.error(error)
+    //     Pop.toast(error, 'error')
+    //   }
+    // }
 
     function isModeratorStatus() {
       const isMod = AppState.moderators.find(m => m.accountId == AppState.account.id)
@@ -113,7 +113,7 @@ export default {
 
     onMounted(() => {
       setActiveChallenge()
-      getParticipantsByChallengeId()
+      // getParticipantsByChallengeId()
     })
 
     watchEffect(() => {

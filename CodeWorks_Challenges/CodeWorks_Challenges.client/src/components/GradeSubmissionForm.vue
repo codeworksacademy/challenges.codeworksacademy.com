@@ -155,9 +155,19 @@ export default {
       feedback: props.participant.feedback,
       status: SUBMISSION_TYPES,
       grade: 0,
-      challenge: props.participant.challenge,
-      requirements: props.participant.challenge.requirements
+      challenge: {
+        requirements: []
+      }
     })
+    const statusOptions = ref([
+      { text: 'Incomplete', value: 'incomplete' },
+      { text: 'Submitted', value: 'submitted' },
+      { text: 'Returned for Review', value: 'returned_for_review' },
+      { text: 'Completed', value: 'completed' },
+      { text: 'Graded', value: 'graded' },
+      { text: 'Removed', value: 'removed' },
+      { text: 'Left', value: 'left' },
+    ])
 
     const gradeCount = computed(() => {
       return editable.value.requirements.filter(r => r.completed).length
@@ -165,8 +175,8 @@ export default {
 
     // Initialize editable with the correct structure
     onMounted(() => {
-      setActiveChallenge()
-      getParticipantsByChallengeId()
+      // setActiveChallenge()
+      // getParticipantsByChallengeId()
     })
     
     async function setActiveChallenge() {
@@ -201,21 +211,10 @@ export default {
 
     async function submitGrade() {
       try {
-        const participantId = props.participant.id
-        const newSubmission = {
-          participant: editable.value,
-          feedback: editable.value.feedback,
-          status: editable.value.status,
-          grade: editable.value.grade,
-          requirements: editable.value.requirements
-        }
-        await participantsService.updateChallengeParticipant(participantId, newSubmission)
-        editable.value = {
-          feedback: '',
-          status: '',
-          grade: 0,
-          requirements: editable.value.requirements.map(r => ({ ...r, completed: false, comment: '' }))
-        }
+        const participantId = editable.value.id
+        const newSubmission = { ...editable.value }
+        await participantsService.updateChallengeParticipant(newSubmission, participantId)
+        editable.value = {}
       } catch (error) {
         logger.error(error)
       }
