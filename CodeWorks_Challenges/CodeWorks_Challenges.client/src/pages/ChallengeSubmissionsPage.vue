@@ -22,11 +22,11 @@
           <div v-for="p in participants" :key="p.id" class="col-2 p-3">
             <div v-if="p.status === 'submitted'">
               <ParticipantCard :participant="p" />
-              <small class="d-flex justify-content-center align-items-center text-success text-capitalize" style="font-style: bold;">gradable</small>
+              <!-- <small class="d-flex justify-content-center align-items-center text-success text-capitalize" style="font-style: bold;">gradable</small> -->
             </div>
             <div v-else class="not-submitted">
               <ParticipantCard :participant="p" />
-              <small class="d-flex justify-content-center align-items-center subtle-header text-capitalize p-0 m-0" style="font-style: italic;">not submitted</small>
+              <!-- <small class="d-flex justify-content-center align-items-center subtle-header text-capitalize p-0 m-0" style="font-style: italic;">not submitted</small> -->
             </div>
           </div>
         </div>
@@ -155,8 +155,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .not-submitted {
-    opacity: 0.75;
-    filter: grayscale(100%);
-  }
+  // .not-submitted {
+  //   opacity: 0.75;
+  //   filter: grayscale(100%);
+  // }
 </style>

@@ -20,11 +20,19 @@
           height="50"
           width="50"
         />
-        <h1>{{ participant.status }}</h1>
-      <small class="text-truncate"> {{ participant.profile.name }} </small>
+        <p v-if="participant.status == 'completed'" class="text-success">{{ participant.status }}</p>
+        <p v-if="participant.status == 'submitted'" class="text-warning">{{ participant.status }}</p>
+        <p v-if="participant.status == 'started'" class="text-info">{{ participant.status }}</p>
+        <small class="text-truncate"> {{ participant.profile.name }} </small>
     </div>
   </section>
 </template>
+
+<!-- "INCOMPLETE": "INCOMPLETE",
+"SUBMITTED_FOR_REVIEW": "SUBMITTED_FOR_REVIEW",
+"RETURNED_FOR_CORRECTION": "RETURNED_FOR_CORRECTION",
+"COMPLETE": "COMPLETE",
+"REMOVED": "REMOVED" -->
 
 <script>
 import { ChallengeParticipant } from "../models/ChallengeParticipant.js";
