@@ -2,7 +2,7 @@
   <section v-if="participant" :key="participant?.id" class="container-fluid">
     <div class="row justify-content-center align-items-center">
       <div class="col-12 d-flex flex-column justify-content-center align-items-center">
-        <h1>Grade Challenge for {{ participant.profile.name }}</h1>
+        <h1 class="text-center">Grade Challenge for {{ participant.profile.name }}</h1>
       </div>
       <div class="col-12 d-flex justify-content-center align-items-center">
         <p>Submission Source Code Link: </p>
@@ -18,9 +18,12 @@
       <form @submit.prevent="submitGrade" id="gradeSubmissionForm" class="row">
         <div v-if="participant?.challenge" class="col-12 d-flex justify-content-center align-items-center">
           <ol>
+            <div class="d-flex justify-content-end align-items-center">
+              <span class="text-uppercase fw-bold p-3">Completed Steps: {{ gradeCount }} / {{ challenge.requirements.length }}</span>
+            </div>
             <li v-for="(requirement, index) in challenge.requirements" :key="index">
-              <div class="form-check ps-5">
-                <input type="checkbox" class="form-check-input" v-model="requirement.completed" :id="`field-${requirement.step}`">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" :id="`field-${requirement.step}`" v-model="requirement.completed" :value="requirement.completed" @change="addGradePoint(index)" :checked="requirement.completed">
                 <label class="form-check-label" :for="`field-${requirement.step}`">{{ requirement.step }}</label>
               </div>
               <div class="col-12 d-flex align-items-center form-group mt-1 m-auto no-wrap mt-3">
@@ -144,56 +147,20 @@ export default {
     const route = useRoute()
     const filterBy = ref('')
 
-    //NOTE - Participant of a Challenge Reference from backend for refactoring the editable object:
-//     challengeId: {
-//     type: ObjectId,
-//     required: true,
-//     ref: 'Challenge'
-//   },
-//   accountId: {
-//     type: ObjectId,
-//     required: true,
-//     ref: 'Account'
-//   },
-//   submission: { type: String, maxLength: 700, default: '' },
-//   status: { type: String, enum: SUBMISSION_TYPES, required: true, default: 'incomplete', lowercase: true },
-  
-//   claimedAt: { type: Date }
-
-// },
-//   { timestamps: true, toJSON: { virtuals: true } }
-// )
-
-// ChallengeParticipantSchema.virtual('profile', {
-//   localField: 'accountId',
-//   foreignField: '_id',
-//   ref: 'Account',
-//   justOne: true
-// })
-
-// ChallengeParticipantSchema.virtual('challenge', {
-//   localField: 'challengeId',
-//   foreignField: '_id',
-//   ref: 'Challenge',
-//   justOne: true
-// })
-
-// ChallengeParticipantSchema.virtual('requirements', {
-//   localField: 'challengeId',
-//   foreignField: '_id',
-//   ref: 'Challenge',
-//   justOne: false,
-// })
     const editable = ref({
-      id: props.participant.id,
       profile: props.participant.profile,
       challengeId: props.participant.challengeId,
       accountId: props.participant.accountId,
       submission: props.participant.submission,
       feedback: props.participant.feedback,
       status: SUBMISSION_TYPES,
+      grade: 0,
       challenge: props.participant.challenge,
-      requirements: props.participant.challenge.requirements,
+      requirements: props.participant.challenge.requirements
+    })
+
+    const gradeCount = computed(() => {
+      return editable.value.requirements.filter(r => r.completed).length
     })
 
     // Initialize editable with the correct structure
@@ -228,19 +195,49 @@ export default {
     }
 
     watchEffect(() => {
+      AppState.activeChallenge = editable.value.challenge
+      AppState.activeParticipant = editable.value
     })
 
     async function submitGrade() {
       try {
         const participantId = props.participant.id
         const newSubmission = {
-          ...editable.value
+          feedback: editable.value.feedback,
+          status: editable.value.status,
+          grade: editable.value.grade,
+          requirements: editable.value.requirements
         }
-        await participantsService.updateChallengeParticipant(newSubmission, participantId)
-        editable.value = {}
+        await participantsService.updateChallengeParticipant(participantId, newSubmission)
+        editable.value = {
+          feedback: '',
+          status: '',
+          grade: 0,
+          requirements: editable.value.requirements.map(r => ({ ...r, completed: false, comment: '' }))
+        }
       } catch (error) {
         logger.error(error)
       }
+    }
+
+    function addGradePoint(index) {
+      editable.value.requirements.map(r => ({ ...r, completed: false, comment: '' }))
+      editable.value.requirements[index].completed = !editable.value.requirements[index].completed;
+      editable.value.grade = editable.value.requirements.filter(r => r.completed).length;
+
+      editable.value.requirements.forEach(r => {
+        if (r.completed === true) {
+          logger.log(
+          `[NEW DATA] =>
+          * COMPLETED REQUIREMENT: 
+          -STEP: ${r.step}
+          -COMPLETED: ${r.completed}
+          -COMMENT: ${r.comment.length === 0 ? 'No comment provided' : r.comment} 
+          * TOTAL GRADE: ${editable.value.grade} / ${editable.value.requirements.length}`
+            );
+        }
+      });
+      logger.log(`Requirement Completed? ${editable.value.requirements[index].completed ? 'Yes' : 'No'}`);
     }
 
     const submissionTypes = computed(() => {
@@ -260,12 +257,16 @@ export default {
 
     return {
       editable,
+      gradeCount: computed(() => {
+        return editable.value.requirements.filter(r => r.completed).length
+      }),
       challenge: computed(() => AppState.activeChallenge),
       filterBy,
       submissionTypes,
       formatEnum,
       submitGrade,
       testStatusChange,
+      addGradePoint
     }
   }
 }
@@ -275,17 +276,18 @@ export default {
 ol {
   list-style: none;
   counter-reset: my-counter;
+  width: 100%;
 }
 ol li {
   position: relative;
   margin-bottom: 10px;
-  left: 0px;
+  left: -10px;
 }
 ol li::before {
   content: 'Check ' counter(my-counter) ':';
   counter-increment: my-counter;
   position: absolute;
-  left: -50px;
+  left: -75px;
   top: -1.5px;
 }
 </style>
