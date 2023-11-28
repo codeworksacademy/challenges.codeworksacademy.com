@@ -3,7 +3,6 @@ import { SUBMISSION_TYPES } from "../constants";
 
 const ObjectId = Schema.Types.ObjectId
 
-SUBMISSION_TYPES.
 
 export const ChallengeParticipantSchema = new Schema({
   challengeId: {

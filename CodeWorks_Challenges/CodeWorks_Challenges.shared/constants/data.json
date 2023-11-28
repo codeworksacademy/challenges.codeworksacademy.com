@@ -1,15 +1,13 @@
 {
-
-  "SUBMISSION_TYPES":{
-    "INCOMPLETE": "INCOMPLETE",
-    "SUBMITTED_FOR_REVIEW": "SUBMITTED_FOR_REVIEW",
-    "RETURNED_FOR_CORRECTION": "RETURNED_FOR_CORRECTION",
-    "COMPLETE": "COMPLETE",
-    "REMOVED": "REMOVED"
-  },
-
-
-  
+  "SUBMISSION_TYPES": [
+    "incomplete",
+    "started",
+    "submitted",
+    "returned_for_review",
+    "completed",
+    "removed",
+    "left"
+  ],
   "CATEGORY_TYPES": [
     "full_stack",
     "front_end",
