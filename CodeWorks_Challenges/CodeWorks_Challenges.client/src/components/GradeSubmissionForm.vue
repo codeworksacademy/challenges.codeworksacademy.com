@@ -2,7 +2,7 @@
   <section v-if="participant" :key="participant?.id" class="container-fluid">
     <div class="row justify-content-center align-items-center">
       <div class="col-12 d-flex flex-column justify-content-center align-items-center">
-        <h1 class="text-center">Grade Challenge for {{ participant.profile.name }}</h1>
+        <h1>Grade Challenge for {{ participant.profile.name }}</h1>
       </div>
       <div class="col-12 d-flex justify-content-center align-items-center">
         <p>Submission Source Code Link: </p>
@@ -15,23 +15,12 @@
           {{ participant.submission }}
         </a>
       </div>
-      <form @submit.prevent="gradeChallengeParticipant" id="gradeSubmissionForm" class="row">
+      <form @submit.prevent="submitGrade" id="gradeSubmissionForm" class="row">
         <div v-if="participant?.challenge" class="col-12 d-flex justify-content-center align-items-center">
           <ol>
-            <div class="d-flex justify-content-end align-items-center">
-              <span class="text-uppercase fw-bold p-3">Completed Steps: {{ gradeCount }} / {{ challenge.requirements.length }}</span>
-            </div>
             <li v-for="(requirement, index) in challenge.requirements" :key="index">
-              <div class="form-check">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  @change="addGradePoint(index)"
-                  :id="`field-${requirement.step}`"
-                  :value="requirement.completed"
-                  :checked="requirement.completed"
-                  v-model="requirement.completed"
-                >
+              <div class="form-check ps-5">
+                <input type="checkbox" class="form-check-input" v-model="requirement.completed" :id="`field-${requirement.step}`">
                 <label class="form-check-label" :for="`field-${requirement.step}`">{{ requirement.step }}</label>
               </div>
               <div class="col-12 d-flex align-items-center form-group mt-1 m-auto no-wrap mt-3">
@@ -58,6 +47,16 @@
         </div>
         <div class="d-flex justify-content-center align-items-center my-3">
           <div class="">
+            <!-- <div  v-for="(option, index) in editable.status" :key="index">
+              <div class="d-flex flex-column radio-status-button">
+                <input @change="testStatusChange()" type="radio" v-model="editable.status"
+                :value="option" :name="`option-${index}`" :id="`option-${index}`" class="text-center fs-5">
+                <label :for="`option-${index}`">
+                  <small class="text-center text-capitalize fs-6">{{ formatEnum(option) }}</small>
+                </label>
+              </div>
+            </div> -->
+            <!-- FIXME - Fix the above statement -->
             <div class="" v-for="(option, index) in submissionTypes" :key="index">
               <div class="d-flex align-items-center radio-status-button">
                 <input @change="testStatusChange()" type="radio" v-model="editable.status"
@@ -66,14 +65,58 @@
                   <small class="text-capitalize fs-6">{{ formatEnum(option.text) }}</small>
                 </label>
               </div>
-            </div>
+            <!-- <div class="col-12 form-group px-5 mb-5">
+              <label for="status" class="form-label">Status</label>
+              <select
+                @change="testStatusChange()"
+                v-model="editable.status"
+                type="text"
+                name="status"
+                id="status"
+                placeholder="Status"
+                class="form-control bg-light"
+              >
+              <option :value="null">Select a status</option>
+              <option v-for="s in submissionTypes" :key="s.value" :value="s.value">{{ formatEnum(s.text) }}</option>
+              </select>
+            </div> -->
           </div>
         </div>
+            <!-- <div class="col-12 form-group px-5 mb-5">
+              <label for="status" class="form-label">Status</label>
+              <select
+                @change="testStatusChange()"
+                v-model="editable.status"
+                type="text"
+                name="status"
+                id="status"
+                placeholder="Status"
+                class="form-control bg-light"
+              >
+              <option :value="null">Select a status</option>
+              <option v-for="s in submissionTypes" :key="s.value" :value="s.value">{{ formatEnum(s.text) }}</option>
+              </select>
+            </div> -->
+        </div>
+        <!-- <div class="col-12 d-flex flex-column justify-content-center align-items-center form-group px-5 mb-5">
+          <label for="status" class="form-label">Status</label>
+          <select
+            v-model="editable.status"
+            type="text"
+            name="status"
+            id="status"
+            placeholder="Status"
+            class="form-control bg-light"
+          >
+            <option class="text-capitalize" v-for="s in editable.status" :key="s.value" :value="s.value">{{ formatEnum(s) }}</option>
+          </select>
+        </div> -->
         <div class="col-12">
           <button type="submit" class="btn btn-success">Submit</button>
         </div>
       </form>
     </div>
+
   </section>
 </template>
 
@@ -82,9 +125,7 @@ import { computed, onMounted, ref, watchEffect } from 'vue'
 import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
 import { participantsService } from '../services/ParticipantsService'
-import { challengeModeratorsService } from '../services/ChallengeModeratorsService'
 import { challengesService } from '../services/ChallengesService'
-import { ChallengeModerator } from '../models/ChallengeModerator'
 import { ChallengeParticipant } from '../models/ChallengeParticipant'
 import { useRoute } from "vue-router"
 import Pop from "../utils/Pop"
@@ -94,7 +135,7 @@ import { formatEnum } from "../utils/FormatEnum.js"
 export default {
   props: {
     participant: {
-      type: ChallengeParticipant || Object,
+      type: ChallengeParticipant,
       required: true
     }
   },
@@ -103,58 +144,62 @@ export default {
     const route = useRoute()
     const filterBy = ref('')
 
+    //NOTE - Participant of a Challenge Reference from backend for refactoring the editable object:
+//     challengeId: {
+//     type: ObjectId,
+//     required: true,
+//     ref: 'Challenge'
+//   },
+//   accountId: {
+//     type: ObjectId,
+//     required: true,
+//     ref: 'Account'
+//   },
+//   submission: { type: String, maxLength: 700, default: '' },
+//   status: { type: String, enum: SUBMISSION_TYPES, required: true, default: 'incomplete', lowercase: true },
+  
+//   claimedAt: { type: Date }
+
+// },
+//   { timestamps: true, toJSON: { virtuals: true } }
+// )
+
+// ChallengeParticipantSchema.virtual('profile', {
+//   localField: 'accountId',
+//   foreignField: '_id',
+//   ref: 'Account',
+//   justOne: true
+// })
+
+// ChallengeParticipantSchema.virtual('challenge', {
+//   localField: 'challengeId',
+//   foreignField: '_id',
+//   ref: 'Challenge',
+//   justOne: true
+// })
+
+// ChallengeParticipantSchema.virtual('requirements', {
+//   localField: 'challengeId',
+//   foreignField: '_id',
+//   ref: 'Challenge',
+//   justOne: false,
+// })
     const editable = ref({
-      id: AppState.user.id,
-      accountId: props.participant.accountId,
-      challengeId: props.participant.challengeId,
+      id: props.participant.id,
       profile: props.participant.profile,
+      challengeId: props.participant.challengeId,
+      accountId: props.participant.accountId,
       submission: props.participant.submission,
       feedback: props.participant.feedback,
       status: SUBMISSION_TYPES,
-      grade: 0,
-      challenge: {
-        requirements: []
-      }
+      challenge: props.participant.challenge,
+      requirements: props.participant.challenge.requirements,
     })
-    const statusOptions = ref([
-      { text: 'Incomplete', value: 'incomplete' },
-      { text: 'Submitted', value: 'submitted' },
-      { text: 'Returned for Review', value: 'returned_for_review' },
-      { text: 'Completed', value: 'completed' },
-      { text: 'Graded', value: 'graded' },
-      { text: 'Removed', value: 'removed' },
-      { text: 'Left', value: 'left' },
-    ])
-
-    const gradeCount = computed(() => {
-      return editable.value.requirements.filter(r => r.completed).length
-    })
-
-    // function setGradeStatus() {
-    //   let status;
-    //   let maxGrade;
-    //   switch (true) {
-    //     case gradeOutcome.value >= maxGrade - 2:
-    //       status = 'computed';
-    //       break;
-    //     case gradeOutcome.value < maxGrade - 2:
-    //       status = 'failed';
-    //       break;
-    //     default:
-    //       status = 'submitted';
-    //       break;
-    //   }
-    //   editable.value.status = status
-    //   editable.value.challenge.requirements.length = maxGrade
-    //   logger.log(`[NEW DATA] =>
-    //   * STATUS: ${editable.value.status}
-    //   * GRADE: ${editable.value.grade} / ${editable.value.challenge.requirements.length}`)
-    // }
 
     // Initialize editable with the correct structure
     onMounted(() => {
-      // setActiveChallenge()
-      // getParticipantsByChallengeId()
+      setActiveChallenge()
+      getParticipantsByChallengeId()
     })
     
     async function setActiveChallenge() {
@@ -183,53 +228,19 @@ export default {
     }
 
     watchEffect(() => {
-      AppState.activeChallenge = editable.value.challenge
-      AppState.activeParticipant = editable.value
     })
 
-    // async function gradeChallengeParticipant() {
-    //   try {
-    //     const participantId = props.participant.id
-    //     const moderatorId = props.participant.id // TODO - Is this needed?
-    //     const newSubmission = { ...editable.value }
-    //     await challengeModeratorsService.gradeChallengeParticipant(participantId, newSubmission)
-    //     editable.value = { ...editable.value }
-    //   } catch (error) {
-    //     logger.error(error)
-    //   }
-    // }
-
-    async function gradeChallengeParticipant() {
+    async function submitGrade() {
       try {
         const participantId = props.participant.id
-        const challengeId = props.participant.challengeId // TODO - Is this needed?
-        const newSubmission = { ...editable.value }
-        await participantsService.gradeChallengeParticipant(participantId, newSubmission)
-        editable.value = { ...editable.value }
-        Pop.toast('Submission Graded');
+        const newSubmission = {
+          ...editable.value
+        }
+        await participantsService.updateChallengeParticipant(newSubmission, participantId)
+        editable.value = {}
       } catch (error) {
         logger.error(error)
       }
-    }
-
-    function addGradePoint(index) {
-      editable.value.requirements.map(r => ({ ...r, completed: false, comment: '' }))
-      editable.value.requirements[index].completed = !editable.value.requirements[index].completed;
-      editable.value.grade = editable.value.requirements.filter(r => r.completed).length;
-
-      editable.value.requirements.forEach(r => {
-        if (r.completed === true) {
-          logger.log(
-          `[NEW DATA] =>
-          * COMPLETED REQUIREMENT: 
-          -STEP: ${r.step}
-          -COMPLETED: ${r.completed}
-          -COMMENT: ${r.comment.length === 0 ? 'No comment provided' : r.comment} 
-          * TOTAL GRADE: ${editable.value.grade} / ${editable.value.requirements.length}`
-            );
-        }
-      });
-      logger.log(`Requirement Completed? ${editable.value.requirements[index].completed ? 'Yes' : 'No'}`);
     }
 
     const submissionTypes = computed(() => {
@@ -249,16 +260,12 @@ export default {
 
     return {
       editable,
-      gradeCount: computed(() => {
-        return editable.value.requirements.filter(r => r.completed).length
-      }),
       challenge: computed(() => AppState.activeChallenge),
       filterBy,
       submissionTypes,
       formatEnum,
-      gradeChallengeParticipant,
+      submitGrade,
       testStatusChange,
-      addGradePoint
     }
   }
 }
@@ -268,18 +275,17 @@ export default {
 ol {
   list-style: none;
   counter-reset: my-counter;
-  width: 100%;
 }
 ol li {
   position: relative;
   margin-bottom: 10px;
-  left: -10px;
+  left: 0px;
 }
 ol li::before {
   content: 'Check ' counter(my-counter) ':';
   counter-increment: my-counter;
   position: absolute;
-  left: -75px;
+  left: -50px;
   top: -1.5px;
 }
 </style>
