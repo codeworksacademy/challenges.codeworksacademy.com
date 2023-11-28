@@ -112,9 +112,19 @@ export default {
       feedback: props.participant.feedback,
       status: SUBMISSION_TYPES,
       grade: 0,
-      challenge: props.participant.challenge,
-      requirements: props.participant.challenge.requirements
+      challenge: {
+        requirements: []
+      }
     })
+    const statusOptions = ref([
+      { text: 'Incomplete', value: 'incomplete' },
+      { text: 'Submitted', value: 'submitted' },
+      { text: 'Returned for Review', value: 'returned_for_review' },
+      { text: 'Completed', value: 'completed' },
+      { text: 'Graded', value: 'graded' },
+      { text: 'Removed', value: 'removed' },
+      { text: 'Left', value: 'left' },
+    ])
 
     const gradeCount = computed(() => {
       return editable.value.requirements.filter(r => r.completed).length
@@ -143,8 +153,8 @@ export default {
 
     // Initialize editable with the correct structure
     onMounted(() => {
-      setActiveChallenge()
-      getParticipantsByChallengeId()
+      // setActiveChallenge()
+      // getParticipantsByChallengeId()
     })
     
     async function setActiveChallenge() {
