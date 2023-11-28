@@ -63,7 +63,7 @@ class ChallengeModeratorsService {
     return moderation
   }
 
-  async gradeChallengeParticipant(moderatorId, userId, newSubmission) {
+  async submitGrade(moderatorId, userId, newSubmission) {
     const updatedParticipant = sanitizeBody(newSubmission)
     const challengeModerator = await this.getModerationById({ _id: moderatorId })
     const participantToGrade = await dbContext.ChallengeParticipants.findOneAndUpdate
