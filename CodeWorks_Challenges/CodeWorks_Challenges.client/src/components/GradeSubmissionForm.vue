@@ -15,7 +15,7 @@
           {{ participant.submission }}
         </a>
       </div>
-      <form @submit.prevent="submitGrade" id="gradeSubmissionForm" class="row">
+      <form @submit.prevent="gradeChallengeParticipant" id="gradeSubmissionForm" class="row">
         <div v-if="participant?.challenge" class="col-12 d-flex justify-content-center align-items-center">
           <ol>
             <div class="d-flex justify-content-end align-items-center">
@@ -23,7 +23,15 @@
             </div>
             <li v-for="(requirement, index) in challenge.requirements" :key="index">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" :id="`field-${requirement.step}`" v-model="requirement.completed" :value="requirement.completed" @change="addGradePoint(index)" :checked="requirement.completed">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  @change="addGradePoint(index)"
+                  :id="`field-${requirement.step}`"
+                  :value="requirement.completed"
+                  :checked="requirement.completed"
+                  v-model="requirement.completed"
+                >
                 <label class="form-check-label" :for="`field-${requirement.step}`">{{ requirement.step }}</label>
               </div>
               <div class="col-12 d-flex align-items-center form-group mt-1 m-auto no-wrap mt-3">
@@ -50,16 +58,6 @@
         </div>
         <div class="d-flex justify-content-center align-items-center my-3">
           <div class="">
-            <!-- <div  v-for="(option, index) in editable.status" :key="index">
-              <div class="d-flex flex-column radio-status-button">
-                <input @change="testStatusChange()" type="radio" v-model="editable.status"
-                :value="option" :name="`option-${index}`" :id="`option-${index}`" class="text-center fs-5">
-                <label :for="`option-${index}`">
-                  <small class="text-center text-capitalize fs-6">{{ formatEnum(option) }}</small>
-                </label>
-              </div>
-            </div> -->
-            <!-- FIXME - Fix the above statement -->
             <div class="" v-for="(option, index) in submissionTypes" :key="index">
               <div class="d-flex align-items-center radio-status-button">
                 <input @change="testStatusChange()" type="radio" v-model="editable.status"
@@ -68,58 +66,14 @@
                   <small class="text-capitalize fs-6">{{ formatEnum(option.text) }}</small>
                 </label>
               </div>
-            <!-- <div class="col-12 form-group px-5 mb-5">
-              <label for="status" class="form-label">Status</label>
-              <select
-                @change="testStatusChange()"
-                v-model="editable.status"
-                type="text"
-                name="status"
-                id="status"
-                placeholder="Status"
-                class="form-control bg-light"
-              >
-              <option :value="null">Select a status</option>
-              <option v-for="s in submissionTypes" :key="s.value" :value="s.value">{{ formatEnum(s.text) }}</option>
-              </select>
-            </div> -->
+            </div>
           </div>
         </div>
-            <!-- <div class="col-12 form-group px-5 mb-5">
-              <label for="status" class="form-label">Status</label>
-              <select
-                @change="testStatusChange()"
-                v-model="editable.status"
-                type="text"
-                name="status"
-                id="status"
-                placeholder="Status"
-                class="form-control bg-light"
-              >
-              <option :value="null">Select a status</option>
-              <option v-for="s in submissionTypes" :key="s.value" :value="s.value">{{ formatEnum(s.text) }}</option>
-              </select>
-            </div> -->
-        </div>
-        <!-- <div class="col-12 d-flex flex-column justify-content-center align-items-center form-group px-5 mb-5">
-          <label for="status" class="form-label">Status</label>
-          <select
-            v-model="editable.status"
-            type="text"
-            name="status"
-            id="status"
-            placeholder="Status"
-            class="form-control bg-light"
-          >
-            <option class="text-capitalize" v-for="s in editable.status" :key="s.value" :value="s.value">{{ formatEnum(s) }}</option>
-          </select>
-        </div> -->
         <div class="col-12">
           <button type="submit" class="btn btn-success">Submit</button>
         </div>
       </form>
     </div>
-
   </section>
 </template>
 
@@ -128,7 +82,9 @@ import { computed, onMounted, ref, watchEffect } from 'vue'
 import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
 import { participantsService } from '../services/ParticipantsService'
+import { challengeModeratorsService } from '../services/ChallengeModeratorsService'
 import { challengesService } from '../services/ChallengesService'
+import { ChallengeModerator } from '../models/ChallengeModerator'
 import { ChallengeParticipant } from '../models/ChallengeParticipant'
 import { useRoute } from "vue-router"
 import Pop from "../utils/Pop"
@@ -138,7 +94,7 @@ import { formatEnum } from "../utils/FormatEnum.js"
 export default {
   props: {
     participant: {
-      type: ChallengeParticipant,
+      type: ChallengeParticipant || Object,
       required: true
     }
   },
@@ -148,9 +104,10 @@ export default {
     const filterBy = ref('')
 
     const editable = ref({
-      profile: props.participant.profile,
-      challengeId: props.participant.challengeId,
+      id: AppState.user.id,
       accountId: props.participant.accountId,
+      challengeId: props.participant.challengeId,
+      profile: props.participant.profile,
       submission: props.participant.submission,
       feedback: props.participant.feedback,
       status: SUBMISSION_TYPES,
@@ -162,6 +119,27 @@ export default {
     const gradeCount = computed(() => {
       return editable.value.requirements.filter(r => r.completed).length
     })
+
+    // function setGradeStatus() {
+    //   let status;
+    //   let maxGrade;
+    //   switch (true) {
+    //     case gradeOutcome.value >= maxGrade - 2:
+    //       status = 'computed';
+    //       break;
+    //     case gradeOutcome.value < maxGrade - 2:
+    //       status = 'failed';
+    //       break;
+    //     default:
+    //       status = 'submitted';
+    //       break;
+    //   }
+    //   editable.value.status = status
+    //   editable.value.challenge.requirements.length = maxGrade
+    //   logger.log(`[NEW DATA] =>
+    //   * STATUS: ${editable.value.status}
+    //   * GRADE: ${editable.value.grade} / ${editable.value.challenge.requirements.length}`)
+    // }
 
     // Initialize editable with the correct structure
     onMounted(() => {
@@ -199,23 +177,26 @@ export default {
       AppState.activeParticipant = editable.value
     })
 
-    async function submitGrade() {
+    // async function gradeChallengeParticipant() {
+    //   try {
+    //     const participantId = props.participant.id
+    //     const moderatorId = props.participant.id // TODO - Is this needed?
+    //     const newSubmission = { ...editable.value }
+    //     await challengeModeratorsService.gradeChallengeParticipant(participantId, newSubmission)
+    //     editable.value = { ...editable.value }
+    //   } catch (error) {
+    //     logger.error(error)
+    //   }
+    // }
+
+    async function gradeChallengeParticipant() {
       try {
         const participantId = props.participant.id
-        const newSubmission = {
-          participant: editable.value,
-          feedback: editable.value.feedback,
-          status: editable.value.status,
-          grade: editable.value.grade,
-          requirements: editable.value.requirements
-        }
-        await participantsService.updateChallengeParticipant(participantId, newSubmission)
-        editable.value = {
-          feedback: '',
-          status: '',
-          grade: 0,
-          requirements: editable.value.requirements.map(r => ({ ...r, completed: false, comment: '' }))
-        }
+        const challengeId = props.participant.challengeId // TODO - Is this needed?
+        const newSubmission = { ...editable.value }
+        await participantsService.gradeChallengeParticipant(participantId, newSubmission)
+        editable.value = { ...editable.value }
+        Pop.toast('Submission Graded');
       } catch (error) {
         logger.error(error)
       }
@@ -265,7 +246,7 @@ export default {
       filterBy,
       submissionTypes,
       formatEnum,
-      submitGrade,
+      gradeChallengeParticipant,
       testStatusChange,
       addGradePoint
     }

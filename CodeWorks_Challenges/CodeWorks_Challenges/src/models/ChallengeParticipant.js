@@ -3,6 +3,8 @@ import { SUBMISSION_TYPES } from "../constants";
 
 const ObjectId = Schema.Types.ObjectId
 
+SUBMISSION_TYPES.
+
 export const ChallengeParticipantSchema = new Schema({
   challengeId: {
     type: ObjectId,
@@ -15,7 +17,7 @@ export const ChallengeParticipantSchema = new Schema({
     ref: 'Account'
   },
   submission: { type: String, maxLength: 700, default: '' },
-  status: { type: String, enum: SUBMISSION_TYPES, required: true, default: 'incomplete', lowercase: true },
+  status: { type: String, enum: Object.keys(SUBMISSION_TYPES), required: true, default: SUBMISSION_TYPES.INCOMPLETE, uppercase: true },
   grade: { type: Number, default: 0 },
   claimedAt: { type: Date }
 },

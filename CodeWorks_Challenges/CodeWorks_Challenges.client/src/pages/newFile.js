@@ -63,7 +63,7 @@ const challenge = computed(() => {
 return AppState.challenges.find(c => c.id === AppState.activeChallenge.id);
 });
 const participant = computed(() => {
-return AppState.participants.find(p => p.accountId === AppState.account.id);
+return AppState.participants.find(p => p.accountId === AppState.user.id);
 });
 
 
@@ -94,7 +94,7 @@ return AppState.participants.filter(p => p.status === filterBy.value);
 challengeCreator: computed(() => AppState.user.id === AppState.activeChallenge?.creatorId),
 isModeratorStatus,
 isParticipant: computed(() => {
-return AppState.participants.find(p => p.accountId === AppState.account.id);
+return AppState.participants.find(p => p.accountId === AppState.user.id);
 }),
 difficulty: computed(() => StrDifficultyNum(AppState.activeChallenge.difficulty)
 ),

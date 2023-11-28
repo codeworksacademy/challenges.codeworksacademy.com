@@ -16,7 +16,6 @@ function sanitizeBody(body) {
 	return writable
 }
 
-
 class ParticipantsService {
 	async getChallengeRewards(accountId) {
 		const rewards = await dbContext.ChallengeParticipants.find({ accountId, status: 'completed' })
@@ -35,8 +34,8 @@ class ParticipantsService {
 
 		const participant = await dbContext.ChallengeParticipants.create(newParticipant)
 
-		// REVIEW PROBABLY UNNECESSARY this can be handled purely on the client 
-		// subsequent requests for the data will include newly joined participant 
+		// REVIEW PROBABLY UNNECESSARY this can be handled purely on the client
+		// subsequent requests for the data will include newly joined participant
 		// await participant.populate('profile', 'name picture')
 		// await participant.populate({
 		// 	path: 'challenge',
@@ -76,9 +75,10 @@ class ParticipantsService {
 
 	async updateChallengeParticipant(participantId, userId, newSubmission) {
 		const update = sanitizeBody(newSubmission)
+		// TODO [🚧 Kyle] moderator check
 		const participant = await dbContext.ChallengeParticipants.findOneAndUpdate
 		(
-			{ _id: participantId, accountId: userId },
+			{ _id: participantId },
 			{ $set: update },
 			{ runValidators: true, setDefaultsOnInsert: true, new: true }
 		)
@@ -143,8 +143,6 @@ class ParticipantsService {
 
 		return participantToRemove
 	}
-
-
 }
 
 export const participantsService = new ParticipantsService()

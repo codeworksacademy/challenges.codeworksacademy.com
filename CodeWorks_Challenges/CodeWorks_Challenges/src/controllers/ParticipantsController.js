@@ -42,8 +42,7 @@ export class ParticipantsController extends BaseController {
   async updateChallengeParticipant(req, res, next) {
     try {
       const participantId = req.params.participantId
-      // const userId = req.userInfo.id
-      const userId = req.body.participant.accountId
+      const userId = req.userInfo.id
       const newSubmission = req.body
 
       const participant = await participantsService.updateChallengeParticipant(participantId, userId, newSubmission)

@@ -26,7 +26,7 @@
             </div>
             <div v-else class="not-submitted">
               <ParticipantCard :participant="p" />
-              <small class="subtle-header text-capitalize text-center p-0 m-0" style="font-style: italic;">not submitted</small>
+              <small class="d-flex justify-content-center align-items-center subtle-header text-capitalize p-0 m-0" style="font-style: italic;">not submitted</small>
             </div>
           </div>
         </div>
@@ -110,7 +110,7 @@ export default {
       return AppState.challenges.find(c => c.id === AppState.activeChallenge.id)
     })
     const participant = computed(() => {
-      return AppState.participants.find(p => p.accountId === AppState.account.id)
+      return AppState.participants.find(p => p.accountId === AppState.user.id)
     })
 
     onMounted(() => {
@@ -144,7 +144,7 @@ export default {
       challengeCreator: computed(() => AppState.user.id === AppState.activeChallenge?.creatorId),
       isModeratorStatus,
       isParticipant: computed(() => {
-        return AppState.participants.find(p => p.accountId === AppState.account.id)
+        return AppState.participants.find(p => p.accountId === AppState.user.id)
       }),
       difficulty: computed(() =>
         StrDifficultyNum(AppState.activeChallenge.difficulty)

@@ -60,7 +60,9 @@
     },
     "peacock.color": "#000000",
     "cSpell.words": [
-      "collab"
-    ]
+      "collab",
+      "Moderations"
+    ],
+    "commentAnchors.tagHighlights.enabled": true
   }
 }

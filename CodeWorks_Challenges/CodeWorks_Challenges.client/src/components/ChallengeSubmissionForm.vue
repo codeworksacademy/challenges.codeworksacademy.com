@@ -42,14 +42,14 @@ export default {
     const router = useRouter()
     
     const editable = ref({
-      accountId: AppState.account.id,
+      accountId: AppState.user.id,
       challengeId: AppState.activeChallenge?.id,
       submission: '',
       status: 'submitted',
     })
 
     const participant = computed(() => {
-      return AppState.participants.find(p => p.accountId === AppState.account.id)
+      return AppState.participants.find(p => p.accountId === AppState.user.id)
     })
 
 
@@ -61,7 +61,7 @@ export default {
     async function updateChallengeParticipant() {
       try {
         if (await Pop.confirm(`Are you sure you are ready to submit ${AppState.activeChallenge?.name} to be graded? This cannot be undone!`)) {
-          const participantId = participant.value.id
+          const participantId = AppState.activeParticipant?.id
           const newParticipant = { 
             ...editable.value
           }

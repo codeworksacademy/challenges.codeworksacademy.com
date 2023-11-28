@@ -23,6 +23,13 @@ class ParticipantsService {
     return res.data
   }
 
+  async gradeChallengeParticipant(participantId, newSubmission) {
+    const res = await api.put(`api/participants/${participantId}`, newSubmission)
+    logger.log('Participant Updated ⏩', res.data)
+    AppState.activeParticipant = res.data
+    return res.data
+  }
+
   async leaveChallenge(participantId) {
     const res = await api.delete(`api/participants/${participantId}`)
     logger.log('Deleted participant:', res.data)

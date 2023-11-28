@@ -54,6 +54,14 @@ class ChallengeModeratorsService {
       AppState.myModerations.splice(myModerationToRemove, 1)
     }
   }
+
+  async gradeChallenge(challengeId, participantId, grade) {
+    const res = await api.put(`api/challenges/${challengeId}/participants/${participantId}`, grade)
+    logger.log('[Challenge graded]:', res.data)
+    let participantToEdit = AppState.participants.find(p => p.id == res.data.id)
+    if (participantToEdit)
+      participantToEdit.grade = res.data.grade
+  }
 }
 
 export const challengeModeratorsService = new ChallengeModeratorsService()

@@ -41,7 +41,7 @@
     <GradeSubmissionForm v-if="p.status === 'submitted'" :participant="p" />
   </div> -->
   <div v-for="p in participants" :key="p.id" class="col-12 d-flex justify-content-center align-items-center pb-5 mb-5">
-    <div v-if="p.status === 'submitted'">
+    <div v-if="p.status === 'submitted' && challengeCreator">
       <GradeSubmissionForm :participant="p" />
     </div>
   </div>
@@ -95,6 +95,15 @@ export default {
       }
     }
 
+    // async function getModeratorsByChallengeId() {
+    //   try {
+    //     await challengeModeratorsService.getModeratorsByChallengeId(route.params.challengeId)
+    //   } catch (error) {
+    //     logger.error(error)
+    //     Pop.toast(error, 'error')
+    //   }
+    // }
+
     function isModeratorStatus() {
       const isMod = AppState.moderators.find(m => m.accountId == AppState.account.id)
       if (isMod) {
@@ -114,6 +123,7 @@ export default {
     onMounted(() => {
       setActiveChallenge()
       getParticipantsByChallengeId()
+      // getModeratorsByChallengeId()
     })
 
     watchEffect(() => {
@@ -133,7 +143,7 @@ export default {
       difficulty: computed(() => StrDifficultyNum(AppState.activeChallenge.difficulty)),
       participants: computed(() => AppState.participants),
       isParticipant: computed(() => {
-        return AppState.participants.find(p => p.accountId === AppState.account.id)
+        return AppState.participants.find(p => p.accountId === AppState.user.id)
       }),
       participantFilter: computed(() => {
         if (!filterBy.value) {
