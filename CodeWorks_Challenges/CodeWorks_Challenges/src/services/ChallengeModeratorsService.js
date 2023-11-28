@@ -66,19 +66,21 @@ class ChallengeModeratorsService {
   async submitGrade(moderatorId, userId, newSubmission) {
     const updatedParticipant = sanitizeBody(newSubmission)
     const challengeModerator = await this.getModerationById({ _id: moderatorId })
+    const isChallengeModerator = challengeModerator.accountId == userId
+    const isChallengeCreator = challengeModerator.originId == userId
     const participantToGrade = await dbContext.ChallengeParticipants.findOneAndUpdate
     (
       { _id: newSubmission.participantId },
       { $set: updatedParticipant },
-      { runValidators: true, setDefaultsOnInsert: true, new: true }
+      { runValidators: true, setDefaultsOnInsert: true, new: true },
     )
-      // @ts-ignore
-      if (challengeModerator.accountId || participantToGrade.challenge.creatorId != userId) {
+
+      if (!isChallengeModerator || !isChallengeCreator) {
         throw new Forbidden('[PERMISSIONS ERROR]: Only moderators can grade participants! Do not let it happen again, or you will be removed from the challenge.')
       }
-    //  if (!participant) {
-    //   throw new BadRequest('Invalid participant ID.')
-    //  }
+       if (!participantToGrade) {
+        throw new BadRequest('Invalid participant ID.')
+      }
     return participantToGrade
   }
 
