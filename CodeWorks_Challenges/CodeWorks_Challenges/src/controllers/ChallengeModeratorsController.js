@@ -11,7 +11,7 @@ export class ChallengeModeratorsController extends BaseController {
       .get('/:userId/profiles', this.getMyModerationsByProfileId)
       .get('/challenges/:userId', this.getModerationsByChallengeCreatorId)
       .put('/:moderatorId', this.ApproveModeration)
-      .put('/:moderatorId/participants/:participantId', this.submitGrade)
+      .put('/:moderatorId/grade', this.submitGrade)
       .delete('/:moderatorId', this.removeModeration)
   }
 
