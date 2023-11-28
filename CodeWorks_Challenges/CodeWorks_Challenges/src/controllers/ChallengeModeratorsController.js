@@ -11,6 +11,7 @@ export class ChallengeModeratorsController extends BaseController {
       .get('/:userId/profiles', this.getMyModerationsByProfileId)
       .get('/challenges/:userId', this.getModerationsByChallengeCreatorId)
       .put('/:moderatorId', this.ApproveModeration)
+      .put('/:moderatorId/participants/:participantId', this.gradeChallengeParticipant)
       .delete('/:moderatorId', this.removeModeration)
   }
 
@@ -40,6 +41,18 @@ export class ChallengeModeratorsController extends BaseController {
       const userId = req.params.userId
       const moderations = await challengeModeratorsService.getModerationsByChallengeCreatorId(userId)
       return res.send(moderations)
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async gradeChallengeParticipant(req, res, next) {
+    try {
+      const moderatorId = req.params.moderatorId
+      const userId = req.userInfo.id
+      const newSubmission = req.body
+      const participant = await challengeModeratorsService.gradeChallengeParticipant(moderatorId, userId, newSubmission)
+      return res.send(participant)
     } catch (error) {
       next(error);
     }

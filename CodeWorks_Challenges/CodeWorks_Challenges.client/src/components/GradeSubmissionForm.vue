@@ -148,6 +148,7 @@ export default {
     const filterBy = ref('')
 
     const editable = ref({
+      participantId: props.participant.id,
       profile: props.participant.profile,
       challengeId: props.participant.challengeId,
       accountId: props.participant.accountId,
@@ -201,8 +202,9 @@ export default {
 
     async function submitGrade() {
       try {
-        const participantId = props.participant.id
+        const moderatorId = AppState.moderators.find(m => m.accountId === AppState.user.id).id
         const newSubmission = {
+          participantId: editable.value.participantId,
           feedback: editable.value.feedback,
           status: editable.value.status,
           grade: editable.value.grade,

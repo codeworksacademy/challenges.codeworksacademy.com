@@ -2,6 +2,20 @@ import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { challengesService } from "./ChallengesService.js"
 
+/**
+ * @param {any} body
+ */
+
+function sanitizeBody(body) {
+  const writable = {
+    status: body.status,
+    submission: body.submission,
+    requirements: body.requirements,
+  }
+  return writable
+}
+
+
 class ChallengeModeratorsService {
 
   async createModeration(moderatorData) {
@@ -47,6 +61,25 @@ class ChallengeModeratorsService {
       throw new BadRequest("Invalid Moderation ID.")
     }
     return moderation
+  }
+
+  async gradeChallengeParticipant(moderatorId, userId, newSubmission) {
+    const updatedParticipant = sanitizeBody(newSubmission)
+    const challengeModerator = await this.getModerationById({ _id: moderatorId })
+    const participantToGrade = await dbContext.ChallengeParticipants.findOneAndUpdate
+    (
+      { _id: newSubmission.participantId },
+      { $set: updatedParticipant },
+      { runValidators: true, setDefaultsOnInsert: true, new: true }
+    )
+      // @ts-ignore
+      if (challengeModerator.accountId || participantToGrade.challenge.creatorId != userId) {
+        throw new Forbidden('[PERMISSIONS ERROR]: Only moderators can grade participants! Do not let it happen again, or you will be removed from the challenge.')
+      }
+    //  if (!participant) {
+    //   throw new BadRequest('Invalid participant ID.')
+    //  }
+    return participantToGrade
   }
 
   async ApproveModeration(moderatorId, userId) {
