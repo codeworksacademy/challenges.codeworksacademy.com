@@ -3,14 +3,17 @@ import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { challengesService } from "./ChallengesService.js"
 
 /**
- * @param {any} body
+ * @param {any} newSubmission
  */
 
-function sanitizeBody(body) {
+function sanitizeBody(newSubmission) {
   const writable = {
-    status: body.status,
-    submission: body.submission,
-    requirements: body.requirements,
+    // profile: newSubmission.profile,
+    status: newSubmission.status,
+    submission: newSubmission.submission,
+    requirements: newSubmission.requirements,
+    grade: newSubmission.grade,
+    feedback: newSubmission.feedback
   }
   return writable
 }
@@ -62,7 +65,9 @@ class ChallengeModeratorsService {
     }
     return moderation
   }
-
+  /**
+   *  @param {any} newSubmission Updates to apply to participant object
+   */
   async gradeChallenge(moderatorId, userId, newSubmission) {
     const updatedParticipant = sanitizeBody(newSubmission)
     const challengeModerator = await this.getModerationById({ _id: moderatorId })

@@ -43,7 +43,7 @@
       </template>
     </ModalWrapper>
 
-    <BottomOffcanvasWrapper id="submissionsOffcanvas">
+    <!-- <BottomOffcanvasWrapper id="submissionsOffcanvas">
       <template #header>
         <h3 class="m-auto">
           Submissions you can Grade:
@@ -56,7 +56,7 @@
           </div>
         </div>
       </template>
-    </BottomOffcanvasWrapper>
+    </BottomOffcanvasWrapper> -->
   </main>
   <footer class="bg-dark text-light">
     Made with 💖 by CodeWorks
