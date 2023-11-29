@@ -7,9 +7,7 @@
     :key="challenge?.id"
     class="container-fluid text-light pb-5"
   >
-    <div v-if="user.id === challenge?.creatorId">
-      <!-- <router-view /> -->
-    </div>
+
     <section class="row bg-dark text-uppercase fw-500 pt-4 pb-3 mb-5">
       <div class="col-1 fs-1 mt-3">
         <i class="mdi mdi-archive-lock-open-outline subtle-header"></i>
@@ -45,35 +43,30 @@
     <section class="row m-1">
         <div class="col-6">
           <h5>CHALLENGE DESCRIPTION</h5>
-          <button class="btn btn-outline-primary" @click="joinChallenge()" v-if="!isParticipant">
-                Join Challenge
-              </button>
         </div>
         <div class="col-6">
-          <div v-if="!isOwned" class="row text-light">
-            <div class="col-7 d-flex justify-content-end">
-              <button data-bs-toggle="modal" data-bs-target="#submitAnswerModal" class="btn btn-outline-success"
-                v-if="isParticipant">
-                Submit For Review
-              </button>
-            </div>
-            <div class="col-5 d-flex justify-content-end pe-1">
-              <button class="btn btn-outline-primary" @click="joinChallenge()" v-if="!isParticipant">
-                Join Challenge
-              </button>
-        
-              <button class="btn btn-outline-danger" @click="leaveChallenge()" v-if="isParticipant">
+          <div v-if="isOwned || isModeratorStatus" class="col-12 d-flex justify-content-end">
+            <button @click="editChallenge()" class="btn btn-outline-info ms-1" style="width: 150px;">
+              Edit Challenge
+            </button>
+          </div>
+          <div v-else class="col-12 d-flex justify-content-end">
+            <button @click="joinChallenge()" v-if="!isParticipant" class="btn btn-outline-primary" style="width: 150px; white-space: nowrap;">
+              Join Challenge
+            </button>
+            <div v-else class="d-flex flex-column justify-content-end">
+              <button @click="leaveChallenge()" class="btn btn-outline-danger" style="width: 150px;">
                 Leave Challenge
+              </button>
+              <button v-if="isPuzzle" data-bs-toggle="modal" data-bs-target="#submitAnswerModal" class="btn btn-outline-success" style="width: 150px; white-space: nowrap;">
+                Submit Puzzle
               </button>
             </div>
           </div>
-          <div class="text-box">
-            <div class="header flex-grow-1 d-flex justify-content-end" style="white-space: nowrap;">
-              <h1 @click="changeRoute(`${challenge.id}/submissions`)"
-                class="btn btn-outline-info no-wrap me-1">View Submissions</h1>
-              <h1 v-if="isOwned || isModeratorStatus == 'approved'" @click="editChallenge()" class="btn btn-outline-info ms-1">Edit
-                Challenge</h1>
-            </div>
+          <div class="col-12 d-flex justify-content-end" style="white-space: nowrap;">
+            <button @click="changeRoute(`${challenge.id}/submissions`)" class="btn btn-outline-info no-wrap mt-1" style="width: 150px;">
+              {{ isModeratorStatus || isOwned ? 'View Submissions' : 'View Competitors' }}
+            </button>
           </div>
         </div>
         <div class="col-12 pt-2 pb-4">
@@ -231,95 +224,21 @@
       </div>
     </section>
 
-
-
-      <!-- <div class="col-md-8 bg-dark text-light p-3 mb-3">
-          <p>{{ challenge.moderators }} Moderators</p>
-          <p>{{ participants.length }} Participants</p>
-      </div>
-      <div class="col-md-8 bg-dark text-light p-3 mb-3">
-        <p v-html="difficulty.html"></p>
-      </div>  
-      <div class="col-md-8 bg-dark text-light p-3 mb-3">
-      </div> -->
-      <!-- <div>
-        <h2>Challenge Support Links</h2>
-        <ul>
-          <li v-for="(link, i) in challenge.supportLinks" :key="i">
-            <strong>Challenge Link Name:</strong> {{ link.name }}<br>
-            <strong>Challenge Link URL:</strong> <a :href="link.url" target="_blank">{{ link.url }}</a>
-          </li>
-        </ul>
-      </div> -->
-      <!-- FIXME - This wasn't being iterated over properly, but it has been fixed. Inspect around line 200 to see the changes. AJ -11/18 -->
-      <!-- <div v-for="(step, index) in challenge.steps" :key="step" class="col-md-8 bg-dark text-light p-3 mb-3">
-        <i class="text-light">
-          Step {{ index + 1 }}:
-        </i>
-        <p>
-          {{ step }}
-        </p>
-      </div> -->
-    <!-- Description and Steps -->
-    <!-- <section class="row">
-      <div class="col-md-8 bg-dark text-light p-3 mb-3">
-        <i>Description:</i>
-        <p>
-          {{ challenge.description }}
-        </p>
-      </div>
-      <div v-if="challenge.supportLinks.length > 0" class="col-md-8 bg-dark text-light p-3 mb-3">
-        <div v-for="(link, index) in challenge.supportLinks" :key="link">
-          <i class="text-light">
-            Support Link {{ index + 1 }}:
-          </i>
-          <p>
-            <a :href="link.url" :title="`Project Links: ${challenge.supportLinks}`" class="fw-bold hover-text-primary">
-              {{ link.name }}
-            </a>
-          </p>
-        </div>
-      </div>
-      <div v-for="(step, index) in challenge.steps" :key="step" class="col-md-8 bg-dark text-light p-3 mb-3">
-        <i class="text-light">
-          Step {{ index + 1 }}:
-        </i>
-        <p>
-          {{ step }}
-        </p>
-      </div>
-    </section> -->
-
-    <!-- This was commented out, I was rendering the edit Challenges two additional times. Left in for verification before delete -->
-    <!-- <div v-if="user.id === challenge?.creatorId">
-      <router-view />
-    </div>
-    <router-view /> -->
   </section>
 </template>
 
 <script>
-import { computed, onMounted, watchEffect, ref, popScopeId } from 'vue'
-import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
+import { AppState } from '../AppState'
 import { logger } from "../utils/Logger.js"
 import { DateTime } from '../utils/DateTime.js';
-import { StrDifficultyNum } from '../utils/StrDifficultyNum.js';
 import { useRoute, useRouter } from 'vue-router';
+import { CATEGORY_TYPES, SUBMISSION_TYPES } from "../constants/index.js";
+import { StrDifficultyNum } from '../utils/StrDifficultyNum.js';
 import { challengesService } from '../services/ChallengesService';
+import { computed, onMounted, watchEffect, ref, popScopeId } from 'vue'
 import { participantsService } from "../services/ParticipantsService.js";
 import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js";
-import RewardCard from '../components/Rewards/RewardCard.vue'
-import Completionist from '../components/Rewards/Badges/Completionist.vue'
-import EarlyBird from '../components/Rewards/Badges/EarlyBird.vue'
-import Architect from '../components/Rewards/Badges/Architect.vue'
-import ChallengeSlayer from '../components/Rewards/Badges/ChallengeSlayer.vue'
-import Collaborator from '../components/Rewards/Badges/Collaborator.vue'
-import LesserBadges from '../components/Rewards/Badges/LesserBadges.vue'
-import CustomBadge from '../components/Rewards/Badges/CustomBadge.vue'
-import ModSearchForm from '../components/ModSearchForm.vue'
-import AnswerForm from '../components/AnswerForm.vue';
-import { answersService } from '../services/AnswersService';
 
 export default {
   components: {
@@ -332,36 +251,16 @@ export default {
     let challengeId = ''
 
     function changeRoute(route){
-        router.push({
-          path: `${route}`
-        })
-      }
+      router.push({
+        path: `${route}`
+      })
+    }
 
     const isParticipant = computed(() => {
       const participant = AppState.participants.find(p => p.accountId == AppState.account.id)
       return participant
     })
-
-    const participantStatus = computed(() => {
-      if (isParticipant.value) {
-        return isParticipant.value.status
-      } else return 'null'
-    })
-
-    // const statusOptions = computed(() => {
-    //   const statusOptions = []
-    //   AppState.challenges.forEach(c => {
-    //     if (!statusOptions.find(s =>
-    //      s.value === c.status)) {
-    //       statusOptions.push({ name: 
-    //                         c.status,
-    //                        value: 
-    //                         c.status })
-    //     }
-    //   })
-    //   return statusOptions
-    // })
-
+    
     async function setActiveChallenge() {
       try {
         const challengeId = route.params.challengeId
@@ -375,20 +274,15 @@ export default {
     async function updateChallengeParticipant() {
       try {
         const confirmComplete = await Pop.confirm('Are you sure you want to complete this challenge?')
-
         if (!confirmComplete) {
           return
         }
-
         const participantId = isParticipant.value.id
-
         const newParticipant = {
           status: 'submitted'
         }
-
         await participantsService.updateChallengeParticipant(participantId, newParticipant)
-
-        Pop.success(`Great job ${AppState.account.name}! Your challenge submission for ${AppState.activeChallenge?.name} has been received. Once your submission has been reviewed, you will be notified of any rewards you have earned! 🏆💹🎉`)
+        Pop.success(`${AppState.account.name} submitted ${AppState.activeChallenge?.name} successfully. Click 'View Competitors' to verify your submission and see how you 'stack' up! 😉`)
       } catch (error) {
         logger.error(error)
         Pop.toast(error, 'error')
@@ -442,7 +336,7 @@ export default {
       logger.log("Line 261 getAnswersByChallengeId has been commented out")
     }
 
-    watchEffect(() => {
+    onMounted(() => {
       if (route.params.challengeId != challengeId) {
         challengeId = route.params.challengeId
         getParticipantsByChallengeId()
@@ -458,8 +352,8 @@ export default {
       updateChallengeParticipant,
       answer,
       loading,
+      // startStr, // Grabbing the 'start' status option from the SUBMISSION_TYPES constant
       isParticipant,
-      participantStatus,
       answerChallenge,
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.activeChallenge),
@@ -477,13 +371,13 @@ export default {
       // ),
 
       isModeratorStatus: computed(() => {
-        const isMod = AppState.moderators.find(m => m.accountId == AppState.account.id)
+        const isMod = AppState.moderators.find(m => m.accountId == AppState.account.id || m.originId == AppState.account.id)
         if (isMod) {
-          if (isMod.status == false) {
-            return 'pending'
-          } else return 'approved'
-        } else return 'null'
+          return isMod.status == 'approved'
+        } else return false
       }),
+
+      isPuzzle: computed(() => AppState.activeChallenge.category === CATEGORY_TYPES.PUZZLES),
 
       editChallenge() {
         logger.log("Pushing to", AppState.activeChallenge.id)
@@ -494,27 +388,15 @@ export default {
 
       async joinChallenge() {
         try {
-          // const addConfirm = await Pop.confirm('Would you like to join this challenge? This will use your points.')
-
-          // if (!addConfirm) {
-          //   return
-          // }
-
           const newParticipant = {
             challengeId: route.params.challengeId,
             accountId: AppState.user.id,
-            // profile: AppState.profiles.find(p => p.id === AppState.activeParticipant?.profile?.id),
-            status: 'started',
+            status: SUBMISSION_TYPES.STARTED,
             supportLinks: [
-              {
-                name: '',
-                url: ''
-              }
+              { name: '', url: '' }
             ],
           }
-
           await participantsService.joinChallenge(newParticipant)
-
           Pop.success('joined challenge!')
         } catch (error) {
           logger.error(error)
@@ -525,17 +407,13 @@ export default {
       async leaveChallenge() {
         try {
           const removeConfirm = await Pop.confirm('Are you sure you want to leave this challenge? Your points will not be refunded.')
-
           if (!removeConfirm) {
             return
           }
-
           let participant = AppState.participants.find(p => p.accountId == AppState.account.id)
-          participant.status = 'left'
+          participant.status = SUBMISSION_TYPES.LEFT
           await participantsService.leaveChallenge(participant.id)
-
           Pop.success('left challenge!')
-
         } catch (error) {
           logger.error(error)
           Pop.toast(error, 'error')
@@ -547,7 +425,7 @@ export default {
           const moderatorData = {
             challengeId: route.params.challengeId,
             accountId: AppState.user.id
-          }
+          } 
           await challengeModeratorsService.createModeration(moderatorData)
           Pop.success('You have requested to become a moderator for this challenge, please be patient while the owner of this challenge reviews your request')
         } catch (error) {

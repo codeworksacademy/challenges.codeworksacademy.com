@@ -33,6 +33,7 @@ import { logger } from "../utils/Logger.js"
 import { ChallengeParticipant } from "../models/ChallengeParticipant.js"
 import { participantsService } from "../services/ParticipantsService.js"
 import { useRouter, useRoute } from 'vue-router';
+import { SUBMISSION_TYPES } from "../constants"
 import { Modal } from 'bootstrap'
 
 export default {
@@ -45,7 +46,7 @@ export default {
       accountId: AppState.user.id,
       challengeId: AppState.activeChallenge?.id,
       submission: '',
-      status: 'submitted',
+      status: SUBMISSION_TYPES,
     })
 
     const participant = computed(() => {
@@ -61,9 +62,10 @@ export default {
     async function updateChallengeParticipant() {
       try {
         if (await Pop.confirm(`Are you sure you are ready to submit ${AppState.activeChallenge?.name} to be graded? This cannot be undone!`)) {
-          const participantId = AppState.activeParticipant?.id
+          const participantId = participant.value.id
           const newParticipant = { 
-            ...editable.value
+            ...editable.value,
+            status: SUBMISSION_TYPES.SUBMITTED
           }
           logger.log('Your Participation:', editable.value)
           await participantsService.updateChallengeParticipant(participantId, newParticipant)
@@ -87,7 +89,7 @@ export default {
         const newSubmission = {
           ...participant.value,
           submission: editable.value.submission,
-          status: editable.value.status
+          status: SUBMISSION_TYPES.REMOVED
         }
         logger.log('Your Participant ID:', participant)
         await participantsService.removeSubmission(newSubmission, participantId)

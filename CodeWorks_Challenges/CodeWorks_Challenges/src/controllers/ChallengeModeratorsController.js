@@ -11,7 +11,7 @@ export class ChallengeModeratorsController extends BaseController {
       .get('/:userId/profiles', this.getMyModerationsByProfileId)
       .get('/challenges/:userId', this.getModerationsByChallengeCreatorId)
       .put('/:moderatorId', this.ApproveModeration)
-      .put('/:moderatorId/grade', this.submitGrade)
+      .put('/:moderatorId/grade', this.gradeChallenge)
       .delete('/:moderatorId', this.removeModeration)
   }
 
@@ -46,12 +46,12 @@ export class ChallengeModeratorsController extends BaseController {
     }
   }
 
-  async submitGrade(req, res, next) {
+  async gradeChallenge(req, res, next) {
     try {
       const moderatorId = req.params.moderatorId
       const userId = req.userInfo.id
       const newSubmission = req.body
-      const participant = await challengeModeratorsService.submitGrade(moderatorId, userId, newSubmission)
+      const participant = await challengeModeratorsService.gradeChallenge(moderatorId, userId, newSubmission)
       return res.send(participant)
     } catch (error) {
       next(error);

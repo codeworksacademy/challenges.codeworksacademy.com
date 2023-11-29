@@ -11,13 +11,14 @@ export const ChallengeSchema = new Schema({
   },
   category: {
     type: String,
-    enum: CATEGORY_TYPES,
+    enum: Object.values(CATEGORY_TYPES),
     required: true,
     lowercase: true
   },
+
   status: {
     type: String,
-    enum: STATUS_TYPES,
+    enum: Object.values(STATUS_TYPES),
     required: true,
     default: 'draft',
     lowercase: true

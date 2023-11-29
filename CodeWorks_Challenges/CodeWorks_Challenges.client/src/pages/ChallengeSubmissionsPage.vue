@@ -44,18 +44,14 @@ import { computed, onMounted, ref, watchEffect } from 'vue'
 import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"  
-// import SubmissionCard from '../components/SubmissionCard.vue'
 import { challengesService } from '../services/ChallengesService'
 import { useRoute } from 'vue-router'
 import { participantsService } from '../services/ParticipantsService'
 import { StrDifficultyNum } from "../utils/StrDifficultyNum.js"
 import { newChallengeParticipant } from "../utils/NewChallengeParticipant.js"
-import { ChallengeParticipant } from "../models/ChallengeParticipant.js"
 
 export default {
   components: {
-    // SubmissionCard,
-    GradeSubmissionForm,
     ParticipantCard
   },
   setup() {
@@ -86,15 +82,6 @@ export default {
       }
     }
 
-    // async function submitGrade() {
-    //   try {
-        
-    //   } catch (error) {
-    //     logger.error(error)
-    //     Pop.toast(error, 'error')
-    //   }
-    // }
-
     function isModeratorStatus() {
       const isMod = AppState.moderators.find(m => m.accountId == AppState.account.id)
       if (isMod) {
@@ -104,7 +91,6 @@ export default {
       } else return 'null'
     }
 
-    
 
     const challenge = computed(() => {
       return AppState.challenges.find(c => c.id === AppState.activeChallenge.id)
@@ -119,7 +105,6 @@ export default {
     })
 
     watchEffect(() => {
-      editable.value.status = participant.value?.status
     })
 
     return {

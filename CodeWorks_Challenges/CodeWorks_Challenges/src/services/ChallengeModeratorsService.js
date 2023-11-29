@@ -63,7 +63,7 @@ class ChallengeModeratorsService {
     return moderation
   }
 
-  async submitGrade(moderatorId, userId, newSubmission) {
+  async gradeChallenge(moderatorId, userId, newSubmission) {
     const updatedParticipant = sanitizeBody(newSubmission)
     const challengeModerator = await this.getModerationById({ _id: moderatorId })
     const isChallengeModerator = challengeModerator.accountId == userId
@@ -78,7 +78,7 @@ class ChallengeModeratorsService {
       if (!isChallengeModerator || !isChallengeCreator) {
         throw new Forbidden('[PERMISSIONS ERROR]: Only moderators can grade participants! Do not let it happen again, or you will be removed from the challenge.')
       }
-       if (!participantToGrade) {
+      if (!participantToGrade) {
         throw new BadRequest('Invalid participant ID.')
       }
     return participantToGrade

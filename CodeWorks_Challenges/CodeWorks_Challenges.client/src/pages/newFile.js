@@ -41,7 +41,7 @@ Pop.toast(error, 'error');
 }
 }
 
-// async function submitGrade() {
+// async function gradeChallenge() {
 //   try {
 //   } catch (error) {
 //     logger.error(error)

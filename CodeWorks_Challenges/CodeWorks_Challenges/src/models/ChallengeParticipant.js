@@ -15,8 +15,15 @@ export const ChallengeParticipantSchema = new Schema({
     required: true,
     ref: 'Account'
   },
+
   submission: { type: String, maxLength: 700, default: '' },
-  status: { type: String, enum: Object.keys(SUBMISSION_TYPES), required: true, default: 'incomplete', lowercase: true },
+  status: {
+    type: String,
+    enum: Object.values(SUBMISSION_TYPES),
+    required: true,
+    default: SUBMISSION_TYPES.STARTED,
+    lowercase: true
+  },
   grade: { type: Number, default: 0 },
   claimedAt: { type: Date }
 },

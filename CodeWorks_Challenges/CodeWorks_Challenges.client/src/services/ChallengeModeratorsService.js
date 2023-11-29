@@ -55,12 +55,12 @@ class ChallengeModeratorsService {
     }
   }
 
-  async gradeChallenge(challengeId, participantId, grade) {
-    const res = await api.put(`api/challenges/${challengeId}/participants/${participantId}`, grade)
+  async gradeChallenge(moderatorId, newGrade) {
+    const res = await api.put(`api/moderators/${moderatorId}/grade`, newGrade)
     logger.log('[Challenge graded]:', res.data)
-    let participantToEdit = AppState.participants.find(p => p.id == res.data.id)
-    if (participantToEdit)
-      participantToEdit.grade = res.data.grade
+    let participantToGrade = AppState.participants.find(p => p.id == res.data.id)
+    if (participantToGrade)
+      participantToGrade.grade = res.data.grade
   }
 }
 

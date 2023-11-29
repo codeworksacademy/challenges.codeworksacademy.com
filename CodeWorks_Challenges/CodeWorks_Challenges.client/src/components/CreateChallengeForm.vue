@@ -35,7 +35,8 @@ import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"  
 import { Challenge } from "../models/Challenge.js"
 import { challengesService } from "../services/ChallengesService.js"
-import { useRouter } from 'vue-router';
+import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js"
+import { useRouter, useRoute } from 'vue-router';
 import { Modal } from "bootstrap"
 
 export default {
@@ -50,9 +51,10 @@ export default {
     const editable = ref({
       name: '',
       description: '',
-      coverImg: 'https://i.ibb.co/c21hFZN/card-gradient.png'
+      coverImg: 'https://i.ibb.co/c21hFZN/card-gradient.png',
     })
 
+    const route = useRoute()
     const router = useRouter()
 
     // onMounted(() => {
@@ -65,14 +67,19 @@ export default {
         const newChallenge = editable.value
         editable.value = { ...editable.value, ...props.challenge }
         await challengesService.createChallenge(newChallenge)
+        const moderatorData = {
+            challengeId: AppState.activeChallenge?.id,
+            accountId: AppState.user.id
+          }
+        await challengeModeratorsService.createModeration(moderatorData)
         Modal.getOrCreateInstance('#createChallengeForm').hide()
         Pop.toast('Challenge Created')
-        // router.push(
-        //   { name: 'ChallengeEditor',
-        //     params: {
-        //       challengeId: props.challenge?.id
-        //     }
-        //   })
+        router.push(
+          { name: 'ChallengeEditor',
+            params: {
+              challengeId: AppState.activeChallenge?.id
+            }
+          })
       } catch (error) {
         Pop.toast(error.message, 'error')
       }
