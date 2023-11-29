@@ -8,9 +8,21 @@ export class ParticipantsController extends BaseController {
     super('api/participants')
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
+      .get('/:participantId', this.getParticipantById)
       .post('', this.joinChallenge)
-      .put('/:participantId', this.submitChallengeForGrading)
+      .put('/:participantId', this.updateChallengeParticipant)
       .delete('/:participantId', this.leaveChallenge)
+  }
+
+  async getParticipantById(req, res, next) {
+    try {
+      const participantId = req.params.participantId
+      const participant = await participantsService.getParticipantById(participantId)
+
+      return res.send(participant)
+    } catch (error) {
+      next(error)
+    }
   }
 
   async joinChallenge(req, res, next) {
@@ -27,14 +39,16 @@ export class ParticipantsController extends BaseController {
     }
   }
 
-  async submitChallengeForGrading(req, res, next) {
+  async updateChallengeParticipant(req, res, next) {
     try {
       const participantId = req.params.participantId
       const userId = req.userInfo.id
-      const newParticipant = req.body
+      const newSubmission = req.body
 
-      const updatedParticipant = await participantsService.submitChallengeForGrading(participantId, userId, newParticipant)
-      return res.send(updatedParticipant)
+      const participant = await participantsService.updateChallengeParticipant(participantId, userId, newSubmission)
+
+      return res.send(participant)
+      // return res.send(participantId)
     } catch (error) {
       next(error)
     }

@@ -30,7 +30,7 @@ export const SubmissionSchema = new Schema({
 SubmissionSchema.virtual('participant', {
   localField: 'participantId',
   foreignField: '_id',
-  ref: 'Participant',
+  ref: 'Challenge_Participant',
   justOne: true
 })
 
@@ -40,3 +40,4 @@ SubmissionSchema.virtual('challenge', {
   ref: 'Challenge',
   justOne: true
 })
+

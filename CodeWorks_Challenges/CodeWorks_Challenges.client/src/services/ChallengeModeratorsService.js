@@ -20,7 +20,7 @@ class ChallengeModeratorsService {
   async getModeratorsByChallengeId(challengeId) {
     const res = await api.get(`api/challenges/${challengeId}/moderators`)
     AppState.moderators = res.data.map(m => new ChallengeModerator(m))
-    // logger.log('[Moderators in this challenge]:', AppState.moderators)
+    logger.log('[Moderators in this challenge]:', AppState.moderators)
   }
 
   async getModerationsByChallengeCreatorId(userId) {
@@ -53,6 +53,14 @@ class ChallengeModeratorsService {
     if (myModerationToRemove != -1) {
       AppState.myModerations.splice(myModerationToRemove, 1)
     }
+  }
+
+  async gradeChallenge(moderatorId, newGrade) {
+    const res = await api.put(`api/moderators/${moderatorId}/grade`, newGrade)
+    logger.log('[Challenge graded]:', res.data)
+    let participantToGrade = AppState.participants.find(p => p.id == res.data.id)
+    if (participantToGrade)
+      participantToGrade.grade = res.data.grade
   }
 }
 

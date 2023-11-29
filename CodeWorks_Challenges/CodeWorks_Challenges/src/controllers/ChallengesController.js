@@ -11,6 +11,7 @@ export class ChallengesController extends BaseController {
     this.router
       .get('', this.getAllChallenges)
       .get('/:challengeId', this.getChallengeById)
+      .get('', this.findChallenges)
       .get('/:challengeId/participants', this.getParticipantsByChallengeId)
       .get('/:challengeId/moderators', this.getModeratorsByChallengeId)
 
@@ -21,6 +22,7 @@ export class ChallengesController extends BaseController {
       .put('/:challengeId/reputation', this.giveReputation)
       .post('/:challengeId/answers', this.submitAnswer)
       // .put('/:challengeId', this.deprecateChallenge)
+      .put('/:challengeId/participants/:participantId', this.submitAnswer)
       .put('/:challengeId/grade/:participantId', this.gradeSubmittedChallenge)
       .delete('/:challengeId', this.deleteChallenge)
       .delete('/:challengeId/participants', this.removeParticipant)
@@ -151,10 +153,18 @@ export class ChallengesController extends BaseController {
     }
   }
 
+  async findChallenges(req, res, next) {
+    try {
+      const challenges = await challengesService.findChallenges(req.query.name, req.query.offset)
+      res.send(challenges)
+    } catch (error) {
+      next(error)
+    }
+  }
+
   async getParticipantsByChallengeId(req, res, next) {
     try {
       const challengeId = req.params.challengeId
-
       const participants = await participantsService.getParticipantsByChallengeId(challengeId)
 
       return res.send(participants)

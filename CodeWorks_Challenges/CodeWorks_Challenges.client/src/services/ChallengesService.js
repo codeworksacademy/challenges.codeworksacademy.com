@@ -2,6 +2,8 @@ import { AppState } from "../AppState.js"
 import { logger } from "../utils/Logger.js"
 import { api } from './AxiosService'
 import { Challenge } from "../models/Challenge.js"
+import { participantsService } from "./ParticipantsService.js"
+import { challengeModeratorsService } from "./ChallengeModeratorsService.js"
 import Pop from "../utils/Pop.js"
 
 class ChallengesService {
@@ -11,6 +13,12 @@ class ChallengesService {
     logger.log('Creating Challenge ⏩', res.data)
     AppState.activeChallenge = res.data
     return res.data
+  }
+
+  async findChallenges(nameQuery) {
+    const res = await api.get(`/api/challenges?name=${nameQuery}`)
+    AppState.challenges = res.data.map(c => new Challenge(c))
+    logger.log('Queried Challenges by name:', AppState.challenges)
   }
 
   async getMyChallenges() {
@@ -37,6 +45,8 @@ class ChallengesService {
   async setActiveChallenge(challengeId) {
     const res = await api.get(`/api/challenges/${challengeId}`)
     AppState.activeChallenge = res.data
+    participantsService.getParticipantsByChallengeId(challengeId)
+    challengeModeratorsService.getModeratorsByChallengeId(challengeId)
     logger.log('Active Challenge:', AppState.activeChallenge)
   }
 
@@ -91,6 +101,7 @@ class ChallengesService {
     logger.log('Updating Challenge ⏩', res.data)
     AppState.activeChallenge = res.data
     return res.data
+    // return newChallenge;
   }
 
   async giveReputation(challengeId){
@@ -109,6 +120,13 @@ class ChallengesService {
     })
     // logger.log(answerData)
     // logger.log('[SUBMITTING ANSWER]', res.data)
+
+    return res.data
+  }
+
+  async submitChallenge(challengeId, submissionData) {
+    const res = await api.post(`api/challenges/${challengeId}/submissions`, submissionData)
+    logger.log('[SUBMITTING CHALLENGE]', res.data)
 
     return res.data
   }

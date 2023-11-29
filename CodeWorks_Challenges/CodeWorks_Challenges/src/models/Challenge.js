@@ -1,4 +1,5 @@
 import { Schema } from 'mongoose';
+import { CATEGORY_TYPES, STATUS_TYPES } from '../constants';
 
 const ObjectId = Schema.Types.ObjectId;
 
@@ -8,10 +9,19 @@ export const ChallengeSchema = new Schema({
     required: true,
     ref: 'Account'
   },
+  category: {
+    type: String,
+    enum: Object.values(CATEGORY_TYPES),
+    required: true,
+    lowercase: true
+  },
+
   status: {
     type: String,
-    enum: ['draft', 'under-review', 'published', 'deprecated'],
-    default: 'draft'
+    enum: Object.values(STATUS_TYPES),
+    required: true,
+    default: 'draft',
+    lowercase: true
   },
   name: {
     type: String,
@@ -22,13 +32,14 @@ export const ChallengeSchema = new Schema({
   description: {
     type: String,
     required: true,
-    maxLength: 1500,
+    maxLength: 5000,
     minLength: 3
   },
-  steps: [
+  requirements: [
     {
-      type: String,
-      default: []
+      step: { type: String, required: true},
+      completed: {type: Boolean, required: false, default: 'false'},
+      comment: {type: String, required: false, default: ''}
     }
   ],
   supportLinks: [
@@ -58,12 +69,10 @@ export const ChallengeSchema = new Schema({
   // REVIEW why are there multiple answers?
   //Change this to puzzles --> outputs 
   //I will be using the index of the answer in the array to compare to the index of the answer
-  answers: [
-    { 
-      description: { type: String, required: true },
-      answer: { type: String, required: true }
-    }
-  ],
+  answer: {
+    type: String,
+    required: false
+  }
   // answers: [
   //   {
   //     puzzles: [
@@ -100,7 +109,7 @@ ChallengeSchema.virtual('creator', {
 ChallengeSchema.virtual('participantCount', {
   localField: '_id',
   foreignField: 'challengeId',
-  ref: 'Participant',
+  ref: 'Challenge_Participant',
   count: true
 })
 
@@ -108,7 +117,7 @@ ChallengeSchema.virtual('participantCount', {
 ChallengeSchema.virtual('completedCount', {
   localField: '_id',
   foreignField: 'challengeId',
-  ref: 'Participant',
+  ref: 'Challenge_Participant',
   count: true,
   match: {
     status: 'completed'

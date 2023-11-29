@@ -1,14 +1,26 @@
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { challengesService } from "./ChallengesService.js"
+import { PROFILE_FIELDS } from '../constants'
 
-const PROFILE_FIELDS = 'name picture reputation title';
+/**
+ * @param {any} body
+ */
+
+function sanitizeBody(body) {
+	const writable = {
+		status: body.status,
+		submission: body.submission,
+		requirements: body.requirements,
+	}
+	return writable
+}
 
 class ParticipantsService {
 	async getChallengeRewards(accountId) {
-		const rewards = await dbContext.Participants.find({ accountId, status: 'completed' })
+		const rewards = await dbContext.ChallengeParticipants.find({ accountId, status: 'completed' })
 			.populate('challenge', 'name badgeImg')
-			.select('-submission')
+			// .select('-submission')
 		return rewards
 	}
 
@@ -17,13 +29,13 @@ class ParticipantsService {
 		const challenge = await challengesService.getChallengeById(newParticipant.challengeId)
 
 		if (challenge.status != 'published') {
-			throw new BadRequest(`[CHALLENGE_STATE::${challenge.status}] This challenge cannot be joined at this time.`)
+			throw new BadRequest(`[CHALLENGE_STATUS::${challenge.status}] This challenge cannot be joined at this time.`)
 		}
 
-		const participant = await dbContext.Participants.create(newParticipant)
+		const participant = await dbContext.ChallengeParticipants.create(newParticipant)
 
-		// REVIEW PROBABLY UNNECESSARY this can be handled purely on the client 
-		// subsequent requests for the data will include newly joined participant 
+		// REVIEW PROBABLY UNNECESSARY this can be handled purely on the client
+		// subsequent requests for the data will include newly joined participant
 		// await participant.populate('profile', 'name picture')
 		// await participant.populate({
 		// 	path: 'challenge',
@@ -36,47 +48,44 @@ class ParticipantsService {
 	}
 
 	async getParticipantById(participantId) {
-		const participant = await dbContext.Participants.findById(participantId).populate({
+		const participant = await dbContext.ChallengeParticipants.findById(participantId).populate({
 			path: 'challenge',
-			populate: { path: 'creator participantCount' }
+			populate: { path: 'creator requirements participantCount' }
 		}).populate('profile', 'name picture')
 		return participant
 	}
 
 	async getParticipantsByChallengeId(challengeId) {
-		const participants = await dbContext.Participants.find({ challengeId })
-			.populate('profile', PROFILE_FIELDS)
-			.select('-submission')
+		const participants = await dbContext.ChallengeParticipants.find({ challengeId })
+			.populate({
+				path: 'challenge',
+				populate: { path: 'creator requirements participantCount' }
+			}).populate('profile', PROFILE_FIELDS)
+			// .select('-submission')
 		return participants
 	}
 
 	async getMyParticipations(accountId) {
-		const participants = await dbContext.Participants.find({ accountId }).populate({
+		const participants = await dbContext.ChallengeParticipants.find({ accountId }).populate({
 			path: 'challenge',
 			populate: { path: 'creator' }
 		}).populate('profile', PROFILE_FIELDS)
 		return participants
 	}
 
-	async submitChallengeForGrading(participantId, userId, newParticipant) {
-		const participantToUpdate = await dbContext.Participants.findById(participantId)
-
-		if (!participantToUpdate) {
-			throw new BadRequest("Invalid participant ID.")
+	async updateChallengeParticipant(participantId, userId, newSubmission) {
+		const update = sanitizeBody(newSubmission)
+		// TODO [🚧 Kyle] moderator check
+		const participant = await dbContext.ChallengeParticipants.findOneAndUpdate
+		(
+			{ _id: participantId },
+			{ $set: update },
+			{ runValidators: true, setDefaultsOnInsert: true, new: true }
+		)
+		if (!participant) {
+			throw new BadRequest('Invalid participant ID.')
 		}
-		if (userId != participantToUpdate.accountId) {
-			throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this participant's. You may not edit other participants.")
-		}
-
-		participantToUpdate.submission = newParticipant.submission
-		if (participantToUpdate.status != 'completed') {
-			participantToUpdate.status = 'submitted'
-		}
-
-		// TODO trigger autograder if possible
-
-		await participantToUpdate.save()
-		return participantToUpdate
+		return participant
 	}
 
 	async gradeChallenge(submission, graderAccountId) {
@@ -85,7 +94,7 @@ class ParticipantsService {
 
 	async acknowledgeReward(id, accountId) {
 		// TODO write this
-		const participant = await dbContext.Participants.findOne({ _id: id, accountId })
+		const participant = await dbContext.ChallengeParticipants.findOne({ _id: id, accountId })
 		if (!participant || participant.status != 'completed' || participant.claimedAt) {
 			throw new BadRequest('Unable to claim badge')
 		}
@@ -95,7 +104,8 @@ class ParticipantsService {
 	}
 
 	async leaveChallenge(participantId, userId) {
-		const participantToRemove = await dbContext.Participants.findById(participantId)
+		const participantToRemove = await dbContext.ChallengeParticipants.findById(participantId)
+		const participantStatus = participantToRemove.status
 
 		if (!participantToRemove) {
 			throw new BadRequest("Invalid participant ID.")
@@ -105,6 +115,8 @@ class ParticipantsService {
 			throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this participant's. You may not remove other participants.")
 		}
 
+		participantToRemove.status = 'left'
+
 		await participantToRemove.remove()
 
 		return participantToRemove
@@ -113,7 +125,7 @@ class ParticipantsService {
 	async removeParticipant(challengeId, userId, newParticipant) {
 		const challenge = await challengesService.getChallengeById(challengeId)
 
-		const participantToRemove = await dbContext.Participants.findById(newParticipant.id)
+		const participantToRemove = await dbContext.ChallengeParticipants.findById(newParticipant.id)
 
 		if (!challenge) {
 			throw new BadRequest('Invalid challenge ID.')
@@ -131,8 +143,6 @@ class ParticipantsService {
 
 		return participantToRemove
 	}
-
-
 }
 
 export const participantsService = new ParticipantsService()

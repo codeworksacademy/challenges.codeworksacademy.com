@@ -219,6 +219,113 @@ $gradient: linear-gradient(180deg, hsla(0, 0%, 100%, 0.15), hsla(0, 0%, 100%, 0)
   bottom: 10rem;
 }
 
+.fw-100 {
+  font-weight: 100;
+}
+
+.fw-150 {
+  font-weight: 150;
+}
+
+.fw-200 {
+  font-weight: 200;
+}
+
+.fw-250 {
+  font-weight: 250;
+}
+
+.fw-300 {
+  font-weight: 300;
+}
+
+.fw-350 {
+  font-weight: 350;
+}
+
+.fw-400 {
+  font-weight: 400;
+}
+
+.fw-450 {
+  font-weight: 450;
+}
+
+.fw-500 {
+  font-weight: 500;
+}
+
+.fw-550 {
+  font-weight: 550;
+}
+
+.fw-600 {
+  font-weight: 600;
+}
+
+.fw-650 {
+  font-weight: 650;
+}
+
+.fw-700 {
+  font-weight: 700;
+}
+
+.fw-750 {
+  font-weight: 750;
+}
+
+.fw-800 {
+  font-weight: 800;
+}
+
+.fw-850 {
+  font-weight: 850;
+}
+
+.fw-900 {
+  font-weight: 900;
+}
+
+.fw-950 {
+  font-weight: 950;
+}
+
+.fw-1000 {
+  font-weight: 1000;
+}
+
+.fs-7 {
+  font-size: 0.9rem;
+}
+
+.fs-8 {
+  font-size: 0.8rem;
+}
+
+.fs-9 {
+  font-size: 0.7rem;
+}
+
+.fs-10 {
+  font-size: 0.6rem;
+}
+
+.fs-11 {
+  font-size: 0.5rem;
+}
+
+.subtle-header {
+  color: var(--text-subheader);
+  text-shadow: .5px .5px 1px #362d2d;
+}
+
+.subheader {
+  -webkit-filter: brightness(.5);
+  filter: brightness(.5);
+  text-shadow: .5px .5px 1px #362d2d;
+}
+
 .hover-blue {
   &:hover {
     color: var(--primary-blue);
@@ -450,14 +557,14 @@ input:not(:placeholder-shown):invalid,
 textarea:not(:placeholder-shown):invalid,
 select:not(:placeholder-shown):invalid {
   border: 1px solid #BB383833 !important;
-  box-shadow: 0 0 0 1px #BB388FAB !important;
+  /*box-shadow: 0 0 0 1px #BB388FAB !important;*/
 }
 
 input:not(:placeholder-shown):valid,
 textarea:not(:placeholder-shown):valid,
 select:not(:placeholder-shown):valid {
   border: 1px solid #38BB6433 !important;
-  box-shadow: 0 0 0 1px #388FBBab !important;
+  /*box-shadow: 0 0 0 1px #388FBBab !important;*/
 }
 
 input:checked {
@@ -472,7 +579,7 @@ input:not(:checked) {
   background-size: 18px 18px;
   background-position-y: -1.75px;
   background-position-x: -2px;
-  background-color: #555;
+  /* background-color: #555; */
   border-color: #141b23; /* Change the border color when checked */
 }
 
@@ -544,7 +651,7 @@ input:not(:placeholder-shown):invalid:focus,
 textarea:not(:placeholder-shown):invalid:focus,
 select:not(:placeholder-shown):invalid:focus {
   border: 1px solid #38BB6433 !important;
-  box-shadow: 0 0 0 1px #388FBBab !important;
+  /*box-shadow: 0 0 0 1px #388FBBab !important;*/
   --bs-form-switch-bg: url(
     "https://clipart-library.com/images_k/black-circle-with-transparent-background/black-circle-with-transparent-background-13.png") !important;
 }
@@ -862,7 +969,7 @@ input:not(:placeholder-shown):valid,
 textarea:not(:placeholder-shown):valid,
 select:not(:placeholder-shown):valid {
   border: 1px solid #38BB6433 !important;
-  box-shadow: 0 0 0 1px #388FBBab !important;
+  /*box-shadow: 0 0 0 1px #388FBBab !important;*/
 }
 
 input:checked {
@@ -949,7 +1056,7 @@ input:not(:placeholder-shown):invalid:focus,
 textarea:not(:placeholder-shown):invalid:focus,
 select:not(:placeholder-shown):invalid:focus {
   border: 1px solid #38BB6433 !important;
-  box-shadow: 0 0 0 1px #388FBBab !important;
+  /*box-shadow: 0 0 0 1px #388FBBab !important;*/
   --bs-form-switch-bg: url(
     "https://clipart-library.com/images_k/black-circle-with-transparent-background/black-circle-with-transparent-background-13.png") !important;
 }

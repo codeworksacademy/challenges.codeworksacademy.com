@@ -1,7 +1,7 @@
 import { dbContext } from "../db/DbContext.js";
 import { BadRequest, Forbidden } from "../utils/Errors.js";
+import { PROFILE_FIELDS } from '../constants';
 
-const PROFILE_FIELDS = 'name picture reputation title';
 
 class ChallengesService {
 
@@ -15,7 +15,7 @@ class ChallengesService {
 
     const challenges = await dbContext.Challenges.find()
       .populate('creator', PROFILE_FIELDS)
-      .select('-answers')
+      .select('-answer')
       .sort({ createdAt: -1 })
     return challenges
   }
@@ -23,13 +23,28 @@ class ChallengesService {
   async getChallengeById(challengeId) {
     const challenge = await dbContext.Challenges.findById(challengeId)
       .populate('creator', PROFILE_FIELDS)
-      // .select('-answers')  //FIXME - This gets the challenge without the answer attached, uncommenting when done
-
+      .select('-answers')  //FIXME - This gets the challenge without the answer attached, uncommenting when done
+      .select('-answer')
     if (!challenge) {
       throw new BadRequest('Invalid Challenge ID.')
     }
 
     return challenge
+  }
+
+  /**
+  * @param {string} name
+   */
+  async findChallenges(name = '', offset = 0) {
+    const filter = new RegExp(name, 'ig')
+    return await dbContext.Challenges
+      .aggregate([{
+        $match: { name: filter }
+      }])
+      .collation({ locale: 'en_US', strength: 1 })
+      .skip(Number(offset))
+      .limit(20)
+      .exec()
   }
 
   //This is where editing the challenge will have answers populated
@@ -62,10 +77,11 @@ class ChallengesService {
     // REVIEW SCHEMA CHANGES
     challenge.name = newChallenge.name || challenge.name
     challenge.description = newChallenge.description || challenge.description
-    challenge.steps = newChallenge.steps || challenge.steps
+    challenge.category = newChallenge.category || challenge.category
+    challenge.requirements = newChallenge.requirements || challenge.requirements
     challenge.coverImg = newChallenge.coverImg || challenge.coverImg
     challenge.supportLinks = newChallenge.supportLinks || challenge.supportLinks
-    challenge.answers = newChallenge.answers || challenge.answers
+    challenge.answer = newChallenge.answer || challenge.answer
     challenge.difficulty = newChallenge.difficulty || challenge.difficulty
     challenge.status = newChallenge.status || challenge.status
 
@@ -116,12 +132,12 @@ class ChallengesService {
   // SUGGESTIONS: 
   //   - simplify to a single answer 
   //   - or validate all answers all correct order
-
-  // REVIEW - I believe that I mistakenly left this in here while creating my Answer backend, I will delete it after the team has had a chance to review Jake's feedback. (Becca)
   //NOTE - Keeping This -Chantha
   async submitAnswer(challengeId, userId, answer) {
-    const challenge = await this.getChallengeById(challengeId)
-    if (challenge.answers[0].answer === answer.answerData) {
+    // const challenge = await this.getChallengeById(challengeId)
+    const challenge = await dbContext.Challenges.findById(challengeId)
+      .populate('creator', PROFILE_FIELDS)
+    if (challenge.answer === answer.answerData) {
       // return 'You are correct!'
       return {
         correct: true
@@ -132,7 +148,8 @@ class ChallengesService {
         correct: false
       }
     }
-    // return `${challenge.answers}, Answer: ${answer.answerData}`;
+    // return challenge;
+    // return `${challenge.answer}, Answer: ${answer.answerData}`;
   }
 }
 

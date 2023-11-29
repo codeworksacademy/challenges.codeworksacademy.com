@@ -1,4 +1,4 @@
-import { Participant } from './Participant'
+import { Participant } from './ChallengeParticipant'
 import { Challenge } from './Challenge'
 import { DateTime } from '../utils/DateTime'
 

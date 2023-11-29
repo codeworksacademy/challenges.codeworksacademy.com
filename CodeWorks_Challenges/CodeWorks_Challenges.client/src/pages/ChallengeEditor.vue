@@ -1,6 +1,6 @@
 <template>
   <div class="" v-if="challenge">
-    <section class="container-fluid text-dark">
+    <section class="container-fluid text-light">
       <form @submit.prevent="updateChallenge">
         <div class="border-dark border-bottom my-3" id="details-section">
           <h3 for="name">Challenge Name</h3>
@@ -11,15 +11,16 @@
           <textarea type="text" cols="30" rows="10" class="form-control mb-3" id="description" v-model="editable.description" required></textarea> 
         </div>
           <div>
-            <section id="steps-section">
-              <h3 for="steps">Challenge Steps</h3>
-              <span v-if="challenge.steps.length == 0" class="text-danger">You need at least one step!</span>
-              <h4>Add a step  <i class="mdi mdi-plus-box fs-1" @click="addStep"></i></h4>
-              <textarea name="" id="stepText" cols="30" rows="10" class="form-control mb-3"></textarea>
+            <section id="requirements-section">
+              <h3 for="steps">Challenge Requirements</h3>
+              <!-- <span v-if="challenge.requirements.length == 0" class="text-danger">You need at least one step!</span> -->
+              <h4>Add a requirement  <i class="mdi mdi-plus-box fs-1" @click="addRequirement"></i></h4>
+              <textarea name="" id="requirementText" cols="30" rows="10" class="form-control mb-3"></textarea>
             </section>
-            <section class="" v-for="(step, index) in challenge.steps">
-              <h4>Step {{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteStep(index)"></i></h4>
-              <textarea name="" id="" cols="30" rows="10" class="form-control mb-3">{{ step }}</textarea>
+            <section class="" v-for="(requirement, index) in challenge.requirements" :key="index">
+              <h4>Requirement {{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteRequirement(index)"></i></h4>
+              <!-- NOTE - CHANTHA - Since a challenge has potentially a surmountable amount of steps -- making this textarea an input field would be better for UX and UI. But I didn't want to change your code without your permission! Let me know your thoughts. -AJ 11/18 -->
+              <textarea v-model="requirement.step" name="" id="" cols="30" rows="10" class="form-control mb-3"></textarea>
             </section>
           </div>
           <h3>Difficulty</h3>
@@ -29,49 +30,50 @@
             <option value="2">Medium</option>
             <option value="3">Hard</option>
           </select>
+          <h3>Category</h3>
+          <select class="form-select mb-3" aria-label="Category Selection" v-model="editable.category">
+            <option selected>Select Category</option>
+            <option :value="'full stack'">Full-Stack</option>
+            <option :value="'front end'">Frontend</option>
+            <option :value="'back end'">Backend</option>
+            <option :value="'puzzles'">Puzzle</option>
+            <option :value="'data structures'">Data Structures</option>
+            <option :value="'style and design'">Style and Design</option>
+            <option :value="'other'">Other</option>
+          </select>
           <h3 class="mb-3">Cover Image</h3>
           <img :src="editable.coverImg" alt="" class="object-fit-cover w-100 rounded-top">
           <input type="text" class="form-control mb-3" id="coverImg" v-model="editable.coverImg" required> 
-          <h4>Support Links</h4>
-          <span v-if="challenge.supportLinks.length == 0" class="text-danger">You need at least 1 support link!</span>
-          <!-- <textarea name="supportLinks" id="" cols="30" rows="10" class="form-control mb-3" v-model="editable.supportLinks" required></textarea> -->
-          <div class="d-flex input-group mb-3">
-            <input type="text" class="form-control" id="supportLinkType" placeholder="Link Type"> 
-            <input type="text" class="form-control" id="supportLink" placeholder="Link"> 
-            <!-- <i class="mdi mdi-plus-box fs-2" @click="addSupportLink"></i> -->
-            <button class="btn btn-success" type="button" id="button-addon1" @click="addSupportLink">Add</button>
-          </div>
-          <section class="row justify-content-between" v-for="(link, index) in challenge.supportLinks">
-            <!-- <h4 class="text-success col-md-6">{{ link.name }} </h4>
-            <h4 class="text-dark col-md-6">{{ link.url }} <i class="mdi mdi-trash-can float-end" @click="deleteSupportLink(index)"></i></h4> -->
-            <ul class="list-group list-group-horizontal p-3">
-              <li class="list-group-item list-group-item-dark flex-fill w-50">{{ link.name }}</li>
-              <li class="list-group-item list-group-item-dark flex-fill w-50">{{ link.url }} 
-                <i class="mdi mdi-trash-can float-end fs-5 p-0" @click="deleteSupportLink(index)"></i>
-              </li>
-              
-            </ul>
-          </section>
+          
           <section id="answers-section">
             <h4>Answers</h4>
             <div class="d-flex input-group mb-3">
-              <input type="text" class="form-control" id="answerDescription" placeholder="Answer Description"> 
+              <!-- <input type="text" class="form-control" id="answerDescription" placeholder="Answer Description">  -->
               <input type="text" class="form-control" id="answer" placeholder="Answer"> 
               <button class="btn btn-success" type="button" id="button-addon1" @click="addAnswer()">Add</button>
             </div>
             <!-- <textarea name="answers" id="" cols="30" rows="10" class="form-control mb-3" v-model="editable.answers"></textarea> -->
           </section>
-          <section class="row justify-content-between" v-for="(answer, index) in challenge.answers">
-            <!-- <h4 class="text-success col-md-6">{{ link.name }} </h4>
-            <h4 class="text-dark col-md-6">{{ link.url }} <i class="mdi mdi-trash-can float-end" @click="deleteSupportLink(index)"></i></h4> -->
+          <!-- <section class="row justify-content-between" v-for="(answer, index) in challenge.answers">
             <ul class="list-group list-group-horizontal p-3">
               <li class="list-group-item list-group-item-dark flex-fill w-50">{{ answer.description }}</li>
               <li class="list-group-item list-group-item-dark flex-fill w-50">{{ answer.answer }} 
                 <i class="mdi mdi-trash-can float-end fs-5 p-0" @click="deleteAnswer(index)"></i>
               </li>
-              
             </ul>
-          </section>
+          </section> -->
+          <!-- TODO - Make it so only CodeWorks staff and/or curator's of the application can change this. I'm guessing this will be a computed property that checks if the user is an admin or not by using the AppState.user.role property. - AJ 11/18 -->
+          <div class="my-4">
+            <h4 class="text-center mb-3">Set Challenge Status</h4>
+            <div class="col-12 d-flex justify-content-center align-items-center mb-3">
+              <div  v-for="s in statusTypes" :key="s">
+                <div class="d-flex flex-column radio-status-button">
+                  <input @change="log" type="radio" :value="s" v-model="editable.status" name="status" id="status" class="text-center fs-5">
+                  <label for="status" class="text-capitalize">{{ formatEnum(s) }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
           <button class="btn btn-success mb-3">Update Challenge</button>
       </form>
     </section>
@@ -102,39 +104,62 @@ import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
 import { challengesService } from "../services/ChallengesService.js"
 import { Modal } from "bootstrap"
-import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
+import { STATUS_TYPES } from "../constants/index.js"
+import { formatEnum } from "../utils/FormatEnum.js"
 
 export default {
   components: {
     
   },
   setup() {
-
+    let route = useRoute()
     let editing = ref(false);
     const answer = ref('')
     const editable = ref({})
+    const filterBy = ref('')
     watchEffect(() => {
       editable.value = AppState.activeChallenge
     })
-    
-    // async function setActiveChallenge() {
-    //   try {
-    //     await challengesService.setActiveChallenge(AppState.activeChallenge?.id)
-    //   } catch (error) {
-    //     logger.error(error)
-    //     Pop.toast(error, 'error')
-    //   }
-    // }
+    const statusTypes = Object.values(STATUS_TYPES)
+    const statusOptions = ref(
+      {
+        text: 'Draft',
+        value: 'draft'
+      },
+      {
+        text: 'Under Review',
+        value: 'under_review'
+      },
+      {
+        text: 'Published',
+        value: 'published'
+      },
+      {
+        text: 'Deprecated',
+        value: 'deprecated'
+      }
+    )
+
+    async function setActiveChallenge() {
+      try {
+        await challengesService.setActiveChallenge(route.params.challengeId)
+        logger.log(route.params.challengeId)
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error, 'error')
+      }
+    }
 
     async function updateChallenge() {
       try {
         // const stepsLength = AppState.activeChallenge.steps;
         // const description = AppState.activeChallenge.description;
-        if(AppState.activeChallenge.steps == 0){
-          // console.log("Challenge is invalid");
-          Pop.error("Challenge needs at least 1 step.")
-          return;
-        }
+        // if(AppState.activeChallenge.steps == 0){
+        //   // console.log("Challenge is invalid");
+        //   Pop.error("Challenge needs at least 1 step.")
+        //   return;
+        // }
         if(AppState.activeChallenge.description == 0){
           Pop.error("You cannot have an empty description")
           return;
@@ -159,15 +184,15 @@ export default {
 
     async function answerChallenge(){
       try{
-        await challengesService.submitAnswer(AppState.activeChallenge.id, answer.value)
-        // logger.log(answer.value)
+        const res = await challengesService.submitAnswer(AppState.activeChallenge.id, answer.value)
       } catch(error){
         Pop.error(error.message)
       }
     }
     onMounted(() => {
-
+      setActiveChallenge()
     })
+    function log() {(logger.log(editable.value.status))}
 
     const challenge = computed(() => AppState.activeChallenge)
     function toggleEdit(key, value){
@@ -186,20 +211,22 @@ export default {
       logger.log(`You are ${editing.value ? "now" : "no longer"} editing`)
     }
 
-    function addStep(){
-      const newStep = document.getElementById("stepText")
-      if(newStep.value.length == 0){
-        Pop.error("You cannot create an empty step.")
+    function addRequirement(){
+      const newRequirement = document.getElementById("requirementText")
+      if(newRequirement.value.length == 0){
+        Pop.error("You cannot create an empty requirement.")
         return;
       }
-      challenge.value.steps.push(newStep.value)
-      Pop.success("Step Added")
-      newStep.value = '';
+      challenge.value.requirements.push({
+        step: newRequirement.value
+      })
+      Pop.success("Requirement Added")
+      newRequirement.value.step = ''
     }
 
-    function deleteStep(index){
-        logger.log("Deleting",challenge.value.steps[index])
-        challenge.value.steps.splice(index, 1)
+    function deleteRequirement(index){
+        logger.log("Deleting",challenge.value.requirements[index])
+        challenge.value.requirements.splice(index, 1)
     }
 
     function addSupportLink(){
@@ -223,27 +250,29 @@ export default {
       Pop.success("Link Added")
     }
     function addAnswer(){
-      if (!challenge.value.answers) {
-        challenge.value.answers = [];
-      }
-      const newAnswerDescription = document.getElementById("answerDescription")
+      // if (!challenge.value.answers) {
+      //   challenge.value.answers = [];
+      // }
+      // const newAnswerDescription = document.getElementById("answerDescription")
       const newAnswer = document.getElementById("answer")
-      logger.log("new Answer" ,newAnswerDescription.value, newAnswer.value)
-      if(newAnswerDescription.value.length == 0){
-        Pop.error("You must specify an answer description.")
-        return;
-      }
+      logger.log("new Answer", newAnswer.value)
+      // if(newAnswerDescription.value.length == 0){
+      //   Pop.error("You must specify an answer description.")
+      //   return;
+      // }
       if(newAnswer.value.length == 0){
         Pop.error("You cannot add an empty answer.")
         return;
       }
-      challenge.value.answers.push({
-        answer: newAnswer.value,
-        description: newAnswerDescription.value
-      })
-      newAnswerDescription.value = ''
-      newAnswer.value = ''
-      logger.log(challenge.value.answers)
+      // challenge.value.answers.push({
+      //   answer: newAnswer.value,
+      //   description: newAnswerDescription.value
+      // })
+      challenge.value.answer = newAnswer.value
+      delete challenge.value.answers
+      // newAnswerDescription.value = ''
+      // newAnswer.value = ''
+      logger.log(challenge.value)
       Pop.success("Answer Added")
     }
 
@@ -262,6 +291,9 @@ export default {
       document.getElementById(key).innerHTML = `<p>Edit Cancelled</p>`
     }
     return {
+      log,
+      statusTypes,
+      formatEnum,
       editable,
       answer,
       updateChallenge,
@@ -270,14 +302,23 @@ export default {
       editChallenge,
       answerChallenge,
       editing,
-      addStep,
-      deleteStep,
+      addRequirement,
+      deleteRequirement,
       addSupportLink,
       deleteSupportLink,
       addAnswer,
       deleteAnswer,
       toggleEdit,
-      cancelEdit
+      cancelEdit,
+      statusOptions,
+
+      filterBy,
+      challengeStatusEnum: computed(() => {
+        if (!filterBy.value) {
+          return AppState.challenges
+        }
+        return AppState.challenges.filter(challenge => challenge.status === filterBy.value)
+      }),
     } 
   }
 }
@@ -296,5 +337,12 @@ export default {
   }
   .form-control{
     background-color: white
+  }
+  .radio-status-button{
+    margin: 0 10px;
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
   }
 </style>

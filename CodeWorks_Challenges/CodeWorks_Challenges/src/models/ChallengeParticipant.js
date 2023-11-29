@@ -1,7 +1,8 @@
 import { Schema } from "mongoose";
+import { SUBMISSION_TYPES } from "../constants";
+
 const ObjectId = Schema.Types.ObjectId
 
-export const SUBMISSION_TYPES = ['incomplete', 'started', 'submitted', 'returned_for_review', 'completed'];
 
 export const ChallengeParticipantSchema = new Schema({
   challengeId: {
@@ -14,10 +15,20 @@ export const ChallengeParticipantSchema = new Schema({
     required: true,
     ref: 'Account'
   },
-  submission: { type: String, maxLength: 700, minLength: 3, default: '' },
-  status: { type: String, enum: SUBMISSION_TYPES, required: true, default: 'incomplete', lowercase: true },
+  submission: {
+    type: String,
+    maxLength: 700,
+    default: ''
+  },
+  status: {
+    type: String,
+    enum: Object.values(SUBMISSION_TYPES),
+    required: true,
+    default: SUBMISSION_TYPES.STARTED,
+    lowercase: true
+  },
+  grade: { type: Number, default: 0 },
   claimedAt: { type: Date }
-
 },
   { timestamps: true, toJSON: { virtuals: true } }
 )
@@ -34,4 +45,11 @@ ChallengeParticipantSchema.virtual('challenge', {
   foreignField: '_id',
   ref: 'Challenge',
   justOne: true
+})
+
+ChallengeParticipantSchema.virtual('requirements', {
+  localField: 'challengeId',
+  foreignField: '_id',
+  ref: 'Challenge',
+  justOne: false,
 })

@@ -1,0 +1,27 @@
+{
+  "SUBMISSION_TYPES": {
+    "INCOMPLETE": "incomplete",
+    "STARTED": "started",
+    "SUBMITTED": "submitted",
+    "RETURNED_FOR_REVIEW": "returned for review",
+    "COMPLETED": "completed",
+    "REMOVED": "removed",
+    "LEFT": "left"
+  },
+  "CATEGORY_TYPES": {
+    "FULL_STACK": "full stack",
+    "FRONT_END": "front end",
+    "BACK_END": "back end",
+    "PUZZLES": "puzzles",
+    "DATA_STRUCTURES": "data structures",
+    "STYLE_AND_DESIGN": "style and design",
+    "OTHER": "other"
+  },
+  "STATUS_TYPES": {
+    "DRAFT": "draft",
+    "UNDER_REVIEW": "under review",
+    "PUBLISHED": "published",
+    "DEPRECATED": "deprecated"
+  },
+  "PROFILE_FIELDS": "name picture reputation title"
+}

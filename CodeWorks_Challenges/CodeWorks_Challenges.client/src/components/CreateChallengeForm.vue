@@ -9,6 +9,17 @@
         <label for="description">Challenge Description</label>
         <textarea class="form-control" id="description" v-model="editable.description" required></textarea>
       </div>
+      <label for="category">Category</label>
+      <select class="form-group form-select mb-3" aria-label="Category Selection" v-model="editable.category">
+            <option selected>Select Category</option>
+            <option value="full stack">Full-Stack</option>
+            <option value="front end">Frontend</option>
+            <option value="back end">Backend</option>
+            <option value="puzzles">Puzzle</option>
+            <option value="data structures">Data Structures</option>
+            <option value="style and design">Style and Design</option>
+            <option value="other">Other</option>
+      </select>
       <button type="submit" class="btn btn-primary">Get Started</button>
     </form>
   </section>
@@ -24,7 +35,8 @@ import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"  
 import { Challenge } from "../models/Challenge.js"
 import { challengesService } from "../services/ChallengesService.js"
-import { useRouter } from 'vue-router';
+import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js"
+import { useRouter, useRoute } from 'vue-router';
 import { Modal } from "bootstrap"
 
 export default {
@@ -39,9 +51,10 @@ export default {
     const editable = ref({
       name: '',
       description: '',
-      coverImg: 'https://i.ibb.co/c21hFZN/card-gradient.png'
+      coverImg: 'https://i.ibb.co/c21hFZN/card-gradient.png',
     })
 
+    const route = useRoute()
     const router = useRouter()
 
     // onMounted(() => {
@@ -54,10 +67,15 @@ export default {
         const newChallenge = editable.value
         editable.value = { ...editable.value, ...props.challenge }
         await challengesService.createChallenge(newChallenge)
+        const moderatorData = {
+            challengeId: AppState.activeChallenge?.id,
+            accountId: AppState.user.id
+          }
+        await challengeModeratorsService.createModeration(moderatorData)
         Modal.getOrCreateInstance('#createChallengeForm').hide()
         Pop.toast('Challenge Created')
         router.push(
-          { name: 'EditChallenge',
+          { name: 'ChallengeEditor',
             params: {
               challengeId: AppState.activeChallenge?.id
             }

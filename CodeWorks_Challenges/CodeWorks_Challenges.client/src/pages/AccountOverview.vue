@@ -28,34 +28,34 @@
       </div>
     </section>
     <section class="row mt-3 p-3" style="background-color: #161d2b;">
-      <div class="col-12 d-flex justify-content-center align-items-center text-uppercase fs-8 fw-500">
+      <div class="col-12 d-flex justify-content-around align-items-center text-uppercase fw-500">
         <!-- <a id="profile__link" :href="profile">My Profile</a> -->
-        <router-link class="col-3" :to="{ name: 'Profile', params: { profileId: account.id } }">
-          My Account
+        <router-link :to="{ name: 'Profile', params: { profileId: account.id } }">
+          My Profile
         </router-link>
-        <router-link class="col-3" :to="{ name: 'Account', params: { accountId: account.id } }"> <!--TODO [FEATURE RICH] - Implement route to a new page that holds logistics for app member services -->
-          Billing and Plans
+        <router-link :to="{ name: 'Account', params: { accountId: account.id } }"> <!--TODO [FEATURE RICH] - Implement route to a new page that holds logistics for app member services -->
+          <a id="services__link" href="">Billing and Plans</a>
         </router-link>
-        <router-link class="col-3" :to="{ name: 'Account', params: { accountId: account.id } }"> <!--TODO [FEATURE RICH] - Implement route to a new page that holds logistics for creating team collaborations -->
-          Create Team
+        <router-link :to="{ name: 'Account', params: { accountId: account.id } }"> <!--TODO [FEATURE RICH] - Implement route to a new page that holds logistics for creating team collaborations -->
+          <a id="collab__link" href="">Create Team</a>
         </router-link>
-        <div class="col-3 d-flex flex-end">
+        <div class="d-flex flex-end">
           <a type="button" title="Edit Account" class="" data-bs-toggle="modal"
             data-bs-target="#accountFormModal">
-            Account Settings
+            Profile Settings
           </a>
         </div>
       </div>
     </section>
     <hr class="" style="color: #3d4450; margin-top: .1rem; margin-bottom: .1rem;">
     <section class="row p-3 mb-5">
-      <div class="col-12 d-flex justify-content-center align-items-center text-uppercase fs-8 fw-500">
-        <router-link class="col-3" :to="{ name: '', params: { accountId: account.id } }">
+      <div class="col-6 d-flex justify-content-between align-items-center text-uppercase fw-500">
+        <router-link :to="{ name: '', params: { accountId: account.id } }">
           Overview
         </router-link>
-        <a class="col-3" href="">Activity</a>
-        <a class="col-3" href="">Badges</a>
-        <a class="col-3" href="">Certificates</a>
+        <a href="">Activity</a>
+        <a href="">Badges</a>
+        <a href="">Certificates</a>
       </div>
 
     </section>
@@ -136,7 +136,7 @@
             {{ account.name }}
           </p>
           <p>
-            Rank: {{ currentRank }}
+            Rank: {{ account.title }}
             <span class="ms-2">
               {{ account.rank }} XP
             </span>
@@ -152,7 +152,7 @@
     <!-- TODO Add computed in Style section which sets the width of the progress bar (i.e., percentile based on next rank and current rank) -->
     <section class="rank-card-style bg-dark text-light row m-2 mb-3 p-2 rounded">
       <div class="col-12 fs-2">
-        {{ currentRank }}
+        {{ account.title }}
       </div>
       <div class="col-12">
         <div class="row">
@@ -163,11 +163,11 @@
           </div>
           <div class="col-md-9 col-12 text-start text-md-end">
             <span>
-              NEXT RANK: {{ nextRank.toUpperCase() }}
+              NEXT RANK [RANK NUMBER]
             </span>
             <div class="progress" role="progressbar" aria-label="example" aria-valuenow="50" aria-valuemin="0"
               aria-valuemax="100">
-              <div class="progress-bar" :style="{ width: rankPercentage }"> {{ rankPercentage }}</div>
+              <div class="progress-bar bg-primary" style="width: 50%"></div>
             </div>
           </div>
         </div>
@@ -255,7 +255,7 @@ import Pop from "../utils/Pop.js";
 import { challengesService } from "../services/ChallengesService.js";
 import { logger } from "../utils/Logger.js";
 import ChallengeCard from '../components/ChallengeCard.vue'
-import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js"
+import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js";
 import AccountModerator from "../components/AccountModerator.vue";
 import { accountService } from "../services/AccountService.js";
 import { useRoute } from 'vue-router';
@@ -309,61 +309,6 @@ export default {
     })
     return {
       profile: computed(() => AppState.profiles.find(p => p.id === AppState.activeProfile?.id)),
-      currentRank: computed(() => {
-        let lastKey = 0
-
-        for (const key in AppState.rankTitles) {
-          if (AppState.account.rank >= key) {
-            lastKey = key
-          }
-        }
-
-        return AppState.rankTitles[lastKey]
-      }),
-
-      rankPercentage: computed(() => {
-        let lastKey = 0
-
-        for (const key in AppState.rankTitles) {
-          if (AppState.account.rank >= key) {
-            lastKey = key
-          }
-        }
-
-        let keys = Object.keys(AppState.rankTitles)
-        let nextIndex = keys.indexOf(lastKey) + 1
-        if (nextIndex == -1) {
-          return `100%`
-        }
-
-        let nextKey = keys[nextIndex]
-
-        let percentage = (AppState.account.rank / nextKey) * 100
-
-        let finalPer = percentage.toFixed(1)
-
-        return `${finalPer}%`
-      }),
-
-      nextRank: computed(() => {
-        let lastKey = 0
-
-        for (const key in AppState.rankTitles) {
-          if (AppState.account.rank >= key) {
-            lastKey = key
-          }
-        }
-
-        let keys = Object.keys(AppState.rankTitles)
-        let nextIndex = keys.indexOf(lastKey) + 1
-        if (nextIndex == -1) {
-          return 'You have reached the last rank!'
-        }
-        let nextKey = keys[nextIndex]
-
-        return AppState.rankTitles[nextKey]
-      }),
-
       account: computed(() => AppState.account),
       // challenge: computed(() => AppState.activeChallenge),
       myChallenges: computed(() => AppState.myChallenges),
@@ -424,5 +369,4 @@ a {
 .avatar-style {
   position: relative;
   top: -5.5vh;
-}
-</style>
+}</style>
