@@ -27,7 +27,7 @@
 
   <div v-if="challengeCreator" class="col-9 d-flex justify-content-center align-items-center position-fixed bottom-2">
     <!-- STUB - OFFCANVAS BUTTON - Array of Submitted Challenge Participants -->
-    <a
+    <!-- <a
       role="button"
       class="d-flex justify-content-center align-items-center mdi mdi-chevron-up text-warning bg-primary rounded-circle fs-1"
       style="aspect-ratio: 1/1; height: 50px; width: 50px;"
@@ -35,7 +35,7 @@
       data-bs-toggle="offcanvas"
       data-bs-target="#submissionsOffcanvas"
       aria-controls="offcanvasBottom">
-    </a>
+    </a> -->
   </div>
   <!-- <div v-for="p in participants" :key="p.id" class="col-12 d-flex justify-content-center align-items-center pb-5 mb-5">
     <GradeSubmissionForm v-if="p.status === 'submitted'" :participant="p" />

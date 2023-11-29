@@ -35,12 +35,6 @@ export const ChallengeSchema = new Schema({
     maxLength: 5000,
     minLength: 3
   },
-  // steps: [
-  //   {
-  //     type: String,
-  //     default: []
-  //   }
-  // ],
   requirements: [
     {
       step: { type: String, required: true},

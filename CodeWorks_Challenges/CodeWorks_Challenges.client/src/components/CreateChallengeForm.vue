@@ -12,12 +12,12 @@
       <label for="category">Category</label>
       <select class="form-group form-select mb-3" aria-label="Category Selection" v-model="editable.category">
             <option selected>Select Category</option>
-            <option value="full_stack">Full-Stack</option>
-            <option value="front_end">Frontend</option>
-            <option value="back_end">Backend</option>
+            <option value="full stack">Full-Stack</option>
+            <option value="front end">Frontend</option>
+            <option value="back end">Backend</option>
             <option value="puzzles">Puzzle</option>
-            <option value="data_structures">Data Structures</option>
-            <option value="style_and_design">Style and Design</option>
+            <option value="data structures">Data Structures</option>
+            <option value="style and design">Style and Design</option>
             <option value="other">Other</option>
       </select>
       <button type="submit" class="btn btn-primary">Get Started</button>
