@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-dark p-3">
+            <div class="bg-dark p-3 overflow-auto" style="height: 87vh">
                 <slot></slot>
             </div>
         </div>

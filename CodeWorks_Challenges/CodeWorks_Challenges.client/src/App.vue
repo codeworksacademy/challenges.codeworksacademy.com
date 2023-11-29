@@ -3,7 +3,6 @@
     <Navbar class="sticky-top"/>
     <section class="container-fluid">
       <div class="d-flex flex-row">
-
       </div>
     </section>
     <OffCanvasMenu>
