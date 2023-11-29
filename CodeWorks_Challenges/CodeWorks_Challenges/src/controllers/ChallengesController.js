@@ -18,6 +18,7 @@ export class ChallengesController extends BaseController {
 
       .post('', this.createChallenge)
       .put('/:challengeId', this.editChallenge)
+      .put('/:challengeId/reputation', this.giveReputation)
       .post('/:challengeId/answers', this.submitAnswer)
       // .put('/:challengeId', this.deprecateChallenge)
       .put('/:challengeId/grade/:participantId', this.gradeSubmittedChallenge)
@@ -71,6 +72,19 @@ export class ChallengesController extends BaseController {
       const userId = req.userInfo.id
       const challengeId = req.params.challengeId
       const challenge = await challengesService.editChallenge(newChallenge, userId, challengeId)
+      return res.send(challenge)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async giveReputation(req, res, next) {
+    try {
+      const challengeId = req.params.challengeId
+      const userId = req.userInfo.id
+
+      const challenge = await challengesService.giveReputation(challengeId, userId)
+
       return res.send(challenge)
     } catch (error) {
       next(error)

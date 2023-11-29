@@ -63,7 +63,7 @@ export const ChallengeSchema = new Schema({
       description: { type: String, required: true },
       answer: { type: String, required: true }
     }
-  ]
+  ],
   // answers: [
   //   {
   //     puzzles: [
@@ -80,7 +80,9 @@ export const ChallengeSchema = new Schema({
   //     ]
   //   }
   // ]
-  // TODO respect points???
+  reputationIds: [
+    {type: String, required: true}
+  ]
 },
   {
     timestamps: true,

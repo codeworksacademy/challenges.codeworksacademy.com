@@ -93,6 +93,16 @@ class ChallengesService {
     return res.data
   }
 
+  async giveReputation(challengeId){
+    const res = await api.put(`api/challenges/${challengeId}/reputation`)
+
+    logger.log('[GIVING REPUTATION]', res.data)
+
+    AppState.activeChallenge = res.data
+
+    return res.data
+  }
+
   async submitAnswer(challengeId, answerData) {
     const res = await api.post(`api/challenges/${challengeId}/answers`, {
       answerData

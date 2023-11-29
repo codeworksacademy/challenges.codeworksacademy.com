@@ -143,20 +143,71 @@
                 <span>{{ challenge.creator.name }}</span>
               </div>
             </div>
-            <span class="ps-3 subheader">Challenge Creator</span>
-          <div class="col-12 d-flex justify-content-between align-items-center mt-3 m-auto">
-            <button class="btn bg-dark btn-success text-success ms-3"><small>Give Respect</small></button>
-            <button v-if="isModeratorStatus == 'null'" class="btn btn-outline-primary me-3" @click="createModeration()">
-              Request to become moderator
-            </button>
-            <button v-if="isModeratorStatus == 'pending'" class="btn btn-outline-primary">Request pending</button>
-            <button v-if="isModeratorStatus == 'approved'" class="btn btn-outline-primary">You are a Moderator</button>
-            <!-- Move this button and its functionality into the edit challenges -->
-            <!-- <div v-else> 
-              <ModSearchForm />
-            </div> -->
-          </div>
-        </div>
+  
+            <p>Participants: {{ participants.length }}</p>
+
+            <div v-for="(link, i) in challenge.supportLinks" :key="i" class="footer">
+              <p class="col-8 ps-3" style="font-size: .65rem;">
+                <a :href="link.url" :title="`Project Links: ${challenge.supportLinks}`" class="fw-bold hover-text-primary">
+                  {{ link.name }}
+                </a>
+              </p>
+            </div>
+          </div> -->
+      <div v-if="isParticipant" class="col-6 d-flex justify-content-center align-items-end">
+        <a ref="submission" id="challengeSubmissionButton" type="button" role="button"
+          data-bs-target="#createSubmissionForm" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal"
+          class="mdi mdi-chevron-triple-right border-none fs-2 hover-orange shadow-none" title="Create a new challenge">
+          Submit Your Challenge For Grading?
+        </a>
+      </div>
+      <!-- </div> -->
+
+      <div class="col-12 d-flex justify-content-center align-items-center mt-3">
+        <!-- Temporary collapse to make challenge page more legible -->
+        <p class="d-inline-flex gap-1">
+          <button class="btn btn-outline-warning fs-4" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Close
+          </button>
+        </p>
+      </div>
+    </div>
+
+
+    <!-- Interactions with Challenge -->
+    <section v-if="!isOwned" class="row bg-dark text-light p-3 mt-1">
+      <div class="col-4 d-flex justify-content-between">
+        <button data-bs-toggle="modal" data-bs-target="#submitAnswerModal" class="btn btn-outline-success"
+          v-if="isParticipant">
+          Submit For Review
+        </button>
+        <button v-if="isModeratorStatus == 'null'" class="btn btn-outline-primary" @click="createModeration()">
+          Request to become a moderator
+        </button>
+        <button v-if="isModeratorStatus == 'pending'" class="btn btn-outline-primary">Request pending</button>
+        <button v-if="isModeratorStatus == 'approved'" class="btn btn-outline-primary">You are a Moderator</button>
+        <!-- Move this button and its functionality into the edit challenges -->
+        <!-- <div v-else> 
+          <ModSearchForm />
+        </div> -->
+      </div>
+      <div class="col-4">
+        <button class="btn btn-outline-primary" @click="joinChallenge()" v-if="!isParticipant">
+          Join Challenge
+        </button>
+
+        <button class="btn btn-outline-danger" @click="leaveChallenge()" v-if="isParticipant">
+          Leave Challenge
+        </button>
+      </div>
+      <div class="col-4">
+        <button class="btn btn-outline-primary" @click="giveReputation()" v-if="!gaveReputation" title="give reputation to this creator?">
+          Give Reputation
+        </button>
+        <button class="btn btn-outline-primary" disabled v-else>
+          Give Reputation
+        </button>
       </div>
     </section>
 
@@ -338,6 +389,16 @@ export default {
       } else return 'null'
     })
 
+    const gaveReputation = computed(() => {
+      const challenge = AppState.activeChallenge
+
+      if(challenge.reputationIds.find(r => r == AppState.account.id)){
+        return true
+      }
+
+      return false
+    })
+
     // const statusOptions = computed(() => {
     //   const statusOptions = []
     //   AppState.challenges.forEach(c => {
@@ -410,34 +471,11 @@ export default {
       }
     }
 
-    // This is now handled in the backend... Need to look at separating the challenge management page from the challenge participation page
-    // FIXME - JAKE - WIP (Intention is to prevent function from firing if a user is not a moderator or creator of challenge. Still fires on other pages.)
-    async function getAnswersByChallengeId() {
-      // try {
-      //   const moderatorStatus = computed(() => AppState.moderators.find(m => m.accountId == AppState.account.id))
-
-      //   const account = computed(() => AppState.account)
-
-      //   const activeChallenge = computed(() => AppState.activeChallenge)
-
-      //   if (moderatorStatus.value != 'approved' && activeChallenge.value.creatorId != account.value.id) {
-      //     return
-      //   } else {
-      //     await answersService.getAnswersByChallengeId(route.params.challengeId)
-      //   }
-      // } catch (error) {
-      //   logger.error(error)
-      //   Pop.error(error.message)
-      // }
-      logger.log("Line 261 getAnswersByChallengeId has been commented out")
-    }
-
     watchEffect(() => {
       if (route.params.challengeId != challengeId) {
         challengeId = route.params.challengeId
         getParticipantsByChallengeId()
         getModeratorsByChallengeId()
-        getAnswersByChallengeId()
         setActiveChallenge()
         logger.log(getParticipantsByChallengeId())
       }
@@ -450,6 +488,7 @@ export default {
       isParticipant,
       participantStatus,
       answerChallenge,
+      gaveReputation,
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.activeChallenge),
       date: computed(() => DateTime(AppState.activeChallenge.createdAt)),
@@ -542,6 +581,7 @@ export default {
           Pop.toast(error, 'error')
         }
       },
+
       async removeModeration(moderationId) {
         try {
           const confirmRemove = await Pop.confirm('Delete Moderation?')
@@ -553,6 +593,14 @@ export default {
           Pop.toast(error, 'error')
         }
       },
+
+      async giveReputation(){
+        try {
+          await challengesService.giveReputation(route.params.challengeId)
+        } catch (error) {
+          Pop.error(error.message)
+        }
+      }
     }
   }
 }

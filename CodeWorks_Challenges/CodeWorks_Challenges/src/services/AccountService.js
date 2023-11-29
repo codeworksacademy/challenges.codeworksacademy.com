@@ -1,4 +1,6 @@
 import { dbContext } from '../db/DbContext'
+import { accountMilestonesService } from "./AccountMilestonesService.js"
+import { challengesService } from './ChallengesService.js'
 
 // Private Methods
 
@@ -65,6 +67,24 @@ class AccountService {
     return account
   }
 
+  async calculateMyReputation(userInfo) {
+    const challenges = await challengesService.getChallengesCreatedBy(userInfo.id)
+
+    const account = await this.getAccount(userInfo)
+
+    let reputationScore = 0
+
+    challenges.forEach(c => reputationScore += c.reputationIds.length)
+
+    if(account.reputation != reputationScore){
+      await this.updateReputation(userInfo, reputationScore)
+    }
+
+    let repScoreString = reputationScore.toString()
+
+    return repScoreString
+  }
+
   /**
    * Updates account with the request body, will only allow changes to editable fields
    *  @param {any} user Auth0 user object
@@ -78,6 +98,51 @@ class AccountService {
       { runValidators: true, setDefaultsOnInsert: true, new: true }
     )
     return account
+  }
+  async increaseAccountExperienceByChallengeDifficulty(user, challengeDifficulty) {
+    if (challengeDifficulty != Number && (challengeDifficulty < 0 || challengeDifficulty > 1000)) {
+      new Error('You must supply a number, with value between 1-999')
+    }
+
+    const update = await this.getAccount(user)
+    update.experience = update.experience += challengeDifficulty;
+
+    const account = await dbContext.Account.findOneAndUpdate(
+      { _id: user.id },
+      { $set: update },
+      { runValidators: true, setDefaultsOnInsert: true, new: true }
+    )
+    const accountToBeReturned = {}
+    accountToBeReturned.id = account.id
+    accountToBeReturned.experience = account.experience
+    accountToBeReturned.name = account.name
+    return accountToBeReturned
+  }
+
+  async calculateAccountRank(user) {
+    const update = await this.getAccount(user)
+
+    const totalMilestoneExperience = await accountMilestonesService.getTotalMilestoneExperience(user)
+
+    let totalExperience = update.experience + totalMilestoneExperience
+
+    update.totalExperience = totalExperience
+    update.rank = totalExperience + update.reputation
+
+    const account = await dbContext.Account.findOneAndUpdate(
+      { _id: user.id },
+      { $set: update },
+      { runValidators: true, setDefaultsOnInsert: true, new: true }
+    )
+    return account;
+  }
+
+  async updateReputation(user, body){
+    const account = await this.getAccount(user)
+
+    account.reputation = body || account.reputation
+
+    await account.save()
   }
 }
 export const accountService = new AccountService()

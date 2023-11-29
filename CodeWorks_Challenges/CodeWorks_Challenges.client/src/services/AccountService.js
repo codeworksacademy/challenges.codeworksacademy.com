@@ -35,6 +35,17 @@ class AccountService {
     AppState.myParticipants = res.data.map(p => new Participant(p))
     logger.log('[GET PARTICIPANTS BY ACCOUNT]', AppState.myParticipants)
   }
+
+  async calculateAccountRank() {
+    const res = await api.get('/account/rank')
+    AppState.account.rank = res.data.rank
+  }
+
+  async calculateReputation(){
+    const res = await api.get('account/reputation')
+
+    logger.log('[CURRENT ACCOUNT REPUTATION]', res.data)
+  }
 }
 
 export const accountService = new AccountService()
