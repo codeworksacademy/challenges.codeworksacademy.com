@@ -33,13 +33,13 @@
           <h3>Category</h3>
           <select class="form-select mb-3" aria-label="Category Selection" v-model="editable.category">
             <option selected>Select Category</option>
-            <option value="full_stack">Full-Stack</option>
-            <option value="front_end">Frontend</option>
-            <option value="back_end">Backend</option>
-            <option value="puzzles">Puzzle</option>
-            <option value="data_structures">Data Structures</option>
-            <option value="style_and_design">Style and Design</option>
-            <option value="other">Other</option>
+            <option :value="'full stack'">Full-Stack</option>
+            <option :value="'front end'">Frontend</option>
+            <option :value="'back end'">Backend</option>
+            <option :value="'puzzles'">Puzzle</option>
+            <option :value="'data structures'">Data Structures</option>
+            <option :value="'style and design'">Style and Design</option>
+            <option :value="'other'">Other</option>
           </select>
           <h3 class="mb-3">Cover Image</h3>
           <img :src="editable.coverImg" alt="" class="object-fit-cover w-100 rounded-top">
@@ -66,10 +66,10 @@
           <div class="my-4">
             <h4 class="text-center mb-3">Set Challenge Status</h4>
             <div class="col-12 d-flex justify-content-center align-items-center mb-3">
-              <div  v-for="s in statusOptions" :key="s.value">
+              <div  v-for="s in statusTypes" :key="s">
                 <div class="d-flex flex-column radio-status-button">
-                  <input type="radio" :value="s.value" v-model="editable.status" name="status" id="status" class="text-center fs-5">
-                  <label for="status">{{ s.text }}</label>
+                  <input @change="log" type="radio" :value="s" v-model="editable.status" name="status" id="status" class="text-center fs-5">
+                  <label for="status" class="text-capitalize">{{ formatEnum(s) }}</label>
                 </div>
               </div>
             </div>
@@ -105,6 +105,8 @@ import { logger } from "../utils/Logger.js"
 import { challengesService } from "../services/ChallengesService.js"
 import { Modal } from "bootstrap"
 import { useRoute } from 'vue-router';
+import { STATUS_TYPES } from "../constants/index.js"
+import { formatEnum } from "../utils/FormatEnum.js"
 
 export default {
   components: {
@@ -119,7 +121,8 @@ export default {
     watchEffect(() => {
       editable.value = AppState.activeChallenge
     })
-    const statusOptions = ref([
+    const statusTypes = Object.values(STATUS_TYPES)
+    const statusOptions = ref(
       {
         text: 'Draft',
         value: 'draft'
@@ -136,7 +139,7 @@ export default {
         text: 'Deprecated',
         value: 'deprecated'
       }
-    ])
+    )
 
     async function setActiveChallenge() {
       try {
@@ -189,6 +192,7 @@ export default {
     onMounted(() => {
       setActiveChallenge()
     })
+    function log() {(logger.log(editable.value.status))}
 
     const challenge = computed(() => AppState.activeChallenge)
     function toggleEdit(key, value){
@@ -287,6 +291,9 @@ export default {
       document.getElementById(key).innerHTML = `<p>Edit Cancelled</p>`
     }
     return {
+      log,
+      statusTypes,
+      formatEnum,
       editable,
       answer,
       updateChallenge,

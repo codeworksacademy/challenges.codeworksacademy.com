@@ -164,7 +164,7 @@ export default {
       submission: props.participant.submission,
       feedback: props.participant.feedback,
       status: Object.values(SUBMISSION_TYPES),
-      grade: 0
+      grade: props.participant.challenge.requirements.length - props.participant.challenge.requirements.filter(r => r.completed).length
     })
 
     const gradeCount = computed(() => {
@@ -222,7 +222,12 @@ export default {
       try {
         const moderator = AppState.moderators.find(m => m.originId === AppState.account.id)
         const moderatorId = moderator?.id
-        const newGrade = editable.value
+        const newGrade = {
+          ...editable.value,
+          grade: editable.value.grade,
+          feedback: editable.value.feedback,
+          status: editable.value.status
+        }
         await challengeModeratorsService.gradeChallenge(moderatorId, newGrade)
         editable.value = {
           ...editable.value,
