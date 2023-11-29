@@ -64,8 +64,11 @@
             </div>
           </div>
           <div class="col-12 d-flex justify-content-end" style="white-space: nowrap;">
-            <button @click="changeRoute(`${challenge.id}/submissions`)" class="btn btn-outline-info no-wrap mt-1" style="width: 150px;">
-              {{ isModeratorStatus || isOwned ? 'View Submissions' : 'View Competitors' }}
+            <button v-if="isModeratorStatus || isOwned" @click="changeRoute(`${challenge.id}/grading`)" class="btn btn-outline-info no-wrap mt-1" style="width: 150px;">
+              View Submissions
+            </button>
+            <button v-if="isModeratorStatus == null || !isOwned" @click="changeRoute(`${challenge.id}/submissions`)" class="btn btn-outline-info no-wrap mt-1" style="width: 150px;">
+              View Competitors
             </button>
           </div>
         </div>

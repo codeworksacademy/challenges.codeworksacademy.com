@@ -31,6 +31,8 @@
   
   <script>
   import { ref, watchEffect } from 'vue';
+  import Markdown from './Markdown.vue';
+  import MonacoEditor from './MonacoEditor.vue';
   
   export default {
     props: {

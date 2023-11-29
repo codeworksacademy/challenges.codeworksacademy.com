@@ -14,11 +14,14 @@
                     <div class="collapse collapse-horizontal show" id="collapseBody">
                         <div class="p-3 text-nowrap">
                             <div class="mb-3 accordion">
-                                <button href="#home" data-bs-toggle="collapse" class="d-flex accordion-button fs-4"><i class="mdi mdi-home fs-3"></i>Home</button>
+                                <button href="#home" data-bs-toggle="collapse" class="d-flex accordion-button fs-4">Navigation</button>
                                 <ul class="collapse show flex-column border-bottom bg-light text-dark rounded-bottom" id="home">
-                                    <h5><a href="" class="text-dark">Banana</a></h5>
-                                    <h5><a href="" class="text-dark">Apple</a></h5>
-                                    <h5><a href="" class="text-dark">Orange</a></h5>
+                                    <router-link to="/challenges">
+                                        <h5>Challenges</h5>
+                                    </router-link>
+                                    <!-- <h5><a href="" class="text-dark">Challenges</a></h5> -->
+                                    <!-- <h5><a href="" class="text-dark">Apple</a></h5>
+                                    <h5><a href="" class="text-dark">Orange</a></h5> -->
                                 </ul>
                             </div>
                             <!--NOTE Conditionally render different pages menus-->
