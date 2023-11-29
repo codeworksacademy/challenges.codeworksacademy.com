@@ -13,5 +13,6 @@ export class ChallengeParticipant {
     this.updatedAt = data.updatedAt
     this.requirements = data.requirements || []
     this.challenge = data.challenge ? new Challenge(data.challenge) : {}
+    this.grade = data.grade
   }
 }

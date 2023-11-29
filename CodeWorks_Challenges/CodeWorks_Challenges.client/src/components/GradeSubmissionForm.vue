@@ -164,7 +164,7 @@ export default {
       submission: props.participant.submission,
       feedback: props.participant.feedback,
       status: Object.values(SUBMISSION_TYPES),
-      grade: props.participant.challenge.requirements.length - props.participant.challenge.requirements.filter(r => r.completed).length
+      grade: props.participant.grade
     })
 
     const gradeCount = computed(() => {
