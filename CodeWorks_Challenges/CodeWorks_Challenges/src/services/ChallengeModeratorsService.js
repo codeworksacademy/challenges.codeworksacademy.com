@@ -18,7 +18,6 @@ function sanitizeBody(newSubmission) {
   return writable
 }
 
-
 class ChallengeModeratorsService {
 
   async createModeration(moderatorData) {
