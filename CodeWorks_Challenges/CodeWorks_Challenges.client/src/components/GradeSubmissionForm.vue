@@ -6,12 +6,7 @@
       </div>
       <div class="col-12 d-flex justify-content-center align-items-center">
         <p>Submission Source Code Link: </p>
-        <a
-          :href="participant.submission"
-          target="_blank"
-          placeholder="Source Code Link"
-          class="text-decoration-none text-truncate mb-3 ms-2"
-        >
+        <a :href="participant.submission" target="_blank" placeholder="Source Code Link" class="text-decoration-none text-truncate mb-3 ms-2">
           {{ participant.submission }}
         </a>
       </div>
@@ -19,16 +14,12 @@
         <div v-if="participant?.challenge" class="col-12 d-flex justify-content-center align-items-center">
           <ol>
             <div class="d-flex justify-content-end align-items-center">
-              <span class="text-uppercase fw-bold p-3">Completed Steps: {{ gradeCount }} / {{ challenge.requirements.length }}</span>
+              <span class="text-uppercase fw-bold p-3">Completed Steps: {{ gradeCount }} / {{ participant.requirements.length }}</span>
             </div>
-            <li v-for="(requirement, index) in challenge.requirements" :key="index">
+            <li v-for="(requirement, index) in participant.requirements" :key="index">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" :id="`field-${requirement.step}`" v-model="requirement.completed" :value="requirement.completed" @change="addGradePoint(index)" :checked="requirement.completed">
-                <label class="form-check-label" :for="`field-${requirement.step}`">{{ requirement.step }}</label>
-              </div>
-              <div class="col-12 d-flex align-items-center form-group mt-1 m-auto no-wrap mt-3">
-                <label class=" pe-3" for="comment">Comment:</label>
-                <input type="text" name="comment" id="comment" class="form-control mt-1" placeholder="Leave insight for this step..." rows="1" v-model="requirement.comment" />
+                <input class="form-check-input" type="checkbox" :id="`field-${requirement.description}`" v-model="requirement.isComplete" :value="requirement.isComplete" @change="addGradePoint(index)">
+                <label class="form-check-label" :for="`field-${requirement.description}`">{{ requirement.description }}</label>
               </div>
               <hr class="mb-4" style="color: white; opacity: .4;" />
             </li>
@@ -50,31 +41,6 @@
         </div>
         <div class="d-flex justify-content-center align-items-center my-3">
           <div class="">
-            <!-- <div  v-for="(option, index) in editable.status" :key="index">
-              <div class="d-flex flex-column radio-status-button">
-                <input @change="testStatusChange()" type="radio" v-model="editable.status"
-                :value="option" :name="`option-${index}`" :id="`option-${index}`" class="text-center fs-5">
-                <label :for="`option-${index}`">
-                  <small class="text-center text-capitalize fs-6">{{ formatEnum(option) }}</small>
-                </label>
-              </div>
-            </div> -->
-            <!-- FIXME - Fix the above statement -->
-            <!-- <div class="" v-for="(option, index) in submissionType" :key="index">
-              <div class="d-flex flex-column radio-status-button">
-                <input
-                  type="radio"
-                  class="text-center fs-5"
-                  v-model="editable.status"
-                  :value="option"
-                  :id="`option-${index}`"
-                  @change="testStatusChange()"
-                />
-                <label :for="`option-${index}`">
-                  <small class="text-center text-capitalize fs-6">{{ option }}</small>
-                </label>
-              </div> -->
-              
             <div class="col-12 d-flex justify-content-center align-items-center form-group px-5 mb-5">
               <label for="status" class="form-label">Status</label>
               <select
@@ -92,35 +58,7 @@
               </select>
             </div>
           </div>
-            <!-- <div class="col-12 form-group px-5 mb-5">
-              <label for="status" class="form-label">Status</label>
-              <select
-                @change="testStatusChange()"
-                v-model="editable.status"
-                type="text"
-                name="status"
-                id="status"
-                placeholder="Status"
-                class="form-control bg-light"
-              >
-              <option :value="null">Select a status</option>
-              <option v-for="s in submissionTypes" :key="s.value" :value="s.value">{{ formatEnum(s.text) }}</option>
-              </select>
-            </div> -->
         </div>
-        <!-- <div class="col-12 d-flex flex-column justify-content-center align-items-center form-group px-5 mb-5">
-          <label for="status" class="form-label">Status</label>
-          <select
-            v-model="editable.status"
-            type="text"
-            name="status"
-            id="status"
-            placeholder="Status"
-            class="form-control bg-light"
-          >
-            <option class="text-capitalize" v-for="s in editable.status" :key="s.value" :value="s.value">{{ formatEnum(s) }}</option>
-          </select>
-        </div> -->
         <div class="col-12">
           <button type="submit" class="btn btn-success">Submit</button>
         </div>
@@ -139,7 +77,7 @@ import { challengesService } from '../services/ChallengesService'
 import { ChallengeParticipant } from '../models/ChallengeParticipant'
 import { useRoute } from "vue-router"
 import Pop from "../utils/Pop"
-import { STATUS_TYPES, SUBMISSION_TYPES } from "../constants/index.js"
+import { SUBMISSION_TYPES } from "../constants/index.js"
 import { formatEnum } from "../utils/FormatEnum.js"
 import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js"
 
@@ -153,25 +91,14 @@ export default {
   setup(props) {
 
     const route = useRoute()
-    const filterBy = ref('')
 
     const editable = ref({
-      challengeId: props.participant.challengeId,
-      participantId: props.participant.id,
       challenge: props.participant.challenge,
       profile: props.participant.profile,
-      requirements: props.participant.challenge.requirements,
-      submission: props.participant.submission,
-      feedback: props.participant.feedback,
+      requirements: props.participant.requirements,
       status: Object.values(SUBMISSION_TYPES),
-      grade: props.participant.grade
     })
 
-    const gradeCount = computed(() => {
-      return editable.value.requirements.filter(r => r.completed).length
-    })
-
-    // Initialize editable with the correct structure
     onMounted(() => {
       setActiveChallenge()
       getParticipantsByChallengeId()
@@ -207,15 +134,11 @@ export default {
         Pop.toast(error, 'error')
       }
     }
-    
-    
-    async function testStatusChange() {
-      logger.log('Participant Status: ', editable.value.status)
-    }
 
     watchEffect(() => {
       AppState.activeChallenge = editable.value.challenge
       AppState.activeParticipant = editable.value
+      AppState.activeParticipant.requirements.description = { ...AppState.activeChallenge.requirements }
     })
 
     async function gradeChallenge() {
@@ -231,7 +154,7 @@ export default {
         await challengeModeratorsService.gradeChallenge(moderatorId, newGrade)
         editable.value = {
           ...editable.value,
-          requirements: editable.value.requirements.map(r => ({ ...r, completed: false, comment: '' }))
+          requirements: editable.value.requirements.map(r => ({ ...r, isComplete: false, comment: '' }))
         }
       } catch (error) {
         logger.error(error)
@@ -239,50 +162,34 @@ export default {
     }
 
     function addGradePoint(index) {
-      editable.value.requirements.map(r => ({ ...r, completed: false, comment: '' }))
-      editable.value.requirements[index].completed = !editable.value.requirements[index].completed;
-      editable.value.grade = editable.value.requirements.filter(r => r.completed).length;
+      editable.value.requirements.map(
+        r => ({ ...r, description: editable.value.challenge.requirements.map(r => (r)), isComplete: false })
+      )
+      editable.value.requirements[index].isComplete = !editable.value.requirements[index].isComplete;
+      editable.value.grade = editable.value.requirements.filter(r => r.isComplete).length;
 
       editable.value.requirements.forEach(r => {
-        if (r.completed === true) {
+        if (r.isComplete === true) {
           logger.log(
           `[NEW DATA] =>
           * COMPLETED REQUIREMENT: 
-          -STEP: ${r.step}
-          -COMPLETED: ${r.completed}
-          -COMMENT: ${r.comment.length === 0 ? 'No comment provided' : r.comment} 
-          * TOTAL GRADE: ${editable.value.grade} / ${editable.value.requirements.length}`
+          📚STEP: ${r.description}
+          ✅ COMPLETED: ${r.isComplete}
+          📈 TOTAL GRADE: ${editable.value.grade} / ${editable.value.requirements.length}`
             );
         }
       });
-      logger.log(`Requirement Completed? ${editable.value.requirements[index].completed ? 'Yes' : 'No'}`);
+      logger.log(`Requirement Completed? ${editable.value.requirements[index].isComplete ? '✅' : '❌'}`);
     }
-
-    // const submissionTypes = computed(() => {
-    //   const types = {}
-    //   //NOTE - Change back to SUBMISSION_TYPES.map if selecting submission types throws an error again
-    //   SUBMISSION_TYPES.f(s => {
-    //     if (!types.find(t => t.value === s)) {
-    //       types.push({ value: s, text: s })
-    //     }
-    //     let sanitize = ['started', 'submitted', 'left']
-    //     if (sanitize.includes(s)) {
-    //       types.splice(types.findIndex(t => t.value === s), 1)
-    //     }
-    //   })
-    //   return types
-    // })
 
     return {
       editable,
       gradeCount: computed(() => {
-        return editable.value.requirements.filter(r => r.completed).length
+        return editable.value.requirements.filter(r => r.isComplete).length
       }),
       challenge: computed(() => AppState.activeChallenge),
-      filterBy,
       formatEnum,
       gradeChallenge,
-      testStatusChange,
       addGradePoint
     }
   }

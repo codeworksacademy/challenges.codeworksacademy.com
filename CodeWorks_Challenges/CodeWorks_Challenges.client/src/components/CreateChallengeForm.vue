@@ -54,13 +54,7 @@ export default {
       coverImg: 'https://i.ibb.co/c21hFZN/card-gradient.png',
     })
 
-    const route = useRoute()
     const router = useRouter()
-
-    // onMounted(() => {
-    //   editable.value.name = props.challenge.name || '';
-    //   editable.value.description = props.challenge.description || '';
-    // });
 
     async function createChallenge() {
       try {

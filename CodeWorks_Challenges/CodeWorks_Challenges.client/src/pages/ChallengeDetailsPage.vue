@@ -197,7 +197,7 @@
       </div>
         <ol class="col-12 justify-content-center align-items-center">
           <li v-for="(requirement, index) in challenge.requirements" :key="index" class="py-2">
-            <span>{{ requirement.step }}</span>
+            <span>{{ requirement }}</span>
           </li>
         </ol>
         <!-- STUB - This iteration over `requirement.comment` is not needed here as participants do not need to see comments on steps before their challenge has been graded. But we can stub out and use this once we are creating the form that grades the participant. - AJ 11/18 -->
@@ -425,6 +425,7 @@ export default {
             challengeId: route.params.challengeId,
             accountId: AppState.user.id,
             status: SUBMISSION_TYPES.STARTED,
+            requirements: AppState.activeChallenge?.requirements,
             supportLinks: [
               { name: '', url: '' }
             ],

@@ -112,18 +112,7 @@
     </section>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+    <!-- REVIEW - ♻️ The above is progress in the fleshing out of the markup located below. Below section of template will be mostly removed - AJ -->
     <section class="row mt-5 pt-5">
       <div class="p-0">
         <img class="coverImg-style" :src="account.coverImg" alt="Cover Image">
@@ -255,7 +244,6 @@ import Pop from "../utils/Pop.js";
 import { challengesService } from "../services/ChallengesService.js";
 import { logger } from "../utils/Logger.js";
 import ChallengeCard from '../components/ChallengeCard.vue'
-import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js"
 import AccountModerator from "../components/AccountModerator.vue";
 import { accountService } from "../services/AccountService.js";
 import { useRoute } from 'vue-router';
@@ -365,7 +353,6 @@ export default {
       }),
 
       account: computed(() => AppState.account),
-      // challenge: computed(() => AppState.activeChallenge),
       myChallenges: computed(() => AppState.myChallenges),
       joinedChallenges: computed(() => AppState.myParticipants),
       completedChallenges: computed(() => []),
