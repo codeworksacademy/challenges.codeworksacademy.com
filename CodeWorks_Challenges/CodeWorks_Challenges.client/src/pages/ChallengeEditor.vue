@@ -11,16 +11,28 @@
           <textarea type="text" cols="30" rows="10" class="form-control mb-3" id="description" v-model="editable.description" required></textarea> 
         </div>
           <div>
-            <section id="requirements-section">
+            <!-- section id="requirements-section">
               <h3 for="requirements">Challenge Requirements</h3>
-              <!-- <span v-if="challenge.requirements.length == 0" class="text-danger">You need at least one requirement!</span> -->
+              <span v-if="challenge.requirements.length == 0" class="text-danger">You need at least one requirement!</span>
               <h4>Add a requirement  <i class="mdi mdi-plus-box fs-1" @click="addRequirement"></i></h4>
               <textarea name="" id="requirementText" cols="30" rows="10" class="form-control mb-3"></textarea>
             </section>
             <section class="" v-for="(requirement, index) in challenge.requirements" :key="index">
               <h4>Requirement {{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteRequirement(index)"></i></h4>
-              <!-- NOTE - CHANTHA - Since a challenge has potentially a surmountable amount of requirements -- making this textarea an input field would be better for UX and UI. But I didn't want to change your code without your permission! Let me know your thoughts. -AJ 11/18 -->
-              <textarea v-model="requirement.description" name="" id="" cols="30" rows="10" class="form-control mb-3"></textarea>
+              NOTE - CHANTHA - Since a challenge has potentially a surmountable amount of requirements -- making this textarea an input field would be better for UX and UI. But I didn't want to change your code without your permission! Let me know your thoughts. -AJ 11/18
+              <textarea v-model="requirement.value" name="" id="" cols="30" rows="10" class="form-control mb-3"></textarea>
+            </section> -->
+            <!-- FIXME - Rewrite the above v-for section to have the proper id and name so the label can be applied rather than an h4 tag, as well as using inputs over textareas: -->
+            <section id="requirements-section">
+              <h3 for="requirements">Challenge Requirements</h3>
+              <!-- <span v-if="challenge.requirements.length == 0" class="text-danger">You need at least one requirement!</span> -->
+              <label for="requirementText">Add a requirement</label>
+              <i class="mdi mdi-plus-box fs-1" @click="addRequirement"></i>
+              <input type="text" name="" id="requirementText" class="form-control mb-3">
+            </section>
+            <section class="" v-for="(requirement, index) in challenge.requirements" :key="index">
+              <label for="requirementText">Requirement {{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteRequirement(index)"></i></label>
+              <input v-model="challenge.requirements[index]" type="text" name="" id="" class="form-control mb-3">
             </section>
           </div>
           <h3>Difficulty</h3>
@@ -117,11 +129,7 @@ export default {
     let editing = ref(false);
     const answer = ref('')
     const editable = ref({
-      requirements: [
-        {
-          description: AppState.activeChallenge?.requirements.description
-        }
-      ],
+      requirements: [],
     })
     const filterBy = ref('')
     watchEffect(() => {
@@ -159,12 +167,14 @@ export default {
 
     async function updateChallenge() {
   try {
+    if(AppState.activeChallenge.description == 0){
+      Pop.error("You cannot have an empty description")
+      return;
+    }
     const updatedChallenge = {
       ...AppState.activeChallenge,
-      requirements: challenge.value.requirements.map(r => r.description),
+      requirements: challenge.value.requirements.map(r => r),
     };
-
-    // Send the updatedChallenge object to the server
     await challengesService.updateChallenge(updatedChallenge, updatedChallenge.id);
     await updateChallengeStatus();
     Pop.success('Challenge Updated');
@@ -223,9 +233,7 @@ export default {
         return;
       }
 
-      challenge.value.requirements.push({
-        description: newRequirementText
-      });
+      challenge.value.requirements.push(newRequirementText);
 
       document.getElementById("requirementText").value = '';
       Pop.success("Requirement Added");
