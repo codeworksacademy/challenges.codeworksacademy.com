@@ -20,7 +20,7 @@ export const ChallengeSchema = new Schema({
     type: String,
     enum: Object.values(STATUS_TYPES),
     required: true,
-    default: 'draft',
+    default: STATUS_TYPES.DRAFT,
     lowercase: true
   },
   name: {
@@ -36,11 +36,7 @@ export const ChallengeSchema = new Schema({
     minLength: 3
   },
   requirements: [
-    {
-      step: { type: String, required: true},
-      completed: {type: Boolean, required: false, default: 'false'},
-      comment: {type: String, required: false, default: ''}
-    }
+    { type: String }
   ],
   supportLinks: [
     {
@@ -72,7 +68,7 @@ export const ChallengeSchema = new Schema({
   answer: {
     type: String,
     required: false
-  }
+  },
   // answers: [
   //   {
   //     puzzles: [

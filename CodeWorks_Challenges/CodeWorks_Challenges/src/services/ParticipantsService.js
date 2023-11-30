@@ -31,7 +31,10 @@ class ParticipantsService {
 		if (challenge.status != 'published') {
 			throw new BadRequest(`[CHALLENGE_STATUS::${challenge.status}] This challenge cannot be joined at this time.`)
 		}
-
+		// TODO - 🛑 Copy challenge requirements to participant - Note from Jake
+		newParticipant.requirements = challenge.requirements.map(r => {return {
+			description: r,
+		}})
 		const participant = await dbContext.ChallengeParticipants.create(newParticipant)
 
 		// REVIEW PROBABLY UNNECESSARY this can be handled purely on the client

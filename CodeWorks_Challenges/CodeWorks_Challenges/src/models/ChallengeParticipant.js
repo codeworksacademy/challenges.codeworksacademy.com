@@ -3,6 +3,16 @@ import { SUBMISSION_TYPES } from "../constants";
 
 const ObjectId = Schema.Types.ObjectId
 
+const requirementSchema = new Schema({
+  description: {
+    type: String,
+  },
+  isComplete: {
+    type: Boolean,
+    default: false
+  }
+},
+{ timestamps: true })
 
 export const ChallengeParticipantSchema = new Schema({
   challengeId: {
@@ -20,6 +30,9 @@ export const ChallengeParticipantSchema = new Schema({
     maxLength: 700,
     default: ''
   },
+  requirements: [
+    requirementSchema
+  ],
   status: {
     type: String,
     enum: Object.values(SUBMISSION_TYPES),
@@ -45,11 +58,4 @@ ChallengeParticipantSchema.virtual('challenge', {
   foreignField: '_id',
   ref: 'Challenge',
   justOne: true
-})
-
-ChallengeParticipantSchema.virtual('requirements', {
-  localField: 'challengeId',
-  foreignField: '_id',
-  ref: 'Challenge',
-  justOne: false,
 })
