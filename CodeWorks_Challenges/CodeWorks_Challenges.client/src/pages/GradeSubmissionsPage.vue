@@ -38,6 +38,18 @@
         </div>
       </div>
     </div>
+    <div v-if="challengeCreator" class="col-9 d-flex justify-content-center align-items-center position-fixed bottom-2">
+      <!-- STUB - OFFCANVAS BUTTON - Array of Submitted Challenge Participants -->
+      <a
+        role="button"
+        class="d-flex justify-content-center align-items-center mdi mdi-chevron-up text-warning bg-primary rounded-circle fs-1"
+        style="aspect-ratio: 1/1; height: 50px; width: 50px;"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#moderatorsOffcanvas"
+        aria-controls="offcanvasBottom">
+      </a>
+    </div>
   </section>
 </template>
   

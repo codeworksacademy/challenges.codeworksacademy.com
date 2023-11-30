@@ -43,20 +43,20 @@
       </template>
     </ModalWrapper>
 
-    <!-- <BottomOffcanvasWrapper id="submissionsOffcanvas">
+    <BottomOffcanvasWrapper id="moderatorsOffcanvas">
       <template #header>
         <h3 class="m-auto">
-          Submissions you can Grade:
+          Challenge Moderators:
         </h3>
       </template>
       <template #body>
         <div  class="col-12 d-flex justify-content-center align-items-center">
-          <div class="col-2 p-3"  v-for="p in participants" :key="p.id">
-            <ParticipantCard :participant="p" />
+          <div class="col-2 p-3"  v-for="m in moderators" :key="m.id">
+            <ModeratorCard :moderator="m" />
           </div>
         </div>
       </template>
-    </BottomOffcanvasWrapper> -->
+    </BottomOffcanvasWrapper>
   </main>
   <footer class="bg-dark text-light">
     Made with 💖 by CodeWorks
@@ -75,16 +75,14 @@ import ChallengeSubmissionForm from './components/ChallengeSubmissionForm.vue'
 import AnswerForm from './components/AnswerForm.vue'
 import OffCanvasMenu from './components/OffCanvasMenu.vue'
 import BottomOffcanvasWrapper from './components/BottomOffcanvasWrapper.vue'
-import ParticipantCard from './components/ParticipantCard.vue'
+import ModeratorCard from './components/ModeratorCard.vue'
 
 export default {
   setup() {
     return {
       appState: computed(() => AppState),
       participants: computed(() => AppState.participants),
-      // Submissions: computed(() => {
-      //   return AppState.participants.filter(p => p.status === 'submitted')
-      // })
+      moderators: computed(() => AppState.moderators),
     }
   },
   components: { 
@@ -94,7 +92,7 @@ export default {
     CreateChallengeForm,
     ChallengeSubmissionForm,
     BottomOffcanvasWrapper,
-    ParticipantCard,
+    ModeratorCard,
   }
 }
 </script>

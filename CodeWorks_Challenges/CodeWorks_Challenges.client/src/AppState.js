@@ -35,6 +35,9 @@ export const AppState = reactive({
   /** @type {import('./models/ChallengeParticipant.js')|null}*/
   activeParticipant: null,
 
+  /** @type {import('./models/ChallengeModerator.js')|null}*/
+  activeModerator: null,
+
   /** @type {import('./models/Profile.js')|null} */
   activeProfile: null,
   // query: '',

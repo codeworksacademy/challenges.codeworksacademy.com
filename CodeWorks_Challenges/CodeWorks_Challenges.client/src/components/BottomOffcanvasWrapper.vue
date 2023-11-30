@@ -1,5 +1,5 @@
 <template>
-  <!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#gradeSubmissionsOffcanvas" aria-controls="offcanvasBottom">Toggle bottom offcanvas</button> -->
+  <!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#moderatorsOffcanvas" aria-controls="offcanvasBottom">Toggle bottom offcanvas</button> -->
 
   <div class="offcanvas offcanvas-bottom bg-dark" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
     <div class="offcanvas-header">

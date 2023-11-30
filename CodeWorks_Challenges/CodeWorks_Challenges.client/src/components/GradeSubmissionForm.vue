@@ -174,13 +174,12 @@ export default {
           `[NEW DATA] =>
           📝 COMPLETED REQUIREMENT: {
             💭 DESCRIPTION: ${r.description}
-            ✅ CHECK: ${r.isComplete}
             📈 GRADE: ${editable.value.grade} / ${editable.value.requirements.length}
             }`
           );
         }
       });
-      logger.log(`Requirement is Complete? ${editable.value.requirements[index].isComplete ? '✅' : '❌'}`);
+      logger.log(`Requirement Completed? ${editable.value.requirements[index].isComplete ? '✅ Complete' : '❌ Incomplete'}`);
     }
 
     return {
