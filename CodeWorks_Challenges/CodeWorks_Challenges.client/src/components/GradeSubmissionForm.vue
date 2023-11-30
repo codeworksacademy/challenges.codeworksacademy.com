@@ -145,6 +145,10 @@ export default {
       try {
         const moderator = AppState.moderators.find(m => m.originId === AppState.account.id)
         const moderatorId = moderator?.id
+        // REVIEW 🛑 [JAKE] - Is this logic being handled properly? What about the case that a challenge only has 4 or 5 requirements? In this case I'm assuming you want to allow less than 3 missed checks to still be considered a completed challenge. If so - I'm assuming this should either be a util function or computed property as it would check the length of the completed requirements array and conditionally allow a certain amount of missedChecks depending on the number of requirements? - AJ 
+        const missedChecks = editable.value.requirements.filter(r => !r.isComplete).length
+        editable.value.status = missedChecks > 2 ? SUBMISSION_TYPES.RETURNED_FOR_REVIEW : SUBMISSION_TYPES.COMPLETED
+
         const newGrade = {
           ...editable.value,
           grade: editable.value.grade,
