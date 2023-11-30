@@ -45,28 +45,43 @@
         </div>
         <div class="col-6">
           <div v-if="isOwned || isModeratorStatus" class="col-12 d-flex justify-content-end">
-            <button @click="editChallenge()" class="btn btn-outline-info ms-1" style="width: 150px;">
+            <button @click="editChallenge()" class="btn btn-outline-info ms-1" style="width: 175px;">
               Edit Challenge
             </button>
           </div>
           <div v-else class="col-12 d-flex justify-content-end">
-            <button @click="joinChallenge()" v-if="!isParticipant" class="btn btn-outline-primary" style="width: 150px; white-space: nowrap;">
+            <button @click="joinChallenge()" v-if="!isParticipant" class="btn btn-outline-primary" style="width: 175px; white-space: nowrap;">
               Join Challenge
             </button>
             <div v-else class="d-flex flex-column justify-content-end">
-              <button @click="leaveChallenge()" class="btn btn-outline-danger" style="width: 150px;">
+              <button @click="leaveChallenge()" class="btn btn-outline-danger" style="width: 175px;">
                 Leave Challenge
               </button>
-              <button v-if="isPuzzle" data-bs-toggle="modal" data-bs-target="#submitAnswerModal" class="btn btn-outline-success" style="width: 150px; white-space: nowrap;">
+              <button v-if="isPuzzle" data-bs-toggle="modal" data-bs-target="#submitAnswerModal" class="btn btn-outline-success" style="width: 175px; white-space: nowrap;">
                 Submit Puzzle
               </button>
+              <div v-else class="d-flex justify-content-center align-items-end">
+                <button
+                  ref="submission"
+                  id="challengeSubmissionButton"
+                  type="button"
+                  role="button"
+                  data-bs-target="#createSubmissionForm"
+                  data-bs-toggle="modal"
+                  aria-label="Go to Active Challenge Modal"
+                  class="btn btn-outline-success" style="width: 175px; white-space: nowrap;"
+                  title="Create a new challenge"
+                >
+                  Submit Application
+                </button>
+              </div>
             </div>
           </div>
           <div class="col-12 d-flex justify-content-end" style="white-space: nowrap;">
-            <button v-if="isModeratorStatus || isOwned" @click="changeRoute(`${challenge.id}/grading`)" class="btn btn-outline-info no-wrap mt-1" style="width: 150px;">
+            <button v-if="isModeratorStatus || isOwned" @click="changeRoute(`${challenge.id}/grading`)" class="btn btn-outline-info no-wrap mt-1" style="width: 175px;">
               View Submissions
             </button>
-            <button v-if="isModeratorStatus == null || !isOwned" @click="changeRoute(`${challenge.id}/submissions`)" class="btn btn-outline-info no-wrap mt-1" style="width: 150px;">
+            <button v-if="isModeratorStatus == null || !isOwned" @click="changeRoute(`${challenge.id}/submissions`)" class="btn btn-outline-info no-wrap mt-1" style="width: 175px;">
               View Competitors
             </button>
           </div>
@@ -160,23 +175,8 @@
       </div>
     </section>
 
+    <!-- Participant data -->
     <section class="col-12 bg-img">
-      <div v-if="isParticipant" class="d-flex justify-content-center align-items-end">
-        <a
-          ref="submission"
-          id="challengeSubmissionButton"
-          type="button"
-          role="button"
-          data-bs-target="#createSubmissionForm"
-          data-bs-toggle="modal"
-          aria-label="Go to Active Challenge Modal"
-          class="mdi mdi-chevron-triple-right border-none fs-2 hover-orange shadow-none"
-          title="Create a new challenge"
-        >
-          Submit Your Challenge For Grading?
-        </a>
-      </div>
-      <!-- Participant data -->
       <section v-if="isParticipant" class="row text-light p-3 mb-3">
         <!-- v-if is here because participants can be created with out being assigned a status -->
         <div class="col-4" v-if="isParticipant.status">Status: <span class="">{{ isParticipant.status
