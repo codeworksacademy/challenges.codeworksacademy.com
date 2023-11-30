@@ -37,16 +37,6 @@ class ParticipantsService {
 		}})
 		const participant = await dbContext.ChallengeParticipants.create(newParticipant)
 
-		// REVIEW PROBABLY UNNECESSARY this can be handled purely on the client
-		// subsequent requests for the data will include newly joined participant
-		// await participant.populate('profile', 'name picture')
-		// await participant.populate({
-		// 	path: 'challenge',
-		// 	populate: {
-		// 		path: 'creator participantCount'
-		// 	}
-		// })
-
 		return participant
 	}
 

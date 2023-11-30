@@ -12,15 +12,15 @@
         </div>
           <div>
             <section id="requirements-section">
-              <h3 for="steps">Challenge Requirements</h3>
-              <!-- <span v-if="challenge.requirements.length == 0" class="text-danger">You need at least one step!</span> -->
+              <h3 for="requirements">Challenge Requirements</h3>
+              <!-- <span v-if="challenge.requirements.length == 0" class="text-danger">You need at least one requirement!</span> -->
               <h4>Add a requirement  <i class="mdi mdi-plus-box fs-1" @click="addRequirement"></i></h4>
               <textarea name="" id="requirementText" cols="30" rows="10" class="form-control mb-3"></textarea>
             </section>
             <section class="" v-for="(requirement, index) in challenge.requirements" :key="index">
               <h4>Requirement {{ index + 1 }} <i class="mdi mdi-trash-can" @click="deleteRequirement(index)"></i></h4>
-              <!-- NOTE - CHANTHA - Since a challenge has potentially a surmountable amount of steps -- making this textarea an input field would be better for UX and UI. But I didn't want to change your code without your permission! Let me know your thoughts. -AJ 11/18 -->
-              <textarea v-model="requirement.step" name="" id="" cols="30" rows="10" class="form-control mb-3"></textarea>
+              <!-- NOTE - CHANTHA - Since a challenge has potentially a surmountable amount of requirements -- making this textarea an input field would be better for UX and UI. But I didn't want to change your code without your permission! Let me know your thoughts. -AJ 11/18 -->
+              <textarea v-model="requirement.description" name="" id="" cols="30" rows="10" class="form-control mb-3"></textarea>
             </section>
           </div>
           <h3>Difficulty</h3>
@@ -116,7 +116,13 @@ export default {
     let route = useRoute()
     let editing = ref(false);
     const answer = ref('')
-    const editable = ref({})
+    const editable = ref({
+      requirements: [
+        {
+          description: AppState.activeChallenge?.requirements.description
+        }
+      ],
+    })
     const filterBy = ref('')
     watchEffect(() => {
       editable.value = AppState.activeChallenge
@@ -152,25 +158,23 @@ export default {
     }
 
     async function updateChallenge() {
-      try {
-        // const stepsLength = AppState.activeChallenge.steps;
-        // const description = AppState.activeChallenge.description;
-        // if(AppState.activeChallenge.steps == 0){
-        //   // console.log("Challenge is invalid");
-        //   Pop.error("Challenge needs at least 1 step.")
-        //   return;
-        // }
-        if(AppState.activeChallenge.description == 0){
-          Pop.error("You cannot have an empty description")
-          return;
-        }
-        await challengesService.updateChallenge(AppState.activeChallenge, AppState.activeChallenge.id)
-        await this.updateChallengeStatus()
-        Pop.success('Challenge Updated')
-      } catch (error) {
-        Pop.toast(error.message, 'error')
-      }
-    }
+  try {
+    const updatedChallenge = {
+      ...AppState.activeChallenge,
+      requirements: challenge.value.requirements.map(r => r.description),
+    };
+
+    // Send the updatedChallenge object to the server
+    await challengesService.updateChallenge(updatedChallenge, updatedChallenge.id);
+    await updateChallengeStatus();
+    Pop.success('Challenge Updated');
+  } catch (error) {
+    Pop.toast(error.message, 'error');
+  }
+}
+
+
+    
 
     async function updateChallengeStatus() {
       try {
@@ -211,17 +215,20 @@ export default {
       logger.log(`You are ${editing.value ? "now" : "no longer"} editing`)
     }
 
-    function addRequirement(){
-      const newRequirement = document.getElementById("requirementText")
-      if(newRequirement.value.length == 0){
-        Pop.error("You cannot create an empty requirement.")
+    function addRequirement() {
+      const newRequirementText = document.getElementById("requirementText").value;
+
+      if (newRequirementText.length === 0) {
+        Pop.error("You cannot create an empty requirement.");
         return;
       }
+
       challenge.value.requirements.push({
-        step: newRequirement.value
-      })
-      Pop.success("Requirement Added")
-      newRequirement.value.step = ''
+        description: newRequirementText
+      });
+
+      document.getElementById("requirementText").value = '';
+      Pop.success("Requirement Added");
     }
 
     function deleteRequirement(index){
