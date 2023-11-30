@@ -173,7 +173,7 @@ export default {
     }
     const updatedChallenge = {
       ...AppState.activeChallenge,
-      requirements: challenge.value.requirements.map(r => r),
+      requirements: challenge.value.requirements
     };
     await challengesService.updateChallenge(updatedChallenge, updatedChallenge.id);
     await updateChallengeStatus();
@@ -232,7 +232,9 @@ export default {
         Pop.error("You cannot create an empty requirement.");
         return;
       }
-
+      if (!challenge.value.requirements) {
+        challenge.value.requirements = [];
+      }
       challenge.value.requirements.push(newRequirementText);
 
       document.getElementById("requirementText").value = '';
