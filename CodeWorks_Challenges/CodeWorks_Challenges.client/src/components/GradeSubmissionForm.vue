@@ -92,6 +92,7 @@ export default {
     const route = useRoute()
 
     const editable = ref({
+      participantId: props.participant.id,
       challenge: props.participant.challenge,
       profile: props.participant.profile,
       requirements: props.participant.requirements,
@@ -100,8 +101,8 @@ export default {
 
     onMounted(() => {
       setActiveChallenge()
-      getParticipantsByChallengeId()
       getModeratorsByChallengeId()
+      getParticipantsByChallengeId()
     })
     
     async function setActiveChallenge() {
