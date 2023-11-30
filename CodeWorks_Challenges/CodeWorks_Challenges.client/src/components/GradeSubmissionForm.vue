@@ -172,14 +172,15 @@ export default {
         if (r.isComplete === true) {
           logger.log(
           `[NEW DATA] =>
-          * COMPLETED REQUIREMENT: 
-          📚STEP: ${r.description}
-          ✅ COMPLETED: ${r.isComplete}
-          📈 TOTAL GRADE: ${editable.value.grade} / ${editable.value.requirements.length}`
-            );
+          📝 COMPLETED REQUIREMENT: {
+            💭 DESCRIPTION: ${r.description}
+            ✅ CHECK: ${r.isComplete}
+            📈 GRADE: ${editable.value.grade} / ${editable.value.requirements.length}
+            }`
+          );
         }
       });
-      logger.log(`Requirement Completed? ${editable.value.requirements[index].isComplete ? '✅' : '❌'}`);
+      logger.log(`Requirement is Complete? ${editable.value.requirements[index].isComplete ? '✅' : '❌'}`);
     }
 
     return {
