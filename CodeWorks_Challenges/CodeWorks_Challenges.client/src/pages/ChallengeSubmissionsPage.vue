@@ -1,5 +1,5 @@
 <template>
-  <section class="container-fluid" v-if="challengeCreator">
+  <section class="container-fluid">
 
     <div v-if="challenge" :key="challenge.id" class="row d-flex justify-content-center align-items-center">
       <div class="col-12 d-flex justify-content-center align-items-center">
@@ -38,9 +38,8 @@
 </template>
   
 <script>
-import GradeSubmissionForm from "../components/GradeSubmissionForm.vue"
 import ParticipantCard from "../components/ParticipantCard.vue"
-import { computed, onMounted, ref, watchEffect } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"  
@@ -91,10 +90,6 @@ export default {
       } else return 'null'
     }
 
-
-    const challenge = computed(() => {
-      return AppState.challenges.find(c => c.id === AppState.activeChallenge.id)
-    })
     const participant = computed(() => {
       return AppState.participants.find(p => p.accountId === AppState.user.id)
     })
@@ -104,32 +99,24 @@ export default {
       getParticipantsByChallengeId()
     })
 
-    watchEffect(() => {
-    })
-
     return {
       filterBy,
       editable,
-      // challenge,
+      participant,
 
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.activeChallenge),
-      // challengeRequirements,
       myModerations: computed(() => AppState.moderators.filter(m => m.accountId === AppState.account.id)),
-      participant,
       participants: computed(() => AppState.participants),
+      isParticipant: computed(() => {
+        return AppState.participants.find(p => p.accountId === AppState.user.id)
+      }),
       participantFilter: computed(() => {
         if (!filterBy.value) {
           return AppState.participants
         } else {
           return AppState.participants.filter(p => p.status === filterBy.value)
         }
-      }),
-      // challenge: computed(() => AppState.activeChallenge),
-      challengeCreator: computed(() => AppState.user.id === AppState.activeChallenge?.creatorId),
-      isModeratorStatus,
-      isParticipant: computed(() => {
-        return AppState.participants.find(p => p.accountId === AppState.user.id)
       }),
       difficulty: computed(() =>
         StrDifficultyNum(AppState.activeChallenge.difficulty)
@@ -138,10 +125,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="scss">
-  // .not-submitted {
-  //   opacity: 0.75;
-  //   filter: grayscale(100%);
-  // }
-</style>

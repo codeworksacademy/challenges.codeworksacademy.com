@@ -44,7 +44,6 @@
             <div class="col-12 d-flex justify-content-center align-items-center form-group px-5 mb-5">
               <label for="status" class="form-label">Status</label>
               <select
-                @change="testStatusChange()"
                 v-model="editable.status"
                 name="status"
                 id="status"

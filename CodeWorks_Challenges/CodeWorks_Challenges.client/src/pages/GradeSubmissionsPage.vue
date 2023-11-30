@@ -1,6 +1,5 @@
 <template>
   <section class="container-fluid" v-if="challengeCreator">
-
     <div v-if="challenge" :key="challenge.id" class="row d-flex justify-content-center align-items-center">
       <div class="col-12 d-flex justify-content-center align-items-center">
         <h1 class="text-center"> {{ challenge.name }} </h1>
@@ -17,77 +16,42 @@
       <div class="col-12 d-flex justify-content-center align-items-center">
         <p v-html="difficulty.html"></p>
       </div>
-      <section>
-        <div class="col-12 d-flex justify-content-center align-items-center">
-          <h3 class="text-uppercase">Challenge Requirements</h3>
-        </div>
-        
-      </section>
     </div>
-
-  <div v-if="challengeCreator" class="col-9 d-flex justify-content-center align-items-center position-fixed bottom-2">
-    <!-- STUB - OFFCANVAS BUTTON - Array of Submitted Challenge Participants -->
-    <!-- <a
-      role="button"
-      class="d-flex justify-content-center align-items-center mdi mdi-chevron-up text-warning bg-primary rounded-circle fs-1"
-      style="aspect-ratio: 1/1; height: 50px; width: 50px;"
-      type="button"
-      data-bs-toggle="offcanvas"
-      data-bs-target="#submissionsOffcanvas"
-      aria-controls="offcanvasBottom">
-    </a> -->
-  </div>
-  <!-- <div v-for="p in participants" :key="p.id" class="col-12 d-flex justify-content-center align-items-center pb-5 mb-5">
-    <GradeSubmissionForm v-if="p.status === 'submitted'" :participant="p" />
-  </div> -->
-  <!-- <div v-for="p in participants" :key="p.id" class="col-12 d-flex justify-content-center align-items-center pb-5 mb-5">
-    <div v-if="p.status === 'submitted' && challengeCreator">
-      <GradeSubmissionForm :participant="p" />
-    </div>
-  </div> -->
-  <div class="accordion accordion-flush" id="accordionFlushExample">
-    <!-- <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-          Accordion Item #2
-        </button>
-      </h2>
-      <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.</div>
+    <div>
+      <div class="col-12 d-flex justify-content-center align-items-center">
+        <h3 class="text-uppercase">Challenge Requirements</h3>
       </div>
-    </div> -->
-    <div v-for="p in participants" :key="p.id" class="accordion-item">
-      <div v-if="p.status === 'submitted' && challengeCreator">
-        <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse'+ p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
-              {{ p.profile.name }}
-            </button>
-        </h2>
-        <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-          <div class="accordion-body">
-            <GradeSubmissionForm :participant="p" />
+    </div>
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+      <div v-for="p in participants" :key="p.id" class="accordion-item">
+        <div v-if="p.status === 'submitted' && challengeCreator">
+          <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse'+ p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
+                {{ p.profile.name }}
+              </button>
+          </h2>
+          <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+              <GradeSubmissionForm :participant="p" />
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
   </section>
 </template>
   
 <script>
 import GradeSubmissionForm from "../components/GradeSubmissionForm.vue"
-import ParticipantCard from "../components/ParticipantCard.vue"
 import { computed, onMounted, ref, watchEffect } from 'vue'
 import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"  
-// import SubmissionCard from '../components/SubmissionCard.vue'
 import { challengesService } from '../services/ChallengesService'
 import { useRoute } from 'vue-router'
 import { participantsService } from '../services/ParticipantsService'
 import { StrDifficultyNum } from "../utils/StrDifficultyNum.js"
 import { newChallengeParticipant } from "../utils/NewChallengeParticipant.js"
-import { ChallengeParticipant } from "../models/ChallengeParticipant.js"
 
 export default {
   components: {
@@ -121,15 +85,6 @@ export default {
       }
     }
 
-    // async function getModeratorsByChallengeId() {
-    //   try {
-    //     await challengeModeratorsService.getModeratorsByChallengeId(route.params.challengeId)
-    //   } catch (error) {
-    //     logger.error(error)
-    //     Pop.toast(error, 'error')
-    //   }
-    // }
-
     function isModeratorStatus() {
       const isMod = AppState.moderators.find(m => m.accountId == AppState.account.id)
       if (isMod) {
@@ -139,9 +94,6 @@ export default {
       } else return 'null'
     }
 
-    const challenge = computed(() => {
-      return AppState.challenges.find(c => c.id === AppState.activeChallenge.id)
-    })
     const participant = computed(() => {
       return AppState.participants.find(p => p.id === AppState.activeParticipant?.id)
     })
@@ -149,7 +101,6 @@ export default {
     onMounted(() => {
       setActiveChallenge()
       getParticipantsByChallengeId()
-      // getModeratorsByChallengeId()
     })
 
     watchEffect(() => {

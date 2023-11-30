@@ -176,7 +176,7 @@
           Submit Your Challenge For Grading?
         </a>
       </div>
-      <!-- Particiapnt data -->
+      <!-- Participant data -->
       <section v-if="isParticipant" class="row text-light p-3 mb-3">
         <!-- v-if is here because participants can be created with out being assigned a status -->
         <div class="col-4" v-if="isParticipant.status">Status: <span class="">{{ isParticipant.status
@@ -200,11 +200,6 @@
             <span>{{ requirement }}</span>
           </li>
         </ol>
-        <!-- STUB - This iteration over `requirement.comment` is not needed here as participants do not need to see comments on steps before their challenge has been graded. But we can stub out and use this once we are creating the form that grades the participant. - AJ 11/18 -->
-        <!-- <div class="col-12 d-flex form-group mt-1">
-          <label for="comment">Comment</label>
-          <textarea type="text" name="comment" id="comment" class="form-control input-box mt-1" placeholder="Leave some insight..." rows="1" v-model="requirement.comment" />
-        </div> -->
     </section>
 
     <section class="row justify-content-center">
@@ -213,9 +208,7 @@
           Answer {{ index + 1 }}:
         </i>
         <p>{{ answer.description }}</p>
-        <p>
-          {{ answer.answer }} Answer
-        </p>
+        <p>{{ answer.answer }} Answer</p>
       </div>
       <div class="col-md-8">
         <div class="input-group input-group-sm mb-3">
@@ -238,7 +231,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { CATEGORY_TYPES, SUBMISSION_TYPES } from "../constants/index.js";
 import { StrDifficultyNum } from '../utils/StrDifficultyNum.js';
 import { challengesService } from '../services/ChallengesService';
-import { computed, onMounted, watchEffect, ref, popScopeId } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { participantsService } from "../services/ParticipantsService.js";
 import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js";
 
@@ -263,37 +256,14 @@ export default {
       return participant
     })
 
-    const participantStatus = computed(() => {
-      if (isParticipant.value) {
-        return isParticipant.value.status
-      } else return 'null'
-    })
-
     const gaveReputation = computed(() => {
       const challenge = AppState.activeChallenge
-
       if(challenge.reputationIds.find(r => r == AppState.account.id)){
         return true
       }
-
       return false
     })
 
-    // const statusOptions = computed(() => {
-    //   const statusOptions = []
-    //   AppState.challenges.forEach(c => {
-    //     if (!statusOptions.find(s =>
-    //      s.value === c.status)) {
-    //       statusOptions.push({ name: 
-    //                         c.status,
-    //                        value: 
-    //                         c.status })
-    //     }
-    //   })
-    //   return statusOptions
-    // })
-
-    
     async function setActiveChallenge() {
       try {
         const challengeId = route.params.challengeId
@@ -330,6 +300,7 @@ export default {
         Pop.toast(error, 'error')
       }
     }
+
     async function getModeratorsByChallengeId() {
       try {
         await challengeModeratorsService.getModeratorsByChallengeId(route.params.challengeId)
@@ -338,6 +309,7 @@ export default {
         Pop.toast(error, 'error')
       }
     }
+
     async function answerChallenge(){
       try{
         await challengesService.submitAnswer(AppState.activeChallenge.id, answer.value)
@@ -347,61 +319,34 @@ export default {
       }
     }
 
-    // This is now handled in the backend... Need to look at separating the challenge management page from the challenge participation page
-    // FIXME - JAKE - WIP (Intention is to prevent function from firing if a user is not a moderator or creator of challenge. Still fires on other pages.)
-    async function getAnswersByChallengeId() {
-      // try {
-      //   const moderatorStatus = computed(() => AppState.moderators.find(m => m.accountId == AppState.account.id))
-
-      //   const account = computed(() => AppState.account)
-
-      //   const activeChallenge = computed(() => AppState.activeChallenge)
-
-      //   if (moderatorStatus.value != 'approved' && activeChallenge.value.creatorId != account.value.id) {
-      //     return
-      //   } else {
-      //     await answersService.getAnswersByChallengeId(route.params.challengeId)
-      //   }
-      // } catch (error) {
-      //   logger.error(error)
-      //   Pop.error(error.message)
-      // }
-      logger.log("Line 261 getAnswersByChallengeId has been commented out")
-    }
-
     onMounted(() => {
       if (route.params.challengeId != challengeId) {
         challengeId = route.params.challengeId
         getParticipantsByChallengeId()
         getModeratorsByChallengeId()
         setActiveChallenge()
-        logger.log(getParticipantsByChallengeId())
       }
     })
 
     return {
       changeRoute,
+      answerChallenge,
       updateChallengeParticipant,
+
       answer,
       loading,
-      // startStr, // Grabbing the 'start' status option from the SUBMISSION_TYPES constant
       isParticipant,
-      answerChallenge,
       gaveReputation,
+
       user: computed(() => AppState.user),
+      rewards: computed(() => AppState.rewards),
+      participants: computed(() => AppState.participants),
       challenge: computed(() => AppState.activeChallenge),
       date: computed(() => DateTime(AppState.activeChallenge.createdAt)),
-      participants: computed(() => AppState.participants),
-      rewards: computed(() => AppState.rewards),
       moderators: computed(() => AppState.moderators.filter(m => m.status == 'Active')),
-      difficulty: computed(() =>
-        StrDifficultyNum(AppState.activeChallenge.difficulty)
-      ),
+      difficulty: computed(() => StrDifficultyNum(AppState.activeChallenge.difficulty)),
       isOwned: computed(() => AppState.activeChallenge.creator.id === AppState.account.id),
-      // Duplicate key created during merge, Verifying redudancy before delete
-      // isParticipant: computed(() =>
-      //   AppState.participants.find(p => p.accountId == AppState.account.id)
-      // ),
+      isPuzzle: computed(() => AppState.activeChallenge.category === CATEGORY_TYPES.PUZZLES),
 
       isModeratorStatus: computed(() => {
         const isMod = AppState.moderators.find(m => m.accountId == AppState.account.id || m.originId == AppState.account.id)
@@ -409,8 +354,6 @@ export default {
           return isMod.status == 'approved'
         } else return false
       }),
-
-      isPuzzle: computed(() => AppState.activeChallenge.category === CATEGORY_TYPES.PUZZLES),
 
       editChallenge() {
         logger.log("Pushing to", AppState.activeChallenge.id)
@@ -492,13 +435,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 .container-fluid {
   min-height: 100vh;
   min-width: 100%;
   background-color: #000000bf;
 }
-
 .flash-card {
   height: 25vh;
   object-fit: cover;
@@ -527,11 +468,9 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-
   .text-box {
     background-color: rgba(0, 0, 0, .75);
     padding: 3rem;
-
     .header {
       background: linear-gradient(rgba(0, 0, 0, .75), rgba(0, 0, 0, .5));
       padding: 1rem;
@@ -541,12 +480,10 @@ export default {
       border-top-left-radius: 1rem;
       border-top-right-radius: 1rem;
     }
-
     .body {
       background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0));
       padding: 1rem;
     }
-
     .footer {
       background: linear-gradient(rgba(0, 0, 0), rgba(0, 0, 0, .75));
       padding: 1rem;
@@ -555,7 +492,6 @@ export default {
     }
   }
 }
-
 .moderator {
   height: 32px;
   width: 32px;

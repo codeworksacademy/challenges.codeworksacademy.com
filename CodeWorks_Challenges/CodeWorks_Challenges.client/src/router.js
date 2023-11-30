@@ -71,15 +71,15 @@ const routes = [
     //   },
     //   {
     //     path: 'grading',
-    //     name: 'GradeSubmissionPage',
-    //     component: loadPage('GradeSubmissionPage')
+    //     name: 'GradeSubmissionsPage',
+    //     component: loadPage('GradeSubmissionsPage')
     //   }
     // ]
   },
   {
     path: '/challenges/:challengeId/grading',
-    name: 'GradeSubmissionPage',
-    component: loadPage('GradeSubmissionPage')
+    name: 'GradeSubmissionsPage',
+    component: loadPage('GradeSubmissionsPage')
   },
   {
     path: '/challenges/:challengeId/submissions',

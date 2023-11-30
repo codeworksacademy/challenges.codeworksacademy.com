@@ -26,20 +26,18 @@
 </template>
 
 <script>
-import { computed, onMounted, ref, watchEffect } from 'vue'
-import { AppState } from '../AppState'
-import Pop from "../utils/Pop.js"
-import { logger } from "../utils/Logger.js"
-import { ChallengeParticipant } from "../models/ChallengeParticipant.js"
-import { participantsService } from "../services/ParticipantsService.js"
-import { useRouter, useRoute } from 'vue-router';
-import { SUBMISSION_TYPES } from "../constants"
+import Pop from '../utils/Pop.js'
 import { Modal } from 'bootstrap'
+import { computed, ref } from 'vue'
+import { AppState } from '../AppState'
+import { useRouter, } from 'vue-router'
+import { logger } from '../utils/Logger.js'
+import { SUBMISSION_TYPES } from '../constants'
+import { participantsService } from '../services/ParticipantsService.js'
 
 export default {
   setup() {
 
-    const route = useRoute()
     const router = useRouter()
     
     const editable = ref({
@@ -53,12 +51,6 @@ export default {
       return AppState.participants.find(p => p.accountId === AppState.user.id)
     })
 
-
-    watchEffect(() => {
-      
-    })
-    
-
     async function updateChallengeParticipant() {
       try {
         if (await Pop.confirm(`Are you sure you are ready to submit ${AppState.activeChallenge?.name} to be graded? This cannot be undone!`)) {
@@ -67,14 +59,14 @@ export default {
             ...editable.value,
             status: SUBMISSION_TYPES.SUBMITTED
           }
-          logger.log('Your Participation:', editable.value)
+          logger.log(`New Participation: ${newParticipant}`)
           await participantsService.updateChallengeParticipant(participantId, newParticipant)
           editable.value = {}
           Modal.getOrCreateInstance('#createSubmissionForm').hide();
           Pop.success('Challenge Submitted!');
           router.push({
-            name: 'Home',
-            path: '/'
+            name: 'ChallengeSubmissionsPage',
+            path: `/challenges/${AppState.activeChallenge?.id}/submissions`
           })
         }
       } catch (error) {
@@ -91,16 +83,14 @@ export default {
           submission: editable.value.submission,
           status: SUBMISSION_TYPES.REMOVED
         }
-        logger.log('Your Participant ID:', participant)
         await participantsService.removeSubmission(newSubmission, participantId)
         participant.value = ''
         editable.value = ''
         Modal.getOrCreateInstance('#createSubmissionForm').hide();
-        Pop.toast('Submission Removed');
-
+        Pop.toast(`Removed Participation: ${newSubmission}`);
         router.push({
-          name: 'GradeSubmissionPage',
-          params: { challengeId: route.params.challengeId },
+          name: 'GradeSubmissionsPage',
+          path: `/challenges/${AppState.activeChallenge?.id}/grading`
         });
       } catch (error) {
         logger.error(error);

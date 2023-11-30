@@ -262,14 +262,6 @@ export default {
       }
     }
 
-    async function getMyBadges() {
-      try {
-        await badgesService.getMyBadges(AppState.account.id)
-      } catch (error) {
-        Pop.toast(error, 'error')
-      }
-    }
-
     async function getParticipantsByAccount() {
       try {
         await accountService.getMyParticipations()
@@ -290,7 +282,6 @@ export default {
     watchEffect(() => {
       if (AppState.account.id) {
         getMyChallenges()
-        getMyBadges()
         getParticipantsByAccount()
         getProfile()
       }
