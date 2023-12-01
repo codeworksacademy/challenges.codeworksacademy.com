@@ -1,28 +1,45 @@
 <template>
-  <div class="bg-dark border border-5 border-secondary-bold text-light p-3 m-3 rounded">
-    <p>
-      <span @click="claimMilestone(milestone)" v-if="milestone?.claimed == false"
-        class="mdi mdi-circle text-primary selectable"></span><span v-else
-        class="mdi mdi-circle-outline text-primary "></span>
-    </p>
-    <div>
-      Badge Icon
+  <section class="row bg-dark border border-5 border-secondary-bold text-light p-3 m-3 rounded">
+    <div class="col-12">
+      <p>
+        <span @click="claimMilestone(milestone)" v-if="milestone?.claimed == false"
+          class="mdi mdi-circle text-primary selectable"></span><span v-else
+          class="mdi mdi-circle-outline text-primary "></span>
+      </p>
+      <p>
+        {{ milestone.milestone.description }}
+      </p>
     </div>
-    <i :class="['fs-1 text-success mdi', milestoneIcon]" :title="milestone.tier"></i>
-    <p>
-      {{ milestone.milestone.description }}
-    </p>
-    <p>
-      Tier: {{ milestone.tier }} Out of {{ milestoneCondition.maxTierLevel }}
-    </p>
-    <p>
-      Next Tier: {{ milestoneCondition.nextTierThreshold }} total for tier {{ milestoneCondition.nextTier }}
-    </p>
-    <p>
-      {{ milestoneCondition.toNextLevel }} to next level:
-    </p>
-    <p></p>
-  </div>
+
+    <div class="col-6">
+      <div>
+        Badge
+      </div>
+      <i :class="['fs-1 text-success mdi', milestoneIcon.current]" :title="milestone.tier"></i>
+
+      <p>
+        Tier: {{ milestone.tier }} Out of {{ milestoneCondition.maxTierLevel }}
+      </p>
+      <p>
+        {{ milestone.count }} so far
+      </p>
+    </div>
+
+    <div v-if="milestone.tier != milestoneCondition.maxTierLevel" class="col-6">
+      <div>
+        Next
+      </div>
+      <i :class="['fs-1 text-secondary mdi', milestoneIcon.next]" :title="milestone.tier"></i>
+      <p>
+        Next Tier: {{ milestoneCondition.nextTierThreshold }} total for tier {{ milestoneCondition.nextTier }}
+      </p>
+      <p>
+        {{ milestoneCondition.toNextLevel }} to next level:
+      </p>
+      <p></p>
+
+    </div>
+  </section>
 </template>
 
 
@@ -42,44 +59,56 @@ export default {
 
     return {
       milestoneIcon: computed(() => {
-        let icon = ""
+        let icon = {}
         switch (props.milestone.tier) {
           case 0:
-            icon = 'mdi-circle-small'
+            icon.current = 'mdi-circle-small'
+            icon.next = 'mdi-flare'
             break;
           case 1:
-            icon = "mdi-flare"
+            icon.current = "mdi-flare"
+            icon.next = 'mdi-triangle'
             break;
           case 2:
-            icon = 'mdi-triangle'
+            icon.current = 'mdi-triangle'
+            icon.next = 'mdi-star-three-points'
             break;
           case 3:
-            icon = 'mdi-star-three-points'
+            icon.current = 'mdi-star-three-points'
+            icon.next = 'mdi-star-four-points'
             break;
           case 4:
-            icon = 'mdi-star-four-points'
+            icon.current = 'mdi-star-four-points'
+            icon.next = 'mdi-star'
             break;
           case 5:
-            icon = 'mdi-star'
+            icon.current = 'mdi-star'
+            icon.next = 'mdi-hexagram'
             break;
           case 6:
-            icon = 'mdi-hexagram'
+            icon.current = 'mdi-hexagram'
+            icon.next = 'mdi-hexagram-outline'
             break;
           case 7:
-            icon = 'mdi-hexagram-outline'
+            icon.current = 'mdi-hexagram-outline'
+            icon.next = 'mdi-octagram'
             break;
           case 8:
-            icon = 'mdi-octagram'
+            icon.current = 'mdi-octagram'
+            icon.next = 'mdi-octagram-outline'
             break;
           case 9:
-            icon = 'mdi-octagram-outline'
+            icon.current = 'mdi-octagram-outline'
+            icon.next = 'mdi-decagram'
             break;
           case 10:
-            icon = 'mdi-decagram'
+            icon.current = 'mdi-decagram'
+            icon.next = 'mdi-decagram'
             break;
 
           default:
-            icon = 'mdi-skull-scan'
+            icon.current = 'mdi-skull-scan'
+            icon.next = 'mdi-circle-small'
             break;
         }
         return icon

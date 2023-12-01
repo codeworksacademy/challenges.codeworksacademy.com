@@ -206,13 +206,13 @@
     </section>
 
     <section class="row my-2">
-      <div>
+      <MilestonesTracker />
+      <!-- <div>
         <a class="btn btn-primary" data-bs-toggle="collapse" href="#milestonesTracker" role="button" aria-expanded="false"
           aria-controls="milestonesTrackerToggle">Toggle Milestones Tracker</a>
       </div>
       <div class="collapse" id="milestonesTracker">
-        <MilestonesTracker />
-      </div>
+      </div> -->
     </section>
   </div>
 
