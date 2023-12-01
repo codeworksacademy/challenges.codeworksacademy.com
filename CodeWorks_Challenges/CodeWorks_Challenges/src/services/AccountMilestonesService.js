@@ -90,7 +90,13 @@ class AccountMilestonesService {
     const filterKey = {
       createdChallenge: { creatorId: userId },
       joinedChallenge: { accountId: userId },
-      moderateChallenge: { $and: [{ accountId: userId }, { status: 'Active' }] }
+      moderateChallenge: { $and: [{ accountId: userId }, { status: 'Active' }] },
+      // submissionsChallenge:{},
+      // passingSubmissionsChallenge:{},
+      // gradeModerators:{},
+      // submittedParticipant:{},
+      // passingParticipant:{},
+      // allMilestones:{}
     };
 
     const milestoneCheckCount = await dbContext[milestone.ref].find(filterKey[milestone.check]).count();

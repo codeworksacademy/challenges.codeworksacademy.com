@@ -1,14 +1,12 @@
 <template>
-  <section class="row bg-dark border border-5 border-secondary-bold text-light p-3 m-3 rounded">
+  <section class="row bg-dark border border-5 border-secondary-bold text-light p-1 m-1 rounded">
     <div class="col-12">
       <p>
         <span @click="claimMilestone(milestone)" v-if="milestone?.claimed == false"
-          class="mdi mdi-circle text-primary selectable"></span><span v-else
+          class="mdi mdi-circle text-primary selectable">NEW</span><span v-else
           class="mdi mdi-circle-outline text-primary "></span>
       </p>
-      <p>
-        {{ milestone.milestone.description }}
-      </p>
+
     </div>
 
     <div class="col-6">
@@ -17,12 +15,7 @@
       </div>
       <i :class="['fs-1 text-success mdi', milestoneIcon.current]" :title="milestone.tier"></i>
 
-      <p>
-        Tier: {{ milestone.tier }} Out of {{ milestoneCondition.maxTierLevel }}
-      </p>
-      <p>
-        {{ milestone.count }} so far
-      </p>
+
     </div>
 
     <div v-if="milestone.tier != milestoneCondition.maxTierLevel" class="col-6">
@@ -30,15 +23,32 @@
         Next
       </div>
       <i :class="['fs-1 text-secondary mdi', milestoneIcon.next]" :title="milestone.tier"></i>
+
+    </div>
+
+    <div class="col-12">
+      <p>
+        {{ milestone.milestone.description }}
+      </p>
+    </div>
+
+    <div class="col-6">
+      <p>
+        Tier: {{ milestone.tier }} Out of {{ milestoneCondition.maxTierLevel }}
+      </p>
+      <p>
+        {{ milestone.count }} so far
+      </p>
+    </div>
+    <div class="col-6">
       <p>
         Next Tier: {{ milestoneCondition.nextTierThreshold }} total for tier {{ milestoneCondition.nextTier }}
       </p>
       <p>
         {{ milestoneCondition.toNextLevel }} to next level:
       </p>
-      <p></p>
-
     </div>
+
   </section>
 </template>
 
@@ -47,6 +57,8 @@
 import { computed } from "vue";
 import { Milestone } from "../models/Milestone.js";
 import { logger } from "../utils/Logger.js";
+import { accountMilestonesService } from "../services/AccountMilestonesService.js";
+import Pop from "../utils/Pop.js";
 
 export default {
   props: {
@@ -130,8 +142,16 @@ export default {
         condition.toNextLevel = condition.tierThresholdArr[props.milestone.tier] - props.milestone.count
 
         return condition
-      })
-
+      }),
+      async claimMilestone(accountMilestone) {
+        try {
+          accountMilestone.claimed = true;
+          await accountMilestonesService.claimMilestone(accountMilestone);
+        }
+        catch (error) {
+          Pop.error(error);
+        }
+      }
     }
   }
 }
