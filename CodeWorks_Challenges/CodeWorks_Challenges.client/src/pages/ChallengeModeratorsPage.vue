@@ -15,7 +15,7 @@
       </div>
 
       <div class="col-12 d-flex flex-column">
-        These are the moderators that are apart of your challenge
+        These are active challenge moderators
         <div v-for="moderator in moderators" :key="moderator.id">
           <div v-if="moderator.status == 'active' || moderator.status == 'CodeWorks'">
             {{ moderator.profile.name }}
