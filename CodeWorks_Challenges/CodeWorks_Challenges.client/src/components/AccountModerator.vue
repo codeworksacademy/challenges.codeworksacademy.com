@@ -20,7 +20,7 @@
           </p>
         </div>
         <div class="col-12" v-for="moderation in myModerations" :key="moderation.id">
-          <div v-if="moderation.status == 'Active'">
+          <div v-if="moderation.status == 'active'">
             <ChallengeCard :challenge="moderation.challenge" /><i @click="removeModeration(challenge.id)"
               class="mdi mdi-delete text-danger selectable"></i>
           </div>
@@ -31,33 +31,23 @@
         <p class="fs-5">
           Pending:
         </p>
-      </div>
-
-      <div class="col-12">
-        <p class="text-secondary">you're waiting to be approved</p>
         <div v-for="moderation in myModerations" :key="moderation.id">
-          <ModerationCard :moderationProp="moderation" v-if="moderation.originId == account.id" />
+          <ModerationCard :moderationProp="moderation"
+            v-if="moderation.originId != account.id && moderation.status == 'pending'" />
         </div>
       </div>
 
       <div class="col-12">
-        <p class="text-secondary">your moderation has been requested</p>
-        <div v-for="moderation in myModerations" :key="moderation.id">
-          <ModerationCard :moderationProp="moderation" v-if="moderation.originId != account.id" />
-        </div>
-      </div>
-
-      <div class="col-12">
-        <p class="text-secondary">Someone wants to moderate your challenge</p>
+        <div class="fs-4">Challenge Moderators</div>
+        <p class="text-secondary">Active</p>
         <div v-for="moderation in moderators" :key="moderation.id">
-          <ModerationCard :moderationProp="moderation" v-if="moderation.originId != account.id" />
+          <ModerationCard :moderationProp="moderation"
+            v-if="moderation.originId == account.id && moderation.status == 'active'" />
         </div>
-      </div>
-
-      <div class="col-12">
-        <p class="text-secondary">Moderators you've asked to join</p>
+        <p class="text-secondary">Pending</p>
         <div v-for="moderation in moderators" :key="moderation.id">
-          <ModerationCard :moderationProp="moderation" v-if="moderation.originId == account.id" />
+          <ModerationCard :moderationProp="moderation"
+            v-if="moderation.originId == account.id && moderation.status == 'pending'" />
         </div>
       </div>
     </div>

@@ -25,7 +25,7 @@
       </div>
 
       <div class="col-12 d-flex flex-column">
-        These are the users that have been invited but have not acceppted the invite
+        These are the users that have been invited but have not accepted the invite
         <div v-for="moderator in moderators" :key="moderator.id">
           <div v-if="moderator.status == 'pending'">
             {{ moderator.profile.name }}
