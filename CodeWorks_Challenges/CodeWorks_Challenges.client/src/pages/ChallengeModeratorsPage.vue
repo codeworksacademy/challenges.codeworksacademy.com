@@ -17,8 +17,9 @@
       <div class="col-12 d-flex flex-column">
         These are the moderators that are apart of your challenge
         <div v-for="moderator in moderators" :key="moderator.id">
-          <div v-if="moderator.status == 'approved'">
+          <div v-if="moderator.status == 'active' || moderator.status == 'CodeWorks'">
             {{ moderator.profile.name }}
+            <img :src="moderator.profile.picture" alt="">
           </div>
         </div>
       </div>
@@ -28,6 +29,7 @@
         <div v-for="moderator in moderators" :key="moderator.id">
           <div v-if="moderator.status == 'pending'">
             {{ moderator.profile.name }}
+            <img :src="moderator.profile.picture" alt="">
           </div>
         </div>
       </div>
