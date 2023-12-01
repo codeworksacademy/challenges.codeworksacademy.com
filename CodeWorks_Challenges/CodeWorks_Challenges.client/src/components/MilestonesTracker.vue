@@ -1,7 +1,17 @@
 <template>
-  <h1>Badges</h1>
-  <h2>Milestones</h2>
-  <h5 class="col-2">
+  <section class="row">
+
+    <div class="col-12">
+      <h1>Badges</h1>
+      <h3>Milestones</h3>
+    </div>
+
+    <div v-for="milestone in milestones" :key="milestone.id" class="col-3 ">
+      <MilestoneCard :milestone="milestone" />
+    </div>
+  </section>
+
+  <!-- <h5 class="col-2">
     <span @click="claimMilestone(cCMilestone)" v-if="cCMilestone?.claimed == false"
       class="mdi mdi-circle text-primary selectable"></span><span v-else
       class="mdi mdi-circle-outline text-primary "></span> Create Challenges:
@@ -79,7 +89,7 @@
       <li>10 Challenge <span v-if="mCMilestone.tier < 10" class="mdi mdi-close text-danger"></span><span v-else
           class="mdi mdi-check text-success"></span></li>
     </ul>
-  </h5>
+  </h5> -->
 </template>
 
 <script>
@@ -89,50 +99,53 @@ import Pop from "../utils/Pop.js";
 import { milestonesService } from "../services/MilestonesService.js";
 import { accountMilestonesService } from "../services/AccountMilestonesService.js";
 import { logger } from "../utils/Logger.js";
+import MilestoneCard from "./MilestoneCard.vue";
 
 
 export default {
   setup() {
-
     async function checkMilestonesByAccountId() {
       try {
-        const userId = AppState.account.id
-        const checks = AppState.milestoneChecks
-        await accountMilestonesService.checkMilestonesByAccountId(userId, checks)
-      } catch (error) {
-        Pop.error(error)
+        const userId = AppState.account.id;
+        const checks = AppState.milestoneChecks;
+        await accountMilestonesService.checkMilestonesByAccountId(userId, checks);
+      }
+      catch (error) {
+        Pop.error(error);
       }
     }
-
     async function getAccountMilestones() {
       try {
-        const userId = AppState.account.id
-        await accountMilestonesService.getAccountMilestones(userId)
-      } catch (error) {
-        Pop.error(error)
+        const userId = AppState.account.id;
+        await accountMilestonesService.getAccountMilestones(userId);
+      }
+      catch (error) {
+        Pop.error(error);
       }
     }
-
     watchEffect(() => {
       if (AppState.account.id) {
-        checkMilestonesByAccountId()
+        checkMilestonesByAccountId();
         // getAccountMilestones()
       }
-    })
+    });
     return {
+      milestones: computed(() => AppState.myMilestone),
       cCMilestone: computed(() => AppState.myMilestone.find(m => m.milestone.check == 'createdChallenge')),
       pCMilestone: computed(() => AppState.myMilestone.find(m => m.milestone.check == 'joinedChallenge')),
       mCMilestone: computed(() => AppState.myMilestone.find(m => m.milestone.check == 'moderateChallenge')),
       async claimMilestone(accountMilestone) {
         try {
           accountMilestone.claimed = true;
-          await accountMilestonesService.claimMilestone(accountMilestone)
-        } catch (error) {
-          Pop.error(error)
+          await accountMilestonesService.claimMilestone(accountMilestone);
+        }
+        catch (error) {
+          Pop.error(error);
         }
       }
-    }
-  }
+    };
+  },
+  components: { MilestoneCard }
 }
 </script>
 
