@@ -17,14 +17,18 @@
       <div class="col-12 d-flex flex-column">
         These are the moderators that are apart of your challenge
         <div v-for="moderator in moderators" :key="moderator.id">
-          {{ moderators.profile.name }}
+          <div v-if="moderator.status == 'approved'">
+            {{ moderator.profile.name }}
+          </div>
         </div>
       </div>
 
       <div class="col-12 d-flex flex-column">
         These are the users that have been invited but have not acceppted the invite
         <div v-for="moderator in moderators" :key="moderator.id">
-          {{ moderators.profile.name }}
+          <div v-if="moderator.status == 'pending'">
+            {{ moderator.profile.name }}
+          </div>
         </div>
       </div>
 
