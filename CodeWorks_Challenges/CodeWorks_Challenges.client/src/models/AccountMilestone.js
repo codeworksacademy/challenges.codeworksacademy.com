@@ -9,5 +9,6 @@ export class AccountMilestone {
     this.claimed = data.claimed
     this.tier = data.tier
     this.milestone = data.milestone
+    this.count = data.count
   }
 }

@@ -1,16 +1,27 @@
 <template>
-  <div class="bg-light p-3 m-3 rounded">
+  <div class="bg-dark border border-5 border-secondary-bold text-light p-3 m-3 rounded">
     <p>
       <span @click="claimMilestone(milestone)" v-if="milestone?.claimed == false"
         class="mdi mdi-circle text-primary selectable"></span><span v-else
         class="mdi mdi-circle-outline text-primary "></span>
     </p>
+    <div>
+      Badge Icon
+    </div>
+    <i :class="['fs-1 text-success mdi', milestoneIcon]" :title="milestone.tier"></i>
     <p>
       {{ milestone.milestone.description }}
     </p>
     <p>
-      Tier: {{ milestone.tier }} Out of Max Tier {{ logicParts.maxTierLevel }}
+      Tier: {{ milestone.tier }} Out of {{ milestoneCondition.maxTierLevel }}
     </p>
+    <p>
+      Next Tier: {{ milestoneCondition.nextTierThreshold }} total for tier {{ milestoneCondition.nextTier }}
+    </p>
+    <p>
+      {{ milestoneCondition.toNextLevel }} to next level:
+    </p>
+    <p></p>
   </div>
 </template>
 
@@ -30,17 +41,68 @@ export default {
   setup(props) {
 
     return {
-      logicParts: computed(() => {
-        let logic = {};
-        logger.log('[Props Milestone]', props.milestone)
+      milestoneIcon: computed(() => {
+        let icon = ""
+        switch (props.milestone.tier) {
+          case 0:
+            icon = 'mdi-circle-small'
+            break;
+          case 1:
+            icon = "mdi-flare"
+            break;
+          case 2:
+            icon = 'mdi-triangle'
+            break;
+          case 3:
+            icon = 'mdi-star-three-points'
+            break;
+          case 4:
+            icon = 'mdi-star-four-points'
+            break;
+          case 5:
+            icon = 'mdi-star'
+            break;
+          case 6:
+            icon = 'mdi-hexagram'
+            break;
+          case 7:
+            icon = 'mdi-hexagram-outline'
+            break;
+          case 8:
+            icon = 'mdi-octagram'
+            break;
+          case 9:
+            icon = 'mdi-octagram-outline'
+            break;
+          case 10:
+            icon = 'mdi-decagram'
+            break;
+
+          default:
+            icon = 'mdi-skull-scan'
+            break;
+        }
+        return icon
+      }
+      ),
+
+      milestoneCondition: computed(() => {
+        let condition = {};
         const logicStr = props.milestone.milestone.logic
         const logicParts = logicStr.split('%')
         const operationsArr = logicParts[0].split('-')
-        logic.tierThresholdArr = logicParts[1].split('-')
-        logic.maxTierLevel = operationsArr[0]
-        logic.operation = operationsArr[1]
-        return logic
-      }),
+
+        condition.tierThresholdArr = logicParts[1].split('-')
+        condition.maxTierLevel = operationsArr[0]
+        condition.operation = operationsArr[1]
+
+        condition.nextTier = props.milestone.tier + 1
+        condition.nextTierThreshold = condition.tierThresholdArr[props.milestone.tier]
+        condition.toNextLevel = condition.tierThresholdArr[props.milestone.tier] - props.milestone.count
+
+        return condition
+      })
+
     }
   }
 }

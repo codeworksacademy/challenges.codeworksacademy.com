@@ -103,9 +103,15 @@ class AccountMilestonesService {
       }
     }
 
-    if (tierToAssign > foundAccountMilestone.tier) {
-      foundAccountMilestone.claimed = false
-      foundAccountMilestone.tier = tierToAssign
+    if (foundAccountMilestone.count < milestoneCheckCount) {
+      foundAccountMilestone.count = milestoneCheckCount
+
+      if (tierToAssign > foundAccountMilestone.tier) {
+        foundAccountMilestone.claimed = false
+        foundAccountMilestone.tier = tierToAssign
+        foundAccountMilestone.count = milestoneCheckCount
+      }
+
       await foundAccountMilestone.save()
     }
     return foundAccountMilestone
