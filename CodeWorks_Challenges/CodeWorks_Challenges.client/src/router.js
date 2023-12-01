@@ -21,28 +21,28 @@ const routes = [
     name: 'Account',
     component: loadPage('AccountPage'),
     beforeEnter: authGuard,
-      // children: [
-      //   {
-      //     path: 'overview',
-      //     name: 'AccountOverview',
-      //     component: loadPage('AccountOverviewPage')
-      //   },
-      //   {
-      //     path: 'activity',
-      //     name: 'AccountActivity',
-      //     component: loadPage('AccountActivityPage')
-      //   },
-      //   {
-      //     path: 'badges',
-      //     name: 'AccountBadges',
-      //     component: loadPage('AccountBadgesPage')
-      //   },
-      //   {
-      //     path: 'certificates',
-      //     name: 'AccountCertificates',
-      //     component: loadPage('AccountMilestonesPage')
-      //   }
-      // ]
+    // children: [
+    //   {
+    //     path: 'overview',
+    //     name: 'AccountOverview',
+    //     component: loadPage('AccountOverviewPage')
+    //   },
+    //   {
+    //     path: 'activity',
+    //     name: 'AccountActivity',
+    //     component: loadPage('AccountActivityPage')
+    //   },
+    //   {
+    //     path: 'badges',
+    //     name: 'AccountBadges',
+    //     component: loadPage('AccountBadgesPage')
+    //   },
+    //   {
+    //     path: 'certificates',
+    //     name: 'AccountCertificates',
+    //     component: loadPage('AccountMilestonesPage')
+    //   }
+    // ]
   },
   {
     path: '/challenges',
@@ -88,6 +88,12 @@ const routes = [
     beforeEnter: authGuard
   },
   {
+    path: '/challenges/:challengeId/moderators',
+    name: 'ChallengeModeratorsPage',
+    component: loadPage('ChallengeModeratorsPage'),
+    beforeEnter: authGuard
+  },
+  {
     path: '/profiles/:profileId',
     name: 'Profile',
     component: loadPage('ProfilePage'),
@@ -103,7 +109,7 @@ const routes = [
     component: loadPage('MarkdownPage')
   },
   {
-    path :'/refactor/:challengeId',
+    path: '/refactor/:challengeId',
     name: 'Refactor',
     component: loadPage('ChallengeDetailsPageRefactor')
   }
