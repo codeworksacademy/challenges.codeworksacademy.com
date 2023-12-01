@@ -1,6 +1,31 @@
 <template>
   Milestones Page
   <section class="row">
+    <section class="row">
+      <div class="col-4 mx-auto">
+        <h1 v-if="editMode == false"> Create a milestone </h1>
+        <h1 v-else> Edit a milestone </h1>
+        <form @submit.prevent="submitForm()" action="" class="d-flex flex-column form-control">
+          <div>
+            <div class="d-flex flex-column">
+              <label for="">Check</label>
+              <input v-model="editable.check" type="text" placeholder="check" class="bg-light">
+            </div>
+            <div class="d-flex flex-column">
+              <label for="">Logic</label>
+              <input v-model="editable.logic" type="text" placeholder="logic" class="bg-light">
+            </div>
+            <div class="d-flex flex-column">
+              <label for="">Ref</label>
+              <input v-model="editable.ref" type="text" placeholder="ref" class="bg-light">
+            </div>
+          </div>
+          <textarea v-model="editable.description" name="" id="" cols="30" rows="2" placeholder="Descripton"
+            class="d-flex"></textarea>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </section>
     <h1> Milestones </h1>
     <div class="col-4" v-for="milestone in milestones" :key="milestone">
       <div>
@@ -50,31 +75,7 @@
       </div>
     </div>
   </section>
-  <section class="row">
-    <div class="col-4 mx-auto">
-      <h1 v-if="editMode == false"> Create a milestone </h1>
-      <h1 v-else> Edit a milestone </h1>
-      <form @submit.prevent="submitForm()" action="" class="d-flex flex-column form-control">
-        <div>
-          <div class="d-flex flex-column">
-            <label for="">Check</label>
-            <input v-model="editable.check" type="text" placeholder="check" class="bg-light">
-          </div>
-          <div class="d-flex flex-column">
-            <label for="">Logic</label>
-            <input v-model="editable.logic" type="text" placeholder="logic" class="bg-light">
-          </div>
-          <div class="d-flex flex-column">
-            <label for="">Ref</label>
-            <input v-model="editable.ref" type="text" placeholder="ref" class="bg-light">
-          </div>
-        </div>
-        <textarea v-model="editable.description" name="" id="" cols="30" rows="2" placeholder="Descripton"
-          class="d-flex"></textarea>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-  </section>
+
   <section class="row">
     <MilestonesTracker />
   </section>

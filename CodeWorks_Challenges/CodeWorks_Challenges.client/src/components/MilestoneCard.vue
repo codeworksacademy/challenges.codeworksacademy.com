@@ -139,23 +139,3 @@ export default {
 
 
 <style lang="scss" scoped></style>
-
-
-<!-- {
-  "id": "65450a1a87fcfa1de891ea8e",
-  "accountId": "6520b10e234aa5b3827dcaa5",
-  "milestoneId": "654457fedf1ee2374ca87930",
-  "claimed": true,
-  "tier": 1,
-  "milestone": {
-      "_id": "654457fedf1ee2374ca87930",
-      "description": "Created Challenge Milestones",
-      "check": "createdChallenge",
-      "logic": "6-$gte%1-2-3-4-5-10",
-      "ref": "Challenges",
-      "createdAt": "2023-11-03T02:16:30.401Z",
-      "updatedAt": "2023-11-09T21:30:00.858Z",
-      "__v": 0,
-      "id": "654457fedf1ee2374ca87930"
-  }
-} -->
