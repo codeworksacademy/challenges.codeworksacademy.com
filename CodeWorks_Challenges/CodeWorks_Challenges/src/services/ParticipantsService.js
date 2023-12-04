@@ -31,7 +31,7 @@ class ParticipantsService {
 		if (challenge.status != 'published') {
 			throw new BadRequest(`[CHALLENGE_STATUS::${challenge.status}] This challenge cannot be joined at this time.`)
 		}
-		// TODO - 🛑 Copy challenge requirements to participant - Note from Jake
+		// REVIEW - 🟡 Copy challenge requirements to participant - Note from Jake
 		newParticipant.requirements = challenge.requirements.map(r => {return {
 			description: r,
 		}})
@@ -86,7 +86,6 @@ class ParticipantsService {
 	}
 
 	async acknowledgeReward(id, accountId) {
-		// TODO write this
 		const participant = await dbContext.ChallengeParticipants.findOne({ _id: id, accountId })
 		if (!participant || participant.status != 'completed' || participant.claimedAt) {
 			throw new BadRequest('Unable to claim badge')

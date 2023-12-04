@@ -14,7 +14,6 @@ export const AccountSchema = new Schema(
     totalExperience: { type: Number, default: 0 },
     reputation: { type: Number, default: 0 },
     rank: { type: Number, default: 0 },
-    experience: { type: Number, default: 0 }
   },
   { timestamps: true, toJSON: { virtuals: true } }
 )

@@ -20,9 +20,13 @@ export class ChallengesController extends BaseController {
       .post('', this.createChallenge)
       .put('/:challengeId', this.editChallenge)
       .put('/:challengeId/reputation', this.giveReputation)
+      
+      //FIXME 🛑 Why do two endpoints call the same function? This doesn't serve much purpose
       .post('/:challengeId/answers', this.submitAnswer)
-      // .put('/:challengeId', this.deprecateChallenge)
+      //   vvv this endpoint doesnt make sense for what is trying to be accomplished
       .put('/:challengeId/participants/:participantId', this.submitAnswer)
+
+      // .put('/:challengeId', this.deprecateChallenge)
       .put('/:challengeId/grade/:participantId', this.gradeSubmittedChallenge)
       .delete('/:challengeId', this.deleteChallenge)
       .delete('/:challengeId/participants', this.removeParticipant)
@@ -44,13 +48,15 @@ export class ChallengesController extends BaseController {
     }
   }
 
+  // REVIEW 🟡 This process for submitting a challenge is likely being over complicated or incorrectly handled. When I submit a challenge for grading simply change the status of my participation to NEEDS_GRADED.... 
   async submitAnswer(req, res, next) {
     try {
       const challengeId = req.params.challengeId
       const userId = req.userInfo.id
       const answer = req.body
       const result = await challengesService.submitAnswer(challengeId, userId, answer)
-      return res.send(result) //FIXME - Working on this
+      return res.send(result) // FIXME - Working on this 
+      // REVIEW 🟡 I have no idea what you are working on here... 
     } catch (e) {
       next(e)
     }
@@ -115,7 +121,7 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  // FIXME important to remember delete requests do not include a body
+  // FIXME 🟡 Only the challenge creator can use this method. Change the status of the participant to REMOVED or simply delete the participant
   async removeParticipant(req, res, next) {
     try {
       // const challengeId = req.params.challengeId

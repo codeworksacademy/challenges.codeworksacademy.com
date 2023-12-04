@@ -23,8 +23,7 @@ class ChallengesService {
   async getChallengeById(challengeId) {
     const challenge = await dbContext.Challenges.findById(challengeId)
       .populate('creator', PROFILE_FIELDS)
-      .select('-answers')  //FIXME - This gets the challenge without the answer attached, uncommenting when done
-      .select('-answer')
+      .select('-answers')  // FIXME - This gets the challenge without the answer attached, uncommenting when done
     if (!challenge) {
       throw new BadRequest('Invalid Challenge ID.')
     }
@@ -132,11 +131,10 @@ class ChallengesService {
   // SUGGESTIONS: 
   //   - simplify to a single answer 
   //   - or validate all answers all correct order
-  //NOTE - Keeping This -Chantha
+  // NOTE - Keeping This -Chantha
   async submitAnswer(challengeId, userId, answer) {
-    // const challenge = await this.getChallengeById(challengeId)
     const challenge = await dbContext.Challenges.findById(challengeId)
-      .populate('creator', PROFILE_FIELDS)
+
     if (challenge.answer === answer.answerData) {
       // return 'You are correct!'
       return {

@@ -82,7 +82,7 @@ import { participantsService } from '../services/ParticipantsService'
                 ],
               }
               await participantsService.joinChallenge(newParticipant)
-              Pop.success(`You have successfully joined ${challenge.name}`)
+              Pop.success(`You have successfully joined ${AppState.activeChallenge.name}`)
             }
           } catch (error) {
             logger.error(error)

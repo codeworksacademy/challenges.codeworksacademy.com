@@ -255,7 +255,6 @@ import Pop from "../utils/Pop.js";
 import { challengesService } from "../services/ChallengesService.js";
 import { logger } from "../utils/Logger.js";
 import ChallengeCard from '../components/ChallengeCard.vue'
-import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js";
 import AccountModerator from "../components/AccountModerator.vue";
 import { accountService } from "../services/AccountService.js";
 import { useRoute } from 'vue-router';
