@@ -42,10 +42,13 @@
     </div>
     <div class="col-6">
       <p>
-        Next Tier: {{ milestoneCondition.nextTierThreshold }} total for tier {{ milestoneCondition.nextTier }}
+        Next Tier:
       </p>
       <p>
-        {{ milestoneCondition.toNextLevel }} to next level:
+        Tier {{ milestoneCondition.nextTier }} - {{ milestoneCondition.nextTierThreshold }} total
+      </p>
+      <p>
+        {{ milestoneCondition.toNextLevel }} till next level
       </p>
     </div>
 
