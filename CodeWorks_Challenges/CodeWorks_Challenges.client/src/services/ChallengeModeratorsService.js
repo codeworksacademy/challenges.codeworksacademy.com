@@ -10,6 +10,12 @@ class ChallengeModeratorsService {
     AppState.moderators.push(new ChallengeModerator(res.data))
   }
 
+  async createOwnedChallengeModeration(moderatorData) {
+    const res = await api.post('api/moderators/account', moderatorData)
+    logger.log('[New moderation]:', res.data)
+    AppState.moderators.push(new ChallengeModerator(res.data))
+  }
+
   async getMyModerationsByUserId(userId) {
     const res = await api.get(`api/moderators/${userId}/profiles`)
     logger.log('[MODERATIONS BY USERID]', res.data)

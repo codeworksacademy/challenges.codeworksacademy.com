@@ -91,8 +91,16 @@ export default {
     return {
       account: computed(() => AppState.account),
       myChallenges: computed(() => AppState.myChallenges),
-      myModerations: computed(() => AppState.myModerations),
-      moderators: computed(() => AppState.moderators),
+      myModerations: computed(() => {
+        let moderators = AppState.myModerations
+        let filterModerators = moderators.filter((m) => m.challenge.creatorId != AppState.account.id)
+        return filterModerators
+      }),
+      moderators: computed(() => {
+        let moderators = AppState.moderators
+        let filterModerators = moderators.filter((m) => m.accountId != AppState.account.id)
+        return filterModerators
+      }),
 
     };
   },
