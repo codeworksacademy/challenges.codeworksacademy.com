@@ -10,7 +10,7 @@ function log(type, content) {
       case 'assert':
         return
     }
-    // TODO SEND LOGS TO EXTERNAL SERVICE
+    // Wont Implment at this time SEND LOGS TO EXTERNAL SERVICE
     // eslint-disable-next-line no-console
     console[type](`[${type}] :: ${new Date().toLocaleTimeString()} :: `, ...content)
   }

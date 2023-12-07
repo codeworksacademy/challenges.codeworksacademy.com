@@ -31,7 +31,7 @@ class ParticipantsService {
 		if (challenge.status != 'published') {
 			throw new BadRequest(`[CHALLENGE_STATUS::${challenge.status}] This challenge cannot be joined at this time.`)
 		}
-		// REVIEW - 🟡 Copy challenge requirements to participant - Note from Jake
+		
 		newParticipant.requirements = challenge.requirements.map(r => {
 			return {
 				description: r,
@@ -96,10 +96,6 @@ class ParticipantsService {
 			throw new BadRequest('Invalid participant ID.')
 		}
 		return participant
-	}
-
-	async gradeChallenge(submission, graderAccountId) {
-		// TODO write this, ensure grader is creator or moderator
 	}
 
 	async acknowledgeReward(id, accountId) {

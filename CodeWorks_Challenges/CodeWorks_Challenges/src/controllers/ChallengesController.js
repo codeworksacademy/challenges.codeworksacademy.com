@@ -21,19 +21,20 @@ export class ChallengesController extends BaseController {
       .put('/:challengeId', this.editChallenge)
       .put('/:challengeId/reputation', this.giveReputation)
       
+      // TODO [🚧 Chantha]
       //FIXME 🛑 Why do two endpoints call the same function? This doesn't serve much purpose
       .post('/:challengeId/answers', this.submitAnswer)
       //   vvv this endpoint doesnt make sense for what is trying to be accomplished
       .put('/:challengeId/participants/:participantId', this.submitAnswer)
-
-      // .put('/:challengeId', this.deprecateChallenge)
       .put('/:challengeId/grade/:participantId', this.gradeSubmittedChallenge)
+
+
       .delete('/:challengeId', this.deleteChallenge)
       .delete('/:challengeId/participants', this.removeParticipant)
-
-    // .get('/:challengeId/submissions', this.getSubmissionsByChallengeId)
   }
 
+
+  // NOTE this is the method used only by moderators
   async gradeSubmittedChallenge(req, res, next) {
     try {
       const challengeId = req.params.challengeId
@@ -48,15 +49,14 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  // REVIEW 🟡 This process for submitting a challenge is likely being over complicated or incorrectly handled. When I submit a challenge for grading simply change the status of my participation to NEEDS_GRADED.... 
+  // NOTE this is the method the student uses
   async submitAnswer(req, res, next) {
     try {
       const challengeId = req.params.challengeId
       const userId = req.userInfo.id
       const answer = req.body
       const result = await challengesService.submitAnswer(challengeId, userId, answer)
-      return res.send(result) // FIXME - Working on this 
-      // REVIEW 🟡 I have no idea what you are working on here... 
+      return res.send(result) 
     } catch (e) {
       next(e)
     }
@@ -121,16 +121,13 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  // FIXME 🟡 Only the challenge creator can use this method. Change the status of the participant to REMOVED or simply delete the participant
   async removeParticipant(req, res, next) {
     try {
-      // const challengeId = req.params.challengeId
+      const challengeId = req.params.challengeId
+      const newParticipant = req.body
+      const userId = req.userInfo.id
 
-      // const newParticipant = req.body
-
-      // const userId = req.userInfo.id
-
-      // await participantsService.removeParticipant(challengeId, userId, newParticipant)
+      await participantsService.removeParticipant(challengeId, userId, newParticipant)
     } catch (error) {
       next(error)
     }

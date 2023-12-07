@@ -6,14 +6,14 @@ import { logger } from './Logger.js';
 
 // REVIEWED - JAKE - This is the switch statement util I was talking about today in the meeting and how it is taking the difficulty with type Number from the backend and parses it into a string...but were you saying this logic should be handled in the backend somehow with our cases of parsing rewards? I'm curious how that would be handled - and if this should also be back-end logic? - AJ
 
-// REVIEW 🟡 Unless you need this text outside of the DOM this actually makes more sense to simply be a reusable component. I would only abstract this into a function like this if I was adding functionality that could be called from various places. 
+// FIXME [❌ AJ] Bad Practice if only getting html - 🟡 Unless you need this text outside of the DOM this actually makes more sense to simply be a reusable component. I would only abstract this into a function like this if I was adding functionality that could be called from various places. 
 
 export const StrDifficultyNum = (difficulty) => {
   switch (difficulty) {
     case 1:
       return {
         html:
-        `
+          `
           <span class="text-light">Difficulty: <span class="text-success">Easy</span></span>
         `,
         text: 'Easy',
@@ -21,7 +21,7 @@ export const StrDifficultyNum = (difficulty) => {
     case 2:
       return {
         html:
-        `
+          `
           <span class="text-light">Difficulty: <span class="text-warning">Medium</span></span>
         `,
         text: 'Medium',
@@ -29,7 +29,7 @@ export const StrDifficultyNum = (difficulty) => {
     case 3:
       return {
         html:
-        `
+          `
           <span class="text-light">Difficulty: <span class="text-danger position-relative" style="top: .05rem; font-size: .95rem;">Hard</span></span>
         `,
         text: 'Hard',
@@ -37,7 +37,7 @@ export const StrDifficultyNum = (difficulty) => {
     case 4:
       return {
         html:
-        `
+          `
           <span class="text-light">Difficulty: <span class="text-danger position-relative" style="top: .05rem; font-size: .95rem;">Very Hard</span></span>
         `,
         text: 'Very Hard',
@@ -45,15 +45,15 @@ export const StrDifficultyNum = (difficulty) => {
     case 5:
       return {
         html:
-        `
+          `
           <span class="text-light">Difficulty: <span class="text-danger position-relative" style="top: .05rem; font-size: .95rem;">Expert</span></span>
         `,
         text: 'Expert',
       };
     default:
       return {
-        html: 
-        `
+        html:
+          `
           <span class="text-secondary" style="font-style: italic;">Difficulty: N/A</span>
         `,
         text: 'Not Specified',

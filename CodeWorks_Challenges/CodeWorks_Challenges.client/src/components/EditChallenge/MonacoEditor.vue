@@ -34,8 +34,8 @@
   
   <script>
   import { onMounted, ref, watchEffect } from 'vue';
-  import { monaco } from '../utils/Monaco.js'
-  import { saveState, loadState } from '../utils/Store.js'
+  import { monaco } from '../../utils/Monaco.js'
+  import { saveState, loadState } from '../../utils/Store.js'
   
   export default {
     props: {
