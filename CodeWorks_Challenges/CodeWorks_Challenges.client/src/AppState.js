@@ -48,9 +48,9 @@ export const AppState = reactive({
 
   milestoneChecks: [
     "createdChallenge", "joinedChallenge", "completedChallenge", "moderateChallenge"
-    // , "submissionsChallenge"
-    // , "passingSubmissionsChallenge"
-    // , "gradeModerators"
+    , "submissionsChallenge"
+    , "passingSubmissionsChallenge"
+    // , "gradeModerators" This is to be called when a grading is performed
     , "submittedParticipant"
     , "passingParticipant"
     , "allMilestones"

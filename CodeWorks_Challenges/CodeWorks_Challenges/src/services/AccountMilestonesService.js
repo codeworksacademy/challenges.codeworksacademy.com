@@ -93,16 +93,15 @@ class AccountMilestonesService {
       createdChallenge: { creatorId: userId },
       joinedChallenge: { accountId: userId },
       moderateChallenge: { $and: [{ accountId: userId }, { status: 'Active' }] },
-      //Need All of the ChallengeParticipants that match challenges created by the user
-      // submissionsChallenge:{ $and: [{ challenge.creatorId: userId }, { status: 'submitted' }] },
-      // passingSubmissionsChallenge:{  $and: [{ challenge.creatorId: userId }, { status: 'completed' }] }, 
+      submissionsChallenge: { status: 'submitted' || 'completed' },
+      passingSubmissionsChallenge: { status: 'completed' },
       // gradeModerators:{}, // ChallengeParticipant does not hold a graderId
       submittedParticipant: { $and: [{ accountId: userId }, { status: 'submitted' || 'completed' }] },
       passingParticipant: { $and: [{ accountId: userId }, { status: 'completed' }] },
       allMilestones: { $sum: '$tier' }
     };
 
-    let milestoneCheckCount = await getCountByOperation();
+    const milestoneCheckCount = await getCountByOperation();
 
     let tierToAssign = 0;
 
@@ -126,9 +125,10 @@ class AccountMilestonesService {
     return foundAccountMilestone
 
     async function getCountByOperation() {
+      let count = 0
 
       if (operation == "$gte") {
-        milestoneCheckCount = await dbContext[milestone.ref].find(filterKey[milestone.check]).count();
+        count = await dbContext[milestone.ref].find(filterKey[milestone.check]).count();
       }
 
       if (operation == "$sum") {
@@ -142,12 +142,23 @@ class AccountMilestonesService {
           }
         ]);
 
-        milestoneCheckCount = aggregateSum[0].sumsValue;
+        count = aggregateSum[0].sumsValue;
       }
 
-      if (operation == "$gteChallenge") { }
-      if (operation == "$increment") { }
-      return milestoneCheckCount;
+      if (operation == "$gteChallenge") {
+        const accountChallenges = await challengesService.getChallengesCreatedBy(userId, userId)
+
+        const challengeParticipantsValue = await dbContext[milestone.ref].find({ $and: [{ challengeId: { $in: accountChallenges } }, filterKey[milestone.check]] }).count()
+
+        count = challengeParticipantsValue
+      }
+
+      if (operation == "$increment") {
+        let tempValue = foundAccountMilestone.count;
+        tempValue++
+        count = tempValue
+      }
+      return count;
     }
   }
 
