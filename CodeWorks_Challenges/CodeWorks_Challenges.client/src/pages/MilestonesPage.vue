@@ -77,6 +77,9 @@
             <select class="text-dark" v-model="editable.operation" required>
               <option disabled value="">Please select one</option>
               <option>$gte</option>
+              <option>$sum</option>
+              <option>$increment</option>
+              <option>$gteChallenge</option>
             </select>
           </div>
           <div v-if="editable.maxTiers">

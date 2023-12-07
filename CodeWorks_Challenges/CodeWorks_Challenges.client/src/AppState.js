@@ -48,7 +48,12 @@ export const AppState = reactive({
 
   milestoneChecks: [
     "createdChallenge", "joinedChallenge", "completedChallenge", "moderateChallenge"
-    // ,"submissionsChallenge", "passingSubmissionsChallenge", "gradeModerators", "submittedParticipant", "passingParticipant", "allMilestones"
+    // , "submissionsChallenge"
+    // , "passingSubmissionsChallenge"
+    // , "gradeModerators"
+    , "submittedParticipant"
+    , "passingParticipant"
+    , "allMilestones"
   ],
   rankTitles: {
     0: "n00b",
