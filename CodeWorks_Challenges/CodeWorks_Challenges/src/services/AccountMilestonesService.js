@@ -93,10 +93,10 @@ class AccountMilestonesService {
       createdChallenge: { creatorId: userId },
       joinedChallenge: { accountId: userId },
       moderateChallenge: { $and: [{ accountId: userId }, { status: 'Active' }] },
-      submissionsChallenge: { status: 'submitted' || 'completed' },
+      submissionsChallenge: { status: { $in: ['submitted', 'completed'] } },
       passingSubmissionsChallenge: { status: 'completed' },
       // gradeModerators:{}, // ChallengeParticipant does not hold a graderId
-      submittedParticipant: { $and: [{ accountId: userId }, { status: 'submitted' || 'completed' }] },
+      submittedParticipant: { $and: [{ accountId: userId }, { status: { $in: ['submitted', 'completed'] } }] },
       passingParticipant: { $and: [{ accountId: userId }, { status: 'completed' }] },
       allMilestones: { $sum: '$tier' }
     };
@@ -148,7 +148,12 @@ class AccountMilestonesService {
       if (operation == "$gteChallenge") {
         const accountChallenges = await challengesService.getChallengesCreatedBy(userId, userId)
 
-        const challengeParticipantsValue = await dbContext[milestone.ref].find({ $and: [{ challengeId: { $in: accountChallenges } }, filterKey[milestone.check]] }).count()
+        const challengeParticipantsValue = await dbContext[milestone.ref].find({
+          $and: [
+            { challengeId: { $in: accountChallenges } },
+            filterKey[milestone.check]
+          ]
+        }).count();
 
         count = challengeParticipantsValue
       }
