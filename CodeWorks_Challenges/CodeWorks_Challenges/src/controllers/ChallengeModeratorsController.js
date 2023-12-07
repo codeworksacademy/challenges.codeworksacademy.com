@@ -8,6 +8,7 @@ export class ChallengeModeratorsController extends BaseController {
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createModeration)
+      .post('/account', this.createOwnedChallengeModeration)
       .get('/:userId/profiles', this.getMyModerationsByProfileId)
       .get('/challenges/:userId', this.getModerationsByChallengeCreatorId)
       .put('/:moderatorId', this.ApproveModeration)
@@ -18,6 +19,18 @@ export class ChallengeModeratorsController extends BaseController {
   async createModeration(req, res, next) {
     try {
       const moderatorData = req.body
+      moderatorData.originId = req.userInfo.id
+      const moderation = await challengeModeratorsService.createModeration(moderatorData)
+      return res.send(moderation)
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async createOwnedChallengeModeration(req, res, next) {
+    try {
+      const moderatorData = req.body
+      moderatorData.status = "active"
       moderatorData.originId = req.userInfo.id
       const moderation = await challengeModeratorsService.createModeration(moderatorData)
       return res.send(moderation)

@@ -44,17 +44,16 @@ export const AppState = reactive({
 
   /** @type {import('./models/AccountMilestone.js').Milestone[]} */
   myMilestone: [],
+  milestones: [],
 
-  milestones: [
-    {
-      description: "Test Description",
-      check: "Test check",
-      logic: "Test logic",
-      ref: "Test ref"
-    }
-  ],
   milestoneChecks: [
     "createdChallenge", "joinedChallenge", "completedChallenge", "moderateChallenge"
+    , "submissionsChallenge"
+    , "passingSubmissionsChallenge"
+    // , "gradeModerators" This is to be called when a grading is performed
+    , "submittedParticipant"
+    , "passingParticipant"
+    , "allMilestones"
   ],
   rankTitles: {
     0: "n00b",

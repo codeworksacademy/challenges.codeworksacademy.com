@@ -19,6 +19,10 @@ export const AccountMilestoneSchema = new Schema({
   tier: {
     type: Number,
     default: 0
+  },
+  count: {
+    type: Number,
+    default: 0
   }
 },
   { timestamps: true, toJSON: { virtuals: true } }

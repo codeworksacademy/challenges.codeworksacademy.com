@@ -20,7 +20,7 @@ class ParticipantsService {
 	async getChallengeRewards(accountId) {
 		const rewards = await dbContext.ChallengeParticipants.find({ accountId, status: 'completed' })
 			.populate('challenge', 'name badgeImg')
-			// .select('-submission')
+		// .select('-submission')
 		return rewards
 	}
 
@@ -32,9 +32,11 @@ class ParticipantsService {
 			throw new BadRequest(`[CHALLENGE_STATUS::${challenge.status}] This challenge cannot be joined at this time.`)
 		}
 		// REVIEW - 🟡 Copy challenge requirements to participant - Note from Jake
-		newParticipant.requirements = challenge.requirements.map(r => {return {
-			description: r,
-		}})
+		newParticipant.requirements = challenge.requirements.map(r => {
+			return {
+				description: r,
+			}
+		})
 		const participant = await dbContext.ChallengeParticipants.create(newParticipant)
 
 		return participant
@@ -54,7 +56,7 @@ class ParticipantsService {
 				path: 'challenge',
 				populate: { path: 'creator requirements participantCount' }
 			}).populate('profile', PROFILE_FIELDS)
-			// .select('-submission')
+		// .select('-submission')
 		return participants
 	}
 
@@ -66,15 +68,30 @@ class ParticipantsService {
 		return participants
 	}
 
+	async getParticipantsByChallengeCreatorId(userId) {
+
+		const challenges = await dbContext.Challenges.find({ creatorId: userId });
+
+		// Then, get the moderators for these challenges.
+		const moderators = await dbContext.ChallengeModerators.find({ challengeId: { $in: challenges } })
+			.populate({
+				path: 'challenge',
+				populate: { path: 'creator participantCount' }
+			})
+			.populate('profile', 'name picture');
+
+		return moderators;
+	}
+
 	async updateChallengeParticipant(participantId, userId, newSubmission) {
 		const update = sanitizeBody(newSubmission)
 		// TODO [🚧 Kyle] moderator check
 		const participant = await dbContext.ChallengeParticipants.findOneAndUpdate
-		(
-			{ _id: participantId },
-			{ $set: update },
-			{ runValidators: true, setDefaultsOnInsert: true, new: true }
-		)
+			(
+				{ _id: participantId },
+				{ $set: update },
+				{ runValidators: true, setDefaultsOnInsert: true, new: true }
+			)
 		if (!participant) {
 			throw new BadRequest('Invalid participant ID.')
 		}

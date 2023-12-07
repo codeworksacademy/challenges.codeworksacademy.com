@@ -5,6 +5,7 @@ import { challengesService } from "./ChallengesService.js";
 import { challengeModeratorsService } from "./ChallengeModeratorsService.js";
 import { participantsService } from "./ParticipantsService.js";
 import { profileService } from "./ProfileService.js";
+import mongoose from "mongoose";
 
 
 class AccountMilestonesService {
@@ -78,6 +79,7 @@ class AccountMilestonesService {
     const operationsArr = logicParts[0].split('-');
     const tierThresholdArr = logicParts[1].split('-');
     const maxTierLevel = operationsArr[0]
+    const operation = operationsArr[1]
     // This string parser will return 
     // operationsArr = ['6', '$gte']
     // maxTierLevel = 6
@@ -90,10 +92,16 @@ class AccountMilestonesService {
     const filterKey = {
       createdChallenge: { creatorId: userId },
       joinedChallenge: { accountId: userId },
-      moderateChallenge: { $and: [{ accountId: userId }, { status: 'Active' }] }
+      moderateChallenge: { $and: [{ accountId: userId }, { status: 'Active' }] },
+      submissionsChallenge: { status: 'submitted' || 'completed' },
+      passingSubmissionsChallenge: { status: 'completed' },
+      // gradeModerators:{}, // ChallengeParticipant does not hold a graderId
+      submittedParticipant: { $and: [{ accountId: userId }, { status: 'submitted' || 'completed' }] },
+      passingParticipant: { $and: [{ accountId: userId }, { status: 'completed' }] },
+      allMilestones: { $sum: '$tier' }
     };
 
-    const milestoneCheckCount = await dbContext[milestone.ref].find(filterKey[milestone.check]).count();
+    const milestoneCheckCount = await getCountByOperation();
 
     let tierToAssign = 0;
 
@@ -103,12 +111,55 @@ class AccountMilestonesService {
       }
     }
 
-    if (tierToAssign > foundAccountMilestone.tier) {
-      foundAccountMilestone.claimed = false
-      foundAccountMilestone.tier = tierToAssign
+    if (milestoneCheckCount > foundAccountMilestone.count) {
+      foundAccountMilestone.count = milestoneCheckCount
+
+      if (tierToAssign > foundAccountMilestone.tier) {
+        foundAccountMilestone.claimed = false
+        foundAccountMilestone.tier = tierToAssign
+        foundAccountMilestone.count = milestoneCheckCount
+      }
+
       await foundAccountMilestone.save()
     }
     return foundAccountMilestone
+
+    async function getCountByOperation() {
+      let count = 0
+
+      if (operation == "$gte") {
+        count = await dbContext[milestone.ref].find(filterKey[milestone.check]).count();
+      }
+
+      if (operation == "$sum") {
+        const userIdObject = new mongoose.Types.ObjectId(userId);
+        const aggregateSum = await dbContext[milestone.ref].aggregate([
+          {
+            $match: { accountId: userIdObject }
+          },
+          {
+            $group: { _id: null, 'sumsValue': filterKey[milestone.check] }
+          }
+        ]);
+
+        count = aggregateSum[0].sumsValue;
+      }
+
+      if (operation == "$gteChallenge") {
+        const accountChallenges = await challengesService.getChallengesCreatedBy(userId, userId)
+
+        const challengeParticipantsValue = await dbContext[milestone.ref].find({ $and: [{ challengeId: { $in: accountChallenges } }, filterKey[milestone.check]] }).count()
+
+        count = challengeParticipantsValue
+      }
+
+      if (operation == "$increment") {
+        let tempValue = foundAccountMilestone.count;
+        tempValue++
+        count = tempValue
+      }
+      return count;
+    }
   }
 
   async getTotalMilestoneExperience(user) {

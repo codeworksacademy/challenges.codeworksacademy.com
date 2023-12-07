@@ -33,15 +33,16 @@
         <router-link class="col-3" :to="{ name: 'Profile', params: { profileId: account.id } }">
           My Account
         </router-link>
-        <router-link class="col-3" :to="{ name: 'Account', params: { accountId: account.id } }"> <!--TODO [FEATURE RICH] - Implement route to a new page that holds logistics for app member services -->
+        <router-link class="col-3" :to="{ name: 'Account', params: { accountId: account.id } }">
+          <!--TODO [FEATURE RICH] - Implement route to a new page that holds logistics for app member services -->
           Billing and Plans
         </router-link>
-        <router-link class="col-3" :to="{ name: 'Account', params: { accountId: account.id } }"> <!--TODO [FEATURE RICH] - Implement route to a new page that holds logistics for creating team collaborations -->
+        <router-link class="col-3" :to="{ name: 'Account', params: { accountId: account.id } }">
+          <!--TODO [FEATURE RICH] - Implement route to a new page that holds logistics for creating team collaborations -->
           Create Team
         </router-link>
         <div class="col-3 d-flex flex-end">
-          <a type="button" title="Edit Account" class="" data-bs-toggle="modal"
-            data-bs-target="#accountFormModal">
+          <a type="button" title="Edit Account" class="" data-bs-toggle="modal" data-bs-target="#accountFormModal">
             Account Settings
           </a>
         </div>
@@ -60,12 +61,13 @@
 
     </section>
     <section class="row ps-3">
-      <div class="col-9 bg-image d-flex justify-content-center align-items-center" :style="`background-image: url(${account.coverImg}); opacity: .9; background-repeat: no-repeat; background-size: cover;`">
+      <div class="col-9 bg-image d-flex justify-content-center align-items-center"
+        :style="`background-image: url(${account.coverImg}); opacity: .9; background-repeat: no-repeat; background-size: cover;`">
 
         <div class="col-6">
           <div id="bugs-bunny" class="alt-badge bunny-pink">
             <div class="text-center">
-            <div class="circle pt-1"> <i class="mdi mdi-rabbit"></i></div>
+              <div class="circle pt-1"> <i class="mdi mdi-rabbit"></i></div>
               <div class="double-ribbon-top lvl1-ribbon">Bugs</div>
               <div class="double-ribbon-bottom lvl1-ribbon">Bunny</div>
             </div>
@@ -88,22 +90,22 @@
 
     <section class="row px-5 pt-5 ms-3">
       <div class="col-5 card bg-dark d-flex justify-content-center align-items-center p-3 m-3">
-          <div class="">
-            <i class="mdi mdi-flag text-primary fs-3"></i>
-          </div>
-          <div class="">
-            <i class="mdi mdi-source-commit-local fs-3"></i>
-          </div>
-          <p class="col-12 text-center text-uppercase">System Owns</p>
+        <div class="">
+          <i class="mdi mdi-flag text-primary fs-3"></i>
+        </div>
+        <div class="">
+          <i class="mdi mdi-source-commit-local fs-3"></i>
+        </div>
+        <p class="col-12 text-center text-uppercase">System Owns</p>
       </div>
       <div class="col-5 card bg-dark d-flex justify-content-center align-items-center p-3 m-3">
-          <div class="">
-            <i class="mdi mdi-emoticon text-info fs-3"></i>
-          </div>
-          <div class="">
-            <i class="mdi mdi-source-commit-local fs-3"></i>
-          </div>
-          <p class="col-12 text-center text-uppercase">Respect</p>
+        <div class="">
+          <i class="mdi mdi-emoticon text-info fs-3"></i>
+        </div>
+        <div class="">
+          <i class="mdi mdi-source-commit-local fs-3"></i>
+        </div>
+        <p class="col-12 text-center text-uppercase">Respect</p>
       </div>
     </section>
 
@@ -117,7 +119,7 @@
       <div class="p-0">
         <img class="coverImg-style" :src="account.coverImg" alt="Cover Image">
       </div>
-      
+
       <div class="d-flex col-md-10 col-12">
         <img :src="account.picture" :alt="account.name" class="avatar-md mx-4 avatar-style">
         <div class="d-flex flex-column">
@@ -204,13 +206,13 @@
     </section>
 
     <section class="row my-2">
-      <div>
+      <MilestonesTracker />
+      <!-- <div>
         <a class="btn btn-primary" data-bs-toggle="collapse" href="#milestonesTracker" role="button" aria-expanded="false"
           aria-controls="milestonesTrackerToggle">Toggle Milestones Tracker</a>
       </div>
       <div class="collapse" id="milestonesTracker">
-        <MilestonesTracker />
-      </div>
+      </div> -->
     </section>
   </div>
 
@@ -272,7 +274,7 @@ export default {
 
     async function getProfile() {
       try {
-        await profilesService.getProfile(route.params.id)
+        await profilesService.getProfile(AppState.account.id) // changed this from a route param because it didn't exist to appstat.account.id
         logger.log(AppState.activeProfile)
       } catch (error) {
         Pop.toast(error, 'error')
@@ -288,6 +290,10 @@ export default {
     })
     return {
       profile: computed(() => AppState.profiles.find(p => p.id === AppState.activeProfile?.id)),
+      account: computed(() => AppState.account),
+      myChallenges: computed(() => AppState.myChallenges),
+      joinedChallenges: computed(() => AppState.myParticipants),
+      completedChallenges: computed(() => []),
       currentRank: computed(() => {
         let lastKey = 0
 
@@ -343,10 +349,7 @@ export default {
         return AppState.rankTitles[nextKey]
       }),
 
-      account: computed(() => AppState.account),
-      myChallenges: computed(() => AppState.myChallenges),
-      joinedChallenges: computed(() => AppState.myParticipants),
-      completedChallenges: computed(() => []),
+
     };
   },
   components: { AccountForm, ChallengeCard, AccountModerator }
@@ -354,20 +357,22 @@ export default {
 </script>
 
 <style scoped>
-
 .container-fluid {
   background-color: #161d2b;
 }
 
 a {
   color: #9f9f9f;
+
   &:active {
     color: #f0f0f0;
   }
 }
+
 .bg-image {
   border-radius: .5rem;
   position: relative;
+
   &::before {
     content: '';
     background: linear-gradient(90deg, #00000090 0%, transparent 150%);
@@ -384,11 +389,13 @@ a {
     box-shadow: var(--shadow-magenta);
   }
 }
+
 .card {
   background-color: #161d2b;
   border-radius: .5rem;
 }
-.rank-card-style{
+
+.rank-card-style {
   height: fit-content;
 }
 

@@ -3,7 +3,7 @@
     <form @submit.prevent="createChallenge" id="createChallengeForm">
       <div class="form-group">
         <label for="name">Challenge Name</label>
-        <input type="text" class="form-control" id="name" v-model="editable.name" required> 
+        <input type="text" class="form-control" id="name" v-model="editable.name" required>
       </div>
       <div class="form-group">
         <label for="description">Challenge Description</label>
@@ -11,14 +11,14 @@
       </div>
       <label for="category">Category</label>
       <select class="form-group form-select mb-3" aria-label="Category Selection" v-model="editable.category">
-            <option selected>Select Category</option>
-            <option value="full stack">Full-Stack</option>
-            <option value="front end">Frontend</option>
-            <option value="back end">Backend</option>
-            <option value="puzzles">Puzzle</option>
-            <option value="data structures">Data Structures</option>
-            <option value="style and design">Style and Design</option>
-            <option value="other">Other</option>
+        <option selected>Select Category</option>
+        <option value="full stack">Full-Stack</option>
+        <option value="front end">Frontend</option>
+        <option value="back end">Backend</option>
+        <option value="puzzles">Puzzle</option>
+        <option value="data structures">Data Structures</option>
+        <option value="style and design">Style and Design</option>
+        <option value="other">Other</option>
       </select>
       <button type="submit" class="btn btn-primary">Get Started</button>
     </form>
@@ -32,7 +32,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
-import { logger } from "../utils/Logger.js"  
+import { logger } from "../utils/Logger.js"
 import { Challenge } from "../models/Challenge.js"
 import { challengesService } from "../services/ChallengesService.js"
 import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js"
@@ -62,14 +62,15 @@ export default {
         editable.value = { ...editable.value, ...props.challenge }
         await challengesService.createChallenge(newChallenge)
         const moderatorData = {
-            challengeId: AppState.activeChallenge?.id,
-            accountId: AppState.user.id
-          }
-        await challengeModeratorsService.createModeration(moderatorData)
+          challengeId: AppState.activeChallenge?.id,
+          accountId: AppState.user.id
+        }
+        await challengeModeratorsService.createOwnedChallengeModeration(moderatorData)
         Modal.getOrCreateInstance('#createChallengeForm').hide()
         Pop.toast('Challenge Created')
         router.push(
-          { name: 'ChallengeEditor',
+          {
+            name: 'ChallengeEditor',
             params: {
               challengeId: AppState.activeChallenge?.id
             }
@@ -84,13 +85,11 @@ export default {
       createChallenge,
 
       user: computed(() => AppState.user),
-    } 
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
 @import '../assets/scss/_variables.scss';
-
-
 </style>
