@@ -11,8 +11,14 @@ class AccountMilestonesService {
     AppState.myMilestone = res.data.map(m => new AccountMilestone(m))
   }
 
-  async getAccountMilestones(userId) {
+  async getAccountMilestonesByUserId(userId) {
     const res = await api.get(`api/accountMilestones/${userId}`)
+    logger.log('[getAccountMilestones]', res.data)
+    AppState.myMilestone = res.data.map(m => new AccountMilestone(m))
+  }
+
+  async getMyAccountMilestones() {
+    const res = await api.get(`account/accountMilestones`)
     logger.log('[getAccountMilestones]', res.data)
     AppState.myMilestone = res.data.map(m => new AccountMilestone(m))
   }

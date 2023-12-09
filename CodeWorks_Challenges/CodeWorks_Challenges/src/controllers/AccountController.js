@@ -17,6 +17,7 @@ export class AccountController extends BaseController {
       .get('/reputation', this.calculateMyReputation)
       .put('', this.updateAccount)
       .put('/:milestoneId/accountMilestone', this.claimAccountMilestone)
+      .post('/accountMilestone', this.checkMyMilestonesByAccountId)
   }
 
   async getUserAccount(req, res, next) {
@@ -57,6 +58,16 @@ export class AccountController extends BaseController {
       res.send(answers)
     } catch (error) {
       next(error)
+    }
+  }
+  async checkMyMilestonesByAccountId(req, res, next) {
+    try {
+      const userId = req.userInfo.id
+      const checks = req.body
+      const milestones = await accountMilestonesService.checkMilestonesByAccountId(userId, checks)
+      return res.send(milestones)
+    } catch (error) {
+      next(error);
     }
   }
   async claimAccountMilestone(req, res, next) {
