@@ -1,6 +1,5 @@
 import { AppState } from "../AppState.js"
 import { AccountMilestone } from "../models/AccountMilestone.js"
-import { Milestone } from "../models/Milestone.js"
 import { logger } from "../utils/Logger.js"
 import { api } from "./AxiosService.js"
 
