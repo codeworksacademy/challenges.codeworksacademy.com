@@ -207,12 +207,6 @@
 
     <section class="row my-2">
       <MilestonesTracker />
-      <!-- <div>
-        <a class="btn btn-primary" data-bs-toggle="collapse" href="#milestonesTracker" role="button" aria-expanded="false"
-          aria-controls="milestonesTrackerToggle">Toggle Milestones Tracker</a>
-      </div>
-      <div class="collapse" id="milestonesTracker">
-      </div> -->
     </section>
   </div>
 
@@ -250,6 +244,7 @@ import AccountModerator from "../components/AccountModerator.vue";
 import { accountService } from "../services/AccountService.js";
 import { useRoute } from 'vue-router';
 import { profilesService } from "../services/ProfilesService.js";
+import MilestonesTracker from "../components/MilestonesTracker.vue";
 
 export default {
   setup() {
@@ -352,7 +347,7 @@ export default {
 
     };
   },
-  components: { AccountForm, ChallengeCard, AccountModerator }
+  components: { AccountForm, ChallengeCard, AccountModerator, MilestonesTracker }
 }
 </script>
 

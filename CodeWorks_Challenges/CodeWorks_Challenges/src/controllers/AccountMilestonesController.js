@@ -10,7 +10,6 @@ export class AccountMilestonesController extends BaseController {
       // TODO [🚧 Kyle] verify fully functional and correctly secured
       .get('/:userId', this.getAccountMilestones)
       .post('/:userId', this.checkMilestonesByAccountId)
-      .put('/:milestoneId', this.claimMilestone)
   }
 
   async getAccountMilestones(req, res, next) {
@@ -36,14 +35,4 @@ export class AccountMilestonesController extends BaseController {
     }
   }
 
-  // FIXME [Kyle] This should be moved to the account controller
-  async claimMilestone(req, res, next) {
-    try {
-      const milestoneId = req.params.milestoneId
-      const milestone = await accountMilestonesService.claimMilestone(milestoneId)
-      return res.send(milestone)
-    } catch (error) {
-      next(error);
-    }
-  }
 }

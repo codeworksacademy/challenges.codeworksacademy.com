@@ -46,8 +46,11 @@ class AccountMilestonesService {
     }
     return foundAccountMilestone
   }
-  async claimMilestone(milestoneId) { //STUB Kyle - This could probably use a user check
+  async claimAccountMilestone(milestoneId, userId) {
     const claimMilestone = await dbContext.AccountMilestones.findById(milestoneId)
+    if (claimMilestone.accountId != userId) {
+      throw new BadRequest("Something went wrong, You cannot make this change")
+    }
     claimMilestone.claimed = true
     await claimMilestone.save()
     return claimMilestone
