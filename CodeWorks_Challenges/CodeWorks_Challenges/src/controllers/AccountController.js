@@ -16,7 +16,7 @@ export class AccountController extends BaseController {
       .get('/rank', this.calculateAccountRank)
       .get('/reputation', this.calculateMyReputation)
       .put('', this.updateAccount)
-      .put('/:milestoneId', this.claimAccountMilestone)
+      .put('/:milestoneId/accountMilestone', this.claimAccountMilestone)
   }
 
   async getUserAccount(req, res, next) {

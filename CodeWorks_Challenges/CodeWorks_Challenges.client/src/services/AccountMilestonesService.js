@@ -19,7 +19,7 @@ class AccountMilestonesService {
   }
 
   async claimMilestone(accountMilestone) {
-    const res = await api.put(`api/accountMilestones/${accountMilestone.id}`)
+    const res = await api.put(`account/${accountMilestone.id}/accountMilestone`)
     logger.log('[claimMilestone]', res.data)
     const updateMilestone = AppState.myMilestone.find(m => m.id == accountMilestone.id)
     logger.log('[APPSTATE MY MILESTONES]', AppState.myMilestone, '[UPDATE MILESTONE]', updateMilestone)
