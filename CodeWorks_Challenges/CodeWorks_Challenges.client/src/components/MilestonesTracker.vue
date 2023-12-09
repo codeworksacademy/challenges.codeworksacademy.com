@@ -16,19 +16,16 @@
 import { computed, watchEffect } from "vue";
 import { AppState } from "../AppState.js";
 import Pop from "../utils/Pop.js";
-import { milestonesService } from "../services/MilestonesService.js";
 import { accountMilestonesService } from "../services/AccountMilestonesService.js";
-import { logger } from "../utils/Logger.js";
 import MilestoneCard from "./MilestoneCard.vue";
 
 
 export default {
   setup() {
-    async function checkMilestonesByAccountId() {
+    async function checkMyMilestones() {
       try {
-        const userId = AppState.account.id;
         const checks = AppState.milestoneChecks;
-        await accountMilestonesService.checkMilestonesByAccountId(userId, checks);
+        await accountMilestonesService.checkMyMilestones(checks);
       }
       catch (error) {
         Pop.error(error);
@@ -45,7 +42,7 @@ export default {
     }
     watchEffect(() => {
       if (AppState.account.id) {
-        checkMilestonesByAccountId();
+        checkMyMilestones();
         // getAccountMilestones()
       }
     });
