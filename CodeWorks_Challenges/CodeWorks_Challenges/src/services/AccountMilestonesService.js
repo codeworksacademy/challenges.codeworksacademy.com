@@ -1,46 +1,29 @@
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest } from "../utils/Errors.js";
 import { challengesService } from "./ChallengesService.js";
+import { cacheService } from "./CacheService.js"
 import mongoose from "mongoose";
 
-const accountMilestoneCache = {};
+
 
 class AccountMilestonesService {
-  getAccountMilestoneCache(userId) {
-    return accountMilestoneCache[userId]
-  }
-  setAccountMilestoneCache(userId, accountMilestoneData, timeout) {
-    // const expiresAt = timeout ? Date.now() + timeout : null
-    const expiresAt = 1.08e+7 // 3 hours
-    accountMilestoneCache[userId] = { accountMilestoneData, expiresAt }
-  }
-  expiredAccountMilestoneCache(expiresAt) {
-    return expiresAt && expiresAt < Date.now()
-  }
-  timeTillExpires(userId) {
-    const { expiresAt } = accountMilestoneCache[userId] || {}
-    if (!expiresAt) {
-      return null
-    }
-    if (this.expiredAccountMilestoneCache(expiresAt)) {
-      return 0
-    }
 
-    return expiresAt - Date.now()
-  }
-  removeAccountMilestoneCache(userId) {
-    accountMilestoneCache[userId].delete(userId)
-  }
-  removeAllAccountMilestoneCache() {
-    accountMilestoneCache.clear();
-  }
   async checkAcountMilestoneCache(userId, checks) {
-    let accountMilestoneRetrieved = this.getAccountMilestoneCache(userId)
-    if (!accountMilestoneRetrieved) {
-      const accountMilestoneData = this.checkMilestonesByAccountId(userId, checks)
-      accountMilestoneRetrieved = await this.setAccountMilestoneCache(userId, accountMilestoneData)
+    const accountMilestoneCache = await cacheService.getOrCreateCache('accountMilestoneCache')
+    let cacheItem = cacheService.getCacheItem(userId, accountMilestoneCache)
+
+    if (cacheItem) {
+      let expiration = cacheService.checkCacheItemExpiration(cacheItem)
+      if (expiration) {
+        cacheItem = await this.checkMilestonesByAccountId(userId, checks)
+        await cacheService.setCachedDataItem(userId, cacheItem, accountMilestoneCache)
+      }
     }
-    return accountMilestoneRetrieved
+    if (!cacheItem) {
+      cacheItem = await this.checkMilestonesByAccountId(userId, checks)
+      await cacheService.setCachedDataItem(userId, cacheItem, accountMilestoneCache)
+    }
+    return cacheItem
   }
 
   async checkMilestonesByAccountId(userId, checks) {

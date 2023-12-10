@@ -18,14 +18,23 @@ import { AppState } from "../AppState.js";
 import Pop from "../utils/Pop.js";
 import { accountMilestonesService } from "../services/AccountMilestonesService.js";
 import MilestoneCard from "./MilestoneCard.vue";
+import { useRoute } from "vue-router";
 
 
 export default {
   setup() {
+
+    const route = useRoute()
+
     async function checkMyMilestones() {
       try {
         const checks = AppState.milestoneChecks;
-        await accountMilestonesService.checkMyMilestones(checks);
+        if (route.name == 'Account') {
+          await accountMilestonesService.checkMyMilestones(checks);
+        } else {
+          const userId = route.params.profileId
+          await accountMilestonesService.checkMilestonesByUserId(userId, checks);
+        }
       }
       catch (error) {
         Pop.error(error);
