@@ -28,9 +28,10 @@ class CacheService {
     await cache.save()
     return cache.cachedData[userId]
   }
-  checkCacheItemExpiration(cacheItem) {
+  checkCacheItemExpiration(cacheItem, userId) {
     let expiraton = false
-    if (cacheItem.expiresAt < Date.now()) {
+    let currentTime = Date.now()
+    if (cacheItem[userId].expiresAt < currentTime) {
       expiraton = true
     } else expiraton = false
     return expiraton

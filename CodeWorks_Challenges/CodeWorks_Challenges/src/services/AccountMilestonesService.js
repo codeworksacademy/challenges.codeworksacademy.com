@@ -13,7 +13,7 @@ class AccountMilestonesService {
     let cacheItem = cacheService.getCacheItem(userId, accountMilestoneCache)
 
     if (cacheItem) {
-      let expiration = cacheService.checkCacheItemExpiration(cacheItem)
+      let expiration = cacheService.checkCacheItemExpiration(cacheItem, userId)
       if (expiration) {
         cacheItem = await this.checkMilestonesByAccountId(userId, checks)
         await cacheService.setCachedDataItem(userId, cacheItem, accountMilestoneCache)
