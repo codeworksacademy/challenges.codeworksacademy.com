@@ -24,9 +24,10 @@ export class AccountMilestonesController extends BaseController {
   // REVIEW [Kyle] potentially move this to account controller, or implement a simple cache
   async checkMilestonesByUserId(req, res, next) {
     try {
+      const accountId = req.userInfo.id
       const userId = req.params.userId
       const checks = req.body
-      const milestones = await accountMilestonesService.checkAcountMilestoneCache(userId, checks)
+      const milestones = await accountMilestonesService.checkAcountMilestoneCache(accountId, userId, checks)
       return res.send(milestones)
     } catch (error) {
       next(error);

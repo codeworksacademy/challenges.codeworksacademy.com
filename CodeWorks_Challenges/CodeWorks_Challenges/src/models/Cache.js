@@ -10,6 +10,10 @@ export const CacheSchema = new Schema({
   cachedData: {
     type: Array,
     default: []
+  },
+  lastEmptied: {
+    type: Number,
+    default: Date.now()
   }
 },
   { timestamps: true, toJSON: { virtuals: true } }

@@ -8,32 +8,35 @@ import mongoose from "mongoose";
 
 class AccountMilestonesService {
 
-  async checkAcountMilestoneCache(userId, checks) {
-    const accountMilestoneCache = await cacheService.getOrCreateCache('accountMilestoneCache')
-    let cacheItem = cacheService.getCacheItem(userId, accountMilestoneCache)
+  async checkAcountMilestoneCache(accountId, userId, checks) {
+    const cacheId = 'accountMilestoneCache'
+    let response = await cacheService.checkCache(accountId, userId, cacheId)
+    let cacheItem = response.cacheItem
+    const status = response.status
 
-    if (cacheItem) {
-      let expiration = cacheService.checkCacheItemExpiration(cacheItem, userId)
-      if (expiration) {
-        cacheItem = await this.checkMilestonesByAccountId(userId, checks)
-        await cacheService.setCachedDataItem(userId, cacheItem, accountMilestoneCache)
-      }
-    }
-    if (!cacheItem) {
-      cacheItem = await this.checkMilestonesByAccountId(userId, checks)
-      await cacheService.setCachedDataItem(userId, cacheItem, accountMilestoneCache)
+    if (status == 'notFound' || status == 'expired') {
+
+      cacheItem = await this.checkMilestonesByUserId(userId, checks);
+      await cacheService.setCachedDataItem(userId, cacheItem, cacheId);
+
+    } else if (status == 'ownedByUser') {
+
+      cacheItem = await this.checkMilestonesByUserId(userId, checks);
+      await cacheService.forceCacheItemUpdate(userId, cacheItem, cacheId)
+
     }
     return cacheItem
   }
 
-  async checkMilestonesByAccountId(userId, checks) {
+  async checkMilestonesByUserId(userId, checks) {
     const pulledChecks = await this.pullMilestoneChecks(checks)
     const checkPromises = pulledChecks.map(async pc => {
       await this.checkMilestones(pc, userId);
     });
     await Promise.all(checkPromises);
     // After all of the checks are performed a blanket get all accountMilestones can be performed because any relevant accountMilestones will have been created, Then that can be returned.
-    const milestones = await this.getAccountMilestones(userId) //STUB Kyle - This could be made more specific with the $or get I learned.
+    const milestones = await this.getAccountMilestones(userId)
+
     return milestones
   }
 
