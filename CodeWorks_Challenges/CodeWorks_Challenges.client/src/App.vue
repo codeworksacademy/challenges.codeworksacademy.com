@@ -5,9 +5,7 @@
       <div class="d-flex flex-row">
       </div>
     </section>
-    <OffCanvasMenu>
       <router-view />
-    </OffCanvasMenu>
   </header>
   <main>
     <ModalWrapper id="createChallengeForm">
@@ -72,7 +70,6 @@ import Navbar from './components/Navbar.vue'
 import ModalWrapper from './components/ModalWrapper.vue'
 import CreateChallengeForm from './components/CreateChallengeForm.vue'
 import ChallengeSubmissionForm from './components/ChallengeSubmissionForm.vue'
-import OffCanvasMenu from './components/OffCanvasMenu.vue'
 import BottomOffcanvasWrapper from './components/BottomOffcanvasWrapper.vue'
 import ModeratorCard from './components/ModeratorCard.vue'
 
@@ -86,7 +83,6 @@ export default {
   },
   components: { 
     Navbar,
-    OffCanvasMenu,
     ModalWrapper,
     CreateChallengeForm,
     ChallengeSubmissionForm,

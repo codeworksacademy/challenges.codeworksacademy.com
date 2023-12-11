@@ -191,7 +191,7 @@
 
     <!-- Interactions with Challenge -->
 
-    <section class="card bg-dark p-3 m-1 ms-0">
+    <section class="card bg-dark text-light p-3 m-1 ms-0">
       <div class="col-12 d-flex justify-content-center align-items-center">
         <h3 class="text-center text-uppercase">Challenge Requirements</h3>
       </div>
@@ -437,7 +437,7 @@ export default {
 <style scoped lang="scss">
 .container-fluid {
   min-height: 100vh;
-  min-width: 100%;
+  width: 100%;
   background-color: #000000bf;
 }
 .flash-card {

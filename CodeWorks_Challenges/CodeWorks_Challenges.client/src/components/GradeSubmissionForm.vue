@@ -139,11 +139,6 @@ export default {
 
     async function gradeChallenge() {
       try {
-        // FIXME not needed the backend should verify moderators
-        // const moderator = AppState.moderators.find(m => m.originId === AppState.account.id)
-        // const moderatorId = moderator?.id
-
-
         // REVIEW 🟡 [JAKE] - Is this logic being handled properly? What about the case that a challenge only has 4 or 5 requirements? In this case I'm assuming you want to allow less than 3 missed checks to still be considered a completed challenge. If so - I'm assuming this should either be a util function or computed property as it would check the length of the completed requirements array and conditionally allow a certain amount of missedChecks depending on the number of requirements? - AJ 
 
         // Two potential options for solving this problem
@@ -153,24 +148,7 @@ export default {
         editable.value.status = missedChecks > 2
           ? SUBMISSION_TYPES.RETURNED_FOR_REVIEW
           : SUBMISSION_TYPES.COMPLETED
-
-        // const newGrade = {
-        //   ...editable.value,
-        //   grade: editable.value.grade,
-        //   feedback: editable.value.feedback,
-        //   status: editable.value.status
-        // }
-
-        // should be sufficient to simply send the editable
         await challengeModeratorsService.gradeChallenge(editable.value)
-
-        // FIXME this can probably be removed... no need to change the editable after grading. It should be the same in the correct data state
-        // editable.value = {
-        //   ...editable.value,
-        //   requirements: editable.value.requirements.map(r => ({
-        //     ...r, isComplete: r.isComplete ?? false, comment: r.comment || ''
-        //   }))
-        // }
       } catch (error) {
         logger.error(error)
       }
