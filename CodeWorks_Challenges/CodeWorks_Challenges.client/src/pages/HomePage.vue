@@ -36,7 +36,7 @@ export default {
 @import '../assets/scss/variables.scss';
 
 .container-fluid {
- height: 100%;
+ height: 86.1vh;
  width: 100%;
  color:aliceblue;
 }
