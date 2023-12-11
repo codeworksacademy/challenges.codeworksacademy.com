@@ -21,7 +21,6 @@ export class AccountMilestonesController extends BaseController {
     }
   }
 
-  // REVIEW [Kyle] potentially move this to account controller, or implement a simple cache
   async checkMilestonesByUserId(req, res, next) {
     try {
       const accountId = req.userInfo.id
