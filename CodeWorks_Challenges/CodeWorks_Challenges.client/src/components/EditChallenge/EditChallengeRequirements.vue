@@ -23,7 +23,7 @@
   export default {
     props: {
       challenge: {
-        type: [Challenge, Object],
+        type: Challenge || Object,
         required: true
       }
     },

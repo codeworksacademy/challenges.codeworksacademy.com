@@ -1,5 +1,5 @@
 <template>
-    <section class="container-fluid">
+    <section class="container-fluid" v-if="challenge">
       <div class="input-group mb-3">
         <label class="input-group-text" for="challengeName">Challenge Name</label>
         <input type="text" class="form-control" id="challengeName">
@@ -41,12 +41,12 @@
   import { computed, onMounted } from 'vue'
   import Pop from "../../utils/Pop.js"
   import { logger } from "../../utils/Logger.js"  
-  import { Challenge } from '../../models/Challenge'
+  import { Challenge } from '../../models/Challenge.js'
   
   export default {
     props: {
       challenge: {
-        type: [Challenge, Object],
+        type: Challenge || Object,
         required: true
       }
     },

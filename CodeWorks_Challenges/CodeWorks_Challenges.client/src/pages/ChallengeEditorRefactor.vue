@@ -46,6 +46,7 @@
     },
     setup() {
       let route = useRoute()
+      const challenge = computed(() => AppState.activeChallenge)
 
       async function setActiveChallenge() {
         try {
@@ -57,7 +58,6 @@
         }
       }
   
-      const challenge = computed(() => AppState.activeChallenge)
       onMounted(() => {
         setActiveChallenge()
       })
