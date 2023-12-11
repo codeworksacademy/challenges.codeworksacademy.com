@@ -7,6 +7,7 @@ import { ChallengeModeratorSchema } from "../models/ChallengeModerator.js";
 import { SubmissionSchema } from '../models/Submission.js';
 import { MilestoneSchema } from "../models/Milestone.js";
 import { AccountMilestoneSchema } from "../models/AccountMilestone.js";
+import { CacheSchema } from "../models/Cache.js";
 
 class DbContext {
   Account = mongoose.model('Account', AccountSchema);
@@ -15,10 +16,9 @@ class DbContext {
   ChallengeModerators = mongoose.model('Moderator', ChallengeModeratorSchema);
   // Answers = mongoose.model('Answer', AnswerSchema);
   Submissions = mongoose.model('Submission', SubmissionSchema);
-
-  // STUB Kyle - Milestones and AccountMilestones were removed and had to be re-imported. If these were removed intentionally please let me know why.
   Milestones = mongoose.model('Milestone', MilestoneSchema);
   AccountMilestones = mongoose.model('AccountMilestone', AccountMilestoneSchema);
+  Cache = mongoose.model('Cache', CacheSchema)
 }
 
 export const dbContext = new DbContext()

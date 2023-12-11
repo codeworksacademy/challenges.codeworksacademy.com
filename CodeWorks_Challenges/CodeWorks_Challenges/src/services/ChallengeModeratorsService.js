@@ -34,6 +34,11 @@ class ChallengeModeratorsService {
     return moderators
   }
 
+  async checkUserByChallengeModerations(challengeId, userId) {
+    const moderators = await dbContext.ChallengeModerators.findOne({ challengeId: challengeId, status: true })
+    return moderators
+  }
+
   async getMyModerationsByProfileId(profileId) {
     const moderators = await dbContext.ChallengeModerators.find({ accountId: profileId }).populate({
       path: 'challenge',
@@ -73,18 +78,18 @@ class ChallengeModeratorsService {
     const isChallengeModerator = challengeModerator.accountId == userId
     const isChallengeCreator = challengeModerator.originId == userId
     const participantToGrade = await dbContext.ChallengeParticipants.findOneAndUpdate
-    (
-      { _id: newSubmission.participantId },
-      { $set: updatedParticipant },
-      { runValidators: true, setDefaultsOnInsert: true, new: true },
-    )
+      (
+        { _id: newSubmission.participantId },
+        { $set: updatedParticipant },
+        { runValidators: true, setDefaultsOnInsert: true, new: true },
+      )
 
-      if (!isChallengeModerator || !isChallengeCreator) {
-        throw new Forbidden('[PERMISSIONS ERROR]: Only moderators can grade participants! Do not let it happen again, or you will be removed from the challenge.')
-      }
-      if (!participantToGrade) {
-        throw new BadRequest('Invalid participant ID.')
-      }
+    if (!isChallengeModerator || !isChallengeCreator) {
+      throw new Forbidden('[PERMISSIONS ERROR]: Only moderators can grade participants! Do not let it happen again, or you will be removed from the challenge.')
+    }
+    if (!participantToGrade) {
+      throw new BadRequest('Invalid participant ID.')
+    }
     return participantToGrade
   }
 

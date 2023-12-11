@@ -3,6 +3,7 @@ import { accountService } from '../services/AccountService'
 import BaseController from '../utils/BaseController'
 import { challengesService } from '../services/ChallengesService'
 import { participantsService } from '../services/ParticipantsService'
+import { accountMilestonesService } from "../services/AccountMilestonesService.js"
 
 export class AccountController extends BaseController {
   constructor() {
@@ -15,6 +16,7 @@ export class AccountController extends BaseController {
       .get('/rank', this.calculateAccountRank)
       .get('/reputation', this.calculateMyReputation)
       .put('', this.updateAccount)
+      .put('/:milestoneId/accountMilestones', this.claimAccountMilestone)
   }
 
   async getUserAccount(req, res, next) {
@@ -57,6 +59,17 @@ export class AccountController extends BaseController {
       next(error)
     }
   }
+  async claimAccountMilestone(req, res, next) {
+    try {
+      const milestoneId = req.params.milestoneId
+      const userId = req.userInfo.id
+      const milestone = await accountMilestonesService.claimAccountMilestone(milestoneId, userId)
+      return res.send(milestone)
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async calculateAccountRank(req, res, next) {
     try {
       const user = req.userInfo

@@ -5,13 +5,14 @@
         <img :src="activeProfile.coverImg" alt="Cover Image" class="coverImg-style">
       </div>
       <div class="d-flex col-12">
-        <img :src="activeProfile.picture" :alt="activeProfile.name" class="avatar-md mx-4 avatar-style border border-light">
+        <img :src="activeProfile.picture" :alt="activeProfile.name"
+          class="avatar-md mx-4 avatar-style border border-light">
         <div class="d-flex flex-column">
           <p class="fs-2 m-0">
             {{ activeProfile.name }}
           </p>
           <p>
-            Rank: {{ activeProfile.title }} 
+            Rank: {{ activeProfile.title }}
             <span class="ms-2">
               {{ activeProfile.rank }} XP
             </span>
@@ -30,8 +31,11 @@
         </p>
       </div>
       <div class="col-12 my-2" v-for="c in challenges" :key="c.id">
-        <ChallengeCard :challenge="c" class="position-relative"/>
+        <ChallengeCard :challenge="c" class="position-relative" />
       </div>
+    </section>
+    <section class="row">
+      <MilestonesTracker />
     </section>
   </div>
   <div class="container-fluid" v-else>
@@ -51,63 +55,64 @@ import { profilesService } from '../services/ProfilesService';
 import { logger } from '../utils/Logger';
 import { challengesService } from '../services/ChallengesService';
 import ChallengeCard from '../components/ChallengeCard.vue';
+import MilestonesTracker from "../components/MilestonesTracker.vue";
 
 export default {
-    setup() {
-        const route = useRoute();
-        async function getProfile() {
-            try {
-                const profileId = route.params.profileId;
-                await profilesService.getProfile(profileId);
-            }
-            catch (error) {
-                Pop.error(error.message);
-            }
-        }
-        async function getProfileChallenges() {
-            try {
-                const profileId = route.params.profileId;
-                await challengesService.getProfileChallenges(profileId);
-            }
-            catch (error) {
-                Pop.error(error.message);
-            }
-        }
-        function clearProfile() {
-            try {
-                profilesService.clearProfile();
-            }
-            catch (error) {
-                Pop.error(error.message);
-            }
-        }
-        watchEffect(() => {
-            route.params.profileId;
-            getProfile();
-            getProfileChallenges();
-        });
-        onUnmounted(() => {
-            clearProfile();
-        });
-        return {
-            activeProfile: computed(() => AppState.activeProfile),
-            challenges: computed(() => AppState.challenges)
-        };
-    },
-    components: { ChallengeCard }
+  setup() {
+    const route = useRoute();
+    async function getProfile() {
+      try {
+        const profileId = route.params.profileId;
+        await profilesService.getProfile(profileId);
+      }
+      catch (error) {
+        Pop.error(error.message);
+      }
+    }
+    async function getProfileChallenges() {
+      try {
+        const profileId = route.params.profileId;
+        await challengesService.getProfileChallenges(profileId);
+      }
+      catch (error) {
+        Pop.error(error.message);
+      }
+    }
+    function clearProfile() {
+      try {
+        profilesService.clearProfile();
+      }
+      catch (error) {
+        Pop.error(error.message);
+      }
+    }
+    watchEffect(() => {
+      route.params.profileId;
+      getProfile();
+      getProfileChallenges();
+    });
+    onUnmounted(() => {
+      clearProfile();
+    });
+    return {
+      activeProfile: computed(() => AppState.activeProfile),
+      challenges: computed(() => AppState.challenges)
+    };
+  },
+  components: { ChallengeCard, MilestonesTracker }
 }
 </script>
 
 
 <style lang="scss" scoped>
-.coverImg-style{
+.coverImg-style {
   object-fit: cover;
   object-position: center;
   height: 15vh;
   width: 100%;
 }
 
-.avatar-style{
+.avatar-style {
   position: relative;
   top: -5.5vh;
 }
