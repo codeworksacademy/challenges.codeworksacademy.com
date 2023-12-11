@@ -75,6 +75,7 @@ import ChallengeSubmissionForm from './components/ChallengeSubmissionForm.vue'
 import OffCanvasMenu from './components/OffCanvasMenu.vue'
 import BottomOffcanvasWrapper from './components/BottomOffcanvasWrapper.vue'
 import ModeratorCard from './components/ModeratorCard.vue'
+import AnswerForm from './components/AnswerForm.vue'
 
 export default {
   setup() {
@@ -92,6 +93,7 @@ export default {
     ChallengeSubmissionForm,
     BottomOffcanvasWrapper,
     ModeratorCard,
+    AnswerForm
   }
 }
 </script>

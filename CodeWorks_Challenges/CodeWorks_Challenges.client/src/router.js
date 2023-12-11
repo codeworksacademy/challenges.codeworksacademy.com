@@ -55,9 +55,9 @@ const routes = [
     component: loadPage('ChallengeDetailsPage'),
   },
   {
-    path: '/challenges/:challengeId/edit',
-    name: 'ChallengeEditor',
-    component: loadPage('ChallengeEditor'),
+    // path: '/challenges/:challengeId/edit',
+    // name: 'ChallengeEditor',
+    // component: loadPage('ChallengeEditor'),
     // children: [
     //   {
     //     path: 'details',
@@ -75,6 +75,11 @@ const routes = [
     //     component: loadPage('GradeSubmissionsPage')
     //   }
     // ]
+  },
+  {
+    path: '/challenges/:challengeId/edit',
+    name: 'ChallengeEditorRefactor',
+    component: loadPage('ChallengeEditorRefactor')
   },
   {
     path: '/challenges/:challengeId/grading',

@@ -162,7 +162,4 @@ export default {
   user-select: none;
   cursor: pointer;
 
-  &:hover {
-    color: blue !important;
-  }
 }</style>
