@@ -2,6 +2,7 @@ import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { challengesService } from "./ChallengesService.js"
 import { PROFILE_FIELDS } from '../constants'
+import { challengeModeratorsService } from "./ChallengeModeratorsService.js"
 
 /**
  * @param {any} body
@@ -31,7 +32,7 @@ class ParticipantsService {
 		if (challenge.status != 'published') {
 			throw new BadRequest(`[CHALLENGE_STATUS::${challenge.status}] This challenge cannot be joined at this time.`)
 		}
-		
+
 		newParticipant.requirements = challenge.requirements.map(r => {
 			return {
 				description: r,
@@ -85,7 +86,14 @@ class ParticipantsService {
 
 	async updateChallengeParticipant(participantId, userId, newSubmission) {
 		const update = sanitizeBody(newSubmission)
-		// TODO [🚧 Kyle] moderator check
+		// TODO [🚧 Kyle] moderator check -- Check to see if userId is a moderator for this challenge
+		// This function triggered when a user / challenge participant created a newSubmission for the challenge being participated in
+		// Was unable to find evidence that it is reused to set to graded or completed etc
+		// const isModerator = await challengeModeratorsService.checkUserByChallengeModerations(newSubmission, userId)
+		// if (!isModerator) {
+		// 	throw new BadRequest('Invalid moderation')
+		// }
+
 		const participant = await dbContext.ChallengeParticipants.findOneAndUpdate
 			(
 				{ _id: participantId },
@@ -95,6 +103,7 @@ class ParticipantsService {
 		if (!participant) {
 			throw new BadRequest('Invalid participant ID.')
 		}
+
 		return participant
 	}
 
