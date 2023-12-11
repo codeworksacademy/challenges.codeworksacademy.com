@@ -132,7 +132,6 @@ export default {
       // FIXME This is backwards a component should be using getters to pull from the state. 
       // Never set AppState from the component use a service.
       // You should not be need to change the AppState in a watchEffect this could easily cause an infinite loop 
-
       // AppState.activeChallenge = editable.value.challenge
       // AppState.activeParticipant = editable.value
       // AppState.activeParticipant.requirements.description = { ...AppState.activeChallenge.requirements }

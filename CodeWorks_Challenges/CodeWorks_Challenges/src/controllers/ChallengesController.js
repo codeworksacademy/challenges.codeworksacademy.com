@@ -26,6 +26,9 @@ export class ChallengesController extends BaseController {
       //   vvv this endpoint doesnt make sense for what is trying to be accomplished
       .put('/:challengeId/participants/:participantId', this.submitAnswer)
 
+      //New route needs to be called /:challengeId/submissions
+      
+
       // .put('/:challengeId', this.deprecateChallenge)
       .put('/:challengeId/grade/:participantId', this.gradeSubmittedChallenge)
       .delete('/:challengeId', this.deleteChallenge)
@@ -49,6 +52,8 @@ export class ChallengesController extends BaseController {
   }
 
   // REVIEW 🟡 This process for submitting a challenge is likely being over complicated or incorrectly handled. When I submit a challenge for grading simply change the status of my participation to NEEDS_GRADED.... 
+  // Only need one route, if the challenge is autograde then it will be automatically graded
+  // If the challenge is not automatically graded, set the participants status to submitted
   async submitAnswer(req, res, next) {
     try {
       const challengeId = req.params.challengeId

@@ -132,6 +132,8 @@ class ChallengesService {
   //   - simplify to a single answer 
   //   - or validate all answers all correct order
   // NOTE - Keeping This -Chantha
+  //Grab participant check its answer and if its correct go ahead and do everything that is needed to show its correct
+  
   async submitAnswer(challengeId, userId, answer) {
     const challenge = await dbContext.Challenges.findById(challengeId)
 
