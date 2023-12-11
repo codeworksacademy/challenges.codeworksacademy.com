@@ -44,7 +44,6 @@ export const ChallengeSchema = new Schema({
       url: { type: String, required: true },
     }
   ],
-  // TODO lets simply award points based on difficulty since the two were the same
   difficulty: {
     type: Number,
     required: true,
@@ -62,29 +61,10 @@ export const ChallengeSchema = new Schema({
     type: String,
     default: ''
   },
-  // REVIEW why are there multiple answers?
-  //Change this to puzzles --> outputs 
-  //I will be using the index of the answer in the array to compare to the index of the answer
   answer: {
     type: String,
     required: false
   },
-  // answers: [
-  //   {
-  //     puzzles: [
-  //       {
-  //         type: String,
-  //         required: true
-  //       }
-  //     ],
-  //     outputs: [
-  //       {
-  //         type: String,
-  //         required: true
-  //       }
-  //     ]
-  //   }
-  // ]
   reputationIds: [
     {type: String, required: true}
   ]
@@ -109,7 +89,6 @@ ChallengeSchema.virtual('participantCount', {
   count: true
 })
 
-// FIXME rename answer Schema and relationships to challengeSubmission 
 ChallengeSchema.virtual('completedCount', {
   localField: '_id',
   foreignField: 'challengeId',

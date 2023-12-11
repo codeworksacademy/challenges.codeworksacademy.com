@@ -7,13 +7,14 @@ export class AccountMilestonesController extends BaseController {
     super('api/accountMilestones')
     this.router
       .use(Auth0Provider.getAuthorizedUserInfo)
-      // REVIEW I save over the permission check that I meant to save
+      // TODO [🚧 Kyle] verify fully functional and correctly secured
       .get('/:userId', this.getAccountMilestones)
       .post('/:userId', this.checkMilestonesByAccountId)
       .put('/:milestoneId', this.claimMilestone)
   }
 
-  async getAccountMilestones(req, res, next) { //STUB Kyle -- The account controller might be a better spot for this call.
+  async getAccountMilestones(req, res, next) {
+    // STUB Kyle -- The account controller might be a better spot for this call.
     try {
       const userId = req.params.userId
       const accountMilestones = await accountMilestonesService.getAccountMilestones(userId)
@@ -22,6 +23,8 @@ export class AccountMilestonesController extends BaseController {
       next(error);
     }
   }
+
+  // REVIEW [Kyle] potentially move this to account controller, or implement a simple cache
   async checkMilestonesByAccountId(req, res, next) {
     try {
       const userId = req.params.userId
@@ -32,6 +35,8 @@ export class AccountMilestonesController extends BaseController {
       next(error);
     }
   }
+
+  // FIXME [Kyle] This should be moved to the account controller
   async claimMilestone(req, res, next) {
     try {
       const milestoneId = req.params.milestoneId

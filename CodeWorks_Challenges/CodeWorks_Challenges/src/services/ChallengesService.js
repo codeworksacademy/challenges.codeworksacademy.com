@@ -23,7 +23,7 @@ class ChallengesService {
   async getChallengeById(challengeId) {
     const challenge = await dbContext.Challenges.findById(challengeId)
       .populate('creator', PROFILE_FIELDS)
-      .select('-answers')  // FIXME - This gets the challenge without the answer attached, uncommenting when done
+      .select('-answers')
     if (!challenge) {
       throw new BadRequest('Invalid Challenge ID.')
     }
@@ -66,14 +66,14 @@ class ChallengesService {
 
   async editChallenge(newChallenge, userId, challengeId) {
     const challenge = await this.getChallengeById(challengeId)
-    // FIXME needs to allow for moderators
+    // todo [🚧 Kyle]  needs to allow for moderators
     if (challenge.creatorId != userId) {
       throw new Forbidden(
         `[PERMISSIONS ERROR]: Only the creator of ${challenge.name} can edit it.`
       )
     }
 
-    // REVIEW SCHEMA CHANGES
+    // REVIEW [🚧 Chantha] Verify if this updates all the correct fields
     challenge.name = newChallenge.name || challenge.name
     challenge.description = newChallenge.description || challenge.description
     challenge.category = newChallenge.category || challenge.category
@@ -93,7 +93,7 @@ class ChallengesService {
 
     const foundUserId = challenge.reputationIds.find(i => i === userId)
 
-    if(foundUserId){
+    if (foundUserId) {
       throw new Forbidden('You have already given reputation to this challenge. You cannot give reputation twice.')
     }
 
@@ -127,13 +127,8 @@ class ChallengesService {
     return challenge
   }
 
-  // FIXME what are we doing here with the answers??? incomplete
-  // SUGGESTIONS: 
-  //   - simplify to a single answer 
-  //   - or validate all answers all correct order
-  // NOTE - Keeping This -Chantha
-  //Grab participant check its answer and if its correct go ahead and do everything that is needed to show its correct
-  
+  // TODO [🚧 Chantha] consolidate challenge submission
+  // NOTE be sure to award points based on difficulty
   async submitAnswer(challengeId, userId, answer) {
     const challenge = await dbContext.Challenges.findById(challengeId)
 

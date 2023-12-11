@@ -3,11 +3,13 @@ import { SocketHandler } from "../utils/SocketHandler.js"
 function registerSocketHandlers() {
   // https://webpack.js.org/guides/dependency-management/#require-context
   // @ts-ignore
-  const handlers = import.meta.globEager('../handlers/**/*.js')
-  Object.entries(handlers).forEach(([fileName, handler]) => {
+  const handlers = import.meta.glob('../handlers/**/*.js')
+  Object.entries(handlers).forEach(async([fileName, importable]) => {
+    const handler = await importable().default
     const handlerName = fileName
       .substring(fileName.lastIndexOf('/') + 1)
       .replace(/\.\w+$/, '')
+
     // Register handler
     handlers[handlerName] = handler
   })
