@@ -17,8 +17,24 @@
 
           <hr>
 
-          <h4 class="mdi mdi-send-check selectable"> Submit </h4>
-          <h4 class="mdi mdi-cancel selectable text-danger"> Leave Challenge</h4>
+          <div v-if="isParticipant">
+            <h4
+              id="challengeSubmissionButton"
+              class="mdi mdi-send-check selectable"
+              ref="submission"
+              role="button"
+              data-bs-target="#challengeSubmissionForm"
+              data-bs-toggle="modal"
+              aria-label="Go to Active Challenge Modal"
+              title="Create a new challenge"
+            > 
+              Submit for Review
+            </h4>
+            <h4 @click="leaveChallenge()" class="mdi mdi-cancel selectable text-danger"> Leave Challenge</h4>
+          </div>
+          <div v-else>
+            <h4 @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable"> Join Challenge</h4>
+          </div>
         </aside>
       </div>
       <!-- STUB - Space reserved for the challenge details -->
@@ -163,7 +179,7 @@
                   id="challengeSubmissionButton"
                   type="button"
                   role="button"
-                  data-bs-target="#createSubmissionForm"
+                  data-bs-target="#challengeSubmissionForm"
                   data-bs-toggle="modal"
                   aria-label="Go to Active Challenge Modal"
                   class="btn btn-outline-success" style="width: 175px; white-space: nowrap;"
