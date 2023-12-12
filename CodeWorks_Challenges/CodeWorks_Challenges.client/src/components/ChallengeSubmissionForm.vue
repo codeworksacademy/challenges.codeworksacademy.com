@@ -2,7 +2,7 @@
   <section v-if="user.isAuthenticated" class="container-fluid position-relative pt-5">
     <form
       class="row bg-light p-3 rounded shadow"
-      @submit.prevent="updateChallengeParticipant" id="createSubmissionForm"
+      @submit.prevent="updateChallengeParticipant" id="challengeSubmissionForm"
     >
       <div class="col-12">
         <div class="mb-3">
@@ -62,7 +62,7 @@ export default {
           logger.log(`New Participation: ${newParticipant}`)
           await participantsService.updateChallengeParticipant(participantId, newParticipant)
           editable.value = {}
-          Modal.getOrCreateInstance('#createSubmissionForm').hide();
+          Modal.getOrCreateInstance('#challengeSubmissionForm').hide();
           Pop.success('Challenge Submitted!');
           router.push({
             name: 'ChallengeSubmissionsPage',
@@ -86,7 +86,7 @@ export default {
         await participantsService.removeSubmission(newSubmission, participantId)
         participant.value = ''
         editable.value = ''
-        Modal.getOrCreateInstance('#createSubmissionForm').hide();
+        Modal.getOrCreateInstance('#challengeSubmissionForm').hide();
         Pop.toast(`Removed Participation: ${newSubmission}`);
         router.push({
           name: 'GradeSubmissionsPage',
