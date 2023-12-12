@@ -4,9 +4,6 @@
           <input v-model="editable.type" type="text" class="form-control" placeholder="Add a Requirement">
           <label for="newRequirement" class="input-group-text btn-success btn" @click="addRequirement">Add Requirement</label>
         </div>
-        <!-- <table class="table-dark bg-light text-dark w-100">
-          <tr v-for="(requirement, index) in requirements">{{ requirement }} <span><i class="mdi mdi-trash-can float-end" @click="deleteRequirement(index)"></i></span></tr>
-        </table> -->
         <div class="input-group my-3" v-for="(requirement, index) in requirements" :key="index">
           <input type="text" class="form-control" :value="requirement" @input="updateRequirement($event,index)">
           <label for="" class="input-group-text btn-danger btn" @click="deleteRequirement(index)">Delete</label>
