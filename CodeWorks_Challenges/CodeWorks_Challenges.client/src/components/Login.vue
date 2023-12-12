@@ -1,5 +1,5 @@
 <template>
-  <span class="navbar-text">
+  <span class="navbar-text p-0">
     <button class="btn selectable text-success lighten-30 text-uppercase my-2 my-lg-0" @click="login"
       v-if="!user.isAuthenticated">
       Login
@@ -7,19 +7,25 @@
     <div v-else>
       <div class="dropdown my-2 my-lg-0">
         <div type="button" class="border-0 selectable no-select" data-bs-toggle="dropdown" aria-expanded="false">
-          <div v-if="account.picture || user.picture" class="d-flex align-items-center p-1">
+          <div v-if="account.picture || user.picture" class="d-flex align-items-center">
             <div class="me-2">
-              <img :src="account.picture || user.picture" alt="account photo" class="avatar-xs" />
+              <img :src="account.picture || user.picture" alt="account photo" class="avatar-xs light-gold-border" />
             </div>
-            <div>
-              <p class="m-0">
+            <div class="text-white">
+              <p class="m-0 fs-5">
                 {{ account.name }}
               </p>
               <p class="m-0">
-                Rank: {{ account.title }} 
+                <span class="light-gold-color">
+                  Rank: 
+                </span>
+                {{ currentRank }} 
 
                 <span class="ms-2">
-                  {{ account.rank }} XP
+                  {{ account.rank }} 
+                  <span class="light-gold-color">
+                    XP
+                  </span>
                 </span>
               </p>
             </div>
@@ -52,6 +58,18 @@ export default {
     return {
       user: computed(() => AppState.user),
       account: computed(() => AppState.account),
+      currentRank: computed(() => {
+        let lastKey = 0
+
+        for (const key in AppState.rankTitles) {
+          if (AppState.account.rank >= key) {
+            lastKey = key
+          }
+        }
+
+        return AppState.rankTitles[lastKey]
+      }),
+
       async login() {
         AuthService.loginWithPopup()
       },
@@ -64,4 +82,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.light-gold-color{
+  color: #CBD4A5;
+}
+
+.light-gold-border{
+  border: 2px solid #CBD4A5;
+}
 </style>

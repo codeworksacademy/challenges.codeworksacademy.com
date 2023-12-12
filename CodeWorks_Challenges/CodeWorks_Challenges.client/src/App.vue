@@ -1,6 +1,6 @@
 <template>
   <header>
-    <Navbar class="sticky-top" />
+    <Navbar />
   </header>
 
   <main>
@@ -103,8 +103,8 @@ main {
 }
 
 .avatar-xs {
-  height: 3rem;
-  width: 3rem;
+  height: 2.75rem;
+  width: 2.75rem;
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
