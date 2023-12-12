@@ -178,43 +178,6 @@ class AccountMilestonesService {
         count = 0;
         break;
     }
-
-    // if (operation == "$gte") {
-    //   count = await dbContext[milestone.ref].find(filterKey[milestone.check]).count();
-    // }
-
-    // if (operation == "$sum") {
-    //   const userIdObject = new mongoose.Types.ObjectId(userId);
-    //   const aggregateSum = await dbContext[milestone.ref].aggregate([
-    //     {
-    //       $match: { accountId: userIdObject }
-    //     },
-    //     {
-    //       $group: { _id: null, 'sumsValue': filterKey[milestone.check] }
-    //     }
-    //   ]);
-
-    //   count = aggregateSum[0].sumsValue;
-    // }
-
-    // if (operation == "$gteChallenge") {
-    //   const accountChallenges = await challengesService.getChallengesCreatedBy(userId, userId)
-
-    //   const challengeParticipantsValue = await dbContext[milestone.ref].find({
-    //     $and: [
-    //       { challengeId: { $in: accountChallenges } },
-    //       filterKey[milestone.check]
-    //     ]
-    //   }).count();
-
-    //   count = challengeParticipantsValue
-    // }
-
-    // if (operation == "$increment") {
-    //   let tempValue = foundAccountMilestone.count;
-    //   tempValue++
-    //   count = tempValue
-    // }
     return count;
   }
 
