@@ -2,7 +2,36 @@
   :style="`background-image: url(${challenge.coverImg}); opacity: .9; background-repeat: no-repeat; background-size: cover;`"
 -->
 <template>
-  <section
+  <section v-if="challenge" :key="challenge?.id" class="container-fluid text-light pb-5">
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- <section
     v-if="challenge"
     :key="challenge?.id"
     class="container-fluid text-light pb-5"
@@ -166,19 +195,15 @@
             </button>
             <button v-if="isModeratorStatus == 'pending'" class="btn btn-outline-primary">Request pending</button>
             <button v-if="isModeratorStatus == 'approved'" class="btn btn-outline-primary">You are a Moderator</button>
-            <!-- Move this button and its functionality into the edit challenges -->
-            <!-- <div v-else> 
-              <ModSearchForm />
-            </div> -->
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Participant data -->
+    ! Participant data !
     <section class="col-12 bg-img">
       <section v-if="isParticipant" class="row text-light p-3 mb-3">
-        <!-- v-if is here because participants can be created with out being assigned a status -->
+        NOTE: v-if is here because participants can be created with out being assigned a status
         <div class="col-4" v-if="isParticipant.status">Status: <span class="">{{ isParticipant.status
         }}</span>
         </div>
@@ -189,8 +214,7 @@
       </section>
     </section>
 
-    <!-- Interactions with Challenge -->
-
+    ! Interactions with Challenge !
     <section class="card bg-dark text-light p-3 m-1 ms-0">
       <div class="col-12 d-flex justify-content-center align-items-center">
         <h3 class="text-center text-uppercase">Challenge Requirements</h3>
@@ -219,7 +243,7 @@
       </div>
     </section>
 
-  </section>
+  </section> -->
 </template>
 
 <script>
