@@ -4,14 +4,18 @@
           <input v-model="editable.type" type="text" class="form-control" placeholder="Add a Requirement">
           <label for="newRequirement" class="input-group-text btn-success btn" @click="addRequirement">Add Requirement</label>
         </div>
-        <table class="table-dark bg-light text-dark w-100">
+        <!-- <table class="table-dark bg-light text-dark w-100">
           <tr v-for="(requirement, index) in requirements">{{ requirement }} <span><i class="mdi mdi-trash-can float-end" @click="deleteRequirement(index)"></i></span></tr>
-        </table>
+        </table> -->
+        <div class="input-group" v-for="(requirement, index) in requirements" :key="index">
+          <input type="text" class="form-control" :value="requirement" @input="updateRequirement($event,index)">
+          <label for="" class="input-group-text btn-danger btn" @click="deleteRequirement(index)">Delete</label>
+        </div>
     </section>
 </template>
     
   <script>
-  import { computed, onMounted, ref } from 'vue'
+  import { computed, onMounted, ref, watchEffect } from 'vue'
   import { AppState } from '../../AppState'
   import Pop from "../../utils/Pop.js"
   import { logger } from "../../utils/Logger.js"  
@@ -28,16 +32,24 @@
       }
     },
     setup(props) {
-  
+      
       const requirements = ref([])
       const editable = ref({
         type: '',
+      })
+
+      watchEffect(() => {
+        requirements.value = props.challenge.requirements
       })
   
       async function addRequirement() {
         logger.log("Adding requirement", editable.value.type)
         requirements.value.push(editable.value.type)
         editable.value.type = ''
+      }
+
+      const updateRequirement = ($event, index) => {
+        requirements.value[index] = $event.target.value
       }
 
       async function deleteRequirement(index){
@@ -49,6 +61,7 @@
       return {
         editable,
         addRequirement,
+        updateRequirement,
         deleteRequirement,
         requirements,
         user: computed(() => AppState.user)
