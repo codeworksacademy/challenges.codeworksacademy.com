@@ -69,8 +69,7 @@ class CacheService {
   }
 
   async forceCacheItemUpdate(userId, dataToCache, cacheId) {
-    const cache = await this.getCache(cacheId)
-    this.setCachedDataItem(userId, dataToCache, cache)
+    this.setCachedDataItem(userId, dataToCache, cacheId)
   }
   checkCacheItemExpiration(cacheItem, userId) {
     let expiraton = false
