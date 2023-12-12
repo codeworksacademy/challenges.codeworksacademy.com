@@ -11,16 +11,22 @@
       <div class="col-4 rounded-3" style="height:100vh;background: #0c0e13">
         <h4 class="px-3 pt-3" style="color: #7A7A7A">User Links</h4>
         <aside class="mt-5 pt-0 px-5">
-          <h4 class="mdi mdi-file-document-multiple selectable"> Overview</h4>
-          <h4 class="mdi mdi-file-document-check selectable"> Requirements</h4>
-          <h4 class="mdi mdi-finance selectable"> Statistics</h4>
+          <router-link :to="`/challenges/${challenge.id}/overview`">
+            <h4 class="mdi mdi-file-document-multiple text-light selectable"> Overview</h4>
+          </router-link>
+          <router-link :to="`/challenges/${challenge.id}/requirements`">
+            <h4 class="mdi mdi-file-document-check text-light selectable"> Requirements</h4>
+          </router-link>
+          <router-link :to="`/challenges/${challenge.id}/statistics`">
+            <h4 class="mdi mdi-finance text-light selectable"> Statistics</h4>
+          </router-link>
 
           <hr>
 
           <div v-if="isParticipant">
             <h4
               id="challengeSubmissionButton"
-              class="mdi mdi-send-check selectable"
+              class="mdi mdi-send-check text-info selectable"
               ref="submission"
               role="button"
               data-bs-target="#challengeSubmissionForm"
@@ -33,14 +39,17 @@
             <h4 @click="leaveChallenge()" class="mdi mdi-cancel selectable text-danger"> Leave Challenge</h4>
           </div>
           <div v-else>
-            <h4 @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable"> Join Challenge</h4>
+            <h4 @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable text-success"> Join Challenge</h4>
           </div>
         </aside>
       </div>
       <!-- STUB - Space reserved for the challenge details -->
       <div class="col-8 px-5 pt-0" style="position:relative; top:-100px">
+
+        
         <article>
           <div style="position: relative; left:-15px">
+            <router-view></router-view>
             <h3 class="text-uppercase" style="color: #7A7A7A">
               Challenge Description
             </h3>
