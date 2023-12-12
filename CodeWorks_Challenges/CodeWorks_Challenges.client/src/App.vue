@@ -101,6 +101,14 @@ main{
   background-color: #141D2B;
 }
 
+.light-gold-color{
+  color: #CBD4A5;
+}
+
+.light-gold-border{
+  border: 2px solid #CBD4A5;
+}
+
 .avatar-xs{
   height: 2.75rem;
   width: 2.75rem;
@@ -117,9 +125,9 @@ main{
   object-position: center;
 }
 
-.avatar-md{
-  height: 6rem;
-  width: 6rem;
+.avatar-lg{
+  height: 7rem;
+  width: 7rem;
   border-radius: 50%;
   object-fit: cover;
   object-position: center;

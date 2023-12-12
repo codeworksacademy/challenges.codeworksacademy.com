@@ -21,28 +21,23 @@ const routes = [
     name: 'Account',
     component: loadPage('AccountPage'),
     beforeEnter: authGuard,
-    // children: [
-    //   {
-    //     path: 'overview',
-    //     name: 'AccountOverview',
-    //     component: loadPage('AccountOverviewPage')
-    //   },
-    //   {
-    //     path: 'activity',
-    //     name: 'AccountActivity',
-    //     component: loadPage('AccountActivityPage')
-    //   },
-    //   {
-    //     path: 'badges',
-    //     name: 'AccountBadges',
-    //     component: loadPage('AccountBadgesPage')
-    //   },
-    //   {
-    //     path: 'certificates',
-    //     name: 'AccountCertificates',
-    //     component: loadPage('AccountMilestonesPage')
-    //   }
-    // ]
+    children: [
+      {
+        path: 'overview',
+        name: 'Account Overview',
+        component: loadPage('AccountOverview')
+      },
+      {
+        path: 'challenges',
+        name: 'Account Challenges',
+        component: loadPage('AccountChallenges')
+      },
+      {
+        path: 'badges',
+        name: 'Account Badges',
+        component: loadPage('AccountBadges')
+      },
+    ]
   },
   {
     path: '/challenges',
