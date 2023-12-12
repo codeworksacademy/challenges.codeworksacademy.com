@@ -19,6 +19,7 @@ import Pop from "../utils/Pop.js";
 import { accountMilestonesService } from "../services/AccountMilestonesService.js";
 import MilestoneCard from "./MilestoneCard.vue";
 import { useRoute } from "vue-router";
+import { logger } from "../utils/Logger.js";
 
 
 export default {
@@ -29,9 +30,11 @@ export default {
     async function checkMyMilestones() {
       try {
         const checks = AppState.milestoneChecks;
-        if (route.name == 'Account') {
+        if (route.name == 'Account' || route.name == 'Milestones') {
+          // logger.log('checkMyMilestones', AppState.account.id)
           await accountMilestonesService.checkMyMilestones(checks);
         } else {
+          // logger.log('checkMilestonesByUserId')
           const userId = route.params.profileId
           await accountMilestonesService.checkMilestonesByUserId(userId, checks);
         }
