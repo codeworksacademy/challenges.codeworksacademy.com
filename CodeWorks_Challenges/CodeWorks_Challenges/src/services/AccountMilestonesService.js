@@ -11,7 +11,7 @@ class AccountMilestonesService {
   async checkAcountMilestoneCache(accountId, userId, checks) {
     const cacheId = 'accountMilestoneCache'
     let response = await cacheService.checkCache(accountId, userId, cacheId)
-    let cacheItem = response.cacheItem
+    let cacheItem = response.cacheItem.dataToCache
     const status = response.status
 
     if (status == 'notFound' || status == 'expired') {
