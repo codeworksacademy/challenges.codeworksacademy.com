@@ -1,13 +1,11 @@
 <template>
   <header>
     <Navbar class="sticky-top"/>
-    <section class="container-fluid">
-      <div class="d-flex flex-row">
-      </div>
-    </section>
-      <router-view />
   </header>
+
   <main>
+    <router-view />
+
     <ModalWrapper id="createChallengeForm">
       <template #header>
         <h3 class="m-auto">
@@ -56,10 +54,6 @@
       </template>
     </BottomOffcanvasWrapper>
   </main>
-  <footer class="bg-dark text-light">
-    Made with 💖 by CodeWorks
-  </footer>
-
 
 </template>
 
@@ -93,16 +87,18 @@ export default {
 </script>
 <style lang="scss">
 @import "./assets/scss/main.scss";
+@import url('https://fonts.googleapis.com/css2?family=Lekton:wght@400;700&display=swap');
 
 :root{
   --main-height: calc(100vh - 32px - 64px);
 }
 
+header{
+  background-color: #0B0E13;
+}
 
-footer {
-  display: grid;
-  place-content: center;
-  height: 32px;
+main{
+  background-color: #141D2B;
 }
 
 .avatar-xs{
