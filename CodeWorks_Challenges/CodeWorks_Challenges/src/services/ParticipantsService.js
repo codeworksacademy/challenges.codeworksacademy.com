@@ -13,6 +13,8 @@ function sanitizeBody(body) {
 		status: body.status,
 		submission: body.submission,
 		requirements: body.requirements,
+		grade: body.grade,
+		feedback: body.feedback
 	}
 	return writable
 }
@@ -104,6 +106,24 @@ class ParticipantsService {
 			throw new BadRequest('Invalid participant ID.')
 		}
 
+		return participant
+	}
+
+	async gradeChallengeParticipant(participantId, userId, newGrade) {
+		const grade = sanitizeBody(newGrade)
+		const challengeModerator = await dbContext.ChallengeModerators.findOne({ accountId: userId })
+		const participant = await dbContext.ChallengeParticipants.findOneAndUpdate
+		(
+			{ _id: participantId },
+			{ $set: grade },
+			{ runValidators: true, setDefaultsOnInsert: true, new: true },
+		)
+		if (!participant) {
+			throw new BadRequest('Invalid participant ID.')
+		}
+		if(challengeModerator.accountId != userId){
+			throw new Forbidden('Yo - bugs bunny - are NOT a moderator for this challenge. You cannot grade participants.')
+		}
 		return participant
 	}
 

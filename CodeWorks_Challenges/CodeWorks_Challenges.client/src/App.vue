@@ -17,7 +17,7 @@
       </template>
     </ModalWrapper>
 
-    <ModalWrapper id="createSubmissionForm">
+    <ModalWrapper id="challengeSubmissionForm">
       <template #header>
         <h3 class="m-auto">
           Submit Challenge

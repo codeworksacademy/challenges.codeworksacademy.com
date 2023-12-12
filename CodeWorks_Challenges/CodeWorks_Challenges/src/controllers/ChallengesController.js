@@ -3,7 +3,6 @@ import { Auth0Provider } from '@bcwdev/auth0provider'
 import { challengesService } from '../services/ChallengesService.js'
 import { participantsService } from '../services/ParticipantsService.js'
 import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js"
-import { submissionsService } from '../services/SubmissionsService.js'
 
 export class ChallengesController extends BaseController {
   constructor() {
@@ -20,7 +19,7 @@ export class ChallengesController extends BaseController {
       .post('', this.createChallenge)
       .put('/:challengeId', this.editChallenge)
       .put('/:challengeId/reputation', this.giveReputation)
-      
+
       // TODO [🚧 Chantha]
       //FIXME 🛑 Why do two endpoints call the same function? This doesn't serve much purpose
       .post('/:challengeId/answers', this.submitAnswer)
@@ -31,27 +30,10 @@ export class ChallengesController extends BaseController {
       
 
       // .put('/:challengeId', this.deprecateChallenge)
-      .put('/:challengeId/grade/:participantId', this.gradeSubmittedChallenge)
 
 
       .delete('/:challengeId', this.deleteChallenge)
       .delete('/:challengeId/participants', this.removeParticipant)
-  }
-
-
-  // NOTE this is the method used only by moderators
-  async gradeSubmittedChallenge(req, res, next) {
-    try {
-      const challengeId = req.params.challengeId
-      const participantId = req.params.participantId
-      const userId = req.userInfo.id
-      // FIXME this needs some work.... expand on this
-      // const challenge = await challengesService.submitAnswer(challengeId, userId, answer)
-      // return res.send()
-      throw new Error('NOT IMPLEMENTED')
-    } catch (error) {
-      next(error)
-    }
   }
 
   // REVIEW 🟡 This process for submitting a challenge is likely being over complicated or incorrectly handled. When I submit a challenge for grading simply change the status of my participation to NEEDS_GRADED.... 

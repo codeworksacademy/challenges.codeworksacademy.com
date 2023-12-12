@@ -3,7 +3,7 @@
     <div class="d-flex flex-column justify-content-center align-items-center">
         <img
           v-if="participant.status === 'submitted'"
-          @click="`${isGrader ? changeRoute('grading') : ''}`"
+          @click="`${isGrader ? changeRoute('grade') : ''}`"
           :src="participant.profile.picture"
           :title="`${participant.profile.name} has ${participant.status}. Click to grade.`"
           :alt="`Participant Name: ${participant.profile.name} | Current Status: ${participant.status}`"

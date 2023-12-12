@@ -2,21 +2,6 @@ import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { challengesService } from "./ChallengesService.js"
 
-/**
- * @param {any} newSubmission
- */
-
-function sanitizeBody(newSubmission) {
-  const writable = {
-    // profile: newSubmission.profile,
-    status: newSubmission.status,
-    submission: newSubmission.submission,
-    requirements: newSubmission.requirements,
-    grade: newSubmission.grade,
-    feedback: newSubmission.feedback
-  }
-  return writable
-}
 
 class ChallengeModeratorsService {
 
@@ -68,29 +53,6 @@ class ChallengeModeratorsService {
       throw new BadRequest("Invalid Moderation ID.")
     }
     return moderation
-  }
-  /**
-   *  @param {any} newSubmission Updates to apply to participant object
-   */
-  async gradeChallenge(moderatorId, userId, newSubmission) {
-    const updatedParticipant = sanitizeBody(newSubmission)
-    const challengeModerator = await this.getModerationById({ _id: moderatorId })
-    const isChallengeModerator = challengeModerator.accountId == userId
-    const isChallengeCreator = challengeModerator.originId == userId
-    const participantToGrade = await dbContext.ChallengeParticipants.findOneAndUpdate
-      (
-        { _id: newSubmission.participantId },
-        { $set: updatedParticipant },
-        { runValidators: true, setDefaultsOnInsert: true, new: true },
-      )
-
-    if (!isChallengeModerator || !isChallengeCreator) {
-      throw new Forbidden('[PERMISSIONS ERROR]: Only moderators can grade participants! Do not let it happen again, or you will be removed from the challenge.')
-    }
-    if (!participantToGrade) {
-      throw new BadRequest('Invalid participant ID.')
-    }
-    return participantToGrade
   }
 
   async ApproveModeration(moderatorId, userId) {

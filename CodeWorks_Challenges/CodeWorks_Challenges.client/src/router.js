@@ -77,7 +77,7 @@ const routes = [
     // ]
   },
   {
-    path: '/challenges/:challengeId/grading',
+    path: '/challenges/:challengeId/grade',
     name: 'GradeSubmissionsPage',
     component: loadPage('GradeSubmissionsPage')
   },

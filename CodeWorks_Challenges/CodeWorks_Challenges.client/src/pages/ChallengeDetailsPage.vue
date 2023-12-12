@@ -2,7 +2,120 @@
   :style="`background-image: url(${challenge.coverImg}); opacity: .9; background-repeat: no-repeat; background-size: cover;`"
 -->
 <template>
-  <section
+  <section v-if="challenge" :key="challenge?.id" class="container-fluid text-light pb-5">
+    <div class="col-12" :style="`background-image: url(${challenge.coverImg}); opacity: .9; background-repeat: no-repeat; background-size: cover; background-position:center; height:150px`">
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center p-3" style="background: #161d2b">
+      <!-- STUB - Space reserved for the offcanvas details links -->
+      <div class="col-4 rounded-3" style="height:100vh;background: #0c0e13">
+        <h4 class="px-3 pt-3" style="color: #7A7A7A">User Links</h4>
+        <aside class="mt-5 pt-0 px-5">
+          <h4 class="mdi mdi-file-document-multiple selectable"> Overview</h4>
+          <h4 class="mdi mdi-file-document-check selectable"> Requirements</h4>
+          <h4 class="mdi mdi-finance selectable"> Statistics</h4>
+
+          <hr>
+
+          <div v-if="isParticipant">
+            <h4
+              id="challengeSubmissionButton"
+              class="mdi mdi-send-check selectable"
+              ref="submission"
+              role="button"
+              data-bs-target="#challengeSubmissionForm"
+              data-bs-toggle="modal"
+              aria-label="Go to Active Challenge Modal"
+              title="Create a new challenge"
+            > 
+              Submit for Review
+            </h4>
+            <h4 @click="leaveChallenge()" class="mdi mdi-cancel selectable text-danger"> Leave Challenge</h4>
+          </div>
+          <div v-else>
+            <h4 @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable"> Join Challenge</h4>
+          </div>
+        </aside>
+      </div>
+      <!-- STUB - Space reserved for the challenge details -->
+      <div class="col-8 px-5 pt-0" style="position:relative; top:-100px">
+        <article>
+          <div style="position: relative; left:-15px">
+            <h3 class="text-uppercase" style="color: #7A7A7A">
+              Challenge Description
+            </h3>
+            <p> {{ challenge.description }} </p>
+            <hr>
+          </div>
+        </article>
+
+
+        <section class="d-flex justify-content-center align-items-center px-3">
+          <div class="col-4 card">
+            <img src="../assets/img/chart-img.png" :alt="`Difficulty rating for ${challenge.name}`" :title="`The difficulty rating for '${challenge.name}''`" class="img-fluid mb-1 m-auto" style="height:110px;width:120px">
+            <p class="text-uppercase" style="filter:brightness(.85);" v-html="difficulty.html"></p>
+          </div>
+          <div class="col-4 card">
+            <i class="mdi mdi-office-building-cog-outline fs-1"></i>
+            <h2 class="text-capitalize"> {{ challenge.category }} </h2>
+            <h6 class="text-uppercase">Category</h6>
+          </div>
+          <div class="col-4 card text-uppercase">
+            <i class="mdi mdi-account-star-outline fs-1"></i>
+            <h2>4.5</h2>
+            <p>Challenge Rating</p>
+          </div>
+        </section>
+
+        <section class="d-flex justify-content-center align-items-center">
+          <div class="col-4 card">
+            <i class="mdi mdi-diamond fs-1"></i>
+            <h2> {{ challenge.requirements.length }} </h2>
+            <h6 class="text-uppercase">Points</h6>
+          </div>
+          <div class="col-8 card d-flex">
+            <div class="col-12 d-flex align-items-center">
+              <img :src="challenge.creator.picture" :alt="`Image for Challenge creator named '${challenge.creator.name}' is broken`" :title="`Image of the Challenge Creator; ${challenge.creator.name}`" class="img-fluid mx-3 rounded-circle" style="height: 75px;width:75px">
+              <h2 class="text-capitalize"> {{ challenge.creator.name }} </h2>
+            </div>
+            <div class="col-12 d-flex justify-content-between align-items-center">
+              <h6 class="text-uppercase ps-3 pt-4">Challenge Creator</h6>
+              <button class="btn bg-dark btn-success text-success mt-3"><small>Give Reputation</small></button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- <section
     v-if="challenge"
     :key="challenge?.id"
     class="container-fluid text-light pb-5"
@@ -66,7 +179,7 @@
                   id="challengeSubmissionButton"
                   type="button"
                   role="button"
-                  data-bs-target="#createSubmissionForm"
+                  data-bs-target="#challengeSubmissionForm"
                   data-bs-toggle="modal"
                   aria-label="Go to Active Challenge Modal"
                   class="btn btn-outline-success" style="width: 175px; white-space: nowrap;"
@@ -78,7 +191,7 @@
             </div>
           </div>
           <div class="col-12 d-flex justify-content-end" style="white-space: nowrap;">
-            <button v-if="isModeratorStatus || isOwned" @click="changeRoute(`${challenge.id}/grading`)" class="btn btn-outline-info no-wrap mt-1" style="width: 175px;">
+            <button v-if="isModeratorStatus || isOwned" @click="changeRoute(`/moderators/${participant.id}/grade`)" class="btn btn-outline-info no-wrap mt-1" style="width: 175px;">
               View Submissions
             </button>
             <button v-if="isModeratorStatus == null || !isOwned" @click="changeRoute(`${challenge.id}/submissions`)" class="btn btn-outline-info no-wrap mt-1" style="width: 175px;">
@@ -166,19 +279,15 @@
             </button>
             <button v-if="isModeratorStatus == 'pending'" class="btn btn-outline-primary">Request pending</button>
             <button v-if="isModeratorStatus == 'approved'" class="btn btn-outline-primary">You are a Moderator</button>
-            <!-- Move this button and its functionality into the edit challenges -->
-            <!-- <div v-else> 
-              <ModSearchForm />
-            </div> -->
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Participant data -->
+    ! Participant data !
     <section class="col-12 bg-img">
       <section v-if="isParticipant" class="row text-light p-3 mb-3">
-        <!-- v-if is here because participants can be created with out being assigned a status -->
+        NOTE: v-if is here because participants can be created with out being assigned a status
         <div class="col-4" v-if="isParticipant.status">Status: <span class="">{{ isParticipant.status
         }}</span>
         </div>
@@ -189,8 +298,7 @@
       </section>
     </section>
 
-    <!-- Interactions with Challenge -->
-
+    ! Interactions with Challenge !
     <section class="card bg-dark text-light p-3 m-1 ms-0">
       <div class="col-12 d-flex justify-content-center align-items-center">
         <h3 class="text-center text-uppercase">Challenge Requirements</h3>
@@ -219,7 +327,7 @@
       </div>
     </section>
 
-  </section>
+  </section> -->
 </template>
 
 <script>
@@ -341,6 +449,7 @@ export default {
       user: computed(() => AppState.user),
       rewards: computed(() => AppState.rewards),
       participants: computed(() => AppState.participants),
+      participant: computed(() => AppState.activeParticipant),
       challenge: computed(() => AppState.activeChallenge),
       date: computed(() => DateTime(AppState.activeChallenge.createdAt)),
       moderators: computed(() => AppState.moderators.filter(m => m.status == 'Active')),
@@ -436,67 +545,16 @@ export default {
 
 <style scoped lang="scss">
 .container-fluid {
-  min-height: 100vh;
+  height: 100%;
   width: 100%;
   background-color: #000000bf;
 }
-.flash-card {
+.card {
   height: 25vh;
-  object-fit: cover;
-  object-position: center;
-  border-radius: .5rem;
-  padding: 1rem;
   margin: 1rem;
-  box-shadow: 0 0 10px #00000080;
-}
-.time-card {
-  height: 23vh;
-  border-radius: .5rem;
-}
-.creator-card {
-  height: 23vh;
-  border-radius: .5rem;
-  img {
-    height: 50px;
-    width: 50px;
-    object-fit: cover;
-    object-position: center;
-    border-radius: .5rem;
-  }
-}
-.bg-img {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  .text-box {
-    background-color: rgba(0, 0, 0, .75);
-    padding: 3rem;
-    .header {
-      background: linear-gradient(rgba(0, 0, 0, .75), rgba(0, 0, 0, .5));
-      padding: 1rem;
-      font-size: 2rem;
-      font-weight: bold;
-      margin: 0 auto;
-      border-top-left-radius: 1rem;
-      border-top-right-radius: 1rem;
-    }
-    .body {
-      background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0));
-      padding: 1rem;
-    }
-    .footer {
-      background: linear-gradient(rgba(0, 0, 0), rgba(0, 0, 0, .75));
-      padding: 1rem;
-      border-bottom-left-radius: 1rem;
-      border-bottom-right-radius: 1rem;
-    }
-  }
-}
-.moderator {
-  height: 32px;
-  width: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: center;
+  padding:2rem;
+  color: #f0f0f0;
+  background:#1c2332;
+  text-align: center;
 }
 </style>
