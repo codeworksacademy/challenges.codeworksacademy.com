@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark px-3" style="z-index: 1000;">
+  <nav class="navbar navbar-expand-lg navbar-dark px-3 pt-1 pb-0" style="z-index: 1000;">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
         <img alt="logo" src="../assets/img/cw-logo.png" height="45" />
@@ -44,7 +44,7 @@ a:hover {
 
 @media screen and (min-width: 768px) {
   nav {
-    height: 79px;
+    height: 64px;
   }
 }
 </style>

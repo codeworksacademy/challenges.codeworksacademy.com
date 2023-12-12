@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <section class="row">
-      <div class="col-12 col-lg-7 vh-100 text-white d-flex justify-content-center align-items-center">
+      <div class="col-12 col-lg-7 calc-vh text-white d-flex justify-content-center align-items-center">
         <div class="my-4 mx-2">
           <p class="highlight-text rounded fs-6 p-2 px-3 text-center text-md-start">
             Complete Applications, With Feedback and Grading
@@ -27,7 +27,7 @@
       </div>
 
       <div class="col-5 p-0 d-none d-lg-block">
-        <img src="https://images.unsplash.com/photo-1509966756634-9c23dd6e6815?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="hero image" class="vh-100 mw-100">
+        <img src="https://images.unsplash.com/photo-1509966756634-9c23dd6e6815?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="hero image" class="calc-vh mw-100">
       </div>
     </section>
   </div>
@@ -67,6 +67,10 @@ export default {
 .btn-aqua{
   background-color: #00CCE6;
   color: black;
+}
+
+.calc-vh{
+  height: calc(100vh - 64px);
 }
 
 @media (min-width: 768px) {
