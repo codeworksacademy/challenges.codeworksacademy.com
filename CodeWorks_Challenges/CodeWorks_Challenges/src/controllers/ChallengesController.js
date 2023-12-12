@@ -148,7 +148,6 @@ export class ChallengesController extends BaseController {
 
   async getChallengeById(req, res, next) {
     try {
-      const userId = req.userInfo.id
       const challengeId = req.params.challengeId
       const challenge = await challengesService.getChallengeById(challengeId)
       return res.send(challenge)

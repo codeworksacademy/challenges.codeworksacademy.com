@@ -32,8 +32,17 @@
         </select>
       </div>
       <div class="input-group mb-3">
+        <label class="input-group-text" for="challengeStatus">Status</label>
+        <select class="form-select text-center" id="challengeStatus" v-model="challenge.status">
+          <option value="draft" class="">Draft</option>
+          <option value="under review" class="">Under Review</option>
+          <option value="published" class="">Published</option>
+          <option value="deprecated" class="">Deprecated</option>
+        </select>
+      </div>
+      <div class="input-group mb-3">
         <label class="input-group-text" for="challengeAnswer">Answer</label>
-        <input type="text" class="form-control" id="challengeAnswer">
+        <input type="text" class="form-control" id="challengeAnswer" v-model="challenge.answer">
       </div>
     </section>
 </template>

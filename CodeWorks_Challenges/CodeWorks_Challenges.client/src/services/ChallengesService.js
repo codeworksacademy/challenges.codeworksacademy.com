@@ -99,7 +99,7 @@ class ChallengesService {
   async updateChallenge(newChallenge, challengeId) {
     const res = await api.put(`/api/challenges/${challengeId}`, newChallenge)
     logger.log('Updating Challenge ⏩', res.data)
-    AppState.activeChallenge = res.data
+    AppState.activeChallenge = new Challenge(res.data)
     return res.data
     // return newChallenge;
   }

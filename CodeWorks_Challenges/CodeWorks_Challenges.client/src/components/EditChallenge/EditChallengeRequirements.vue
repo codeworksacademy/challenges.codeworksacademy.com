@@ -7,7 +7,7 @@
         <!-- <table class="table-dark bg-light text-dark w-100">
           <tr v-for="(requirement, index) in requirements">{{ requirement }} <span><i class="mdi mdi-trash-can float-end" @click="deleteRequirement(index)"></i></span></tr>
         </table> -->
-        <div class="input-group" v-for="(requirement, index) in requirements" :key="index">
+        <div class="input-group my-3" v-for="(requirement, index) in requirements" :key="index">
           <input type="text" class="form-control" :value="requirement" @input="updateRequirement($event,index)">
           <label for="" class="input-group-text btn-danger btn" @click="deleteRequirement(index)">Delete</label>
         </div>
@@ -16,13 +16,8 @@
     
   <script>
   import { computed, onMounted, ref, watchEffect } from 'vue'
-  import { AppState } from '../../AppState'
-  import Pop from "../../utils/Pop.js"
   import { logger } from "../../utils/Logger.js"  
   import { Challenge } from "../../models/Challenge.js"
-  import { challengesService } from "../../services/ChallengesService.js"
-  import { useRouter } from 'vue-router';
-  import { Modal } from "bootstrap"
   
   export default {
     props: {
@@ -32,7 +27,6 @@
       }
     },
     setup(props) {
-      
       const requirements = ref([])
       const editable = ref({
         type: '',
@@ -63,8 +57,7 @@
         addRequirement,
         updateRequirement,
         deleteRequirement,
-        requirements,
-        user: computed(() => AppState.user)
+        requirements
       } 
     }
   }

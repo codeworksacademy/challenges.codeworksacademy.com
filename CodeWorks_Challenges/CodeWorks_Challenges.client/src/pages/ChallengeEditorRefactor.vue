@@ -32,38 +32,9 @@
         </section>
       </div>
       <div class="col-md-6 text-light">
-        <p v-for="(value, key) in challenge">{{ key }}: {{ value }}</p>
+        <p class="" v-for="(value, key) in challenge">{{ key }}: {{ value }}</p>
       </div>
   </div>
-  <!-- <section class="container-fluid text-light" v-if="challenge"> 
-      //STUB - V-if Challenge
-      <h1>Refactor</h1>
-      <div>
-        //STUB Challenge Name and Description component
-        <div> //STUB Component for these five things
-          //TODO - Add Details Functionality
-          <EditChallengeDetails :challenge="challenge"/>
-          //FIXME - Challenge Name
-          //FIXME - Challenge Cover Image
-          //FIXME - Challenge Category
-          //FIXME - Challenge Difficulty
-          //FIXME - Challenge AutoGrade? Challenge Answer?
-        </div>
-        <EditChallengeDescription :challenge="challenge"/>
-        //TODO Component - Challenge Description Editing (Markdown if usable)
-      </div>
-      <div>
-        <EditChallengeRequirements :challenge="challenge"/>
-        //TODO Challenge Requirements Component
-      </div>
-      <div>
-        //TODO Challenge Status - What should the owner be allowed to do? What should moderators be able to do?
-      </div>
-      <div>
-        //TODO Update Challenge? Validate the changes made to the challenge?
-        <button class="btn btn-success"> Update Challenge</button>
-      </div>
-    </section> -->
 </template>
   
 <script>
