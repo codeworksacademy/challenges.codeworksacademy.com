@@ -1,4 +1,5 @@
 import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js";
+import { participantsService } from "../services/ParticipantsService.js";
 import BaseController from "../utils/BaseController.js"
 import { Auth0Provider } from "@bcwdev/auth0provider";
 
@@ -12,7 +13,7 @@ export class ChallengeModeratorsController extends BaseController {
       .get('/:userId/profiles', this.getMyModerationsByProfileId)
       .get('/challenges/:userId', this.getModerationsByChallengeCreatorId)
       .put('/:moderatorId', this.ApproveModeration)
-      .put('/:moderatorId/grade', this.gradeChallenge)
+      .put('/:participantId/grade', this.gradeChallengeParticipant)
       .delete('/:moderatorId', this.removeModeration)
   }
 
@@ -59,12 +60,12 @@ export class ChallengeModeratorsController extends BaseController {
     }
   }
 
-  async gradeChallenge(req, res, next) {
+  async gradeChallengeParticipant(req, res, next) {
     try {
-      const moderatorId = req.params.moderatorId
+      const participantId = req.params.participantId
       const userId = req.userInfo.id
-      const newSubmission = req.body
-      const participant = await challengeModeratorsService.gradeChallenge(moderatorId, userId, newSubmission)
+      const newGrade = req.body
+      const participant = await participantsService.gradeChallengeParticipant(participantId, userId, newGrade)
       return res.send(participant)
     } catch (error) {
       next(error);

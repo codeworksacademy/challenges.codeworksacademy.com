@@ -90,7 +90,7 @@ export default {
         Pop.toast(`Removed Participation: ${newSubmission}`);
         router.push({
           name: 'GradeSubmissionsPage',
-          path: `/challenges/${AppState.activeChallenge?.id}/grading`
+          path: `/moderators/${participantId}/grade`
         });
       } catch (error) {
         logger.error(error);

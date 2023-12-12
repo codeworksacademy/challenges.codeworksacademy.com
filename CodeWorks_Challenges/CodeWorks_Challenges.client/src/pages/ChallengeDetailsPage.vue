@@ -78,7 +78,7 @@
             </div>
           </div>
           <div class="col-12 d-flex justify-content-end" style="white-space: nowrap;">
-            <button v-if="isModeratorStatus || isOwned" @click="changeRoute(`${challenge.id}/grading`)" class="btn btn-outline-info no-wrap mt-1" style="width: 175px;">
+            <button v-if="isModeratorStatus || isOwned" @click="changeRoute(`/moderators/${participant.id}/grade`)" class="btn btn-outline-info no-wrap mt-1" style="width: 175px;">
               View Submissions
             </button>
             <button v-if="isModeratorStatus == null || !isOwned" @click="changeRoute(`${challenge.id}/submissions`)" class="btn btn-outline-info no-wrap mt-1" style="width: 175px;">
@@ -341,6 +341,7 @@ export default {
       user: computed(() => AppState.user),
       rewards: computed(() => AppState.rewards),
       participants: computed(() => AppState.participants),
+      participant: computed(() => AppState.activeParticipant),
       challenge: computed(() => AppState.activeChallenge),
       date: computed(() => DateTime(AppState.activeChallenge.createdAt)),
       moderators: computed(() => AppState.moderators.filter(m => m.status == 'Active')),

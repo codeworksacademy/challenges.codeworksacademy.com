@@ -23,8 +23,8 @@ class ParticipantsService {
     return res.data
   }
 
-  async gradeChallengeParticipant(participantId, newSubmission) {
-    const res = await api.put(`api/participants/${participantId}`, newSubmission)
+  async gradeChallengeParticipant(newGrade) {
+    const res = await api.put(`api/moderators/${newGrade.participantId}/grade`, newGrade)
     logger.log('Participant Updated ⏩', res.data)
     AppState.activeParticipant = res.data
     return res.data
