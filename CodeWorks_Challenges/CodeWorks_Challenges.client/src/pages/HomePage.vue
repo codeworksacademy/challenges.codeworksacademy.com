@@ -1,21 +1,36 @@
 <template>
-  <section class="container-fluid bg-dark">
-    <div class="d-flex align-items-center justify-content-center pt-5">
-      <div class="col-12 text-light text-center">
-        <h1>I DEVELOP, THEREFORE I<br /> BECOME</h1>
-        <p class="mx-auto" style="width: 60%; color: #f0f0f0;text-shadow: 0 1px #000"> Explore <span class="span-1">challenges</span>, showcase your <span class="span-2">skills</span>, and immerse yourself in the transformative world of <span class="span-3">development</span>.<br />A philosophy that propels us forward, one line of code at a time.</p>
+  <div class="container-fluid">
+    <section class="row">
+      <div class="col-12 col-lg-7 calc-vh text-white d-flex justify-content-center align-items-center">
+        <div class="my-4 mx-2">
+          <p class="highlight-text rounded fs-6 p-2 px-3 text-center text-md-start">
+            Complete Applications, With Feedback and Grading
+          </p>
+          <p class="hero-font fs-1">
+            Pursue New Projects
+          </p>
+          <p class="hero-font fs-1">
+            Showcase Your Skills
+          </p>
+          <p class="hero-font fs-xl">
+            Build Your Portfolio!
+          </p>
+          <p>
+            Empower Your Future and Career with Software Development Challenges
+          </p>
+          <router-link to="Challenges">
+            <button class="btn btn-aqua btn-lg">
+              Browse Challenges
+            </button>
+          </router-link>
+        </div>
       </div>
-    </div>
 
-    <div class="col-3 d-flex justify-content-center align-items-center m-auto p-5">
-      <router-link
-        :to="{ name: 'Challenges' }"
-        title="This link routes you to the challenges page"
-      >
-        <p style="white-space: nowrap;">Go to Challenges</p>
-      </router-link>
-    </div>
-  </section>
+      <div class="col-5 p-0 d-none d-lg-block">
+        <img src="https://images.unsplash.com/photo-1509966756634-9c23dd6e6815?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="hero image" class="calc-vh mw-100">
+      </div>
+    </section>
+  </div>
 </template>
 
 <script>
@@ -35,29 +50,32 @@ export default {
 <style scoped lang="scss">
 @import '../assets/scss/variables.scss';
 
-.container-fluid {
- height: 100%;
- width: 100%;
- color:aliceblue;
+.hero-font{
+  font-family: 'Lekton', sans-serif;
 }
 
-.span-1 {
-  color: forestgreen;
-  font-weight: 500;
+.fs-xl{
+  font-size: 3rem;
 }
 
-.span-2 {
-  color: magenta;
-  font-weight: 500;
+.highlight-text{
+  background-color: #00cbe619;
+  color: #00CCE6;
+  width: fit-content;
 }
 
-.span-3 {
-  color: orange;
-  font-weight: 500;
+.btn-aqua{
+  background-color: #00CCE6;
+  color: black;
 }
 
-p.sub-text {
-  font-size: .85rem;
-  font-weight: 500;
+.calc-vh{
+  height: calc(100vh - 64px);
+}
+
+@media (min-width: 768px) {
+  .fs-xl{
+    font-size: 4rem;
+  }
 }
 </style>
