@@ -65,7 +65,7 @@ import CreateChallengeForm from './components/CreateChallengeForm.vue'
 import ChallengeSubmissionForm from './components/ChallengeSubmissionForm.vue'
 import BottomOffcanvasWrapper from './components/BottomOffcanvasWrapper.vue'
 import ModeratorCard from './components/ModeratorCard.vue'
-import AnswerForm from "./components/AnswerForm.vue"
+import AnswerForm from './components/AnswerForm.vue'
 
 export default {
   setup() {
