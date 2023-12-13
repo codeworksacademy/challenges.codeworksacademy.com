@@ -86,18 +86,7 @@ class ParticipantsService {
 		return moderators;
 	}
 
-	async writeChallengeParticipantProgress(participantId, participantProgress) {
-		const update = sanitizeBody(participantProgress)
 
-		const participant = await dbContext.ChallengeParticipants.findOneAndUpdate
-			(
-				{ _id: participantId },
-				{ $set: update },
-				{ runValidators: true, setDefaultsOnInsert: true, new: true }
-			)
-
-		return participant
-	}
 
 	async updateChallengeParticipant(participantId, userId, participantProgress) {
 
@@ -133,6 +122,19 @@ class ParticipantsService {
 		participant = await this.writeChallengeParticipantProgress(participantId, participantProgress)
 
 		await accountMilestonesService.giveGradingMilestoneByAccountId(userId)
+
+		return participant
+	}
+
+	async writeChallengeParticipantProgress(participantId, participantProgress) {
+		const update = sanitizeBody(participantProgress)
+
+		const participant = await dbContext.ChallengeParticipants.findOneAndUpdate
+			(
+				{ _id: participantId },
+				{ $set: update },
+				{ runValidators: true, setDefaultsOnInsert: true, new: true }
+			)
 
 		return participant
 	}
