@@ -11,36 +11,48 @@
       <div class="col-4 rounded-3" style="height:100vh;background: #0c0e13">
         <h4 class="px-3 pt-3" style="color: #7A7A7A">User Links</h4>
         <aside class="mt-5 pt-0 px-5">
-          <router-link :to="`/challenges/${challenge.id}/overview`">
+          <router-link :to="{ name: 'Overview' }">
             <h4 class="mdi mdi-file-document-multiple text-light selectable"> Overview</h4>
           </router-link>
-          <router-link :to="`/challenges/${challenge.id}/requirements`">
+          <router-link :to="{ name: 'Requirements' }">
             <h4 class="mdi mdi-file-document-check text-light selectable"> Requirements</h4>
           </router-link>
-          <router-link :to="`/challenges/${challenge.id}/statistics`">
+          <router-link :to="{ name: 'Statistics' }">
             <h4 class="mdi mdi-finance text-light selectable"> Statistics</h4>
           </router-link>
 
           <hr>
+            <div v-if="isOwned" class="d-flex flex-column justify-content-center">
+              <router-link :to="{ name: 'ChallengeEditor' }">
+                <h4 class="mdi mdi-archive-edit text-warning selectable" style=""> Edit Challenge</h4>
+              </router-link>
+              <router-link :to="{ name: 'GradeSubmissionsPage' }">
+                <h4 class="mdi mdi-eye-arrow-right text-info mt-1" style=""> View Submissions</h4>
+              </router-link>
+              <h4 @click="deprecateChallenge(challenge.id)" class="mdi mdi-cancel text-danger selectable" style="white-space: nowrap"> Deprecate Challenge</h4>
+            </div>
+            <div v-else-if="!isParticipant">
+              <h4 @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable text-success"> Join Challenge</h4>
+            </div>
+            <div v-else-if="isParticipant">
+              <h4
+                v-if="isParticipant.status === 'started'"
+                id="challengeSubmissionButton"
+                class="mdi mdi-send-check text-info selectable"
+                style="white-space: nowrap"
+                ref="submission"
+                role="button"
+                data-bs-target="#challengeSubmissionForm"
+                data-bs-toggle="modal"
+                aria-label="Go to Active Challenge Modal"
+                title="Create a new challenge"
+              > 
+                Submit for Review
+              </h4>
+              <h4 v-if="isParticipant.status === 'submitted'" class="mdi mdi-eye-arrow-right text-info"> Competitors</h4>
+              <h4 @click="leaveChallenge()" class="mdi mdi-cancel selectable text-danger"> Leave Challenge</h4>
+            </div>
 
-          <div v-if="isParticipant">
-            <h4
-              id="challengeSubmissionButton"
-              class="mdi mdi-send-check text-info selectable"
-              ref="submission"
-              role="button"
-              data-bs-target="#challengeSubmissionForm"
-              data-bs-toggle="modal"
-              aria-label="Go to Active Challenge Modal"
-              title="Create a new challenge"
-            > 
-              Submit for Review
-            </h4>
-            <h4 @click="leaveChallenge()" class="mdi mdi-cancel selectable text-danger"> Leave Challenge</h4>
-          </div>
-          <div v-else>
-            <h4 @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable text-success"> Join Challenge</h4>
-          </div>
         </aside>
       </div>
       <!-- STUB - Space reserved for the challenge details -->
@@ -50,154 +62,17 @@
         <article>
           <div style="position: relative; left:-15px">
             <router-view></router-view>
-            <h3 class="text-uppercase" style="color: #7A7A7A">
-              Challenge Description
-            </h3>
-            <p> {{ challenge.description }} </p>
-            <hr>
+            
           </div>
         </article>
 
-
-        <section class="d-flex justify-content-center align-items-center px-3">
-          <div class="col-4 card">
-            <img src="../assets/img/chart-img.png" :alt="`Difficulty rating for ${challenge.name}`" :title="`The difficulty rating for '${challenge.name}''`" class="img-fluid mb-1 m-auto" style="height:110px;width:120px">
-            <p class="text-uppercase" style="filter:brightness(.85);" v-html="difficulty.html"></p>
-          </div>
-          <div class="col-4 card">
-            <i class="mdi mdi-office-building-cog-outline fs-1"></i>
-            <h2 class="text-capitalize"> {{ challenge.category }} </h2>
-            <h6 class="text-uppercase">Category</h6>
-          </div>
-          <div class="col-4 card text-uppercase">
-            <i class="mdi mdi-account-star-outline fs-1"></i>
-            <h2>4.5</h2>
-            <p>Challenge Rating</p>
-          </div>
-        </section>
-
-        <section class="d-flex justify-content-center align-items-center">
-          <div class="col-4 card">
-            <i class="mdi mdi-diamond fs-1"></i>
-            <h2> {{ challenge.requirements.length }} </h2>
-            <h6 class="text-uppercase">Points</h6>
-          </div>
-          <div class="col-8 card d-flex">
-            <div class="col-12 d-flex align-items-center">
-              <img :src="challenge.creator.picture" :alt="`Image for Challenge creator named '${challenge.creator.name}' is broken`" :title="`Image of the Challenge Creator; ${challenge.creator.name}`" class="img-fluid mx-3 rounded-circle" style="height: 75px;width:75px">
-              <h2 class="text-capitalize"> {{ challenge.creator.name }} </h2>
-            </div>
-            <div class="col-12 d-flex justify-content-between align-items-center">
-              <h6 class="text-uppercase ps-3 pt-4">Challenge Creator</h6>
-              <button class="btn bg-dark btn-success text-success mt-3"><small>Give Reputation</small></button>
-            </div>
-          </div>
-        </section>
       </div>
     </div>
 
   </section>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <!-- <section
-    v-if="challenge"
-    :key="challenge?.id"
-    class="container-fluid text-light pb-5"
-  >
-    <section class="row bg-dark text-uppercase fw-500 pt-4 pb-3 mb-5">
-      <div class="col-1 fs-1 mt-3">
-        <i class="mdi mdi-archive-lock-open-outline subtle-header"></i>
-      </div>
-      <div class="col-6 mt-3">
-        <div class="col-12 d-flex flex-column">
-          <span> {{ challenge.name }} </span>
-          <div class="row mt-1">
-            <div class="col-12 subtle-header">
-              Easy
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-3">
-        <div class="col-12 d-flex justify-content-center align-items-center">
-          <img src="../assets/img/chart-img.png" alt="Temporary Static image of Challenge Difficulty" class="img-fluid" style="height: 75px; width: 120px;">
-        </div>
-        <div class="col-12 d-flex justify-content-center align-items-center">
-          <p class="text-uppercase" style="filter:brightness(.85);" v-html="difficulty.html"></p>
-        </div>
-      </div>
-      <div class="col-2 subtle-header">
-        <div class="col-12 d-flex justify-content-center align-items-center mt-3 mb-1">
-          <i class="mdi mdi-rhombus-split fs-3 text-primary"></i>
-        </div>
-        <div class="col-12 d-flex justify-content-center align-items-center mb-3">
-          40 Points
-        </div>
-      </div>
-    </section>
-
-    <section class="row m-1">
-        <div class="col-6">
-          <h5>CHALLENGE DESCRIPTION</h5>
-        </div>
-        <div class="col-6">
-          <div v-if="isOwned || isModeratorStatus" class="col-12 d-flex justify-content-end">
-            <button @click="editChallenge()" class="btn btn-outline-info ms-1" style="width: 175px;">
-              Edit Challenge
-            </button>
-          </div>
-          <div v-else class="col-12 d-flex justify-content-end">
-            <button @click="joinChallenge()" v-if="!isParticipant" class="btn btn-outline-primary" style="width: 175px; white-space: nowrap;">
-              Join Challenge
-            </button>
-            <div v-else class="d-flex flex-column justify-content-end">
-              <button @click="leaveChallenge()" class="btn btn-outline-danger" style="width: 175px;">
-                Leave Challenge
-              </button>
-              <button v-if="isPuzzle" data-bs-toggle="modal" data-bs-target="#submitAnswerModal" class="btn btn-outline-success" style="width: 175px; white-space: nowrap;">
-                Submit Puzzle
-              </button>
-              <div v-else class="d-flex justify-content-center align-items-end">
-                <button
-                  ref="submission"
-                  id="challengeSubmissionButton"
-                  type="button"
-                  role="button"
-                  data-bs-target="#challengeSubmissionForm"
-                  data-bs-toggle="modal"
-                  aria-label="Go to Active Challenge Modal"
-                  class="btn btn-outline-success" style="width: 175px; white-space: nowrap;"
-                  title="Create a new challenge"
-                >
-                  Submit Application
-                </button>
-              </div>
-            </div>
+<!-- <section class="row m-1">
           </div>
           <div class="col-12 d-flex justify-content-end" style="white-space: nowrap;">
             <button v-if="isModeratorStatus || isOwned" @click="changeRoute(`/moderators/${participant.id}/grade`)" class="btn btn-outline-info no-wrap mt-1" style="width: 175px;">
@@ -208,25 +83,9 @@
             </button>
           </div>
         </div>
-        <div class="col-12 pt-2 pb-4">
-          <p> {{ challenge.description }} </p>
-        </div>
     </section>
 
     <section class="row pt-3 text-uppercase fw-500">
-      <div class="col-4">
-        <div class="flash-card bg-dark m-1">
-          <div class="col-12 d-flex justify-content-center align-items-center subtle-header my-1">
-            <i class="mdi mdi-star-outline fs-2"></i>
-          </div>
-          <div class="col-12 d-flex justify-content-center align-items-center fs-1 my-1">
-            <span>4.8</span>
-          </div>
-          <div class="col-12 d-flex justify-content-center align-items-center subheader my-1">
-            <span>Challenge Rating</span>
-          </div>
-        </div>
-      </div>
       <div class="col-4">
         <div class="flash-card bg-dark m-1">
           <div class="col-12 d-flex justify-content-center align-items-center subtle-header my-1">
@@ -240,83 +99,6 @@
           </div>
         </div>
       </div>
-      <div class="col-4">
-        <div class="flash-card bg-dark m-1">
-          <div class="col-12 d-flex justify-content-center align-items-center subtle-header my-1">
-            <i class="mdi mdi-shape fs-2"></i>
-          </div>
-          <div class="col-12 d-flex justify-content-center align-items-center text-capitalize my-1 fs-1">
-            <span>Full Stack</span>
-          </div>
-          <div class="col-12 d-flex justify-content-center align-items-center subheader my-1">
-            <span>Category</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="col-12 d-flex py-3 fw-500">
-      <div class="col-4 ps-1 p-3 m-auto">
-        <div class="time-card bg-dark d-flex flex-column justify-content-center align-items-center">
-          <i class="mdi mdi-calendar-multiselect-outline fs-2"></i>
-          <div class="col-12 d-flex justify-content-center align-items-center text-capitalize fs-2">
-            <span>1252 Days</span>
-          </div>
-          <div class="col-12 d-flex justify-content-center align-items-center subheader text-uppercase m-1">
-            <span>Released: {{ date }} </span>
-          </div>
-        </div>
-      </div>
-      <div class="col-8">
-        <div class="creator-card ps-1 m-3 me-1 bg-dark text-uppercase m-1">
-          <div class="d-flex align-items-center subtle-header">
-            <img
-              :src="challenge.creator.picture"
-              :alt='`Image of ${challenge.creator.name}`'
-              :title='`Name of Challenge Creator: "${challenge.creator.name}"`'
-              class="img-fluid m-3 creator-card-img"
-            />
-              <div class="my-1 fw-600 fs-3">
-                <span>{{ challenge.creator.name }}</span>
-              </div>
-            </div>
-            <span class="ps-3 subheader">Challenge Creator</span>
-          <div class="col-12 d-flex justify-content-between align-items-center mt-3 m-auto">
-            <button class="btn bg-dark btn-success text-success ms-3"><small>Give Respect</small></button>
-            <button v-if="isModeratorStatus == 'null'" class="btn btn-outline-primary me-3" @click="createModeration()">
-              Request to become moderator
-            </button>
-            <button v-if="isModeratorStatus == 'pending'" class="btn btn-outline-primary">Request pending</button>
-            <button v-if="isModeratorStatus == 'approved'" class="btn btn-outline-primary">You are a Moderator</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    ! Participant data !
-    <section class="col-12 bg-img">
-      <section v-if="isParticipant" class="row text-light p-3 mb-3">
-        NOTE: v-if is here because participants can be created with out being assigned a status
-        <div class="col-4" v-if="isParticipant.status">Status: <span class="">{{ isParticipant.status
-        }}</span>
-        </div>
-        <div class="col-4" v-else>
-          Participant is missing status
-        </div>
-        <div class="col-4">Progress: <span class="">-1/10 // 50% Etc</span> </div>
-      </section>
-    </section>
-
-    ! Interactions with Challenge !
-    <section class="card bg-dark text-light p-3 m-1 ms-0">
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <h3 class="text-center text-uppercase">Challenge Requirements</h3>
-      </div>
-        <ol class="col-12 justify-content-center align-items-center">
-          <li v-for="(requirement, index) in challenge.requirements" :key="index" class="py-2">
-            <span>{{ requirement }}</span>
-          </li>
-        </ol>
     </section>
 
     <section class="row justify-content-center">
@@ -340,21 +122,17 @@
 </template>
 
 <script>
-import Pop from "../utils/Pop.js"
+import Pop from '../utils/Pop'
 import { AppState } from '../AppState'
-import { logger } from "../utils/Logger.js"
-import { DateTime } from '../utils/DateTime.js';
-import { useRoute, useRouter } from 'vue-router';
-import { CATEGORY_TYPES, SUBMISSION_TYPES } from "../constants/index.js";
-import { StrDifficultyNum } from '../utils/StrDifficultyNum.js';
-import { challengesService } from '../services/ChallengesService';
+import { logger } from '../utils/Logger'
 import { computed, onMounted, ref } from 'vue'
-import { participantsService } from "../services/ParticipantsService.js";
-import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js";
+import { SUBMISSION_TYPES } from '../constants';
+import { useRoute, useRouter } from 'vue-router';
+import { challengesService } from '../services/ChallengesService';
+import { participantsService } from '../services/ParticipantsService';
+import { challengeModeratorsService } from '../services/ChallengeModeratorsService';
 
 export default {
-  components: {
-  },
   setup() {
     const loading = ref(false)
     const route = useRoute()
@@ -362,47 +140,10 @@ export default {
     const answer = ref('')
     let challengeId = ''
 
-    function changeRoute(route){
-      router.push({
-        path: `${route}`
-      })
-    }
-
-    const isParticipant = computed(() => {
-      const participant = AppState.participants.find(p => p.accountId == AppState.account.id)
-      return participant
-    })
-
-    const gaveReputation = computed(() => {
-      const challenge = AppState.activeChallenge
-      if(challenge.reputationIds.find(r => r == AppState.account.id)){
-        return true
-      }
-      return false
-    })
-
     async function setActiveChallenge() {
       try {
         const challengeId = route.params.challengeId
         await challengesService.setActiveChallenge(challengeId)
-      } catch (error) {
-        logger.error(error)
-        Pop.toast(error, 'error')
-      }
-    }
-
-    async function updateChallengeParticipant() {
-      try {
-        const confirmComplete = await Pop.confirm('Are you sure you want to complete this challenge?')
-        if (!confirmComplete) {
-          return
-        }
-        const participantId = isParticipant.value.id
-        const newParticipant = {
-          status: 'submitted'
-        }
-        await participantsService.updateChallengeParticipant(participantId, newParticipant)
-        Pop.success(`${AppState.account.name} submitted ${AppState.activeChallenge?.name} successfully. Click 'View Competitors' to verify your submission and see how you 'stack' up! 😉`)
       } catch (error) {
         logger.error(error)
         Pop.toast(error, 'error')
@@ -427,12 +168,83 @@ export default {
       }
     }
 
+    async function joinChallenge() {
+      try {
+        const newParticipant = {
+          challengeId: route.params.challengeId,
+          accountId: AppState.user.id,
+          status: SUBMISSION_TYPES.STARTED,
+          requirements: AppState.activeChallenge?.requirements,
+          supportLinks: [
+            { name: '', url: '' }
+          ],
+        }
+        await participantsService.joinChallenge(newParticipant)
+        Pop.success('joined challenge!')
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error, 'error')
+      }
+    }
+
+    async function updateChallengeParticipant() {
+      try {
+        const confirmComplete = await Pop.confirm('Are you sure you want to complete this challenge?')
+        if (!confirmComplete) {
+          return
+        }
+        const participantId = isParticipant.value.id
+        const newParticipant = {
+          status: SUBMISSION_TYPES.SUBMITTED
+        }
+        await participantsService.updateChallengeParticipant(participantId, newParticipant)
+        Pop.success(`${AppState.account.name} submitted ${AppState.activeChallenge?.name} successfully. Click 'View Competitors' to verify your submission and see how you 'stack' up! 😉`)
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error, 'error')
+      }
+    }
+
+    async function leaveChallenge() {
+      try {
+        const removeConfirm = await Pop.confirm('Are you sure you want to leave this challenge? Your points will not be refunded.')
+        if (!removeConfirm) {
+          return
+        }
+        let participant = AppState.participants.find(p => p.accountId == AppState.account.id)
+        participant.status = SUBMISSION_TYPES.LEFT
+        await participantsService.leaveChallenge(participant.id)
+        Pop.success('left challenge!')
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error, 'error')
+      }
+    }
+
     async function answerChallenge(){
       try{
         await challengesService.submitAnswer(AppState.activeChallenge.id, answer.value)
         logger.log("Answer ", answer.value)
       } catch(error){
         Pop.error(error.message)
+      }
+    }
+
+    async function deprecateChallenge() {
+      try {
+        const confirmDeprecate = await Pop.confirm(`Are you sure you want to deprecate ${AppState.activeChallenge.name}?`)
+        if (!confirmDeprecate) {
+          return
+        }
+        const challengeId = AppState.activeChallenge.id
+        await challengesService.deleteChallenge(challengeId)
+        Pop.success('Challenge deprecated!')
+        router.push({
+          name: 'Home'
+        })
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error, 'error')
       }
     }
 
@@ -446,107 +258,29 @@ export default {
     })
 
     return {
-      changeRoute,
-      answerChallenge,
+      joinChallenge,
+      leaveChallenge,
       updateChallengeParticipant,
+      answerChallenge,
+      deprecateChallenge,
 
       answer,
       loading,
-      isParticipant,
-      gaveReputation,
 
-      user: computed(() => AppState.user),
-      rewards: computed(() => AppState.rewards),
-      participants: computed(() => AppState.participants),
-      participant: computed(() => AppState.activeParticipant),
       challenge: computed(() => AppState.activeChallenge),
-      date: computed(() => DateTime(AppState.activeChallenge.createdAt)),
-      moderators: computed(() => AppState.moderators.filter(m => m.status == 'Active')),
-      difficulty: computed(() => StrDifficultyNum(AppState.activeChallenge.difficulty)),
+
       isOwned: computed(() => AppState.activeChallenge.creator.id === AppState.account.id),
-      isPuzzle: computed(() => AppState.activeChallenge.category === CATEGORY_TYPES.PUZZLES),
-
-      isModeratorStatus: computed(() => {
-        const isMod = AppState.moderators.find(m => m.accountId == AppState.account.id || m.originId == AppState.account.id)
+      isMod: computed(() => {
+        const isMod = AppState.moderators.find(m => m.accountId == AppState.account.id)
         if (isMod) {
-          return isMod.status == 'approved'
-        } else return false
+          if (isMod.status == false) {
+            return 'pending'
+          } else return 'approved'
+        } else return 'null'
       }),
-
-      editChallenge() {
-        logger.log("Pushing to", AppState.activeChallenge.id)
-        router.push({
-          path: `${AppState.activeChallenge.id}/edit`
-        })
-      },
-
-      async joinChallenge() {
-        try {
-          const newParticipant = {
-            challengeId: route.params.challengeId,
-            accountId: AppState.user.id,
-            status: SUBMISSION_TYPES.STARTED,
-            requirements: AppState.activeChallenge?.requirements,
-            supportLinks: [
-              { name: '', url: '' }
-            ],
-          }
-          await participantsService.joinChallenge(newParticipant)
-          Pop.success('joined challenge!')
-        } catch (error) {
-          logger.error(error)
-          Pop.toast(error, 'error')
-        }
-      },
-
-      async leaveChallenge() {
-        try {
-          const removeConfirm = await Pop.confirm('Are you sure you want to leave this challenge? Your points will not be refunded.')
-          if (!removeConfirm) {
-            return
-          }
-          let participant = AppState.participants.find(p => p.accountId == AppState.account.id)
-          participant.status = SUBMISSION_TYPES.LEFT
-          await participantsService.leaveChallenge(participant.id)
-          Pop.success('left challenge!')
-        } catch (error) {
-          logger.error(error)
-          Pop.toast(error, 'error')
-        }
-      },
-
-      async createModeration() {
-        try {
-          const moderatorData = {
-            challengeId: route.params.challengeId,
-            accountId: AppState.user.id
-          } 
-          await challengeModeratorsService.createModeration(moderatorData)
-          Pop.success('You have requested to become a moderator for this challenge, please be patient while the owner of this challenge reviews your request')
-        } catch (error) {
-          Pop.toast(error, 'error')
-        }
-      },
-
-      async removeModeration(moderationId) {
-        try {
-          const confirmRemove = await Pop.confirm('Delete Moderation?')
-          if (!confirmRemove) {
-            return
-          }
-          await challengeModeratorsService.removeModeration(moderationId)
-        } catch (error) {
-          Pop.toast(error, 'error')
-        }
-      },
-
-      async giveReputation(){
-        try {
-          await challengesService.giveReputation(route.params.challengeId)
-        } catch (error) {
-          Pop.error(error.message)
-        }
-      }
+      isParticipant: computed(() => {
+        return AppState.participants.find(p => p.accountId === AppState.user.id)
+      })
     }
   }
 }
@@ -557,13 +291,5 @@ export default {
   height: 100%;
   width: 100%;
   background-color: #000000bf;
-}
-.card {
-  height: 25vh;
-  margin: 1rem;
-  padding:2rem;
-  color: #f0f0f0;
-  background:#1c2332;
-  text-align: center;
 }
 </style>

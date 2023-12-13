@@ -57,7 +57,7 @@ const routes = [
     path: '/challenges/:challengeId',
     name: 'ChallengeDetails',
     component: loadPage('ChallengeDetailsPage'),
-    // redirect: { name: 'Overview' },
+    redirect: { name: 'Overview' },
     children: [
       {
         path: 'overview',

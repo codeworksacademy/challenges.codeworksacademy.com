@@ -1,5 +1,5 @@
 <template>
-  <section v-if="challenge" :key="challenge?.id" class="container-fluid card bg-dark text-light p-3 m-1 ms-0">
+  <section v-if="challenge" :key="challenge?.id" class="card text-light p-3 m-1 ms-0">
     <div class="col-12 d-flex justify-content-center align-items-center">
       <h3 class="text-center text-uppercase">Challenge Requirements</h3>
     </div>
@@ -12,20 +12,11 @@
 </template>
   
 <script>
-import { computed, onMounted } from 'vue'
-import { AppState } from '../../AppState'
-import Pop from "../../utils/Pop.js"
-import { logger } from "../../utils/Logger.js"  
+import { computed } from 'vue'
+import { AppState } from '../../AppState'  
 
 export default {
   setup() {
-
-    onMounted(() => {
-      if (route.params.challengeId != challengeId) {
-        challengeId = route.params.challengeId
-        setActiveChallenge()
-      }
-    })
     return {
       challenge: computed(() => AppState.activeChallenge)
     } 
@@ -34,5 +25,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+  .card {
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+  }
+  li {
+    font-size: 1.2rem;
+  }
 </style>
