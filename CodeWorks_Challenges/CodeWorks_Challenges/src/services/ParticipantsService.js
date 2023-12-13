@@ -124,6 +124,9 @@ class ParticipantsService {
 		if(challengeModerator.accountId != userId){
 			throw new Forbidden('Yo - bugs bunny - are NOT a moderator for this challenge. You cannot grade participants.')
 		}
+		if (participant.status == 'completed') {
+			participant.completedAt = new Date()
+		}
 		return participant
 	}
 

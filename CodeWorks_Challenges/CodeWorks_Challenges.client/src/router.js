@@ -5,6 +5,10 @@ export function loadPage(page) {
   return () => import(`./pages/${page}.vue`)
 }
 
+export function loadChild(parent, child) {
+  return () => import(`./pages/${parent}/${child}.vue`)
+}
+
 const routes = [
   {
     path: '/',
@@ -49,10 +53,28 @@ const routes = [
     name: 'Challenges',
     component: loadPage('ChallengePage'),
   },
-  {
+  { 
     path: '/challenges/:challengeId',
     name: 'ChallengeDetails',
     component: loadPage('ChallengeDetailsPage'),
+    redirect: { name: 'Overview' },
+    children: [
+      {
+        path: 'overview',
+        name: 'Overview',
+        component: () => import('./pages/ChallengeDetailsPage/OverviewPage.vue'),
+      },
+      {
+        path: 'requirements',
+        name: 'Requirements',
+        component: () => import('./pages/ChallengeDetailsPage/RequirementsPage.vue'),
+      },
+      {
+        path: 'statistics',
+        name: 'Statistics',
+        component: () => import('./pages/ChallengeDetailsPage/StatisticsPage.vue'),
+      }
+    ]
   },
   {
     path: '/challenges/:challengeId/edit',
