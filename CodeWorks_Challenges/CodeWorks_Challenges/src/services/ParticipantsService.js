@@ -14,7 +14,9 @@ function sanitizeBody(body) {
 		submission: body.submission,
 		requirements: body.requirements,
 		grade: body.grade,
-		feedback: body.feedback
+		feedback: body.feedback,
+		createdAt: body.createdAt,
+		updatedAt: body.updatedAt,
 	}
 	return writable
 }
@@ -123,9 +125,6 @@ class ParticipantsService {
 		}
 		if(challengeModerator.accountId != userId){
 			throw new Forbidden('Yo - bugs bunny - are NOT a moderator for this challenge. You cannot grade participants.')
-		}
-		if (participant.status == 'completed') {
-			participant.completedAt = new Date()
 		}
 		return participant
 	}

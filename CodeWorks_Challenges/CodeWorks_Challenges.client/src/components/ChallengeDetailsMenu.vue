@@ -49,17 +49,22 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue'
+import Pop from '../utils/Pop'
+import { logger } from '../utils/Logger'
 import { AppState } from '../AppState'
-import Pop from "../utils/Pop.js"
-import { logger } from "../utils/Logger.js"
-import { challengesService } from '../services/ChallengesService'
 import { useRoute } from 'vue-router'
+import { computed } from 'vue'
+import { SUBMISSION_TYPES } from '../constants'
+import { challengesService } from '../services/ChallengesService'
 import { participantsService } from '../services/ParticipantsService'
 
 export default {
   setup() {
-    
+    const route = useRoute()
+
+    const isParticipant = computed(() => {
+      return AppState.participants.find(p => p.accountId === AppState.user.id)
+    })
 
     async function joinChallenge() {
       try {
@@ -68,9 +73,7 @@ export default {
           accountId: AppState.user.id,
           status: SUBMISSION_TYPES.STARTED,
           requirements: AppState.activeChallenge?.requirements,
-          supportLinks: [
-            { name: '', url: '' }
-          ],
+
         }
         await participantsService.joinChallenge(newParticipant)
         Pop.success('joined challenge!')
@@ -132,19 +135,12 @@ export default {
       }
     }
 
-    onMounted(() => {
-      
-    })
-
     return {
       joinChallenge,
       leaveChallenge,
       updateChallengeParticipant,
       deprecateChallenge,
       challenge: computed(() => AppState.activeChallenge),
-      isParticipant: computed(() => {
-        return AppState.participants.find(p => p.accountId === AppState.user.id)
-      }),
       isOwned: computed(() => {
         return AppState.activeChallenge?.creatorId === AppState.user.id
       }),
@@ -154,6 +150,4 @@ export default {
     }
   }
 }
-
-
 </script>
