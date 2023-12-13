@@ -5,8 +5,8 @@ export function loadPage(page) {
   return () => import(`./pages/${page}.vue`)
 }
 
-export function loadChild(parent, child) {
-  return () => import(`./pages/${parent}/${child}.vue`)
+export function loadPageBranch(folder, file) {
+  return () => import(`./pages/${folder}/${file}.vue`)
 }
 
 const routes = [
@@ -56,23 +56,23 @@ const routes = [
   { 
     path: '/challenges/:challengeId',
     name: 'ChallengeDetails',
-    component: loadPage('ChallengeDetailsPage'),
+    component: loadPageBranch('ChallengeDetailsPage', 'ChallengeDetailsPage'),
     redirect: { name: 'Overview' },
     children: [
       {
         path: 'overview',
         name: 'Overview',
-        component: () => import('./pages/ChallengeDetailsPage/OverviewPage.vue'),
+        component: loadPageBranch('ChallengeDetailsPage', 'OverviewPage'),
       },
       {
         path: 'requirements',
         name: 'Requirements',
-        component: () => import('./pages/ChallengeDetailsPage/RequirementsPage.vue'),
+        component: loadPageBranch('ChallengeDetailsPage', 'RequirementsPage'),
       },
       {
         path: 'statistics',
         name: 'Statistics',
-        component: () => import('./pages/ChallengeDetailsPage/StatisticsPage.vue'),
+        component: loadPageBranch('ChallengeDetailsPage', 'StatisticsPage'),
       }
     ]
   },
@@ -135,11 +135,6 @@ const routes = [
     name: 'Refactor',
     component: loadPage('ChallengeDetailsPageRefactor')
   }
-  // {
-  //   path: '/dev',
-  //   name: 'dev',
-  //   component: loadPage('OffCanvasPage'),
-  // }
 ]
 
 export const router = createRouter({
