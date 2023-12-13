@@ -1,7 +1,7 @@
 <template>
   <section v-if="challenge" class="container-fluid">
-    <router-link :to="{ name: 'ChallengeDetails', params: { challengeId: challenge.id } }" class="" style="z-index: 0;">
-      <div class="card card-custom-image d-flex flex-row bg-dark align-items-center p-3 rounded-3"
+    <router-link :to="{ name: 'ChallengeDetails', params: { challengeId: challenge.id } }" class="" style="z-index: 0; text-decoration: none;">
+      <div class="card card-custom-image d-flex flex-row bg-dark align-items-center p-3 rounded-3 text-light"
         style="height: 100px; font-weight: 500;" :style="`background-image: url(${challenge.coverImg}); opacity: .9;`">
         <h5 class="col-3">
           {{ challenge.name }}
@@ -9,7 +9,7 @@
 
         <div class="col-2 m-auto">
           <div class="col-12 d-flex flex-column text-center">
-            <small class="text-light">PTS: {{ challenge.pointValue }} </small>
+            <small class="text-light">PTS: {{ challenge.difficulty }} </small>
             <small class="" v-html="challenge.difficulty.html"></small>
           </div>
         </div>
@@ -118,8 +118,6 @@ export default {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border: 1px solid var(--primary-blue);
-  box-shadow: var(--shadow);
   text-shadow: 0 1px #000000;
   transition: all .3s ease-in-out;
 
