@@ -3,28 +3,17 @@
 
     <div v-if="challenge" :key="challenge.id" class="p-3">
       <div class="d-flex col-12">
-        <div class="col-6 d-flex flex-column justify-content-start align-items-center">
-          <h5 class="">Success Rate: {{ participantCompletionRate }} </h5>
-          <h5>Active Participants: {{ activeParticipantCount }}</h5>
-          <h5>Total Submissions: {{ totalSubmissions }}</h5>
-          <h5 v-if="participant">Average Time to Complete: {{ timeToComplete }}</h5>
+        <div class="col-6 d-flex flex-column justify-content-start">
+          <span>Total Submitted: {{ totalSubmitted }} </span>
+          <span>Total Completed: {{ challenge.completedCount }} </span>
+          <span>Active Participants: {{ challenge.participantCount }} </span>
+          <span>Success Rate: {{ participantCompletionRate }} </span>
         </div>
-        <div class="col-6 d-flex justify-content-end align-items-center">
-          <p v-html="difficulty.html"></p>
+        <div class="col-6 d-flex flex-column justify-content-center align-items-end pt-0">
+          <span v-html="difficulty.html"></span>
+          <img src="../../assets/img/chart-img.png" :alt="`Difficulty rating for ${challenge.name}`" :title="`The difficulty rating for '${challenge.name}'`" class=" img-fluid my-2" style="height:50px;width:70px">
         </div>
       </div>
-      <section>
-        <div class="col-12 d-flex justify-content-between align-items-center">
-          <div v-for="p in participants" :key="p.id" class="col-2 p-3">
-            <div v-if="p.status === 'submitted'">
-              <ParticipantCard :participant="p" />
-            </div>
-            <div v-else class="not-submitted">
-              <ParticipantCard :participant="p" />
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
 
   
@@ -56,8 +45,6 @@ export default {
       challengeId: AppState.activeChallenge?.id,
       submission: '',
       status: SUBMISSION_TYPES,
-      createdAt: AppState.participants.createdAt,
-      updatedAt: AppState.participants.updatedAt
     })
 
     async function setActiveChallenge() {
@@ -78,15 +65,6 @@ export default {
         logger.error(error)
         Pop.toast(error, 'error')
       }
-    }
-
-    function isModeratorStatus() {
-      const isMod = AppState.moderators.find(m => m.accountId == AppState.account.id)
-      if (isMod) {
-        if (isMod.status == false) {
-          return 'pending'
-        } else return 'approved'
-      } else return 'null'
     }
 
     const participant = computed(() => {
@@ -128,34 +106,12 @@ export default {
         const percentage = (completed.length / total) * 100
         return percentage.toFixed(2) + '%'
       }),
-      activeParticipantCount: computed(() => {
-        const participants = AppState.participants
-        const activeParticipants = participants.filter(p => p.status === 'submitted' || p.status === 'started')
-        return activeParticipants.length
-      }),
-      totalSubmissions: computed(() => {
+      totalSubmitted: computed(() => {
         const participants = AppState.participants
         const submissions = participants.filter(p => p.status === 'submitted' || p.status === 'completed')
         const total = submissions.length
         return total
-      }),
-      timeToComplete: computed(() => {
-        const participants = AppState.participants;
-        const completed = participants.filter(p => p.status === 'completed');
-        if (completed.length === 0) {
-          return 0;
-        }
-        const totalTime = completed.reduce((acc, p) => acc + (p.updatedAt - p.createdAt), 0);
-        const averageTime = totalTime / completed.length;
-
-        const days = Math.floor(averageTime / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((averageTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((averageTime % (1000 * 60 * 60)) / (1000 * 60));
-
-        logger.log(days, hours, minutes)
-        return `${days} days, ${hours} hours, ${minutes} minutes`;
-      }),
-
+      })
     } 
   }
 }

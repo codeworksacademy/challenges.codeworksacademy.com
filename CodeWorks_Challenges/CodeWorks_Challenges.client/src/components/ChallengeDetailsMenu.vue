@@ -15,11 +15,11 @@
       <hr>
 
       <div v-if="isOwned || isModerator" class="d-flex flex-column justify-content-center">
+        <router-link :to="{ name: 'GradeSubmissionsPage' }">
+          <h4 class="mdi mdi-progress-check text-info mt-1" style=""> Grade Users</h4>
+        </router-link>
         <router-link :to="{ name: 'ChallengeEditor' }">
           <h4 class="mdi mdi-archive-edit text-warning selectable" style=""> Edit Challenge</h4>
-        </router-link>
-        <router-link :to="{ name: 'GradeSubmissionsPage' }">
-          <h4 class="mdi mdi-progress-check text-info mt-1" style=""> Grade Submissions</h4>
         </router-link>
         <h4 @click="deprecateChallenge(challenge.id)" class="mdi mdi-cancel text-danger selectable" style="white-space: nowrap"> Deprecate Challenge</h4>
       </div>
@@ -136,6 +136,7 @@ export default {
     }
 
     return {
+      isParticipant,
       joinChallenge,
       leaveChallenge,
       updateChallengeParticipant,
