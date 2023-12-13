@@ -11,16 +11,14 @@ class ChallengeModeratorsService {
   }
 
   async getModeratorsByChallengeId(challengeId) {
-    // const moderators = await dbContext.Moderators.find({ challengeId: challengeId, status: true })
     const moderators = await dbContext.ChallengeModerators.find({ challengeId: challengeId }).populate({
       path: 'challenge',
       populate: { path: 'creator participantCount' }
     }).populate('profile', 'name picture')
     return moderators
   }
-
-  async checkUserByChallengeModerations(challengeId, userId) {
-    const moderators = await dbContext.ChallengeModerators.findOne({ challengeId: challengeId, status: true })
+  async getModeratorByUserIdAndChallengeId(challengeId, userId) {
+    const moderators = await dbContext.ChallengeModerators.findOne({ accountId: userId, challengeId: challengeId })
     return moderators
   }
 
@@ -33,10 +31,8 @@ class ChallengeModeratorsService {
   }
 
   async getModerationsByChallengeCreatorId(userId) {
-    // First, find the challenges with the given creator's userId.
     const challenges = await dbContext.Challenges.find({ creatorId: userId });
 
-    // Then, get the moderators for these challenges.
     const moderators = await dbContext.ChallengeModerators.find({ challengeId: { $in: challenges } })
       .populate({
         path: 'challenge',

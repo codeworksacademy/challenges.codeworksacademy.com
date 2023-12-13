@@ -75,7 +75,6 @@ class ParticipantsService {
 
 		const challenges = await dbContext.Challenges.find({ creatorId: userId });
 
-		// Then, get the moderators for these challenges.
 		const moderators = await dbContext.ChallengeModerators.find({ challengeId: { $in: challenges } })
 			.populate({
 				path: 'challenge',
@@ -86,15 +85,8 @@ class ParticipantsService {
 		return moderators;
 	}
 
-	async updateChallengeParticipant(participantId, userId, newSubmission) {
-		const update = sanitizeBody(newSubmission)
-		// TODO [🚧 Kyle] moderator check -- Check to see if userId is a moderator for this challenge
-		// This function triggered when a user / challenge participant created a newSubmission for the challenge being participated in
-		// Was unable to find evidence that it is reused to set to graded or completed etc
-		// const isModerator = await challengeModeratorsService.checkUserByChallengeModerations(newSubmission, userId)
-		// if (!isModerator) {
-		// 	throw new BadRequest('Invalid moderation')
-		// }
+	async writeChallengeParticipantProgress(participantId, participantProgress) {
+		const update = sanitizeBody(participantProgress)
 
 		const participant = await dbContext.ChallengeParticipants.findOneAndUpdate
 			(
@@ -102,28 +94,43 @@ class ParticipantsService {
 				{ $set: update },
 				{ runValidators: true, setDefaultsOnInsert: true, new: true }
 			)
-		if (!participant) {
-			throw new BadRequest('Invalid participant ID.')
-		}
 
 		return participant
 	}
 
-	async gradeChallengeParticipant(participantId, userId, newGrade) {
-		const grade = sanitizeBody(newGrade)
-		const challengeModerator = await dbContext.ChallengeModerators.findOne({ accountId: userId })
-		const participant = await dbContext.ChallengeParticipants.findOneAndUpdate
-		(
-			{ _id: participantId },
-			{ $set: grade },
-			{ runValidators: true, setDefaultsOnInsert: true, new: true },
-		)
+	async updateChallengeParticipant(participantId, userId, participantProgress) {
+
+		let participant = await this.getParticipantById(participantId)
+
 		if (!participant) {
 			throw new BadRequest('Invalid participant ID.')
 		}
-		if(challengeModerator.accountId != userId){
+		const isChallengeModerator = await challengeModeratorsService.getModeratorByUserIdAndChallengeId(userId, participant.id)
+
+		if (!isChallengeModerator && participant.id != userId) {
 			throw new Forbidden('Yo - bugs bunny - are NOT a moderator for this challenge. You cannot grade participants.')
 		}
+
+		participant = await this.writeChallengeParticipantProgress(participantId, participantProgress)
+
+		return participant
+	}
+
+	async gradeChallengeParticipant(participantId, userId, participantProgress) {
+		let participant = await this.getParticipantById(participantId)
+
+		if (!participant) {
+			throw new BadRequest('Invalid participant ID.')
+		}
+
+		const isChallengeModerator = await challengeModeratorsService.getModeratorByUserIdAndChallengeId(userId, participant.challengeId)
+
+		if (!isChallengeModerator) {
+			throw new Forbidden('Yo - bugs bunny - are NOT a moderator for this challenge. You cannot grade participants.')
+		}
+
+		participant = await this.writeChallengeParticipantProgress(participantId, participantProgress)
+
 		return participant
 	}
 
