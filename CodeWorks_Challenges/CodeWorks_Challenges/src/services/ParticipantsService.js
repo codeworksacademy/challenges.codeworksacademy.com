@@ -15,7 +15,8 @@ function sanitizeBody(body) {
 		submission: body.submission,
 		requirements: body.requirements,
 		grade: body.grade,
-		feedback: body.feedback
+		feedback: body.feedback,
+		completedAt: body.completedAt
 	}
 	return writable
 }
@@ -86,8 +87,6 @@ class ParticipantsService {
 		return moderators;
 	}
 
-
-
 	async updateChallengeParticipant(participantId, userId, participantProgress) {
 
 		let participant = await this.getParticipantById(participantId)
@@ -113,13 +112,13 @@ class ParticipantsService {
 			throw new BadRequest('Invalid participant ID.')
 		}
 
+		if (participantProgress.status == 'completed') {
+			participantProgress.completedAt = new Date()
+		}
 		const isChallengeModerator = await challengeModeratorsService.getModeratorByUserIdAndChallengeId(userId, participant.challengeId)
 
 		if (!isChallengeModerator) {
 			throw new Forbidden('Yo - bugs bunny - are NOT a moderator for this challenge. You cannot grade participants.')
-		}
-		if (participant.status == 'completed') {
-			participant.completedAt = new Date()
 		}
 
 		participant = await this.writeChallengeParticipantProgress(participantId, participantProgress)
