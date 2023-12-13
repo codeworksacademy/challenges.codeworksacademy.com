@@ -347,7 +347,7 @@ export default {
 
     };
   },
-  components: { AccountForm, ChallengeCard, AccountModerator, MilestonesTracker }
+  components: { AccountForm, ChallengeCard, AccountModerator, MilestonesTracker, MilestonesTracker }
 }
 </script>
 

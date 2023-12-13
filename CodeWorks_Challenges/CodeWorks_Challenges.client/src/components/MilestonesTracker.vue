@@ -17,9 +17,9 @@ import { computed, watchEffect } from "vue";
 import { AppState } from "../AppState.js";
 import Pop from "../utils/Pop.js";
 import { accountMilestonesService } from "../services/AccountMilestonesService.js";
-import MilestoneCard from "./Milestones/MilestoneCard.vue";
 import { useRoute } from "vue-router";
 import { logger } from "../utils/Logger.js";
+import MilestoneCard from "./MilestoneCard.vue";
 
 
 export default {
@@ -62,7 +62,7 @@ export default {
       milestones: computed(() => AppState.myMilestone),
     };
   },
-  components: { MilestoneCard }
+  components: { MilestoneCard, MilestoneCard }
 }
 </script>
 
