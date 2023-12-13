@@ -27,60 +27,7 @@ class AccountMilestonesService {
     }
     return cacheItem
   }
-
-  async createAccountMilestone(AccountMilestoneData) {
-    const accountMilestone = await dbContext.AccountMilestones.create(AccountMilestoneData)
-    return accountMilestone
-  }
-
-  async getAccountMilestoneById(milestoneId, userId) {
-    const foundAccountMilestone = await dbContext.AccountMilestones.findOne({ milestoneId: milestoneId, accountId: userId })
-    if (!foundAccountMilestone) {
-      return
-    }
-    return foundAccountMilestone
-  }
-  async getAccountMilestones(userId) {
-    const foundAccountMilestones = await dbContext.AccountMilestones.find({ accountId: userId }).populate('milestone')
-    if (!foundAccountMilestones) {
-      new Error('This user does not have any milestones')
-      return
-    }
-    return foundAccountMilestones
-  }
-  async claimAccountMilestone(milestoneId, userId) {
-    const claimMilestone = await dbContext.AccountMilestones.findById(milestoneId)
-    if (claimMilestone.accountId != userId) {
-      throw new BadRequest("Something went wrong, You cannot make this change")
-    }
-    claimMilestone.claimed = true
-    await claimMilestone.save()
-    return claimMilestone
-  }
-
-  async getTotalMilestoneExperience(user) {
-    let experience = 0
-    const accountMilestones = await this.getAccountMilestones(user.id)
-    accountMilestones.forEach(am => {
-      let experienceBasedOnTier = 0
-      let tier = am.tier
-      while (tier != 0) {
-        experienceBasedOnTier += tier * 5
-        tier--
-      }
-      experience += experienceBasedOnTier
-    });
-    return experience
-  }
-
-  async giveGradingMilestoneByAccountId(userId) {
-    const check = "gradeModerators"
-    const milestone = await this.checkMilestonesByUserId(userId, check)
-    return milestone
-  }
-
   //#region calculate accountMilestones
-
   async checkMilestonesByUserId(userId, checks) {
     const pulledChecks = await this.pullMilestoneChecks(checks)
     const checkPromises = pulledChecks.map(async pc => {
@@ -91,7 +38,6 @@ class AccountMilestonesService {
 
     return milestones
   }
-
   async pullMilestoneChecks(checks) {
     const queryChecks = { $or: [] }
     checks.forEach(c => {
@@ -99,6 +45,43 @@ class AccountMilestonesService {
     });
     const pulledChecks = await dbContext.Milestones.find(queryChecks)
     return pulledChecks;
+  }
+
+  async checkMilestones(milestone, userId) {
+
+    const foundAccountMilestone = await this.getOrCreateAccountMilestone(milestone, userId);
+
+    const parsedMilestoneData = this.parseLogic(milestone);
+
+    if (foundAccountMilestone.tier > parsedMilestoneData.maxTierLevel) {
+      return foundAccountMilestone
+    }
+
+    const milestoneCheckCount = await this.getCountByOperation(parsedMilestoneData, foundAccountMilestone, userId);
+
+    let tierToAssign = this.getLatestTier(parsedMilestoneData, milestoneCheckCount);
+
+    if (milestoneCheckCount > foundAccountMilestone.count) {
+      foundAccountMilestone.count = milestoneCheckCount
+
+      if (tierToAssign > foundAccountMilestone.tier) {
+        foundAccountMilestone.claimed = false
+        foundAccountMilestone.tier = tierToAssign
+        foundAccountMilestone.count = milestoneCheckCount
+      }
+
+      await foundAccountMilestone.save()
+    }
+    return foundAccountMilestone
+  }
+
+  async getAccountMilestones(userId) {
+    const foundAccountMilestones = await dbContext.AccountMilestones.find({ accountId: userId }).populate('milestone')
+    if (!foundAccountMilestones) {
+      new Error('This user does not have any milestones')
+      return
+    }
+    return foundAccountMilestones
   }
 
   async getOrCreateAccountMilestone(milestone, userId) {
@@ -113,6 +96,19 @@ class AccountMilestonesService {
     return foundAccountMilestone;
   }
 
+  async createAccountMilestone(AccountMilestoneData) {
+    const accountMilestone = await dbContext.AccountMilestones.create(AccountMilestoneData)
+    return accountMilestone
+  }
+
+  async getAccountMilestoneById(milestoneId, userId) {
+    const foundAccountMilestone = await dbContext.AccountMilestones.findOne({ milestoneId: milestoneId, accountId: userId })
+    if (!foundAccountMilestone) {
+      return
+    }
+    return foundAccountMilestone
+  }
+
   parseLogic(milestone) {
     const parsedMilestoneData = {}
     parsedMilestoneData.milestone = milestone
@@ -120,7 +116,7 @@ class AccountMilestonesService {
     // This string parser will return 
     // operationsArr = ['6', '$gte']
     // maxTierLevel = 6
-    // tierThresholdArr = ['1','2','3','4','5','10'] -- The positions of the array are the level of tier they represent +1, The value of the position is the requirement needed to get the tier.
+    // tierThresholdArr = ['1','2','3','4','5','10'] 
     const logicArr = milestone.logic;
     const logicParts = logicArr.split('%');
     const operationsArr = logicParts[0].split('-');
@@ -139,7 +135,6 @@ class AccountMilestonesService {
       moderateChallenge: { $and: [{ accountId: userId }, { status: 'Active' }] },
       submissionsChallenge: { status: { $in: ['submitted', 'completed'] } },
       passingSubmissionsChallenge: { status: 'completed' },
-      // gradeModerators:{}, // ChallengeParticipant does not hold a graderId
       submittedParticipant: { $and: [{ accountId: userId }, { status: { $in: ['submitted', 'completed'] } }] },
       passingParticipant: { $and: [{ accountId: userId }, { status: 'completed' }] },
       allMilestones: { $sum: '$tier' }
@@ -199,38 +194,38 @@ class AccountMilestonesService {
     return tierToAssign;
   }
 
-  async checkMilestones(milestone, userId) {
-
-    const foundAccountMilestone = await this.getOrCreateAccountMilestone(milestone, userId);
-
-    const parsedMilestoneData = this.parseLogic(milestone);
-
-    if (foundAccountMilestone.tier > parsedMilestoneData.maxTierLevel) {
-      return foundAccountMilestone
-    }
-
-    const milestoneCheckCount = await this.getCountByOperation(parsedMilestoneData, foundAccountMilestone, userId);
-
-    let tierToAssign = this.getLatestTier(parsedMilestoneData, milestoneCheckCount);
-
-    if (milestoneCheckCount > foundAccountMilestone.count) {
-      foundAccountMilestone.count = milestoneCheckCount
-
-      if (tierToAssign > foundAccountMilestone.tier) {
-        foundAccountMilestone.claimed = false
-        foundAccountMilestone.tier = tierToAssign
-        foundAccountMilestone.count = milestoneCheckCount
-      }
-
-      await foundAccountMilestone.save()
-    }
-    return foundAccountMilestone
-
-  }
-
-
   //#endregion
 
+  async claimAccountMilestone(milestoneId, userId) {
+    const claimMilestone = await dbContext.AccountMilestones.findById(milestoneId)
+    if (claimMilestone.accountId != userId) {
+      throw new BadRequest("Something went wrong, You cannot make this change")
+    }
+    claimMilestone.claimed = true
+    await claimMilestone.save()
+    return claimMilestone
+  }
+
+  async getTotalMilestoneExperience(user) {
+    let experience = 0
+    const accountMilestones = await this.getAccountMilestones(user.id)
+    accountMilestones.forEach(am => {
+      let experienceBasedOnTier = 0
+      let tier = am.tier
+      while (tier != 0) {
+        experienceBasedOnTier += tier * 5
+        tier--
+      }
+      experience += experienceBasedOnTier
+    });
+    return experience
+  }
+
+  async giveGradingMilestoneByAccountId(userId) {
+    const check = "gradeModerators"
+    const milestone = await this.checkMilestonesByUserId(userId, check)
+    return milestone
+  }
 
 }
 
