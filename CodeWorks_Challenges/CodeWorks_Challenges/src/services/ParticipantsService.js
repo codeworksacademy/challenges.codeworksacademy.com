@@ -138,7 +138,6 @@ class ParticipantsService {
 				{ runValidators: true, setDefaultsOnInsert: true, new: true }
 			)
 
-
 		return participant
 	}
 
