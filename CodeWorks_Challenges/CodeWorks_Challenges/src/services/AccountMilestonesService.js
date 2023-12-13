@@ -28,31 +28,17 @@ class AccountMilestonesService {
     return cacheItem
   }
 
-  async checkMilestonesByUserId(userId, checks) {
-    const pulledChecks = await this.pullMilestoneChecks(checks)
-    const checkPromises = pulledChecks.map(async pc => {
-      await this.checkMilestones(pc, userId);
-    });
-    await Promise.all(checkPromises);
-    // After all of the checks are performed a blanket get all accountMilestones can be performed because any relevant accountMilestones will have been created, Then that can be returned.
-    const milestones = await this.getAccountMilestones(userId)
-
-    return milestones
-  }
-
-  async pullMilestoneChecks(checks) {
-    // This function is meant to retrieve all of the milestone checks via the checks submitted by the front end
-    const queryChecks = { $or: [] }
-    checks.forEach(c => {
-      queryChecks.$or.push({ check: c })
-    });
-    const pulledChecks = await dbContext.Milestones.find(queryChecks)
-    return pulledChecks;
-  }
-
   async createAccountMilestone(AccountMilestoneData) {
     const accountMilestone = await dbContext.AccountMilestones.create(AccountMilestoneData)
     return accountMilestone
+  }
+
+  async getAccountMilestoneById(milestoneId, userId) {
+    const foundAccountMilestone = await dbContext.AccountMilestones.findOne({ milestoneId: milestoneId, accountId: userId })
+    if (!foundAccountMilestone) {
+      return
+    }
+    return foundAccountMilestone
   }
   async getAccountMilestones(userId) {
     const foundAccountMilestones = await dbContext.AccountMilestones.find({ accountId: userId }).populate('milestone')
@@ -61,13 +47,6 @@ class AccountMilestonesService {
       return
     }
     return foundAccountMilestones
-  }
-  async getAccountMilestoneById(milestoneId, userId) {
-    const foundAccountMilestone = await dbContext.AccountMilestones.findOne({ milestoneId: milestoneId, accountId: userId })
-    if (!foundAccountMilestone) {
-      return
-    }
-    return foundAccountMilestone
   }
   async claimAccountMilestone(milestoneId, userId) {
     const claimMilestone = await dbContext.AccountMilestones.findById(milestoneId)
@@ -92,6 +71,34 @@ class AccountMilestonesService {
       experience += experienceBasedOnTier
     });
     return experience
+  }
+
+  async giveGradingMilestoneByAccountId(userId) {
+    const check = "gradeModerators"
+    const milestone = await this.checkMilestonesByUserId(userId, check)
+    return milestone
+  }
+
+  //#region calculate accountMilestones
+
+  async checkMilestonesByUserId(userId, checks) {
+    const pulledChecks = await this.pullMilestoneChecks(checks)
+    const checkPromises = pulledChecks.map(async pc => {
+      await this.checkMilestones(pc, userId);
+    });
+    await Promise.all(checkPromises);
+    const milestones = await this.getAccountMilestones(userId)
+
+    return milestones
+  }
+
+  async pullMilestoneChecks(checks) {
+    const queryChecks = { $or: [] }
+    checks.forEach(c => {
+      queryChecks.$or.push({ check: c })
+    });
+    const pulledChecks = await dbContext.Milestones.find(queryChecks)
+    return pulledChecks;
   }
 
   async getOrCreateAccountMilestone(milestone, userId) {
@@ -220,6 +227,10 @@ class AccountMilestonesService {
     return foundAccountMilestone
 
   }
+
+
+  //#endregion
+
 
 }
 

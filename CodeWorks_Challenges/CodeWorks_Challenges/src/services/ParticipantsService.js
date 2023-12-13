@@ -3,6 +3,7 @@ import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { challengesService } from "./ChallengesService.js"
 import { PROFILE_FIELDS } from '../constants'
 import { challengeModeratorsService } from "./ChallengeModeratorsService.js"
+import { accountMilestonesService } from "./AccountMilestonesService.js"
 
 /**
  * @param {any} body
@@ -130,6 +131,8 @@ class ParticipantsService {
 		}
 
 		participant = await this.writeChallengeParticipantProgress(participantId, participantProgress)
+
+		await accountMilestonesService.giveGradingMilestoneByAccountId(userId)
 
 		return participant
 	}
