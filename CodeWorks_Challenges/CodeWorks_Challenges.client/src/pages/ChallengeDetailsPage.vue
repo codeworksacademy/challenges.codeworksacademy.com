@@ -27,7 +27,7 @@
                 <h4 class="mdi mdi-archive-edit text-warning selectable" style=""> Edit Challenge</h4>
               </router-link>
               <router-link :to="{ name: 'GradeSubmissionsPage' }">
-                <h4 class="mdi mdi-eye-arrow-right text-info mt-1" style=""> View Submissions</h4>
+                <h4 class="mdi mdi-progress-check text-info mt-1" style=""> Grade Submissions</h4>
               </router-link>
               <h4 @click="deprecateChallenge(challenge.id)" class="mdi mdi-cancel text-danger selectable" style="white-space: nowrap"> Deprecate Challenge</h4>
             </div>
