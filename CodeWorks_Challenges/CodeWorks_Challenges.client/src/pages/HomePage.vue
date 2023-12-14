@@ -69,6 +69,16 @@ export default {
   color: black;
 }
 
+.btn-aqua:active{
+  border: 1px solid #00CCE6;
+  color: #00CCE6;
+}
+
+.btn-aqua:hover{
+  border: 1px solid #00CCE6;
+  color: #00CCE6;
+}
+
 .calc-vh{
   height: calc(100vh - 64px);
 }
