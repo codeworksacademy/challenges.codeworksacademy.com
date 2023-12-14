@@ -27,7 +27,6 @@
 
 <script>
 import { useRoute } from 'vue-router';
-import { answersService } from '../services/AnswersService';
 import { logger } from '../utils/Logger';
 import Pop from '../utils/Pop';
 import { ref } from 'vue';
@@ -47,7 +46,8 @@ export default {
         try {
           const answerData = { body: editable.value.body, challengeId: route.params.challengeId }
           // 🚨🚨🚨 Why is this an answer service? Answer model is not a thing. Move to participant service?
-          await answersService.createAnswer(answerData)
+          // probably participantsService.(updateParticipant) or updateParticipantProgress
+          // await answersService.createAnswer(answerData)
 
           editable.value = {}
 

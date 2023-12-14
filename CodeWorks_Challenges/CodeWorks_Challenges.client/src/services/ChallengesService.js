@@ -121,8 +121,8 @@ class ChallengesService {
 
   // 🚨 Is this meant to be a put? I would guess that it is updating feilds already present.
   async submitAnswer(challengeId, answerData) {
-    logger.log(`🚨🚨🚨 Is this meant to be a put? should be renamed to editAnswer`)
-    return `Is this meant to be a put? should be renamed to editAnswer`
+    logger.log(`🚨🚨🚨 Is this meant to be a put? Should it be an update participant`)
+    return `Is this meant to be a put?`
     // const res = await api.post(`api/challenges/${challengeId}/answers`, {
     //   answerData
     // })
