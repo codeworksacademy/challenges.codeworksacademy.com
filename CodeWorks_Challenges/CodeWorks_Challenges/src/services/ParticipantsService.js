@@ -94,9 +94,9 @@ class ParticipantsService {
 		if (!participant) {
 			throw new BadRequest('Invalid participant ID.')
 		}
-		const isChallengeModerator = await challengeModeratorsService.getModeratorByUserIdAndChallengeId(userId, participant.id)
+		const isChallengeModerator = await challengeModeratorsService.getModeratorByUserIdAndChallengeId(userId, participant.challengeId)
 
-		if (!isChallengeModerator && participant.id != userId) {
+		if (!isChallengeModerator && participant.accountId != userId) {
 			throw new Forbidden('Yo - bugs bunny - are NOT a moderator for this challenge. You cannot grade participants.')
 		}
 
