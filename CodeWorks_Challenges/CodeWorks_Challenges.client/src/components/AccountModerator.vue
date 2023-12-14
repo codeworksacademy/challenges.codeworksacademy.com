@@ -61,6 +61,7 @@ import { AppState } from "../AppState.js"
 import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js"
 import Pop from "../utils/Pop.js"
 import ModerationCard from "./ModerationCard.vue"
+import ChallengeCard from "./ChallengeCard.vue"
 
 export default {
   setup() {
@@ -104,7 +105,7 @@ export default {
 
     };
   },
-  components: { ModerationCard }
+  components: { ModerationCard, ChallengeCard }
 }
 </script>
 
