@@ -82,6 +82,7 @@ class ChallengesService {
 
   //⚠️These are the same thing, Keep one (Also deprecateChallenge is removed from server)
   //is this reactive? This removes it
+  // The .delete was not going to hit the .put in either case
   async deprecateChallenge(challengeId) {
     const res = await api.delete(`/api/challenges/${challengeId}`)
     logger.log('🚨🚨🚨deprecating Challenge ⏩', res.data)

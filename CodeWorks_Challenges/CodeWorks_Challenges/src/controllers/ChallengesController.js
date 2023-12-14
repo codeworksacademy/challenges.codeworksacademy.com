@@ -152,7 +152,7 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  async findChallengesByQuery(req, res, next) { //⚠️ -- This works but does not return creator $lookup is broken
+  async findChallengesByQuery(req, res, next) { //⚠️ -- This works but does not return creator $lookup is broken (I don't know how to use it)
     try {
       const name = req.params.challengeName
       const offset = 0

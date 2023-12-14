@@ -73,16 +73,6 @@ class ChallengesService {
     return challenges
   }
 
-  // 🚨This had no references
-  // async setActiveChallenge(challengeId) {
-  //   const challenge = await dbContext.Challenges.findById(challengeId)
-  //     .populate('creator', 'name picture')
-  //   if (!challenge) {
-  //     throw new BadRequest("Invalid Challenge ID.")
-  //   }
-  //   return challenge
-  // }
-
   async editChallenge(challengeData, userId, challengeId) {
     const challenge = await this.getChallengeById(challengeId)
 
@@ -152,7 +142,7 @@ class ChallengesService {
   // TODO [🚧 Chantha] consolidate challenge submission
   // NOTE be sure to award points based on difficulty
   // Is this submitting an answer as a user and setting as an authorized?
-  // 🚨 I don't understand, Is the submit answer values not supposed to be on the participant? If so, This correct value is not being saved anywhere on a challenge => user relationship
+  // 🚨 I don't understand, Is the submit answer values not supposed to be on the participant? If so, This 'correct' value is not being saved anywhere on a challenge => user relationship
   async submitAnswer(challengeId, userId, answer) {
     const challenge = await dbContext.Challenges.findById(challengeId)
 

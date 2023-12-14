@@ -61,17 +61,6 @@ class ChallengeModeratorsService {
     }
   }
 
-  async gradeChallenge(newGrade) {
-
-    // you should never have to pass an accountId as a Route Param
-    const res = await api.put(`api/challenges/${newGrade.challengeId}/grade`, newGrade)
-    logger.log('🚨🚨🚨 Is this function deprecated?? [Challenge graded]:', res.data)
-
-    // This should be unnecessary since we edited the object already
-    // let participantToGrade = AppState.participants.find(p => p.id == res.data.id)
-    // if (participantToGrade)
-    //   participantToGrade.grade = res.data.grade
-  }
 }
 
 export const challengeModeratorsService = new ChallengeModeratorsService()

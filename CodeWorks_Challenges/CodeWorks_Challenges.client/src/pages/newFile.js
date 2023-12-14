@@ -9,7 +9,7 @@ import { StrDifficultyNum } from "../utils/StrDifficultyNum.js";
 import { newChallengeParticipant } from "../utils/NewChallengeParticipant.js";
 
 export default (await import('vue')).defineComponent({
-  // 🚨🚨🚨 Does this WHOLE file need to be deleted?
+  // 🚨🚨🚨 Does this WHOLE file need to be deleted? TRASH
   components: {
     // SubmissionCard,
     GradeSubmissionForm,
