@@ -10,7 +10,7 @@ export class ChallengesController extends BaseController {
     this.router
       .get('', this.getAllChallenges)
       .get('/:challengeId', this.getChallengeById)
-      .get('', this.findChallenges)
+      .get('/:challengeName/search', this.findChallengesByQuery)
       .get('/:challengeId/participants', this.getParticipantsByChallengeId)
       .get('/:challengeId/moderators', this.getModeratorsByChallengeId)
 
@@ -27,7 +27,7 @@ export class ChallengesController extends BaseController {
       .put('/:challengeId/participants/:participantId', this.submitAnswer)
 
       //New route needs to be called /:challengeId/submissions
-      
+
 
       // .put('/:challengeId', this.deprecateChallenge)
 
@@ -45,7 +45,7 @@ export class ChallengesController extends BaseController {
       const userId = req.userInfo.id
       const answer = req.body
       const result = await challengesService.submitAnswer(challengeId, userId, answer)
-      return res.send(result) 
+      return res.send(result)
     } catch (e) {
       next(e)
     }
@@ -53,29 +53,32 @@ export class ChallengesController extends BaseController {
 
   //#region MANAGE_CHALLENGE_ACTIONS
 
-  async createChallenge(req, res, next) {
+  async createChallenge(req, res, next) { //✅
     try {
-      req.body.creatorId = req.userInfo.id
-      const challenge = await challengesService.createChallenge(req.body)
+      const challengeData = req.body
+      challengeData.creatorId = req.userInfo.id
+
+      const challenge = await challengesService.createChallenge(challengeData)
       return res.send(challenge)
     } catch (error) {
       next(error)
     }
   }
 
-  async editChallenge(req, res, next) {
+  async editChallenge(req, res, next) { //✅
     try {
-      const newChallenge = req.body
+      const challengeData = req.body
       const userId = req.userInfo.id
       const challengeId = req.params.challengeId
-      const challenge = await challengesService.editChallenge(newChallenge, userId, challengeId)
+
+      const challenge = await challengesService.editChallenge(challengeData, userId, challengeId)
       return res.send(challenge)
     } catch (error) {
       next(error)
     }
   }
 
-  async giveReputation(req, res, next) {
+  async giveReputation(req, res, next) { //✅
     try {
       const challengeId = req.params.challengeId
       const userId = req.userInfo.id
@@ -88,21 +91,23 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  async deprecateChallenge(req, res, next) {
-    try {
-      const challengeId = req.params.challengeId
-      const userId = req.userInfo.id
-      await challengesService.deprecateChallenge(challengeId, userId)
-      return res.send(challengeId)
-    } catch (error) {
-      next(error)
-    }
-  }
+  // 🚨Is not connected to controller routing
+  // async deprecateChallenge(req, res, next) { //No Reference
+  //   try {
+  //     const challengeId = req.params.challengeId
+  //     const userId = req.userInfo.id
+  //     await challengesService.deprecateChallenge(challengeId, userId)
+  //     return res.send(challengeId)
+  //   } catch (error) {
+  //     next(error)
+  //   }
+  // }
 
-  async deleteChallenge(req, res, next) {
+  async deleteChallenge(req, res, next) { //✅
     try {
       const challengeId = req.params.challengeId
       const userId = req.userInfo.id
+
       await challengesService.deleteChallenge(challengeId, userId)
       return res.send(challengeId)
     } catch (error) {
@@ -110,13 +115,13 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  async removeParticipant(req, res, next) {
+  async removeParticipant(req, res, next) { //✅
     try {
       const challengeId = req.params.challengeId
-      const newParticipant = req.body
+      const participant = req.body
       const userId = req.userInfo.id
 
-      await participantsService.removeParticipant(challengeId, userId, newParticipant)
+      await participantsService.removeParticipant(challengeId, userId, participant)
     } catch (error) {
       next(error)
     }
@@ -126,7 +131,7 @@ export class ChallengesController extends BaseController {
 
   //#region PARTICIPANT_ACTIONS
 
-  async getAllChallenges(req, res, next) {
+  async getAllChallenges(req, res, next) {//✅
     try {
       const challenges = await challengesService.getAllChallenges()
       return res.send(challenges)
@@ -135,7 +140,7 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  async getChallengeById(req, res, next) {
+  async getChallengeById(req, res, next) {//✅
     try {
       const challengeId = req.params.challengeId
       const challenge = await challengesService.getChallengeById(challengeId)
@@ -145,16 +150,19 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  async findChallenges(req, res, next) {
+  async findChallengesByQuery(req, res, next) { //✅ -- does this work? Does not seem to
     try {
-      const challenges = await challengesService.findChallenges(req.query.name, req.query.offset)
+      const name = req.params.challengeName
+      const offset = 0
+
+      const challenges = await challengesService.findChallengesByQuery(name, offset)
       res.send(challenges)
     } catch (error) {
       next(error)
     }
   }
 
-  async getParticipantsByChallengeId(req, res, next) {
+  async getParticipantsByChallengeId(req, res, next) { //✅
     try {
       const challengeId = req.params.challengeId
       const participants = await participantsService.getParticipantsByChallengeId(challengeId)
@@ -165,7 +173,7 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  async getModeratorsByChallengeId(req, res, next) {
+  async getModeratorsByChallengeId(req, res, next) { //✅
     try {
       const challengeId = req.params.challengeId
       const moderators = await challengeModeratorsService.getModeratorsByChallengeId(challengeId)

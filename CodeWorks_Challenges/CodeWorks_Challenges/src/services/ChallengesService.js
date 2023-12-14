@@ -34,12 +34,29 @@ class ChallengesService {
   /**
   * @param {string} name
    */
-  async findChallenges(name = '', offset = 0) {
+
+  // ChallengeSchema.virtual('creator', {
+  //   localField: 'creatorId',
+  //   foreignField: '_id',
+  //   ref: 'Account',
+  //   justOne: true
+  // })
+
+  async findChallengesByQuery(name = '', offset = 0) {
     const filter = new RegExp(name, 'ig')
     return await dbContext.Challenges
-      .aggregate([{
-        $match: { name: filter }
-      }])
+      .aggregate([
+        {
+          $match: { name: filter }
+        }, {
+          $lookup: { //.populate() does not work here, this doesn't work yet
+            from: 'Account',
+            localField: 'creatorId',
+            foreignField: '_id',
+            as: 'creator'
+          }
+        }
+      ])
       .collation({ locale: 'en_US', strength: 1 })
       .skip(Number(offset))
       .limit(20)
@@ -55,14 +72,15 @@ class ChallengesService {
     return challenges
   }
 
-  async setActiveChallenge(challengeId) {
-    const challenge = await dbContext.Challenges.findById(challengeId)
-      .populate('creator', 'name picture')
-    if (!challenge) {
-      throw new BadRequest("Invalid Challenge ID.")
-    }
-    return challenge
-  }
+  // 🚨This had no references
+  // async setActiveChallenge(challengeId) {
+  //   const challenge = await dbContext.Challenges.findById(challengeId)
+  //     .populate('creator', 'name picture')
+  //   if (!challenge) {
+  //     throw new BadRequest("Invalid Challenge ID.")
+  //   }
+  //   return challenge
+  // }
 
   async editChallenge(newChallenge, userId, challengeId) {
     const challenge = await this.getChallengeById(challengeId)
@@ -104,18 +122,18 @@ class ChallengesService {
     return challenge
   }
 
-
-  async deprecateChallenge(challengeId, userId) {
-    const challenge = await this.getChallengeById(challengeId)
-    if (challenge.creatorId != userId) {
-      throw new Forbidden(
-        `[PERMISSIONS ERROR]: You are not the creator of ${challenge.name}, therefore you cannot deprecate it.`
-      )
-    }
-    challenge.status = 'deprecated'
-    await challenge.save()
-    return challenge
-  }
+  // 🚨This cannot be accessed from client
+  // async deprecateChallenge(challengeId, userId) { 
+  //   const challenge = await this.getChallengeById(challengeId)
+  //   if (challenge.creatorId != userId) {
+  //     throw new Forbidden(
+  //       `[PERMISSIONS ERROR]: You are not the creator of ${challenge.name}, therefore you cannot deprecate it.`
+  //     )
+  //   }
+  //   challenge.status = 'deprecated'
+  //   await challenge.save()
+  //   return challenge
+  // }
 
   async deleteChallenge(challengeId, userId) {
     const challenge = await this.getChallengeById(challengeId)

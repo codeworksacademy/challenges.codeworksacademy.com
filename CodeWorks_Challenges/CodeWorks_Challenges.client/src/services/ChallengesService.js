@@ -16,7 +16,8 @@ class ChallengesService {
   }
 
   async findChallenges(nameQuery) {
-    const res = await api.get(`/api/challenges?name=${nameQuery}`)
+    const res = await api.get(`api/challenges/${nameQuery}/search`)
+    logger.log('[FINDCHALLENGES]', res.data)
     AppState.challenges = res.data.map(c => new Challenge(c))
     logger.log('Queried Challenges by name:', AppState.challenges)
   }
@@ -50,27 +51,27 @@ class ChallengesService {
     logger.log('Active Challenge:', AppState.activeChallenge)
   }
 
-  async filterDifficulty(difficulty){
+  async filterDifficulty(difficulty) {
     await this.getAllChallenges()
     let challenges = await AppState.challenges.filter(c => c.difficulty.text == difficulty)
 
     AppState.challenges = challenges
   }
 
-  async filterType(type){
-    if(type == 'newest'){
+  async filterType(type) {
+    if (type == 'newest') {
       await this.getAllChallenges()
 
       let challenges = await AppState.challenges.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
 
       logger.log(challenges)
-    }else if(type == 'oldest'){
+    } else if (type == 'oldest') {
       await this.getAllChallenges()
 
       let challenges = await AppState.challenges.sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt))
 
       logger.log(challenges)
-    }else if(type == 'cancelled'){
+    } else if (type == 'cancelled') {
       await this.getAllChallenges()
 
       let challenges = await AppState.challenges.filter(c => c.isCancelled == true)
@@ -104,7 +105,7 @@ class ChallengesService {
     // return newChallenge;
   }
 
-  async giveReputation(challengeId){
+  async giveReputation(challengeId) {
     const res = await api.put(`api/challenges/${challengeId}/reputation`)
 
     logger.log('[GIVING REPUTATION]', res.data)
