@@ -41,7 +41,7 @@
             </ul>
           </div>
           <select v-model="filterBy" name="category" id="category" class="col-2 select-category text-center text-uppercase p-3">
-            <option class="disabled-option" :value="''" disabled>Categories</option>
+            <option class="disabled-option" :value="''" disabled>All Categories</option>
             <option class="option-item" @click="filterBy = ''" :value="''">All</option>
             <option class="option-item" v-for="option in categoryTypes" :key="option" @click="filterBy = option" :value="option">{{ option }}</option>
           </select>
@@ -66,15 +66,8 @@
           </div>
         </div>
       </div>
-      <div class="accordion accordion-flush accordion-categories" id="accordionFlush">
-        <h2 v-for="type in categoryTypes" :key="type" class="accordion-item">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse" aria-expanded="false" aria-controls="collapse">{{ type }}</button></h2>
-        <div id='flush-collapse' class="accordion-collapse collapse" 
-        data-bs-parent="#accordionFlush">
-          <div class="accordion-body">
-            <ChallengeCard :challenge="type" />
-          </div>
-        </div>
+      <div v-for="(c, index) in challenges" :key="index" class="px-0">
+        <ChallengeCard :challenge="c" />
       </div>
       <div class="row justify-content-evenly">
         <ul class="pagination col-md-5">
@@ -188,12 +181,13 @@ export default {
   }
 
   .create-challenge-card {
-    background-color: var(--bg-main);
-    border: 1px solid var(--border-dark);
+    background-color: var(--bg-sub);
+    outline: 1px solid var(--border-dark);
     border-radius: 10px;
     color: var(--text-main);
     height: 8vh;
     padding: 1rem;
+    transition: all .3s ease;
     .submission-subtitle {
       color: var(--shadow-green);
       font-size: 1.2rem;
@@ -201,9 +195,10 @@ export default {
       margin-bottom: 1rem;
     }
     &:hover {
-      background-color: var(--bg-sub);
-      border: 1px solid var(--border-dark);
+      outline: 3px solid var(--border-dark);
       color: var(--text-main);
+      transition: all .3s ease;
+      filter: brightness(1.1);
     }
   }
   .search-input {

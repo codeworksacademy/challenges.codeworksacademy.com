@@ -100,11 +100,11 @@ const routes = [
   },
   {
     path: '/challenges/:challengeId/edit',
-    name: 'ChallengeEditorRefactor',
-    component: loadPage('ChallengeEditorRefactor')
+    name: 'ChallengeEditor',
+    component: loadPage('ChallengeEditor')
   },
   {
-    path: '/challenges/:challengeId/grading',
+    path: '/moderators/:participantId/grade',
     name: 'GradeSubmissionsPage',
     component: loadPage('GradeSubmissionsPage')
   },
