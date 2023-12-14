@@ -52,7 +52,7 @@ class ChallengesService {
 
   async filterDifficulty(difficulty){
     await this.getAllChallenges()
-    let challenges = await AppState.challenges.filter(c => c.difficulty.text == difficulty)
+    let challenges = await AppState.challenges.filter(c => c.difficulty == difficulty)
 
     AppState.challenges = challenges
   }

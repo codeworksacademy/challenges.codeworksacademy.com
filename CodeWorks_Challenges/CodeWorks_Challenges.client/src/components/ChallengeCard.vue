@@ -1,5 +1,5 @@
 <template>
-  <section v-if="challenge" class="container-fluid">
+  <section v-if="challenge" :key="challenge?.id" class="container-fluid">
     <router-link :to="{ name: 'ChallengeDetails', params: { challengeId: challenge.id } }" class="" style="z-index: 0; text-decoration: none;">
       <div class="card card-custom-image d-flex flex-row bg-dark align-items-center p-3 rounded-3 text-light"
         style="height: 100px; font-weight: 500;" :style="`background-image: url(${challenge.coverImg}); opacity: .9;`">

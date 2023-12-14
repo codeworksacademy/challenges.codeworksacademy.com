@@ -46,6 +46,17 @@
       </div>
       <div class="row">
         <div class="col-12 d-flex justify-content-end pe-4">
+          <select v-model="filterBy" name="category" id="category" class="col-2 position-relative bg-primary rounded-3 me-1 text-center text-light text-uppercase" style="top: .55rem; height:37px">
+            <option :value="''" disabled>Categories</option>
+            <option @click="filterBy = ''" :value="''">All</option>
+            <option @click="filterBy = 'full stack'" :value="'full stack'">Full Stack</option>
+            <option @click="filterBy = 'front end'" :value="'front end'">Front End</option>
+            <option @click="filterBy = 'back end'" :value="'back end'">Back End</option>
+            <option @click="filterBy = 'puzzles'" :value="'puzzles'">Puzzles</option>
+            <option @click="filterBy = 'data structures'" :value="'data structures'">Data Structures</option>
+            <option @click="filterBy = 'style and design'" :value="'style and design'">Style and Design</option>
+            <option @click="filterBy = 'other'" :value="'other'">Other</option>
+          </select>
           <div class="dropdown m-2">
             <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               Filter Status
@@ -96,8 +107,8 @@ import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
 import ChallengeCard from '../components/ChallengeCard.vue'
+import SelectChallengeCategory from '../components/ChallengePage/SelectChallengeCategory.vue'
 import { challengesService } from "../services/ChallengesService.js"
-import { Modal } from "bootstrap"
 import { useRouter } from "vue-router"
 import { loadPage } from "../router.js"
 
@@ -105,6 +116,7 @@ export default {
 
   components: {
     ChallengeCard,
+    SelectChallengeCategory
   },
 
   setup() {
@@ -140,7 +152,13 @@ export default {
     return {
       search,
       filterBy,
-      challenges: computed(() => AppState.challenges),
+      challenge: computed(() => AppState.activeChallenge),
+      challenges: computed(() => {
+        if (!filterBy.value) {
+          return AppState.challenges
+        }
+          return AppState.challenges.filter(c => c.category === filterBy.value)
+      }),
       filteredChallenges: computed(() => {
         if (!search.value) {
           return AppState.challenges
