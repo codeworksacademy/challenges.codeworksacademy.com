@@ -107,7 +107,6 @@ class ChallengesService {
     logger.log('Updating Challenge ⏩', res.data)
     AppState.activeChallenge = new Challenge(res.data)
     return res.data
-    // return newChallenge;
   }
 
   async giveReputation(challengeId) {
@@ -129,16 +128,6 @@ class ChallengesService {
     // })
     // logger.log(answerData)
     // logger.log('[SUBMITTING ANSWER]', res.data)
-
-    // return res.data
-  }
-
-  //🚨 Was not connected in client Route not available on servers
-  async submitChallenge(challengeId, submissionData) {
-    logger.log(`🚨🚨🚨 Does submitChallenge do anything? Could not find it being used`)
-    return `Does submitChallenge do anything? Could not find it being used`
-    // const res = await api.post(`api/challenges/${challengeId}/submissions`, submissionData)
-    // logger.log('[SUBMITTING CHALLENGE]', res.data)
 
     // return res.data
   }

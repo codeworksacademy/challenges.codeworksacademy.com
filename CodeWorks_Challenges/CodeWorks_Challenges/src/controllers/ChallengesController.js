@@ -19,20 +19,8 @@ export class ChallengesController extends BaseController {
       .post('', this.createChallenge)
       .put('/:challengeId', this.editChallenge)
       .put('/:challengeId/reputation', this.giveReputation)
-
-      // TODO [🚧 Chantha]
-      //FIXME 🛑 Why do two endpoints call the same function? This doesn't serve much purpose
-      // 🚨This submitAnswer appears to be the one that is bad.
-      // .post('/:challengeId/answers', this.submitAnswer)
-      //   vvv this endpoint doesnt make sense for what is trying to be accomplished
       .put('/:challengeId/participants/:participantId', this.submitAnswer)
-
-      //New route needs to be called /:challengeId/submissions
-
-
       // .put('/:challengeId', this.deprecateChallenge)
-
-
       .delete('/:challengeId', this.deleteChallenge)
       .delete('/:challengeId/participants', this.removeParticipant)
   }
@@ -55,7 +43,7 @@ export class ChallengesController extends BaseController {
 
   //#region MANAGE_CHALLENGE_ACTIONS
 
-  async createChallenge(req, res, next) { //✅
+  async createChallenge(req, res, next) {
     try {
       const challengeData = req.body
       challengeData.creatorId = req.userInfo.id
@@ -67,7 +55,7 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  async editChallenge(req, res, next) { //✅
+  async editChallenge(req, res, next) {
     try {
       const challengeData = req.body
       const userId = req.userInfo.id
@@ -80,7 +68,7 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  async giveReputation(req, res, next) { //✅
+  async giveReputation(req, res, next) {
     try {
       const challengeId = req.params.challengeId
       const userId = req.userInfo.id
@@ -105,7 +93,7 @@ export class ChallengesController extends BaseController {
   //   }
   // }
 
-  async deleteChallenge(req, res, next) { //✅
+  async deleteChallenge(req, res, next) {
     try {
       const challengeId = req.params.challengeId
       const userId = req.userInfo.id
@@ -117,7 +105,7 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  async removeParticipant(req, res, next) { //✅
+  async removeParticipant(req, res, next) {
     try {
       const challengeId = req.params.challengeId
       const participant = req.body
@@ -133,7 +121,7 @@ export class ChallengesController extends BaseController {
 
   //#region PARTICIPANT_ACTIONS
 
-  async getAllChallenges(req, res, next) {//✅
+  async getAllChallenges(req, res, next) {
     try {
       const challenges = await challengesService.getAllChallenges()
       return res.send(challenges)
@@ -142,7 +130,7 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  async getChallengeById(req, res, next) {//✅
+  async getChallengeById(req, res, next) {
     try {
       const challengeId = req.params.challengeId
       const challenge = await challengesService.getChallengeById(challengeId)
@@ -164,7 +152,7 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  async getParticipantsByChallengeId(req, res, next) { //✅
+  async getParticipantsByChallengeId(req, res, next) {
     try {
       const challengeId = req.params.challengeId
       const participants = await participantsService.getParticipantsByChallengeId(challengeId)
@@ -175,7 +163,7 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  async getModeratorsByChallengeId(req, res, next) { //✅
+  async getModeratorsByChallengeId(req, res, next) {
     try {
       const challengeId = req.params.challengeId
       const moderators = await challengeModeratorsService.getModeratorsByChallengeId(challengeId)

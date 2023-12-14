@@ -36,13 +36,6 @@ class ChallengesService {
   * @param {string} name
    */
 
-  // ChallengeSchema.virtual('creator', {
-  //   localField: 'creatorId',
-  //   foreignField: '_id',
-  //   ref: 'Account',
-  //   justOne: true
-  // })
-
   async findChallengesByQuery(name = '', offset = 0) {
     const filter = new RegExp(name, 'ig')
     return await dbContext.Challenges
@@ -84,7 +77,6 @@ class ChallengesService {
       )
     }
 
-    //✅ added badgeImg, sorted to match schema
     challenge.category = challengeData.category || challenge.category
     challenge.status = challengeData.status || challenge.status
     challenge.name = challengeData.name || challenge.name

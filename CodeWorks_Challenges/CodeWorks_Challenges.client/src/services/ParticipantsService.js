@@ -43,13 +43,6 @@ class ParticipantsService {
     AppState.participants = res.data.map(p => new ChallengeParticipant(p))
     logger.log('[Participants in this challenge]:', AppState.participants)
   }
-
-  // async updateChallengeParticipant(participantId,  newSubmission) {
-  //   const res = await api.put('api/participants/' + participantId, newSubmission)
-  //   logger.log('Participant Updated ⏩', res.data)
-  //   AppState.activeParticipant = res.data
-  //   return res.data
-  // }
 }
 
 export const participantsService = new ParticipantsService()
