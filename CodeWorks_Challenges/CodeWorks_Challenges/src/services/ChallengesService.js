@@ -7,14 +7,14 @@ class ChallengesService {
 
   async createChallenge(newChallenge) {
     const challenge = await dbContext.Challenges.create(newChallenge)
-    await challenge.populate('creator', PROFILE_FIELDS)
+    await challenge.populate('creator participantCount completedCount', PROFILE_FIELDS)
     return challenge
   }
 
   async getAllChallenges() {
 
     const challenges = await dbContext.Challenges.find()
-      .populate('creator', PROFILE_FIELDS)
+      .populate('creator participantCount completedCount', PROFILE_FIELDS)
       .select('-answer')
       .sort({ createdAt: -1 })
     return challenges
@@ -22,7 +22,7 @@ class ChallengesService {
 
   async getChallengeById(challengeId) {
     const challenge = await dbContext.Challenges.findById(challengeId)
-      .populate('creator', PROFILE_FIELDS)
+      .populate('creator participantCount completedCount', PROFILE_FIELDS)
       .select('-answers')
     if (!challenge) {
       throw new BadRequest('Invalid Challenge ID.')

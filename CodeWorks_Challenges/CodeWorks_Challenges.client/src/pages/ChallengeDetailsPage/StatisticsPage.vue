@@ -1,36 +1,19 @@
 <template>
   <section class="container-fluid">
 
-    <div v-if="challenge" :key="challenge.id" class="row d-flex justify-content-center align-items-center">
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <h1 class="text-center"> {{ challenge.name }} </h1>
-      </div>
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <h3 class="text-center"> {{ challenge.description }} </h3>
-      </div>
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <h3 class="text-center"> {{ challenge.status }} </h3>
-      </div>
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <h3 class="text-center"> {{ challenge.creator.name }} </h3>
-      </div>
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <p v-html="difficulty.html"></p>
-      </div>
-      <section>
-        <div class="col-12 d-flex justify-content-between align-items-center">
-          <div v-for="p in participants" :key="p.id" class="col-2 p-3">
-            <div v-if="p.status === 'submitted'">
-              <ParticipantCard :participant="p" />
-              <!-- <small class="d-flex justify-content-center align-items-center text-success text-capitalize" style="font-style: bold;">gradable</small> -->
-            </div>
-            <div v-else class="not-submitted">
-              <ParticipantCard :participant="p" />
-              <!-- <small class="d-flex justify-content-center align-items-center subtle-header text-capitalize p-0 m-0" style="font-style: italic;">not submitted</small> -->
-            </div>
-          </div>
+    <div v-if="challenge" :key="challenge.id" class="p-3">
+      <div class="d-flex col-12">
+        <div class="col-6 d-flex flex-column justify-content-start">
+          <span>Total Submitted: {{ totalSubmitted }} </span>
+          <span>Total Completed: {{ challenge.completedCount }} </span>
+          <span>Active Participants: {{ challenge.participantCount }} </span>
+          <span>Success Rate: {{ participantCompletionRate }} </span>
         </div>
-      </section>
+        <div class="col-6 d-flex flex-column justify-content-center align-items-end pt-0">
+          <span v-html="difficulty.html"></span>
+          <img src="../../assets/img/chart-img.png" :alt="`Difficulty rating for ${challenge.name}`" :title="`The difficulty rating for '${challenge.name}'`" class=" img-fluid my-2" style="height:50px;width:70px">
+        </div>
+      </div>
     </div>
 
   
@@ -47,7 +30,7 @@ import { challengesService } from '../../services/ChallengesService'
 import { useRoute } from 'vue-router'
 import { participantsService } from '../../services/ParticipantsService'
 import { StrDifficultyNum } from "../../utils/StrDifficultyNum.js"
-import { newChallengeParticipant } from "../../utils/NewChallengeParticipant.js"
+import { SUBMISSION_TYPES } from "../../constants/index.js"
 
 export default {
   components: {
@@ -57,9 +40,12 @@ export default {
     let route = useRoute()
 
     const filterBy = ref('')
-    const editable = computed(() => 
-      newChallengeParticipant({ state: AppState }, filterBy.value)
-    )
+    const editable = ref({
+      accountId: AppState.user.id,
+      challengeId: AppState.activeChallenge?.id,
+      submission: '',
+      status: SUBMISSION_TYPES,
+    })
 
     async function setActiveChallenge() {
       try {
@@ -79,15 +65,6 @@ export default {
         logger.error(error)
         Pop.toast(error, 'error')
       }
-    }
-
-    function isModeratorStatus() {
-      const isMod = AppState.moderators.find(m => m.accountId == AppState.account.id)
-      if (isMod) {
-        if (isMod.status == false) {
-          return 'pending'
-        } else return 'approved'
-      } else return 'null'
     }
 
     const participant = computed(() => {
@@ -121,6 +98,20 @@ export default {
       difficulty: computed(() =>
         StrDifficultyNum(AppState.activeChallenge.difficulty)
       ),
+      participantCompletionRate: computed(() => {
+        const participants = AppState.participants
+        const submissionTypes = participants.filter(p => p.status === SUBMISSION_TYPES ? p.status === SUBMISSION_TYPES : p.status !== SUBMISSION_TYPES['removed', 'left'])
+        const completed = participants.filter(p => p.status === 'completed')
+        const total = submissionTypes.length
+        const percentage = (completed.length / total) * 100
+        return percentage.toFixed(2) + '%'
+      }),
+      totalSubmitted: computed(() => {
+        const participants = AppState.participants
+        const submissions = participants.filter(p => p.status === 'submitted' || p.status === 'completed')
+        const total = submissions.length
+        return total
+      })
     } 
   }
 }

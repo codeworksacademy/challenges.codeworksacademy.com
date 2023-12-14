@@ -17,7 +17,7 @@
 
         <section class="d-flex justify-content-center align-items-center px-3">
           <div class="col-4 card">
-            <img src="../../assets/img/chart-img.png" :alt="`Difficulty rating for ${challenge.name}`" :title="`The difficulty rating for '${challenge.name}''`" class="img-fluid my-1 m-auto" style="height:50px;width:70px">
+            <img src="../../assets/img/chart-img.png" :alt="`Difficulty rating for ${challenge.name}`" :title="`The difficulty rating for '${challenge.name}'`" class="img-fluid my-1 m-auto" style="height:50px;width:70px">
             <h3 class="text-capitalize"> {{ difficulty }} </h3>
             <h6 class="text-uppercase">Difficulty</h6>
           </div>
@@ -35,9 +35,16 @@
 
         <section class="d-flex justify-content-center align-items-center p-0">
           <div class="col-4 card">
-            <i class="mdi mdi-diamond fs-1"></i>
-            <h3 v-if="isParticipant"> {{ challenge.requirements.length }} </h3>
-            <h6 class="text-uppercase">Points</h6>
+            <div v-if="isParticipant">
+              <i class="mdi mdi-diamond fs-1"></i>
+              <h3> {{ challenge.requirements.length }} </h3>
+              <h6 class="text-uppercase">Points</h6>
+            </div>
+            <div v-else-if="isOwned || isModerator">
+              <i class="mdi mdi-bell fs-1"></i>
+              <h3> {{ challenge.completedCount }} / {{ challenge.participantCount }} </h3>
+              <h6 class="text-uppercase">Points</h6>
+            </div>
           </div>
           <div class="col-8 card">
             <div class="col-12 d-flex align-items-center">
@@ -122,9 +129,20 @@ export default {
       isParticipant,
       gaveReputation,
 
+
+
       challenge: computed(() => AppState.activeChallenge),
       moderators: AppState.moderators.filter(m => m.status == 'Active'),
-      isOwned: computed(() => AppState.activeChallenge.creator.id === AppState.account.id),
+      isOwned: computed(() => {
+        if (AppState.activeChallenge.creator.id === AppState.account.id) {
+          return true
+        }
+      }),
+      isModerator: computed(() => {
+        if (AppState.moderators.find(m => m.accountId === AppState.account.id)) {
+          return true
+        }
+      }),
       isPuzzle: computed(() => AppState.activeChallenge.category === CATEGORY_TYPES.PUZZLES),
 
       difficulty: computed(() => {
