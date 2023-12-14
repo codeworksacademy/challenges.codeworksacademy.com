@@ -1,25 +1,25 @@
 <template>
-  <section class="rank-card-style bg-dark text-light row m-2 mb-3 p-2 rounded">
-      <div class="col-12 fs-2">
+  <section class="rank-card-style row my-2 my-md-0">
+      <div class="col-4 fs-1 lekton-text text-white fw-semibold d-flex align-items-center justify-content-center">
         {{ currentRank }}
       </div>
-      <div class="col-12">
-        <div class="row">
-          <div class="col-md-3 col-12 d-flex align-items-end">
-            <span>
-              CURRENT RANK
-            </span>
-          </div>
-          <div class="col-md-9 col-12 text-start text-md-end">
-            <span>
-              NEXT RANK: {{ nextRank.toUpperCase() }}
-            </span>
-            <div class="progress" role="progressbar" aria-label="example" aria-valuenow="50" aria-valuemin="0"
-              aria-valuemax="100">
-              <div class="progress-bar" :style="{ width: rankPercentage }"> {{ rankPercentage }}</div>
-            </div>
+      <div class="col-6 my-auto">
+        <div class="">
+          <p class="text-white-50 m-0">
+            RANK PROGRESS
+          </p>
+          <p class="text-white">
+            <span class="theme-color fw-semibold">{{ rankPercentage }}</span> towards {{ nextRank }}
+          </p>
+        </div>
+        <div class="d-none d-md-block">
+          <div class="progress" style="height: 5px; background-color: #0B1019;">
+            <div class="progress-bar theme-style-box" role="progressbar" style="width: 25%; background-color: #F2FAC4;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
         </div>
+      </div>
+      <div class="col-2 d-flex align-items-center justify-content-center">
+        <i class="mdi mdi-star-four-points-circle theme-color theme-style fs-0"></i>
       </div>
     </section>
 </template>
@@ -61,7 +61,7 @@ export default {
 
         let nextKey = keys[nextIndex]
 
-        let percentage = (AppState.account.rank / nextKey) * 100
+        let percentage = ((AppState.account.rank - lastKey) / (nextKey - lastKey)) * 100
 
         let finalPer = percentage.toFixed(1)
 
@@ -93,5 +93,26 @@ export default {
 
 
 <style lang="scss" scoped>
+.theme-style{
+  text-shadow: 0px 0px 15px #cbd4a57b;
+}
 
+.lekton-text{
+  font-family: 'Lekton', sans-serif;
+}
+
+.theme-color{
+  color: #F2FAC4;
+}
+
+.fs-0{
+  font-size: 3.25rem;
+}
+
+.rank-card-style{
+  background-color: #3e53742a;
+  border: 1px solid #3E5374;
+  border-radius: .5rem;
+  height: 6rem;
+}
 </style>

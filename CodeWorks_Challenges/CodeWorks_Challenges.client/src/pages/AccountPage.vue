@@ -241,11 +241,4 @@ export default {
 .link-btn:focus{
   border: 1px solid #0B0E13;
 }
-
-@media (min-width: 768px) {
-  .user-links-card{
-  background-color: #0E141E;
-  width: 15rem;
-}
-}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <section class="row">
+    <section class="row mt-3 my-0 my-md-3 mt-md-3">
       <!-- TODO - Add function to find all moderated and created challenges -->
       <div class="col-md-4 col-12">
         <StatCard title="Moderated Challenges" :number="myChallenges.length" color="#20C997" bgColor="#20c99629" icon="mdi-file-code" />
@@ -18,12 +18,12 @@
     </section>
 
     <section class="row">
-      <div class="col-md-4 col-12">
-        <StatCard />
+      <div class="col-md-8 col-12">
+        <AccountRankCard />
       </div>
 
-      <div class="col-md-8 col-12">
-        <RankCard />
+      <div class="col-md-4 col-12">
+        <StatCard title="Reputation" :number="account.reputation" color="#3E5374" bgColor="#3e53742a" icon="mdi-emoticon-happy" :leftAlignedIcon="false" :themeStyle="true" />
       </div>
     </section>
   </div>
@@ -32,7 +32,7 @@
 
 <script>
 import { computed, watchEffect } from 'vue';
-import RankCard from '../components/AccountAndProfilePage/RankCard.vue';
+import AccountRankCard from '../components/AccountAndProfilePage/AccountRankCard.vue';
 import { AppState } from '../AppState';
 import StatCard from '../components/AccountAndProfilePage/StatCard.vue';
 
@@ -43,11 +43,10 @@ export default {
           myChallenges: computed(() => AppState.myChallenges),
         };
     },
-    components: { RankCard, StatCard, StatCard }
+    components: { AccountRankCard, StatCard, StatCard }
 }
 </script>
 
 
 <style lang="scss" scoped>
-
 </style>

@@ -1,7 +1,9 @@
 <template>
-  <div class="card my-3 my-md-0 d-flex flex-row align-items-center justify-content-center" :style="{backgroundColor: props.bgColor, border: '1px', borderColor: props.color, borderStyle: 'solid' }">
-    <i class="mdi pe-3 fs-1" :class="props.icon" :style="{color: props.color}"></i>
-    <div class="d-flex flex-column justify-content-center">
+  <div class="card my-2 my-md-0 d-flex flex-row align-items-center justify-content-center" :style="{backgroundColor: props.bgColor, border: '1px', borderColor: props.color, borderStyle: 'solid'}">
+
+    <i class="mdi fs-1" :class="props.icon, props.leftAlignedIcon ? 'order-1 pe-3' : 'order-2 ps-3', props.themeStyle ? 'theme-style' : ''" :style="[props.themeStyle ? {'color': '#CBD4A5'} : {'color': props.color}]"></i>
+
+    <div class="d-flex flex-column justify-content-center" :class="props.leftAlignedIcon ? 'order-2' : 'order-1 text-center fs-4'">
       <span>{{ props.number }}</span>
       <span>{{ props.title }}</span>
     </div>
@@ -16,7 +18,9 @@ export default {
     color: {type: String, required: true},
     title: {type: String, required: true},
     number: {type: String, required: true},
-    icon: {type: String, required: true}
+    icon: {type: String, required: true},
+    leftAlignedIcon: {type: Boolean, required: true, default: true},
+    themeStyle: {type: Boolean, required: true, default: false}
   },
 
   setup(props){
@@ -38,4 +42,8 @@ export default {
     border-radius: .5rem;
     height: 6rem;
   }
+
+.theme-style{
+  text-shadow: 0px 0px 15px #cbd4a57b;
+}
 </style>
