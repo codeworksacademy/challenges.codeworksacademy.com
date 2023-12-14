@@ -19,7 +19,7 @@
           <i class="col-4 mdi mdi-diamond-stone text-light fs-5 me-3"> <span class="ms-3" style="font-style:normal"> {{ challenge.difficulty }}</span></i>
           <i class="col-4 mdi mdi-account text-light fs-5"> <span class="ms-3" style="font-style:normal"> {{ challenge.participantCount }}</span></i>
         </div>
-        <div class="col-1 d-flex flex-column justify-content-center align-items-center mx-auto ms-3">
+        <div class="col-1 d-flex flex-column justify-content-center align-items-center mx-auto">
           <i class="mdi mdi-chevron-right me-5 fs-5"></i>
         </div>
       </div>
