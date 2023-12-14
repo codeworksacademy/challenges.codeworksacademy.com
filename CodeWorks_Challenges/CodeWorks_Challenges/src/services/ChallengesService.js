@@ -1,6 +1,7 @@
 import { dbContext } from "../db/DbContext.js";
 import { BadRequest, Forbidden } from "../utils/Errors.js";
 import { PROFILE_FIELDS } from '../constants';
+import { challengeModeratorsService } from "./ChallengeModeratorsService.js";
 
 
 class ChallengesService {
@@ -15,7 +16,7 @@ class ChallengesService {
 
     const challenges = await dbContext.Challenges.find()
       .populate('creator participantCount completedCount', PROFILE_FIELDS)
-      .select('-answer')
+      .select('-answer') //⚠️answer here.
       .sort({ createdAt: -1 })
     return challenges
   }
@@ -23,7 +24,7 @@ class ChallengesService {
   async getChallengeById(challengeId) {
     const challenge = await dbContext.Challenges.findById(challengeId)
       .populate('creator participantCount completedCount', PROFILE_FIELDS)
-      .select('-answers')
+      .select('-answer')//⚠️ but answers here? Corrected to answer after reviewing Schema
     if (!challenge) {
       throw new BadRequest('Invalid Challenge ID.')
     }
@@ -82,25 +83,28 @@ class ChallengesService {
   //   return challenge
   // }
 
-  async editChallenge(newChallenge, userId, challengeId) {
+  async editChallenge(challengeData, userId, challengeId) {
     const challenge = await this.getChallengeById(challengeId)
-    // todo [🚧 Kyle]  needs to allow for moderators
-    if (challenge.creatorId != userId) {
+
+    const isChallengeModerator = await challengeModeratorsService.getModeratorByUserIdAndChallengeId(userId, challengeId)
+
+    if (!isChallengeModerator && challenge.creatorId != userId) {
       throw new Forbidden(
-        `[PERMISSIONS ERROR]: Only the creator of ${challenge.name} can edit it.`
+        `[PERMISSIONS ERROR]: Only the creator of ${challenge.name} or a moderator can edit it.`
       )
     }
 
-    // REVIEW [🚧 Chantha] Verify if this updates all the correct fields
-    challenge.name = newChallenge.name || challenge.name
-    challenge.description = newChallenge.description || challenge.description
-    challenge.category = newChallenge.category || challenge.category
-    challenge.requirements = newChallenge.requirements || challenge.requirements
-    challenge.coverImg = newChallenge.coverImg || challenge.coverImg
-    challenge.supportLinks = newChallenge.supportLinks || challenge.supportLinks
-    challenge.answer = newChallenge.answer || challenge.answer
-    challenge.difficulty = newChallenge.difficulty || challenge.difficulty
-    challenge.status = newChallenge.status || challenge.status
+    //✅ added badgeImg, sorted to match schema
+    challenge.category = challengeData.category || challenge.category
+    challenge.status = challengeData.status || challenge.status
+    challenge.name = challengeData.name || challenge.name
+    challenge.description = challengeData.description || challenge.description
+    challenge.requirements = challengeData.requirements || challenge.requirements
+    challenge.supportLinks = challengeData.supportLinks || challenge.supportLinks
+    challenge.difficulty = challengeData.difficulty || challenge.difficulty
+    challenge.coverImg = challengeData.coverImg || challenge.coverImg
+    challenge.badgeImg = challengeData.badgeImg || challenge.badgeImg
+    challenge.answer = challengeData.answer || challenge.answer
 
     await challenge.save()
     return challenge
