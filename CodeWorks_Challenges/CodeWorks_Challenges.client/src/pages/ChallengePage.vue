@@ -49,13 +49,7 @@
           <select v-model="filterBy" name="category" id="category" class="col-2 position-relative bg-primary rounded-3 me-1 text-center text-light text-uppercase" style="top: .55rem; height:37px">
             <option :value="''" disabled>Categories</option>
             <option @click="filterBy = ''" :value="''">All</option>
-            <option @click="filterBy = 'full stack'" :value="'full stack'">Full Stack</option>
-            <option @click="filterBy = 'front end'" :value="'front end'">Front End</option>
-            <option @click="filterBy = 'back end'" :value="'back end'">Back End</option>
-            <option @click="filterBy = 'puzzles'" :value="'puzzles'">Puzzles</option>
-            <option @click="filterBy = 'data structures'" :value="'data structures'">Data Structures</option>
-            <option @click="filterBy = 'style and design'" :value="'style and design'">Style and Design</option>
-            <option @click="filterBy = 'other'" :value="'other'">Other</option>
+            <option v-for="option in categoryTypes" :key="option" @click="filterBy = option" :value="option">{{ option }}</option>
           </select>
           <div class="dropdown m-2">
             <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -111,6 +105,7 @@ import SelectChallengeCategory from '../components/ChallengePage/SelectChallenge
 import { challengesService } from "../services/ChallengesService.js"
 import { useRouter } from "vue-router"
 import { loadPage } from "../router.js"
+import { CATEGORY_TYPES } from "../constants/index.js"
 
 export default {
 
@@ -123,6 +118,7 @@ export default {
     const search = ref({})
     const filterBy = ref('')
     const router = useRouter()
+    const categoryTypes = ref(Object.values(CATEGORY_TYPES))
 
     async function findChallenges() {
       try {
@@ -151,6 +147,7 @@ export default {
 
     return {
       search,
+      categoryTypes,
       filterBy,
       challenge: computed(() => AppState.activeChallenge),
       challenges: computed(() => {

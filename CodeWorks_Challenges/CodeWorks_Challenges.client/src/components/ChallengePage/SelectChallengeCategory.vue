@@ -7,9 +7,9 @@ import { AppState } from '../../AppState'
 
 export default {
   setup() {
-    const filterBy = ref('')
+    // const filterBy = ref('')
     return {
-      filterBy,
+      // filterBy,
     }
   }
 }
