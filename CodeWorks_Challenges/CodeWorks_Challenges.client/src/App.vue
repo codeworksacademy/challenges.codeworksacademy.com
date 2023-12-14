@@ -101,14 +101,6 @@ main{
   background-color: #141D2B;
 }
 
-.light-gold-color{
-  color: #CBD4A5;
-}
-
-.light-gold-border{
-  border: 2px solid #CBD4A5;
-}
-
 .avatar-xs{
   height: 2.75rem;
   width: 2.75rem;

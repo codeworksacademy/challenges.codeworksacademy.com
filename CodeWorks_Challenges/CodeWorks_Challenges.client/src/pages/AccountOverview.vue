@@ -6,9 +6,8 @@
         <StatCard title="Moderated Challenges" :number="myChallenges.length" color="#20C997" bgColor="#20c99629" icon="mdi-file-code" />
       </div>
 
-      <!-- TODO - Add function to find completed Challenges -->
       <div class="col-md-4 col-12">
-        <StatCard title="Completed Challenges" :number="myChallenges.length" color="#FD7E14" bgColor="#fd7d142e" icon="mdi-file-sign" />
+        <StatCard title="Completed Challenges" :number="completedChallenges.length" color="#FD7E14" bgColor="#fd7d142e" icon="mdi-file-sign" />
       </div>
 
       <!-- TODO - Add functionality to Badges -->
@@ -41,6 +40,13 @@ export default {
         return {
           account: computed(() => AppState.account),
           myChallenges: computed(() => AppState.myChallenges),
+          myParticipations: computed(() => AppState.myParticipants),
+
+          completedChallenges: computed(() => {
+            const completed = AppState.myParticipants.filter(p => p.status == 'completed')
+
+            return completed
+          })
         };
     },
     components: { AccountRankCard, StatCard, StatCard }

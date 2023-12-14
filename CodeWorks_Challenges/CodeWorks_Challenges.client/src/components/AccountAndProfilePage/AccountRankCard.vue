@@ -1,27 +1,27 @@
 <template>
   <section class="rank-card-style row my-2 my-md-0">
-      <div class="col-4 fs-1 lekton-text text-white fw-semibold d-flex align-items-center justify-content-center">
-        {{ currentRank }}
+    <div class="col-4 fs-1 lekton-text text-white fw-semibold d-flex align-items-center justify-content-center">
+      {{ currentRank }}
+    </div>
+    <div class="col-6 my-auto">
+      <div class="">
+        <p class="text-white-50 m-0">
+          RANK PROGRESS
+        </p>
+        <p class="text-white">
+          <span class="theme-color fw-semibold">{{ rankPercentage }}</span> towards {{ nextRank }}
+        </p>
       </div>
-      <div class="col-6 my-auto">
-        <div class="">
-          <p class="text-white-50 m-0">
-            RANK PROGRESS
-          </p>
-          <p class="text-white">
-            <span class="theme-color fw-semibold">{{ rankPercentage }}</span> towards {{ nextRank }}
-          </p>
+      <div class="d-none d-md-block">
+        <div class="progress" style="height: 5px; background-color: #0B1019;">
+          <div class="progress-bar theme-style-box" role="progressbar" :style="{ width: rankPercentage }" style="background-color: #F2FAC4;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        <div class="d-none d-md-block">
-          <div class="progress" style="height: 5px; background-color: #0B1019;">
-            <div class="progress-bar theme-style-box" role="progressbar" style="width: 25%; background-color: #F2FAC4;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
-        </div>
       </div>
-      <div class="col-2 d-flex align-items-center justify-content-center">
-        <i class="mdi mdi-star-four-points-circle theme-color theme-style fs-0"></i>
-      </div>
-    </section>
+    </div>
+    <div class="col-2 d-flex align-items-center justify-content-center">
+      <i class="mdi mdi-star-four-points-circle theme-color theme-style fs-0"></i>
+    </div>
+  </section>
 </template>
 
 

@@ -1,27 +1,27 @@
 <template>
-  <section class="container-fluid">
-  </section>
+  <div class="container-fluid">
+    <section class="row my-3">
+      <div class="col-12 text-white">
+        <h5>
+          Waiting for Badges to be implemented.
+        </h5>
+      </div>
+      <div class="col-12">
+        <MilestonesTracker />
+      </div>
+    </section>
+  </div>
 </template>
-  
+
 <script>
-import { computed, onMounted } from 'vue'
-// import { AppState } from '../AppState'
-// import Pop from "../utils/Pop.js"
-// import { logger } from "../utils/Logger.js"  
+import MilestonesTracker from '../components/MilestonesTracker.vue';
+
 
 export default {
-  components: {
-
-  },
-  setup() {
-
-    onMounted(() => {
-
-    })
-    return {
-
-    } 
-  }
+    setup() {
+        return {};
+    },
+    components: { MilestonesTracker }
 }
 </script>
 
