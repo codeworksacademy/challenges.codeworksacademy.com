@@ -1,7 +1,6 @@
 <template>
-  <section class="container-fluid position-relative pt-5">
-    <div class="row">
-      <div class="col-12 d-flex justify-content-end position-absolute top-0 right-2 p-1">
+  <section class="container-fluid pt-5">
+      <div class="col-12 d-flex justify-content-end">
         <a
           ref="challenge"
           id="createChallengeButton"
@@ -44,7 +43,6 @@
         </div>
       </form>
       </div>
-      <div class="row">
         <div class="col-12 d-flex justify-content-end pe-4">
           <select v-model="filterBy" name="category" id="category" class="col-2 position-relative bg-primary rounded-3 me-1 text-center text-light text-uppercase" style="top: .55rem; height:37px">
             <option :value="''" disabled>Categories</option>
@@ -72,16 +70,14 @@
             </ul>
           </div>
         </div>
-      </div>
-      <div class="row">
         <div 
           v-for="(c, index) in challenges"
           :key="index"
-          class="col-12 px-3 mb-1 position-relative"
+          class="px-0"
         >
+        
           <ChallengeCard :challenge="c" />
         </div>
-      </div>
       <div class="row justify-content-evenly">
         <ul class="pagination col-md-5">
             <li class="page-item"><a class="page-link" href="#">Previous</a></li>
@@ -91,7 +87,6 @@
             <li class="page-item"><a class="page-link" href="#">Next</a></li>
           </ul>
       </div>
-    </div>
   </section>
 </template>
 
@@ -189,7 +184,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  // * {
-  //   border: 1px red solid
-  // }
+  .container-fluid {
+    --bs-gutter-x: 0;
+    overflow-x: hidden;
+  }
 </style>

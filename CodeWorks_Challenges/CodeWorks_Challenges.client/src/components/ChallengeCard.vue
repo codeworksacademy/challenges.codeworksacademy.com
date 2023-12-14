@@ -1,24 +1,30 @@
 <template>
-  <section v-if="challenge" :key="challenge?.id" class="container-fluid">
+  <section v-if="challenge" :key="challenge?.id" class="">
     <router-link :to="{ name: 'ChallengeDetails', params: { challengeId: challenge.id } }" class="" style="z-index: 0; text-decoration: none;">
       <div class="card card-custom-image d-flex flex-row bg-dark align-items-center p-3 rounded-3 text-light"
-        style="height: 100px; font-weight: 500;" :style="`background-image: url(${challenge.coverImg}); opacity: .9;`">
-        <h5 class="col-3">
+        style="height: 85px; font-weight: 500;">
+        <h6 class="col-3">
           {{ challenge.name }}
-        </h5>
+        </h6>
 
         <div class="col-2 m-auto">
-          <div class="col-12 d-flex flex-column text-center">
-            <small class="text-light">PTS: {{ challenge.difficulty }} </small>
-            <small class="" v-html="challenge.difficulty.html"></small>
+          <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+            <img v-if="challenge.difficulty === 1" src="../assets/img/easy-difficulty-chart.svg" alt="Easy Difficulty Icon" class="img-fluid" style="width: 30px; height: 30px;">
+            <img v-if="challenge.difficulty === 2" src="../assets/img/medium-difficulty-chart.svg" alt="Medium Difficulty Icon" class="img-fluid" style="width: 30px; height: 30px;">
+            <img v-if="challenge.difficulty === 3" src="../assets/img/hard-difficulty-chart.svg" alt="Hard Difficulty Icon" class="img-fluid" style="width: 30px; height: 30px;">
           </div>
         </div>
+        <div class="col-2">
+          <i class="mdi mdi-star-half-full fs-5 ms-5"> <span class="ms-1" style="font-style:normal;"> 4.7</span></i>
+        </div>
+        <div class="col-2">
+          <i class="mdi mdi-diamond-stone text-light">PTS: {{ challenge.difficulty }} </i>
+        </div>
+        <div class="col-2">
+          <i class="mdi mdi-account text-light"> {{ challenge.completedCount }}</i>
+        </div>
         <div class="col-1 d-flex flex-column justify-content-center align-items-center mx-auto ms-3">
-          <p class="text-center" style="font-size: .9rem; text-wrap: nowrap; line-height: 0;">Creator:</p>
-          <router-link :to="{ name: 'Profile', params: { profileId: challenge.creatorId } }">
-            <img :src="challenge.creator.picture" :alt="`Picture of ${challenge.creator.name} (Challenge Creator / Host)`"
-              class="creator-img img-fluid rounded-circle">
-          </router-link>
+          <i class="mdi mdi-chevron-right"></i>
         </div>
       </div>
     </router-link>
@@ -40,6 +46,7 @@ import { Challenge } from '../models/Challenge'
 import { challengesService } from '../services/ChallengesService'
 import { profilesService } from '../services/ProfilesService'
 import { useRoute } from "vue-router"
+import { StrDifficultyNum } from '../utils/StrDifficultyNum.js'
 
 export default {
   props: {
@@ -52,6 +59,15 @@ export default {
 
     const route = useRoute()
 
+    const userSolveCount = computed(() => {
+      return AppState.participants.forEach(p => {
+        if (p.status === 'completed') {
+          return p.length
+        }
+      })
+    })
+
+    const difficulty = computed(() => StrDifficultyNum(props.challenge.difficulty))
     async function cancelChallenge() {
       try {
         if (await Pop.confirm('Are you sure you want to cancel this challenge?')) {
@@ -91,6 +107,8 @@ export default {
       account: computed(() => AppState.account),
       challenges: computed(() => AppState.challenges),
       activeChallenge: computed(() => AppState.activeChallenge),
+      difficulty,
+      userSolveCount,
 
       cancelChallenge,
       deleteChallenge,
@@ -115,26 +133,13 @@ export default {
 
 .card-custom-image {
   position: relative;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-color: var(--bg-main) !important;
   text-shadow: 0 1px #000000;
   transition: all .3s ease-in-out;
-
-  &::before {
-    background: linear-gradient(90deg, #00000080 0%, transparent 150%);
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: .45rem;
-    z-index: -1;
-  }
+  border-top:2px solid var(--border-main);
+  border-bottom:2px solid var(--border-main);
 
   &:hover {
-    box-shadow: var(--shadow-magenta);
   }
 
   .creator-img {
@@ -150,7 +155,6 @@ export default {
 
     &:hover {
       transform: scale(1.05);
-      box-shadow: var(--shadow-magenta);
     }
   }
 }
