@@ -1,6 +1,6 @@
 <template>
   <section class="container-fluid pt-5">
-      <div class="col-12 d-flex justify-content-end">
+      <div class="col-12 d-flex justify-content-end pe-4">
         <a
           ref="challenge"
           id="createChallengeButton"
@@ -15,35 +15,21 @@
         </a>
       </div>
       
-      <div class="col-12 mb-5" style="color: var(--text-primary);">
-        <h5 class="text-center">Search Challenges</h5>
+      <div class="col-5 mb-2" style="color: var(--text-primary);">
+        <h5 class="ms-5 text-light">Search Challenges</h5>
       </div>
-      <div class="col-12">
-        <form
-          @submit.prevent="findChallenges"
-        >
-        <div class="input-group mb-3">
-          <input
-            v-model="search.name"
-            type="text"
-            name="name"
-            id="name"
-            class="form-control"
-            placeholder="Search by name"
-            aria-label="Search by name"
-            aria-describedby="search"
-          />
-          <button
-            type="submit"
-            class="btn btn-outline-secondary"
-            id="search"
-          >
-            Search
-          </button>
+      <div class="col-12 d-flex justify-content-center align-items-center">
+        <div class="col-6 ms-5 mb-4 pb-1 ps-5">
+          <form @submit.prevent="findChallenges">
+            <div class="input-group">
+              <input v-model="search.name" type="text" name="name" id="name" class="form-control me-1" style="width: 85%" placeholder="Search by name" aria-label="Search by name" aria-describedby="search" />
+              <button type="submit" class="btn btn-outline-primary text-light mb-1" style="width: 14%" id="search">
+                Search
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
-      </div>
-        <div class="col-12 d-flex justify-content-end pe-4">
+        <div class="col-6 d-flex justify-content-end mb-4 me-5 pe-4">
           <select v-model="filterBy" name="category" id="category" class="col-2 position-relative bg-primary rounded-3 me-1 text-center text-light text-uppercase" style="top: .55rem; height:37px">
             <option :value="''" disabled>Categories</option>
             <option @click="filterBy = ''" :value="''">All</option>
@@ -70,14 +56,34 @@
             </ul>
           </div>
         </div>
-        <div 
-          v-for="(c, index) in challenges"
-          :key="index"
-          class="px-0"
-        >
-        
-          <ChallengeCard :challenge="c" />
+      </div>
+      <div class="col-12 challenge-keys d-flex justify-content-center align-items-center text-uppercase">
+        <div class="col-4">
+          <h6>Challenge Name</h6>
         </div>
+        <div class="col-2">
+          <h6>Difficulty</h6>
+        </div>
+        <div class="col-5 d-flex justify-content-center align-items-center">
+          <div class="col-4">
+            <h6>Rating</h6>
+          </div>
+          <div class="col-4">
+            <h6>Points</h6>
+          </div>
+          <div class="col-4">
+            <h6>User Solves</h6>
+          </div>
+        </div>
+      </div>
+      <div 
+        v-for="(c, index) in challenges"
+        :key="index"
+        class="px-0"
+      >
+      
+        <ChallengeCard :challenge="c" />
+      </div>
       <div class="row justify-content-evenly">
         <ul class="pagination col-md-5">
             <li class="page-item"><a class="page-link" href="#">Previous</a></li>
@@ -187,5 +193,9 @@ export default {
   .container-fluid {
     --bs-gutter-x: 0;
     overflow-x: hidden;
+  }
+
+  .challenge-keys {
+    color: var(--text-sub);
   }
 </style>

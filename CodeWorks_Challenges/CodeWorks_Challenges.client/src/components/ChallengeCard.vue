@@ -3,28 +3,24 @@
     <router-link :to="{ name: 'ChallengeDetails', params: { challengeId: challenge.id } }" class="" style="z-index: 0; text-decoration: none;">
       <div class="card card-custom-image d-flex flex-row bg-dark align-items-center p-3 rounded-3 text-light"
         style="height: 85px; font-weight: 500;">
-        <h6 class="col-3">
+        <h6 class="col-4 ps-4 ms-3">
           {{ challenge.name }}
         </h6>
 
-        <div class="col-2 m-auto">
+        <div class="col-2 me-5 pe-5">
           <div class="col-12 d-flex flex-column justify-content-center align-items-center">
             <img v-if="challenge.difficulty === 1" src="../assets/img/easy-difficulty-chart.svg" alt="Easy Difficulty Icon" class="img-fluid" style="width: 30px; height: 30px;">
             <img v-if="challenge.difficulty === 2" src="../assets/img/medium-difficulty-chart.svg" alt="Medium Difficulty Icon" class="img-fluid" style="width: 30px; height: 30px;">
             <img v-if="challenge.difficulty === 3" src="../assets/img/hard-difficulty-chart.svg" alt="Hard Difficulty Icon" class="img-fluid" style="width: 30px; height: 30px;">
           </div>
         </div>
-        <div class="col-2">
-          <i class="mdi mdi-star-half-full fs-5 ms-5"> <span class="ms-1" style="font-style:normal;"> 4.7</span></i>
-        </div>
-        <div class="col-2">
-          <i class="mdi mdi-diamond-stone text-light">PTS: {{ challenge.difficulty }} </i>
-        </div>
-        <div class="col-2">
-          <i class="mdi mdi-account text-light"> {{ challenge.completedCount }}</i>
+        <div class="col-5 d-flex justify-content-center align-items-center">
+          <i class="col-4 mdi mdi-star-half-full fs-5 me-3"> <span class="ms-3" style="font-style:normal"> 4.7</span></i>
+          <i class="col-4 mdi mdi-diamond-stone text-light fs-5 me-3"> <span class="ms-3" style="font-style:normal"> {{ challenge.difficulty }}</span></i>
+          <i class="col-4 mdi mdi-account text-light fs-5"> <span class="ms-3" style="font-style:normal"> {{ challenge.participantCount }}</span></i>
         </div>
         <div class="col-1 d-flex flex-column justify-content-center align-items-center mx-auto ms-3">
-          <i class="mdi mdi-chevron-right"></i>
+          <i class="mdi mdi-chevron-right me-5 fs-5"></i>
         </div>
       </div>
     </router-link>
@@ -60,12 +56,8 @@ export default {
     const route = useRoute()
 
     const userSolveCount = computed(() => {
-      return AppState.participants.forEach(p => {
-        if (p.status === 'completed') {
-          return p.length
-        }
-      })
-    })
+      return AppState.participants.filter(p => p.status === 'completed')
+  })
 
     const difficulty = computed(() => StrDifficultyNum(props.challenge.difficulty))
     async function cancelChallenge() {
