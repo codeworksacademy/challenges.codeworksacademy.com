@@ -1,42 +1,27 @@
 <template>
-  <section class="container-fluid pt-5">
-      <div class="col-12 d-flex justify-content-end pe-4">
-        <a
-          ref="challenge"
-          id="createChallengeButton"
-          type="button"
-          role="button"
-          data-bs-target="#createChallengeForm"
-          data-bs-toggle="modal"
-          aria-label="Go to Active Challenge Modal"
-          class="mdi mdi-plus-circle border-none fs-1"
-          title="Create a new challenge"
-        >
-        </a>
+  <section class="container-fluid pt-5 g-0">
+      <div class="col-12 d-flex justify-content-end">
+        <div class="col-4 d-flex create-challenge-card flex-column" style="position: relative; height: 14vh;right: 5rem">
+          <span class="submission-subtitle" style="">Earn your Reputation</span>
+          <a ref="challenge" id="createChallengeButton" type="button" role="button" data-bs-target="#createChallengeForm" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal" title="Create a new challenge" style="">Create a Challenge</a>
+        </div>
       </div>
       
-      <div class="col-5 mb-2" style="color: var(--text-primary);">
+      <div class="col-12 d-flex justify-content-start mb-2 ps-4" style="color: var(--text-primary);">
         <h5 class="ms-5 text-light">Search Challenges</h5>
       </div>
       <div class="col-12 d-flex justify-content-center align-items-center">
-        <div class="col-6 ms-5 mb-4 pb-1 ps-5">
+        <div class="col-6 ms-4 mb-4 pb-1 ps-5">
           <form @submit.prevent="findChallenges">
             <div class="input-group">
-              <input v-model="search.name" type="text" name="name" id="name" class="form-control me-1" style="width: 85%" placeholder="Search by name" aria-label="Search by name" aria-describedby="search" />
-              <button type="submit" class="btn btn-outline-primary text-light mb-1" style="width: 14%" id="search">
-                Search
-              </button>
+              <i role="button" type="submit" class="btn mdi mdi-magnify text-light" style="transform: scale(1.6)" id="search"></i>
+              <input v-model="search.name" type="text" name="name" id="name" class="form-control bg-main search-input me-1" style="width: 85%" placeholder="Search active challenges..." aria-label="Search by name" aria-describedby="search" />
             </div>
           </form>
         </div>
-        <div class="col-6 d-flex justify-content-end mb-4 me-5 pe-4">
-          <select v-model="filterBy" name="category" id="category" class="col-2 position-relative bg-primary rounded-3 me-1 text-center text-light text-uppercase" style="top: .55rem; height:37px">
-            <option :value="''" disabled>Categories</option>
-            <option @click="filterBy = ''" :value="''">All</option>
-            <option v-for="option in categoryTypes" :key="option" @click="filterBy = option" :value="option">{{ option }}</option>
-          </select>
+        <div class="col-6 d-flex justify-content-center mb-4">
           <div class="dropdown m-2">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn filter-button text-uppercase dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               Filter Status
             </button>
             <ul class="dropdown-menu">
@@ -46,7 +31,7 @@
             </ul>
           </div>
           <div class="dropdown m-2">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn filter-button text-uppercase dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               Filter Difficulty
             </button>
             <ul class="dropdown-menu">
@@ -55,6 +40,11 @@
               <li @click="filterDifficulty('Hard')" class="dropdown-item">Hard</li>
             </ul>
           </div>
+          <select v-model="filterBy" name="category" id="category" class="col-2 select-category text-center text-uppercase p-3">
+            <option class="disabled-option" :value="''" disabled>Categories</option>
+            <option class="option-item" @click="filterBy = ''" :value="''">All</option>
+            <option class="option-item" v-for="option in categoryTypes" :key="option" @click="filterBy = option" :value="option">{{ option }}</option>
+          </select>
         </div>
       </div>
       <div class="col-12 challenge-keys d-flex justify-content-center align-items-center text-uppercase">
@@ -76,13 +66,15 @@
           </div>
         </div>
       </div>
-      <div 
-        v-for="(c, index) in challenges"
-        :key="index"
-        class="px-0"
-      >
-      
-        <ChallengeCard :challenge="c" />
+      <div class="accordion accordion-flush accordion-categories" id="accordionFlush">
+        <h2 v-for="type in categoryTypes" :key="type" class="accordion-item">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse" aria-expanded="false" aria-controls="collapse">{{ type }}</button></h2>
+        <div id='flush-collapse' class="accordion-collapse collapse" 
+        data-bs-parent="#accordionFlush">
+          <div class="accordion-body">
+            <ChallengeCard :challenge="type" />
+          </div>
+        </div>
       </div>
       <div class="row justify-content-evenly">
         <ul class="pagination col-md-5">
@@ -104,21 +96,16 @@ import { logger } from "../utils/Logger.js"
 import ChallengeCard from '../components/ChallengeCard.vue'
 import SelectChallengeCategory from '../components/ChallengePage/SelectChallengeCategory.vue'
 import { challengesService } from "../services/ChallengesService.js"
-import { useRouter } from "vue-router"
 import { loadPage } from "../router.js"
 import { CATEGORY_TYPES } from "../constants/index.js"
+import MostPopularChallengeCard from '../components/MostPopularChallengeCard.vue'
 
 export default {
-
-  components: {
-    ChallengeCard,
-    SelectChallengeCategory
-  },
+  components: { ChallengeCard, SelectChallengeCategory, MostPopularChallengeCard, },
 
   setup() {
     const search = ref({})
     const filterBy = ref('')
-    const router = useRouter()
     const categoryTypes = ref(Object.values(CATEGORY_TYPES))
 
     async function findChallenges() {
@@ -163,7 +150,11 @@ export default {
         }
         return AppState.challenges.filter(c => c.name === search.value.name)
       }),
-
+      trendingChallenges: computed(()=> {
+        AppState.challenges.sort((trendingChallenges1, trendingChallenges2) =>
+        trendingChallenges2.participantCount - trendingChallenges1.participantCount)
+        return AppState.challenges[0]
+      }),
       findChallenges,
 
       async filterDifficulty(difficulty){
@@ -190,12 +181,68 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import url('../assets/scss/_variables.scss');
   .container-fluid {
     --bs-gutter-x: 0;
     overflow-x: hidden;
   }
 
+  .create-challenge-card {
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-dark);
+    border-radius: 10px;
+    color: var(--text-main);
+    height: 8vh;
+    padding: 1rem;
+    .submission-subtitle {
+      color: var(--shadow-green);
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    &:hover {
+      background-color: var(--bg-sub);
+      border: 1px solid var(--border-dark);
+      color: var(--text-main);
+    }
+  }
+  .search-input {
+    background-color: var(--bg-main);
+    border: none;
+    border-radius: 10px;
+    color: var(--text-sub);
+    font-size: 1.2rem;
+    height: 37px;
+    padding-left: 1rem;
+      &:not(:focus) {
+        background-color: var(--bg-main);
+          &::placeholder {
+            color: var(--text-sub);
+            font-size: .95rem;
+          }
+      }
+  }
+  .filter-button {
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-dark);
+    border-radius: 10px;
+    color: var(--text-main);
+  }
+  .select-category {
+    width: 30%;
+    background-color: var(--bg-sub);
+    border: none;
+    outline: none !important;
+    border-radius: 0;
+    color: var(--text-main);
+  }
   .challenge-keys {
     color: var(--text-sub);
+    font-size: 1.2rem;
+    font-weight: 500;
+    h6 {
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
   }
 </style>
