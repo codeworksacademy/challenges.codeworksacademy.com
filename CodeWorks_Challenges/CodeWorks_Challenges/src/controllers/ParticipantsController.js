@@ -48,7 +48,6 @@ export class ParticipantsController extends BaseController {
       const participant = await participantsService.updateChallengeParticipant(participantId, userId, newSubmission)
 
       return res.send(participant)
-      // return res.send(participantId)
     } catch (error) {
       next(error)
     }

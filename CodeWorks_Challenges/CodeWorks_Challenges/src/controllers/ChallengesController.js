@@ -22,7 +22,8 @@ export class ChallengesController extends BaseController {
 
       // TODO [🚧 Chantha]
       //FIXME 🛑 Why do two endpoints call the same function? This doesn't serve much purpose
-      .post('/:challengeId/answers', this.submitAnswer)
+      // 🚨This submitAnswer appears to be the one that is bad.
+      // .post('/:challengeId/answers', this.submitAnswer)
       //   vvv this endpoint doesnt make sense for what is trying to be accomplished
       .put('/:challengeId/participants/:participantId', this.submitAnswer)
 
@@ -41,6 +42,7 @@ export class ChallengesController extends BaseController {
   // If the challenge is not automatically graded, set the participants status to submitted
   async submitAnswer(req, res, next) {
     try {
+      // 🚨 route.params.participantId isn't being used, probably need to change route.
       const challengeId = req.params.challengeId
       const userId = req.userInfo.id
       const answer = req.body

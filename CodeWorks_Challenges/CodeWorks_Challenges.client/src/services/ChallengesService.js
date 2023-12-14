@@ -80,25 +80,29 @@ class ChallengesService {
     }
   }
 
+  //⚠️These are the same thing, Keep one (Also deprecateChallenge is removed from server)
+  //is this reactive? This removes it
   async deprecateChallenge(challengeId) {
     const res = await api.delete(`/api/challenges/${challengeId}`)
-    logger.log('deprecating Challenge ⏩', res.data)
+    logger.log('🚨🚨🚨deprecating Challenge ⏩', res.data)
     let i = AppState.challenges.findIndex(c => c.id == challengeId)
     AppState.challenges.splice(i, 1)
     Pop.toast('Your challenges has been marked as deprecated.', 'success')
   }
 
+  //⚠️These are the same thing, Keep one
+  //Is this reactive? - This removes and updates it?
   async deleteChallenge(challengeId) {
     const res = await api.delete(`/api/challenges/${challengeId}`)
-    logger.log('Deleting Challenge ⏩', res.data)
+    logger.log('🚨🚨🚨Deleting Challenge ⏩', res.data)
     let indexToDelete = AppState.challenges.findIndex(c => c.id == challengeId)
     AppState.challenges.splice(indexToDelete, 1)
     AppState.activeChallenge = res.data
     Pop.toast('You have successfully deleted this challenge!', 'success')
   }
 
-  async updateChallenge(newChallenge, challengeId) {
-    const res = await api.put(`/api/challenges/${challengeId}`, newChallenge)
+  async updateChallenge(challengeData, challengeId) {
+    const res = await api.put(`/api/challenges/${challengeId}`, challengeData)
     logger.log('Updating Challenge ⏩', res.data)
     AppState.activeChallenge = new Challenge(res.data)
     return res.data
@@ -110,26 +114,32 @@ class ChallengesService {
 
     logger.log('[GIVING REPUTATION]', res.data)
 
-    AppState.activeChallenge = res.data
+    AppState.activeChallenge = new Challenge(res.data)
 
     return res.data
   }
 
+  // 🚨 Is this meant to be a put? I would guess that it is updating feilds already present.
   async submitAnswer(challengeId, answerData) {
-    const res = await api.post(`api/challenges/${challengeId}/answers`, {
-      answerData
-    })
+    logger.log(`🚨🚨🚨 Is this meant to be a put? should be renamed to editAnswer`)
+    return `Is this meant to be a put? should be renamed to editAnswer`
+    // const res = await api.post(`api/challenges/${challengeId}/answers`, {
+    //   answerData
+    // })
     // logger.log(answerData)
     // logger.log('[SUBMITTING ANSWER]', res.data)
 
-    return res.data
+    // return res.data
   }
 
+  //🚨 Was not connected in client Route not available on servers
   async submitChallenge(challengeId, submissionData) {
-    const res = await api.post(`api/challenges/${challengeId}/submissions`, submissionData)
-    logger.log('[SUBMITTING CHALLENGE]', res.data)
+    logger.log(`🚨🚨🚨 Does submitChallenge do anything? Could not find it being used`)
+    return `Does submitChallenge do anything? Could not find it being used`
+    // const res = await api.post(`api/challenges/${challengeId}/submissions`, submissionData)
+    // logger.log('[SUBMITTING CHALLENGE]', res.data)
 
-    return res.data
+    // return res.data
   }
 }
 

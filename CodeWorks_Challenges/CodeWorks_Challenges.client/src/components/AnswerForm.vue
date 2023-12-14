@@ -11,7 +11,8 @@
           <label for="body" class="text-light form-label">
             Link
           </label>
-          <input v-model="editable.body" type="url" name="body" id="body" placeholder="Source Code Link" class="form-control bg-light">
+          <input v-model="editable.body" type="url" name="body" id="body" placeholder="Source Code Link"
+            class="form-control bg-light">
           <div class="text-end mt-3">
             <button class="btn btn-success" type="submit" title="Submit Answer">
               Submit
@@ -34,7 +35,7 @@ import { Modal } from 'bootstrap';
 
 
 export default {
-  setup(){
+  setup() {
     const editable = ref({})
 
     const route = useRoute()
@@ -42,10 +43,10 @@ export default {
     return {
       editable,
 
-      async submitAnswer(){
+      async submitAnswer() {
         try {
-          const answerData = {body: editable.value.body, challengeId: route.params.challengeId}
-
+          const answerData = { body: editable.value.body, challengeId: route.params.challengeId }
+          // 🚨🚨🚨 Why is this an answer service? Answer model is not a thing. Move to participant service?
           await answersService.createAnswer(answerData)
 
           editable.value = {}
@@ -64,6 +65,4 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

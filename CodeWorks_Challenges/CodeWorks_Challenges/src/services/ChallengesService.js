@@ -151,6 +151,8 @@ class ChallengesService {
 
   // TODO [🚧 Chantha] consolidate challenge submission
   // NOTE be sure to award points based on difficulty
+  // Is this submitting an answer as a user and setting as an authorized?
+  // 🚨 I don't understand, Is the submit answer values not supposed to be on the participant? If so, This correct value is not being saved anywhere on a challenge => user relationship
   async submitAnswer(challengeId, userId, answer) {
     const challenge = await dbContext.Challenges.findById(challengeId)
 
