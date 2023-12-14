@@ -1,4 +1,3 @@
-import { challengesService } from "../services/ChallengesService.js";
 import { participantsService } from "../services/ParticipantsService.js";
 import BaseController from "../utils/BaseController.js"
 import { Auth0Provider } from "@bcwdev/auth0provider";
@@ -28,7 +27,6 @@ export class ParticipantsController extends BaseController {
   async joinChallenge(req, res, next) {
     try {
       const newParticipant = req.body
-
       newParticipant.accountId = req.userInfo.id
 
       const participant = await participantsService.joinChallenge(newParticipant)
@@ -48,7 +46,6 @@ export class ParticipantsController extends BaseController {
       const participant = await participantsService.updateChallengeParticipant(participantId, userId, newSubmission)
 
       return res.send(participant)
-      // return res.send(participantId)
     } catch (error) {
       next(error)
     }
@@ -57,7 +54,6 @@ export class ParticipantsController extends BaseController {
   async leaveChallenge(req, res, next) {
     try {
       const participantId = req.params.participantId
-
       const userId = req.userInfo.id
 
       const participantToRemove = await participantsService.leaveChallenge(participantId, userId)

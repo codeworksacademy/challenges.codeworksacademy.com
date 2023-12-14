@@ -10,7 +10,7 @@ export class ChallengesController extends BaseController {
     this.router
       .get('', this.getAllChallenges)
       .get('/:challengeId', this.getChallengeById)
-      .get('', this.findChallenges)
+      .get('/:challengeName/search', this.findChallengesByQuery)
       .get('/:challengeId/participants', this.getParticipantsByChallengeId)
       .get('/:challengeId/moderators', this.getModeratorsByChallengeId)
 
@@ -19,19 +19,8 @@ export class ChallengesController extends BaseController {
       .post('', this.createChallenge)
       .put('/:challengeId', this.editChallenge)
       .put('/:challengeId/reputation', this.giveReputation)
-
-      // TODO [🚧 Chantha]
-      //FIXME 🛑 Why do two endpoints call the same function? This doesn't serve much purpose
-      .post('/:challengeId/answers', this.submitAnswer)
-      //   vvv this endpoint doesnt make sense for what is trying to be accomplished
       .put('/:challengeId/participants/:participantId', this.submitAnswer)
-
-      //New route needs to be called /:challengeId/submissions
-      
-
       // .put('/:challengeId', this.deprecateChallenge)
-
-
       .delete('/:challengeId', this.deleteChallenge)
       .delete('/:challengeId/participants', this.removeParticipant)
   }
@@ -41,11 +30,12 @@ export class ChallengesController extends BaseController {
   // If the challenge is not automatically graded, set the participants status to submitted
   async submitAnswer(req, res, next) {
     try {
+      // 🚨 route.params.participantId isn't being used, probably need to change route.
       const challengeId = req.params.challengeId
       const userId = req.userInfo.id
       const answer = req.body
       const result = await challengesService.submitAnswer(challengeId, userId, answer)
-      return res.send(result) 
+      return res.send(result)
     } catch (e) {
       next(e)
     }
@@ -55,8 +45,10 @@ export class ChallengesController extends BaseController {
 
   async createChallenge(req, res, next) {
     try {
-      req.body.creatorId = req.userInfo.id
-      const challenge = await challengesService.createChallenge(req.body)
+      const challengeData = req.body
+      challengeData.creatorId = req.userInfo.id
+
+      const challenge = await challengesService.createChallenge(challengeData)
       return res.send(challenge)
     } catch (error) {
       next(error)
@@ -65,10 +57,11 @@ export class ChallengesController extends BaseController {
 
   async editChallenge(req, res, next) {
     try {
-      const newChallenge = req.body
+      const challengeData = req.body
       const userId = req.userInfo.id
       const challengeId = req.params.challengeId
-      const challenge = await challengesService.editChallenge(newChallenge, userId, challengeId)
+
+      const challenge = await challengesService.editChallenge(challengeData, userId, challengeId)
       return res.send(challenge)
     } catch (error) {
       next(error)
@@ -88,21 +81,23 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  async deprecateChallenge(req, res, next) {
-    try {
-      const challengeId = req.params.challengeId
-      const userId = req.userInfo.id
-      await challengesService.deprecateChallenge(challengeId, userId)
-      return res.send(challengeId)
-    } catch (error) {
-      next(error)
-    }
-  }
+  // 🚨Is not connected to controller routing
+  // async deprecateChallenge(req, res, next) { //No Reference
+  //   try {
+  //     const challengeId = req.params.challengeId
+  //     const userId = req.userInfo.id
+  //     await challengesService.deprecateChallenge(challengeId, userId)
+  //     return res.send(challengeId)
+  //   } catch (error) {
+  //     next(error)
+  //   }
+  // }
 
   async deleteChallenge(req, res, next) {
     try {
       const challengeId = req.params.challengeId
       const userId = req.userInfo.id
+
       await challengesService.deleteChallenge(challengeId, userId)
       return res.send(challengeId)
     } catch (error) {
@@ -113,10 +108,10 @@ export class ChallengesController extends BaseController {
   async removeParticipant(req, res, next) {
     try {
       const challengeId = req.params.challengeId
-      const newParticipant = req.body
+      const participant = req.body
       const userId = req.userInfo.id
 
-      await participantsService.removeParticipant(challengeId, userId, newParticipant)
+      await participantsService.removeParticipant(challengeId, userId, participant)
     } catch (error) {
       next(error)
     }
@@ -145,9 +140,12 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  async findChallenges(req, res, next) {
+  async findChallengesByQuery(req, res, next) { //⚠️ -- This works but does not return creator $lookup is broken (I don't know how to use it)
     try {
-      const challenges = await challengesService.findChallenges(req.query.name, req.query.offset)
+      const name = req.params.challengeName
+      const offset = 0
+
+      const challenges = await challengesService.findChallengesByQuery(name, offset)
       res.send(challenges)
     } catch (error) {
       next(error)

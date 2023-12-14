@@ -170,10 +170,10 @@ class ParticipantsService {
 		return participantToRemove
 	}
 
-	async removeParticipant(challengeId, userId, newParticipant) {
+	async removeParticipant(challengeId, userId, participant) {
 		const challenge = await challengesService.getChallengeById(challengeId)
 
-		const participantToRemove = await dbContext.ChallengeParticipants.findById(newParticipant.id)
+		const participantToRemove = await dbContext.ChallengeParticipants.findById(participant.id)
 
 		if (!challenge) {
 			throw new BadRequest('Invalid challenge ID.')

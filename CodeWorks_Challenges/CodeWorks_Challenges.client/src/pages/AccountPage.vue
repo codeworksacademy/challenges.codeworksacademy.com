@@ -1,6 +1,5 @@
 <template>
-  <div class="container-fluid" v-if="account.id">
-    <section class="row p-4" style="background-color: #131923;">
+  <!-- <section class="row p-4" style="background-color: #131923;">
       <div class="col-2">
         <img :src="account.picture" alt="" class="rounded-circle img-fluid w-75">
       </div>
@@ -29,16 +28,16 @@
     </section>
     <section class="row mt-3 p-3" style="background-color: #161d2b;">
       <div class="col-12 d-flex justify-content-center align-items-center text-uppercase fs-8 fw-500">
-        <!-- <a id="profile__link" :href="profile">My Profile</a> -->
+         <a id="profile__link" :href="profile">My Profile</a> 
         <router-link class="col-3" :to="{ name: 'Profile', params: { profileId: account.id } }">
           My Account
         </router-link>
         <router-link class="col-3" :to="{ name: 'Account', params: { accountId: account.id } }">
-          <!--TODO [FEATURE RICH] - Implement route to a new page that holds logistics for app member services -->
+          TODO [FEATURE RICH] - Implement route to a new page that holds logistics for app member services 
           Billing and Plans
         </router-link>
         <router-link class="col-3" :to="{ name: 'Account', params: { accountId: account.id } }">
-          <!--TODO [FEATURE RICH] - Implement route to a new page that holds logistics for creating team collaborations -->
+          TODO [FEATURE RICH] - Implement route to a new page that holds logistics for creating team collaborations 
           Create Team
         </router-link>
         <div class="col-3 d-flex flex-end">
@@ -111,10 +110,11 @@
 
     <section class="row mb-5 pb-5">
       <div style="height: 1000px;"></div>
-    </section>
+    </section> -->
 
 
-    <!-- REVIEW - ♻️ The above is progress in the fleshing out of the markup located below. Below section of template will be mostly removed - AJ -->
+  <!-- REVIEW - ♻️ The above is progress in the fleshing out of the markup located below. Below section of template will be mostly removed - AJ -->
+  <div class="container-fluid" v-if="account.id">
     <section class="row mt-5 pt-5">
       <div class="p-0">
         <img class="coverImg-style" :src="account.coverImg" alt="Cover Image">
