@@ -222,7 +222,7 @@ class AccountMilestonesService {
   }
 
   async giveGradingMilestoneByAccountId(userId) {
-    const check = "gradeModerators"
+    const check = ["gradeModerators"]
     const milestone = await this.checkMilestonesByUserId(userId, check)
     return milestone
   }
