@@ -8,7 +8,7 @@
       <div class="col-12 text-white">
         <section class="row">
           <div class="col-12 col-md-8 d-flex summary-height">
-            <SummarySection :name="account.name" :picture="account.picture" :rank="account.rank" :challengesCount="myChallenges.length.toString()" :reputation="account.reputation" />
+            <SummarySection :name="account.name" :picture="account.picture" :rank="account.rank" :challengesCount="(myChallenges.length + approvedModerations.length)" :reputation="account.reputation" />
           </div>
 
           <div class="col-md-4 align-items-center justify-content-end d-none d-md-flex summary-height">
@@ -65,37 +65,54 @@ import { logger } from "../utils/Logger.js";
 import ChallengeCard from '../components/ChallengeCard.vue'
 import AccountModerator from "../components/AccountModerator.vue";
 import { accountService } from "../services/AccountService.js";
-import UserLinksCard from '../components/AccountAndProfilePage/UserLinksCard.vue';
+import UserLinksCard from '../components/UserLinksCard.vue';
 import SummarySection from '../components/AccountAndProfilePage/SummarySection.vue';
+import { challengeModeratorsService } from '../services/ChallengeModeratorsService';
 
 export default {
   setup() {
-    async function getMyParticipations() {
-      try {
-        await accountService.getMyParticipations()
-      } catch (error) {
-        Pop.toast(error, 'error')
-      }
-    }
-
     async function getMyChallenges() {
       try {
         logger.log(AppState.account.id)
         await challengesService.getMyChallenges(AppState.account.id)
       } catch (error) {
-        Pop.toast(error, 'error')
+        Pop.error(error.message)
+      }
+    }
+
+    async function getMyParticipations() {
+      try {
+        await accountService.getMyParticipations()
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+
+    async function getMyModerations(){
+      try {
+        await challengeModeratorsService.getMyModerationsByUserId(AppState.account.id)
+      } catch (error) {
+        Pop.error(error.message)
       }
     }
 
     watchEffect(() => {
       if (AppState.account.id) {
-        getMyParticipations()
         getMyChallenges()
+        getMyParticipations()
+        getMyModerations()
       }
     })
+
     return {
       account: computed(() => AppState.account),
-      myChallenges: computed(() => AppState.myChallenges)
+      myChallenges: computed(() => AppState.myChallenges),
+
+      approvedModerations: computed(() => {
+        const approvedMods = AppState.myModerations.filter(m => m.status == 'active')
+
+        return approvedMods
+      })
     };
   },
   components: { AccountForm, ChallengeCard, AccountModerator, UserLinksCard, SummarySection }
@@ -126,5 +143,4 @@ export default {
   background-color: #00CCE6;
   color: black;
 }
-
 </style>

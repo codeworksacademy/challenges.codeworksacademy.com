@@ -1,9 +1,9 @@
 <template>
   <div class="container-fluid">
     <section class="row mt-3 my-0 my-md-3 mt-md-3">
-      <!-- TODO - Add function to find all moderated and created challenges -->
+
       <div class="col-md-4 col-12">
-        <StatCard title="Moderated Challenges" :number="myChallenges.length" color="#20C997" bgColor="#20c99629" icon="mdi-file-code" />
+        <StatCard title="Moderated Challenges" :number="(myChallenges.length + approvedModerations.length)" color="#20C997" bgColor="#20c99629" icon="mdi-file-code" />
       </div>
 
       <div class="col-md-4 col-12">
@@ -30,7 +30,7 @@
 
 
 <script>
-import { computed, watchEffect } from 'vue';
+import { computed } from 'vue';
 import AccountRankCard from '../components/AccountAndProfilePage/AccountRankCard.vue';
 import { AppState } from '../AppState';
 import StatCard from '../components/AccountAndProfilePage/StatCard.vue';
@@ -46,6 +46,12 @@ export default {
             const completed = AppState.myParticipants.filter(p => p.status == 'completed')
 
             return completed
+          }),
+
+          approvedModerations: computed(() => {
+            const approvedMods = AppState.myModerations.filter(m => m.status == 'active')
+
+            return approvedMods
           })
         };
     },

@@ -125,4 +125,12 @@ main{
   object-position: center;
 }
 
+.light-gold-color{
+  color: #CBD4A5;
+}
+
+.light-gold-border{
+  border: 3px solid #CBD4A5;
+}
+
 </style>
