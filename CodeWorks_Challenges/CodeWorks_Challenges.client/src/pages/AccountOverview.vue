@@ -55,7 +55,7 @@ export default {
           })
         };
     },
-    components: { AccountRankCard, StatCard, StatCard }
+    components: { RankCard, StatCard, StatCard }
 }
 </script>
 
