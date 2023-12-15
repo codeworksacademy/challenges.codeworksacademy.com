@@ -41,7 +41,9 @@
         > 
           Submit for Review
         </h4>
-        <h4 v-if="isParticipant.status === 'submitted'" class="mdi mdi-eye-arrow-right text-info"> Competitors</h4>
+        <router-link v-if="isParticipant.status === 'submitted'" :to="{ name: 'ChallengeSubmissionsPage' }">
+          <h4 v-if="isParticipant.status === 'submitted'" class="mdi mdi-eye-arrow-right selectable text-info"> Competitors</h4>
+        </router-link>
         <h4 @click="leaveChallenge()" class="mdi mdi-cancel selectable text-danger"> Leave Challenge</h4>
       </div>
     </aside>
