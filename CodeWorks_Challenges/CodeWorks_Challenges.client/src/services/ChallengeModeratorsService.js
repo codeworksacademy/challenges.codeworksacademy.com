@@ -60,7 +60,6 @@ class ChallengeModeratorsService {
       AppState.myModerations.splice(myModerationToRemove, 1)
     }
   }
-
 }
 
 export const challengeModeratorsService = new ChallengeModeratorsService()

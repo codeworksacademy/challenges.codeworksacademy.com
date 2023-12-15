@@ -105,26 +105,44 @@ class ParticipantsService {
 		return participant
 	}
 
-	async gradeChallengeParticipant(participantId, userId, participantProgress) {
-		let participant = await this.getParticipantById(participantId)
+	// async gradeChallengeParticipant(participantId, userId, participantProgress) {
+	// 	let participant = await this.getParticipantById(participantId)
 
+	// 	if (!participant) {
+	// 		throw new BadRequest('Invalid participant ID.')
+	// 	}
+
+	// 	if (participantProgress.status == 'completed') {
+	// 		participantProgress.completedAt = new Date()
+	// 	}
+	// 	const isChallengeModerator = await challengeModeratorsService.getModeratorByUserIdAndChallengeId(userId, participant.challengeId)
+
+	// 	if (!isChallengeModerator) {
+	// 		throw new Forbidden('Yo - bugs bunny - are NOT a moderator for this challenge. You cannot grade participants.')
+	// 	}
+
+	// 	participant = await this.writeChallengeParticipantProgress(participantId, participantProgress)
+
+	// 	await accountMilestonesService.giveGradingMilestoneByAccountId(userId)
+
+	// 	return participant
+	// }
+
+	async gradeChallengeParticipant(participantId, userId, newGrade) {
+		const grade = sanitizeBody(newGrade)
+		const challengeModerator = await dbContext.ChallengeModerators.findOne({ accountId: userId })
+		const participant = await dbContext.ChallengeParticipants.findOneAndUpdate
+		(
+			{ _id: participantId },
+			{ $set: grade },
+			{ runValidators: true, setDefaultsOnInsert: true, new: true },
+		)
 		if (!participant) {
 			throw new BadRequest('Invalid participant ID.')
 		}
-
-		if (participantProgress.status == 'completed') {
-			participantProgress.completedAt = new Date()
-		}
-		const isChallengeModerator = await challengeModeratorsService.getModeratorByUserIdAndChallengeId(userId, participant.challengeId)
-
-		if (!isChallengeModerator) {
+		if(challengeModerator.accountId != userId){
 			throw new Forbidden('Yo - bugs bunny - are NOT a moderator for this challenge. You cannot grade participants.')
 		}
-
-		participant = await this.writeChallengeParticipantProgress(participantId, participantProgress)
-
-		await accountMilestonesService.giveGradingMilestoneByAccountId(userId)
-
 		return participant
 	}
 
