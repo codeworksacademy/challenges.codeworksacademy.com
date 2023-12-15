@@ -49,7 +49,7 @@ export default {
           }),
 
           approvedModerations: computed(() => {
-            const approvedMods = AppState.moderations.filter(m => m.status == 'active')
+            const approvedMods = AppState.moderations.filter(m => m.status == 'active' && m.challenge.creatorId != AppState.account.id)
 
             return approvedMods
           })
