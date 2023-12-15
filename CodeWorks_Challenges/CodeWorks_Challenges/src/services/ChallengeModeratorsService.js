@@ -17,8 +17,8 @@ class ChallengeModeratorsService {
     }).populate('profile', 'name picture')
     return moderators
   }
-  async getModeratorByUserIdAndChallengeId(challengeId, userId) {
-    const moderators = await dbContext.ChallengeModerators.findOne({ accountId: userId, challengeId: challengeId })
+  async getModeratorByUserIdAndChallengeId(userId, challengeId) {
+    const moderators = await dbContext.ChallengeModerators.findOne({ $and: [{ accountId: userId }, { challengeId: challengeId }] })
     return moderators
   }
 
