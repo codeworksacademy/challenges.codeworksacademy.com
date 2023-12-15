@@ -11,7 +11,7 @@
           {{ participant.submission }}
         </a>
       </div>
-      <form @submit.prevent="gradeChallenge" class="row">
+      <form @submit.prevent="gradeChallengeParticipant" class="row">
         <div v-if="participant?.challenge" class="col-12 d-flex justify-content-center align-items-center">
           <ol>
             <div class="d-flex justify-content-end align-items-center">
@@ -137,18 +137,19 @@ export default {
       // AppState.activeParticipant.requirements.description = { ...AppState.activeChallenge.requirements }
     })
 
-    async function gradeChallenge() {
+    async function gradeChallengeParticipant() {
       try {
         // REVIEW 🟡 [JAKE] - Is this logic being handled properly? What about the case that a challenge only has 4 or 5 requirements? In this case I'm assuming you want to allow less than 3 missed checks to still be considered a completed challenge. If so - I'm assuming this should either be a util function or computed property as it would check the length of the completed requirements array and conditionally allow a certain amount of missedChecks depending on the number of requirements? - AJ 
 
         // Two potential options for solving this problem
         //  - Challenges must have a minimum x number of requirements.
         //  - Challenge creator can declare this number on the challenge. Ensure the number is <= length
-        const missedChecks = editable.value.requirements.filter(r => !r.isComplete).length
-        editable.value.status = missedChecks > 2
+        const newGrade = editable.value
+        const missedChecks = newGrade.requirements.filter(r => !r.isComplete).length
+        newGrade.status = missedChecks > 2
           ? SUBMISSION_TYPES.RETURNED_FOR_REVIEW
           : SUBMISSION_TYPES.COMPLETED
-        await challengeModeratorsService.gradeChallenge(editable.value)
+        await participantsService.gradeChallengeParticipant(newGrade)
       } catch (error) {
         logger.error(error)
       }
@@ -182,7 +183,7 @@ export default {
       }),
       challenge: computed(() => AppState.activeChallenge),
       formatEnum,
-      gradeChallenge,
+      gradeChallengeParticipant,
       addGradePoint
     }
   }

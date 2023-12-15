@@ -23,8 +23,8 @@ class ParticipantsService {
     return res.data
   }
 
-  async gradeChallengeParticipant(participantId, newSubmission) {
-    const res = await api.put(`api/participants/${participantId}`, newSubmission)
+  async gradeChallengeParticipant(newGrade) {
+    const res = await api.put(`api/moderators/${newGrade.participantId}/grade`, newGrade)
     logger.log('Participant Updated ⏩', res.data)
     AppState.activeParticipant = res.data
     return res.data
@@ -43,13 +43,6 @@ class ParticipantsService {
     AppState.participants = res.data.map(p => new ChallengeParticipant(p))
     logger.log('[Participants in this challenge]:', AppState.participants)
   }
-
-  // async updateChallengeParticipant(participantId,  newSubmission) {
-  //   const res = await api.put('api/participants/' + participantId, newSubmission)
-  //   logger.log('Participant Updated ⏩', res.data)
-  //   AppState.activeParticipant = res.data
-  //   return res.data
-  // }
 }
 
 export const participantsService = new ParticipantsService()

@@ -5,6 +5,10 @@ export function loadPage(page) {
   return () => import(`./pages/${page}.vue`)
 }
 
+export function loadPageBranch(folder, file) {
+  return () => import(`./pages/${folder}/${file}.vue`)
+}
+
 const routes = [
   {
     path: '/',
@@ -44,15 +48,33 @@ const routes = [
     name: 'Challenges',
     component: loadPage('ChallengePage'),
   },
-  {
+  { 
     path: '/challenges/:challengeId',
     name: 'ChallengeDetails',
-    component: loadPage('ChallengeDetailsPage'),
+    component: loadPageBranch('ChallengeDetailsPage', 'ChallengeDetailsPage'),
+    redirect: { name: 'Overview' },
+    children: [
+      {
+        path: 'overview',
+        name: 'Overview',
+        component: loadPageBranch('ChallengeDetailsPage', 'OverviewPage'),
+      },
+      {
+        path: 'requirements',
+        name: 'Requirements',
+        component: loadPageBranch('ChallengeDetailsPage', 'RequirementsPage'),
+      },
+      {
+        path: 'statistics',
+        name: 'Statistics',
+        component: loadPageBranch('ChallengeDetailsPage', 'StatisticsPage'),
+      }
+    ]
   },
   {
-    path: '/challenges/:challengeId/edit',
-    name: 'ChallengeEditor',
-    component: loadPage('ChallengeEditor'),
+    // path: '/challenges/:challengeId/edit',
+    // name: 'ChallengeEditor',
+    // component: loadPage('ChallengeEditor'),
     // children: [
     //   {
     //     path: 'details',
@@ -72,7 +94,12 @@ const routes = [
     // ]
   },
   {
-    path: '/challenges/:challengeId/grading',
+    path: '/challenges/:challengeId/edit',
+    name: 'ChallengeEditor',
+    component: loadPage('ChallengeEditor')
+  },
+  {
+    path: '/challenges/:challengeId/grade',
     name: 'GradeSubmissionsPage',
     component: loadPage('GradeSubmissionsPage')
   },
@@ -108,11 +135,6 @@ const routes = [
     name: 'Refactor',
     component: loadPage('ChallengeDetailsPageRefactor')
   }
-  // {
-  //   path: '/dev',
-  //   name: 'dev',
-  //   component: loadPage('OffCanvasPage'),
-  // }
 ]
 
 export const router = createRouter({

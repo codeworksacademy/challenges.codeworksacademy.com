@@ -11,7 +11,8 @@
           <label for="body" class="text-light form-label">
             Link
           </label>
-          <input v-model="editable.body" type="url" name="body" id="body" placeholder="Source Code Link" class="form-control bg-light">
+          <input v-model="editable.body" type="url" name="body" id="body" placeholder="Source Code Link"
+            class="form-control bg-light">
           <div class="text-end mt-3">
             <button class="btn btn-success" type="submit" title="Submit Answer">
               Submit
@@ -26,7 +27,6 @@
 
 <script>
 import { useRoute } from 'vue-router';
-import { answersService } from '../services/AnswersService';
 import { logger } from '../utils/Logger';
 import Pop from '../utils/Pop';
 import { ref } from 'vue';
@@ -34,7 +34,7 @@ import { Modal } from 'bootstrap';
 
 
 export default {
-  setup(){
+  setup() {
     const editable = ref({})
 
     const route = useRoute()
@@ -42,11 +42,12 @@ export default {
     return {
       editable,
 
-      async submitAnswer(){
+      async submitAnswer() {
         try {
-          const answerData = {body: editable.value.body, challengeId: route.params.challengeId}
-
-          await answersService.createAnswer(answerData)
+          const answerData = { body: editable.value.body, challengeId: route.params.challengeId }
+          // 🚨🚨🚨 Why is this an answer service? Answer model is not a thing. Move to participant service?
+          // probably participantsService.(updateParticipant) or updateParticipantProgress
+          // await answersService.createAnswer(answerData)
 
           editable.value = {}
 
@@ -64,6 +65,4 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

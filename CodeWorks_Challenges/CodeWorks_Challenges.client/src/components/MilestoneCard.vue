@@ -66,7 +66,7 @@ import Pop from "../utils/Pop.js";
 export default {
   props: {
     milestone: {
-      type: Milestone || Object,
+      type: Object,
       required: true
     }
   },

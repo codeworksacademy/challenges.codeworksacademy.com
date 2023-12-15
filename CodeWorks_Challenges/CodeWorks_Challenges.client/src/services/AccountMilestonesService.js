@@ -11,7 +11,6 @@ class AccountMilestonesService {
     AppState.myMilestone = res.data.map(m => new AccountMilestone(m))
   }
   async checkMyMilestones(checks) { //STUB Kyle -- this is a post because a get can't carry a payload and it creates one if it isn't already there~~
-    logger.log('AccountId', AppState.account.id)
     const res = await api.post(`account/accountMilestones`, checks)
     logger.log('[checkMilestonesByAccountId]', res.data)
     AppState.myMilestone = res.data.map(m => new AccountMilestone(m))

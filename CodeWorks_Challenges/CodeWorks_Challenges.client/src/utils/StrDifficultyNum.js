@@ -14,7 +14,7 @@ export const StrDifficultyNum = (difficulty) => {
       return {
         html:
           `
-          <span class="text-light">Difficulty: <span class="text-success">Easy</span></span>
+          <img src="../assets/img/easy-difficulty-chart.svg" alt="Easy" style="width: 1.5rem; height: 1.5rem; margin-right: .25rem;"/>
         `,
         text: 'Easy',
       };
@@ -22,7 +22,7 @@ export const StrDifficultyNum = (difficulty) => {
       return {
         html:
           `
-          <span class="text-light">Difficulty: <span class="text-warning">Medium</span></span>
+          <img src="../assets/img/medium-difficulty-chart.svg" alt="Medium" style="width: 1.5rem; height: 1.5rem; margin-right: .25rem;"/>
         `,
         text: 'Medium',
       };
@@ -30,25 +30,9 @@ export const StrDifficultyNum = (difficulty) => {
       return {
         html:
           `
-          <span class="text-light">Difficulty: <span class="text-danger position-relative" style="top: .05rem; font-size: .95rem;">Hard</span></span>
+          <img src="../assets/img/hard-difficulty-chart.svg" alt="Hard" style="width: 1.5rem; height: 1.5rem; margin-right: .25rem;"/>
         `,
         text: 'Hard',
-      };
-    case 4:
-      return {
-        html:
-          `
-          <span class="text-light">Difficulty: <span class="text-danger position-relative" style="top: .05rem; font-size: .95rem;">Very Hard</span></span>
-        `,
-        text: 'Very Hard',
-      };
-    case 5:
-      return {
-        html:
-          `
-          <span class="text-light">Difficulty: <span class="text-danger position-relative" style="top: .05rem; font-size: .95rem;">Expert</span></span>
-        `,
-        text: 'Expert',
       };
     default:
       return {

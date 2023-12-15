@@ -7,15 +7,18 @@ export class ProfilesController extends BaseController {
   constructor() {
     super('api/profiles')
     this.router
-      .get('', this.getProfiles)
+      .get('', this.findProfiles)
       .get('/:id', this.getProfile)
       .get('/:id/challenges', this.getProfileChallenges)
       .get('/:id/rewards', this.getProfileRewards)
   }
 
-  async getProfiles(req, res, next) {
+  async findProfiles(req, res, next) {
     try {
-      const profiles = await profileService.findProfiles(req.query.name, req.query.offset)
+      const name = req.query.name
+      const offset = req.query.offset
+
+      const profiles = await profileService.findProfiles(name, offset)
       res.send(profiles)
     } catch (error) {
       next(error)

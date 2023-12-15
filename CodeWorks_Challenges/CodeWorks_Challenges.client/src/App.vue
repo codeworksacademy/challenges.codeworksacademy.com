@@ -17,7 +17,7 @@
       </template>
     </ModalWrapper>
 
-    <ModalWrapper id="createSubmissionForm">
+    <ModalWrapper id="challengeSubmissionForm">
       <template #header>
         <h3 class="m-auto">
           Submit Challenge
@@ -46,15 +46,14 @@
         </h3>
       </template>
       <template #body>
-        <div  class="col-12 d-flex justify-content-center align-items-center">
-          <div class="col-2 p-3"  v-for="m in moderators" :key="m.id">
+        <div class="col-12 d-flex justify-content-center align-items-center">
+          <div class="col-2 p-3" v-for="m in moderators" :key="m.id">
             <ModeratorCard :moderator="m" />
           </div>
         </div>
       </template>
     </BottomOffcanvasWrapper>
   </main>
-
 </template>
 
 <script>
@@ -66,6 +65,7 @@ import CreateChallengeForm from './components/CreateChallengeForm.vue'
 import ChallengeSubmissionForm from './components/ChallengeSubmissionForm.vue'
 import BottomOffcanvasWrapper from './components/BottomOffcanvasWrapper.vue'
 import ModeratorCard from './components/ModeratorCard.vue'
+import AnswerForm from './components/AnswerForm.vue'
 
 export default {
   setup() {
@@ -75,13 +75,14 @@ export default {
       moderators: computed(() => AppState.moderators),
     }
   },
-  components: { 
+  components: {
     Navbar,
     ModalWrapper,
     CreateChallengeForm,
     ChallengeSubmissionForm,
     BottomOffcanvasWrapper,
     ModeratorCard,
+    AnswerForm
   }
 }
 </script>
@@ -89,19 +90,19 @@ export default {
 @import "./assets/scss/main.scss";
 @import url('https://fonts.googleapis.com/css2?family=Lekton:wght@400;700&display=swap');
 
-:root{
+:root {
   --main-height: calc(100vh - 32px - 64px);
 }
 
-header{
+header {
   background-color: #0B0E13;
 }
 
-main{
+main {
   background-color: #141D2B;
 }
 
-.avatar-xs{
+.avatar-xs {
   height: 2.75rem;
   width: 2.75rem;
   border-radius: 50%;
@@ -109,7 +110,7 @@ main{
   object-position: center;
 }
 
-.avatar-sm{
+.avatar-sm {
   height: 5rem;
   width: 5rem;
   border-radius: 50%;

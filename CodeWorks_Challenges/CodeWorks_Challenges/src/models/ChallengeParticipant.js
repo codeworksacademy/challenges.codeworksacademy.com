@@ -30,9 +30,7 @@ export const ChallengeParticipantSchema = new Schema({
     maxLength: 700,
     default: ''
   },
-  requirements: [
-    requirementSchema
-  ],
+  requirements: [requirementSchema],
   status: {
     type: String,
     enum: Object.values(SUBMISSION_TYPES),
@@ -40,8 +38,13 @@ export const ChallengeParticipantSchema = new Schema({
     default: SUBMISSION_TYPES.STARTED,
     lowercase: true
   },
-  grade: { type: Number, default: 0 },
-  claimedAt: { type: Date }
+  grade: {
+    type: Number,
+    default: 0
+  },
+  claimedAt: { type: Date },
+  updatedAt: { type: Date },
+  createdAt: { type: Date }
 },
   { timestamps: true, toJSON: { virtuals: true } }
 )

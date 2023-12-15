@@ -23,5 +23,10 @@
     "PUBLISHED": "published",
     "DEPRECATED": "deprecated"
   },
+  "DIFFICULTY_SVGS": {
+    "EASY": "../",
+    "MEDIUM": "medium",
+    "HARD": "hard"
+  },
   "PROFILE_FIELDS": "name picture reputation title"
 }
