@@ -1,4 +1,5 @@
 import { reactive } from 'vue'
+import { ChallengeParticipant } from './models/ChallengeParticipant.js'
 
 // NOTE AppState is a reactive object to contain app level data
 export const AppState = reactive({
@@ -23,7 +24,7 @@ export const AppState = reactive({
 
   /** @type {import('./models/ChallengeModerator.js').ChallengeModerator[]} */
   moderators: [],
-  myModerations: [],
+  moderations: [],
 
   /** @type {import('./models/Submission.js').Submission[]} */
   submissions: [],
@@ -32,8 +33,8 @@ export const AppState = reactive({
   /** @type {import('./models/Challenge.js')|null} */
   activeChallenge: null,
 
-  /** @type {import('./models/ChallengeParticipant.js')|null}*/
-  activeParticipant: null,
+  /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]}*/
+  activeParticipant: [],
 
   /** @type {import('./models/ChallengeModerator.js')|null}*/
   activeModerator: null,

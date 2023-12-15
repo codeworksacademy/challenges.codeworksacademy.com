@@ -16,12 +16,11 @@ class ChallengeModeratorsService {
     AppState.moderators.push(new ChallengeModerator(res.data))
   }
 
-  async getMyModerationsByUserId(userId) {
+  async getModerationsByProfileId(userId) {
     const res = await api.get(`api/moderators/${userId}/profiles`)
-    logger.log('[MODERATIONS BY USERID]', res.data)
-    AppState.myModerations = res.data.map(m => new ChallengeModerator(m))
+    logger.log('[GETTING PROFILE MODERATIONS]', res.data)
+    AppState.moderations = res.data.map(m => new ChallengeModerator(m))
   }
-
 
   async getModeratorsByChallengeId(challengeId) {
     const res = await api.get(`api/challenges/${challengeId}/moderators`)

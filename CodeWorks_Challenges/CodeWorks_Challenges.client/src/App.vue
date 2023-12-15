@@ -133,5 +133,4 @@ main {
 .light-gold-border{
   border: 3px solid #CBD4A5;
 }
-
 </style>

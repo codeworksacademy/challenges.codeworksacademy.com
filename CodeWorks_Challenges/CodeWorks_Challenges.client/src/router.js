@@ -72,28 +72,6 @@ const routes = [
     ]
   },
   {
-    // path: '/challenges/:challengeId/edit',
-    // name: 'ChallengeEditor',
-    // component: loadPage('ChallengeEditor'),
-    // children: [
-    //   {
-    //     path: 'details',
-    //     name: 'ChallengeEditor',
-    //     component: loadPage('ChallengeEditor')
-    //   },
-    //   {
-    //     path: 'moderation',
-    //     name: 'ChallengeModeration',
-    //     component: loadPage('ChallengeModerationPage')
-    //   },
-    //   {
-    //     path: 'grading',
-    //     name: 'GradeSubmissionsPage',
-    //     component: loadPage('GradeSubmissionsPage')
-    //   }
-    // ]
-  },
-  {
     path: '/challenges/:challengeId/edit',
     name: 'ChallengeEditor',
     component: loadPage('ChallengeEditor')
@@ -119,6 +97,23 @@ const routes = [
     path: '/profiles/:profileId',
     name: 'Profile',
     component: loadPage('ProfilePage'),
+    children: [
+      {
+        path: 'overview',
+        name: 'Profile Overview',
+        component: loadPage('ProfileOverview')
+      },
+      {
+        path: 'challenges',
+        name: 'Profile Challenges',
+        component: loadPage('ProfileChallenges')
+      },
+      {
+        path: 'badges',
+        name: 'Profile Badges',
+        component: loadPage('ProfileBadges')
+      },
+    ]
   },
   {
     path: '/milestones',

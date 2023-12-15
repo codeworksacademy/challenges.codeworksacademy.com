@@ -18,7 +18,7 @@
         </div>
       </div>
     </div>
-    <div class="col-2 d-flex align-items-center justify-content-center">
+    <div class="col-2 d-flex align-items-center justify-content-center ">
       <i class="mdi mdi-star-four-points-circle theme-color theme-style fs-0"></i>
     </div>
   </section>

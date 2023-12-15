@@ -7,6 +7,7 @@ class ParticipantsService {
 
   async getParticipantById(participantId) {
     const res = await api.get(`api/participants/${participantId}`)
+    logger.log('[GETTING PARTICIPANT BY ID]', res.data)
     AppState.activeParticipant = res.data
   }
 

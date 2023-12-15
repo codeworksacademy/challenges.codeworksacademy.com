@@ -3,42 +3,43 @@
     <p class="text-white-50">
       User Links
     </p>
-    <div class="text-white d-flex flex-column border-bottom border-dark">
+    <div class="text-white d-flex flex-column">
       <div class="user-links-btn rounded">
-        <router-link :to="{name: 'Account Overview'}">
+        <router-link :to="{name: 'Profile Overview'}">
           <button class="btn text-white link-btn">
             <i class="mdi mdi-layers"></i> Overview
           </button>
         </router-link>
       </div>
       <div class="user-links-btn rounded">
-        <router-link :to="{name: 'Account Challenges'}">
+        <router-link :to="{name: 'Profile Challenges'}">
           <button class="btn text-white link-btn">
             <i class="mdi mdi-file-code"></i> Challenges
           </button>
         </router-link>
       </div>
       <div class="user-links-btn rounded">
-        <router-link :to="{name: 'Account Badges'}">
+        <router-link :to="{name: 'Profile Badges'}">
           <button class="btn text-white link-btn">
             <i class="mdi mdi-seal"></i> Badges
           </button>
         </router-link>
       </div>
     </div>
-    <div class="user-links-btn rounded">
-      <button class="btn text-white link-btn" data-bs-toggle="modal" data-bs-target="#accountFormModal">
-        <i class="mdi mdi-account-edit"></i> Edit Account
-      </button>
-    </div>
   </div>
 </template>
 
 
 <script>
+import { useRoute } from 'vue-router';
+
 export default {
   setup(){
-    return {}
+    const route = useRoute()
+
+    return {
+      route
+    }
   }
 }
 </script>

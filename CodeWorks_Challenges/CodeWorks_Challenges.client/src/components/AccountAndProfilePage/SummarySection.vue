@@ -4,10 +4,10 @@
     <p class="fs-2 m-0">
       {{ props.name }}
     </p>
-    <p class="fs-6 d-none d-md-block">
-      <span class="light-gold-color">Rank: </span> {{ props.currentRank }}
+    <p class="fs-6 hide-sm">
+      <span class="light-gold-color">Rank: </span> {{ currentRank }}
       <span title="experience" class="ms-4">
-        {{ props.rank }} <span class="light-gold-color">XP</span>
+        {{ props.rankNumber }} <span class="light-gold-color">XP</span>
       </span>
       <span title="challenges" class="ms-4">
         {{ props.challengesCount }}
@@ -22,19 +22,35 @@
 
 
 <script>
+import { computed } from 'vue'
+import { AppState } from '../../AppState'
+
 
 export default {
   props:{
     name: {type: String, required: true},
     picture: {type: String, required: true},
-    rank: {type: String, required: true},
+    rankNumber: {type: String, required: true},
     challengesCount: {type: String, required: true},
     reputation: {type: String, required: true},
-    currentRank: {type: String, required: true}
+    userRank: {type: Number, required: true}
   },
+
   setup(props){
     return {
-      props
+      props,
+
+      currentRank: computed(() => {
+        let lastKey = 0
+
+        for (const key in AppState.rankTitles) {
+          if (props.userRank >= key) {
+            lastKey = key
+          }
+        }
+
+        return AppState.rankTitles[lastKey]
+      })
     }
   }
 }
@@ -45,5 +61,21 @@ export default {
 .avatar-style {
   position: relative;
   top: -5.5vh;
+}
+
+@media(max-width: 768px) {
+  .avatar-lg{
+  height: 5.5rem;
+  width: 5.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+}
+}
+
+@media(max-width: 391px){
+  .hide-sm{
+    display: none;
+  }
 }
 </style>

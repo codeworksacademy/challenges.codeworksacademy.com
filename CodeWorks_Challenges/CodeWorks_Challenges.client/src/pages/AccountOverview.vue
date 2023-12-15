@@ -18,7 +18,7 @@
 
     <section class="row">
       <div class="col-md-8 col-12">
-        <AccountRankCard :userRank="account.rank" />
+        <RankCard :userRank="account.rank" />
       </div>
 
       <div class="col-md-4 col-12">
@@ -31,7 +31,7 @@
 
 <script>
 import { computed } from 'vue';
-import AccountRankCard from '../components/AccountAndProfilePage/RankCard.vue';
+import RankCard from '../components/AccountAndProfilePage/RankCard.vue';
 import { AppState } from '../AppState';
 import StatCard from '../components/AccountAndProfilePage/StatCard.vue';
 
@@ -49,7 +49,7 @@ export default {
           }),
 
           approvedModerations: computed(() => {
-            const approvedMods = AppState.myModerations.filter(m => m.status == 'active')
+            const approvedMods = AppState.moderations.filter(m => m.status == 'active')
 
             return approvedMods
           })

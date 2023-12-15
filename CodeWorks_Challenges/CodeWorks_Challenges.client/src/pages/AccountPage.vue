@@ -6,14 +6,14 @@
       </div>
 
       <div class="col-12 text-white">
-        <section class="row">
-          <div class="col-12 col-md-8 d-flex summary-height">
-            <SummarySection :name="account.name" :picture="account.picture" :rank="account.rank" :challengesCount="(myChallenges.length + approvedModerations.length)" :reputation="account.reputation" />
+        <section class="row justify-content-between">
+          <div class="col-md-7 col-12 d-flex summary-height">
+            <SummarySection :name="account.name" :picture="account.picture" :rankNumber="account.rank" :challengesCount="(myChallenges.length + approvedModerations.length)" :reputation="account.reputation" />
           </div>
 
-          <div class="col-md-4 align-items-center justify-content-end d-none d-md-flex summary-height">
+          <div class="col-4 align-items-center justify-content-end d-none d-md-flex summary-height">
             <router-link :to="{name: 'Account Challenges'}">
-              <button class="btn aqua-btn-outline mx-4 my-2">
+              <button class="btn aqua-btn-outline my-2">
                 View my challenges
               </button>
             </router-link>
@@ -24,7 +24,7 @@
 
     <section class="row">
       <div class="col-md-3 col-12">
-        <UserLinksCard />
+        <AccountLinksCard />
       </div>
 
       <div class="col-12 col-md-9 p-0">
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { computed, watchEffect } from 'vue'
+import { computed, onUnmounted, watchEffect } from 'vue'
 import { AppState } from '../AppState';
 import AccountForm from "../components/AccountForm.vue";
 import Pop from "../utils/Pop.js";
@@ -65,9 +65,9 @@ import { logger } from "../utils/Logger.js";
 import ChallengeCard from '../components/ChallengeCard.vue'
 import AccountModerator from "../components/AccountModerator.vue";
 import { accountService } from "../services/AccountService.js";
-import UserLinksCard from '../components/UserLinksCard.vue';
 import SummarySection from '../components/AccountAndProfilePage/SummarySection.vue';
 import { challengeModeratorsService } from '../services/ChallengeModeratorsService';
+import AccountLinksCard from '../components/AccountAndProfilePage/AccountLinksCard.vue';
 
 export default {
   setup() {
@@ -90,7 +90,15 @@ export default {
 
     async function getMyModerations(){
       try {
-        await challengeModeratorsService.getMyModerationsByUserId(AppState.account.id)
+        await challengeModeratorsService.getModerationsByProfileId(AppState.account.id)
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+
+    function clearSharedVariables(){
+      try {
+        accountService.clearSharedVariables()
       } catch (error) {
         Pop.error(error.message)
       }
@@ -103,19 +111,22 @@ export default {
         getMyModerations()
       }
     })
+    onUnmounted(() => {
+      clearSharedVariables()
+    })
 
     return {
       account: computed(() => AppState.account),
       myChallenges: computed(() => AppState.myChallenges),
 
       approvedModerations: computed(() => {
-        const approvedMods = AppState.myModerations.filter(m => m.status == 'active')
+        const approvedMods = AppState.moderations.filter(m => m.status == 'active')
 
         return approvedMods
       })
     };
   },
-  components: { AccountForm, ChallengeCard, AccountModerator, UserLinksCard, SummarySection }
+  components: { AccountForm, ChallengeCard, AccountModerator, SummarySection, AccountLinksCard }
 }
 </script>
 
@@ -139,6 +150,7 @@ export default {
   border: 1px solid #00CCE6;
   color: #00CCE6;
 }
+
 .aqua-btn-outline:hover{
   background-color: #00CCE6;
   color: black;

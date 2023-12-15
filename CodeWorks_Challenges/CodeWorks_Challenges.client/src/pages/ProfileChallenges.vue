@@ -37,7 +37,7 @@ import ChallengeMiniCard from '../components/AccountAndProfilePage/ChallengeMini
 export default {
     setup() {
         return {
-            challenges: computed(() => AppState.myChallenges)
+            challenges: computed(() => AppState.challenges)
         };
     },
     components: { ChallengeMiniCard }

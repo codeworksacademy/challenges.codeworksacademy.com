@@ -6,8 +6,8 @@ export class ParticipantsController extends BaseController {
   constructor() {
     super('api/participants')
     this.router
-      .use(Auth0Provider.getAuthorizedUserInfo)
       .get('/:participantId', this.getParticipantById)
+      .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.joinChallenge)
       .put('/:participantId', this.updateChallengeParticipant)
       .delete('/:participantId', this.leaveChallenge)
