@@ -44,6 +44,14 @@ class ParticipantsService {
     AppState.participants = res.data.map(p => new ChallengeParticipant(p))
     logger.log('[Participants in this challenge]:', AppState.participants)
   }
+
+  async getParticipationsByUserId(userId){
+    const res = await api.get(`api/profiles/${userId}/participants`)
+
+    logger.log('[GETTING PARTICIPATIONS BY USER ID', res.data)
+
+    AppState.participants = res.data.map(p => new ChallengeParticipant(p))
+  }
 }
 
 export const participantsService = new ParticipantsService()

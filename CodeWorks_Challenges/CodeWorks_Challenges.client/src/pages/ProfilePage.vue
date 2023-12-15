@@ -86,11 +86,10 @@ export default {
           }
         }
 
-        // FIXME - Is this getting a list of participations by this person or just finding the one participant? Need to write new function in back end if latter is true
         async function getProfileParticipations(){
           try {
             const profileId = route.params.profileId
-            await participantsService.getParticipantById(profileId)
+            await participantsService.getParticipationsByUserId(profileId)
           } catch (error) {
             Pop.error(error.message)
           }

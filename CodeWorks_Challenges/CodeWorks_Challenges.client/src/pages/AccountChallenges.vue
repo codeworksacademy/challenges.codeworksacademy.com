@@ -77,7 +77,11 @@ export default {
 
               return modChallenges
             } else if(challengeTypes.value == 'Participating'){
-              return AppState.myParticipants
+              const partChallenges = []
+
+              AppState.myParticipants.forEach(p => partChallenges.push(p.challenge))
+
+              return partChallenges
             } else{
               return AppState.myChallenges
             }
@@ -96,6 +100,10 @@ export default {
 
 .blue-dropdown{
   background-color: #1A2332;
+}
+
+.dark-blue-bg{
+  background-color: #0E141E;
 }
 
 .dropdown-item{

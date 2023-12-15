@@ -40,11 +40,10 @@ export default {
         return {
             activeProfile: computed(() => AppState.activeProfile),
             challenges: computed(() => AppState.challenges),
-            // FIXME - Not working, need to check what backend function to connect to or make
-            // completedChallenges: computed(() => {
-            //   const completed = AppState.activeParticipant.filter(p => p.status == 'completed')
-            //   return completed || 0
-            // }),
+            completedChallenges: computed(() => {
+              const completed = AppState.participants.filter(p => p.status == 'completed')
+              return completed || 0
+            }),
             approvedModerations: computed(() => {
                 const approvedMods = AppState.moderations.filter(m => m.status == 'active' && m.challenge.creatorId != AppState.activeProfile.id);
                 return approvedMods;

@@ -79,7 +79,11 @@ export default {
 
               return modChallenges
             } else if(challengeTypes.value == 'Participating'){
-              return AppState.activeParticipant
+              const participations = []
+
+              AppState.participants.forEach(m => participations.push(m.challenge))
+
+              return participations
             } else{
               return AppState.challenges
             }

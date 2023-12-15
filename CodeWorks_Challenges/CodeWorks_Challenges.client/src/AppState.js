@@ -33,8 +33,8 @@ export const AppState = reactive({
   /** @type {import('./models/Challenge.js')|null} */
   activeChallenge: null,
 
-  /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]}*/
-  activeParticipant: [],
+  /** @type {import('./models/ChallengeParticipant.js')|null}*/
+  activeParticipant: null,
 
   /** @type {import('./models/ChallengeModerator.js')|null}*/
   activeModerator: null,

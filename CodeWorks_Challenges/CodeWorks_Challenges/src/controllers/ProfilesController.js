@@ -11,6 +11,7 @@ export class ProfilesController extends BaseController {
       .get('/:id', this.getProfile)
       .get('/:id/challenges', this.getProfileChallenges)
       .get('/:id/rewards', this.getProfileRewards)
+      .get('/:id/participants', this.getParticipationsByUserId)
   }
 
   async findProfiles(req, res, next) {
@@ -47,6 +48,16 @@ export class ProfilesController extends BaseController {
     try {
       const rewards = await participantsService.getChallengeRewards(req.params.id)
       return res.send(rewards)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getParticipationsByUserId(req, res, next) {
+    try {
+      const participations = await participantsService.getParticipationsByUserId(req.params.id)
+
+      return res.send(participations)
     } catch (error) {
       next(error)
     }

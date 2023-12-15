@@ -40,7 +40,7 @@ class ChallengeModeratorsService {
     let moderatorToEdit = AppState.moderators.find(m => m.id == res.data.id)
     if (moderatorToEdit)
       moderatorToEdit.status = true
-    let myModeratorToEdit = AppState.myModerations.find(m => m.id == res.data.id)
+    let myModeratorToEdit = AppState.moderations.find(m => m.id == res.data.id)
     if (myModeratorToEdit)
       myModeratorToEdit.status = true
   }
@@ -53,10 +53,10 @@ class ChallengeModeratorsService {
     if (moderatorToRemove != -1) {
       AppState.moderators.splice(moderatorToRemove, 1)
     }    // Remove moderation from account data render
-    let myModerationToRemove = AppState.myModerations.findIndex(m => m.id == moderationId)
+    let myModerationToRemove = AppState.moderations.findIndex(m => m.id == moderationId)
     // logger.log('[MY MOD REMOVAL]', moderationId, myModerationToRemove, AppState.myModerations)
     if (myModerationToRemove != -1) {
-      AppState.myModerations.splice(myModerationToRemove, 1)
+      AppState.moderations.splice(myModerationToRemove, 1)
     }
   }
 }
