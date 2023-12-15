@@ -2,7 +2,7 @@
   <section class="container-fluid pt-5 g-0">
       <div class="col-12 d-flex justify-content-end">
         <div class="col-4 d-flex create-challenge-card flex-column" style="position: relative; height: 14vh;right: 5rem">
-          <span class="submission-subtitle text-uppercase" style="">Earn your Reputation</span>
+          <span class="submission-subtitle text-uppercase" style="">Gain Reputation</span>
           <a ref="challenge" id="createChallengeButton" class="create-challenge" type="button" role="button" data-bs-target="#createChallengeForm" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal" title="Create a new challenge" style="">Create a Challenge</a>
         </div>
       </div>
@@ -188,19 +188,25 @@ export default {
     color: var(--text-main);
     height: 8vh;
     padding: 1rem;
+    text-decoration: none;
     transition: all .3s ease;
     .submission-subtitle {
       color: var(--shadow-green);
+      font-size: .9rem;
       font-weight: 500;
-      margin-bottom: 1rem;
-      }
-      &>a {
-        text-decoration: none;
-        color: var(--shadow-blue);
-        &:hover {
-          filter: brightness(1.2);
-          transition: all .3s ease;
-      }
+      margin-top: .5rem;
+      margin-bottom: .5rem;
+    }
+    >a {
+      color: var(--shadow-blue);
+      font-size: 1.1rem;
+      font-weight: 500;
+      transition: all .3s ease;
+      text-decoration: none;
+    }
+    &>:hover {
+      color: var(--shadow-blue);
+      transition: all .3s ease;
     }
   }
   .search-input {

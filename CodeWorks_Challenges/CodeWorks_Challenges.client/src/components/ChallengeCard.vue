@@ -1,7 +1,7 @@
 <template>
   <section v-if="challenge" :key="challenge?.id" class="">
     <router-link :to="{ name: 'ChallengeDetails', params: { challengeId: challenge.id } }" class="" style="z-index: 0; text-decoration: none;">
-      <div class="card card-custom-image d-flex flex-row bg-dark align-items-center p-3 rounded-3 text-light"
+      <div class="card challenge-card d-flex flex-row bg-dark align-items-center p-3 rounded-3 text-light"
         style="height: 85px; font-weight: 500;">
         <h6 class="col-4 ps-4 ms-3">
           {{ challenge.name }}
@@ -9,9 +9,9 @@
 
         <div class="col-2 me-5 pe-5">
           <div class="col-12 d-flex flex-column justify-content-center align-items-center">
-            <img v-if="challenge.difficulty === 1" src="../assets/img/easy-difficulty-chart.svg" alt="Easy Difficulty Icon" class="img-fluid" style="width: 30px; height: 30px;">
-            <img v-if="challenge.difficulty === 2" src="../assets/img/medium-difficulty-chart.svg" alt="Medium Difficulty Icon" class="img-fluid" style="width: 30px; height: 30px;">
-            <img v-if="challenge.difficulty === 3" src="../assets/img/hard-difficulty-chart.svg" alt="Hard Difficulty Icon" class="img-fluid" style="width: 30px; height: 30px;">
+            <img v-if="challenge.difficulty === 1" src="../assets/img/easy-difficulty-chart.svg" :title="`Difficulty Rating: ${challenge.difficulty}`" alt="Easy Difficulty Icon" class="img-fluid" style="width: 30px; height: 30px;">
+            <img v-if="challenge.difficulty === 2" src="../assets/img/medium-difficulty-chart.svg" :title="`Difficulty Rating: ${challenge.difficulty}`" alt="Medium Difficulty Icon" class="img-fluid" style="width: 30px; height: 30px;">
+            <img v-if="challenge.difficulty === 3" src="../assets/img/hard-difficulty-chart.svg" :title="`Difficulty Rating: ${challenge.difficulty}`" alt="Hard Difficulty Icon" class="img-fluid" style="width: 30px; height: 30px;">
           </div>
         </div>
         <div class="col-5 d-flex justify-content-center align-items-center">
@@ -123,13 +123,14 @@ export default {
 <style scoped lang="scss">
 @import url('../assets/scss/_variables.scss');
 
-.card-custom-image {
+.challenge-card {
   position: relative;
   background-color: var(--bg-main) !important;
   text-shadow: 0 1px #000000;
   transition: all .3s ease-in-out;
   border-top:2px solid var(--border-main);
   border-bottom:2px solid var(--border-main);
+  overflow-x: hidden;
 
   &:hover {
   }
