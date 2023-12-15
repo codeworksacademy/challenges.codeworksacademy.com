@@ -27,7 +27,7 @@
         <UserLinksCard />
       </div>
 
-      <div class="col-12 col-md-9">
+      <div class="col-12 col-md-9 p-0">
         <router-view></router-view>
       </div>
     </section>

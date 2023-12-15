@@ -1,5 +1,5 @@
 <template>
-  <section class="rank-card-style row my-2 my-md-0">
+  <section class="rank-card-style row my-2 my-md-0 p-1 m-1">
     <div class="col-4 fs-1 lekton-text text-white fw-semibold d-flex align-items-center justify-content-center">
       {{ currentRank }}
     </div>
@@ -30,13 +30,17 @@ import { computed } from 'vue'
 import { AppState } from '../../AppState'
 
 export default {
-  setup(){
+  props:{
+    userRank: {type: Number, required: true}
+  },
+
+  setup(props){
     return {
       currentRank: computed(() => {
         let lastKey = 0
 
         for (const key in AppState.rankTitles) {
-          if (AppState.account.rank >= key) {
+          if (props.userRank >= key) {
             lastKey = key
           }
         }
@@ -48,7 +52,7 @@ export default {
         let lastKey = 0
 
         for (const key in AppState.rankTitles) {
-          if (AppState.account.rank >= key) {
+          if (props.userRank >= key) {
             lastKey = key
           }
         }
@@ -61,7 +65,7 @@ export default {
 
         let nextKey = keys[nextIndex]
 
-        let percentage = ((AppState.account.rank - lastKey) / (nextKey - lastKey)) * 100
+        let percentage = ((props.userRank - lastKey) / (nextKey - lastKey)) * 100
 
         let finalPer = percentage.toFixed(1)
 
@@ -72,7 +76,7 @@ export default {
         let lastKey = 0
 
         for (const key in AppState.rankTitles) {
-          if (AppState.account.rank >= key) {
+          if (props.userRank >= key) {
             lastKey = key
           }
         }
@@ -113,6 +117,6 @@ export default {
   background-color: #3e53742a;
   border: 1px solid #3E5374;
   border-radius: .5rem;
-  height: 6rem;
+  height: 7rem;
 }
 </style>

@@ -18,7 +18,7 @@
 
     <section class="row">
       <div class="col-md-8 col-12">
-        <AccountRankCard />
+        <AccountRankCard :userRank="account.rank" />
       </div>
 
       <div class="col-md-4 col-12">
@@ -31,7 +31,7 @@
 
 <script>
 import { computed } from 'vue';
-import AccountRankCard from '../components/AccountAndProfilePage/AccountRankCard.vue';
+import AccountRankCard from '../components/AccountAndProfilePage/RankCard.vue';
 import { AppState } from '../AppState';
 import StatCard from '../components/AccountAndProfilePage/StatCard.vue';
 
