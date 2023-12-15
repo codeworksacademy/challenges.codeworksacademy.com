@@ -198,9 +198,9 @@
         <h4>
           Challenges Completed:
         </h4>
-        <h5 v-if="completedChallenges.length === 0">You haven't completed any challenges</h5>
-        <div v-else v-for="challenge in completedChallenges" :key="challenge.id">
-          <ChallengeCard :challenge="challenge" />
+        <h5 v-if="!completedChallenges.length">You haven't completed any challenges</h5>
+        <div v-else v-for="myParticipants in completedChallenges" :key="myParticipants.challenge?.id">
+          <ChallengeCard :challenge="myParticipants.challenge" />
         </div>
       </div>
     </section>
@@ -288,7 +288,7 @@ export default {
       account: computed(() => AppState.account),
       myChallenges: computed(() => AppState.myChallenges),
       joinedChallenges: computed(() => AppState.myParticipants),
-      completedChallenges: computed(() => []),
+      completedChallenges: computed(() => AppState.myParticipants.filter(p => p.status === 'completed')),
       currentRank: computed(() => {
         let lastKey = 0
 
