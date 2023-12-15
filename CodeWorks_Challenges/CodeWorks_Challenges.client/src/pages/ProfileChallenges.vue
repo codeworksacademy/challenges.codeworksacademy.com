@@ -19,8 +19,8 @@
           {{ challengeTypes.toUpperCase() || 'CREATED' }}
         </p>
       </div>
-      <div class="col-3"></div>
-      <div class="col-3 text-end">
+      <div class="col-2"></div>
+      <div class="col-4 text-end">
         <p class="text-white">
           <span class="highlight-text fw-semibold">{{ challenges.length }} </span> {{ challengeTypes || 'Created' }} challenges
         </p>
