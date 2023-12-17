@@ -66,9 +66,15 @@
           </div>
         </div>
       </div>
-      <div v-for="(c, index) in challenges" :key="index" class="px-0">
+      <!-- <div v-for="(c, index) in challenges" :key="index" class="px-0">
+          <div v-if="c.category === 'front end'">
         <ChallengeCard :challenge="c" />
-      </div>
+        </div>
+      </div> -->
+      
+      <ChallengeCategoryCard />
+
+      <!-- Render ChallengeCategoryCard components for each category -->
       <div class="row justify-content-evenly">
         <ul class="pagination col-md-5">
             <li class="page-item"><a class="page-link" href="#">Previous</a></li>
@@ -91,10 +97,10 @@ import SelectChallengeCategory from '../components/ChallengePage/SelectChallenge
 import { challengesService } from "../services/ChallengesService.js"
 import { loadPage } from "../router.js"
 import { CATEGORY_TYPES } from "../constants/index.js"
-import MostPopularChallengeCard from '../components/MostPopularChallengeCard.vue'
+import ChallengeCategoryCard from '../components/ChallengePage/ChallengeCategoryCard.vue'
 
 export default {
-  components: { ChallengeCard, SelectChallengeCategory, MostPopularChallengeCard, },
+  components: { ChallengeCard, SelectChallengeCategory, ChallengeCategoryCard, },
 
   setup() {
     const search = ref({})
@@ -131,6 +137,7 @@ export default {
       search,
       categoryTypes,
       filterBy,
+      filterCategory: computed(() => AppState.filterCategory),
       challenge: computed(() => AppState.activeChallenge),
       challenges: computed(() => {
         if (!filterBy.value) {
@@ -144,11 +151,7 @@ export default {
         }
         return AppState.challenges.filter(c => c.name === search.value.name)
       }),
-      trendingChallenges: computed(()=> {
-        AppState.challenges.sort((trendingChallenges1, trendingChallenges2) =>
-        trendingChallenges2.participantCount - trendingChallenges1.participantCount)
-        return AppState.challenges[0]
-      }),
+
       findChallenges,
 
       async filterDifficulty(difficulty) {

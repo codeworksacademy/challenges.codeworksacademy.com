@@ -277,7 +277,7 @@ export default {
 
     async function getProfile() {
       try {
-        await profilesService.getProfile(AppState.account.id) // changed this from a route param because it didn't exist to appstat.account.id
+        await profilesService.getProfile(AppState.account.id) // changed this from a route param because it didn't exist to AppState.account.id
         logger.log(AppState.activeProfile)
       } catch (error) {
         Pop.toast(error, 'error')
