@@ -1,5 +1,6 @@
 <template>
-  <!-- <section class="row p-4" style="background-color: #131923;">
+  <div class="container-fluid" v-if="account.id">
+    <section class="row p-4" style="background-color: #131923;">
       <div class="col-2">
         <img :src="account.picture" alt="" class="rounded-circle img-fluid w-75">
       </div>
@@ -28,16 +29,16 @@
     </section>
     <section class="row mt-3 p-3" style="background-color: #161d2b;">
       <div class="col-12 d-flex justify-content-center align-items-center text-uppercase fs-8 fw-500">
-         <a id="profile__link" :href="profile">My Profile</a> 
+        <!-- <a id="profile__link" :href="profile">My Profile</a> -->
         <router-link class="col-3" :to="{ name: 'Profile', params: { profileId: account.id } }">
           My Account
         </router-link>
         <router-link class="col-3" :to="{ name: 'Account', params: { accountId: account.id } }">
-          TODO [FEATURE RICH] - Implement route to a new page that holds logistics for app member services 
+          <!--TODO [FEATURE RICH] - Implement route to a new page that holds logistics for app member services -->
           Billing and Plans
         </router-link>
         <router-link class="col-3" :to="{ name: 'Account', params: { accountId: account.id } }">
-          TODO [FEATURE RICH] - Implement route to a new page that holds logistics for creating team collaborations 
+          <!--TODO [FEATURE RICH] - Implement route to a new page that holds logistics for creating team collaborations -->
           Create Team
         </router-link>
         <div class="col-3 d-flex flex-end">
@@ -60,8 +61,7 @@
 
     </section>
     <section class="row ps-3">
-      <div class="col-9 bg-image d-flex justify-content-center align-items-center"
-        :style="`background-image: url(${account.coverImg}); opacity: .9; background-repeat: no-repeat; background-size: cover;`">
+      <div class="col-9 bg-image d-flex justify-content-center align-items-center">
 
         <div class="col-6">
           <div id="bugs-bunny" class="alt-badge bunny-pink">
@@ -73,18 +73,18 @@
           </div>
         </div>
 
-        <div class="col-6">
+        <!-- <div class="col-6">
           <h5>Bugs Bunny</h5>
           <p class="text-uppercase">Current Rank</p>
-        </div>
+        </div> -->
       </div>
 
-      <div class="col-3">
+      <!-- <div class="col-3">
         <div class="card bg-dark p-3 shadow-lg">
           <h6 class="text-uppercase subheader">Rank Progress</h6>
           <p>0% towards Widget Weenie</p>
         </div>
-      </div>
+      </div> -->
     </section>
 
     <section class="row px-5 pt-5 ms-3">
@@ -110,11 +110,10 @@
 
     <section class="row mb-5 pb-5">
       <div style="height: 1000px;"></div>
-    </section> -->
+    </section>
 
 
-  <!-- REVIEW - ♻️ The above is progress in the fleshing out of the markup located below. Below section of template will be mostly removed - AJ -->
-  <div class="container-fluid" v-if="account.id">
+    <!-- REVIEW - ♻️ The above is progress in the fleshing out of the markup located below. Below section of template will be mostly removed - AJ -->
     <section class="row mt-5 pt-5">
       <div class="p-0">
         <img class="coverImg-style" :src="account.coverImg" alt="Cover Image">
@@ -141,27 +140,35 @@
     </section>
 
     <!-- TODO Add computed in Style section which sets the width of the progress bar (i.e., percentile based on next rank and current rank) -->
-    <section class="rank-card-style bg-dark text-light row m-2 mb-3 p-2 rounded">
-      <div class="col-12 fs-2">
-        {{ currentRank }}
-      </div>
-      <div class="col-12">
-        <div class="row">
-          <div class="col-md-3 col-12 d-flex align-items-end">
-            <span>
-              CURRENT RANK
-            </span>
+    <section class="col-12 d-flex justify-content-center align-items-center p-2">
+      <div class="col-8 p-2">
+        <div class="rank-card-style bg-dark text-light mb-3 p-2 rounded">
+          <div class="col-12 fs-2">
+            {{ currentRank }}
           </div>
-          <div class="col-md-9 col-12 text-start text-md-end">
-            <span>
-              NEXT RANK: {{ nextRank.toUpperCase() }}
-            </span>
-            <div class="progress" role="progressbar" aria-label="example" aria-valuenow="50" aria-valuemin="0"
-              aria-valuemax="100">
-              <div class="progress-bar" :style="{ width: rankPercentage }"> {{ rankPercentage }}</div>
+          <div class="col-12">
+            <div class="row">
+              <div class="col-md-3 col-12 d-flex align-items-end">
+                <span>
+                  CURRENT RANK
+                </span>
+              </div>
+              <div class="col-md-9 col-12 text-start text-md-end">
+                <span>
+                  NEXT RANK: {{ nextRank.toUpperCase() }}
+                </span>
+                <div class="progress" role="progressbar" aria-label="example" aria-valuenow="50" aria-valuemin="0"
+                  aria-valuemax="100">
+                  <div class="progress-bar" :style="{ width: rankPercentage }"> {{ rankPercentage }}</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="col-4 mb-3 p-2">
+        <AccountRankBadgeCard />
       </div>
     </section>
 
@@ -245,6 +252,7 @@ import { accountService } from "../services/AccountService.js";
 import { useRoute } from 'vue-router';
 import { profilesService } from "../services/ProfilesService.js";
 import MilestonesTracker from "../components/MilestonesTracker.vue";
+import AccountRankBadgeCard from '../components/Badges/AccountRankBadgeCard.vue'
 
 export default {
   setup() {
@@ -343,11 +351,9 @@ export default {
 
         return AppState.rankTitles[nextKey]
       }),
-
-
     };
   },
-  components: { AccountForm, ChallengeCard, AccountModerator, MilestonesTracker, MilestonesTracker }
+  components: { AccountForm, ChallengeCard, AccountModerator, MilestonesTracker, MilestonesTracker, AccountRankBadgeCard }
 }
 </script>
 
