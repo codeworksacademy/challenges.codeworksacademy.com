@@ -1,3 +1,4 @@
+import { RANK_TYPES } from "./constants"
 import { reactive } from 'vue'
 
 // NOTE AppState is a reactive object to contain app level data
@@ -63,7 +64,24 @@ export const AppState = reactive({
     150: "jarvis",
     300: "guru",
     500: "ninja",
-    1000: "wizard"
-  }
-
+    1000: "wizard",
+    5000: "legend",
+    10000: "fabled",
+    15000: "mythical",
+    20000: "godlike"
+  },
+  rankTypes: {
+    0: RANK_TYPES[0],
+    10: RANK_TYPES[1],
+    50: RANK_TYPES[2],
+    100: RANK_TYPES[3],
+    150: RANK_TYPES[4],
+    300: RANK_TYPES[5],
+    500: RANK_TYPES[6],
+    1000: RANK_TYPES[7],
+    5000: RANK_TYPES[8],
+    10000: RANK_TYPES[9],
+    15000: RANK_TYPES[10],
+    20000: RANK_TYPES[11]
+  },
 })
