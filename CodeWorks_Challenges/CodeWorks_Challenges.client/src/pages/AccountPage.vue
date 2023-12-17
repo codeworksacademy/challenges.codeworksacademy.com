@@ -61,8 +61,7 @@
 
     </section>
     <section class="row ps-3">
-      <div class="col-9 bg-image d-flex justify-content-center align-items-center"
-        :style="`background-image: url(${account.coverImg}); opacity: .9; background-repeat: no-repeat; background-size: cover;`">
+      <div class="col-9 bg-image d-flex justify-content-center align-items-center">
 
         <div class="col-6">
           <div id="bugs-bunny" class="alt-badge bunny-pink">
@@ -74,18 +73,18 @@
           </div>
         </div>
 
-        <div class="col-6">
+        <!-- <div class="col-6">
           <h5>Bugs Bunny</h5>
           <p class="text-uppercase">Current Rank</p>
-        </div>
+        </div> -->
       </div>
 
-      <div class="col-3">
+      <!-- <div class="col-3">
         <div class="card bg-dark p-3 shadow-lg">
           <h6 class="text-uppercase subheader">Rank Progress</h6>
           <p>0% towards Widget Weenie</p>
         </div>
-      </div>
+      </div> -->
     </section>
 
     <section class="row px-5 pt-5 ms-3">
@@ -141,27 +140,35 @@
     </section>
 
     <!-- TODO Add computed in Style section which sets the width of the progress bar (i.e., percentile based on next rank and current rank) -->
-    <section class="rank-card-style bg-dark text-light row m-2 mb-3 p-2 rounded">
-      <div class="col-12 fs-2">
-        {{ currentRank }}
-      </div>
-      <div class="col-12">
-        <div class="row">
-          <div class="col-md-3 col-12 d-flex align-items-end">
-            <span>
-              CURRENT RANK
-            </span>
+    <section class="col-12 d-flex justify-content-center align-items-center p-2">
+      <div class="col-8 p-2">
+        <div class="rank-card-style bg-dark text-light mb-3 p-2 rounded">
+          <div class="col-12 fs-2">
+            {{ currentRank }}
           </div>
-          <div class="col-md-9 col-12 text-start text-md-end">
-            <span>
-              NEXT RANK: {{ nextRank.toUpperCase() }}
-            </span>
-            <div class="progress" role="progressbar" aria-label="example" aria-valuenow="50" aria-valuemin="0"
-              aria-valuemax="100">
-              <div class="progress-bar" :style="{ width: rankPercentage }"> {{ rankPercentage }}</div>
+          <div class="col-12">
+            <div class="row">
+              <div class="col-md-3 col-12 d-flex align-items-end">
+                <span>
+                  CURRENT RANK
+                </span>
+              </div>
+              <div class="col-md-9 col-12 text-start text-md-end">
+                <span>
+                  NEXT RANK: {{ nextRank.toUpperCase() }}
+                </span>
+                <div class="progress" role="progressbar" aria-label="example" aria-valuenow="50" aria-valuemin="0"
+                  aria-valuemax="100">
+                  <div class="progress-bar" :style="{ width: rankPercentage }"> {{ rankPercentage }}</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="col-4 mb-3 p-2">
+        <AccountRankBadgeCard />
       </div>
     </section>
 
@@ -245,6 +252,7 @@ import { accountService } from "../services/AccountService.js";
 import { useRoute } from 'vue-router';
 import { profilesService } from "../services/ProfilesService.js";
 import MilestonesTracker from "../components/MilestonesTracker.vue";
+import AccountRankBadgeCard from '../components/Badges/AccountRankBadgeCard.vue'
 
 export default {
   setup() {
@@ -343,11 +351,9 @@ export default {
 
         return AppState.rankTitles[nextKey]
       }),
-
-
     };
   },
-  components: { AccountForm, ChallengeCard, AccountModerator, MilestonesTracker, MilestonesTracker }
+  components: { AccountForm, ChallengeCard, AccountModerator, MilestonesTracker, MilestonesTracker, AccountRankBadgeCard }
 }
 </script>
 

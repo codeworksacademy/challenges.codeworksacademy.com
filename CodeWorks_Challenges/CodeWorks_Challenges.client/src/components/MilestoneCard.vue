@@ -6,38 +6,30 @@
           class="mdi mdi-circle text-primary selectable">NEW</span><span v-else
           class="mdi mdi-circle-outline text-primary "></span>
       </p>
-
     </div>
 
-    <div class="col-6">
-      <div>
+    <div class="col-6 d-flex flex-column justify-content-center align-items-center">
+      <h6>
         Current Badge
-      </div>
-      <!-- Use v-html to render HTML -->
-      <div v-html="milestoneIcon.current"></div>
+      </h6>
+      <!-- Use v-html to render HTML template being returned in script -->
+      <div v-html="milestoneBadge.current"></div>
     </div>
 
-    <div v-if="milestone.tier != milestoneCondition.maxTierLevel" class="col-6">
-      <div>
+    <div v-if="milestone.tier != milestoneCondition.maxTierLevel" class="col-6 d-flex flex-column justify-content-center align-items-center">
+      <h6>
         Next Badge
-      </div>
-      <!-- Use v-html to render HTML -->
-      <div v-html="milestoneIcon.next"></div>
+      </h6>
+      <!-- Use v-html to render HTML template being returned in script -->
+      <div v-html="milestoneBadge.next"></div>
     </div>
 
-    <div v-if="milestone.tier != milestoneCondition.maxTierLevel" class="col-6">
-      <div>
-        Next
-      </div>
-
-    </div>
-
-    <div class="col-12">
-      <div class="text-uppercase fw-bold text-light">
-        {{ milestoneIcon.nextName }}
-      </div>
+    <div v-if="milestone.tier != milestoneCondition.maxTierLevel" class="col-12 d-flex flex-column justify-content-center align-items-center">
+      <span class="text-capitalize fst-italic text-light">
+        <b class="fst-normal">Next:</b> '{{ milestoneBadge.nextName }}' Badge
+      </span>
       <div class="fst-italic">
-        {{ milestoneIcon.currentDescription }}
+        {{ milestoneBadge.nextDescription }}
       </div>
     </div>
 
@@ -71,24 +63,6 @@ import { accountMilestonesService } from "../services/AccountMilestonesService.j
 import Pop from "../utils/Pop.js";
 import { RANK_TYPES } from "../constants";
 
-// Define the getBadgeInfo function
-const getBadgeInfo = (tier) => {
-  const badge = RANK_TYPES[tier - 1];
-  
-  if (badge) {
-    return {
-      html: `<img src="${badge.IMAGE_URL}" alt="${badge.NAME}" class="img-fluid" style="width: 2.5rem; height: 2.5rem; margin-right: .25rem;"/>`,
-      name: badge.NAME,
-      text: badge.DESCRIPTION,
-    };
-  } else {
-    return {
-      html: `<span class="text-secondary" style="font-style: italic;">Badge: N/A</span>`,
-      text: 'No Badges Yet!',
-    };
-  }
-};
-
 export default {
   props: {
     milestone: {
@@ -97,7 +71,31 @@ export default {
     }
   },
   setup(props) {
-    const milestoneIcon = computed(() => {
+
+    const getBadgeInfo = (tier) => {
+      const badge = RANK_TYPES[tier - 1]
+      if (badge) {
+        return {
+          html:`
+          <div class="d-flex flex-column justify-content-center align-items-center">
+            <img src="${badge.IMAGE_URL}" alt="${badge.NAME}" class="img-fluid" style="width: 5rem; height: 5rem;"/>
+            <small class="text-uppercase text-light" style="white-space: nowrap;">${badge.NAME}</small>
+            <span class="fst-italic">${badge.DESCRIPTION}</span>
+          </div>
+          `,
+          name: badge.NAME,
+          text: badge.DESCRIPTION,
+        };
+      } else {
+        return {
+          html: `<span class="text-secondary" style="font-style: italic;">Badge: N/A</span>`,
+          text: 'No Badges Yet!',
+        };
+      }
+    };
+
+    
+    const milestoneBadge = computed(() => {
       const badgeInfo = getBadgeInfo(props.milestone.tier);
       const nextBadgeInfo = getBadgeInfo(props.milestone.tier + 1);
       return {
@@ -116,8 +114,10 @@ export default {
       const logicParts = logicStr.split('%');
       const operationsArr = logicParts[0].split('-');
 
-      condition.tierThresholdArr = logicParts[1].split('-');
-      condition.maxTierLevel = operationsArr[0];
+      condition.tierThresholdArr = logicParts[1].split('-').map((str) => {
+        return parseInt(str);
+      });
+      condition.maxTierLevel = condition.tierThresholdArr.length + 1;
       condition.operation = operationsArr[1];
 
       condition.nextTier = props.milestone.tier + 1;
@@ -138,7 +138,7 @@ export default {
     }
 
     return {
-      milestoneIcon,
+      milestoneBadge,
       milestoneCondition,
       claimMilestone
     };

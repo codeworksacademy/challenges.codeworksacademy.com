@@ -6,7 +6,7 @@
       <h3>Milestones</h3>
     </div>
 
-    <div v-for="milestone in milestones" :key="milestone.id" class="col-3">
+    <div v-for="milestone in milestones" :key="milestone.id" class="col-12 col-sm-6 col-md-4 m-auto mb-4">
       <MilestoneCard :milestone="milestone" />
     </div>
   </section>
