@@ -46,6 +46,10 @@ class AccountService {
 
     logger.log('[CURRENT ACCOUNT REPUTATION]', res.data)
   }
+
+  clearSharedVariables(){
+    AppState.moderations = []
+  }
 }
 
 export const accountService = new AccountService()

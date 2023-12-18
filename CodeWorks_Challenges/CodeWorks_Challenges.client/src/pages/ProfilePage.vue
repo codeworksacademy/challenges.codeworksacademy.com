@@ -1,43 +1,38 @@
 <template>
   <div class="container-fluid" v-if="activeProfile">
-    <section class="row">
+    <section class="row dark-blue-bg">
       <div class="p-0">
-        <img :src="activeProfile.coverImg" alt="Cover Image" class="coverImg-style">
+        <img class="coverImg-style" :src="activeProfile.coverImg" alt="Cover Image">
       </div>
-      <div class="d-flex col-12">
-        <img :src="activeProfile.picture" :alt="activeProfile.name"
-          class="avatar-md mx-4 avatar-style border border-light">
-        <div class="d-flex flex-column">
-          <p class="fs-2 m-0">
-            {{ activeProfile.name }}
-          </p>
-          <p>
-            Rank: {{ activeProfile.title }}
-            <span class="ms-2">
-              {{ activeProfile.rank }} XP
-            </span>
-            <span title="challenges created" class="ms-2">
-              {{ challenges.length }}
-              <i class="mdi mdi-head-lightbulb fs-5"></i>
-            </span>
-          </p>
-        </div>
+
+      <div class="col-12 text-white">
+        <section class="row justify-content-between">
+          <div class="col-md-7 col-12 d-flex summary-height">
+            <SummarySection :name="activeProfile.name" :picture="activeProfile.picture" :rankNumber="activeProfile.rank" :challengesCount="(challenges.length + approvedModerations.length)" :reputation="activeProfile.reputation" />
+          </div>
+
+          <div class="col-4 align-items-center justify-content-end d-none d-md-flex summary-height">
+            <router-link :to="{name: 'Profile Challenges'}">
+              <button class="btn aqua-btn-outline my-2">
+                View challenges
+              </button>
+            </router-link>
+          </div>
+        </section>
       </div>
     </section>
+
     <section class="row">
-      <div class="col-12 my-3">
-        <p class="fs-3 fw-semibold">
-          {{ activeProfile.name }}'s Challenges
-        </p>
+      <div class="col-md-3 col-12">
+        <ProfileLinksCard />
       </div>
-      <div class="col-12 my-2" v-for="c in challenges" :key="c.id">
-        <ChallengeCard :challenge="c" class="position-relative" />
+
+      <div class="col-12 col-md-9 p-0">
+        <router-view></router-view>
       </div>
-    </section>
-    <section class="row">
-      <MilestonesTracker />
     </section>
   </div>
+
   <div class="container-fluid" v-else>
     <h1 class="fs-1 fw-bold">
       Loading... <i class="mdi mdi-loading mdi-spin"></i>
@@ -52,68 +47,114 @@ import Pop from '../utils/Pop';
 import { AppState } from '../AppState'
 import { computed, onUnmounted, watchEffect } from 'vue';
 import { profilesService } from '../services/ProfilesService';
-import { logger } from '../utils/Logger';
 import { challengesService } from '../services/ChallengesService';
-import ChallengeCard from '../components/ChallengeCard.vue';
-import MilestonesTracker from "../components/MilestonesTracker.vue";
+import SummarySection from '../components/AccountAndProfilePage/SummarySection.vue';
+import { challengeModeratorsService } from '../services/ChallengeModeratorsService';
+import { participantsService } from '../services/ParticipantsService';
+import ProfileLinksCard from '../components/AccountAndProfilePage/ProfileLinksCard.vue';
 
 export default {
-  setup() {
-    const route = useRoute();
-    async function getProfile() {
-      try {
-        const profileId = route.params.profileId;
-        await profilesService.getProfile(profileId);
-      }
-      catch (error) {
-        Pop.error(error.message);
-      }
-    }
-    async function getProfileChallenges() {
-      try {
-        const profileId = route.params.profileId;
-        await challengesService.getProfileChallenges(profileId);
-      }
-      catch (error) {
-        Pop.error(error.message);
-      }
-    }
-    function clearProfile() {
-      try {
-        profilesService.clearProfile();
-      }
-      catch (error) {
-        Pop.error(error.message);
-      }
-    }
-    watchEffect(() => {
-      route.params.profileId;
-      getProfile();
-      getProfileChallenges();
-    });
-    onUnmounted(() => {
-      clearProfile();
-    });
-    return {
-      activeProfile: computed(() => AppState.activeProfile),
-      challenges: computed(() => AppState.challenges)
-    };
-  },
-  components: { ChallengeCard, MilestonesTracker }
+    setup() {
+        const route = useRoute();
+
+        async function getProfile() {
+          try {
+            const profileId = route.params.profileId;
+            await profilesService.getProfile(profileId);
+          }
+          catch (error) {
+            Pop.error(error.message);
+          }
+        }
+
+        async function getProfileChallenges() {
+          try {
+            const profileId = route.params.profileId;
+            await challengesService.getProfileChallenges(profileId);
+          }
+          catch (error) {
+            Pop.error(error.message);
+          }
+        }
+
+        async function getProfileModerations(){
+          try {
+            const profileId = route.params.profileId
+            await challengeModeratorsService.getModerationsByProfileId(profileId)
+          } catch (error) {
+            Pop.error(error.message)
+          }
+        }
+
+        async function getProfileParticipations(){
+          try {
+            const profileId = route.params.profileId
+            await participantsService.getParticipationsByUserId(profileId)
+          } catch (error) {
+            Pop.error(error.message)
+          }
+        }
+
+        function clearProfile() {
+          try {
+            profilesService.clearProfile();
+          }
+          catch (error) {
+            Pop.error(error.message);
+          }
+        }
+
+        watchEffect(() => {
+          route.params.profileId;
+          getProfile();
+          getProfileChallenges();
+          getProfileModerations();
+          getProfileParticipations();
+        });
+
+        onUnmounted(() => {
+          clearProfile();
+        });
+
+        return {
+          activeProfile: computed(() => AppState.activeProfile),
+          challenges: computed(() => AppState.challenges),
+
+          approvedModerations: computed(() => {
+            const approvedMods = AppState.moderations.filter(m => m.status == 'active' && m.challenge.creatorId != AppState.activeProfile.id)
+
+            return approvedMods
+          })
+        };
+    },
+    components: { SummarySection, ProfileLinksCard }
 }
 </script>
 
 
 <style lang="scss" scoped>
+.summary-height{
+  height: 9vh;
+}
+
 .coverImg-style {
   object-fit: cover;
   object-position: center;
-  height: 15vh;
+  height: 12vh;
   width: 100%;
 }
 
-.avatar-style {
-  position: relative;
-  top: -5.5vh;
+.dark-blue-bg{
+  background-color: #0E131B;
+}
+
+.aqua-btn-outline{
+  border: 1px solid #00CCE6;
+  color: #00CCE6;
+}
+
+.aqua-btn-outline:hover{
+  background-color: #00CCE6;
+  color: black;
 }
 </style>

@@ -33,7 +33,7 @@
         </div>
         <div class="dropdown-menu dropdown-menu-lg-end dropdown-menu-start p-0" aria-labelledby="authDropdown">
           <div class="list-group">
-            <router-link :to="{ name: 'Account' }">
+            <router-link :to="{ name: 'Account Overview' }">
               <div class="list-group-item dropdown-item list-group-item-action">
                 View Account
               </div>
@@ -82,11 +82,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.light-gold-color{
-  color: #CBD4A5;
-}
 
-.light-gold-border{
-  border: 2px solid #CBD4A5;
-}
 </style>

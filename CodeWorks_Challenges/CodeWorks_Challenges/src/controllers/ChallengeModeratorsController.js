@@ -7,10 +7,11 @@ export class ChallengeModeratorsController extends BaseController {
   constructor() {
     super('api/moderators')
     this.router
+      .get('/:userId/profiles', this.getMyModerationsByProfileId)
+
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createModeration)
       .post('/account', this.createOwnedChallengeModeration)
-      .get('/:userId/profiles', this.getMyModerationsByProfileId)
       .get('/challenges/:userId', this.getModerationsByChallengeCreatorId)
       .put('/:participantId/grade', this.gradeChallengeParticipant)
       .put('/:moderatorId', this.ApproveModeration)

@@ -20,6 +20,8 @@ class ProfilesService {
   clearProfile() {
     AppState.activeProfile = null
     AppState.challenges = []
+    AppState.moderations = []
+    AppState.participants = []
   }
 
 }

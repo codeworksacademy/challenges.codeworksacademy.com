@@ -7,11 +7,13 @@
     </div>
     <div class="form-group py-2">
       <label for="picture">Profile Picture</label>
+      <img :src="editable.picture" alt="profile picture" class="img-fluid my-2 rounded">
       <input v-model="editable.picture" id="picture" class="form-control" type="url" minlength="3" maxlength="300"
         placeholder="Profile Picture...">
     </div>
     <div class="form-group py-2">
       <label for="coverImg">Cover Image</label>
+      <img :src="editable.coverImg" alt="cover image" class="img-fluid my-2 rounded">
       <input v-model="editable.coverImg" id="coverImg" class="form-control" type="url" minlength="3" maxlength="300"
         placeholder="Cover Image">
     </div>
@@ -29,9 +31,9 @@
 
 <script>
 import { computed, ref, watchEffect } from "vue"
-import { AppState } from "../AppState"
-import Pop from "../utils/Pop.js"
-import { accountService } from "../services/AccountService.js"
+import { AppState } from "../../AppState"
+import Pop from "../../utils/Pop"
+import { accountService } from "../../services/AccountService"
 
 export default {
   setup() {

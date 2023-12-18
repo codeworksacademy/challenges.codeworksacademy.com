@@ -7,6 +7,7 @@ class ParticipantsService {
 
   async getParticipantById(participantId) {
     const res = await api.get(`api/participants/${participantId}`)
+    logger.log('[GETTING PARTICIPANT BY ID]', res.data)
     AppState.activeParticipant = res.data
   }
 
@@ -42,6 +43,14 @@ class ParticipantsService {
     const res = await api.get(`api/challenges/${challengeId}/participants`)
     AppState.participants = res.data.map(p => new ChallengeParticipant(p))
     logger.log('[Participants in this challenge]:', AppState.participants)
+  }
+
+  async getParticipationsByUserId(userId){
+    const res = await api.get(`api/profiles/${userId}/participants`)
+
+    logger.log('[GETTING PARTICIPATIONS BY USER ID', res.data)
+
+    AppState.participants = res.data.map(p => new ChallengeParticipant(p))
   }
 }
 

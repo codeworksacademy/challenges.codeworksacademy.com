@@ -11,6 +11,11 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto" style="z-index: 1000;">
+        <li class="p-0">
+          <router-link :to="{ name: 'Challenges' }" class="btn text-white selectable">
+            Challenges
+          </router-link>
+        </li>
       </ul>
       <Login />
     </div>
@@ -37,7 +42,7 @@ a:hover {
 }
 
 .navbar-nav .router-link-exact-active {
-  border-bottom: 2px solid var(--bs-success);
+  border-bottom: 2px solid #00CCE6;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -45,6 +50,14 @@ a:hover {
 @media screen and (min-width: 768px) {
   nav {
     height: 64px;
+  }
+}
+
+@media (max-width: 991px) {
+  .navbar-collapse{
+    padding-left: 1rem;
+    margin-top: .25rem;
+    background-color: #0B0E13;
   }
 }
 </style>

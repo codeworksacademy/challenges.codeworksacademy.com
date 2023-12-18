@@ -1,59 +1,25 @@
 <template>
-  <div class="table-responsive">
-    <table class="table table-dark table-sm">
-      <thead>
-        <tr>
-          <th scope="col">Profile</th>
-          <th scope="col">Challenge</th>
-          <th scope="col">Creator</th>
-          <th scope="col">Status</th>
-          <th scope="col">Remove</th>
-          <th scope="col">
-            <span v-if="moderationProp.originId != account.id">
-              Approve
-            </span>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="table-col-style">
-            <span class="d-block w-75 text-truncate">
-              {{ moderationProp.profile.name }}
-            </span>
-          </td>
-          <td class="table-col-style">
-            <span class="d-block w-75 text-truncate">
-              {{ moderationProp.challenge.name }}
-            </span>
-          </td>
-          <td class="table-col-style text-truncate">
-            <span class="d-block w-75 text-truncate">
-              {{ moderationProp.challenge.creator.name }}
-            </span>
-          </td>
-          <td class="table-col-style text-truncate">
-            <span class="d-block w-75 text-truncate">
-              {{ moderationProp.status }}
-            </span>
-          </td>
-          <td>
-            <button class="btn" @click="removeModeration(moderationProp.id)" title="remove moderation">
-              <i class="mdi mdi-delete text-danger selectable"></i>
-            </button>
-          </td>
-          <td>
-            <button v-if="moderationProp.originId != account.id" class="btn" @click="approveModeration(moderationProp.id)"
-              title="approve moderation">
-              <i class="mdi mdi-check-circle text-success selectable"></i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <section class="border-underline background-highlight row d-flex text-light justify-content-between align-items-center py-2">
+    <div class="col-3 fw-semibold text-truncate fs-5">
+      {{ moderationProp.profile.name }}
+    </div>
+    <div class="col-3 fw-semibold text-truncate fs-5">
+      {{ moderationProp.challenge.name }}
+    </div>
+    <div class="col-3 fw-semibold">
+      {{ moderationProp.status.toUpperCase() }}
+    </div>
+    <div class="col-3 d-flex justify-content-evenly align-items-center">
+      <button class="btn" @click="removeModeration(moderationProp.id)" title="remove moderation">
+        <i class="mdi mdi-delete text-danger selectable"></i>
+      </button>
+      <button v-if="moderationProp.originId != account.id" class="btn" @click="approveModeration(moderationProp.id)"
+        title="approve moderation">
+        <i class="mdi mdi-check-circle text-success selectable"></i>
+      </button>
+    </div>
+  </section>
 </template>
-
 
 <script>
 import { computed } from 'vue'
@@ -67,8 +33,10 @@ export default {
     moderationProp: { Type: ChallengeModerator, required: true }
   },
 
-  setup() {
+  setup(props) {
     return {
+      props,
+
       account: computed(() => AppState.account),
 
       async removeModeration(moderationId) {
@@ -101,7 +69,11 @@ export default {
 
 
 <style lang="scss" scoped>
-.table-col-style {
-  width: 20%;
+.border-underline{
+  border-bottom: 1px solid #2F3E57;
+}
+
+.background-highlight:hover{
+  background-color: #1A2332;
 }
 </style>
