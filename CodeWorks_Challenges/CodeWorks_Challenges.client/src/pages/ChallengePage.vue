@@ -40,10 +40,9 @@
               <li @click="filterDifficulty('Hard')" class="dropdown-item">Hard</li>
             </ul>
           </div>
-          <select v-model="filterBy" name="category" id="category" class="col-2 select-category text-center text-uppercase p-3">
-            <option class="disabled-option" :value="''" disabled>All Categories</option>
-            <option class="option-item" @click="filterBy = ''" :value="''">All</option>
-            <option class="option-item" v-for="option in categoryTypes" :key="option" @click="filterBy = option" :value="option">{{ option }}</option>
+          <select v-model="filterBy" class="form-select select-category" aria-label="Default select example">
+            <option value="" selected>Filter by Category</option>
+            <option v-for="category in categoryTypes" :key="category" :value="category">{{ category }}</option>
           </select>
         </div>
       </div>
@@ -66,17 +65,13 @@
           </div>
         </div>
       </div>
-      <!-- <div v-for="(c, index) in challenges" :key="index" class="px-0">
-          <div v-if="c.category === 'front end'">
-        <ChallengeCard :challenge="c" />
-        </div>
-      </div> -->
-      
-      <ChallengeCategoryCard />
 
-      <!-- Render ChallengeCategoryCard components for each category -->
-      <div class="row justify-content-evenly">
-        <ul class="pagination col-md-5">
+      <div class="row d-flex justify-content-center align-items-center">
+        <ChallengeCategoryCard />
+      </div>
+
+      <div class="col-12 d-flex justify-content-center mt-3">
+        <ul class="pagination pagination-sm">
             <li class="page-item"><a class="page-link" href="#">Previous</a></li>
             <li class="page-item"><a class="page-link" href="#">1</a></li>
             <li class="page-item"><a class="page-link" href="#">2</a></li>
@@ -145,13 +140,6 @@ export default {
         }
         return AppState.challenges.filter(c => c.category === filterBy.value)
       }),
-      filteredChallenges: computed(() => {
-        if (!search.value) {
-          return AppState.challenges
-        }
-        return AppState.challenges.filter(c => c.name === search.value.name)
-      }),
-
       findChallenges,
 
       async filterDifficulty(difficulty) {

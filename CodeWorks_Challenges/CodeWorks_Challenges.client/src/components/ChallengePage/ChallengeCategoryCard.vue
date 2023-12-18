@@ -1,14 +1,21 @@
 <template>
   <div class="accordion accordion-flush" id="accordionFlushExample">
-    <div v-for="category in categoryTypes" :key="category" class="accordion-item">
+    <div v-for="(category, index) in categoryTypes" :key="category" class="accordion-item">
       <h2 class="accordion-header">
-        <button class="accordion-button collapsed bg-dark text-white fs-4 text-capitalize fw-semibold" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse'+ category.id" aria-expanded="false" :aria-controls="'collapse' + category.id">
-          {{ category }}
+        <button @click="isActive = !isActive" class="col-12 accordion-button collapsed bg-dark text-white fs-5 text-capitalize fw-semibold" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse' + index" :aria-expanded="isActive" :aria-controls="'collapse' + index" :aria-labelledby="'heading' + index">
+          <div class="col-10">
+            <span class="mdi me-3" :class="categoryIcons[category]"></span>
+            {{ category }}
+          </div>
+          <div class="col-2 d-flex justify-content-end align-items center">
+            <span class="badge mx-3 fw-normal" style="color: var(--text-sub); font-size: .8rem;">{{ challengesByCategory(category).length }} {{ category }} challenges</span>
+            <span :class="['mdi', isActive ? 'mdi-chevron-right' : 'mdi-chevron-down']"></span>
+          </div>
         </button>
       </h2>
-      <div :id="'collapse' + category.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-        <div class="accordion-body">
-          <ChallengeCard v-for="c in challengesByCategory(category)" :challenge="c" />
+      <div :id="'collapse' + index" class="accordion-collapse collapse" :data-bs-parent="'#accordionFlushExample'">
+        <div class="accordion-body p-0" style="background: var(--bg-main);">
+          <ChallengeCard v-for="c in challengesByCategory(category)" :key="c.id" :challenge="c" />
         </div>
       </div>
     </div>
@@ -20,7 +27,8 @@ import ChallengeCard from '../ChallengeCard.vue';
 import { Challenge } from '../../models/Challenge';
 import { computed, ref } from 'vue';
 import { AppState } from '../../AppState';
-import { CATEGORY_TYPES } from "../../constants/index.js";
+import { logger } from "../../utils/Logger.js";
+
 export default {
   props: {
     challenge: {
@@ -31,28 +39,32 @@ export default {
   components: {
     ChallengeCard,
   },
-  setup(props) {
-    const filterBy = ref('');
-    const challengeCategory = ref(Object.values(CATEGORY_TYPES))
+  setup() {
+    const categoryIcons = ref({
+      'full stack': 'mdi-layers-outline',
+      'front end': 'mdi-monitor-cellphone-star',
+      'back end': 'mdi-server-plus-outline',
+      'data structures': 'mdi-file-tree-outline',
+      'style and design': 'mdi-palette-outline',
+      'puzzles': 'mdi-puzzle-outline',
+      'other': 'mdi-asterisk',
+    });
+
+    const isActive = ref(false);
 
     function challengesByCategory(category) {
-      if (!category) {
-        return AppState.challenges
-      }
-      return AppState.challenges.filter(c => c.category === category)
+      return category ? AppState.challenges.filter(c => c.category === category) : AppState.challenges;
     }
+
     return {
-      filterBy,
-      challengeCategory,
+      isActive,
+      categoryIcons,
       challengesByCategory,
       categoryTypes: computed(() => {
-        const categories = AppState.challenges.map(c => c.category)
-        return [...new Set(categories)]
+        let categories = AppState.challenges.filter(c => c.category).map(c => c.category);
+        categories = [...new Set(categories)];
+        return categories;
       }),
-      challenges: computed(() => AppState.challenges),
-
-
-
     };
   }
 };
