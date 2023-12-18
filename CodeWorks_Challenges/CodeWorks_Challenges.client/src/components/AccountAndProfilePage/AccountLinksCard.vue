@@ -19,6 +19,13 @@
         </router-link>
       </div>
       <div class="user-links-btn rounded">
+        <router-link :to="{name: 'Account Moderations'}">
+          <button class="btn text-white link-btn">
+            <i class="mdi mdi-account-star"></i> Moderations
+          </button>
+        </router-link>
+      </div>
+      <div class="user-links-btn rounded">
         <router-link :to="{name: 'Account Badges'}">
           <button class="btn text-white link-btn">
             <i class="mdi mdi-seal"></i> Badges

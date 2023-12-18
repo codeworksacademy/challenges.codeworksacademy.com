@@ -6,7 +6,7 @@
       </h4>
     </div>
 
-    <div class="col-12" v-if="myModerations.length === 0 && moderators.length == 0">
+    <div class="col-12" v-if="moderations.length === 0 && moderators.length == 0">
       <p>
         You don't moderate any challenges
       </p>
@@ -19,7 +19,7 @@
             My Active Moderations:
           </p>
         </div>
-        <div class="col-12" v-for="moderation in myModerations" :key="moderation.id">
+        <div class="col-12" v-for="moderation in moderations" :key="moderation.id">
           <div v-if="moderation.status == 'active'">
             <ChallengeCard :challenge="moderation.challenge" /><i @click="removeModeration(challenge.id)"
               class="mdi mdi-delete text-danger selectable"></i>
@@ -31,7 +31,7 @@
         <p class="fs-5">
           Pending:
         </p>
-        <div v-for="moderation in myModerations" :key="moderation.id">
+        <div v-for="moderation in moderations" :key="moderation.id">
           <ModerationCard :moderationProp="moderation"
             v-if="moderation.originId != account.id && moderation.status == 'pending'" />
         </div>
@@ -66,9 +66,9 @@ import ChallengeCard from "./ChallengeCard.vue"
 export default {
   setup() {
     // This returns moderations where the accountId is the same as account.id
-    async function getMyModerationsByUserId() {
+    async function getModerationsByUserId() {
       try {
-        await challengeModeratorsService.getMyModerationsByUserId(AppState.account.id);
+        await challengeModeratorsService.getModerationsByUserId(AppState.account.id);
       }
       catch (error) {
         Pop.toast(error, 'error');
@@ -85,15 +85,15 @@ export default {
     }
     watchEffect(() => {
       if (AppState.account.id) {
-        getMyModerationsByUserId();
+        getModerationsByUserId();
         getModerationsByChallengeCreatorId();
       }
     });
     return {
       account: computed(() => AppState.account),
       myChallenges: computed(() => AppState.myChallenges),
-      myModerations: computed(() => {
-        let moderators = AppState.myModerations
+      moderations: computed(() => {
+        let moderators = AppState.moderations
         let filterModerators = moderators.filter((m) => m.challenge.creatorId != AppState.account.id)
         return filterModerators
       }),

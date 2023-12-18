@@ -37,6 +37,11 @@ const routes = [
         component: loadPage('AccountChallenges')
       },
       {
+        path: 'moderations',
+        name: 'Account Moderations',
+        component: loadPage('AccountModerations')
+      },
+      {
         path: 'badges',
         name: 'Account Badges',
         component: loadPage('AccountBadges')
