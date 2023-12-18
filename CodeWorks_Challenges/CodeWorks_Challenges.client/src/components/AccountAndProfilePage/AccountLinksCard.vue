@@ -33,10 +33,12 @@
         </router-link>
       </div>
     </div>
-    <div class="user-links-btn rounded border-top border-dark">
-      <button class="btn text-white link-btn" data-bs-toggle="modal" data-bs-target="#accountFormModal">
-        <i class="mdi mdi-account-edit"></i> Edit Account
-      </button>
+    <div class="border-overline">
+      <div class="user-links-btn rounded">
+        <button class="btn text-white link-btn" data-bs-toggle="modal" data-bs-target="#accountFormModal">
+          <i class="mdi mdi-account-edit"></i> Edit Account
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -67,6 +69,11 @@ export default {
 }
 
 .link-btn:focus{
-  border: 1px solid #0B0E13;
+  border: 1px solid #0E141E;
+}
+
+.border-overline{
+  border-top: 1px solid #797A7A;
+  border-radius: 0px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="border-underline row d-flex text-light justify-content-between align-items-center pt-2">
+  <div class="border-underline background-highlight row d-flex text-light justify-content-between align-items-center pt-2">
     <div class="col-3">
       <p class="m-0 fw-bold fs-5 text-truncate">
         {{ challengeProp.name }}
@@ -68,5 +68,9 @@ export default {
 
 .highlight-font{
   font-family: 'Lekton', sans-serif;
+}
+
+.background-highlight:hover{
+  background-color: #1A2332;
 }
 </style>

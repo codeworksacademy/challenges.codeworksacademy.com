@@ -27,7 +27,7 @@
         <AccountLinksCard />
       </div>
 
-      <div class="col-12 col-md-9 p-0">
+      <div class="col-12 col-md-9">
         <router-view></router-view>
       </div>
     </section>
