@@ -1,7 +1,6 @@
 <template>
   <div class="container-fluid">
     <section class="row">
-
       <div class="col-12 d-flex flex-column">
         <div>
           This is the Moderators page for your challenge
@@ -13,7 +12,6 @@
           </div>
         </div>
       </div>
-
       <div class="col-12 d-flex flex-column">
         These are active challenge moderators
         <div v-for="moderator in moderators" :key="moderator.id">
@@ -23,7 +21,6 @@
           </div>
         </div>
       </div>
-
       <div class="col-12 d-flex flex-column">
         These are the users that have been invited but have not accepted the invite
         <div v-for="moderator in moderators" :key="moderator.id">
@@ -33,11 +30,9 @@
           </div>
         </div>
       </div>
-
     </section>
   </div>
 </template>
-
 
 <script>
 import { computed, onMounted, watchEffect } from "vue";
@@ -71,6 +66,5 @@ export default {
   components: { ModSearchForm }
 }
 </script>
-
 
 <style lang="scss" scoped></style>
