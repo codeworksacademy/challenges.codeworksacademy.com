@@ -1,6 +1,6 @@
 <template>
   <section class="container-fluid" v-if="challengeCreator">
-    <div v-if="challenge" :key="challenge.id" class="row d-flex justify-content-center align-items-center">
+    <div v-if="challenge" :key="challenge.id" class="row d-flex justify-content-center align-items-center text-light">
       <div class="col-12 d-flex justify-content-center align-items-center">
         <h1 class="text-center"> {{ challenge.name }} </h1>
       </div>
