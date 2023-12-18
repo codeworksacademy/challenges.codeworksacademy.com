@@ -58,7 +58,6 @@
 <script>
 import { computed, onUnmounted, watchEffect } from 'vue'
 import { AppState } from '../AppState';
-import AccountForm from "../components/AccountForm.vue";
 import Pop from "../utils/Pop.js";
 import { challengesService } from "../services/ChallengesService.js";
 import { logger } from "../utils/Logger.js";
@@ -68,6 +67,7 @@ import { accountService } from "../services/AccountService.js";
 import SummarySection from '../components/AccountAndProfilePage/SummarySection.vue';
 import { challengeModeratorsService } from '../services/ChallengeModeratorsService';
 import AccountLinksCard from '../components/AccountAndProfilePage/AccountLinksCard.vue';
+import AccountForm from '../components/AccountAndProfilePage/AccountForm.vue';
 
 export default {
   setup() {
@@ -126,7 +126,7 @@ export default {
       })
     };
   },
-  components: { AccountForm, ChallengeCard, AccountModerator, SummarySection, AccountLinksCard }
+  components: { AccountForm, ChallengeCard, AccountModerator, SummarySection, AccountLinksCard, AccountForm }
 }
 </script>
 

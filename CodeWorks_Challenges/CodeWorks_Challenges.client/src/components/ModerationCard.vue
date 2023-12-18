@@ -13,7 +13,7 @@
       <button class="btn" @click="removeModeration(moderationProp.id)" title="remove moderation">
         <i class="mdi mdi-delete text-danger selectable"></i>
       </button>
-      <button  class="btn" @click="approveModeration(moderationProp.id)"
+      <button v-if="moderationProp.originId != account.id" class="btn" @click="approveModeration(moderationProp.id)"
         title="approve moderation">
         <i class="mdi mdi-check-circle text-success selectable"></i>
       </button>
@@ -21,7 +21,6 @@
   </section>
 </template>
 
-<!-- v-if="moderationProp.originId != account.id" -->
 <script>
 import { computed } from 'vue'
 import { ChallengeModerator } from '../models/ChallengeModerator'
