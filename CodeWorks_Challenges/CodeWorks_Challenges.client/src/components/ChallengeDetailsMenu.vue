@@ -54,7 +54,7 @@
 import Pop from '../utils/Pop'
 import { logger } from '../utils/Logger'
 import { AppState } from '../AppState'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { computed } from 'vue'
 import { SUBMISSION_TYPES } from '../constants'
 import { challengesService } from '../services/ChallengesService'
@@ -63,7 +63,7 @@ import { participantsService } from '../services/ParticipantsService'
 export default {
   setup() {
     const route = useRoute()
-
+    const router = useRouter()
     const isParticipant = computed(() => {
       return AppState.participants.find(p => p.accountId === AppState.user.id)
     })

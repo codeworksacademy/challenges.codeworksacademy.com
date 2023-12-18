@@ -11,7 +11,7 @@ class ChallengesService {
   async createChallenge(newChallenge) {
     const res = await api.post('/api/challenges', newChallenge)
     logger.log('Creating Challenge ⏩', res.data)
-    AppState.activeChallenge = res.data
+    AppState.activeChallenge = new Challenge(res.data)
     return res.data
   }
 

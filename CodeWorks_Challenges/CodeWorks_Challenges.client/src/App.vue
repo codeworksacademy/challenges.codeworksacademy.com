@@ -38,21 +38,6 @@
         <AnswerForm />
       </template>
     </ModalWrapper>
-
-    <BottomOffcanvasWrapper id="moderatorsOffcanvas">
-      <template #header>
-        <h3 class="m-auto">
-          Challenge Moderators:
-        </h3>
-      </template>
-      <template #body>
-        <div class="col-12 d-flex justify-content-center align-items-center">
-          <div class="col-2 p-3" v-for="m in moderators" :key="m.id">
-            <ModeratorCard :moderator="m" />
-          </div>
-        </div>
-      </template>
-    </BottomOffcanvasWrapper>
   </main>
 </template>
 

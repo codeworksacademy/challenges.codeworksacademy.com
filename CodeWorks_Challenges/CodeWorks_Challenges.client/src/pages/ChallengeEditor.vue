@@ -39,7 +39,7 @@
   
 <script>
   import { computed, onMounted } from 'vue'
-  import { useRoute } from 'vue-router'
+  import { useRoute, useRouter } from 'vue-router'
   import { AppState } from '../AppState'
   import Pop from "../utils/Pop.js"
   import { logger } from "../utils/Logger.js"  
@@ -56,6 +56,7 @@
     },
     setup() {
       let route = useRoute()
+      let router = useRouter()
       const challenge = computed(() => AppState.activeChallenge)
 
       async function setActiveChallenge() {
@@ -74,6 +75,11 @@
             ...AppState.activeChallenge
           }
           await challengesService.updateChallenge(updatedChallenge, updatedChallenge.id)
+          Pop.success("Challenge Updated")
+          router.push({
+            name: 'ChallengeDetails',
+            path: `/challenges/${AppState.activeChallenge?.id}/overview`
+          })
         } catch (e){
           logger.log(e)
           Pop.error(e)

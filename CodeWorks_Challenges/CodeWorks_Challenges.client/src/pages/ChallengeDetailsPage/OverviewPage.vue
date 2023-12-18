@@ -40,16 +40,12 @@
               <h3> {{ challenge.requirements.length }} </h3>
               <h6 class="text-uppercase">Points</h6>
             </div>
-            <div v-else-if="isOwned || isModerator">
-              <i class="mdi mdi-bell fs-1"></i>
-              <h3> {{ challenge.completedCount }} / {{ challenge.participantCount }} </h3>
-              <h6 class="text-uppercase">Points</h6>
-            </div>
+            <h6 class="text-uppercase">Points</h6>
           </div>
           <div class="col-8 card">
             <div class="col-12 d-flex align-items-center">
-              <img :src="challenge.creator.picture" :alt="`Image for Challenge creator named '${challenge.creator.name}' is broken`" :title="`Image of the Challenge Creator; ${challenge.creator.name}`" class="img-fluid mx-3 rounded-circle" style="height: 75px;width:75px">
-              <h3 class="text-capitalize"> {{ challenge.creator.name }} </h3>
+              <img :src="challenge.creator?.picture" :alt="`Image for Challenge creator named '${challenge.creator?.name}' is broken`" :title="`Image of the Challenge Creator; ${challenge.creator?.name}`" class="img-fluid mx-3 rounded-circle" style="height: 75px;width:75px">
+              <h3 class="text-capitalize"> {{ challenge.creator?.name }} </h3>
             </div>
             <div class="col-12 d-flex justify-content-between align-items-center">
               <h6 class="text-uppercase ps-3 pt-4">Challenge Creator</h6>
@@ -59,7 +55,6 @@
         </section>
       </div>
     </div>
-
   </section>
 </template>
 
@@ -133,11 +128,6 @@ export default {
 
       challenge: computed(() => AppState.activeChallenge),
       moderators: AppState.moderators.filter(m => m.status == 'Active'),
-      isOwned: computed(() => {
-        if (AppState.activeChallenge.creator.id === AppState.account.id) {
-          return true
-        }
-      }),
       isModerator: computed(() => {
         if (AppState.moderators.find(m => m.accountId === AppState.account.id)) {
           return true

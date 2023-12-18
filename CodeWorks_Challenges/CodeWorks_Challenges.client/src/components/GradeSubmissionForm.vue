@@ -1,5 +1,6 @@
 <template>
   <section v-if="participant" :key="participant?.id" class="container-fluid">
+    <h1>{{ participant }}</h1>
     <div class="row justify-content-center align-items-center">
       <div class="col-12 d-flex flex-column justify-content-center align-items-center">
         <h1 class="text-center">Grade Challenge for {{ participant.profile.name }}</h1>
