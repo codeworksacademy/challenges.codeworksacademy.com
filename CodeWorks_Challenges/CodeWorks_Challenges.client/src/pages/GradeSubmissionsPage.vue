@@ -12,12 +12,46 @@
     </div>
     <div class="row justify-content-center">
       <div class="col-md-10 accordion accordion-flush" id="accordionFlushExample">
-        <h1 v-if="participants.length == 0" class="text-danger text-center">This challenge has no participants</h1>
+        <h1 class="text-warning">Needs Grading</h1>
         <div v-for="p in participants" :key="p.id" class="accordion-item">
           <div v-if="p.status === 'submitted' && challengeCreator">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse'+ p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
-                  {{ p.profile.name }}
+                  <span>{{ p.profile.name }}</span>
+                </button>
+            </h2>
+            <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+              <div class="accordion-body">
+                <GradeSubmissionForm :participant="p" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-10 accordion accordion-flush" id="accordionFlushExample">
+        <h1 class="text-info">Started</h1>
+        <div v-for="p in participants" :key="p.id" class="accordion-item">
+          <div v-if="p.status === 'started' && challengeCreator">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse'+ p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
+                  <span>{{ p.profile.name }}</span>
+                </button>
+            </h2>
+            <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+              <div class="accordion-body">
+                <GradeSubmissionForm :participant="p" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-10 accordion accordion-flush" id="accordionFlushExample">
+        <h1 class="text-success">Complete</h1>
+        <div v-for="p in participants" :key="p.id" class="accordion-item">
+          <div v-if="p.status === 'completed' && challengeCreator">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse'+ p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
+                   <span>{{ p.profile.name }}</span>
                 </button>
             </h2>
             <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
