@@ -1,73 +1,16 @@
 <template>
-  <!-- <div class="col-12">
-    <p>
-      <span @click="claimMilestone(milestone)" v-if="milestone?.claimed == false"
-        class="mdi mdi-circle text-primary selectable">NEW</span><span v-else
-        class="mdi mdi-circle-outline text-primary "></span>
-    </p>
-
-
-  </div>
-  <div class="col-12 d-flex justify-content-end">
-    <p>
-      <span class="text-light"> XP: XX</span>
-    </p>
-  </div>
-
-  <div class="col-6">
-    <div>
-      Badge
-    </div>
-    <i :class="['fs-1 text-success mdi', milestoneIcon.current]" :title="milestone.tier"></i>
-
-
-  </div>
-
-  <div v-if="milestone.tier != milestoneCondition.maxTierLevel" class="col-6">
-    <div>
-      Next
-    </div>
-    <i :class="['fs-1 text-secondary mdi', milestoneIcon.next]" :title="milestone.tier"></i>
-
-  </div>
-
-  <div class="col-12">
-    <p>
-      {{ milestone.milestone.description }}
-    </p>
-  </div>
-
-  <div class="col-6">
-    <p>
-      Tier: {{ milestone.tier }} Out of {{ milestoneCondition.maxTierLevel }}
-    </p>
-    <p>
-      {{ milestone.count }} so far
-    </p>
-  </div>
-  <div class="col-6">
-    <p>
-      Next Tier:
-    </p>
-    <p>
-      Tier {{ milestoneCondition.nextTier }} - {{ milestoneCondition.nextTierThreshold }} total
-    </p>
-    <p>
-      {{ milestoneCondition.toNextLevel }} till next level
-    </p>
-  </div> -->
-
   <section @click="claimMilestone(milestone)" v-if="milestone?.claimed == false"
     class="achievement-card mt-3 row selectable"
-    :style="{ border: '3px', borderColor: tierAttributes.color2, borderStyle: 'solid' }">
+    :style="{ border: '3px', borderColor: tierAttributes.color1, borderStyle: 'solid' }">
     <div class="flex-grow-1 text-center m-auto fs-1">NEW</div>
   </section>
 
   <section v-else class="achievement-card bg-dark row mt-3 "
-    :style="{ border: '3px', borderColor: tierAttributes.color2, borderStyle: 'solid' }">
+    :style="{ border: '3px', borderColor: tierAttributes.color1, borderStyle: 'solid' }">
 
     <div class="col-12 col-md-3 icon flex-grow-1 m-auto text-center py-3" :class="[' mdi', tierAttributes.tierCurrent]"
-      :style="{ color: tierAttributes.color1, textShadow: `0px 0px 15px ${tierAttributes.color2}` }"></div>
+      :style="{ color: tierAttributes.color1, textShadow: `0px 0px 15px ${tierAttributes.color2}` }">
+    </div>
 
     <div class="col-12 col-md-9 py-3" :style="{ backgroundColor: tierAttributes.color2 }">
       <section class="d-flex justify-content-between mb-3 mx-2">
@@ -287,5 +230,7 @@ export default {
 
 .icon {
   font-size: 96px;
+  background: rgb(49, 64, 89);
+  background: radial-gradient(circle, rgba(49, 64, 89, 1) 0%, rgba(31, 41, 57, 1) 61%, rgba(22, 28, 40, 1) 100%);
 }
 </style>
