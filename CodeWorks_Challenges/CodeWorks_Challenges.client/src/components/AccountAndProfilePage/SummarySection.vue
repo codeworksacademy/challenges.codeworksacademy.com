@@ -8,7 +8,7 @@
     <p class="fs-6 hide-sm">
       <span class="light-gold-color">Rank: </span> {{ currentRank }}
       <span title="experience" class="ms-4">
-        {{ props.rankNumber }} <span class="light-gold-color">XP</span>
+        {{ props.rankString }} <span class="light-gold-color">XP</span>
       </span>
       <span title="challenges" class="ms-4">
         {{ props.challengesCount }}
@@ -31,10 +31,10 @@ export default {
   props:{
     name: {type: String, required: true},
     picture: {type: String, required: true},
-    rankNumber: {type: String, required: true},
+    rankString: {type: String, required: true},
     challengesCount: {type: String, required: true},
     reputation: {type: String, required: true},
-    userRank: {type: Number, required: true}
+    rankInt: {type: Number, required: true}
   },
 
   setup(props){
@@ -45,7 +45,7 @@ export default {
         let lastKey = 0
 
         for (const key in AppState.rankTitles) {
-          if (props.userRank >= key) {
+          if (props.rankInt >= key) {
             lastKey = key
           }
         }

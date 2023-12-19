@@ -8,7 +8,7 @@
       <div class="col-12 text-white">
         <section class="row justify-content-between">
           <div class="col-md-7 col-12 d-flex summary-height">
-            <SummarySection :name="account.name" :picture="account.picture" :rankNumber="account.rank" :challengesCount="(myChallenges.length + approvedModerations.length)" :reputation="account.reputation" :userRank="account.rank" />
+            <SummarySection :name="account.name" :picture="account.picture" :rankString="account.rank" :challengesCount="(myChallenges.length + approvedModerations.length)" :reputation="account.reputation" :rankInt="account.rank" />
           </div>
 
           <div class="col-4 align-items-center justify-content-end d-none d-md-flex summary-height">
