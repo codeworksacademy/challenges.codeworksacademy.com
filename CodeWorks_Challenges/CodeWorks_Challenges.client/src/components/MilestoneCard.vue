@@ -56,8 +56,12 @@
       {{ milestoneCondition.toNextLevel }} till next level
     </p>
   </div> -->
-  <section class="row bg-dark border border-2 border-secondary-bold text-light m-2  rounded">
-    <div class="col-3 text-center py-3" :class="['fs-1 text-success mdi', milestoneIcon.current]"></div>
+  <section @click="claimMilestone(milestone)" v-if="milestone?.claimed == false"
+    class="achievement-card row bg-dark border border-2 border-secondary-bold text-light m-2 rounded selectable">
+    <div class="flex-grow-1 text-center m-auto fs-1">NEW</div>
+  </section>
+  <section v-else class="achievement-card row bg-dark border border-2 border-secondary-bold text-light m-2  rounded">
+    <div class="col-3 m-auto text-center py-3" :class="['fs-1 text-success mdi', milestoneIcon.current]"></div>
     <div class="col-9 bg-info py-3">
       <section class="d-flex justify-content-between mb-3">
         <div>{{ milestoneTitle }}</div>
@@ -192,15 +196,15 @@ export default {
       }),
 
       milestoneTitle: computed(() => {
-        const milestone = props.milestone.milestone.title
+        const milestone = "NEW " + props.milestone.milestone.title
         return milestone
       }),
 
       milestoneDescription: computed(() => {
-        const milestoneData = props.milestone.milestone
-        const accountMilestone = props.milestone
-        let descriptionString = milestoneData.description
-        return descriptionString
+        const milestoneDescription = props.milestone.milestone.description
+        const milestoneCount = props.milestone.count
+        let newDescription = milestoneDescription.replace(/X/g, milestoneCount)
+        return newDescription
       }),
 
       async claimMilestone(accountMilestone) {
@@ -221,5 +225,9 @@ export default {
 <style lang="scss" scoped>
 .tier-block {
   height: 8px;
+}
+
+.achievement-card {
+  min-height: 22vh;
 }
 </style>

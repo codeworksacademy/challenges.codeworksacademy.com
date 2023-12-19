@@ -42,6 +42,12 @@
           </div>
 
           <div>
+            Title:
+          </div>
+          <div class="text-light">
+            {{ milestone.title }}
+          </div>
+          <div>
             DESCRIPTION:
           </div>
           <div class="text-light">
@@ -89,6 +95,8 @@
             </div>
           </div>
         </div>
+        <label for="">Title of The Milestone </label>
+        <input v-model="editable.title" type="text" placeholder="Title" class="bg-light" required>
         <label for="">Description of The Milestone </label>
         <textarea v-model="editable.description" name="" id="" cols="30" rows="2" placeholder="Created XYZ Milestone"
           class="d-flex" required></textarea>
@@ -124,6 +132,12 @@
           </div>
         </div>
 
+        <div>
+          Title:
+        </div>
+        <div class="text-light">
+          {{ editable.title }}
+        </div>
         <div>
           DESCRIPTION:
         </div>
