@@ -12,16 +12,10 @@
               <img :src="account.picture || user.picture" alt="account photo" class="avatar-xs light-gold-border" />
             </div>
             <div class="text-white">
-              <p class="m-0 fs-5">
-                {{ account.name }}
-              </p>
+              <p class="m-0 fs-5">{{ account.name }} <span>Staff?</span></p>
               <p class="m-0">
-                <span class="light-gold-color">
-                  Rank: 
-                </span>
-                {{ currentRank }} 
-
-                <span class="ms-2">
+                <span class="bg-success rounded me-2" style="padding: 2px">{{ currentRank }} </span>
+                <span class="float-end">
                   {{ account.rank }} 
                   <span class="light-gold-color">
                     XP

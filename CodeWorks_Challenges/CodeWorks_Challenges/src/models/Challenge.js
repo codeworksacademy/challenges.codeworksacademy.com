@@ -44,6 +44,11 @@ export const ChallengeSchema = new Schema({
       url: { type: String, required: true },
     }
   ],
+  autoGrade: {
+    type: Boolean,
+    default: false,
+    required: false
+  },
   difficulty: {
     type: Number,
     required: true,

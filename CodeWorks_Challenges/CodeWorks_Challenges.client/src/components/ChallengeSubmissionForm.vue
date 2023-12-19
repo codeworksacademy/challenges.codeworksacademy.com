@@ -1,4 +1,5 @@
 <template>
+  {{ challenge }}
   <section v-if="user.isAuthenticated" class="container-fluid position-relative pt-5">
     <form
       class="row bg-light p-3 rounded shadow"
@@ -17,7 +18,6 @@
           >
         </div>
       </div>
-
       <div class="button-container col-12 d-flex justify-content-between">
       <button class="btn text-dark btn-outline-secondary text-light mdi mdi-plus-circle fw-700"> Submit Application</button>
       </div>
@@ -39,6 +39,7 @@ export default {
   setup() {
 
     const router = useRouter()
+    const challenge = computed(() => AppState.activeChallenge)
     
     const editable = ref({
       accountId: AppState.user.id,
@@ -102,6 +103,7 @@ export default {
 
     return {
       user: computed(() => AppState.user),
+      challenge,
       participant,
       editable,
       updateChallengeParticipant,

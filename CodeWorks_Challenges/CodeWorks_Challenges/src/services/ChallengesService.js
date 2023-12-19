@@ -83,6 +83,7 @@ class ChallengesService {
     challenge.description = challengeData.description || challenge.description
     challenge.requirements = challengeData.requirements || challenge.requirements
     challenge.supportLinks = challengeData.supportLinks || challenge.supportLinks
+    challenge.autoGrade = challengeData.autoGrade || challenge.autoGrade
     challenge.difficulty = challengeData.difficulty || challenge.difficulty
     challenge.coverImg = challengeData.coverImg || challenge.coverImg
     challenge.badgeImg = challengeData.badgeImg || challenge.badgeImg
