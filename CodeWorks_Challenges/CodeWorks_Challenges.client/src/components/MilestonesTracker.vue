@@ -1,6 +1,6 @@
 <template>
   <section class="row">
-    <div v-for="milestone in milestones" :key="milestone.id" class="col-3">
+    <div v-for="milestone in milestones" :key="milestone.id" class="col-12">
       <MilestoneCard :milestone="milestone" />
     </div>
   </section>

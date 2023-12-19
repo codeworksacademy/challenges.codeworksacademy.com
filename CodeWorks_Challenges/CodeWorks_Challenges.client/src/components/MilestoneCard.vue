@@ -1,57 +1,83 @@
 <template>
-  <section class="row bg-dark border border-5 border-secondary-bold text-light p-1 m-1 rounded">
-    <div class="col-12">
-      <p>
-        <span @click="claimMilestone(milestone)" v-if="milestone?.claimed == false"
-          class="mdi mdi-circle text-primary selectable">NEW</span><span v-else
-          class="mdi mdi-circle-outline text-primary "></span>
-      </p>
+  <!-- <div class="col-12">
+    <p>
+      <span @click="claimMilestone(milestone)" v-if="milestone?.claimed == false"
+        class="mdi mdi-circle text-primary selectable">NEW</span><span v-else
+        class="mdi mdi-circle-outline text-primary "></span>
+    </p>
 
+
+  </div>
+  <div class="col-12 d-flex justify-content-end">
+    <p>
+      <span class="text-light"> XP: XX</span>
+    </p>
+  </div>
+
+  <div class="col-6">
+    <div>
+      Badge
     </div>
+    <i :class="['fs-1 text-success mdi', milestoneIcon.current]" :title="milestone.tier"></i>
 
-    <div class="col-6">
-      <div>
-        Badge
+
+  </div>
+
+  <div v-if="milestone.tier != milestoneCondition.maxTierLevel" class="col-6">
+    <div>
+      Next
+    </div>
+    <i :class="['fs-1 text-secondary mdi', milestoneIcon.next]" :title="milestone.tier"></i>
+
+  </div>
+
+  <div class="col-12">
+    <p>
+      {{ milestone.milestone.description }}
+    </p>
+  </div>
+
+  <div class="col-6">
+    <p>
+      Tier: {{ milestone.tier }} Out of {{ milestoneCondition.maxTierLevel }}
+    </p>
+    <p>
+      {{ milestone.count }} so far
+    </p>
+  </div>
+  <div class="col-6">
+    <p>
+      Next Tier:
+    </p>
+    <p>
+      Tier {{ milestoneCondition.nextTier }} - {{ milestoneCondition.nextTierThreshold }} total
+    </p>
+    <p>
+      {{ milestoneCondition.toNextLevel }} till next level
+    </p>
+  </div> -->
+  <section class="row bg-dark border border-2 border-secondary-bold text-light m-2  rounded">
+    <div class="col-3 text-center py-3" :class="['fs-1 text-success mdi', milestoneIcon.current]"></div>
+    <div class="col-9 bg-info py-3">
+      <div class="d-flex justify-content-between">
+        <div>Title</div>
+        <div>XP: {{ milestoneExp }}</div>
       </div>
-      <i :class="['fs-1 text-success mdi', milestoneIcon.current]" :title="milestone.tier"></i>
-
-
+      <div>You made X amount of Y thing! </div>
+      <section class="mb-2">A Stat</section>
+      <section class=" mx-2 mb-2">
+        <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0"
+          aria-valuemax="100" :title="tierProgress">
+          <div class="progress-bar" :style="{ 'width': tierProgress }">
+          </div>
+        </div>
+      </section>
+      <section class="row justify-content-around mx-1 my-2">
+        <div v-for="(level, index) in milestoneCondition.maxTierLevel" :key="index" class="col-1 bg-light">
+          <div v-if="level <= milestone.tier" class="bg-primary text-center text-light">{{ level }}</div>
+        </div>
+      </section>
     </div>
-
-    <div v-if="milestone.tier != milestoneCondition.maxTierLevel" class="col-6">
-      <div>
-        Next
-      </div>
-      <i :class="['fs-1 text-secondary mdi', milestoneIcon.next]" :title="milestone.tier"></i>
-
-    </div>
-
-    <div class="col-12">
-      <p>
-        {{ milestone.milestone.description }}
-      </p>
-    </div>
-
-    <div class="col-6">
-      <p>
-        Tier: {{ milestone.tier }} Out of {{ milestoneCondition.maxTierLevel }}
-      </p>
-      <p>
-        {{ milestone.count }} so far
-      </p>
-    </div>
-    <div class="col-6">
-      <p>
-        Next Tier:
-      </p>
-      <p>
-        Tier {{ milestoneCondition.nextTier }} - {{ milestoneCondition.nextTierThreshold }} total
-      </p>
-      <p>
-        {{ milestoneCondition.toNextLevel }} till next level
-      </p>
-    </div>
-
   </section>
 </template>
 
@@ -70,9 +96,26 @@ export default {
       required: true
     }
   },
-  setup(props) {
 
+  setup(props) {
+    const milestoneCondition = computed(() => {
+      let condition = {};
+      const logicStr = props.milestone.milestone.logic
+      const logicParts = logicStr.split('%')
+      const operationsArr = logicParts[0].split('-')
+
+      condition.tierThresholdArr = logicParts[1].split('-')
+      condition.maxTierLevel = Number(operationsArr[0])
+      condition.operation = operationsArr[1]
+
+      condition.nextTier = props.milestone.tier + 1
+      condition.nextTierThreshold = Number(condition.tierThresholdArr[props.milestone.tier])
+      condition.toNextLevel = condition.tierThresholdArr[props.milestone.tier] - props.milestone.count
+
+      return condition
+    })
     return {
+      milestoneCondition,
       milestoneIcon: computed(() => {
         let icon = {}
         switch (props.milestone.tier) {
@@ -130,22 +173,23 @@ export default {
       }
       ),
 
-      milestoneCondition: computed(() => {
-        let condition = {};
-        const logicStr = props.milestone.milestone.logic
-        const logicParts = logicStr.split('%')
-        const operationsArr = logicParts[0].split('-')
-
-        condition.tierThresholdArr = logicParts[1].split('-')
-        condition.maxTierLevel = operationsArr[0]
-        condition.operation = operationsArr[1]
-
-        condition.nextTier = props.milestone.tier + 1
-        condition.nextTierThreshold = condition.tierThresholdArr[props.milestone.tier]
-        condition.toNextLevel = condition.tierThresholdArr[props.milestone.tier] - props.milestone.count
-
-        return condition
+      tierProgress: computed(() => {
+        let currentCount = props.milestone.count
+        let nextTierThreshold = milestoneCondition.value.nextTierThreshold
+        let tp = (currentCount / nextTierThreshold) * 100 + '%'
+        return tp
       }),
+
+      milestoneExp: computed(() => {
+        let experience = 0
+        let tier = props.milestone.tier
+        while (tier != 0) {
+          experience += tier * 5
+          tier--
+        }
+        return experience
+      }),
+
       async claimMilestone(accountMilestone) {
         try {
           accountMilestone.claimed = true;
