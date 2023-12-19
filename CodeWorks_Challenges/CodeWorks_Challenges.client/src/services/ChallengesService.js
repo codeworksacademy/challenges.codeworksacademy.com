@@ -22,6 +22,12 @@ class ChallengesService {
     logger.log('Queried Challenges by name:', AppState.challenges)
   }
 
+  async findChallengesByCategory(query) {
+    const res = await api.get(`/api/challenges?category=${query}`)
+    AppState.challenges = res.data.map(c => new Challenge(c))
+    logger.log('Queried Challenges by category:', AppState.challenges)
+  }
+
   async getMyChallenges() {
     const res = await api.get(`/account/challenges`)
     AppState.myChallenges = res.data.map(c => new Challenge(c))
@@ -53,31 +59,9 @@ class ChallengesService {
 
   async filterDifficulty(difficulty) {
     await this.getAllChallenges()
-    let challenges = await AppState.challenges.filter(c => c.difficulty == difficulty)
+    let challenges = AppState.challenges.filter(c => c.difficulty == difficulty)
 
     AppState.challenges = challenges
-  }
-
-  async filterType(type) {
-    if (type == 'newest') {
-      await this.getAllChallenges()
-
-      let challenges = await AppState.challenges.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
-
-      logger.log(challenges)
-    } else if (type == 'oldest') {
-      await this.getAllChallenges()
-
-      let challenges = await AppState.challenges.sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt))
-
-      logger.log(challenges)
-    } else if (type == 'cancelled') {
-      await this.getAllChallenges()
-
-      let challenges = await AppState.challenges.filter(c => c.isCancelled == true)
-
-      AppState.challenges = challenges
-    }
   }
 
   //⚠️These are the same thing, Keep one (Also deprecateChallenge is removed from server)

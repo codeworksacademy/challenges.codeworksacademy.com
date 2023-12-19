@@ -52,6 +52,19 @@ const routes = [
     path: '/challenges',
     name: 'Challenges',
     component: loadPage('ChallengePage'),
+    redirect: { name: 'Browse' },
+    children: [
+      {
+        path: 'browse',
+        name: 'Browse',
+        component: loadPage('ChallengeBrowsePage')
+      },
+      {
+        path: ':category',
+        name: 'ChallengeCategory',
+        component: loadPage('ChallengeCategoryPage')
+      }
+    ]
   },
   { 
     path: '/challenges/:challengeId',
@@ -62,17 +75,17 @@ const routes = [
       {
         path: 'overview',
         name: 'Overview',
-        component: loadPageBranch('ChallengeDetailsPage', 'OverviewPage'),
+        component: loadPageBranch('ChallengeDetailsPage', 'OverviewPage')
       },
       {
         path: 'requirements',
         name: 'Requirements',
-        component: loadPageBranch('ChallengeDetailsPage', 'RequirementsPage'),
+        component: loadPageBranch('ChallengeDetailsPage', 'RequirementsPage')
       },
       {
         path: 'statistics',
         name: 'Statistics',
-        component: loadPageBranch('ChallengeDetailsPage', 'StatisticsPage'),
+        component: loadPageBranch('ChallengeDetailsPage', 'StatisticsPage')
       }
     ]
   },
@@ -123,7 +136,7 @@ const routes = [
   {
     path: '/milestones',
     name: 'Milestones',
-    component: loadPage('MilestonesPage'),
+    component: loadPage('MilestonesPage')
   },
   {
     path: '/markdown',

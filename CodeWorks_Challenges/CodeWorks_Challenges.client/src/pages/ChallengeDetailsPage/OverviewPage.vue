@@ -1,11 +1,9 @@
 <template>
   <section v-if="challenge" :key="challenge?.id" class="text-light pb-5">
 
-    <div class="d-flex justify-content-center align-items-center p-3 mt-3" style="background: #161d2b">
       <!-- STUB - Space reserved for the challenge details -->
-      <div class="row px-5 pt-0" style="">
         <article>
-          <div style="position: relative; left:-15px">
+          <div class="">
             <h3 class="text-uppercase" style="color: #7A7A7A">
               Challenge Description
             </h3>
@@ -15,26 +13,26 @@
         </article>
 
 
-        <section class="d-flex justify-content-center align-items-center px-3">
-          <div class="col-4 card">
+        <section class="d-flex justify-content-center align-items-center px-5">
+          <div class="col-12 col-md-4 top-card">
             <img src="../../assets/img/chart-img.png" :alt="`Difficulty rating for ${challenge.name}`" :title="`The difficulty rating for '${challenge.name}'`" class="img-fluid my-1 m-auto" style="height:50px;width:70px">
             <h3 class="text-capitalize"> {{ difficulty }} </h3>
             <h6 class="text-uppercase">Difficulty</h6>
           </div>
-          <div class="col-4 card">
+          <div class="col-12 col-md-4 top-card">
             <i class="mdi mdi-office-building-cog-outline fs-1"></i>
             <h3 class="text-capitalize"> {{ challenge.category }} </h3>
             <h6 class="text-uppercase">Category</h6>
           </div>
-          <div class="col-4 card text-uppercase">
+          <div class="col-12 col-md-4 top-card text-uppercase">
             <i class="mdi mdi-account-star-outline fs-1"></i>
             <h3>4.5</h3>
             <h6>User Rating</h6>
           </div>
         </section>
 
-        <section class="d-flex justify-content-center align-items-center p-0">
-          <div class="col-4 card">
+        <section class="d-flex justify-content-center align-items-center px-4">
+          <div class="col-12 col-md-4 bottom-left-card" style="width: 31%; margin-right: 2rem">
             <div v-if="isParticipant">
               <i class="mdi mdi-diamond fs-1"></i>
               <h3> {{ challenge.requirements.length }} </h3>
@@ -46,19 +44,17 @@
               <h6 class="text-uppercase">Points</h6>
             </div>
           </div>
-          <div class="col-8 card">
-            <div class="col-12 d-flex align-items-center">
+          <div class="col-8 bottom-right-card px-5">
+            <div class="d-flex justify-content-start align-items-center pt-2" style="90%">
               <img :src="challenge.creator.picture" :alt="`Image for Challenge creator named '${challenge.creator.name}' is broken`" :title="`Image of the Challenge Creator; ${challenge.creator.name}`" class="img-fluid mx-3 rounded-circle" style="height: 75px;width:75px">
               <h3 class="text-capitalize"> {{ challenge.creator.name }} </h3>
             </div>
             <div class="col-12 d-flex justify-content-between align-items-center">
-              <h6 class="text-uppercase ps-3 pt-4">Challenge Creator</h6>
-              <button class="btn bg-dark btn-success text-success mt-3"><small>Give Reputation</small></button>
+              <h6 class="text-uppercase pt-2">Challenge Creator</h6>
+              <button class="btn bg-dark btn-success text-success mb-2"><small>Give Reputation</small></button>
             </div>
           </div>
         </section>
-      </div>
-    </div>
 
   </section>
 </template>
@@ -168,12 +164,25 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.card {
+.top-card {
   height: 25vh;
   margin: 1rem;
   padding:2rem;
   color: #f0f0f0;
   background:#1c2332;
   text-align: center;
+}
+.bottom-left-card {
+  background:#1c2332;
+  text-align: center;
+}
+
+.bottom-right-card {
+  background:#1c2332;
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+
 }
 </style>

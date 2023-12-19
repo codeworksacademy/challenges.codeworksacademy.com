@@ -9,7 +9,7 @@
       </div>
       <!-- STUB - Challenge Details for active route -->
       <div class="col-8 px-5 pt-0" style="position:relative; top:-100px">
-        <div style="position: relative; left:-15px">
+        <div>
           <router-view />
         </div>
       </div>

@@ -40,63 +40,32 @@
               <li @click="filterDifficulty('Hard')" class="dropdown-item">Hard</li>
             </ul>
           </div>
-          <select v-model="filterBy" name="category" id="category" class="col-2 select-category text-center text-uppercase p-3">
+          <select v-model="filterBy" @change="routeToCategory" name="category" id="category" class="col-2 select-category text-center text-uppercase p-3">
             <option class="disabled-option" :value="''" disabled>All Categories</option>
             <option class="option-item" @click="filterBy = ''" :value="''">All</option>
-            <option class="option-item" v-for="option in categoryTypes" :key="option" @click="filterBy = option" :value="option">{{ option }}</option>
+            <option class="option-item" v-for="option in categoryTypes" :key="option" :value="option">{{ option }}</option>
           </select>
         </div>
       </div>
-      <div class="col-12 challenge-keys d-flex justify-content-center align-items-center text-uppercase">
-        <div class="col-4">
-          <h6>Challenge Name</h6>
-        </div>
-        <div class="col-2">
-          <h6>Difficulty</h6>
-        </div>
-        <div class="col-5 d-flex justify-content-center align-items-center">
-          <div class="col-4">
-            <h6>Rating</h6>
-          </div>
-          <div class="col-4">
-            <h6>Points</h6>
-          </div>
-          <div class="col-4">
-            <h6>User Solves</h6>
-          </div>
-        </div>
-      </div>
-      <div v-for="(c, index) in challenges" :key="index" class="px-0">
-        <ChallengeCard :challenge="c" />
-      </div>
-      <div class="row justify-content-evenly">
-        <ul class="pagination col-md-5">
-            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-          </ul>
-      </div>
+
+      <router-view />
+      
   </section>
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue'
+import Pop from '../utils/Pop'
+import { useRouter } from 'vue-router'
 import { AppState } from '../AppState'
-import Pop from "../utils/Pop.js"
-import { logger } from "../utils/Logger.js"
-import ChallengeCard from '../components/ChallengeCard.vue'
-import SelectChallengeCategory from '../components/ChallengePage/SelectChallengeCategory.vue'
-import { challengesService } from "../services/ChallengesService.js"
-import { loadPage } from "../router.js"
-import { CATEGORY_TYPES } from "../constants/index.js"
-import MostPopularChallengeCard from '../components/MostPopularChallengeCard.vue'
+import { logger } from '../utils/Logger'
+import { computed, onMounted, ref } from 'vue'
+import { CATEGORY_TYPES } from '../constants/index'
+import { challengesService } from '../services/ChallengesService'
 
 export default {
-  components: { ChallengeCard, SelectChallengeCategory, MostPopularChallengeCard, },
 
   setup() {
+    const router = useRouter()
     const search = ref({})
     const filterBy = ref('')
     const categoryTypes = ref(Object.values(CATEGORY_TYPES))
@@ -107,7 +76,6 @@ export default {
         logger.log(nameQuery)
         await challengesService.findChallenges(nameQuery)
         search.value = {}
-        loadPage(`?name=${nameQuery}`)
       } catch (error) {
         logger.error(error)
         Pop.toast(error, 'error')
@@ -138,18 +106,20 @@ export default {
         }
         return AppState.challenges.filter(c => c.category === filterBy.value)
       }),
-      filteredChallenges: computed(() => {
-        if (!search.value) {
-          return AppState.challenges
-        }
-        return AppState.challenges.filter(c => c.name === search.value.name)
-      }),
-      trendingChallenges: computed(()=> {
-        AppState.challenges.sort((trendingChallenges1, trendingChallenges2) =>
-        trendingChallenges2.participantCount - trendingChallenges1.participantCount)
-        return AppState.challenges[0]
-      }),
       findChallenges,
+
+      routeToCategory() {
+        try {
+          if (!filterBy.value) {
+            router.push({ name: 'Challenges' })
+            return
+          }
+          router.push({ name: 'ChallengeCategory', params: { category: filterBy.value } })
+        } catch (error) {
+          logger.error(error)
+          Pop.error(error)
+        }
+      },
 
       async filterDifficulty(difficulty) {
         try {
@@ -169,7 +139,6 @@ export default {
         }
       }
     }
-
   }
 }
 </script>
@@ -180,7 +149,6 @@ export default {
     --bs-gutter-x: 0;
     overflow-x: hidden;
   }
-
   .create-challenge-card {
     background-color: var(--bg-sub);
     outline: 1px solid var(--border-dark);
@@ -239,13 +207,9 @@ export default {
     border-radius: 0;
     color: var(--text-main);
   }
-  .challenge-keys {
+  h6 {
     color: var(--text-sub);
     font-size: 1.2rem;
     font-weight: 500;
-    h6 {
-      font-size: 1.2rem;
-      font-weight: 500;
-    }
   }
 </style>

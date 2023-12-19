@@ -28,7 +28,7 @@
 import { ref } from 'vue'
 
 export default {
-  setup() {
+  setup(props) {
 
     const badgeName = ref({
       name: 'Completionist',

@@ -24,7 +24,7 @@ function sanitizeBody(body) {
 class ParticipantsService {
 	async getChallengeRewards(accountId) {
 		const rewards = await dbContext.ChallengeParticipants.find({ accountId, status: 'completed' })
-			.populate('challenge', 'name badgeImg')
+			.populate('challenge', 'name badge')
 		// .select('-submission')
 		return rewards
 	}
