@@ -14,6 +14,7 @@ import { accountMilestonesService } from "../services/AccountMilestonesService.j
 import { useRoute } from "vue-router";
 import { logger } from "../utils/Logger.js";
 import MilestoneCard from "./MilestoneCard.vue";
+import { milestonesService } from "../services/MilestonesService.js";
 
 
 export default {
@@ -37,10 +38,10 @@ export default {
         Pop.error(error);
       }
     }
-    async function getAccountMilestones() {
+    async function getMilestones() {
       try {
         const userId = AppState.account.id;
-        await accountMilestonesService.getAccountMilestones(userId);
+        await milestonesService.getMilestones(userId);
       }
       catch (error) {
         Pop.error(error);
@@ -49,7 +50,7 @@ export default {
     watchEffect(() => {
       if (AppState.account.id) {
         checkMyMilestones();
-        // getAccountMilestones()
+        // getMilestones()
       }
     });
     return {

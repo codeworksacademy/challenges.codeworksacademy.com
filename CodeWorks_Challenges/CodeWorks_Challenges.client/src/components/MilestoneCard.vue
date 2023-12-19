@@ -59,13 +59,12 @@
   <section class="row bg-dark border border-2 border-secondary-bold text-light m-2  rounded">
     <div class="col-3 text-center py-3" :class="['fs-1 text-success mdi', milestoneIcon.current]"></div>
     <div class="col-9 bg-info py-3">
-      <div class="d-flex justify-content-between">
-        <div>Title</div>
-        <div>XP: {{ milestoneExp }}</div>
-      </div>
-      <div>You made X amount of Y thing! </div>
-      <section class="mb-2">A Stat</section>
-      <section class=" mx-2 mb-2">
+      <section class="d-flex justify-content-between mb-3">
+        <div>{{ milestoneTitle }}</div>
+        <div>XP {{ milestoneExp }}</div>
+      </section>
+      <section class="mb-3">{{ milestoneDescription }} </section>
+      <section class=" mx-2 mb-3">
         <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0"
           aria-valuemax="100" :title="tierProgress">
           <div class="progress-bar" :style="{ 'width': tierProgress }">
@@ -73,8 +72,9 @@
         </div>
       </section>
       <section class="row justify-content-around mx-1 my-2">
-        <div v-for="(level, index) in milestoneCondition.maxTierLevel" :key="index" class="col-1 bg-light">
-          <div v-if="level <= milestone.tier" class="bg-primary text-center text-light">{{ level }}</div>
+        <div v-for="(level, index) in milestoneCondition.maxTierLevel" :key="index"
+          class="tier-block col-1 bg-light px-0">
+          <div v-if="level <= milestone.tier" class="tier-block bg-primary text-center text-light" :title="level"></div>
         </div>
       </section>
     </div>
@@ -88,6 +88,7 @@ import { Milestone } from "../models/Milestone.js";
 import { logger } from "../utils/Logger.js";
 import { accountMilestonesService } from "../services/AccountMilestonesService.js";
 import Pop from "../utils/Pop.js";
+import { AppState } from "../AppState.js";
 
 export default {
   props: {
@@ -190,6 +191,18 @@ export default {
         return experience
       }),
 
+      milestoneTitle: computed(() => {
+        const milestone = props.milestone.milestone.title
+        return milestone
+      }),
+
+      milestoneDescription: computed(() => {
+        const milestoneData = props.milestone.milestone
+        const accountMilestone = props.milestone
+        let descriptionString = milestoneData.description
+        return descriptionString
+      }),
+
       async claimMilestone(accountMilestone) {
         try {
           accountMilestone.claimed = true;
@@ -205,4 +218,8 @@ export default {
 </script>
 
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.tier-block {
+  height: 8px;
+}
+</style>

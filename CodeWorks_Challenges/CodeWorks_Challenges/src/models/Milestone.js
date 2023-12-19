@@ -2,6 +2,10 @@ import { Schema } from "mongoose";
 const ObjectId = Schema.Types.ObjectId
 
 export const MilestoneSchema = new Schema({
+  title: {
+    type: String,
+    default: 'No Title'
+  },
   description: {
     type: String
   },
