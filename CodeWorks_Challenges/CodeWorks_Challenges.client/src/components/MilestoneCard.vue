@@ -6,31 +6,30 @@
           class="mdi mdi-circle text-primary selectable">NEW</span><span v-else
           class="mdi mdi-circle-outline text-primary "></span>
       </p>
+
     </div>
 
-    <div class="col-6 d-flex flex-column justify-content-center align-items-center">
-      <h6>
-        Current Badge
-      </h6>
-      <!-- Use v-html to render HTML template being returned in script -->
-      <div v-html="milestoneBadge.current"></div>
-    </div>
-
-    <div v-if="milestone.tier != milestoneCondition.maxTierLevel" class="col-6 d-flex flex-column justify-content-center align-items-center">
-      <h6>
-        Next Badge
-      </h6>
-      <!-- Use v-html to render HTML template being returned in script -->
-      <div v-html="milestoneBadge.next"></div>
-    </div>
-
-    <div v-if="milestone.tier != milestoneCondition.maxTierLevel" class="col-12 d-flex flex-column justify-content-center align-items-center">
-      <span class="text-capitalize fst-italic text-light">
-        <b class="fst-normal">Next:</b> '{{ milestoneBadge.nextName }}' Badge
-      </span>
-      <div class="fst-italic">
-        {{ milestoneBadge.nextDescription }}
+    <div class="col-6">
+      <div>
+        Badge
       </div>
+      <i :class="['fs-1 text-success mdi', milestoneIcon.current]" :title="milestone.tier"></i>
+
+
+    </div>
+
+    <div v-if="milestone.tier != milestoneCondition.maxTierLevel" class="col-6">
+      <div>
+        Next
+      </div>
+      <i :class="['fs-1 text-secondary mdi', milestoneIcon.next]" :title="milestone.tier"></i>
+
+    </div>
+
+    <div class="col-12">
+      <p>
+        {{ milestone.milestone.description }}
+      </p>
     </div>
 
     <div class="col-6">
@@ -59,9 +58,10 @@
 
 <script>
 import { computed } from "vue";
+import { Milestone } from "../models/Milestone.js";
+import { logger } from "../utils/Logger.js";
 import { accountMilestonesService } from "../services/AccountMilestonesService.js";
 import Pop from "../utils/Pop.js";
-import { RANK_TYPES } from "../constants";
 
 export default {
   props: {
@@ -72,80 +72,93 @@ export default {
   },
   setup(props) {
 
-    const getBadgeInfo = (tier) => {
-      const badge = RANK_TYPES[tier - 1]
-      if (badge) {
-        return {
-          html:`
-          <div class="d-flex flex-column justify-content-center align-items-center">
-            <img src="${badge.IMAGE_URL}" alt="${badge.NAME}" class="img-fluid" style="width: 5rem; height: 5rem;"/>
-            <small class="text-uppercase text-light" style="white-space: nowrap;">${badge.NAME}</small>
-            <span class="fst-italic">${badge.DESCRIPTION}</span>
-          </div>
-          `,
-          name: badge.NAME,
-          text: badge.DESCRIPTION,
-        };
-      } else {
-        return {
-          html: `<span class="text-secondary" style="font-style: italic;">Badge: N/A</span>`,
-          text: 'No Badges Yet!',
-        };
+    return {
+      milestoneIcon: computed(() => {
+        let icon = {}
+        switch (props.milestone.tier) {
+          case 0:
+            icon.current = 'mdi-circle-small'
+            icon.next = 'mdi-flare'
+            break;
+          case 1:
+            icon.current = "mdi-flare"
+            icon.next = 'mdi-triangle'
+            break;
+          case 2:
+            icon.current = 'mdi-triangle'
+            icon.next = 'mdi-star-three-points'
+            break;
+          case 3:
+            icon.current = 'mdi-star-three-points'
+            icon.next = 'mdi-star-four-points'
+            break;
+          case 4:
+            icon.current = 'mdi-star-four-points'
+            icon.next = 'mdi-star'
+            break;
+          case 5:
+            icon.current = 'mdi-star'
+            icon.next = 'mdi-hexagram'
+            break;
+          case 6:
+            icon.current = 'mdi-hexagram'
+            icon.next = 'mdi-hexagram-outline'
+            break;
+          case 7:
+            icon.current = 'mdi-hexagram-outline'
+            icon.next = 'mdi-octagram'
+            break;
+          case 8:
+            icon.current = 'mdi-octagram'
+            icon.next = 'mdi-octagram-outline'
+            break;
+          case 9:
+            icon.current = 'mdi-octagram-outline'
+            icon.next = 'mdi-decagram'
+            break;
+          case 10:
+            icon.current = 'mdi-decagram'
+            icon.next = 'mdi-decagram'
+            break;
+
+          default:
+            icon.current = 'mdi-skull-scan'
+            icon.next = 'mdi-circle-small'
+            break;
+        }
+        return icon
       }
-    };
+      ),
 
-    
-    const milestoneBadge = computed(() => {
-      const badgeInfo = getBadgeInfo(props.milestone.tier);
-      const nextBadgeInfo = getBadgeInfo(props.milestone.tier + 1);
-      return {
-        current: badgeInfo.html,
-        next: nextBadgeInfo.html,
-        currentName: badgeInfo.name,
-        nextName: nextBadgeInfo.name,
-        currentDescription: badgeInfo.text,
-        nextDescription: nextBadgeInfo.text
-      };
-    });
+      milestoneCondition: computed(() => {
+        let condition = {};
+        const logicStr = props.milestone.milestone.logic
+        const logicParts = logicStr.split('%')
+        const operationsArr = logicParts[0].split('-')
 
-    const milestoneCondition = computed(() => {
-      let condition = {};
-      const logicStr = props.milestone.milestone.logic;
-      const logicParts = logicStr.split('%');
-      const operationsArr = logicParts[0].split('-');
+        condition.tierThresholdArr = logicParts[1].split('-')
+        condition.maxTierLevel = operationsArr[0]
+        condition.operation = operationsArr[1]
 
-      condition.tierThresholdArr = logicParts[1].split('-').map((str) => {
-        return parseInt(str);
-      });
-      condition.maxTierLevel = condition.tierThresholdArr.length + 1;
-      condition.operation = operationsArr[1];
+        condition.nextTier = props.milestone.tier + 1
+        condition.nextTierThreshold = condition.tierThresholdArr[props.milestone.tier]
+        condition.toNextLevel = condition.tierThresholdArr[props.milestone.tier] - props.milestone.count
 
-      condition.nextTier = props.milestone.tier + 1;
-      condition.nextTierThreshold = condition.tierThresholdArr[props.milestone.tier];
-      condition.toNextLevel = condition.tierThresholdArr[props.milestone.tier] - props.milestone.count;
-
-      return condition;
-    });
-
-    async function claimMilestone(accountMilestone) {
-      try {
-        accountMilestone.claimed = true;
-        await accountMilestonesService.claimMilestone(accountMilestone);
-      }
-      catch (error) {
-        Pop.error(error);
+        return condition
+      }),
+      async claimMilestone(accountMilestone) {
+        try {
+          accountMilestone.claimed = true;
+          await accountMilestonesService.claimMilestone(accountMilestone);
+        }
+        catch (error) {
+          Pop.error(error);
+        }
       }
     }
-
-    return {
-      milestoneBadge,
-      milestoneCondition,
-      claimMilestone
-    };
   }
 }
 </script>
-
 
 
 <style lang="scss" scoped></style>

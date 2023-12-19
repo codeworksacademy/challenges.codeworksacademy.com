@@ -15,21 +15,21 @@
       </h2>
       <div :id="'collapse' + index" class="accordion-collapse collapse" :data-bs-parent="'#accordionFlushExample'">
         <div class="accordion-body py-2">
-          <div class="col-12 challenge-keys d-flex justify-content-around align-items-center text-uppercase py-3">
-            <div class="col-4 d-flex ps-3">
-              <h6 class="ms-4">Challenge Name</h6>
+          <div class="d-flex flex-row align-items-center text-uppercase py-3">
+            <div class="col-4 ps-4">
+              <h6 class="ps-3">Challenge Name</h6>
             </div>
-            <div class="col-2 d-flex justify-content-around pe-2">
-              <h6>Difficulty</h6>
+            <div class="col-2 pe-2">
+              <h6 class="col-12 d-flex justify-content-center">Difficulty</h6>
             </div>
-            <div class="col-5 d-flex m-auto">
-              <div class="col-4">
-                <h6>Rating</h6>
+            <div class="col-6 d-flex justify-content-center align-items-center">
+              <div class="col-3 d-flex justify-content-center">
+                <h6 class="col-10">Rating</h6>
               </div>
-              <div class="col-4 px-2">
-                <h6>Points</h6>
+              <div class="col-3 d-flex justify-content-start">
+                <h6 class="col-9">Points</h6>
               </div>
-              <div class="col-4 px-2">
+              <div class="col-4 d-flex justify-content-start">
                 <h6>User Solves</h6>
               </div>
             </div>
