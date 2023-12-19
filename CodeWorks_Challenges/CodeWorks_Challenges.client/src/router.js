@@ -24,34 +24,25 @@ const routes = [
     path: '/account',
     name: 'Account',
     component: loadPage('AccountPage'),
-    beforeEnter: authGuard,
-    // children: [
-    //   {
-    //     path: 'overview',
-    //     name: 'AccountOverview',
-    //     component: loadPage('AccountOverviewPage')
-    //   },
-    //   {
-    //     path: 'activity',
-    //     name: 'AccountActivity',
-    //     component: loadPage('AccountActivityPage')
-    //   },
-    //   {
-    //     path: 'badges',
-    //     name: 'AccountBadges',
-    //     component: loadPage('AccountBadgesPage')
-    //   },
-    //   {
-    //     path: 'certificates',
-    //     name: 'AccountCertificates',
-    //     component: loadPage('AccountMilestonesPage')
-    //   }
-    // ]
+    beforeEnter: authGuard
   },
   {
     path: '/challenges',
     name: 'Challenges',
     component: loadPage('ChallengePage'),
+    redirect: { name: 'Browse' },
+    children: [
+      {
+        path: 'browse',
+        name: 'Browse',
+        component: loadPage('ChallengeBrowsePage')
+      },
+      {
+        path: ':category',
+        name: 'ChallengeCategory',
+        component: loadPage('ChallengeCategoryPage')
+      }
+    ]
   },
   { 
     path: '/challenges/:challengeId',
@@ -62,17 +53,17 @@ const routes = [
       {
         path: 'overview',
         name: 'Overview',
-        component: loadPageBranch('ChallengeDetailsPage', 'OverviewPage'),
+        component: loadPageBranch('ChallengeDetailsPage', 'OverviewPage')
       },
       {
         path: 'requirements',
         name: 'Requirements',
-        component: loadPageBranch('ChallengeDetailsPage', 'RequirementsPage'),
+        component: loadPageBranch('ChallengeDetailsPage', 'RequirementsPage')
       },
       {
         path: 'statistics',
         name: 'Statistics',
-        component: loadPageBranch('ChallengeDetailsPage', 'StatisticsPage'),
+        component: loadPageBranch('ChallengeDetailsPage', 'StatisticsPage')
       }
     ]
   },
@@ -123,12 +114,12 @@ const routes = [
   {
     path: '/profiles/:profileId',
     name: 'Profile',
-    component: loadPage('ProfilePage'),
+    component: loadPage('ProfilePage')
   },
   {
     path: '/milestones',
     name: 'Milestones',
-    component: loadPage('MilestonesPage'),
+    component: loadPage('MilestonesPage')
   },
   {
     path: '/markdown',
