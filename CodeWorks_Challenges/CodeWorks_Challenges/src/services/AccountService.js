@@ -68,7 +68,7 @@ class AccountService {
   }
 
   async calculateMyReputation(userInfo) {
-    const challenges = await challengesService.getChallengesCreatedBy(userInfo.id)
+    const challenges = await challengesService.getChallengesCreatedBy(userInfo.id, userInfo.id)
 
     const account = await this.getAccount(userInfo)
 
