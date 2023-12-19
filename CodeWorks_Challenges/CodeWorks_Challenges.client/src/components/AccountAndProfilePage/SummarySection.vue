@@ -1,4 +1,5 @@
 <template>
+  <div class="avatar-bg"></div>
   <img :src="props.picture" :alt="props.name" class="avatar-lg mx-4 light-gold-border avatar-style">
   <div class="d-flex flex-column">
     <p class="fs-2 m-0">
@@ -63,14 +64,23 @@ export default {
   top: -5.5vh;
 }
 
+.avatar-bg{
+  position: relative;
+  top: -5.5vh;
+  background-color: #0E131B;
+  height: 7rem;
+  width: 7rem;
+  border-radius: 50%;
+}
+
 @media(max-width: 768px) {
   .avatar-lg{
-  height: 5.5rem;
-  width: 5.5rem;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: center;
-}
+    height: 5.5rem;
+    width: 5.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+  }
 }
 
 @media(max-width: 391px){
