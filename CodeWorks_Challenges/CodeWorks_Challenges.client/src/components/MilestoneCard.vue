@@ -61,7 +61,7 @@
     <div class="flex-grow-1 text-center m-auto fs-1">NEW</div>
   </section>
   <section v-else class="achievement-card row bg-dark border border-2 border-secondary-bold text-light m-2  rounded">
-    <div class="col-3 m-auto text-center py-3" :class="['fs-1 text-success mdi', milestoneIcon.current]"></div>
+    <div class="col-3 m-auto text-center py-3" :class="['fs-1 text-success mdi', tierAttributes.tierCurrent]"></div>
     <div class="col-9 bg-info py-3">
       <section class="d-flex justify-content-between mb-3">
         <div>{{ milestoneTitle }}</div>
@@ -119,64 +119,89 @@ export default {
 
       return condition
     })
+    const tierAttributes = computed(() => {
+      let attributes = {}
+      switch (props.milestone.tier) {
+        case 0:
+          attributes.adjective = 'Novice'
+          attributes.tierCurrent = 'mdi-circle-small'
+          attributes.tierNext = 'mdi-flare'
+          attributes.color1 = '#000000'
+          break;
+        case 1:
+          attributes.adjective = 'Developing'
+          attributes.tierCurrent = "mdi-flare"
+          attributes.tierNext = 'mdi-triangle'
+          attributes.color1 = '#9400D3'
+          break;
+        case 2:
+          attributes.adjective = 'Improving'
+          attributes.tierCurrent = 'mdi-triangle'
+          attributes.tierNext = 'mdi-star-three-points'
+          attributes.color1 = '#4B0082'
+          break;
+        case 3:
+          attributes.adjective = 'Proficient'
+          attributes.tierCurrent = 'mdi-star-three-points'
+          attributes.tierNext = 'mdi-star-four-points'
+          attributes.color1 = '#0000FF'
+          break;
+        case 4:
+          attributes.adjective = 'Skilled'
+          attributes.tierCurrent = 'mdi-star-four-points'
+          attributes.tierNext = 'mdi-star'
+          attributes.color1 = '#00FF00'
+          break;
+        case 5:
+          attributes.adjective = 'Competent'
+          attributes.tierCurrent = 'mdi-star'
+          attributes.tierNext = 'mdi-hexagram'
+          attributes.color1 = '#FFFF00'
+          break;
+        case 6:
+          attributes.adjective = 'Accomplished'
+          attributes.tierCurrent = 'mdi-hexagram'
+          attributes.tierNext = 'mdi-hexagram-outline'
+          attributes.color1 = '#FF7F00'
+          break;
+        case 7:
+          attributes.adjective = 'Expert'
+          attributes.tierCurrent = 'mdi-hexagram-outline'
+          attributes.tierNext = 'mdi-octagram'
+          attributes.color1 = '#FF0000'
+          break;
+        case 8:
+          attributes.adjective = 'Masterful'
+          attributes.tierCurrent = 'mdi-octagram'
+          attributes.tierNext = 'mdi-octagram-outline'
+          attributes.color1 = '#6A3805'
+          break;
+        case 9:
+          attributes.adjective = 'Pinnacle'
+          attributes.tierCurrent = 'mdi-octagram-outline'
+          attributes.tierNext = 'mdi-decagram'
+          attributes.color1 = '#B4B4B4'
+          break;
+        case 10:
+          attributes.adjective = ''
+          attributes.tierCurrent = 'mdi-decagram'
+          attributes.tierNext = 'mdi-decagram'
+          attributes.color1 = '#C9B037'
+          break;
+
+        default:
+          attributes.adjective = ''
+          attributes.tierCurrent = 'mdi-skull-scan'
+          attributes.tierNext = 'mdi-circle-small'
+          attributes.color1 = 'Gold'
+          break;
+      }
+      return attributes
+    }
+    )
     return {
       milestoneCondition,
-      milestoneIcon: computed(() => {
-        let icon = {}
-        switch (props.milestone.tier) {
-          case 0:
-            icon.current = 'mdi-circle-small'
-            icon.next = 'mdi-flare'
-            break;
-          case 1:
-            icon.current = "mdi-flare"
-            icon.next = 'mdi-triangle'
-            break;
-          case 2:
-            icon.current = 'mdi-triangle'
-            icon.next = 'mdi-star-three-points'
-            break;
-          case 3:
-            icon.current = 'mdi-star-three-points'
-            icon.next = 'mdi-star-four-points'
-            break;
-          case 4:
-            icon.current = 'mdi-star-four-points'
-            icon.next = 'mdi-star'
-            break;
-          case 5:
-            icon.current = 'mdi-star'
-            icon.next = 'mdi-hexagram'
-            break;
-          case 6:
-            icon.current = 'mdi-hexagram'
-            icon.next = 'mdi-hexagram-outline'
-            break;
-          case 7:
-            icon.current = 'mdi-hexagram-outline'
-            icon.next = 'mdi-octagram'
-            break;
-          case 8:
-            icon.current = 'mdi-octagram'
-            icon.next = 'mdi-octagram-outline'
-            break;
-          case 9:
-            icon.current = 'mdi-octagram-outline'
-            icon.next = 'mdi-decagram'
-            break;
-          case 10:
-            icon.current = 'mdi-decagram'
-            icon.next = 'mdi-decagram'
-            break;
-
-          default:
-            icon.current = 'mdi-skull-scan'
-            icon.next = 'mdi-circle-small'
-            break;
-        }
-        return icon
-      }
-      ),
+      tierAttributes,
 
       tierProgress: computed(() => {
         let currentCount = props.milestone.count
@@ -196,7 +221,7 @@ export default {
       }),
 
       milestoneTitle: computed(() => {
-        const milestone = "NEW " + props.milestone.milestone.title
+        const milestone = tierAttributes.value.adjective + ' ' + props.milestone.milestone.title
         return milestone
       }),
 
