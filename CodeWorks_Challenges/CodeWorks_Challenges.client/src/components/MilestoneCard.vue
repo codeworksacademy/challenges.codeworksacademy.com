@@ -56,31 +56,42 @@
       {{ milestoneCondition.toNextLevel }} till next level
     </p>
   </div> -->
+
   <section @click="claimMilestone(milestone)" v-if="milestone?.claimed == false"
-    class="achievement-card row bg-dark border border-2 border-secondary-bold text-light m-2 rounded selectable">
+    class="achievement-card mt-3 row selectable"
+    :style="{ border: '3px', borderColor: tierAttributes.color1, borderStyle: 'solid' }">
     <div class="flex-grow-1 text-center m-auto fs-1">NEW</div>
   </section>
-  <section v-else class="achievement-card row bg-dark border border-2 border-secondary-bold text-light m-2  rounded">
-    <div class="col-3 m-auto text-center py-3" :class="['fs-1 text-success mdi', tierAttributes.tierCurrent]"></div>
-    <div class="col-9 bg-info py-3">
-      <section class="d-flex justify-content-between mb-3">
-        <div>{{ milestoneTitle }}</div>
+
+  <section v-else class="achievement-card bg-dark row mt-3 "
+    :style="{ border: '3px', borderColor: tierAttributes.color1, borderStyle: 'solid' }">
+
+    <div class="col-3 icon flex-grow-1 m-auto text-center py-3" :class="[' mdi', tierAttributes.tierCurrent]"
+      :style="{ color: tierAttributes.color1, textShadow: `0px 0px 15px ${tierAttributes.color1}` }"></div>
+
+    <div class="col-9 py-3" :style="{ backgroundColor: '#3e53742a' }">
+      <section class="d-flex justify-content-between mb-3 mx-2">
+        <div class="fs-3">{{ milestoneTitle }}</div>
         <div>XP {{ milestoneExp }}</div>
       </section>
-      <section class="mb-3">{{ milestoneDescription }} </section>
+
+      <section class="mb-3 mx-2">{{ milestoneDescription }} </section>
+
       <section class=" mx-2 mb-3">
-        <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0"
-          aria-valuemax="100" :title="tierProgress">
-          <div class="progress-bar" :style="{ 'width': tierProgress }">
+        <div class="progress rounded-0 bg-dark" role="progressbar" aria-label="Example with label" aria-valuenow="25"
+          aria-valuemin="0" aria-valuemax="100" :title="tierProgress">
+          <div class="progress-bar" :style="{ 'width': tierProgress, backgroundColor: tierAttributes.color1 }">
           </div>
         </div>
       </section>
+
       <section class="row justify-content-around mx-1 my-2">
-        <div v-for="(level, index) in milestoneCondition.maxTierLevel" :key="index"
-          class="tier-block col-1 bg-light px-0">
-          <div v-if="level <= milestone.tier" class="tier-block bg-primary text-center text-light" :title="level"></div>
+        <div v-for="(level, index) in milestoneCondition.maxTierLevel" :key="index" class="tier-block col-1 bg-dark px-0">
+          <div v-if="level <= milestone.tier" class="tier-block text-center text-light"
+            :style="{ backgroundColor: tierAttributes.color1 }" :title="level"></div>
         </div>
       </section>
+
     </div>
   </section>
 </template>
@@ -88,11 +99,8 @@
 
 <script>
 import { computed } from "vue";
-import { Milestone } from "../models/Milestone.js";
-import { logger } from "../utils/Logger.js";
 import { accountMilestonesService } from "../services/AccountMilestonesService.js";
 import Pop from "../utils/Pop.js";
-import { AppState } from "../AppState.js";
 
 export default {
   props: {
@@ -253,6 +261,17 @@ export default {
 }
 
 .achievement-card {
+  color: white;
+  background-color: #3e53742a;
+  padding: .5rem;
+  font-family: 'Lekton', sans-serif;
+  font-size: large;
+  font-weight: bold;
+  border-radius: .5rem;
   min-height: 22vh;
+}
+
+.icon {
+  font-size: 96px;
 }
 </style>
