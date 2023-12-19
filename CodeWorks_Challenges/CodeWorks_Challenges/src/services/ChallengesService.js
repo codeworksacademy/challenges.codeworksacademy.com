@@ -139,18 +139,16 @@ class ChallengesService {
   async submitAnswer(challengeId, userId, answer) {
     const challenge = await dbContext.Challenges.findById(challengeId)
 
-    if (challenge.answer === answer.answerData) {
-      // return 'You are correct!'
+    if (challenge.answer == answer) {
       return {
         correct: true
       }
     } else {
-      // return `${answer.answer} is incorrect!`
       return {
         correct: false
       }
     }
-    // return challenge;
+    // return challenge.answer, answer;
     // return `${challenge.answer}, Answer: ${answer.answerData}`;
   }
 }

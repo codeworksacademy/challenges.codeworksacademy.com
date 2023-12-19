@@ -16,6 +16,15 @@ class ParticipantsService {
     AppState.participants.push(new ChallengeParticipant(res.data))
   }
 
+  async submitAnswer(challengeId, participantId, submission){
+    const res = await api.post(`api/challenges/${challengeId}/participants/${participantId}`, {
+      challengeId: challengeId,
+      participantId: participantId,
+      answer: submission,
+    })
+    // logger.log("participantservice",challengeId, participantId, submission)
+  }
+
   async updateChallengeParticipant(participantId, newSubmission) {
     const res = await api.put(`api/participants/${participantId}`, newSubmission)
     logger.log('Participant Updated ⏩', res.data)
