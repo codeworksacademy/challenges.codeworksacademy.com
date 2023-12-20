@@ -32,9 +32,10 @@ export class ChallengesController extends BaseController {
     try {
       // 🚨 route.params.participantId isn't being used, probably need to change route.
       const challengeId = req.params.challengeId
-      const userId = req.userInfo.id
+      // const userId = req.userInfo.id
+      const participantId = req.body.participantId
       const answer = req.body.answer
-      const result = await challengesService.submitAnswer(challengeId, userId, answer)
+      const result = await challengesService.submitAnswer(challengeId, participantId, answer)
       return res.send(result)
     } catch (e) {
       next(e)

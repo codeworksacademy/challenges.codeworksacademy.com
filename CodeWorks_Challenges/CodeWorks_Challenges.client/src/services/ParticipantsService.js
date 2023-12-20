@@ -2,6 +2,7 @@ import { api } from './AxiosService'
 import { AppState } from "../AppState"
 import { ChallengeParticipant } from "../models/ChallengeParticipant.js"
 import { logger } from './../utils/Logger';
+import Pop from '../utils/Pop';
 
 class ParticipantsService {
 
@@ -22,7 +23,12 @@ class ParticipantsService {
       participantId: participantId,
       answer: submission,
     })
-    // logger.log("participantservice",challengeId, participantId, submission)
+    if(res.data.participant.status == 'incomplete'){
+      Pop.error("Answer was incorrect.")
+    }
+    if(res.data.participant.status == 'completed'){
+      Pop.success("Congratulations on finishing the challenge!")
+    }
   }
 
   async updateChallengeParticipant(participantId, newSubmission) {

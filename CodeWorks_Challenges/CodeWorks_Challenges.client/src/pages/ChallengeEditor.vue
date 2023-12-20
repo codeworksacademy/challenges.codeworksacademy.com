@@ -1,38 +1,23 @@
 <template>
-  <div class="row">
-      <div class="col-md-6">
+  <div class="row justify-content-center">
+      <div class="col-md-8">
+        <h1 class="text-center my-3 text-light">Edit Challenge Details</h1>
         <section class="container-fluid text-light" v-if="challenge"> 
-          <!-- //STUB - V-if Challenge -->
-          <h2 class="text-warning text-center">Refactor In Progress</h2>
           <div>
-            <!-- //STUB Challenge Name and Description component -->
             <div>
-              <!-- //TODO - Add Details Functionality -->
               <EditChallengeDetails :challenge="challenge"/>
-              <!-- //FIXME - Challenge Name -->
-              <!-- //FIXME - Challenge Cover Image -->
-              <!-- //FIXME - Challenge Category -->
-              <!-- //FIXME - Challenge Difficulty -->
-              <!-- //FIXME - Challenge AutoGrade? Challenge Answer? -->
             </div>
             <EditChallengeDescription :challenge="challenge"/>
-            <!-- //TODO Component - Challenge Description Editing (Markdown if usable) -->
           </div>
           <div>
             <EditChallengeRequirements :challenge="challenge"/>
-            <!-- //TODO Challenge Requirements Component -->
           </div>
           <div>
-            <!-- //TODO Challenge Status - What should the owner be allowed to do? What should moderators be able to do? -->
           </div>
           <div class="text-center my-3">
-            <!-- //TODO Update Challenge? Validate the changes made to the challenge? -->
             <button class="btn btn-success" @click="updateChallenge"> Update Challenge</button>
           </div>
         </section>
-      </div>
-      <div class="col-md-6 text-light">
-        <p class="" v-for="(value, key) in challenge">{{ key }}: {{ value }}</p>
       </div>
   </div>
 </template>

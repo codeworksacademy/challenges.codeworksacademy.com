@@ -11,9 +11,7 @@
       <router-link :to="{ name: 'Statistics' }">
         <h4 class="mdi mdi-finance text-light selectable"> Statistics</h4>
       </router-link>
-
       <hr>
-
       <div v-if="isOwned || isModerator" class="d-flex flex-column justify-content-center">
         <router-link :to="{ name: 'GradeSubmissionsPage' }">
           <h4 class="mdi mdi-progress-check text-info mt-1" style=""> Grade Users</h4>

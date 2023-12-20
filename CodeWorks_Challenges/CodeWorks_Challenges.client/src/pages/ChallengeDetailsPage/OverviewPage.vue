@@ -1,13 +1,15 @@
 <template>
   <section v-if="challenge" :key="challenge?.id" class="text-light pb-5">
-
-    <div class="d-flex justify-content-center align-items-center p-3 mt-3" style="background: #161d2b">
+    <div class="d-flex justify-content-center align-items-center  mt-5">
       <!-- STUB - Space reserved for the challenge details -->
-      <div class="row px-5 pt-0" style="">
+      <div class="row px-5 pt-0 mt-5" >
         <article>
-          <div style="position: relative; left:-15px">
+          <div style="">
+            <h1>{{ challenge.name }}</h1>
+            <h1 v-if="isParticipant?.status == 'completed'" class="text-success">Challenge Passed <span><i class="mdi mdi-check"></i></span></h1>
+            <h1 v-if="isParticipant?.status == 'incomplete'" class="text-warning">Challenge Incomplete <span><i class="mdi mdi-alert-box"></i></span></h1>
             <h3 class="text-uppercase" style="color: #7A7A7A">
-              Challenge Description
+              Description
             </h3>
             <p> {{ challenge.description }} </p>
             <hr>
@@ -120,12 +122,8 @@ export default {
       createModeration,
       removeModeration,
       giveReputation,
-      
       isParticipant,
       gaveReputation,
-
-
-
       challenge: computed(() => AppState.activeChallenge),
       moderators: AppState.moderators.filter(m => m.status == 'Active'),
       isModerator: computed(() => {

@@ -1,6 +1,5 @@
 <template>
-  {{ challenge }}
-  <section v-if="user.isAuthenticated && !challenge.autoGrade" class="container-fluid position-relative pt-5">
+  <section v-if="user.isAuthenticated && !challenge?.autoGrade" class="container-fluid position-relative pt-5">
     <form
       class="row bg-light p-3 rounded shadow"
       @submit.prevent="updateChallengeParticipant" id="challengeSubmissionForm"
@@ -23,7 +22,7 @@
       </div>
     </form>
   </section>
-  <section v-if="user.isAuthenticated && challenge.autoGrade" class="container-fluid position-relative pt-5">
+  <section v-if="user.isAuthenticated && challenge?.autoGrade" class="container-fluid position-relative pt-5">
     <form
       class="row bg-light p-3 rounded shadow"
       @submit.prevent="submitAnswer" id="challengeSubmissionForm"
@@ -104,7 +103,6 @@ export default {
         await participantsService.submitAnswer(challenge.value.id, participant.value.id, editable.value.submission)
       } catch (error) {
         logger.log(error)
-        Pop.error(error)
       }
     }
 

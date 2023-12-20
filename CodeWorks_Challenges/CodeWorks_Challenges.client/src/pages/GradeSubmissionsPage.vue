@@ -32,13 +32,13 @@
         <h1 class="text-info">Started</h1>
         <div v-for="p in participants" :key="p.id" class="accordion-item">
           <div v-if="p.status === 'started' && challengeCreator">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse'+ p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
+            <h2 class="accordion-header bg-dark text-light">
+                <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse'+ p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
                   <span>{{ p.profile.name }}</span>
                 </button>
             </h2>
             <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-              <div class="accordion-body">
+              <div class="accordion-body bg-dark">
                 <GradeSubmissionForm :participant="p" />
               </div>
             </div>
@@ -50,12 +50,12 @@
         <div v-for="p in participants" :key="p.id" class="accordion-item">
           <div v-if="p.status === 'completed' && challengeCreator">
             <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse'+ p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
+                <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse'+ p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
                    <span>{{ p.profile.name }}</span>
                 </button>
             </h2>
             <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-              <div class="accordion-body">
+              <div class="accordion-body bg-dark text-light">
                 <GradeSubmissionForm :participant="p" />
               </div>
             </div>

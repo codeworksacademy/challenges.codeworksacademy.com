@@ -5,7 +5,7 @@
       <div class="d-flex col-12">
         <div class="col-6 d-flex flex-column justify-content-start">
           <span>Total Submitted: {{ totalSubmitted }} </span>
-          <span>Total Completed: {{ challenge.completedCount }} </span>
+          <span>Total Completed: {{ completedCount }} </span>
           <span>Active Participants: {{ challenge.participantCount }} </span>
           <span>Success Rate: {{ participantCompletionRate }} </span>
         </div>
@@ -38,7 +38,6 @@ export default {
   },
   setup() {
     let route = useRoute()
-
     const filterBy = ref('')
     const editable = ref({
       accountId: AppState.user.id,
@@ -87,6 +86,9 @@ export default {
       participants: computed(() => AppState.participants),
       isParticipant: computed(() => {
         return AppState.participants.find(p => p.accountId === AppState.user.id)
+      }),
+      completedCount: computed(() => {
+        return AppState.participants.filter(p => p.status === 'completed').length
       }),
       participantFilter: computed(() => {
         if (!filterBy.value) {
