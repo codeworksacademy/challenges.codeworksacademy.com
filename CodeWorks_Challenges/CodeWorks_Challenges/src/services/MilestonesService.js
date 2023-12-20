@@ -17,6 +17,7 @@ class MilestonesService {
     editMilestone.logic = milestoneData.logic
     editMilestone.ref = milestoneData.ref
     editMilestone.description = milestoneData.description
+    editMilestone.title = milestoneData.title
     await editMilestone.save();
   }
 
