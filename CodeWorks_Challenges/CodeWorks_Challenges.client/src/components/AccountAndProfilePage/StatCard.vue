@@ -54,6 +54,6 @@ export default {
   font-size: large;
   font-weight: bold;
   border-radius: .5rem;
-  height: 7rem;
+  height: 9rem;
 }
 </style>
