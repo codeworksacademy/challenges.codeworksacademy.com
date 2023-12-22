@@ -1,7 +1,9 @@
 <template>
-  <div class="avatar-bg"></div>
-  <img :src="props.picture" :alt="props.name" class="avatar-lg mx-4 light-gold-border avatar-style">
-  <div class="d-flex flex-column">
+  <div class="avatar-container col-md-4 col-lg-3 col-5">
+    <div class="avatar-bg"></div>
+    <img :src="props.picture" :alt="props.name" class="avatar-lg mx-4 light-gold-border avatar-style">
+  </div>
+  <div class="d-flex flex-column col-md-8 col-lg-9 col-7">
     <p class="fs-2 m-0">
       {{ props.name }}
     </p>
@@ -59,15 +61,20 @@ export default {
 
 
 <style lang="scss" scoped>
-.avatar-style {
+.avatar-container{
   position: relative;
   top: -5.5vh;
 }
 
+.avatar-style {
+  position: absolute;
+}
+
 .avatar-bg{
-  position: relative;
-  top: -5.5vh;
+  position: absolute;
   background-color: #0E131B;
+  top: 0;
+  left: 24px;
   height: 7rem;
   width: 7rem;
   border-radius: 50%;
@@ -81,6 +88,16 @@ export default {
     object-fit: cover;
     object-position: center;
   }
+
+  .avatar-bg{
+  position: absolute;
+  background-color: #0E131B;
+  top: 0;
+  left: 24px;
+  height: 5.5rem;
+  width: 5.5rem;
+  border-radius: 50%;
+}
 }
 
 @media(max-width: 391px){
