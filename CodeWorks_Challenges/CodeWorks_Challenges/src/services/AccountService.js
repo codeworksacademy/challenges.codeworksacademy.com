@@ -140,7 +140,7 @@ class AccountService {
   async updateReputation(user, body){
     const account = await this.getAccount(user)
 
-    account.reputation = body || account.reputation
+    account.reputation = body >= 0 ? body : account.reputation
 
     await account.save()
   }

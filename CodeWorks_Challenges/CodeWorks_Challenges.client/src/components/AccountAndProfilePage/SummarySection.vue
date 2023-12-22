@@ -1,13 +1,16 @@
 <template>
-  <img :src="props.picture" :alt="props.name" class="avatar-lg mx-4 light-gold-border avatar-style">
-  <div class="d-flex flex-column">
+  <div class="avatar-container col-md-4 col-lg-3 col-5">
+    <div class="avatar-bg"></div>
+    <img :src="props.picture" :alt="props.name" class="avatar-lg mx-4 light-gold-border avatar-style">
+  </div>
+  <div class="d-flex flex-column col-md-8 col-lg-9 col-7">
     <p class="fs-2 m-0">
       {{ props.name }}
     </p>
     <p class="fs-6 hide-sm">
       <span class="light-gold-color">Rank: </span> {{ currentRank }}
       <span title="experience" class="ms-4">
-        {{ props.rankNumber }} <span class="light-gold-color">XP</span>
+        {{ props.rankString }} <span class="light-gold-color">XP</span>
       </span>
       <span title="challenges" class="ms-4">
         {{ props.challengesCount }}
@@ -30,10 +33,10 @@ export default {
   props:{
     name: {type: String, required: true},
     picture: {type: String, required: true},
-    rankNumber: {type: String, required: true},
+    rankString: {type: String, required: true},
     challengesCount: {type: String, required: true},
     reputation: {type: String, required: true},
-    userRank: {type: Number, required: true}
+    rankInt: {type: Number, required: true}
   },
 
   setup(props){
@@ -44,7 +47,7 @@ export default {
         let lastKey = 0
 
         for (const key in AppState.rankTitles) {
-          if (props.userRank >= key) {
+          if (props.rankInt >= key) {
             lastKey = key
           }
         }
@@ -58,18 +61,42 @@ export default {
 
 
 <style lang="scss" scoped>
-.avatar-style {
+.avatar-container{
   position: relative;
   top: -5.5vh;
 }
 
+.avatar-style {
+  position: absolute;
+}
+
+.avatar-bg{
+  position: absolute;
+  background-color: #0E131B;
+  top: 0;
+  left: 24px;
+  height: 7rem;
+  width: 7rem;
+  border-radius: 50%;
+}
+
 @media(max-width: 768px) {
   .avatar-lg{
+    height: 5.5rem;
+    width: 5.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .avatar-bg{
+  position: absolute;
+  background-color: #0E131B;
+  top: 0;
+  left: 24px;
   height: 5.5rem;
   width: 5.5rem;
   border-radius: 50%;
-  object-fit: cover;
-  object-position: center;
 }
 }
 
