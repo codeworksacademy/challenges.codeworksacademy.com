@@ -88,11 +88,11 @@ export default {
     return {
       moderationTypes,
       moderations: computed(() => {
-        if (moderationTypes.value == 'My Moderations') {
+        if(moderationTypes.value == 'My Moderations'){
           let moderators = AppState.moderations
           let filterModerators = moderators.filter((m) => m.challenge.creatorId != AppState.account.id)
           return filterModerators
-        } else if (moderationTypes.value == 'Challenge Moderators') {
+        } else if(moderationTypes.value == 'Challenge Moderators'){
           let moderators = AppState.moderators
           let filterModerators = moderators.filter((m) => m.accountId != AppState.account.id)
           return filterModerators
