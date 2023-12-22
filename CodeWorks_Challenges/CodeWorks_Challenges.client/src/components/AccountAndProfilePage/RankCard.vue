@@ -73,7 +73,7 @@ export default {
     })
 
     const rankBadgePercentage = computed(() => {
-      const rankBadgeKeys = Object.keys(AppState.rankBadges);
+      const rankBadgeKeys = Object.values(AppState.rankThresholds);
       const rank = AppState.account.rank;
       const nextKey = rankBadgeKeys.find(key => key > rank);
       if (!nextKey) {

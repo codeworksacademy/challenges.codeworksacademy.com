@@ -85,7 +85,6 @@ class ChallengesService {
     challenge.supportLinks = challengeData.supportLinks || challenge.supportLinks
     challenge.difficulty = challengeData.difficulty || challenge.difficulty
     challenge.coverImg = challengeData.coverImg || challenge.coverImg
-    challenge.badgeImg = challengeData.badgeImg || challenge.badgeImg
     challenge.answer = challengeData.answer || challenge.answer
 
     await challenge.save()

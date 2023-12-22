@@ -30,9 +30,9 @@ export default {
   props:{
     name: {type: String, required: true},
     picture: {type: String, required: true},
-    rankNumber: {type: String, required: true},
-    challengesCount: {type: String, required: true},
-    reputation: {type: String, required: true},
+    rankNumber: {type: Number, required: true},
+    challengesCount: {type: Number, required: true},
+    reputation: {type: Number, required: true},
     userRank: {type: Number, required: true}
   },
 

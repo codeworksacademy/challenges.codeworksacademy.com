@@ -3,16 +3,16 @@
     <section class="row mt-3 my-0 my-md-3 mt-md-3">
 
       <div class="col-md-4 col-12">
-        <StatCard title="Moderated Challenges" :number="(challenges.length + approvedModerations.length)" color="#20C997" bgColor="#20c99629" icon="mdi-file-code" />
+        <StatCard title="Moderated Challenges" :number="(challenges.length + approvedModerations.length)" color="#20C997" bgColor="#20c99629" icon="mdi-file-code" :themeStyle="true" :leftAlignedIcon="false" />
       </div>
 
       <div class="col-md-4 col-12">
-        <StatCard title="Completed Challenges" :number="0" color="#FD7E14" bgColor="#fd7d142e" icon="mdi-file-sign" />
+        <StatCard title="Completed Challenges" :number="0" color="#FD7E14" bgColor="#fd7d142e" icon="mdi-file-sign" :themeStyle="true" :leftAlignedIcon="false" />
       </div>
 
       <!-- TODO - Add functionality to Badges -->
       <div class="col-md-4 col-12">
-        <StatCard title="Badges" number="0" color="#6F42C1" bgColor="#1D213A" icon="mdi-seal" />
+        <StatCard title="Badges" number="0" color="#6F42C1" bgColor="#1D213A" icon="mdi-seal" :themeStyle="true" :leftAlignedIcon="false" />
       </div>
     </section>
 
