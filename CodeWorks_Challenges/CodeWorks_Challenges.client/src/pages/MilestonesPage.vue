@@ -66,16 +66,24 @@
           <div class="d-flex flex-column">
 
             <div class="d-flex flex-column">
-              <label for="">Ref - What data is this milestone about (Must be the objects name registered to dbContext)
+              <label for="">Ref - What data is this milestone about
               </label>
-              <input v-model="editable.ref" type="text" placeholder="ref" class="bg-light" required>
+              <select class="text-dark" v-model="editable.ref" required>
+                <option disabled value="">Please select one</option>
+                <option>Account</option>
+                <option>Challenges</option>
+                <option>ChallengeParticipants</option>
+                <option>ChallengeModerators</option>
+                <option>Milestones</option>
+                <option>AccountMilestones</option>
+              </select>
             </div>
             <label for="">Check - What string will call this milestone to be checked</label>
             <input v-model="editable.check" type="text" placeholder="check" class="bg-light" required>
           </div>
           <div class="d-flex flex-column">
             <label for="">Highest number of possible tiers</label>
-            <input v-model="editable.maxTiers" type="number" placeholder="Number" class="bg-light" min="1" max="1000"
+            <input v-model="editable.maxTiers" type="number" placeholder="Number" class="bg-light" min="1" max="10"
               required>
           </div>
           <div>

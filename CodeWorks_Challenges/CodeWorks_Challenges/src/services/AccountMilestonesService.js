@@ -130,14 +130,14 @@ class AccountMilestonesService {
     let count = 0
 
     const filterKey = {
-      createdChallenge: { creatorId: userId },
-      joinedChallenge: { accountId: userId },
-      moderateChallenge: { $and: [{ accountId: userId }, { status: 'Active' }] },
-      submissionsChallenge: { status: { $in: ['submitted', 'completed'] } },
-      passingSubmissionsChallenge: { status: 'completed' },
-      submittedParticipant: { $and: [{ accountId: userId }, { status: { $in: ['submitted', 'completed'] } }] },
-      passingParticipant: { $and: [{ accountId: userId }, { status: 'completed' }] },
-      allMilestones: { $sum: '$tier' }
+      createdChallenge: { creatorId: userId }, //$gte
+      joinedChallenge: { accountId: userId }, //$gte
+      moderateChallenge: { $and: [{ accountId: userId }, { status: 'Active' }] }, //$gte
+      submissionsChallenge: { status: { $in: ['submitted', 'completed'] } }, //$gteChallenge
+      passingSubmissionsChallenge: { status: 'completed' }, //$gteChallenge
+      submittedParticipant: { $and: [{ accountId: userId }, { status: { $in: ['submitted', 'completed'] } }] },//$gte
+      passingParticipant: { $and: [{ accountId: userId }, { status: 'completed' }] }, //$gte
+      allMilestones: { $sum: '$tier' } //$sum
     };
     const milestoneRef = parsedMilestoneData.milestone.ref
     const milestoneCheck = parsedMilestoneData.milestone.check
