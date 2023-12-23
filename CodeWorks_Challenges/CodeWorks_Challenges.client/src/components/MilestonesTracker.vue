@@ -50,14 +50,14 @@ export default {
     watchEffect(() => {
       if (AppState.account.id) {
         checkMyMilestones();
-        // getMilestones()
+        getMilestones()
       }
     });
     return {
       milestones: computed(() => AppState.myMilestone),
     };
   },
-  components: { MilestoneCard, MilestoneCard }
+  components: { MilestoneCard, }
 }
 </script>
 

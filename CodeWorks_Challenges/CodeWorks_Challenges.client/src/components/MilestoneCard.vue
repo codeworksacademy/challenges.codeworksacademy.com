@@ -8,8 +8,12 @@
   <section v-else class="achievement-card bg-dark row mt-3 "
     :style="{ border: '3px', borderColor: tierAttributes.color1, borderStyle: 'solid' }">
 
-    <div class="col-12 col-md-3 icon flex-grow-1 m-auto text-center py-3" :class="[' mdi', tierAttributes.tierCurrent]"
-      :style="{ color: tierAttributes.color1, textShadow: `0px 0px 15px ${tierAttributes.color2}` }">
+    <div class="col-12 col-md-3">
+      <div class="main-wrapper d-flex flex-row">
+        <div class="alt-badge badge" :style="{ background: `linear-gradient(${tierAttributes.color1} 0%, ${tierAttributes.color2} 100%)` }">
+          <div class="circle"> <i class="m-auto" :style="{ color: tierAttributes.color2 }" :class="['mdi', tierAttributes.tierCurrent]"></i></div>
+        </div>
+      </div>
     </div>
 
     <div class="col-12 col-md-9 py-3" :style="{ backgroundColor: tierAttributes.color2 }">
@@ -44,6 +48,7 @@
 import { computed } from "vue";
 import { accountMilestonesService } from "../services/AccountMilestonesService.js";
 import Pop from "../utils/Pop.js";
+import { MILESTONE_BADGE } from "../constants/index.js";
 
 export default {
   props: {
@@ -52,7 +57,6 @@ export default {
       required: true
     }
   },
-
   setup(props) {
     const milestoneCondition = computed(() => {
       let condition = {};
@@ -70,102 +74,32 @@ export default {
 
       return condition
     })
-    const tierAttributes = computed(() => {
-      const color1 = ['#dfdbe8', "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"]
-      // const color2 = ["#bab4c7", "#5a4290", "#464290", "#4971c3", "#61973e", "#b4b359", "#b88631", "#a82b41", "#956e56", "#8d94a9", "#918b59"]
-      const color2 = ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
-      let attributes = {}
-      switch (props.milestone.tier) {
-        case 0:
-          attributes.adjective = 'Novice'
-          attributes.tierCurrent = 'mdi-circle-small'
-          attributes.tierNext = 'mdi-flare'
-          attributes.color1 = color1[0]
-          attributes.color2 = color2[0]
-          break;
-        case 1:
-          attributes.adjective = 'Developing'
-          attributes.tierCurrent = "mdi-flare"
-          attributes.tierNext = 'mdi-triangle'
-          attributes.color1 = color1[1]
-          attributes.color2 = color2[1]
-          break;
-        case 2:
-          attributes.adjective = 'Improving'
-          attributes.tierCurrent = 'mdi-triangle'
-          attributes.tierNext = 'mdi-star-three-points'
-          attributes.color1 = color1[2]
-          attributes.color2 = color2[2]
-          break;
-        case 3:
-          attributes.adjective = 'Proficient'
-          attributes.tierCurrent = 'mdi-star-three-points'
-          attributes.tierNext = 'mdi-star-four-points'
-          attributes.color1 = color1[3]
-          attributes.color2 = color2[3]
-          break;
-        case 4:
-          attributes.adjective = 'Skilled'
-          attributes.tierCurrent = 'mdi-star-four-points'
-          attributes.tierNext = 'mdi-star'
-          attributes.color1 = color1[4]
-          attributes.color2 = color2[4]
-          break;
-        case 5:
-          attributes.adjective = 'Competent'
-          attributes.tierCurrent = 'mdi-star'
-          attributes.tierNext = 'mdi-hexagram'
-          attributes.color1 = color1[5]
-          attributes.color2 = color2[5]
-          break;
-        case 6:
-          attributes.adjective = 'Accomplished'
-          attributes.tierCurrent = 'mdi-hexagram'
-          attributes.tierNext = 'mdi-hexagram-outline'
-          attributes.color1 = color1[6]
-          attributes.color2 = color2[6]
-          break;
-        case 7:
-          attributes.adjective = 'Expert'
-          attributes.tierCurrent = 'mdi-hexagram-outline'
-          attributes.tierNext = 'mdi-octagram'
-          attributes.color1 = color1[7]
-          attributes.color2 = color2[7]
-          break;
-        case 8:
-          attributes.adjective = 'Masterful'
-          attributes.tierCurrent = 'mdi-octagram'
-          attributes.tierNext = 'mdi-octagram-outline'
-          attributes.color1 = color1[8]
-          attributes.color2 = color2[8]
-          break;
-        case 9:
-          attributes.adjective = 'Pinnacle'
-          attributes.tierCurrent = 'mdi-octagram-outline'
-          attributes.tierNext = 'mdi-decagram'
-          attributes.color1 = color1[9]
-          attributes.color2 = color2[9]
-          break;
-        case 10:
-          attributes.adjective = ''
-          attributes.tierCurrent = 'mdi-decagram'
-          attributes.tierNext = 'mdi-decagram'
-          attributes.color1 = color1[10]
-          attributes.color2 = color2[10]
-          break;
 
-        default:
-          attributes.adjective = ''
-          attributes.tierCurrent = 'mdi-skull-scan'
-          attributes.tierNext = 'mdi-circle-small'
-          attributes.color1 = color1[10]
-          attributes.color2 = color2[10]
-          break;
-      }
-      return attributes
+  const tierAttributes = computed(() => {
+    let attributes = {}
+    const badge = MILESTONE_BADGE[props.milestone.tier]
+    attributes.adjective = badge.ADJECTIVE
+    attributes.tierCurrent = badge.TIER_CURRENT
+    attributes.tierNext = badge.TIER_NEXT
+    
+    if (props.milestone.tier == 0) {
+      attributes.color1 = badge.COLOR_1[0]
+      attributes.color2 = badge.COLOR_2[0]
+    } else {
+      attributes.color1 = badge.COLOR_1[props.milestone.tier - 1]
+      attributes.color2 = badge.COLOR_2[props.milestone.tier - 1]
     }
-    )
+    return attributes
+  })
     return {
+      badgeGradient1: computed(() => {
+        const badge = tierAttributes.value.color1
+        return badge
+      }),
+      badgeGradient2: computed(() => {
+        const badge = tierAttributes.value.color2
+        return badge
+      }),
       milestoneCondition,
       tierAttributes,
 
@@ -214,10 +148,93 @@ export default {
 
 
 <style lang="scss" scoped>
+@import url('../assets/scss/_variables.scss');
+@mixin margin-auto {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.main-wrapper {
+  font-family: 'Comfortaa', sans-serif;
+  width: 90%;
+  max-width: 900px;
+  margin: 3em auto;
+  text-align: center;
+}
+
+.alt-badge {
+  position: relative;
+  margin: 1.75em 6em;
+  width: 7.67em;
+  height: 12.25em;
+  border-radius: 10px;
+  display: inline-block;
+  top: 0;
+  transition: all 0.2s ease;
+  &:before,
+  &:after {
+    position: absolute;
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
+    background: inherit;
+    content: "";
+    @include margin-auto;
+  }
+  &:before {
+    transform: rotate(60deg);
+  }
+  &:after {
+    transform: rotate(-60deg);
+  }
+  &:hover {
+    top: -4px;
+  }
+  .circle {
+    width: 105px;
+    height: 105px;
+    position: absolute;
+    background: #dadada;
+    z-index: 10;
+    border-radius: 50%;
+    @include margin-auto;
+    i.mdi {
+      font-size: 5.5em;
+      margin-top: 8px;
+    }
+    /* For when you can't find the mdi icon you want, you can use a v-bind computed background image on any .png, just make sure the background of the .png is transparent */
+    img {
+      width: 2em;
+      height: 2em;
+      margin-top: 8px;
+    }
+  }
+  .font {
+    display: flex;
+    margin-top: 1em;
+  }
+}
 .tier-block {
   height: 8px;
 }
-
+.badge { 
+  >.circle {
+    display: flex;
+    justify-content: center;
+    background: #dadada;
+    box-shadow: inset 0 0 30px -10px v-bind(badgeGradient1), 0 0 20px;
+    outline: none;
+    border: none;
+      >i {
+        font-size: 1.2rem;
+        color: v-bind(badgeGradient2);
+        filter: drop-shadow(0 .5px .5px #000);
+      }
+  }
+}
 .achievement-card {
   color: white;
   background-color: #3e53742a;

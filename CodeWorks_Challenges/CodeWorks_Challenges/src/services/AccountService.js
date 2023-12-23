@@ -44,7 +44,11 @@ function sanitizeBody(body) {
     name: body.name,
     picture: body.picture,
     coverImg: body.coverImg,
-    aboutContent: body.aboutContent
+    aboutContent: body.aboutContent,
+    experience: body.experience,
+    reputation: body.reputation,
+    totalExperience: body.totalExperience,
+    rank: body.rank
   }
   return writable
 }
@@ -106,10 +110,14 @@ class AccountService {
       { $set: update },
       { runValidators: true, setDefaultsOnInsert: true, new: true }
     )
-    const accountToBeReturned = {}
-    accountToBeReturned.id = account.id
-    accountToBeReturned.experience = account.experience
-    accountToBeReturned.name = account.name
+    const accountToBeReturned = {
+      name: account.name,
+      id: account.id,
+      experience: account.experience,
+      reputation: account.reputation,
+      totalExperience: account.totalExperience,
+      rank: account.rank
+    }
     return accountToBeReturned
   }
 

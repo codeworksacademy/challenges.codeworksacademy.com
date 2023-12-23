@@ -15,10 +15,13 @@ class MilestonesService {
     const res = await api.get('api/milestones')
     logger.log('[getMilestones]', res.data)
     AppState.milestones = res.data.map(m => new Milestone(m))
+    
+    
   }
   async editMilestone(milestoneData) {
     const res = await api.put(`api/milestones/${milestoneData.id}`, milestoneData)
     logger.log('[editMilestone]', res.data)
+    
   }
   async removeMilestone(milestoneId) {
     const res = await api.delete(`api/milestones/${milestoneId}`)

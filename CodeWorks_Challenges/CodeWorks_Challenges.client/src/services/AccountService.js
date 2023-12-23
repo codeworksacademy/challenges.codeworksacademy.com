@@ -18,6 +18,7 @@ class AccountService {
     const res = await api.put('/account', formData)
     logger.log(res.data)
     AppState.account = new Account(res.data)
+    return res.data
   }
 
   async getMyChallenges() {
@@ -39,7 +40,8 @@ class AccountService {
   async calculateAccountRank() {
     const res = await api.get('/account/rank')
     logger.log('[CURRENT ACCOUNT RANK]', res.data)
-    AppState.account = new Account(res.data)
+    AppState.account.rank = res.data.rank
+    return res.data
   }
 
   async calculateReputation(){
