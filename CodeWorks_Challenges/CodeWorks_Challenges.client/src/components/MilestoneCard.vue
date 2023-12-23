@@ -1,6 +1,6 @@
 <template>
   <section @click="claimMilestone(milestone)" v-if="milestone?.claimed == false"
-    class="achievement-card mt-3 row selectable"
+    class="achievement-card mt-3 selectable"
     :style="{ border: '3px', borderColor: tierAttributes.color1, borderStyle: 'solid' }">
     <div class="flex-grow-1 text-center m-auto fs-1">NEW</div>
   </section>
@@ -9,7 +9,7 @@
     :style="{ border: '3px', borderColor: tierAttributes.color1, borderStyle: 'solid' }">
 
     <div class="col-12 col-md-3">
-      <div class="main-wrapper d-flex flex-row">
+      <div class="badge-wrapper d-flex flex-row">
         <div class="alt-badge badge" :style="{ background: `linear-gradient(${tierAttributes.color1} 0%, ${tierAttributes.color2} 100%)` }">
           <div class="circle"> <i class="m-auto" :style="{ color: tierAttributes.color2 }" :class="['mdi', tierAttributes.tierCurrent]"></i></div>
         </div>
@@ -148,92 +148,13 @@ export default {
 
 
 <style lang="scss" scoped>
-@import url('../assets/scss/_variables.scss');
 @mixin margin-auto {
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   margin: auto;
-}
-
-.main-wrapper {
-  font-family: 'Comfortaa', sans-serif;
-  width: 90%;
-  max-width: 900px;
-  margin: 3em auto;
-  text-align: center;
-}
-
-.alt-badge {
-  position: relative;
-  margin: 1.75em 6em;
-  width: 7.67em;
-  height: 12.25em;
-  border-radius: 10px;
-  display: inline-block;
-  top: 0;
-  transition: all 0.2s ease;
-  &:before,
-  &:after {
-    position: absolute;
-    width: inherit;
-    height: inherit;
-    border-radius: inherit;
-    background: inherit;
-    content: "";
-    @include margin-auto;
-  }
-  &:before {
-    transform: rotate(60deg);
-  }
-  &:after {
-    transform: rotate(-60deg);
-  }
-  &:hover {
-    top: -4px;
-  }
-  .circle {
-    width: 105px;
-    height: 105px;
-    position: absolute;
-    background: #dadada;
-    z-index: 10;
-    border-radius: 50%;
-    @include margin-auto;
-    i.mdi {
-      font-size: 5.5em;
-      margin-top: 8px;
-    }
-    /* For when you can't find the mdi icon you want, you can use a v-bind computed background image on any .png, just make sure the background of the .png is transparent */
-    img {
-      width: 2em;
-      height: 2em;
-      margin-top: 8px;
-    }
-  }
-  .font {
-    display: flex;
-    margin-top: 1em;
-  }
-}
-.tier-block {
-  height: 8px;
-}
-.badge { 
-  >.circle {
-    display: flex;
-    justify-content: center;
-    background: #dadada;
-    box-shadow: inset 0 0 30px -10px v-bind(badgeGradient1), 0 0 20px;
-    outline: none;
-    border: none;
-      >i {
-        font-size: 1.2rem;
-        color: v-bind(badgeGradient2);
-        filter: drop-shadow(0 .5px .5px #000);
-      }
-  }
+  width: 100%;
 }
 .achievement-card {
   color: white;
@@ -243,11 +164,77 @@ export default {
   font-weight: bold;
   border-radius: .5rem;
   min-height: 22vh;
-}
-
-.icon {
-  font-size: 96px;
-  background: rgb(49, 64, 89);
-  background: radial-gradient(circle, rgba(49, 64, 89, 1) 0%, rgba(31, 41, 57, 1) 61%, rgba(22, 28, 40, 1) 100%);
+  overflow-x: hidden;
+  .badge-wrapper {
+    font-family: 'Comfortaa', sans-serif;
+    width: 100%;
+    margin: .5em auto;
+    text-align: center;
+  .alt-badge {
+    position: relative;
+    top: 0;
+    margin: 1.75em auto;
+    width: 7.67em;
+    height: 12.25em;
+    aspect-ratio: 1/1;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease;
+    &:before,
+    &:after {
+      position: absolute;
+      content: "";
+      width: inherit;
+      height: inherit;
+      border-radius: inherit;
+      background: inherit;
+      @include margin-auto;
+    }
+    &:before {
+      transform: rotate(60deg);
+    }
+    &:after {
+      transform: rotate(-60deg);
+    }
+    &:hover {
+      top: -4px;
+    }
+      .circle {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        width: 105px;
+        height: 105px;
+        background: #dadada;
+        outline: none;
+        border: none;
+        box-shadow: inset 0 0 30px -10px v-bind(badgeGradient1), 0 0 20px;
+        z-index: 10;
+        border-radius: 50%;
+        @include margin-auto;
+        i.mdi {
+          margin-top: 8px;
+          font-size: 5.5em;
+          color: v-bind(badgeGradient2);
+          filter: drop-shadow(0 .5px .5px #000);
+        }
+        /* For when you can't find the mdi icon you want, you can use a v-bind computed background image on any .png, just make sure the background of the .png is transparent */
+        img {
+          width: 2em;
+          height: 2em;
+          margin-top: 8px;
+        }
+      }
+      .font {
+        display: flex;
+        margin-top: 1em;
+      }
+    }
+  }
+  .tier-block {
+    height: 8px;
+  }
 }
 </style>

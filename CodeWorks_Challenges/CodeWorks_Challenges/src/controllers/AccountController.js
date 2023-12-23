@@ -13,10 +13,10 @@ export class AccountController extends BaseController {
       .get('', this.getUserAccount)
       .get('/challenges', this.getMyChallenges)
       .get('/participations', this.getMyParticipations)
-      .get('/rank', this.calculateAccountRank)
+      .get('/rank', this.calculateMyRank)
       .get('/reputation', this.calculateMyReputation)
       .put('', this.updateAccount)
-      .put('/:milestoneId/accountMilestones', this.claimAccountMilestone)
+      .put('/:milestoneId/accountMilestones', this.claimMyMilestone)
       .post('/accountMilestones', this.checkMilestonesByAccountId)
   }
 
@@ -65,27 +65,27 @@ export class AccountController extends BaseController {
       const accountId = req.userInfo.id
       const userId = accountId
       const checks = req.body
-      const milestones = await accountMilestonesService.checkAcountMilestoneCache(accountId, userId, checks)
+      const milestones = await accountMilestonesService.checkMyMilestoneCache(accountId, userId, checks)
       return res.send(milestones)
     } catch (error) {
       next(error);
     }
   }
-  async claimAccountMilestone(req, res, next) {
+  async claimMyMilestone(req, res, next) {
     try {
       const milestoneId = req.params.milestoneId
       const userId = req.userInfo.id
-      const milestone = await accountMilestonesService.claimAccountMilestone(milestoneId, userId)
+      const milestone = await accountMilestonesService.claimMyMilestone(milestoneId, userId)
       return res.send(milestone)
     } catch (error) {
       next(error);
     }
   }
 
-  async calculateAccountRank(req, res, next) {
+  async calculateMyRank(req, res, next) {
     try {
       const user = req.userInfo
-      const rank = await accountService.calculateAccountRank(user)
+      const rank = await accountService.calculateMyRank(user)
       return res.send(rank)
     } catch (error) {
       next(error);

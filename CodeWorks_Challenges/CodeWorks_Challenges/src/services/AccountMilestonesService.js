@@ -8,8 +8,8 @@ import mongoose from "mongoose";
 
 class AccountMilestonesService {
 
-  async checkAcountMilestoneCache(accountId, userId, checks) {
-    const cacheId = 'accountMilestoneCache'
+  async checkMyMilestoneCache(accountId, userId, checks) {
+    const cacheId = 'myMilestoneCache'
     let response = await cacheService.checkCache(accountId, userId, cacheId)
     let cacheItem = response.cacheItem ? response.cacheItem.dataToCache : {}
     const status = response.status
@@ -27,14 +27,14 @@ class AccountMilestonesService {
     }
     return cacheItem
   }
-  //#region calculate accountMilestones
+  //#region calculate myMilestones
   async checkMilestonesByUserId(userId, checks) {
     const pulledChecks = await this.pullMilestoneChecks(checks)
     const checkPromises = pulledChecks.map(async pc => {
       await this.checkMilestones(pc, userId);
     });
     await Promise.all(checkPromises);
-    const milestones = await this.getAccountMilestones(userId)
+    const milestones = await this.getMyMilestones(userId)
 
     return milestones
   }
@@ -49,64 +49,64 @@ class AccountMilestonesService {
 
   async checkMilestones(milestone, userId) {
 
-    const foundAccountMilestone = await this.getOrCreateAccountMilestone(milestone, userId);
+    const myFoundMilestone = await this.getOrCreateMyMilestone(milestone, userId);
 
     const parsedMilestoneData = this.parseLogic(milestone);
 
-    if (foundAccountMilestone.tier > parsedMilestoneData.maxTierLevel) {
-      return foundAccountMilestone
+    if (myFoundMilestone.tier > parsedMilestoneData.maxTierLevel) {
+      return myFoundMilestone
     }
 
-    const milestoneCheckCount = await this.getCountByOperation(parsedMilestoneData, foundAccountMilestone, userId);
+    const milestoneCheckCount = await this.getCountByOperation(parsedMilestoneData, myFoundMilestone, userId);
 
     let tierToAssign = this.getLatestTier(parsedMilestoneData, milestoneCheckCount);
 
-    if (milestoneCheckCount > foundAccountMilestone.count) {
-      foundAccountMilestone.count = milestoneCheckCount
+    if (milestoneCheckCount > myFoundMilestone.count) {
+      myFoundMilestone.count = milestoneCheckCount
 
-      if (tierToAssign > foundAccountMilestone.tier) {
-        foundAccountMilestone.claimed = false
-        foundAccountMilestone.tier = tierToAssign
-        foundAccountMilestone.count = milestoneCheckCount
+      if (tierToAssign > myFoundMilestone.tier) {
+        myFoundMilestone.claimed = false
+        myFoundMilestone.tier = tierToAssign
+        myFoundMilestone.count = milestoneCheckCount
       }
 
-      await foundAccountMilestone.save()
+      await myFoundMilestone.save()
     }
-    return foundAccountMilestone
+    return myFoundMilestone
   }
 
-  async getAccountMilestones(userId) {
-    const foundAccountMilestones = await dbContext.AccountMilestones.find({ accountId: userId }).populate('milestone')
-    if (!foundAccountMilestones) {
+  async getMyMilestones(userId) {
+    const myFoundMilestones = await dbContext.AccountMilestones.find({ accountId: userId }).populate('milestone')
+    if (!myFoundMilestones) {
       new Error('This user does not have any milestones')
       return
     }
-    return foundAccountMilestones
+    return myFoundMilestones
   }
 
-  async getOrCreateAccountMilestone(milestone, userId) {
-    const accountMilestoneData = {}
-    let foundAccountMilestone = await this.getAccountMilestoneById(milestone.id, userId);
+  async getOrCreateMyMilestone(milestone, userId) {
+    const myMilestoneData = {}
+    let myFoundMilestone = await this.getMyMilestoneById(milestone.id, userId);
 
-    if (!foundAccountMilestone) {
-      accountMilestoneData.milestoneId = milestone.id;
-      accountMilestoneData.accountId = userId;
-      foundAccountMilestone = await this.createAccountMilestone(accountMilestoneData);
+    if (!myFoundMilestone) {
+      myMilestoneData.milestoneId = milestone.id;
+      myMilestoneData.accountId = userId;
+      myFoundMilestone = await this.createMyMilestone(myMilestoneData);
     }
-    return foundAccountMilestone;
+    return myFoundMilestone;
   }
 
-  async createAccountMilestone(AccountMilestoneData) {
-    const accountMilestone = await dbContext.AccountMilestones.create(AccountMilestoneData)
-    return accountMilestone
+  async createMyMilestone(myMilestoneData) {
+    const myMilestone = await dbContext.AccountMilestones.create(myMilestoneData)
+    return myMilestone
   }
 
-  async getAccountMilestoneById(milestoneId, userId) {
-    const foundAccountMilestone = await dbContext.AccountMilestones.findOne({ milestoneId: milestoneId, accountId: userId })
-    if (!foundAccountMilestone) {
+  async getMyMilestoneById(milestoneId, userId) {
+    const myFoundMilestone = await dbContext.AccountMilestones.findOne({ milestoneId: milestoneId, accountId: userId })
+    if (!myFoundMilestone) {
       return
     }
-    return foundAccountMilestone
+    return myFoundMilestone
   }
 
   parseLogic(milestone) {
@@ -126,7 +126,7 @@ class AccountMilestonesService {
     return parsedMilestoneData;
   }
 
-  async getCountByOperation(parsedMilestoneData, foundAccountMilestone, userId) {
+  async getCountByOperation(parsedMilestoneData, myFoundMilestone, userId) {
     let count = 0
 
     const filterKey = {
@@ -159,11 +159,11 @@ class AccountMilestonesService {
         count = aggregateSum[0].sumsValue;
         break;
       case "$gteChallenge":
-        const accountChallenges = await challengesService.getChallengesCreatedBy(userId, userId)
+        const myChallenges = await challengesService.getChallengesCreatedBy(userId, userId)
 
         const challengeParticipantsValue = await dbContext[milestoneRef].find({
           $and: [
-            { challengeId: { $in: accountChallenges } },
+            { challengeId: { $in: myChallenges } },
             filterKey[milestoneCheck]
           ]
         }).count();
@@ -171,7 +171,7 @@ class AccountMilestonesService {
         count = challengeParticipantsValue
         break;
       case "$increment":
-        let tempValue = foundAccountMilestone.count;
+        let tempValue = myFoundMilestone.count;
         tempValue++
         count = tempValue
         break;
@@ -196,7 +196,7 @@ class AccountMilestonesService {
 
   //#endregion
 
-  async claimAccountMilestone(milestoneId, userId) {
+  async claimMyMilestone(milestoneId, userId) {
     const claimMilestone = await dbContext.AccountMilestones.findById(milestoneId)
     if (claimMilestone.accountId != userId) {
       throw new BadRequest("Something went wrong, You cannot make this change")
@@ -208,8 +208,12 @@ class AccountMilestonesService {
 
   async getTotalMilestoneExperience(user) {
     let experience = 0
-    const accountMilestones = await this.getAccountMilestones(user.id)
-    accountMilestones.forEach(am => {
+    const myMilestones = await this.getMyMilestones(user.id)
+
+    await this.claimMyMilestone(myMilestones, user.id)
+
+    const myClaimedMilestones = myMilestones.filter(am => am.claimed == true)
+    myClaimedMilestones.forEach(am => {
       let experienceBasedOnTier = 0
       let tier = am.tier
       while (tier != 0) {

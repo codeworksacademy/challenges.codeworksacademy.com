@@ -30,8 +30,8 @@
       "TIER_CURRENT": "mdi-circle-small",
       "TIER_NEXT": "mdi-flare",
       "ICON": "mdi-account-star-variant",
-      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
-      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+      "COLOR_1": ["#9a9a9a", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#69747d", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
     },
     {
       "ADJECTIVE": "Developing",
@@ -39,88 +39,88 @@
       "TIER_CURRENT": "mdi-flare",
       "TIER_NEXT": "mdi-triangle",
       "ICON": "mdi-account-star-variant",
-      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
-      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+      "COLOR_1": ["#9a9a9a", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#69747d", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
     },
     {
       "ADJECTIVE": "Improving",
       "DESCRIPTION": "Level 3 of 12",
       "TIER_CURRENT": "mdi-triangle",
       "TIER_NEXT": "mdi-star-three-points",
-      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
-      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+      "COLOR_1": ["#9a9a9a", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#69747d", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
     },
     {
       "ADJECTIVE": "Proficient",
       "DESCRIPTION": "Level 4 of 12",
       "TIER_CURRENT": "mdi-star-three-points",
       "TIER_NEXT": "mdi-star-four-points",
-      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
-      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+      "COLOR_1": ["#9a9a9a", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#69747d", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
     },
     {
       "ADJECTIVE": "Skilled",
       "DESCRIPTION": "Level 5 of 12",
       "TIER_CURRENT": "mdi-star-four-points",
       "TIER_NEXT": "mdi-star",
-      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
-      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+      "COLOR_1": ["#9a9a9a", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#69747d", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
     },
     {
       "ADJECTIVE": "Competent",
       "DESCRIPTION": "Level 6 of 12",
       "TIER_CURRENT": "mdi-star",
       "TIER_NEXT": "mdi-hexagram",
-      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
-      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+      "COLOR_1": ["#9a9a9a", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#69747d", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
     },
     {
       "ADJECTIVE": "Accomplished",
       "DESCRIPTION": "Level 7 of 12",
       "TIER_CURRENT": "mdi-hexagram",
       "TIER_NEXT": "mdi-hexagon-outline",
-      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
-      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+      "COLOR_1": ["#9a9a9a", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#69747d", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
     },
     {
       "ADJECTIVE": "Expert",
       "DESCRIPTION": "Level 8 of 12",
       "TIER_CURRENT": "mdi-hexagon-outline",
       "TIER_NEXT": "mdi-octagram",
-      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
-      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+      "COLOR_1": ["#9a9a9a", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#69747d", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
     },
     {
       "ADJECTIVE": "Masterful",
       "DESCRIPTION": "Level 9 of 12",
       "TIER_CURRENT": "mdi-octagram",
       "TIER_NEXT": "mdi-octagram-outline",
-      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
-      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+      "COLOR_1": ["#9a9a9a", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#69747d", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
     },
     {
       "ADJECTIVE": "Pinnacle",
       "DESCRIPTION": "Level 10 of 12",
       "TIER_CURRENT": "mdi-octagram-outline",
       "TIER_NEXT": "mdi-decagram",
-      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
-      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+      "COLOR_1": ["#9a9a9a", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#69747d", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
     },
     {
       "ADJECTIVE": "Prestigious",
       "DESCRIPTION": "Level 11 of 12",
       "TIER_CURRENT": "mdi-decagram",
       "TIER_NEXT": "mdi-skull-scan",
-      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
-      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+      "COLOR_1": ["#9a9a9a", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#69747d", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
     },
     {
     "ADJECTIVE": "Benevolent",
     "DESCRIPTION": "Level 12 of 12",
     "TIER_CURRENT": "mdi-skull-scan",
     "TIER_NEXT": "You have reached the highest level!",
-    "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
-    "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+    "COLOR_1": ["#9a9a9a", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+    "COLOR_2": ["#69747d", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
     }
   ],
   "RANK_BADGE": [

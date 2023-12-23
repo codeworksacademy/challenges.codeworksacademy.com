@@ -1,5 +1,5 @@
 <template>
-  <section class="row">
+  <section class="container-fluid">
     <div v-for="milestone in milestones" :key="milestone.id" class="col-12">
       <MilestoneCard :milestone="milestone" />
     </div>
@@ -26,10 +26,8 @@ export default {
       try {
         const checks = AppState.milestoneChecks;
         if (route.name.includes('Account') || route.name == 'Milestones') {
-          // logger.log('checkMyMilestones', AppState.account.id)
           await accountMilestonesService.checkMyMilestones(checks);
         } else {
-          // logger.log('checkMilestonesByUserId')
           const userId = route.params.profileId
           await accountMilestonesService.checkMilestonesByUserId(userId, checks);
         }

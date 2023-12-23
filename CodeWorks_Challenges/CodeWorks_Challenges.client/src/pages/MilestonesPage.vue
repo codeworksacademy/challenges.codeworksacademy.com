@@ -1,162 +1,158 @@
 <template>
-  Milestones Page
-  <section class="row" v-if="milestones">
-    <h1> Milestones </h1>
-    <div class="col-4" v-for="milestone in milestones" :key="milestone">
-      <div>
-        <div class="bg-dark rounded p-3 border border-5 border-success text-success">
+  <section class="container-fluid" v-if="milestones">
+
+    <section class="row">
+      <h1> Milestones </h1>
+      <div class="col-4" v-for="milestone in milestones" :key="milestone">
+        <div class="milestone-container bg-dark rounded p-3 border border-5 border-success text-success">
           <span @click="removeMilestone(milestone.id)" class="mdi mdi-delete selectable text-danger fs-3"></span>
-          <span @click="editMode = true, setUpMilestoneEditable(milestone)"
-            class="mdi mdi-pencil selectable text-warning ms-3 fs-3"></span>
-          <div>
-            ID:
+          <span @click="editMode = true, setUpMilestoneEditable(milestone)" class="mdi mdi-pencil selectable text-warning ms-3 fs-3"></span>
+          <section class="col-12 d-flex flex-column justify-content-center">
+            <span>ID:</span>
             <div class="text-light">
               {{ milestone.id }}
             </div>
+            <hr class="my-2">
+            <span>REF:</span>
+            <div class="text-light">
+              {{ milestone.ref }}
+            </div>
+            <hr class="my-2">
+            <span>CHECK:</span>
+            <div class="text-light">
+              {{ milestone.check }}
+            </div>
+            <hr class="my-2">
+            <span>LOGIC:</span>
+            <div class="text-light">
+              {{ milestone.logic }}
+            </div>
+            <hr class="my-2">
+            <span>Logic breakdown:</span>
+            <div class="text-light">
+              <div class="mb-2">
+                <em>Maximum Tiers - {{ milestone.maxTierLevel }} <br> Operation - {{ milestone.operation }}</em>
+                <em class="">Tier Levels:</em>
+              </div>
+              <div v-for="(n, index) in milestone.maxTierLevel" :key="index">
+                {{ index + 1 }}: requires {{ milestone.tierThresholdArr[n - 1] }} items
+              </div>
+            </div>
+            <hr class="my-2">
+            <span>Title:</span>
+            <div class="text-light">
+              {{ milestone.title }}
+            </div>
+            <hr class="my-2">
+            <span>DESCRIPTION:</span>
+            <div class="text-light">
+              {{ milestone.description }}
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+    <section class="row">
+      <div class="col-6">
+        <h1 v-if="editMode == false"> Create a milestone </h1>
+        <h1 v-else> Edit a milestone </h1>
+        <form @submit.prevent="submitForm()" action="" class="d-flex flex-column form-control">
+          <div>
+            <div class="d-flex flex-column">
+  
+              <div class="d-flex flex-column">
+                <label for="">Ref - What data is this milestone about
+                </label>
+                <select class="text-dark" v-model="editable.ref" required>
+                  <option disabled value="">Please select one</option>
+                  <option>Account</option>
+                  <option>Challenges</option>
+                  <option>ChallengeParticipants</option>
+                  <option>ChallengeModerators</option>
+                  <option>Milestones</option>
+                  <option>AccountMilestones</option>
+                </select>
+              </div>
+              <label for="">Check - What string will call this milestone to be checked</label>
+              <input v-model="editable.check" type="text" placeholder="check" class="bg-light" required>
+            </div>
+            <div class="d-flex flex-column">
+              <label for="">Highest number of possible tiers</label>
+              <input v-model="editable.maxTiers" type="number" placeholder="Number" class="bg-light" min="1" max="10"
+                required>
+            </div>
+            <div>
+              <label for="">Operation - How are the values going to be compared </label>
+              <select class="text-dark" v-model="editable.operation" required>
+                <option disabled value="">Please select one</option>
+                <option>$gte</option>
+                <option>$sum</option>
+                <option>$increment</option>
+                <option>$gteChallenge</option>
+              </select>
+            </div>
+            <div v-if="editable.maxTiers">
+              <label for="">Requirements - each value must be higher than the previous (1-1000)</label>
+              <div v-for="(tier, index) in editable.maxTiers" :key="index">
+                Tier {{ tier }}: <input v-model="editable[tier]" type="number" class="bg-light" min="1" max="1000" required>
+              </div>
+            </div>
           </div>
+          <label for="">Title of The Milestone </label>
+          <input v-model="editable.title" type="text" placeholder="Title" class="bg-light" required>
+          <label for="">Description of The Milestone </label>
+          <textarea v-model="editable.description" name="" id="" cols="30" rows="2" placeholder="Created XYZ Milestone"
+            class="d-flex" required></textarea>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+      <div class="col-6">
+        <div class="bg-dark rounded p-3 border border-5 border-success text-success mt-5">
           <div>
             REF:
           </div>
           <div class="text-light">
-            {{ milestone.ref }}
+            {{ editable.ref }}
           </div>
           CHECK:
           <div class="text-light">
-            {{ milestone.check }}
+            {{ editable.check }}
           </div>
           <div>
             LOGIC:
           </div>
           <div class="text-light">
-            {{ milestone.logic }}
+            {{ logic }}
           </div>
           <div>
             Logic breakdown:
           </div>
           <div class="text-light">
-            Maximum Tiers - {{ milestone.maxTierLevel }} <br> Operation - {{ milestone.operation }}
+            Maximum Tiers - {{ editable.maxTiers }} <br> Operation - {{ editable.operation }}
             <div>Tier Levels:</div>
-            <div v-for="(n, index) in milestone.maxTierLevel" :key="index">
-              {{ index + 1 }}: requires {{ milestone.tierThresholdArr[n - 1] }} items
+            <div v-for="(n, index) in editable.maxTiers" :key="index">
+              {{ index + 1 }}: requires {{ editable[n] }} items
             </div>
           </div>
-
+  
           <div>
             Title:
           </div>
           <div class="text-light">
-            {{ milestone.title }}
+            {{ editable.title }}
           </div>
           <div>
             DESCRIPTION:
           </div>
           <div class="text-light">
-            {{ milestone.description }}
+            {{ editable.description }}
           </div>
         </div>
       </div>
-    </div>
-  </section>
-  <section class="row">
-    <div class="col-6">
-      <h1 v-if="editMode == false"> Create a milestone </h1>
-      <h1 v-else> Edit a milestone </h1>
-      <form @submit.prevent="submitForm()" action="" class="d-flex flex-column form-control">
-        <div>
-          <div class="d-flex flex-column">
-
-            <div class="d-flex flex-column">
-              <label for="">Ref - What data is this milestone about
-              </label>
-              <select class="text-dark" v-model="editable.ref" required>
-                <option disabled value="">Please select one</option>
-                <option>Account</option>
-                <option>Challenges</option>
-                <option>ChallengeParticipants</option>
-                <option>ChallengeModerators</option>
-                <option>Milestones</option>
-                <option>AccountMilestones</option>
-              </select>
-            </div>
-            <label for="">Check - What string will call this milestone to be checked</label>
-            <input v-model="editable.check" type="text" placeholder="check" class="bg-light" required>
-          </div>
-          <div class="d-flex flex-column">
-            <label for="">Highest number of possible tiers</label>
-            <input v-model="editable.maxTiers" type="number" placeholder="Number" class="bg-light" min="1" max="10"
-              required>
-          </div>
-          <div>
-            <label for="">Operation - How are the values going to be compared </label>
-            <select class="text-dark" v-model="editable.operation" required>
-              <option disabled value="">Please select one</option>
-              <option>$gte</option>
-              <option>$sum</option>
-              <option>$increment</option>
-              <option>$gteChallenge</option>
-            </select>
-          </div>
-          <div v-if="editable.maxTiers">
-            <label for="">Requirements - each value must be higher than the previous (1-1000)</label>
-            <div v-for="(tier, index) in editable.maxTiers" :key="index">
-              Tier {{ tier }}: <input v-model="editable[tier]" type="number" class="bg-light" min="1" max="1000" required>
-            </div>
-          </div>
-        </div>
-        <label for="">Title of The Milestone </label>
-        <input v-model="editable.title" type="text" placeholder="Title" class="bg-light" required>
-        <label for="">Description of The Milestone </label>
-        <textarea v-model="editable.description" name="" id="" cols="30" rows="2" placeholder="Created XYZ Milestone"
-          class="d-flex" required></textarea>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-    <div class="col-6">
-      <div class="bg-dark rounded p-3 border border-5 border-success text-success mt-5">
-        <div>
-          REF:
-        </div>
-        <div class="text-light">
-          {{ editable.ref }}
-        </div>
-        CHECK:
-        <div class="text-light">
-          {{ editable.check }}
-        </div>
-        <div>
-          LOGIC:
-        </div>
-        <div class="text-light">
-          {{ logic }}
-        </div>
-        <div>
-          Logic breakdown:
-        </div>
-        <div class="text-light">
-          Maximum Tiers - {{ editable.maxTiers }} <br> Operation - {{ editable.operation }}
-          <div>Tier Levels:</div>
-          <div v-for="(n, index) in editable.maxTiers" :key="index">
-            {{ index + 1 }}: requires {{ editable[n] }} items
-          </div>
-        </div>
-
-        <div>
-          Title:
-        </div>
-        <div class="text-light">
-          {{ editable.title }}
-        </div>
-        <div>
-          DESCRIPTION:
-        </div>
-        <div class="text-light">
-          {{ editable.description }}
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="row">
-    <MilestonesTracker />
+    </section>
+    <section class="row">
+      <MilestonesTracker />
+    </section>
   </section>
 </template>
 
@@ -276,4 +272,23 @@ export default {
 </script>
 
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.milestone-container {
+  height: 105vh;
+  margin-bottom: 10px;
+  span {
+    margin: 1px 0 0;
+    font-weight: 600; 
+  }
+  em {
+    font-size: 0.85rem;
+    font-weight: 400;
+  }
+  div {
+    font-size: .9rem;
+  }
+  .selectable {
+    cursor: pointer;
+  }
+}
+</style>
