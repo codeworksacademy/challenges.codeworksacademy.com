@@ -1,4 +1,4 @@
-import { RANK_TYPES } from "./constants"
+import { RANK_BADGE } from "./constants"
 import { reactive } from 'vue'
 import { ChallengeParticipant } from './models/ChallengeParticipant.js'
 
@@ -60,31 +60,45 @@ export const AppState = reactive({
     , "allMilestones"
   ],
   rankTitles: {
-    0: "n00b",
-    10: "geek",
-    50: "debugger",
-    100: "code monkey",
-    150: "jarvis",
-    300: "guru",
-    500: "ninja",
-    1000: "wizard",
-    5000: "legend",
-    10000: "fabled",
-    15000: "mythical",
-    20000: "godlike"
+    0: "Bugs Bunny",
+    10: "Widget Weenie",
+    50: "Code Cadet",
+    100: "Function Fox",
+    150: "Bit Bender",
+    300: "Logic Lord",
+    500: "Malware Maven",
+    1000: "Pixel Paladin",
+    5000: "Code Conjurer",
+    10000: "Matrix Master",
+    15000: "Data Demigod",
+    20000: "Centurion of Code"
   },
-  rankTypes: {
-    0: RANK_TYPES[0],
-    10: RANK_TYPES[1],
-    50: RANK_TYPES[2],
-    100: RANK_TYPES[3],
-    150: RANK_TYPES[4],
-    300: RANK_TYPES[5],
-    500: RANK_TYPES[6],
-    1000: RANK_TYPES[7],
-    5000: RANK_TYPES[8],
-    10000: RANK_TYPES[9],
-    15000: RANK_TYPES[10],
-    20000: RANK_TYPES[11]
+  rankBadges: {
+    0: RANK_BADGE[0],
+    5: RANK_BADGE[1],
+    15: RANK_BADGE[2],
+    30: RANK_BADGE[3],
+    50: RANK_BADGE[4],
+    70: RANK_BADGE[5],
+    100: RANK_BADGE[6],
+    150: RANK_BADGE[7],
+    220: RANK_BADGE[8],
+    310: RANK_BADGE[9],
+    400: RANK_BADGE[10],
+    500: RANK_BADGE[11]
+  },
+  rankThresholds: {
+    0: RANK_BADGE[0].RANK_THRESHOLD,
+    5: RANK_BADGE[1].RANK_THRESHOLD,
+    15: RANK_BADGE[2].RANK_THRESHOLD,
+    30: RANK_BADGE[3].RANK_THRESHOLD,
+    50: RANK_BADGE[4].RANK_THRESHOLD,
+    70: RANK_BADGE[5].RANK_THRESHOLD,
+    100: RANK_BADGE[6].RANK_THRESHOLD,
+    150: RANK_BADGE[7].RANK_THRESHOLD,
+    220: RANK_BADGE[8].RANK_THRESHOLD,
+    310: RANK_BADGE[9].RANK_THRESHOLD,
+    400: RANK_BADGE[10].RANK_THRESHOLD,
+    500: RANK_BADGE[11].RANK_THRESHOLD
   },
 })

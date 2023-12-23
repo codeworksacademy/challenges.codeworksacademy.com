@@ -69,20 +69,14 @@ class AccountService {
 
   async calculateMyReputation(userInfo) {
     const challenges = await challengesService.getChallengesCreatedBy(userInfo.id, userInfo.id)
-
     const account = await this.getAccount(userInfo)
-
-    let reputationScore = 0
-
-    challenges.forEach(c => reputationScore += c.reputationIds.length)
+    let reputationScore = account.reputation += 0
+    challenges.forEach(c => reputationScore === c.reputationIds.length)
 
     if(account.reputation != reputationScore){
       await this.updateReputation(userInfo, reputationScore)
     }
-
-    let repScoreString = reputationScore.toString()
-
-    return repScoreString
+    return account
   }
 
   /**
@@ -100,8 +94,8 @@ class AccountService {
     return account
   }
   async increaseAccountExperienceByChallengeDifficulty(user, challengeDifficulty) {
-    if (challengeDifficulty != Number && (challengeDifficulty < 0 || challengeDifficulty > 1000)) {
-      new Error('You must supply a number, with value between 1-999')
+    if (challengeDifficulty < 0 || challengeDifficulty > 1000) {
+      throw new Error('You must supply a number, with value between 1-999')
     }
 
     const update = await this.getAccount(user)

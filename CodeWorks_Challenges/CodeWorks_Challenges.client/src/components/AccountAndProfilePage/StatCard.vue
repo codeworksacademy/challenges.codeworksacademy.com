@@ -17,7 +17,7 @@ export default {
     bgColor: {type: String, required: true},
     color: {type: String, required: true},
     title: {type: String, required: true},
-    number: {type: String, required: true},
+    number: {type: Number, required: true},
     icon: {type: String, required: true},
     leftAlignedIcon: {type: Boolean, required: true, default: true},
     themeStyle: {type: Boolean, required: true, default: false}
@@ -54,6 +54,6 @@ export default {
   font-size: large;
   font-weight: bold;
   border-radius: .5rem;
-  height: 7rem;
+  height: 9rem;
 }
 </style>

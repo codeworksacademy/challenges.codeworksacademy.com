@@ -23,94 +23,327 @@
     "PUBLISHED": "published",
     "DEPRECATED": "deprecated"
   },
-  "RANK_TYPES": [
+  "MILESTONE_BADGE": [
+    {
+      "ADJECTIVE": "Novice",
+      "DESCRIPTION": "Level 1 of 12",
+      "TIER_CURRENT": "mdi-circle-small",
+      "TIER_NEXT": "mdi-flare",
+      "ICON": "mdi-account-star-variant",
+      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+    },
+    {
+      "ADJECTIVE": "Developing",
+      "DESCRIPTION": "Level 2 of 12",
+      "TIER_CURRENT": "mdi-flare",
+      "TIER_NEXT": "mdi-triangle",
+      "ICON": "mdi-account-star-variant",
+      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+    },
+    {
+      "ADJECTIVE": "Improving",
+      "DESCRIPTION": "Level 3 of 12",
+      "TIER_CURRENT": "mdi-triangle",
+      "TIER_NEXT": "mdi-star-three-points",
+      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+    },
+    {
+      "ADJECTIVE": "Proficient",
+      "DESCRIPTION": "Level 4 of 12",
+      "TIER_CURRENT": "mdi-star-three-points",
+      "TIER_NEXT": "mdi-star-four-points",
+      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+    },
+    {
+      "ADJECTIVE": "Skilled",
+      "DESCRIPTION": "Level 5 of 12",
+      "TIER_CURRENT": "mdi-star-four-points",
+      "TIER_NEXT": "mdi-star",
+      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+    },
+    {
+      "ADJECTIVE": "Competent",
+      "DESCRIPTION": "Level 6 of 12",
+      "TIER_CURRENT": "mdi-star",
+      "TIER_NEXT": "mdi-hexagram",
+      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+    },
+    {
+      "ADJECTIVE": "Accomplished",
+      "DESCRIPTION": "Level 7 of 12",
+      "TIER_CURRENT": "mdi-hexagram",
+      "TIER_NEXT": "mdi-hexagon-outline",
+      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+    },
+    {
+      "ADJECTIVE": "Expert",
+      "DESCRIPTION": "Level 8 of 12",
+      "TIER_CURRENT": "mdi-hexagon-outline",
+      "TIER_NEXT": "mdi-octagram",
+      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+    },
+    {
+      "ADJECTIVE": "Masterful",
+      "DESCRIPTION": "Level 9 of 12",
+      "TIER_CURRENT": "mdi-octagram",
+      "TIER_NEXT": "mdi-octagram-outline",
+      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+    },
+    {
+      "ADJECTIVE": "Pinnacle",
+      "DESCRIPTION": "Level 10 of 12",
+      "TIER_CURRENT": "mdi-octagram-outline",
+      "TIER_NEXT": "mdi-decagram",
+      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+    },
+    {
+      "ADJECTIVE": "Prestigious",
+      "DESCRIPTION": "Level 11 of 12",
+      "TIER_CURRENT": "mdi-decagram",
+      "TIER_NEXT": "mdi-skull-scan",
+      "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+      "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+    },
+    {
+    "ADJECTIVE": "Benevolent",
+    "DESCRIPTION": "Level 12 of 12",
+    "TIER_CURRENT": "mdi-skull-scan",
+    "TIER_NEXT": "You have reached the highest level!",
+    "COLOR_1": ["#dfdbe8", "#70369d", "#4b369d", "#487de7", "#79c314", "#faeb36", "#ffa500", "#e81416", "#CD7F32", "#B4B4B4", "#C9B037"],
+    "COLOR_2": ["#bab4c7", "#44375d", "#3a375d", "#3e527e", "#476333", "#757548", "#7a5e2a", "#6f2631", "#615044", "#6d6c6c", "#5e5c46"]
+    }
+  ],
+  "RANK_BADGE": [
     {
       "NAME": "Bugs Bunny",
-      "DESCRIPTION": "Level 1 of 11",
-      "IMAGE_URL": "https://i.ibb.co/HKBvwnH/bugs-bunny.png"
+      "DESCRIPTION": "Rank 1 of 12",
+      "MDI_ICON": "mdi-rabbit",
+      "COLOR": "#52ca96",
+      "FILL_PATH": "#2b3037",
+      "RANK_THRESHOLD": 0
     },
     {
       "NAME": "Widget Weenie",
-      "DESCRIPTION": "Level 2 of 11",
-      "IMAGE_URL": "https://i.ibb.co/n1WzCTP/widget-weenie.png"
+      "DESCRIPTION": "Rank 2 of 12",
+      "MDI_ICON": "mdi-food-hot-dog",
+      "COLOR": "#85b065",
+      "FILL_PATH": "#2b3037",
+      "RANK_THRESHOLD": 5
     },
     {
       "NAME": "Code Cadet",
-      "DESCRIPTION": "Level 3 of 11",
-      "IMAGE_URL": "https://i.ibb.co/VW7tfn4/code-cadet.png"
+      "DESCRIPTION": "Rank 3 of 12",
+      "MDI_ICON": "mdi-chevron-up",
+      "COLOR": "#d9df51",
+      "FILL_PATH": "#2b3037",
+      "RANK_THRESHOLD": 15
     },
     {
       "NAME": "Function Fox",
-      "DESCRIPTION": "Level 4 of 11",
-      "IMAGE_URL": "https://i.ibb.co/cNGLSTT/function-fox.png"
+      "DESCRIPTION": "Rank 4 of 12",
+      "MDI_ICON": "mdi-code-braces-box",
+      "COLOR": "#f5c827",
+      "FILL_PATH": "#2b3037",
+      "RANK_THRESHOLD": 30
     },
     {
       "NAME": "Bit Bender",
-      "DESCRIPTION": "Level 5 of 11",
-      "IMAGE_URL": "https://i.ibb.co/k4YyYRz/bit-bender.png"
+      "DESCRIPTION": "Rank 5 of 12",
+      "MDI_ICON": "mdi-magic-staff",
+      "COLOR": "#f4ae3c",
+      "FILL_PATH": "#362d2d",
+      "RANK_THRESHOLD": 50
     },
     {
       "NAME": "Logic Lord",
-      "DESCRIPTION": "Level 6 of 11",
-      "IMAGE_URL": "https://i.ibb.co/k84vXYX/logic-lord.png"
+      "DESCRIPTION": "Rank 6 of 12",
+      "MDI_ICON": "mdi-human-male-board-poll",
+      "COLOR": "#ef9230",
+      "FILL_PATH": "#362d2d",
+      "RANK_THRESHOLD": 70
+    },
+    {
+      "NAME": "Malware Maven",
+      "DESCRIPTION": "Rank 7 of 12",
+      "MDI_ICON": "mdi-bug-check",
+      "COLOR": "#f07b00",
+      "FILL_PATH": "#362d2d",
+      "RANK_THRESHOLD": 100
     },
     {
       "NAME": "Pixel Paladin",
-      "DESCRIPTION": "Level 7 of 11",
-      "IMAGE_URL": "https://i.ibb.co/Xpf6LXw/pixel-paladin.png"
+      "DESCRIPTION": "Rank 8 of 12",
+      "MDI_ICON": "mdi-chess-knight",
+      "COLOR": "#f94209",
+      "FILL_PATH": "#362d2d",
+      "RANK_THRESHOLD": 150
     },
     {
-      "NAME": "Code Conqueror",
-      "DESCRIPTION": "Level 8 of 11",
-      "IMAGE_URL": "https://i.ibb.co/MsYGWng/code-conquerer.png"
+      "NAME": "Code Conjurer",
+      "DESCRIPTION": "Rank 9 of 12",
+      "MDI_ICON": "mdi-wizard-hat",
+      "COLOR": "#e0397f",
+      "FILL_PATH": "#4e2828",
+      "RANK_THRESHOLD": 220
     },
     {
       "NAME": "Matrix Master",
-      "DESCRIPTION": "Level 9 of 11",
-      "IMAGE_URL": "https://i.ibb.co/HnGNkjg/matrix-master.png"
+      "DESCRIPTION": "Rank 10 of 12",
+      "MDI_ICON": "mdi-matrix",
+      "COLOR": "#f208e0",
+      "FILL_PATH": "#4e2828",
+      "RANK_THRESHOLD": 310
     },
     {
       "NAME": "Data Demigod",
-      "DESCRIPTION": "Level 10 of 11",
-      "IMAGE_URL": "https://i.ibb.co/MsTYnB8/data-demigod.png"
+      "DESCRIPTION": "Rank 11 of 12",
+      "MDI_ICON": "mdi-office-building-cog-outline",
+      "COLOR": "#9163ba",
+      "FILL_PATH": "#4e2828",
+      "RANK_THRESHOLD": 400
     },
     {
-      "NAME": "Celestial Scripter",
-      "DESCRIPTION": "Level 11 of 11",
-      "IMAGE_URL": "https://i.ibb.co/LkhjZG6/celestial-scripter.png"
+      "NAME": "Centurion of Code",
+      "DESCRIPTION": "Rank 12 of 12",
+      "MDI_ICON": "mdi-omega",
+      "COLOR": "#6e44c3",
+      "FILL_PATH": "#4e2828",
+      "RANK_THRESHOLD": 500
     }
   ],
-  "BADGE_TYPES": [
+  "CHALLENGE_BADGES": [
     {
-      "NAME": "Architect",
-      "DESCRIPTION": "Awarded to users who have contributed in creating 10 verbose challenges.",
-      "IMAGE_URL": "https://i.ibb.co/dk4njb1/early-bird.png"
-    },
-    {
-      "NAME": "Challenge Slayer",
-      "DESCRIPTION": "Awarded to users who have completed 25 challenges.",
-      "IMAGE_URL": "https://i.ibb.co/dk4njb1/early-bird.png"
-    },
-    {
-      "NAME": "Collaborator",
-      "DESCRIPTION": "Awarded to users who have collaborated with other developers on 10 separate applications.",
-      "IMAGE_URL": "https://i.ibb.co/dk4njb1/early-bird.png"
-    },
-    {
-      "NAME": "Completionist",
-      "DESCRIPTION": "Awarded to users who have completed every single requirement on 15 separate applications.",
-      "IMAGE_URL": "https://i.ibb.co/dk4njb1/early-bird.png"
-    },
-    {
-      "NAME": "Early Bird",
-      "DESCRIPTION": "Awarded to the first user to successfully complete building an application after it is published on 10 separate occasions.",
-      "IMAGE_URL": "https://i.ibb.co/dk4njb1/early-bird.png"
-    },
-    {
-      "NAME": "First Timer",
-      "DESCRIPTION": "Awarded to users who have successfully completed building their first application.",
-      "IMAGE_URL": "https://i.ibb.co/dk4njb1/early-bird.png"
-    }
-  ],
+        "NAME": "Baby Step",
+        "DESCRIPTION": "Complete First Challenge",
+        "MDI_ICON": "mdi-sprout-outline",
+        "COLOR": "#52ca96"
+      },
+      {
+        "NAME": "Challenger",
+        "DESCRIPTION": "Complete 3 Challenges",
+        "MDI_ICON": "mdi-sword",
+        "COLOR": "#85b065"
+      },
+      {
+        "NAME": "Adventurer",
+        "DESCRIPTION": "Complete 6 Challenges",
+        "MDI_ICON": "mdi-pine-tree",
+        "COLOR": "#d9df51"
+      },
+      {
+        "NAME": "Trailblazer",
+        "DESCRIPTION": "Complete 10 Challenges",
+        "MDI_ICON": "mdi-compass-outline",
+        "COLOR": "#f5c827"
+      },
+      {
+        "NAME": "Navigator",
+        "DESCRIPTION": "Complete 15 Challenges",
+        "MDI_ICON": "mdi-compass-rose",
+        "COLOR": "#f4ae3c"
+      },
+      {
+        "NAME": "Pathfinder",
+        "DESCRIPTION": "Complete 20 Challenges",
+        "MDI_ICON": "mdi-map-marker-path",
+        "COLOR": "#ef9230"
+      },
+      {
+        "NAME": "Explorer",
+        "DESCRIPTION": "Complete 30 Challenges",
+        "MDI_ICON": "mdi-map-marker-distance",
+        "COLOR": "#f07b00"
+      },
+      {
+        "NAME": "Wanderer",
+        "DESCRIPTION": "Complete 40 Challenges",
+        "MDI_ICON": "mdi-rocket-launch-outline",
+        "COLOR": "#f94209"
+      },
+      {
+        "NAME": "Voyager",
+        "DESCRIPTION": "Complete 50 Challenges",
+        "MDI_ICON": "mdi-creation",
+        "COLOR": "#e0397f"
+      },
+      {
+        "NAME": "Otherworldly",
+        "DESCRIPTION": "Complete 100 Challenges",
+        "MDI_ICON": "mdi-space-invaders",
+        "COLOR": "#f208e0"
+      }
+    ],
+    "MODERATOR_BADGE": [
+      {
+        "NAME": "Assistant",
+        "DESCRIPTION": "Grade First Challenge",
+        "MDI_ICON": "mdi-account-star-outline",
+        "COLOR": "#52ca97"
+      },
+      {
+        "NAME": "Guide",
+        "DESCRIPTION": "Grade 3 Challenges",
+        "MDI_ICON": "mdi-account-star",
+        "COLOR": "#85b067"
+      },
+      {
+        "NAME": "Mentor",
+        "DESCRIPTION": "Grade 6 Challenges",
+        "MDI_ICON": "",
+        "COLOR": "#d9df57"
+      },
+      {
+        "NAME": "Leader",
+        "DESCRIPTION": "Grade 10 Challenges",
+        "MDI_ICON": "mdi-account-group",
+        "COLOR": "#f5c827"
+      },
+      {
+        "NAME": "Veteran",
+        "DESCRIPTION": "Grade 15 Challenges",
+        "MDI_ICON": "mdi-shield-account-outline",
+        "COLOR": "#f4ae3d"
+      },
+      {
+        "NAME": "Expert",
+        "DESCRIPTION": "Grade 20 Challenges",
+        "MDI_ICON": "mdi-certificate-outline",
+        "COLOR": "#ef923d"
+      },
+      {
+        "NAME": "Master",
+        "DESCRIPTION": "Grade 30 Challenges",
+        "MDI_ICON": "mdi-certificate",
+        "COLOR": "#f07b0d"
+      },
+      {
+        "NAME": "Guru",
+        "DESCRIPTION": "Grade 40 Challenges",
+        "MDI_ICON": "mdi-school",
+        "COLOR": "#f9420d"
+      },
+      {
+        "NAME": "Sensei",
+        "DESCRIPTION": "Grade 50 Challenges",
+        "MDI_ICON": "mdi-eye-settings",
+        "COLOR": "#e03978"
+      },
+      {
+        "NAME": "Grandmaster",
+        "DESCRIPTION": "Grade 100 Challenges",
+        "MDI_ICON": "mdi-chess-queen",
+        "COLOR": "#f208e8"
+      }
+],
   "PROFILE_FIELDS": "name picture reputation title"
 }

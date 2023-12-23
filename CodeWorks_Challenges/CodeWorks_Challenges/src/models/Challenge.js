@@ -1,7 +1,8 @@
 import { Schema } from 'mongoose';
-import { BADGE_TYPES, CATEGORY_TYPES, STATUS_TYPES } from '../constants';
+import { CHALLENGE_BADGES, CATEGORY_TYPES, STATUS_TYPES } from '../constants';
 
 const ObjectId = Schema.Types.ObjectId;
+const CHALLENGE_BADGE_ICONS = Object.values(CHALLENGE_BADGES).map(badge => badge.MDI_ICON)
 
 export const ChallengeSchema = new Schema({
   creatorId: {
@@ -59,7 +60,7 @@ export const ChallengeSchema = new Schema({
   },
   badge: {
     type: String,
-    enum: Object.values(BADGE_TYPES)
+    enum: CHALLENGE_BADGE_ICONS,
   },
   answer: {
     type: String,

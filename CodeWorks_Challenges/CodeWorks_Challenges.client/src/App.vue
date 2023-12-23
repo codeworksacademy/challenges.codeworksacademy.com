@@ -1,9 +1,9 @@
 <template>
-  <header>
+  <header style="background: var(--bg-main);">
     <Navbar />
   </header>
 
-  <main>
+  <main style="background: var(--bg-main);">
     <router-view />
 
     <ModalWrapper id="createChallengeForm">

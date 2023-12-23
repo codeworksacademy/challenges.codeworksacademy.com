@@ -60,8 +60,8 @@ class ChallengesService {
   //This is where editing the challenge will have answers populated
   async getChallengesCreatedBy(profileId, accountId) {
     const challenges = accountId != profileId
-      ? await dbContext.Challenges.find({ creatorId: profileId }).populate('creator', PROFILE_FIELDS)
-      : await dbContext.Challenges.find({ creatorId: profileId }).select('-answers').populate('creator', PROFILE_FIELDS)
+      ? await dbContext.Challenges.find({ creatorId: profileId }).populate('creator participantCount completedCount', PROFILE_FIELDS)
+      : await dbContext.Challenges.find({ creatorId: profileId }).select('-answers').populate('creator participantCount completedCount', PROFILE_FIELDS)
 
     return challenges
   }
@@ -85,7 +85,6 @@ class ChallengesService {
     challenge.supportLinks = challengeData.supportLinks || challenge.supportLinks
     challenge.difficulty = challengeData.difficulty || challenge.difficulty
     challenge.coverImg = challengeData.coverImg || challenge.coverImg
-    challenge.badgeImg = challengeData.badgeImg || challenge.badgeImg
     challenge.answer = challengeData.answer || challenge.answer
 
     await challenge.save()
