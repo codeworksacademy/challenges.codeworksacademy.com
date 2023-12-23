@@ -2,8 +2,8 @@
   <section class="container-fluid" v-if="moderator" :key="moderator?.id">
     <div class="d-flex flex-column justify-content-center align-items-center">
         <img
-          :src="moderator.profile.picture"
-          :title="`Visit ${moderator.profile.name}'s profile?'`"
+          :src="moderator.profile?.picture"
+          :title="`Visit ${moderator.profile?.name}'s profile?'`"
           :alt="`Moderator's Name: ${moderator.profile.name}`"
           @click="routeToModeratorProfile()"
           class="rounded-circle img-fluid"

@@ -25,6 +25,7 @@ export class Challenge {
     this.answer = data.answer || ''
     this.isCancelled = data.isCancelled || false
     this.participantCount = data.participantCount
+    this.completedCount = data.completedCount
     this.valid = data.valid
   }
 }

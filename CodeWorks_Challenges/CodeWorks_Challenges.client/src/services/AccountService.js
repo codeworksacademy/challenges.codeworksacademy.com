@@ -38,7 +38,8 @@ class AccountService {
 
   async calculateAccountRank() {
     const res = await api.get('/account/rank')
-    AppState.account.rank = res.data.rank
+    logger.log('[CURRENT ACCOUNT RANK]', res.data)
+    AppState.account = new Account(res.data)
   }
 
   async calculateReputation(){

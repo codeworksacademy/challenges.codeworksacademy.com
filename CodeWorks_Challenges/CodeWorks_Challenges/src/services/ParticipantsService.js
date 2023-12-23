@@ -50,7 +50,7 @@ class ParticipantsService {
 	async getParticipantById(participantId) {
 		const participant = await dbContext.ChallengeParticipants.findById(participantId).populate({
 			path: 'challenge',
-			populate: { path: 'creator requirements participantCount' }
+			populate: { path: 'creator requirements participantCount completedCount' }
 		}).populate('profile', 'name picture')
 		return participant
 	}
@@ -59,7 +59,7 @@ class ParticipantsService {
 		const participants = await dbContext.ChallengeParticipants.find({ challengeId })
 			.populate({
 				path: 'challenge',
-				populate: { path: 'creator requirements participantCount' }
+				populate: { path: 'creator requirements participantCount completedCount' }
 			}).populate('profile', PROFILE_FIELDS)
 		// .select('-submission')
 		return participants
@@ -88,7 +88,7 @@ class ParticipantsService {
 		const moderators = await dbContext.ChallengeModerators.find({ challengeId: { $in: challenges } })
 			.populate({
 				path: 'challenge',
-				populate: { path: 'creator participantCount' }
+				populate: { path: 'creator participantCount completedCount' }
 			})
 			.populate('profile', 'name picture');
 
@@ -161,7 +161,6 @@ class ParticipantsService {
 
 	async leaveChallenge(participantId, userId) {
 		const participantToRemove = await dbContext.ChallengeParticipants.findById(participantId)
-		const participantStatus = participantToRemove.status
 
 		if (!participantToRemove) {
 			throw new BadRequest("Invalid participant ID.")

@@ -7,7 +7,7 @@
       </div>
 
       <div class="col-md-4 col-12">
-        <StatCard title="Completed Challenges" :number="0" color="#FD7E14" bgColor="#fd7d142e" icon="mdi-file-sign" :themeStyle="true" :leftAlignedIcon="false" />
+        <StatCard title="Completed Challenges" :number="challenges.completedCount" color="#FD7E14" bgColor="#fd7d142e" icon="mdi-file-sign" :themeStyle="true" :leftAlignedIcon="false" />
       </div>
 
       <!-- TODO - Add functionality to Badges -->

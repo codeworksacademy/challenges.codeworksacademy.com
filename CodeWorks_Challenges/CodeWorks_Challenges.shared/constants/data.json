@@ -138,7 +138,7 @@
       "MDI_ICON": "mdi-food-hot-dog",
       "COLOR": "#85b065",
       "FILL_PATH": "#2b3037",
-      "RANK_THRESHOLD": 10
+      "RANK_THRESHOLD": 5
     },
     {
       "NAME": "Code Cadet",
@@ -146,7 +146,7 @@
       "MDI_ICON": "mdi-chevron-up",
       "COLOR": "#d9df51",
       "FILL_PATH": "#2b3037",
-      "RANK_THRESHOLD": 50
+      "RANK_THRESHOLD": 15
     },
     {
       "NAME": "Function Fox",
@@ -154,7 +154,7 @@
       "MDI_ICON": "mdi-code-braces-box",
       "COLOR": "#f5c827",
       "FILL_PATH": "#2b3037",
-      "RANK_THRESHOLD": 100
+      "RANK_THRESHOLD": 30
     },
     {
       "NAME": "Bit Bender",
@@ -162,7 +162,7 @@
       "MDI_ICON": "mdi-magic-staff",
       "COLOR": "#f4ae3c",
       "FILL_PATH": "#362d2d",
-      "RANK_THRESHOLD": 150
+      "RANK_THRESHOLD": 50
     },
     {
       "NAME": "Logic Lord",
@@ -170,7 +170,7 @@
       "MDI_ICON": "mdi-human-male-board-poll",
       "COLOR": "#ef9230",
       "FILL_PATH": "#362d2d",
-      "RANK_THRESHOLD": 300
+      "RANK_THRESHOLD": 70
     },
     {
       "NAME": "Malware Maven",
@@ -178,7 +178,7 @@
       "MDI_ICON": "mdi-bug-check",
       "COLOR": "#f07b00",
       "FILL_PATH": "#362d2d",
-      "RANK_THRESHOLD": 500
+      "RANK_THRESHOLD": 100
     },
     {
       "NAME": "Pixel Paladin",
@@ -186,7 +186,7 @@
       "MDI_ICON": "mdi-chess-knight",
       "COLOR": "#f94209",
       "FILL_PATH": "#362d2d",
-      "RANK_THRESHOLD": 1000
+      "RANK_THRESHOLD": 150
     },
     {
       "NAME": "Code Conjurer",
@@ -194,7 +194,7 @@
       "MDI_ICON": "mdi-wizard-hat",
       "COLOR": "#e0397f",
       "FILL_PATH": "#4e2828",
-      "RANK_THRESHOLD": 2500
+      "RANK_THRESHOLD": 220
     },
     {
       "NAME": "Matrix Master",
@@ -202,7 +202,7 @@
       "MDI_ICON": "mdi-matrix",
       "COLOR": "#f208e0",
       "FILL_PATH": "#4e2828",
-      "RANK_THRESHOLD": 5000
+      "RANK_THRESHOLD": 310
     },
     {
       "NAME": "Data Demigod",
@@ -210,7 +210,7 @@
       "MDI_ICON": "mdi-office-building-cog-outline",
       "COLOR": "#9163ba",
       "FILL_PATH": "#4e2828",
-      "RANK_THRESHOLD": 10000
+      "RANK_THRESHOLD": 400
     },
     {
       "NAME": "Centurion of Code",
@@ -218,7 +218,7 @@
       "MDI_ICON": "mdi-omega",
       "COLOR": "#6e44c3",
       "FILL_PATH": "#4e2828",
-      "RANK_THRESHOLD": 20000
+      "RANK_THRESHOLD": 500
     }
   ],
   "CHALLENGE_BADGES": [
