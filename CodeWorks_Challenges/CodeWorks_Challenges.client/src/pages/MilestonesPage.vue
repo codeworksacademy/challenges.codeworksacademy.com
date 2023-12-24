@@ -3,58 +3,50 @@
 
     <section class="row">
       <h1> Milestones </h1>
-      <div class="col-4" v-for="milestone in milestones" :key="milestone">
+      <div class="col-12 col-md-6" v-for="milestone in milestones" :key="milestone">
         <div class="milestone-container bg-dark rounded p-3 border border-5 border-success text-success">
           <span @click="removeMilestone(milestone.id)" class="mdi mdi-delete selectable text-danger fs-3"></span>
           <span @click="editMode = true, setUpMilestoneEditable(milestone)" class="mdi mdi-pencil selectable text-warning ms-3 fs-3"></span>
-          <section class="col-12 d-flex flex-column justify-content-center">
-            <span>ID:</span>
-            <div class="text-light">
-              {{ milestone.id }}
+
+          <section class="col-12 d-flex flex-column justify-content-center milestone-info">
+            <div class="row pe-4">
+              <span>ID: <span class="ps-2">{{ milestone.id }}</span> </span>
+              <hr class="my-1">
+              <span>Ref: <span class="ps-2">{{ milestone.ref }}</span> </span>
+              <hr class="my-1">
+              <span>Title: <span class="ps-2">{{ milestone.title }}</span> </span>
+              <hr class="my-1">
+              <span>Description: <span class="ps-2">{{ milestone.description }}</span> </span>
+              <hr class="my-1">
+              <span>Check: <span class="ps-2">{{ milestone.check }}</span> </span>
+              <hr class="my-1">
+              <span>Logic: <span class="ps-2">{{ milestone.logic }}</span> </span>
             </div>
-            <hr class="my-2">
-            <span>REF:</span>
-            <div class="text-light">
-              {{ milestone.ref }}
-            </div>
-            <hr class="my-2">
-            <span>CHECK:</span>
-            <div class="text-light">
-              {{ milestone.check }}
-            </div>
-            <hr class="my-2">
-            <span>LOGIC:</span>
-            <div class="text-light">
-              {{ milestone.logic }}
-            </div>
-            <hr class="my-2">
-            <span>Logic breakdown:</span>
-            <div class="text-light">
-              <div class="mb-2">
-                <em>Maximum Tiers - {{ milestone.maxTierLevel }} <br> Operation - {{ milestone.operation }}</em>
-                <em class="">Tier Levels:</em>
+            <hr class="my-2 me-2">
+            <div class="col-12 text-light mb-2">
+              <div class="col-12 d-flex flex-column text-uppercase">
+                <div class="m-auto mt-2 fw-bold">Logic breakdown:</div>
+                <div class="col-12 d-flex flex-row mt-1 mb-2">
+                  <div class="col-6 text-center">Maximum Tiers - {{ milestone.maxTierLevel }}</div>
+                  <div class="col-6 text-center">Operation - {{ milestone.operation }}</div>
+                </div>
               </div>
-              <div v-for="(n, index) in milestone.maxTierLevel" :key="index">
-                {{ index + 1 }}: requires {{ milestone.tierThresholdArr[n - 1] }} items
+              <hr class="mt-2 me-2">
+              <span class="row mb-2" style="transform: translateX(43%); font-weight: 650;">Tier Levels:</span>
+              <div class="flex-container" style="transform: translateX(3%);">
+                <div class="col-6 split-columns text-capitalize" v-for="(n, index) in milestone.maxTierLevel" :key="index">
+                  <span class="fw-semibold pe-2 mt-0">{{ index + 1 }}:</span> requires {{ milestone.tierThresholdArr[n - 1] }} items
+                </div>
               </div>
-            </div>
-            <hr class="my-2">
-            <span>Title:</span>
-            <div class="text-light">
-              {{ milestone.title }}
-            </div>
-            <hr class="my-2">
-            <span>DESCRIPTION:</span>
-            <div class="text-light">
-              {{ milestone.description }}
             </div>
           </section>
+
         </div>
       </div>
     </section>
     <section class="row">
       <div class="col-6">
-        <h1 v-if="editMode == false"> Create a milestone </h1>
+        <h1 v-if="editMode == false" class="my-0"> Create a milestone </h1>
         <h1 v-else> Edit a milestone </h1>
         <form @submit.prevent="submitForm()" action="" class="d-flex flex-column form-control">
           <div>
@@ -273,22 +265,39 @@ export default {
 
 
 <style lang="scss" scoped>
-.milestone-container {
-  height: 105vh;
-  margin-bottom: 10px;
-  span {
-    margin: 1px 0 0;
-    font-weight: 600; 
-  }
-  em {
-    font-size: 0.85rem;
-    font-weight: 400;
-  }
-  div {
-    font-size: .9rem;
-  }
-  .selectable {
-    cursor: pointer;
+section.row {
+  width: 100%;
+  .milestone-container {
+    height:initial;
+    margin-bottom: 25px;
+    .milestone-info {
+      font-size: .9rem;
+    span {
+      margin: 1px 0 0;
+      font-weight: 600;
+      text-transform: uppercase;
+      span {
+        font-weight: 400;
+        text-transform: capitalize;
+      }
+    }
+    }
+    .flex-container {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      justify-content: space-between;
+      .split-columns {
+        flex-basis: 50%;
+        box-sizing: border-box; /* Ensure padding and borders are included in the width */
+        padding: 0px 2px;
+        display: flex;
+        flex-direction: row;
+        transform: translateX(15%);    }
+    } 
+    .selectable {
+      cursor: pointer;
+    }
   }
 }
 </style>
