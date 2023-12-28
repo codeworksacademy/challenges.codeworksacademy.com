@@ -1,54 +1,67 @@
 <template>
   <section class="container-fluid" v-if="challengeCreator">
-    <div v-if="challenge" :key="challenge.id" class="row d-flex justify-content-center align-items-center">
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <h1 class="text-center"> {{ challenge.name }} </h1>
-      </div>
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <h3 class="text-center"> {{ challenge.description }} </h3>
-      </div>
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <h3 class="text-center"> {{ challenge.status }} </h3>
-      </div>
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <h3 class="text-center"> {{ challenge.creator.name }} </h3>
-      </div>
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <p v-html="difficulty.html"></p>
+    <div class="row justify-content-center align-items-center text-light">
+      <div class="col-md-8 text-center" v-if="challenge">
+        <h1> {{ challenge.name }}</h1>
+        <div class="d-flex flex-row justify-content-center gap-1 align-items-center">
+          <img :src="challenge.creator.picture" class="rounded-circle profile-picture-small">
+          <h2>By {{ challenge.creator.name }}</h2>
+        </div>
+        <h1>Grading</h1>
       </div>
     </div>
-    <div>
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <h3 class="text-uppercase">Challenge Requirements</h3>
-      </div>
-    </div>
-    <div class="accordion accordion-flush" id="accordionFlushExample">
-      <div v-for="p in participants" :key="p.id" class="accordion-item">
-        <div v-if="p.status === 'submitted' && challengeCreator">
-          <h2 class="accordion-header">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse'+ p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
-                {{ p.profile.name }}
-              </button>
-          </h2>
-          <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-            <div class="accordion-body">
-              <GradeSubmissionForm :participant="p" />
+    <div class="row justify-content-center">
+      <div class="col-md-10 accordion accordion-flush" id="accordionFlushExample">
+        <h1 class="text-warning">Needs Grading</h1>
+        <div v-for="p in participants" :key="p.id" class="accordion-item">
+          <div v-if="p.status === 'submitted' && challengeCreator">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse'+ p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
+                  <span>{{ p.profile.name }}</span>
+                </button>
+            </h2>
+            <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+              <div class="accordion-body">
+                <GradeSubmissionForm :participant="p" />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div v-if="challengeCreator" class="col-9 d-flex justify-content-center align-items-center position-fixed bottom-2">
-      <!-- STUB - OFFCANVAS BUTTON - Array of Submitted Challenge Participants -->
-      <a
-        role="button"
-        class="d-flex justify-content-center align-items-center mdi mdi-chevron-up text-warning bg-primary rounded-circle fs-1"
-        style="aspect-ratio: 1/1; height: 50px; width: 50px;"
-        type="button"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#moderatorsOffcanvas"
-        aria-controls="offcanvasBottom">
-      </a>
+      <div class="col-md-10 accordion accordion-flush" id="accordionFlushExample">
+        <h1 class="text-info">Started</h1>
+        <div v-for="p in participants" :key="p.id" class="accordion-item">
+          <div v-if="p.status === 'started' && challengeCreator">
+            <h2 class="accordion-header bg-dark text-light">
+                <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse'+ p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
+                  <span>{{ p.profile.name }}</span>
+                </button>
+            </h2>
+            <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+              <div class="accordion-body bg-dark">
+                <GradeSubmissionForm :participant="p" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-10 accordion accordion-flush" id="accordionFlushExample">
+        <h1 class="text-success">Complete</h1>
+        <div v-for="p in participants" :key="p.id" class="accordion-item">
+          <div v-if="p.status === 'completed' && challengeCreator">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse'+ p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
+                   <span>{{ p.profile.name }}</span>
+                </button>
+            </h2>
+            <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+              <div class="accordion-body bg-dark text-light">
+                <GradeSubmissionForm :participant="p" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -71,7 +84,6 @@ export default {
   },
   setup() {
     let route = useRoute()
-
     const filterBy = ref('')
     const editable = computed(() => 
       newChallengeParticipant({ state: AppState }, filterBy.value)
@@ -123,7 +135,6 @@ export default {
       filterBy,
       editable,
       participant,
-
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.activeChallenge),
       myModerations: computed(() => AppState.moderators.filter(m => m.accountId === AppState.account.id)),
@@ -145,3 +156,12 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+
+.profile-picture-small{
+  height: 60px;
+  width: 60px;
+}
+
+</style>

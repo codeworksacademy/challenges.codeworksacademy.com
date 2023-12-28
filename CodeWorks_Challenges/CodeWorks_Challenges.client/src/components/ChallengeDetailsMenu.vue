@@ -11,9 +11,7 @@
       <router-link :to="{ name: 'Statistics' }">
         <h4 class="mdi mdi-finance text-light selectable"> Statistics</h4>
       </router-link>
-
       <hr>
-
       <div v-if="isOwned || isModerator" class="d-flex flex-column justify-content-center">
         <router-link :to="{ name: 'GradeSubmissionsPage' }">
           <h4 class="mdi mdi-progress-check text-info mt-1" style=""> Grade Users</h4>
@@ -54,7 +52,7 @@
 import Pop from '../utils/Pop'
 import { logger } from '../utils/Logger'
 import { AppState } from '../AppState'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { computed } from 'vue'
 import { SUBMISSION_TYPES } from '../constants'
 import { challengesService } from '../services/ChallengesService'
@@ -63,7 +61,7 @@ import { participantsService } from '../services/ParticipantsService'
 export default {
   setup() {
     const route = useRoute()
-
+    const router = useRouter()
     const isParticipant = computed(() => {
       return AppState.participants.find(p => p.accountId === AppState.user.id)
     })

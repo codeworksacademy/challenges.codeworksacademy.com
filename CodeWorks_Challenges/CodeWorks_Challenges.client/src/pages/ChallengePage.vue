@@ -6,7 +6,6 @@
           <a ref="challenge" id="createChallengeButton" class="create-challenge" type="button" role="button" data-bs-target="#createChallengeForm" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal" title="Create a new challenge" style="">Create a Challenge</a>
         </div>
       </div>
-      
       <div class="col-12 d-flex justify-content-start mb-2 ps-4" style="color: var(--text-primary);">
         <h5 class="ms-5 text-light">Search Challenges</h5>
       </div>
@@ -47,9 +46,37 @@
           </select>
         </div>
       </div>
-
-      <router-view />
-      
+      <div class="col-12 challenge-keys d-flex justify-content-center align-items-center text-uppercase">
+        <div class="col-4">
+          <h6>Challenge Name</h6>
+        </div>
+        <div class="col-2">
+          <h6>Difficulty</h6>
+        </div>
+        <div class="col-5 d-flex justify-content-center align-items-center">
+          <div class="col-4">
+            <h6>Rating</h6>
+          </div>
+          <div class="col-4">
+            <h6>Points</h6>
+          </div>
+          <div class="col-4">
+            <h6>User Solves</h6>
+          </div>
+        </div>
+      </div>
+      <div v-for="(c, index) in challenges" :key="index" class="px-0">
+        <ChallengeCard :challenge="c" />
+      </div>
+      <div class="row justify-content-evenly">
+        <ul class="pagination col-md-5">
+          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>
+      </div>
   </section>
 </template>
 

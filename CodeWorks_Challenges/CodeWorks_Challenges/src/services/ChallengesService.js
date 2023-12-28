@@ -2,6 +2,7 @@ import { dbContext } from "../db/DbContext.js";
 import { BadRequest, Forbidden } from "../utils/Errors.js";
 import { PROFILE_FIELDS } from '../constants';
 import { challengeModeratorsService } from "./ChallengeModeratorsService.js";
+import { participantsService } from "./ParticipantsService.js";
 
 
 class ChallengesService {
@@ -83,6 +84,7 @@ class ChallengesService {
     challenge.description = challengeData.description || challenge.description
     challenge.requirements = challengeData.requirements || challenge.requirements
     challenge.supportLinks = challengeData.supportLinks || challenge.supportLinks
+    challenge.autoGrade = challengeData.autoGrade || challenge.autoGrade
     challenge.difficulty = challengeData.difficulty || challenge.difficulty
     challenge.coverImg = challengeData.coverImg || challenge.coverImg
     challenge.answer = challengeData.answer || challenge.answer
@@ -134,22 +136,22 @@ class ChallengesService {
   // NOTE be sure to award points based on difficulty
   // Is this submitting an answer as a user and setting as an authorized?
   // 🚨 I don't understand, Is the submit answer values not supposed to be on the participant? If so, This 'correct' value is not being saved anywhere on a challenge => user relationship
-  async submitAnswer(challengeId, userId, answer) {
+  async submitAnswer(challengeId, participantId, answer) {
     const challenge = await dbContext.Challenges.findById(challengeId)
-
-    if (challenge.answer === answer.answerData) {
-      // return 'You are correct!'
+    const participant = await participantsService.getParticipantById(participantId)
+    if (challenge.answer == answer) {
+      participant.status = 'completed';
+      await participant.save()
       return {
-        correct: true
+        participant
       }
     } else {
-      // return `${answer.answer} is incorrect!`
+      participant.status = 'incomplete';
+      await participant.save()
       return {
-        correct: false
+        participant
       }
     }
-    // return challenge;
-    // return `${challenge.answer}, Answer: ${answer.answerData}`;
   }
 }
 

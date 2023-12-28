@@ -19,7 +19,7 @@ export class ChallengesController extends BaseController {
       .post('', this.createChallenge)
       .put('/:challengeId', this.editChallenge)
       .put('/:challengeId/reputation', this.giveReputation)
-      .put('/:challengeId/participants/:participantId', this.submitAnswer)
+      .post('/:challengeId/participants/:participantId', this.submitAnswer)
       // .put('/:challengeId', this.deprecateChallenge)
       .delete('/:challengeId', this.deleteChallenge)
       .delete('/:challengeId/participants', this.removeParticipant)
@@ -32,9 +32,10 @@ export class ChallengesController extends BaseController {
     try {
       // 🚨 route.params.participantId isn't being used, probably need to change route.
       const challengeId = req.params.challengeId
-      const userId = req.userInfo.id
-      const answer = req.body
-      const result = await challengesService.submitAnswer(challengeId, userId, answer)
+      // const userId = req.userInfo.id
+      const participantId = req.body.participantId
+      const answer = req.body.answer
+      const result = await challengesService.submitAnswer(challengeId, participantId, answer)
       return res.send(result)
     } catch (e) {
       next(e)

@@ -16,6 +16,7 @@ export class Challenge {
     this.createdAt = DateTime(data.createdAt)
     this.updatedAt = DateTime(data.updatedAt)
     this.supportLinks = data.supportLinks || []
+    this.autoGrade = data.autoGrade || false
     this.difficulty = data.difficulty| 1
     this.difficultyStr = StrDifficultyNum(data.difficulty) || 1
     this.status = data.status

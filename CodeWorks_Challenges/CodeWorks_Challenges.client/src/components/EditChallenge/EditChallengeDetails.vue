@@ -41,8 +41,15 @@
         </select>
       </div>
       <div class="input-group mb-3">
+        <label class="input-group-text" for="challengeAutoGrade">Auto Grade</label>
+        <select id="challengeAutoGrade" class="form-select" v-model="challenge.autoGrade">
+          <option value=false>No</option>
+          <option value=true>Yes</option>
+        </select>
+      </div>
+      <div class="input-group mb-3">
         <label class="input-group-text" for="challengeAnswer">Answer</label>
-        <input type="text" class="form-control" id="challengeAnswer" v-model="challenge.answer">
+        <input type="text" class="form-control" id="challengeAnswer" v-model="challenge.answer" :disabled="challenge.autoGrade === 'false'">
       </div>
     </section>
 </template>

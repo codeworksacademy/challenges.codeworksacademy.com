@@ -1,5 +1,5 @@
 <template>
-  <section v-if="participant" :key="participant?.id" class="container-fluid">
+  <section v-if="participant" :key="participant?.id" class="container-fluid bg-dark text-light">
     <div class="row justify-content-center align-items-center">
       <div class="col-12 d-flex flex-column justify-content-center align-items-center">
         <h1 class="text-center">Grade Challenge for {{ participant.profile.name }}</h1>
@@ -34,25 +34,24 @@
           <input v-model="editable.feedback" type="text" name="feedback" id="feedback" placeholder="Feedback"
             class="form-control bg-light">
         </div>
-        <div class="col-12 text-center my-3">
+        <div class="col-12 text-center mt-3">
           <h4>Set status for {{ participant.profile.name }}</h4>
         </div>
         <div class="d-flex justify-content-center align-items-center my-3">
           <div class="">
-            <div class="col-12 d-flex justify-content-center align-items-center form-group px-5 mb-5">
-              <label for="status" class="form-label">Status</label>
+            <div class="col-12 d-flex justify-content-center align-items-center input-group px-5 mb-5">
+              <label class="input-group-text" for="challengeAutoGrade">Status</label>
               <select v-model="editable.status" name="status" id="status" placeholder="Status"
-                class="form-control bg-light p-2">
-                <option :value="null">Select a status</option>
-                <option :value="'completed'">Mark as Completed</option>
-                <option :value="'returned_for_review'">Return for Review</option>
-                <option :value="'removed'">Flag for Removal</option>
+                class="form-select bg-light">
+                <option value="null">Select a status</option>
+                <option value="started">Started</option>
+                <option value="completed">Completed</option>
+                <option value="returned_for_review">Returned for Review</option>
+                <option value="removed">Flagged for Removal</option>
               </select>
+              <button type="submit" class="btn btn-success">Submit</button>
             </div>
           </div>
-        </div>
-        <div class="col-12">
-          <button type="submit" class="btn btn-success">Submit</button>
         </div>
       </form>
     </div>
@@ -89,7 +88,8 @@ export default {
       challenge: props.participant.challenge,
       profile: props.participant.profile,
       requirements: props.participant.requirements,
-      status: Object.values(SUBMISSION_TYPES),
+      // status: Object.values(SUBMISSION_TYPES),
+      status: props.participant.status
     })
 
     onMounted(() => {
@@ -203,11 +203,4 @@ ol li {
   left: -10px;
 }
 
-ol li::before {
-  content: 'Check ' counter(my-counter) ':';
-  counter-increment: my-counter;
-  position: absolute;
-  left: -75px;
-  top: -1.5px;
-}
 </style>

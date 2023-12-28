@@ -1,11 +1,15 @@
 <template>
   <section v-if="challenge" :key="challenge?.id" class="text-light pb-5">
-
+    <div class="d-flex justify-content-center align-items-center  mt-5">
       <!-- STUB - Space reserved for the challenge details -->
+      <div class="row px-5 pt-0 mt-5" >
         <article>
-          <div class="">
+          <div style="">
+            <h1>{{ challenge.name }}</h1>
+            <h1 v-if="isParticipant?.status == 'completed'" class="text-success">Challenge Passed <span><i class="mdi mdi-check"></i></span></h1>
+            <h1 v-if="isParticipant?.status == 'incomplete'" class="text-warning">Challenge Incomplete <span><i class="mdi mdi-alert-box"></i></span></h1>
             <h3 class="text-uppercase" style="color: #7A7A7A">
-              Challenge Description
+              Description
             </h3>
             <p> {{ challenge.description }} </p>
             <hr>
@@ -38,16 +42,12 @@
               <h3> {{ challenge.requirements.length }} </h3>
               <h6 class="text-uppercase">Points</h6>
             </div>
-            <div v-else-if="isOwned || isModerator">
-              <i class="mdi mdi-bell fs-1"></i>
-              <h3> {{ challenge.completedCount }} / {{ challenge.participantCount }} </h3>
-              <h6 class="text-uppercase">Points</h6>
-            </div>
+            <h6 class="text-uppercase">Points</h6>
           </div>
-          <div class="col-8 bottom-right-card px-5">
-            <div class="d-flex justify-content-start align-items-center pt-2" style="90%">
-              <img :src="challenge.creator.picture" :alt="`Image for Challenge creator named '${challenge.creator.name}' is broken`" :title="`Image of the Challenge Creator; ${challenge.creator.name}`" class="img-fluid mx-3 rounded-circle" style="height: 75px;width:75px">
-              <h3 class="text-capitalize"> {{ challenge.creator.name }} </h3>
+          <div class="col-8 card">
+            <div class="col-12 d-flex align-items-center">
+              <img :src="challenge.creator?.picture" :alt="`Image for Challenge creator named '${challenge.creator?.name}' is broken`" :title="`Image of the Challenge Creator; ${challenge.creator?.name}`" class="img-fluid mx-3 rounded-circle" style="height: 75px;width:75px">
+              <h3 class="text-capitalize"> {{ challenge.creator?.name }} </h3>
             </div>
             <div class="col-12 d-flex justify-content-between align-items-center">
               <h6 class="text-uppercase pt-2">Challenge Creator</h6>
@@ -55,7 +55,8 @@
             </div>
           </div>
         </section>
-
+      </div>
+    </div>
   </section>
 </template>
 
@@ -121,19 +122,10 @@ export default {
       createModeration,
       removeModeration,
       giveReputation,
-      
       isParticipant,
       gaveReputation,
-
-
-
       challenge: computed(() => AppState.activeChallenge),
       moderators: AppState.moderators.filter(m => m.status == 'Active'),
-      isOwned: computed(() => {
-        if (AppState.activeChallenge.creator.id === AppState.account.id) {
-          return true
-        }
-      }),
       isModerator: computed(() => {
         if (AppState.moderators.find(m => m.accountId === AppState.account.id)) {
           return true

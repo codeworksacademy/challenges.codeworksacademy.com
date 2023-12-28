@@ -1,5 +1,5 @@
 <template>
-  <section v-if="user.isAuthenticated" class="container-fluid position-relative pt-5">
+  <section v-if="user.isAuthenticated && !challenge?.autoGrade" class="container-fluid position-relative pt-5">
     <form
       class="row bg-light p-3 rounded shadow"
       @submit.prevent="updateChallengeParticipant" id="challengeSubmissionForm"
@@ -17,9 +17,30 @@
           >
         </div>
       </div>
-
       <div class="button-container col-12 d-flex justify-content-between">
       <button class="btn text-dark btn-outline-secondary text-light mdi mdi-plus-circle fw-700"> Submit Application</button>
+      </div>
+    </form>
+  </section>
+  <section v-if="user.isAuthenticated && challenge?.autoGrade" class="container-fluid position-relative pt-5">
+    <form
+      class="row bg-light p-3 rounded shadow"
+      @submit.prevent="submitAnswer" id="challengeSubmissionForm"
+    >
+      <div class="col-12">
+        <div class="mb-3">
+          <label for="submission" class="form-label">Submit Answer</label>
+          <input
+            v-model="editable.submission"
+            name="submission"
+            id="submission"
+            placeholder="Answer"
+            class="form-control bg-light"
+          >
+        </div>
+      </div>
+      <div class="button-container col-12 d-flex justify-content-between">
+      <button class="btn text-dark btn-outline-secondary text-light mdi mdi-plus-circle fw-700"> Submit Answer</button>
       </div>
     </form>
   </section>
@@ -39,6 +60,7 @@ export default {
   setup() {
 
     const router = useRouter()
+    const challenge = computed(() => AppState.activeChallenge)
     
     const editable = ref({
       accountId: AppState.user.id,
@@ -75,6 +97,15 @@ export default {
       }
     }
 
+    async function submitAnswer(){
+      // logger.log("Submitting Answer", challenge.value.id, participant.value.id, editable.value.submission)
+      try {
+        await participantsService.submitAnswer(challenge.value.id, participant.value.id, editable.value.submission)
+      } catch (error) {
+        logger.log(error)
+      }
+    }
+
     async function removeSubmission() {
       try {
         const participantId = AppState.activeParticipant?.id
@@ -98,13 +129,13 @@ export default {
       }
     }
 
-
-
     return {
       user: computed(() => AppState.user),
+      challenge,
       participant,
       editable,
       updateChallengeParticipant,
+      submitAnswer,
       removeSubmission,
     } 
   }
