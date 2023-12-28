@@ -78,6 +78,7 @@
         </ul>
       </div>
   </section>
+  <router-view />
 </template>
 
 <script>
