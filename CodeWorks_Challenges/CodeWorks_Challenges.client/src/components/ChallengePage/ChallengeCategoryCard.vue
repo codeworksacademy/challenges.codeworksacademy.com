@@ -4,11 +4,11 @@
       <h2 class="accordion-header">
         <button @click="isActive = !isActive" class="col-12 accordion-button collapsed text-white text-capitalize fw-semibold" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse' + index" :aria-expanded="isActive" :aria-controls="'collapse' + index" :aria-labelledby="'heading' + index">
           <div class="col-10">
-            <span class="mdi me-3" :class="categoryIcons[category]"></span>
+            <span class="mdi me-3 fs-5" :class="categoryIcons[category]"></span>
             {{ category }}
           </div>
           <div class="col-2 d-flex justify-content-end align-items center">
-            <span class="badge mx-3 fw-normal" style="color: var(--text-sub); font-size: .8rem;"><b>{{ challengesByCategory(category).length }}</b> {{ category }} challenges</span>
+            <span class="badge mx-3 fw-normal fs-5" style="color: var(--text-sub);"><b>{{ challengesByCategory(category).length }}</b> {{ category }} challenges</span>
             <span :class="['mdi', isActive ? 'mdi-chevron-right' : 'mdi-chevron-down']"></span>
           </div>
         </button>
