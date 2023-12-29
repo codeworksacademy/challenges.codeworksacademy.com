@@ -1,14 +1,14 @@
 <template>
   <section v-if="challenge" :key="challenge?.id" class="container-fluid text-light pb-5">
-    <div class="col-12" :style="`background-image: url(${challenge.coverImg}); opacity: .9; background-repeat: no-repeat; background-size: cover; background-position:center; height:150px`">
+    <div class="col-12" :style="`background-image: url(${challenge.coverImg}); opacity: .9; background-repeat: no-repeat; background-size: cover; background-position:center; height:150px; overflow-x: hidden;`">
     </div>
-    <div class="d-flex justify-content-center align-items-center p-3" style="background: #161d2b">
+    <div class="d-flex mobile-column-query justify-content-center pt-5" style="height: 100%; background: #161d2b">
       <!-- STUB - Offcanvas Challenge Detail router-view links -->
-      <div class="col-4 rounded-3" style="height:100vh;background: #0c0e13">
+      <div class="col-md-4 rounded-3 mobile-menu" style="height:100vh; background: #0c0e13">
         <ChallengeDetailsMenu />
       </div>
       <!-- STUB - Challenge Details for active route -->
-      <div class="col-8 px-5 pt-0" style="position:relative; top:-100px">
+      <div class="col-md-8 pt-0 m-0" style="height: 100%;">
         <div>
           <router-view />
         </div>
@@ -18,15 +18,15 @@
 </template>
 
 <script>
-import Pop from '../../utils/Pop'
-import { AppState } from '../../AppState'
-import { logger } from '../../utils/Logger'
+import Pop from '../utils/Pop'
+import { AppState } from '../AppState'
+import { logger } from '../utils/Logger'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { challengesService } from '../../services/ChallengesService'
-import { participantsService } from '../../services/ParticipantsService'
-import { challengeModeratorsService } from '../../services/ChallengeModeratorsService'
-import ChallengeDetailsMenu from '../../components/ChallengeDetailsMenu.vue'
+import { challengesService } from '../services/ChallengesService'
+import { participantsService } from '../services/ParticipantsService'
+import { challengeModeratorsService } from '../services/ChallengeModeratorsService'
+import ChallengeDetailsMenu from '../components/ChallengeDetailsMenu.vue'
 
 export default {
     setup() {
@@ -102,6 +102,25 @@ export default {
 .container-fluid {
   height: 100%;
   width: 100%;
-  background-color: #000000bf;
+  overflow-x: hidden;
+}
+
+@media screen and (max-width: 768px) {
+  .container-fluid {
+    height: 100%;
+    width: 100%;
+    .mobile-column-query {
+      display: flex;
+      flex-direction: column;
+      .mobile-menu {
+        display: block;
+        max-height: 350px;
+        width: 100%;
+      }
+    }
+    .col-4 .col-8 {
+      height:100%;
+    }
+  }
 }
 </style>

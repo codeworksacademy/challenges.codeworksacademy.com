@@ -5,7 +5,7 @@
       <div class="d-flex col-12">
         <div class="col-6 d-flex flex-column justify-content-start">
           <span>Total Submitted: {{ totalSubmitted }} </span>
-          <span>Total Completed: {{ completedCount }} </span>
+          <span>Total Completed: {{ challenge.completedCount }} </span>
           <span>Active Participants: {{ challenge.participantCount }} </span>
           <span>Success Rate: {{ participantCompletionRate }} </span>
         </div>
@@ -21,23 +21,21 @@
 </template>
   
 <script>
-import ParticipantCard from "../../components/ParticipantCard.vue"
 import { computed, onMounted, ref } from 'vue'
-import { AppState } from '../../AppState'
-import Pop from "../../utils/Pop.js"
-import { logger } from "../../utils/Logger.js"  
-import { challengesService } from '../../services/ChallengesService'
+import { AppState } from '../AppState'
+import Pop from '../utils/Pop'
+import { logger } from '../utils/Logger'  
+import { challengesService } from '../services/ChallengesService'
 import { useRoute } from 'vue-router'
-import { participantsService } from '../../services/ParticipantsService'
-import { StrDifficultyNum } from "../../utils/StrDifficultyNum.js"
-import { SUBMISSION_TYPES } from "../../constants/index.js"
+import { participantsService } from '../services/ParticipantsService'
+import { StrDifficultyNum } from '../utils/StrDifficultyNum'
+import { SUBMISSION_TYPES } from '../constants'
 
 export default {
-  components: {
-    ParticipantCard
-  },
+
   setup() {
     let route = useRoute()
+
     const filterBy = ref('')
     const editable = ref({
       accountId: AppState.user.id,
@@ -86,9 +84,6 @@ export default {
       participants: computed(() => AppState.participants),
       isParticipant: computed(() => {
         return AppState.participants.find(p => p.accountId === AppState.user.id)
-      }),
-      completedCount: computed(() => {
-        return AppState.participants.filter(p => p.status === 'completed').length
       }),
       participantFilter: computed(() => {
         if (!filterBy.value) {

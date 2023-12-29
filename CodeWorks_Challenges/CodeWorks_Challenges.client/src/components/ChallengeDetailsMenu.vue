@@ -5,13 +5,15 @@
       <router-link :to="{ name: 'Overview' }">
         <h4 class="mdi mdi-file-document-multiple text-light selectable"> Overview</h4>
       </router-link>
-    <router-link :to="{ name: 'Requirements' }">
+      <router-link :to="{ name: 'Requirements' }">
         <h4 class="mdi mdi-file-document-check text-light selectable"> Requirements</h4>
       </router-link>
       <router-link :to="{ name: 'Statistics' }">
         <h4 class="mdi mdi-finance text-light selectable"> Statistics</h4>
       </router-link>
+
       <hr>
+
       <div v-if="isOwned || isModerator" class="d-flex flex-column justify-content-center">
         <router-link :to="{ name: 'GradeSubmissionsPage' }">
           <h4 class="mdi mdi-progress-check text-info mt-1" style=""> Grade Users</h4>
@@ -19,7 +21,7 @@
         <router-link :to="{ name: 'ChallengeEditor' }">
           <h4 class="mdi mdi-archive-edit text-warning selectable" style=""> Edit Challenge</h4>
         </router-link>
-        <h4 @click="deprecateChallenge(challenge.id)" class="mdi mdi-cancel text-danger selectable" style="white-space: nowrap"> Deprecate Challenge</h4>
+        <h4 @click="deprecateChallenge(challenge.id)" class="cancel-button mdi mdi-cancel text-danger selectable" style="white-space: nowrap"> Deprecate Challenge</h4>
       </div>
       <div v-else-if="!isParticipant">
         <h4 @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable text-success"> Join Challenge</h4>
@@ -52,7 +54,7 @@
 import Pop from '../utils/Pop'
 import { logger } from '../utils/Logger'
 import { AppState } from '../AppState'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 import { SUBMISSION_TYPES } from '../constants'
 import { challengesService } from '../services/ChallengesService'
@@ -61,7 +63,7 @@ import { participantsService } from '../services/ParticipantsService'
 export default {
   setup() {
     const route = useRoute()
-    const router = useRouter()
+
     const isParticipant = computed(() => {
       return AppState.participants.find(p => p.accountId === AppState.user.id)
     })
@@ -152,3 +154,12 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+
+@media screen and (max-width: 768px) {
+  .cancel-button {
+    white-space: normal !important;
+  }
+}
+</style>

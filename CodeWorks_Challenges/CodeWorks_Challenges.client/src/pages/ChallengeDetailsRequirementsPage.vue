@@ -13,7 +13,7 @@
   
 <script>
 import { computed } from 'vue'
-import { AppState } from '../../AppState'  
+import { AppState } from '../AppState'  
 
 export default {
   setup() {
