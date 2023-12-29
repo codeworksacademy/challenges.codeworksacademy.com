@@ -45,7 +45,7 @@ const routes = [
         path: 'badges',
         name: 'Account Badges',
         component: loadPage('AccountBadges')
-      },
+      }
     ]
   },
   {
@@ -69,23 +69,23 @@ const routes = [
   { 
     path: '/challenges/:challengeId',
     name: 'ChallengeDetails',
-    component: loadPageBranch('ChallengeDetailsPage', 'ChallengeDetailsPage'),
+    component: loadPage('ChallengeDetailsPage'),
     redirect: { name: 'Overview' },
     children: [
       {
         path: 'overview',
         name: 'Overview',
-        component: loadPageBranch('ChallengeDetailsPage', 'OverviewPage')
+        component: loadPage('ChallengeDetailsOverviewPage')
       },
       {
         path: 'requirements',
         name: 'Requirements',
-        component: loadPageBranch('ChallengeDetailsPage', 'RequirementsPage')
+        component: loadPage('ChallengeDetailsRequirementsPage')
       },
       {
         path: 'statistics',
         name: 'Statistics',
-        component: loadPageBranch('ChallengeDetailsPage', 'StatisticsPage')
+        component: loadPage('ChallengeDetailsStatisticsPage')
       }
     ]
   },
