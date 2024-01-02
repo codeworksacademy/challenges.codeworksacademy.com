@@ -5,18 +5,18 @@
     <div class="flex-grow-1 text-center m-auto fs-1">NEW</div>
   </section>
 
-  <section v-else class="achievement-card bg-dark row mt-3 "
-    :style="{ border: '3px', borderColor: tierAttributes.color1, borderStyle: 'solid' }">
-
-    <div class="col-12 col-md-3">
+  <section v-else class="achievement-card bg-dark row mt-3" :style="{ border: '3px', borderColor: tierAttributes.color1, borderStyle: 'solid' }">
+    <div class="col-12 col-md-4 col-lg-3">
       <div class="badge-wrapper d-flex flex-row">
         <div class="alt-badge badge" :style="{ background: `linear-gradient(${tierAttributes.color1} 0%, ${tierAttributes.color2} 100%)` }">
-          <div class="circle"> <i class="m-auto" :style="{ color: tierAttributes.color2 }" :class="['mdi', tierAttributes.tierCurrent]"></i></div>
+          <div class="circle">
+            <i class="m-auto" :style="{ color: tierAttributes.color2 }" :class="['mdi', tierAttributes.tierCurrent]"></i>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="col-12 col-md-9 py-3" :style="{ backgroundColor: tierAttributes.color2 }">
+    <div class="col-12 col-md-8 col-lg-9 py-3" :style="{ backgroundColor: tierAttributes.color2 }">
       <section class="d-flex justify-content-between mb-3 mx-2">
         <div class="fs-3">{{ milestoneTitle }}</div>
         <div>XP {{ milestoneExp }}</div>

@@ -12,7 +12,7 @@
 
       <!-- TODO - Add functionality to Badges -->
       <div class="col-md-4 col-12">
-        <StatCard title="Badges" :number="0" color="#6F42C1" bgColor="#1D213A" icon="mdi-seal" :themeStyle="true" :leftAlignedIcon="false" />
+        <StatCard title="Badges" :number="badges.length" color="#6F42C1" bgColor="#1D213A" icon="mdi-seal" :themeStyle="true" :leftAlignedIcon="false" />
       </div>
     </section>
 
@@ -30,17 +30,22 @@
 
 
 <script>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import RankCard from '../components/AccountAndProfilePage/RankCard.vue';
 import { AppState } from '../AppState';
 import StatCard from '../components/AccountAndProfilePage/StatCard.vue';
+import { accountMilestonesService } from "../services/AccountMilestonesService.js";
 
 export default {
     setup() {
+      onMounted(() => {
+        accountMilestonesService.getAccountMilestonesByUserId(AppState.account.id)
+      })
         return {
           account: computed(() => AppState.account),
           myChallenges: computed(() => AppState.myChallenges),
           myParticipations: computed(() => AppState.myParticipants),
+          badges: computed(() => AppState.myMilestone),
 
           completedChallenges: computed(() => {
             const completed = AppState.myParticipants.filter(p => p.status == 'completed')
