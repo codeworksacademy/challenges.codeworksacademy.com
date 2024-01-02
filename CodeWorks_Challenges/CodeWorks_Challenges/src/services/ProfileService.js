@@ -28,6 +28,15 @@ class ProfileService {
       .limit(20)
       .exec()
   }
+
+  async getProfileMilestones(id) {
+    const foundMilestones = await dbContext.AccountMilestones.find({ accountId: id }).populate('milestone')
+    if (!foundMilestones) {
+      new Error('This user does not have any milestones')
+      return
+    }
+    return foundMilestones
+  }
 }
 
 export const profileService = new ProfileService()

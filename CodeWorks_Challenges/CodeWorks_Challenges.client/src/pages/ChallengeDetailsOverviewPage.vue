@@ -40,22 +40,24 @@
     <div class="d-flex mobile-flex-column justify-content-center align-items-center">
       <div class="col-12 col-md-4">
         <div class="details-card">
-          <div v-if="isParticipant">
-            <i class="mdi mdi-diamond fs-1"></i>
-            <h3> {{ challenge.difficulty }} </h3>
-            <h6 class="text-uppercase">Points</h6>
-          </div>
-          <div v-else-if="isOwned || isModerator">
+          <div v-if="isOwned || isModerator">
             <i class="mdi mdi-bell fs-1"></i>
             <h3> {{ challenge.completedCount }} / {{ challenge.participantCount }} </h3>
             <h6 class="text-uppercase">Completed<br> Participants</h6>
+          </div>
+          <div v-else>
+            <i class="mdi mdi-diamond fs-1"></i>
+            <h3> {{ challenge.difficulty }} </h3>
+            <h6 class="text-uppercase">Points</h6>
           </div>
         </div>
       </div>
       <div class="col-12 col-md-8 card-container">
         <div class="creator-details-card p-2">
           <div class="col-4 d-flex flex-column justify-content-evenly align-items-center">
-            <img :src="challenge.creator.picture" :alt="`Image for Challenge creator named '${challenge.creator.name}' is broken`" :title="`Image of the Challenge Creator; ${challenge.creator.name}`" class="img-fluid rounded-circle me-2" style="height: 75px;width:75px">
+            <router-link :to="{ name: 'Profile', params: { profileId: challenge.creator.id } }">
+              <img :src="challenge.creator.picture" :alt="`Image for Challenge creator named '${challenge.creator.name}' is broken`" :title="`Image of the Challenge Creator; ${challenge.creator.name}`" class="img-fluid rounded-circle me-2" style="height: 75px;width:75px">
+            </router-link>
             <h6 class="text-uppercase pe-2">Challenge Creator</h6>
           </div>
           <div class="col-8 d-flex flex-column justify-content-evenly">

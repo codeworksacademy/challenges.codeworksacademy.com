@@ -1,25 +1,62 @@
 <template>
-  <div class="container-fluid">
-    <section class="row my-3">
-      <div class="col-12 text-white">
-        <h5>
-          Waiting for Badges to be implemented.
-        </h5>
-      </div>
-    </section>
-  </div>
+  <section class="container-fluid">
+    <div v-for="milestone in milestones" :key="milestone.id" class="col-12">
+      <MilestoneCard v-if="milestone.claimed && !milestone.description" :milestone="milestone" />
+    </div>
+  </section>
 </template>
 
-
 <script>
+import Pop from '../utils/Pop';
+import { useRoute } from 'vue-router';
+import { computed, watchEffect } from 'vue';
+import { AppState } from '../AppState';
+import MilestoneCard from '../components/MilestoneCard.vue';
+import { milestonesService } from '../services/MilestonesService';
+import { accountMilestonesService } from '../services/AccountMilestonesService';
+
+
 export default {
-  setup(){
-    return {}
-  }
+  setup() {
+
+    const route = useRoute()
+
+    async function checkMyMilestones() {
+      try {
+        const checks = AppState.milestoneChecks;
+        if (route.name.includes('Account') || route.name == 'Milestones') {
+          await accountMilestonesService.checkMyMilestones(checks);
+        } else {
+          const userId = route.params.profileId
+          await accountMilestonesService.checkMilestonesByUserId(userId, checks);
+        }
+      }
+      catch (error) {
+        Pop.error(error);
+      }
+    }
+    async function getMilestones() {
+      try {
+        const userId = AppState.account.id;
+        await milestonesService.getMilestones(userId);
+      }
+      catch (error) {
+        Pop.error(error);
+      }
+    }
+    watchEffect(() => {
+      if (AppState.account.id) {
+        checkMyMilestones();
+        getMilestones()
+      }
+    });
+    return {
+      milestones: computed(() => AppState.myMilestone),
+    };
+  },
+  components: { MilestoneCard, }
 }
 </script>
 
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

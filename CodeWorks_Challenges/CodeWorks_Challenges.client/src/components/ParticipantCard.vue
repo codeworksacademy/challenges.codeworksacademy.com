@@ -2,7 +2,7 @@
   <section class="container-fluid" v-if="participant" :key="participant?.id">
     <div class="d-flex flex-column justify-content-center align-items-center">
         <img
-          v-if="participant.status === 'submitted'"
+          v-if="participant.status === 'submitted' && isGrader"
           @click="`${isGrader ? changeRoute('grade') : ''}`"
           :src="participant.profile.picture"
           :title="`${participant.profile.name} has ${participant.status}. Click to grade.`"
@@ -13,10 +13,11 @@
         />
         <img
           v-else
+          @click="changeRoute(`/profiles/${participant.profile.id}`)"
           :src="participant.profile.picture"
-          :title="`${participant.profile.name} has ${participant.status} but not submitted their challenge. Ineligible for grading.`"
+          :title="`Click to Visit ${participant.profile.name}'s Profile Page`"
           :alt="`Participant Name: ${participant.profile.name} | Current Status: ${participant.status}`"
-          class="rounded-circle img-fluid"
+          class="rounded-circle img-fluid selectable"
           height="150"
           width="150"
         />

@@ -12,7 +12,7 @@
 
       <!-- TODO - Add functionality to Badges -->
       <div class="col-md-4 col-12">
-        <StatCard title="Badges" number="0" color="#6F42C1" bgColor="#1D213A" icon="mdi-seal" :themeStyle="true" :leftAlignedIcon="false" />
+        <StatCard title="Badges" :number="profileBadges.length" color="#6F42C1" bgColor="#1D213A" icon="mdi-seal" :themeStyle="true" :leftAlignedIcon="false" />
       </div>
     </section>
 
@@ -39,6 +39,7 @@ export default {
     setup() {
         return {
             activeProfile: computed(() => AppState.activeProfile),
+            profileBadges: computed(() => AppState.milestones),
             challenges: computed(() => AppState.challenges),
             completedChallenges: computed(() => {
               const completed = AppState.participants.filter(p => p.status == 'completed')
