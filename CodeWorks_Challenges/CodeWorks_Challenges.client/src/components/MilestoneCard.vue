@@ -1,11 +1,11 @@
 <template>
   <section @click="claimMilestone(milestone)" v-if="milestone?.claimed == false"
-    class="row achievement-card mt-3 selectable"
+    class="achievement-card mt-3 selectable"
     :style="{ border: '3px', borderColor: tierAttributes.color1, borderStyle: 'solid' }">
     <div class="flex-grow-1 text-center m-auto fs-1">NEW</div>
   </section>
 
-  <section v-else class="row achievement-card bg-dark mt-3" :style="{ border: '3px', borderColor: tierAttributes.color1, borderStyle: 'solid' }">
+  <section v-else class="achievement-card bg-dark row mt-3" :style="{ border: '3px', borderColor: tierAttributes.color1, borderStyle: 'solid' }">
     <div class="col-12 col-md-4 col-lg-3">
       <div class="badge-wrapper d-flex flex-row">
         <div class="alt-badge badge" :style="{ background: `linear-gradient(${tierAttributes.color1} 0%, ${tierAttributes.color2} 100%)` }">
@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="col-12 col-md-8 col-lg-9 py-3" :style="{ backgroundColor: tierAttributes.color2 }">
       <section class="d-flex justify-content-between mb-3 mx-2">
         <div class="fs-3">{{ milestoneTitle }}</div>
@@ -50,6 +50,7 @@ import { accountMilestonesService } from "../services/AccountMilestonesService.j
 import Pop from "../utils/Pop.js";
 import { MILESTONE_BADGE } from "../constants/index.js";
 import { AppState } from "../AppState.js";
+import { useRoute } from "vue-router";
 
 export default {
   props: {
@@ -59,6 +60,9 @@ export default {
     }
   },
   setup(props) {
+
+    const route = useRoute()
+
     const milestoneCondition = computed(() => {
       let condition = {};
       const logicStr = props.milestone.milestone.logic
@@ -130,14 +134,10 @@ export default {
         const milestoneDescription = props.milestone.milestone.description
         const milestoneCount = props.milestone.count
         let newDescription = milestoneDescription.replace(/X/g, milestoneCount)
-        //If the user's ID looking at the page is not the same as the profile's ID, then change 'you' to the profile name of the user you are looking at:
-        if (AppState.account.id != AppState.activeProfile.id) {
-          newDescription = newDescription.replace(/your/g, AppState.activeProfile.name + "'s")
-          newDescription = newDescription.replace(/You've/g, AppState.activeProfile.name + ' has')
+        if (!route.name.includes('Account')) {
           newDescription = newDescription.replace(/You have/g, AppState.activeProfile.name + ' has')
-        }
-        //Now also replace 'You've' AND You have with the profile name of the user you are looking at plus 'has':
-        if (AppState.account.id != AppState.activeProfile.id) {
+          newDescription = newDescription.replace(/You've/g, AppState.activeProfile.name + ' has')
+          newDescription = newDescription.replace(/your/g, AppState.activeProfile.name + "'s")
         }
         return newDescription
       }),
@@ -173,7 +173,7 @@ export default {
   font-size: large;
   font-weight: bold;
   border-radius: .5rem;
-  min-height: 10vh;
+  min-height: 22vh;
   overflow-x: hidden;
   .badge-wrapper {
     font-family: 'Comfortaa', sans-serif;
