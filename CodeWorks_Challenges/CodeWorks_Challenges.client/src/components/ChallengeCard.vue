@@ -18,7 +18,7 @@
           <i class="col-4 mdi mdi-diamond-stone text-light fs-5 me-3"> <span class="ms-3" style="font-style: normal"> {{ challenge.difficulty }}</span></i>
           <i class="col-4 mdi mdi-account text-light fs-5"> <span class="ms-3" style="font-style: normal"> {{ challenge.participantCount }}</span></i>
         </div>
-        <div class="col-2 d-flex justify-content-center align-items-center me-5">
+        <div class="col-1 d-flex justify-content-center align-items-center me-5">
           <div v-if="user.id === challenge.creatorId" class="d-flex align-items-center">
             <i class="mdi mdi-chevron-right fs-5 ms-3"></i>
             <i class="mdi mdi-dots-vertical" :title="`Delete Challenge: '${challenge.name}' ?`" style="color: var(--text-sub);" @click.stop="deleteChallenge(challenge.id)" title="Delete Challenge"></i>

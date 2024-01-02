@@ -4,11 +4,11 @@
       <h2 class="accordion-header">
         <button @click="isActive = !isActive" class="col-12 accordion-button collapsed text-white text-capitalize fw-semibold" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse' + index" :aria-expanded="isActive" :aria-controls="'collapse' + index" :aria-labelledby="'heading' + index">
           <div class="col-10">
-            <span class="mdi me-3 fs-5" :class="categoryIcons[category]"></span>
+            <span class="mdi me-3" :class="categoryIcons[category]"></span>
             {{ category }}
           </div>
           <div class="col-2 d-flex justify-content-end align-items center">
-            <span class="badge mx-3 fw-normal fs-5" style="color: var(--text-sub);"><b>{{ challengesByCategory(category).length }}</b> {{ category }} challenges</span>
+            <span class="badge mx-3 fw-normal" style="color: var(--text-sub); font-size: .9rem;"><b>{{ challengesByCategory(category).length }}</b> {{ category }} challenges</span>
             <span :class="['mdi', isActive ? 'mdi-chevron-right' : 'mdi-chevron-down']"></span>
           </div>
         </button>
@@ -22,14 +22,14 @@
             <div class="col-2 pe-2">
               <h6 class="col-12 d-flex justify-content-center">Difficulty</h6>
             </div>
-            <div class="col-6 d-flex justify-content-center align-items-center">
+            <div class="col-5 d-flex justify-content-center align-items-center pe-1">
               <div class="col-3 d-flex justify-content-center">
                 <h6 class="col-10">Rating</h6>
               </div>
-              <div class="col-3 d-flex justify-content-start">
+              <div class="col-3 d-flex justify-content-center ps-2">
                 <h6 class="col-9">Points</h6>
               </div>
-              <div class="col-4 d-flex justify-content-start">
+              <div class="col-4 d-flex justify-content-center">
                 <h6>User Solves</h6>
               </div>
             </div>

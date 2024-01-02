@@ -1,5 +1,5 @@
 <template>
-  <div class="row d-flex justify-content-center align-items-center">
+  <div class="row d-flex justify-content-center align-items-center" style="width: 100%;">
     <ChallengeCategoryCard :categoryTypes="categoryTypes" />
   </div>
 </template>
