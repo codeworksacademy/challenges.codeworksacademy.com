@@ -14,13 +14,14 @@
 
     <div class="col-12 mobile-media-query d-flex justify-content-center align-items-center">
       <div class="col-12 col-md-4 card-container">
-        <div class="details-card">
+        <!-- <div class="details-card">
           <img v-if="challenge.difficulty === 1" src="../assets/img/easy-difficulty-chart.svg" :title="`Difficulty Rating: ${challenge.difficulty}`" alt="Easy Difficulty Icon" class="img-fluid" style="width: 70px; height: 50px;">
           <img v-if="challenge.difficulty === 2" src="../assets/img/medium-difficulty-chart.svg" :title="`Difficulty Rating: ${challenge.difficulty}`" alt="Medium Difficulty Icon" class="img-fluid" style="width: 70px; height: 50px;">
           <img v-if="challenge.difficulty === 3" src="../assets/img/hard-difficulty-chart.svg" :title="`Difficulty Rating: ${challenge.difficulty}`" alt="Hard Difficulty Icon" class="img-fluid" style="width: 70px; height: 50px;">
           <h3 class="text-capitalize mt-3"> {{ difficulty.text }} </h3>
           <h6 class="text-uppercase">Difficulty</h6>
-        </div>
+        </div> -->
+        <ChallengeDifficultyCard :challenge="challenge" />
       </div>
       <div class="col-12 col-md-4">
         <div class="details-card">
@@ -80,6 +81,7 @@ import { challengeModeratorsService } from '../services/ChallengeModeratorsServi
 import Pop from '../utils/Pop'
 import { StrDifficultyNum } from '../utils/StrDifficultyNum'
 import { useRoute } from 'vue-router'
+import ChallengeDifficultyCard from '../components/
 
 export default {
   setup() {
