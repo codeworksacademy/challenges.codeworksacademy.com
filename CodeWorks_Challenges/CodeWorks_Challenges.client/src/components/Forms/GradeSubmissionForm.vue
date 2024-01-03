@@ -60,16 +60,16 @@
 </template>
 
 <script>
-import { computed, onMounted, ref, watchEffect } from 'vue'
+import Pop from '../../utils/Pop'
+import { useRoute } from 'vue-router'
 import { AppState } from '../../AppState'
 import { logger } from '../../utils/Logger'
-import { participantsService } from '../../services/ParticipantsService'
-import { challengesService } from '../../services/ChallengesService'
-import { ChallengeParticipant } from '../../models/ChallengeParticipant'
-import { useRoute } from 'vue-router'
-import Pop from '../../utils/Pop'
-import { SUBMISSION_TYPES } from '../../constants/index'
+import { SUBMISSION_TYPES } from '../../constants'
 import { formatEnum } from '../../utils/FormatEnum'
+import { computed, onMounted, ref, watchEffect } from 'vue'
+import { challengesService } from '../../services/ChallengesService'
+import { participantsService } from '../../services/ParticipantsService'
+import { ChallengeParticipant } from '../../models/ChallengeParticipant'
 import { challengeModeratorsService } from '../../services/ChallengeModeratorsService'
 
 export default {
@@ -88,7 +88,6 @@ export default {
       challenge: props.participant.challenge,
       profile: props.participant.profile,
       requirements: props.participant.requirements,
-      // status: Object.values(SUBMISSION_TYPES),
       status: props.participant.status
     })
 

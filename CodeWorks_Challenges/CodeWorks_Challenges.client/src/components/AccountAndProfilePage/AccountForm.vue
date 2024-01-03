@@ -30,10 +30,10 @@
 
 
 <script>
-import { computed, ref, watchEffect } from "vue"
-import { AppState } from "../../AppState"
-import Pop from "../../utils/Pop"
-import { accountService } from "../../services/AccountService"
+import Pop from '../../utils/Pop'
+import { AppState } from '../../AppState'
+import { computed, ref, watchEffect } from 'vue'
+import { accountService } from '../../services/AccountService'
 
 export default {
   setup() {

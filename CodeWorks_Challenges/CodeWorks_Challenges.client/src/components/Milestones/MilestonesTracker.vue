@@ -58,6 +58,3 @@ export default {
   components: { MilestoneCard, }
 }
 </script>
-
-
-<style lang="scss" scoped></style>

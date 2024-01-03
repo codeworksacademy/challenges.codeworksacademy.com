@@ -48,7 +48,6 @@ import Navbar from './components/Navbar.vue'
 import ModalWrapper from './components/ModalWrapper.vue'
 import CreateChallengeForm from './components/Forms/CreateChallengeForm.vue'
 import ChallengeSubmissionForm from './components/Forms/ChallengeSubmissionForm.vue'
-import BottomOffcanvasWrapper from './components/BottomOffcanvasWrapper.vue'
 import ModeratorCard from './components/ModeratorCard.vue'
 import AnswerForm from './components/Forms/AnswerForm.vue'
 
@@ -65,7 +64,6 @@ export default {
     ModalWrapper,
     CreateChallengeForm,
     ChallengeSubmissionForm,
-    BottomOffcanvasWrapper,
     ModeratorCard,
     AnswerForm
   }

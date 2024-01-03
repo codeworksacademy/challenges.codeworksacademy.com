@@ -23,11 +23,9 @@
   </div>
 </template>
 
-
 <script>
 import { computed } from 'vue'
 import { AppState } from '../../AppState'
-
 
 export default {
   props:{
@@ -58,7 +56,6 @@ export default {
   }
 }
 </script>
-
 
 <style lang="scss" scoped>
 .avatar-container{

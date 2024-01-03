@@ -35,7 +35,7 @@ import Pop from '../../utils/Pop'
 import { Challenge } from '../../models/Challenge'
 import { challengesService } from '../../services/ChallengesService'
 import { challengeModeratorsService } from '../../services/ChallengeModeratorsService'
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { Modal } from 'bootstrap'
 
 export default {

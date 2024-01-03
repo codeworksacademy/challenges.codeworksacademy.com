@@ -12,9 +12,9 @@
 </template>
     
   <script>
-  import { computed, onMounted, ref, watchEffect } from 'vue'
-  import { logger } from "../../utils/Logger.js"  
-  import { Challenge } from "../../models/Challenge.js"
+  import { ref, watchEffect } from 'vue'
+  import { logger } from '../../utils/Logger'  
+  import { Challenge } from '../../models/Challenge'
   
   export default {
     props: {

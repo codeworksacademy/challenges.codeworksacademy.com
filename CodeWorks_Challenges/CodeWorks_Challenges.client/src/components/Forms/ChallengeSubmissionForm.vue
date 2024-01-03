@@ -98,7 +98,6 @@ export default {
     }
 
     async function submitAnswer(){
-      // logger.log("Submitting Answer", challenge.value.id, participant.value.id, editable.value.submission)
       try {
         await participantsService.submitAnswer(challenge.value.id, participant.value.id, editable.value.submission)
       } catch (error) {

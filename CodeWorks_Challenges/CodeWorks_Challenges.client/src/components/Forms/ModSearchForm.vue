@@ -3,7 +3,6 @@
     Add moderator
   </button>
 
-  <!-- Modal Componentify this-->
   <div class="modal fade" id="ModeratorSearch" tabindex="-1" aria-labelledby="ModeratorSearchLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -81,6 +80,3 @@ export default {
   }
 }
 </script>
-
-
-<style lang="scss" scoped></style>

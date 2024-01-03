@@ -10,8 +10,8 @@
 
 <script>
 import { computed } from 'vue'
-import { StrDifficultyNum } from '../../utils/StrDifficultyNum'
 import { Challenge } from '../../models/Challenge'
+import { StrDifficultyNum } from '../../utils/StrDifficultyNum'
 
 export default {
   props: {

@@ -36,7 +36,6 @@
   </section>
 </template>
 
-
 <script>
 import { computed } from "vue"
 import { AppState } from "../../AppState"
@@ -88,7 +87,6 @@ export default {
   }
 }
 </script>
-
 
 <style lang="scss" scoped>
 .theme-style{

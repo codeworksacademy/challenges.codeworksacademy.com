@@ -29,7 +29,6 @@
   </div>
 </template>
 
-
 <script>
 import { useRoute } from 'vue-router';
 
@@ -43,7 +42,6 @@ export default {
   }
 }
 </script>
-
 
 <style lang="scss" scoped>
 .user-links-card{

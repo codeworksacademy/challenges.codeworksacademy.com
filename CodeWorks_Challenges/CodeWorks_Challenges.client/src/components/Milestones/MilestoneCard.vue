@@ -228,7 +228,7 @@ export default {
           color: v-bind(badgeGradient2);
           filter: drop-shadow(0 .5px .5px #000);
         }
-        /* For when you can't find the mdi icon you want, you can use a v-bind computed background image on any .png, just make sure the background of the .png is transparent */
+        /*NOTE - For when you can't find the mdi icon you want, you can use a v-bind computed background image on any .png, just make sure the background of the .png is transparent */
         img {
           width: 2em;
           height: 2em;

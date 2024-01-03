@@ -1,6 +1,3 @@
-import { Challenge } from './Challenge'
-import { Account } from './Account'
-
 export class Milestone {
   constructor(data) {
     this.id = data.id

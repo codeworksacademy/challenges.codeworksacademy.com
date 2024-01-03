@@ -17,12 +17,11 @@
 
 <script>
 import { computed } from 'vue'
+import Pop from '../../utils/Pop'
 import { useRoute } from 'vue-router'
 import { AppState } from '../../AppState'
-import { challengesService } from '../../services/ChallengesService'
 import { Challenge } from '../../models/Challenge'
-import { challengeModeratorsService } from '../../services/ChallengeModeratorsService'
-import Pop from '../../utils/Pop'
+import { challengesService } from '../../services/ChallengesService'
 
 export default {
   props: {

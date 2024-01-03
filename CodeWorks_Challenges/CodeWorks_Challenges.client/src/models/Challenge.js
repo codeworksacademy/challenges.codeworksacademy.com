@@ -3,7 +3,6 @@ import { StrDifficultyNum } from '../utils/StrDifficultyNum.js';
 import { DateTime } from '../utils/DateTime.js';
 
 export class Challenge {
-
   constructor(data) {
     this.id = data.id || data._id
     this.creatorId = data.creatorId

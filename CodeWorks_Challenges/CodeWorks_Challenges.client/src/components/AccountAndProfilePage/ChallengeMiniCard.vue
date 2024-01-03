@@ -30,7 +30,6 @@
   </div>
 </template>
 
-
 <script>
 import { computed } from 'vue';
 import { Challenge } from '../../models/Challenge';
@@ -59,7 +58,6 @@ export default {
   }
 }
 </script>
-
 
 <style lang="scss" scoped>
 .border-underline{

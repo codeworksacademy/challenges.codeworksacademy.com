@@ -7,9 +7,6 @@
 </template>
   
 <script>
-  import { computed, onMounted } from 'vue'
-  import Pop from "../../utils/Pop.js"
-  import { logger } from "../../utils/Logger.js"  
   import {Challenge} from '../../models/Challenge'
   
   export default {
@@ -18,17 +15,6 @@
         type: Challenge || Object,
         required: true
       }
-    },
-    components: {
-    },
-    setup() {
-
-      onMounted(() => {
-
-      })
-      return {
-
-      } 
     }
   }
   </script>
