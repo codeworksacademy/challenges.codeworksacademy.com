@@ -43,6 +43,11 @@ export default {
       })
         return {
           account: computed(() => AppState.account),
+          // accountReputation: computed(() => {
+          //   AppState.myChallenges.forEach(c => {
+          //     AppState.account.reputation += c.reputationIds.length
+          //   })
+          // }),
           myChallenges: computed(() => AppState.myChallenges),
           myParticipations: computed(() => AppState.myParticipants),
           badges: computed(() => AppState.myMilestone),

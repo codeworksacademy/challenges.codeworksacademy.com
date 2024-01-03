@@ -44,7 +44,8 @@ function sanitizeBody(body) {
     name: body.name,
     picture: body.picture,
     coverImg: body.coverImg,
-    aboutContent: body.aboutContent
+    aboutContent: body.aboutContent,
+    reputation: body.reputation,
   }
   return writable
 }
@@ -130,11 +131,18 @@ class AccountService {
     const challenges = await challengesService.getChallengesCreatedBy(userInfo.id, userInfo.id)
     const account = await this.getAccount(userInfo)
     let reputationScore = account.reputation += 0
+
+    if (challenges.creatorId === userInfo.id) {
+      reputationScore += 1
+    }
     challenges.forEach(c => reputationScore === c.reputationIds.length)
+    const newReputation = challenges.reduce((acc, curr) => acc + curr.reputationIds.length, 0)
+    account.reputation = newReputation
 
     if(account.reputation != reputationScore){
       await this.updateMyReputation(userInfo, reputationScore)
     }
+
     return account
   }
 

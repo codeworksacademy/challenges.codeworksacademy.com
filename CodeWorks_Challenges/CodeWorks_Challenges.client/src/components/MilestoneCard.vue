@@ -1,11 +1,11 @@
 <template>
   <section @click="claimMilestone(milestone)" v-if="milestone?.claimed == false"
-    class="achievement-card mt-3 selectable"
+    class="row achievement-card d-flex justify-content-center align-items-center mt-3 selectable"
     :style="{ border: '3px', borderColor: tierAttributes.color1, borderStyle: 'solid' }">
     <div class="flex-grow-1 text-center m-auto fs-1">NEW</div>
   </section>
 
-  <section v-else class="achievement-card bg-dark row mt-3" :style="{ border: '3px', borderColor: tierAttributes.color1, borderStyle: 'solid' }">
+  <section v-else class="row achievement-card bg-dark mt-3" :style="{ border: '3px', borderColor: tierAttributes.color1, borderStyle: 'solid' }">
     <div class="col-12 col-md-4 col-lg-3">
       <div class="badge-wrapper d-flex flex-row">
         <div class="alt-badge badge" :style="{ background: `linear-gradient(${tierAttributes.color1} 0%, ${tierAttributes.color2} 100%)` }">
