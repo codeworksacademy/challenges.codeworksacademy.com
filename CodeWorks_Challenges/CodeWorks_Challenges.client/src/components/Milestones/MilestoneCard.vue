@@ -43,14 +43,13 @@
   </section>
 </template>
 
-
 <script>
-import { computed } from "vue";
-import { accountMilestonesService } from "../services/AccountMilestonesService.js";
-import Pop from "../utils/Pop.js";
-import { MILESTONE_BADGE } from "../constants/index.js";
-import { AppState } from "../AppState.js";
-import { useRoute } from "vue-router";
+import { computed } from 'vue';
+import { accountMilestonesService } from '../../services/AccountMilestonesService';
+import Pop from '../../utils/Pop';
+import { MILESTONE_BADGE } from '../../constants';
+import { AppState } from '../../AppState';
+import { useRoute } from 'vue-router';
 
 export default {
   props: {
@@ -155,7 +154,6 @@ export default {
   }
 }
 </script>
-
 
 <style lang="scss" scoped>
 @mixin margin-auto {

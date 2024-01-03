@@ -29,15 +29,14 @@
 </template>
   
 <script>
-import { computed, onMounted, ref } from 'vue'
-import { AppState } from '../AppState'
-import Pop from "../utils/Pop.js"
-import { logger } from "../utils/Logger.js"
-import { Challenge } from "../models/Challenge.js"
-import { challengesService } from "../services/ChallengesService.js"
-import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js"
+import { computed, ref } from 'vue'
+import { AppState } from '../../AppState'
+import Pop from '../../utils/Pop'
+import { Challenge } from '../../models/Challenge'
+import { challengesService } from '../../services/ChallengesService'
+import { challengeModeratorsService } from '../../services/ChallengeModeratorsService'
 import { useRouter, useRoute } from 'vue-router';
-import { Modal } from "bootstrap"
+import { Modal } from 'bootstrap'
 
 export default {
   props: {
@@ -91,5 +90,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '../assets/scss/_variables.scss';
+@import '../../assets/scss/_variables.scss';
 </style>

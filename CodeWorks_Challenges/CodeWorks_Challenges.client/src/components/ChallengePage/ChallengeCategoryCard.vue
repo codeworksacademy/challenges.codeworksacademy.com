@@ -44,11 +44,10 @@
 </template>
 
 <script>
-import ChallengeCard from '../ChallengeCard.vue';
-import { Challenge } from '../../models/Challenge';
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { AppState } from '../../AppState';
-import { CATEGORY_TYPES } from "../../constants/index.js";
+import ChallengeCard from './ChallengeCard.vue';
+import { CATEGORY_TYPES } from '../../constants';
 
 export default {
   components: {

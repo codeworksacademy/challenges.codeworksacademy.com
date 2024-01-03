@@ -14,11 +14,11 @@
 </template>
 
 <script>
-import { AppState } from "../AppState.js";
-import MilestonesTracker from '../components/MilestonesTracker.vue';
-import { accountMilestonesService } from "../services/AccountMilestonesService.js";
-import { logger } from "../utils/Logger.js";
-import Pop from "../utils/Pop.js";
+import { AppState } from '../AppState';
+import MilestonesTracker from '../components/Milestones/MilestonesTracker.vue';
+import { accountMilestonesService } from '../services/AccountMilestonesService';
+import { logger } from '../utils/Logger';
+import Pop from '../utils/Pop';
 import { onMounted } from 'vue'
 
 

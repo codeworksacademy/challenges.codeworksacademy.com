@@ -11,7 +11,7 @@ import Pop from '../utils/Pop';
 import { useRoute } from 'vue-router';
 import { computed, watchEffect } from 'vue';
 import { AppState } from '../AppState';
-import MilestoneCard from '../components/MilestoneCard.vue';
+import MilestoneCard from '../components/Milestones/MilestoneCard.vue';
 import { milestonesService } from '../services/MilestonesService';
 import { accountMilestonesService } from '../services/AccountMilestonesService';
 

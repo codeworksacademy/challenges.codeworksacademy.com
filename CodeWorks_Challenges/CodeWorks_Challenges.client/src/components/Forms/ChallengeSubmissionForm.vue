@@ -47,14 +47,14 @@
 </template>
 
 <script>
-import Pop from '../utils/Pop.js'
+import Pop from '../../utils/Pop'
 import { Modal } from 'bootstrap'
 import { computed, ref } from 'vue'
-import { AppState } from '../AppState'
+import { AppState } from '../../AppState'
 import { useRouter, } from 'vue-router'
-import { logger } from '../utils/Logger.js'
-import { SUBMISSION_TYPES } from '../constants'
-import { participantsService } from '../services/ParticipantsService.js'
+import { logger } from '../../utils/Logger'
+import { SUBMISSION_TYPES } from '../../constants'
+import { participantsService } from '../../services/ParticipantsService'
 
 export default {
   setup() {

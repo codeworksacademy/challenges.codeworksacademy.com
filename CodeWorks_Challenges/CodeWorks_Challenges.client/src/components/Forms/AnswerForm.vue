@@ -27,8 +27,8 @@
 
 <script>
 import { useRoute } from 'vue-router';
-import { logger } from '../utils/Logger';
-import Pop from '../utils/Pop';
+import { logger } from '../../utils/Logger';
+import Pop from '../../utils/Pop';
 import { ref } from 'vue';
 import { Modal } from 'bootstrap';
 

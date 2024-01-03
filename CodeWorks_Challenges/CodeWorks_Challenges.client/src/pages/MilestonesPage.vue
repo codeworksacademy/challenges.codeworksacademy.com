@@ -150,13 +150,13 @@
 
 
 <script>
-import { computed, ref, watchEffect } from "vue";
-import MilestonesTracker from "../components/MilestonesTracker.vue";
-import { milestonesService } from "../services/MilestonesService.js"
-import { accountMilestonesService } from "../services/AccountMilestonesService.js";
-import { AppState } from "../AppState.js";
-import Pop from "../utils/Pop.js";
-import { logger } from "../utils/Logger.js";
+import { computed, ref, watchEffect } from 'vue';
+import MilestonesTracker from '../components/Milestones/MilestonesTracker.vue';
+import { milestonesService } from '../services/MilestonesService'
+import { accountMilestonesService } from '../services/AccountMilestonesService';
+import { AppState } from '../AppState';
+import Pop from '../utils/Pop';
+import { logger } from '../utils/Logger';
 
 export default {
   setup() {

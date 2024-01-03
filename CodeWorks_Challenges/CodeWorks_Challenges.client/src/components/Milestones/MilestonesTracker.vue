@@ -7,20 +7,17 @@
 </template>
 
 <script>
-import { computed, watchEffect } from "vue";
-import { AppState } from "../AppState.js";
-import Pop from "../utils/Pop.js";
-import { accountMilestonesService } from "../services/AccountMilestonesService.js";
-import { useRoute } from "vue-router";
-import { logger } from "../utils/Logger.js";
-import MilestoneCard from "./MilestoneCard.vue";
-import { milestonesService } from "../services/MilestonesService.js";
-
+import Pop from '../../utils/Pop';
+import { useRoute } from 'vue-router';
+import { AppState } from '../../AppState';
+import { computed, watchEffect } from 'vue';
+import MilestoneCard from './MilestoneCard.vue';
+import { milestonesService } from '../../services/MilestonesService';
+import { accountMilestonesService } from '../../services/AccountMilestonesService';
 
 export default {
   setup() {
-
-    const route = useRoute()
+    const route = useRoute();
 
     async function checkMyMilestones() {
       try {
@@ -35,7 +32,8 @@ export default {
       catch (error) {
         Pop.error(error);
       }
-    }
+    };
+
     async function getMilestones() {
       try {
         const userId = AppState.account.id;
@@ -44,13 +42,15 @@ export default {
       catch (error) {
         Pop.error(error);
       }
-    }
+    };
+
     watchEffect(() => {
       if (AppState.account.id) {
         checkMyMilestones();
         getMilestones()
       }
     });
+
     return {
       milestones: computed(() => AppState.myMilestone),
     };

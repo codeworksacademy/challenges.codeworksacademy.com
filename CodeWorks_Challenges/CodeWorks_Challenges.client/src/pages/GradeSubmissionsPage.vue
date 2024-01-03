@@ -67,16 +67,16 @@
 </template>
   
 <script>
-import GradeSubmissionForm from "../components/GradeSubmissionForm.vue"
+import GradeSubmissionForm from '../components/Forms/GradeSubmissionForm.vue'
 import { computed, onMounted, ref, watchEffect } from 'vue'
 import { AppState } from '../AppState'
-import Pop from "../utils/Pop.js"
-import { logger } from "../utils/Logger.js"  
+import Pop from '../utils/Pop'
+import { logger } from '../utils/Logger'  
 import { challengesService } from '../services/ChallengesService'
 import { useRoute } from 'vue-router'
 import { participantsService } from '../services/ParticipantsService'
-import { StrDifficultyNum } from "../utils/StrDifficultyNum.js"
-import { newChallengeParticipant } from "../utils/NewChallengeParticipant.js"
+import { StrDifficultyNum } from '../utils/StrDifficultyNum'
+import { newChallengeParticipant } from '../utils/NewChallengeParticipant'
 
 export default {
   components: {

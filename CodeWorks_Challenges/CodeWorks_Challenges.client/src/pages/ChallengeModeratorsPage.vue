@@ -35,13 +35,12 @@
 </template>
 
 <script>
-import { computed, onMounted, watchEffect } from "vue";
-import ModSearchForm from "../components/ModSearchForm.vue";
-import Pop from "../utils/Pop.js";
-import { useRoute } from "vue-router";
-import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js";
-import { AppState } from "../AppState.js";
-import { logger } from "../utils/Logger.js";
+import { computed, onMounted } from 'vue';
+import ModSearchForm from '../components/Forms/ModSearchForm.vue';
+import Pop from '../utils/Pop';
+import { useRoute } from 'vue-router';
+import { challengeModeratorsService } from '../services/ChallengeModeratorsService';
+import { AppState } from '../AppState';
 
 export default {
   setup() {

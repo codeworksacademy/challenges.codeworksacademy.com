@@ -56,12 +56,12 @@
 
 
 <script>
-import { computed, watchEffect } from "vue"
-import { AppState } from "../AppState.js"
-import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js"
-import Pop from "../utils/Pop.js"
-import ModerationCard from "./ModerationCard.vue"
-import ChallengeCard from "./ChallengeCard.vue"
+import { computed, watchEffect } from 'vue'
+import { AppState } from '../AppState'
+import { challengeModeratorsService } from '../services/ChallengeModeratorsService'
+import Pop from '../utils/Pop'
+import ModerationCard from './ModerationCard.vue'
+import ChallengeCard from './ChallengePage/ChallengeCard.vue'
 
 export default {
   setup() {

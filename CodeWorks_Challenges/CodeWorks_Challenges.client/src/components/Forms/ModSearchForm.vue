@@ -36,13 +36,13 @@
 
 
 <script>
-import { computed, ref } from "vue";
-import { AppState } from '../AppState'
-import { profilesService } from "../services/ProfilesService.js";
-import { logger } from "../utils/Logger.js";
-import Pop from "../utils/Pop.js";
-import { useRoute } from "vue-router";
-import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js";
+import { computed, ref } from 'vue';
+import { AppState } from '../../AppState'
+import { profilesService } from '../../services/ProfilesService.js';
+import { logger } from '../../utils/Logger.js';
+import Pop from '../../utils/Pop.js';
+import { useRoute } from 'vue-router';
+import { challengeModeratorsService } from '../../services/ChallengeModeratorsService.js';
 
 export default {
   setup() {

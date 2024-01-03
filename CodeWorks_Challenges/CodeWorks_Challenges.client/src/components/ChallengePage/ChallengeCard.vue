@@ -8,9 +8,9 @@
         </span>
         <div class="col-2 me-5 pe-5">
           <div class="col-12 d-flex flex-column justify-content-center align-items-center">
-            <img v-if="challenge.difficulty === 1" src="../assets/img/easy-difficulty-chart.svg" :title="`Difficulty Rating: ${challenge.difficulty}`" alt="Easy Difficulty Icon" class="img-fluid" style="width: 30px; height: 30px;">
-            <img v-if="challenge.difficulty === 2" src="../assets/img/medium-difficulty-chart.svg" :title="`Difficulty Rating: ${challenge.difficulty}`" alt="Medium Difficulty Icon" class="img-fluid" style="width: 30px; height: 30px;">
-            <img v-if="challenge.difficulty === 3" src="../assets/img/hard-difficulty-chart.svg" :title="`Difficulty Rating: ${challenge.difficulty}`" alt="Hard Difficulty Icon" class="img-fluid" style="width: 30px; height: 30px;">
+            <img v-if="challenge.difficulty === 1" src="../../assets/img/easy-difficulty-chart.svg" :title="`Difficulty Rating: ${challenge.difficulty}`" alt="Easy Difficulty Icon" class="img-fluid" style="width: 30px; height: 30px;">
+            <img v-if="challenge.difficulty === 2" src="../../assets/img/medium-difficulty-chart.svg" :title="`Difficulty Rating: ${challenge.difficulty}`" alt="Medium Difficulty Icon" class="img-fluid" style="width: 30px; height: 30px;">
+            <img v-if="challenge.difficulty === 3" src="../../assets/img/hard-difficulty-chart.svg" :title="`Difficulty Rating: ${challenge.difficulty}`" alt="Hard Difficulty Icon" class="img-fluid" style="width: 30px; height: 30px;">
           </div>
         </div>
         <div class="col-4 d-flex justify-content-center align-items-center">
@@ -34,14 +34,14 @@
 
 <script>
 import { computed } from 'vue'
-import Pop from '../utils/Pop'
+import Pop from '../../utils/Pop'
 import { useRoute } from 'vue-router'
-import { AppState } from '../AppState'
-import { logger } from '../utils/Logger'
-import { Challenge } from '../models/Challenge'
-import { StrDifficultyNum } from '../utils/StrDifficultyNum'
-import { profilesService } from '../services/ProfilesService'
-import { challengesService } from '../services/ChallengesService'
+import { AppState } from '../../AppState'
+import { logger } from '../../utils/Logger'
+import { Challenge } from '../../models/Challenge'
+import { StrDifficultyNum } from '../../utils/StrDifficultyNum'
+import { profilesService } from '../../services/ProfilesService'
+import { challengesService } from '../../services/ChallengesService'
 
 export default {
   props: {
@@ -107,7 +107,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import url('../assets/scss/_variables.scss');
+@import url('../../assets/scss/_variables.scss');
 .challenge-card {
   background-color: var(--bg-main);
   text-shadow: 0 1px #000000;

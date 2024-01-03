@@ -61,7 +61,7 @@ import { AppState } from '../AppState';
 import Pop from "../utils/Pop.js";
 import { challengesService } from "../services/ChallengesService.js";
 import { logger } from "../utils/Logger.js";
-import ChallengeCard from '../components/ChallengeCard.vue'
+import ChallengeCard from '../components/ChallengePage/ChallengeCard.vue'
 import AccountModerator from "../components/AccountModerator.vue";
 import { accountService } from "../services/AccountService.js";
 import SummarySection from '../components/AccountAndProfilePage/SummarySection.vue';

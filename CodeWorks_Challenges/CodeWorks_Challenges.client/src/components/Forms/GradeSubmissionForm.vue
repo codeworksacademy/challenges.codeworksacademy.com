@@ -61,16 +61,16 @@
 
 <script>
 import { computed, onMounted, ref, watchEffect } from 'vue'
-import { AppState } from '../AppState'
-import { logger } from '../utils/Logger'
-import { participantsService } from '../services/ParticipantsService'
-import { challengesService } from '../services/ChallengesService'
-import { ChallengeParticipant } from '../models/ChallengeParticipant'
-import { useRoute } from "vue-router"
-import Pop from "../utils/Pop"
-import { SUBMISSION_TYPES } from "../constants/index.js"
-import { formatEnum } from "../utils/FormatEnum.js"
-import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js"
+import { AppState } from '../../AppState'
+import { logger } from '../../utils/Logger'
+import { participantsService } from '../../services/ParticipantsService'
+import { challengesService } from '../../services/ChallengesService'
+import { ChallengeParticipant } from '../../models/ChallengeParticipant'
+import { useRoute } from 'vue-router'
+import Pop from '../../utils/Pop'
+import { SUBMISSION_TYPES } from '../../constants/index'
+import { formatEnum } from '../../utils/FormatEnum'
+import { challengeModeratorsService } from '../../services/ChallengeModeratorsService'
 
 export default {
   props: {

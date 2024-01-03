@@ -8,7 +8,7 @@
 import { useRoute } from 'vue-router'
 import { AppState } from '../AppState'
 import { computed, ref, watch } from 'vue'
-import ChallengeCard from '../components/ChallengeCard.vue'
+import ChallengeCard from '../components/ChallengePage/ChallengeCard.vue'
 
 export default {
   components: { ChallengeCard, },

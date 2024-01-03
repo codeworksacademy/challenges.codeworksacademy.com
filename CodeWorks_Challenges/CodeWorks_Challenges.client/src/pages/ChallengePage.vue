@@ -65,18 +65,6 @@
           </div>
         </div>
       </div>
-      <div v-for="(c, index) in challenges" :key="index" class="px-0">
-        <ChallengeCard :challenge="c" />
-      </div>
-      <div class="row justify-content-evenly">
-        <ul class="pagination col-md-5">
-          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">Next</a></li>
-        </ul>
-      </div>
   </section>
   <router-view />
 </template>

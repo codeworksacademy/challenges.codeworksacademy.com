@@ -1,5 +1,5 @@
 <template>
-  <section class="rank-card-style row my-2 my-md-0 p-1 m-1">
+  <section class="rank-card-style row my-2 my-md-0 p-1 m-1 mx-0">
     <div class="d-flex flex-row">
       <div class="col-4 d-flex justify-content-center align-items-center">
         <div class="badge badge-color position-relative" id="collaborator">
