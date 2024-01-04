@@ -5,6 +5,9 @@
       <router-link :to="{ name: 'Overview' }">
         <h4 class="mdi mdi-file-document-multiple text-light selectable"> Overview</h4>
       </router-link>
+      <router-link :to="{ name: 'ChallengeSubmissionsPage' }">
+        <h4 class="mdi mdi-file-document-multiple text-light selectable"> Submissions</h4>
+      </router-link>
       <router-link :to="{ name: 'Requirements' }">
         <h4 class="mdi mdi-file-document-check text-light selectable"> Requirements</h4>
       </router-link>
@@ -21,7 +24,11 @@
         <router-link :to="{ name: 'ChallengeEditor' }">
           <h4 class="mdi mdi-archive-edit text-warning selectable" style=""> Edit Challenge</h4>
         </router-link>
-        <h4 @click="deprecateChallenge(challenge.id)" class="cancel-button mdi mdi-cancel text-danger selectable" style="white-space: nowrap"> Deprecate Challenge</h4>
+        <router-link :to="{ name: 'ChallengeModeratorsPage' }">
+          <h4 class="mdi mdi-archive-edit text-danger selectable" style="">Moderators</h4>
+        </router-link>
+
+        <!-- <h4 @click="deprecateChallenge(challenge.id)" class="cancel-button mdi mdi-cancel text-danger selectable" style="white-space: nowrap"> Deprecate Challenge</h4> -->
       </div>
       <div v-else-if="!isParticipant">
         <h4 @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable text-success"> Join Challenge</h4>
@@ -43,9 +50,9 @@
         > 
           Submit for Review
         </h4>
-        <router-link v-if="isParticipant.status === 'submitted'" :to="{ name: 'ChallengeSubmissionsPage' }">
+        <!-- <router-link v-if="isParticipant.status === 'submitted'" :to="{ name: 'ChallengeSubmissionsPage' }">
           <h4 v-if="isParticipant.status === 'submitted'" class="mdi mdi-eye-arrow-right selectable text-info"> Competitors</h4>
-        </router-link>
+        </router-link> -->
         <h4 @click="leaveChallenge()" class="mdi mdi-cancel selectable text-danger"> Leave Challenge</h4>
       </div>
     </aside>

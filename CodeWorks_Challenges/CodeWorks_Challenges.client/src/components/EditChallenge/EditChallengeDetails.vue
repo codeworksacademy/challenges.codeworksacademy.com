@@ -41,6 +41,7 @@
       </select>
     </div>
     <div class="input-group mb-3">
+      <span class="text-danger">When autograde is false, upon page reload, the input is not disabled</span>
       <label class="input-group-text" for="challengeAutoGrade">Auto Grade</label>
       <select id="challengeAutoGrade" class="form-select" v-model="challenge.autoGrade">
         <option value=false>No</option>

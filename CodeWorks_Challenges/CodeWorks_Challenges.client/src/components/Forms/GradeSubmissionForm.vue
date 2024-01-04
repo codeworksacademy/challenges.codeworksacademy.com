@@ -44,10 +44,8 @@
               <select v-model="editable.status" name="status" id="status" placeholder="Status"
                 class="form-select bg-light">
                 <option value="null">Select a status</option>
-                <option value="started">Started</option>
                 <option value="completed">Completed</option>
                 <option value="returned_for_review">Returned for Review</option>
-                <option value="removed">Flagged for Removal</option>
               </select>
               <button type="submit" class="btn btn-success">Submit</button>
             </div>
