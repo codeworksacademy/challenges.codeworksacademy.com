@@ -65,7 +65,6 @@ import ChallengeCard from './ChallengePage/ChallengeCard.vue'
 
 export default {
   setup() {
-    // This returns moderations where the accountId is the same as account.id
     async function getModerationsByUserId() {
       try {
         await challengeModeratorsService.getModerationsByUserId(AppState.account.id);
@@ -74,7 +73,6 @@ export default {
         Pop.toast(error, 'error');
       }
     }
-    // This is returning moderations that have challenge Ids that belong to you
     async function getModerationsByChallengeCreatorId() {
       try {
         await challengeModeratorsService.getModerationsByChallengeCreatorId(AppState.account.id);

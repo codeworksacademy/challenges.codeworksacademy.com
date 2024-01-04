@@ -25,14 +25,9 @@ export class ChallengesController extends BaseController {
       .delete('/:challengeId/participants', this.removeParticipant)
   }
 
-  // REVIEW 🟡 This process for submitting a challenge is likely being over complicated or incorrectly handled. When I submit a challenge for grading simply change the status of my participation to NEEDS_GRADED.... 
-  // Only need one route, if the challenge is autograde then it will be automatically graded
-  // If the challenge is not automatically graded, set the participants status to submitted
   async submitAnswer(req, res, next) {
     try {
-      // 🚨 route.params.participantId isn't being used, probably need to change route.
       const challengeId = req.params.challengeId
-      // const userId = req.userInfo.id
       const participantId = req.body.participantId
       const answer = req.body.answer
       const result = await challengesService.submitAnswer(challengeId, participantId, answer)
