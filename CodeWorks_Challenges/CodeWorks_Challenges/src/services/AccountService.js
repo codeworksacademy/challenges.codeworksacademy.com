@@ -127,11 +127,13 @@ class AccountService {
   }
 
   // Calculates the reputation of the user
+  //FIXME - You need the challenge ID and currently logged in user. A challenge can have [repId] and verify user Id isnt already in [repIds]. If it doesn't we will add it and grab challenge creators profile, then add +1 to their account.
   async calculateMyReputation(userInfo) {
     const challenges = await challengesService.getChallengesCreatedBy(userInfo.id, userInfo.id)
     const account = await this.getAccount(userInfo)
     let reputationScore = account.reputation += 0
 
+    //FIXME - The below condition is executed incorrectly
     if (challenges.creatorId === userInfo.id) {
       reputationScore += 1
     }

@@ -10,7 +10,7 @@
     <p class="fs-6 hide-sm">
       <span class="light-gold-color">Rank: </span> {{ currentRank }}
       <span title="experience" class="ms-4">
-        {{ props.rankString }} <span class="light-gold-color">XP</span>
+        {{ props.rankNumber }} <span class="light-gold-color">XP</span>
       </span>
       <span title="challenges" class="ms-4">
         {{ props.challengesCount }}
@@ -45,7 +45,7 @@ export default {
         let lastKey = 0
 
         for (const key in AppState.rankTitles) {
-          if (props.rankInt >= key) {
+          if (props.userRank >= key) {
             lastKey = key
           }
         }
