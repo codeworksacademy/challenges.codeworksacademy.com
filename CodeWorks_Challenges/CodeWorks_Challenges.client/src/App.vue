@@ -27,17 +27,6 @@
         <ChallengeSubmissionForm />
       </template>
     </ModalWrapper>
-
-    <ModalWrapper id="submitAnswerModal">
-      <template #header>
-        <h3>
-          Submit Answer
-        </h3>
-      </template>
-      <template #body>
-        <AnswerForm />
-      </template>
-    </ModalWrapper>
   </main>
 </template>
 
@@ -49,7 +38,7 @@ import ModalWrapper from './components/ModalWrapper.vue'
 import CreateChallengeForm from './components/Forms/CreateChallengeForm.vue'
 import ChallengeSubmissionForm from './components/Forms/ChallengeSubmissionForm.vue'
 import ModeratorCard from './components/ModeratorCard.vue'
-import AnswerForm from './components/Forms/AnswerForm.vue'
+
 
 export default {
   setup() {
@@ -65,7 +54,6 @@ export default {
     CreateChallengeForm,
     ChallengeSubmissionForm,
     ModeratorCard,
-    AnswerForm
   }
 }
 </script>

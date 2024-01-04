@@ -64,9 +64,6 @@ class ChallengesService {
     AppState.challenges = challenges
   }
 
-  //⚠️These are the same thing, Keep one (Also deprecateChallenge is removed from server)
-  //is this reactive? This removes it
-  // The .delete was not going to hit the .put in either case
   async deprecateChallenge(challengeId) {
     const res = await api.delete(`/api/challenges/${challengeId}`)
     logger.log('🚨🚨🚨deprecating Challenge ⏩', res.data)
@@ -75,8 +72,6 @@ class ChallengesService {
     Pop.toast('Your challenges has been marked as deprecated.', 'success')
   }
 
-  //⚠️These are the same thing, Keep one
-  //Is this reactive? - This removes and updates it?
   async deleteChallenge(challengeId) {
     const res = await api.delete(`/api/challenges/${challengeId}`)
     logger.log('🚨🚨🚨Deleting Challenge ⏩', res.data)
@@ -101,19 +96,6 @@ class ChallengesService {
     AppState.activeChallenge = new Challenge(res.data)
 
     return res.data
-  }
-
-  // 🚨 Is this meant to be a put? I would guess that it is updating feilds already present.
-  async submitAnswer(challengeId, answerData) {
-    logger.log(`🚨🚨🚨 Is this meant to be a put? Should it be an update participant`)
-    return `Is this meant to be a put?`
-    // const res = await api.post(`api/challenges/${challengeId}/answers`, {
-    //   answerData
-    // })
-    // logger.log(answerData)
-    // logger.log('[SUBMITTING ANSWER]', res.data)
-
-    // return res.data
   }
 }
 
