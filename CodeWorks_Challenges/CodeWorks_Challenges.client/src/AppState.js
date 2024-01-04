@@ -61,17 +61,17 @@ export const AppState = reactive({
   ],
   rankTitles: {
     0: "Bugs Bunny",
-    10: "Widget Weenie",
-    50: "Code Cadet",
-    100: "Function Fox",
-    150: "Bit Bender",
-    300: "Logic Lord",
-    500: "Malware Maven",
-    1000: "Pixel Paladin",
-    5000: "Code Conjurer",
-    10000: "Matrix Master",
-    15000: "Data Demigod",
-    20000: "Centurion of Code"
+    5: "Widget Weenie",
+    10: "Code Cadet",
+    15: "Function Fox",
+    30: "Bit Bender",
+    50: "Logic Lord",
+    70: "Malware Maven",
+    100: "Pixel Paladin",
+    150: "Code Conjurer",
+    310: "Matrix Master",
+    400: "Data Demigod",
+    500: "Centurion of Code"
   },
   rankBadges: {
     0: RANK_BADGE[0],
