@@ -26,6 +26,8 @@
       <div v-else-if="!isParticipant">
         <h4 @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable text-success"> Join Challenge</h4>
       </div>
+      <h4 v-if="isParticipant?.status == 'completed'" class="text-success">Challenge Passed <span><i class="mdi mdi-check"></i></span></h4>
+      <h4 v-if="isParticipant?.status == 'incomplete'" class="text-warning">Challenge Incomplete <span><i class="mdi mdi-alert-box"></i></span></h4>
       <div v-else-if="isParticipant">
         <h4
           v-if="isParticipant.status === 'started'"
