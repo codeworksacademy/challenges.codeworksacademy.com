@@ -109,19 +109,6 @@ class ChallengesService {
     return challenge
   }
 
-  // 🚨This cannot be accessed from client
-  // async deprecateChallenge(challengeId, userId) { 
-  //   const challenge = await this.getChallengeById(challengeId)
-  //   if (challenge.creatorId != userId) {
-  //     throw new Forbidden(
-  //       `[PERMISSIONS ERROR]: You are not the creator of ${challenge.name}, therefore you cannot deprecate it.`
-  //     )
-  //   }
-  //   challenge.status = 'deprecated'
-  //   await challenge.save()
-  //   return challenge
-  // }
-
   async deleteChallenge(challengeId, userId) {
     const challenge = await this.getChallengeById(challengeId)
     if (challenge.creatorId != userId)
