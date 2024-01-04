@@ -13,7 +13,7 @@
         />
         <img
           v-else
-          @click="changeRoute(`/profiles/${participant.profile.id}`)"
+          @click="changeRoute(`/profiles/${participant.profile?.id}/overview`)"
           :src="participant.profile.picture"
           :title="`Click to Visit ${participant.profile.name}'s Profile Page`"
           :alt="`Participant Name: ${participant.profile.name} | Current Status: ${participant.status}`"

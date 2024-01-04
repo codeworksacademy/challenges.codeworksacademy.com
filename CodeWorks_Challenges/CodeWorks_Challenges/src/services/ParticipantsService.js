@@ -105,7 +105,7 @@ class ParticipantsService {
 		const isChallengeModerator = await challengeModeratorsService.getModeratorByUserIdAndChallengeId(userId, participant.challengeId)
 
 		if (!isChallengeModerator && participant.accountId != userId) {
-			throw new Forbidden('Yo - bugs bunny - are NOT a moderator for this challenge. You cannot grade participants.')
+			throw new Forbidden('You are not a moderator for this challenge. You cannot grade participants.')
 		}
 
 		participant = await this.writeChallengeParticipantProgress(participantId, participantProgress)
