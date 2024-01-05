@@ -1,18 +1,12 @@
 <template>
-  <div class="row justify-content-center">
-      <div class="col-md-8">
-        <h1 class="text-center my-3 text-light">Edit Challenge Details</h1>
+  <div class="row mx-3">
+      <div class="col-md-10 bg-detail rounded-3">
+        <h3 class="my-3 mx-4" style="color: #7A7A7A">Edit Challenge Details</h3>
         <section class="container-fluid text-light" v-if="challenge"> 
           <div>
-            <div>
-              <EditChallengeDetails :challenge="challenge"/>
-            </div>
+            <EditChallengeDetails :challenge="challenge"/>
             <EditChallengeDescription :challenge="challenge"/>
-          </div>
-          <div>
             <EditChallengeRequirements :challenge="challenge"/>
-          </div>
-          <div>
           </div>
           <div class="text-center my-3">
             <button class="btn btn-success" @click="updateChallenge"> Update Challenge</button>
@@ -84,4 +78,8 @@
   
   <style scoped lang="scss">
   
+  .bg-detail{
+    background-color: #1c2332
+  }
+
   </style>

@@ -112,28 +112,6 @@ const routes = [
       }
     ]
   },
-  // {
-  //   path: '/challenges/:challengeId/edit',
-  //   name: 'ChallengeEditor',
-  //   component: loadPage('ChallengeEditor')
-  // },
-  // {
-  //   path: '/challenges/:challengeId/grade',
-  //   name: 'GradeSubmissionsPage',
-  //   component: loadPage('GradeSubmissionsPage')
-  // },
-  // {
-  //   path: '/challenges/:challengeId/submissions',
-  //   name: 'ChallengeSubmissionsPage',
-  //   component: loadPage('ChallengeSubmissionsPage'),
-  //   beforeEnter: authGuard
-  // },
-  // {
-  //   path: '/challenges/:challengeId/moderators',
-  //   name: 'ChallengeModeratorsPage',
-  //   component: loadPage('ChallengeModeratorsPage'),
-  //   beforeEnter: authGuard
-  // },
   {
     path: '/profiles/:profileId',
     name: 'Profile',

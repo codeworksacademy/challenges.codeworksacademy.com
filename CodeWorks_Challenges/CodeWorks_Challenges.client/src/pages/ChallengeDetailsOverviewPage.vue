@@ -2,12 +2,11 @@
   <section v-if="challenge" :key="challenge?.id" class="text-light pb-5">
 
     <article>
-      <div class="details-header ps-3">
+      <div class="details-header ps-3 bg-detail mx-3">
         <h3 class="text-uppercase" style="color: #7A7A7A">
           Challenge Description
         </h3>
         <p> {{ challenge.description }} </p>
-        <hr>
       </div>
     </article>
 
@@ -119,6 +118,10 @@ export default {
   background:#1c2332;
   text-align: center;
 }
+
+.bg-detail{
+    background-color: #1c2332
+  }
 
 @media screen and (max-width: 768px) {
   .details-header {
