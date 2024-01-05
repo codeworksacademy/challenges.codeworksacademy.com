@@ -23,7 +23,7 @@ export default {
 
     return {
       filterBy,
-      challenge: computed(() => AppState.activeChallenge),
+      challenge: computed(() => AppState.ChallengeState.challenge),
       challenges: computed(() => {
         if (!filterBy.value) {
           return AppState.challenges

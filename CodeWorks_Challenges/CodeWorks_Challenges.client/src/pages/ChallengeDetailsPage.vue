@@ -78,7 +78,7 @@ export default {
 
         return {
           loading,
-          challenge: computed(() => AppState.activeChallenge),
+          challenge: computed(() => AppState.ChallengeState.challenge),
           isParticipant: computed(() => {
             return AppState.participants.find(p => p.accountId === AppState.user.id);
           }),

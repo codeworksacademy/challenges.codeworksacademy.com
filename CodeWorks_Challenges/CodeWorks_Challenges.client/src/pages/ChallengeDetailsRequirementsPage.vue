@@ -20,7 +20,7 @@ import { AppState } from '../AppState'
 export default {
   setup() {
     return {
-      challenge: computed(() => AppState.activeChallenge)
+      challenge: computed(() => AppState.ChallengeState.challenge)
     } 
   }
 }

@@ -81,10 +81,10 @@ export default {
       
       isMobile,
 
-      challenge: computed(() => AppState.activeChallenge),
-      isPuzzle: computed(() => AppState.activeChallenge.category === CATEGORY_TYPES.PUZZLES),
+      challenge: computed(() => AppState.ChallengeState.challenge),
+      isPuzzle: computed(() => AppState.ChallengeState.challenge.category === CATEGORY_TYPES.PUZZLES),
       difficulty: computed(() => {
-        const challenge = StrDifficultyNum(AppState.activeChallenge.difficulty)
+        const challenge = StrDifficultyNum(AppState.ChallengeState.challenge.difficulty)
         return challenge
       }),
     }

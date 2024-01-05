@@ -88,7 +88,7 @@ export default {
       user: computed(() => AppState.user),
       account: computed(() => AppState.AccountState.account),
       challenges: computed(() => AppState.challenges),
-      activeChallenge: computed(() => AppState.activeChallenge),
+      activeChallenge: computed(() => AppState.ChallengeState.challenge),
       difficulty,
       userSolveCount,
 

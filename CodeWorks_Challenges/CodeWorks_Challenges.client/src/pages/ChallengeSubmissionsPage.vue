@@ -107,7 +107,7 @@ export default {
       participant,
 
       user: computed(() => AppState.user),
-      challenge: computed(() => AppState.activeChallenge),
+      challenge: computed(() => AppState.ChallengeState.challenge),
       myModerations: computed(() => AppState.moderators.filter(m => m.accountId === AppState.AccountState.account.id)),
       participants: computed(() => AppState.participants),
       isParticipant: computed(() => {
@@ -121,7 +121,7 @@ export default {
         }
       }),
       difficulty: computed(() =>
-        StrDifficultyNum(AppState.activeChallenge.difficulty)
+        StrDifficultyNum(AppState.ChallengeState.challenge.difficulty)
       ),
     } 
   }

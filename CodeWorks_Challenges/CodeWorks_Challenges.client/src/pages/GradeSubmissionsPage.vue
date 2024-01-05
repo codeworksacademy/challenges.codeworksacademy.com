@@ -136,11 +136,11 @@ export default {
       editable,
       participant,
       user: computed(() => AppState.user),
-      challenge: computed(() => AppState.activeChallenge),
+      challenge: computed(() => AppState.ChallengeState.challenge),
       myModerations: computed(() => AppState.moderators.filter(m => m.accountId === AppState.AccountState.account.id)),
-      challengeCreator: computed(() => AppState.user.id === AppState.activeChallenge?.creatorId),
+      challengeCreator: computed(() => AppState.user.id === AppState.ChallengeState.challenge?.creatorId),
       isModeratorStatus,
-      difficulty: computed(() => StrDifficultyNum(AppState.activeChallenge.difficulty)),
+      difficulty: computed(() => StrDifficultyNum(AppState.ChallengeState.challenge.difficulty)),
       participants: computed(() => AppState.participants),
       isParticipant: computed(() => {
         return AppState.participants.find(p => p.accountId === AppState.user.id)

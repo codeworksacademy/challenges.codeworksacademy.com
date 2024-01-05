@@ -169,7 +169,7 @@ export default {
       gradeCount: computed(() => {
         return editable.value.requirements.filter(r => r.isComplete).length
       }),
-      challenge: computed(() => AppState.activeChallenge),
+      challenge: computed(() => AppState.ChallengeState.challenge),
       formatEnum,
       gradeChallengeParticipant,
       addGradePoint

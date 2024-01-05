@@ -60,11 +60,11 @@ export default {
   setup() {
 
     const router = useRouter()
-    const challenge = computed(() => AppState.activeChallenge)
+    const challenge = computed(() => AppState.ChallengeState.challenge)
     
     const editable = ref({
       accountId: AppState.user.id,
-      challengeId: AppState.activeChallenge?.id,
+      challengeId: AppState.ChallengeState.challenge?.id,
       submission: '',
       status: SUBMISSION_TYPES,
     })
@@ -75,7 +75,7 @@ export default {
 
     async function updateChallengeParticipant() {
       try {
-        if (await Pop.confirm(`Are you sure you are ready to submit ${AppState.activeChallenge?.name} to be graded? This cannot be undone!`)) {
+        if (await Pop.confirm(`Are you sure you are ready to submit ${AppState.ChallengeState.challenge?.name} to be graded? This cannot be undone!`)) {
           const participantId = participant.value.id
           const newParticipant = { 
             ...editable.value,
@@ -88,7 +88,7 @@ export default {
           Pop.success('Challenge Submitted!');
           router.push({
             name: 'ChallengeSubmissionsPage',
-            path: `/challenges/${AppState.activeChallenge?.id}/submissions`
+            path: `/challenges/${AppState.ChallengeState.challenge?.id}/submissions`
           })
         }
       } catch (error) {

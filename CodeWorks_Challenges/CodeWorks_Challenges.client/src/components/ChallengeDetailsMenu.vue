@@ -83,7 +83,7 @@ export default {
           challengeId: route.params.challengeId,
           accountId: AppState.user.id,
           status: SUBMISSION_TYPES.STARTED,
-          requirements: AppState.activeChallenge?.requirements,
+          requirements: AppState.ChallengeState.challenge?.requirements,
 
         }
         await participantsService.joinChallenge(newParticipant)
@@ -105,7 +105,7 @@ export default {
           status: SUBMISSION_TYPES.SUBMITTED
         }
         await participantsService.updateChallengeParticipant(participantId, newParticipant)
-        Pop.success(`${AppState.AccountState.account.name} submitted ${AppState.activeChallenge?.name} successfully. Click 'View Competitors' to verify your submission and see how you 'stack' up! 😉`)
+        Pop.success(`${AppState.AccountState.account.name} submitted ${AppState.ChallengeState.challenge?.name} successfully. Click 'View Competitors' to verify your submission and see how you 'stack' up! 😉`)
       } catch (error) {
         logger.error(error)
         Pop.toast(error, 'error')
@@ -130,11 +130,11 @@ export default {
 
     async function deprecateChallenge() {
       try {
-        const confirmDeprecate = await Pop.confirm(`Are you sure you want to deprecate ${AppState.activeChallenge.name}?`)
+        const confirmDeprecate = await Pop.confirm(`Are you sure you want to deprecate ${AppState.ChallengeState.challenge.name}?`)
         if (!confirmDeprecate) {
           return
         }
-        const challengeId = AppState.activeChallenge.id
+        const challengeId = AppState.ChallengeState.challenge.id
         await challengesService.deleteChallenge(challengeId)
         Pop.success('Challenge deprecated!')
         router.push({
@@ -152,9 +152,9 @@ export default {
       leaveChallenge,
       updateChallengeParticipant,
       deprecateChallenge,
-      challenge: computed(() => AppState.activeChallenge),
+      challenge: computed(() => AppState.ChallengeState.challenge),
       isOwned: computed(() => {
-        return AppState.activeChallenge?.creatorId === AppState.user.id
+        return AppState.ChallengeState.challenge?.creatorId === AppState.user.id
       }),
       isModerator: computed(() => {
         return AppState.moderators.find(m => m.accountId === AppState.user.id)

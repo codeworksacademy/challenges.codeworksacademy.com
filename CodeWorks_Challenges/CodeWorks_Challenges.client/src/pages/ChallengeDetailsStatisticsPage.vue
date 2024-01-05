@@ -41,7 +41,7 @@ export default {
     const filterBy = ref('')
     const editable = ref({
       accountId: AppState.user.id,
-      challengeId: AppState.activeChallenge?.id,
+      challengeId: AppState.ChallengeState.challenge?.id,
       submission: '',
       status: SUBMISSION_TYPES,
     })
@@ -81,7 +81,7 @@ export default {
       participant,
 
       user: computed(() => AppState.user),
-      challenge: computed(() => AppState.activeChallenge),
+      challenge: computed(() => AppState.ChallengeState.challenge),
       myModerations: computed(() => AppState.moderators.filter(m => m.accountId === AppState.AccountState.account.id)),
       participants: computed(() => AppState.participants),
       isParticipant: computed(() => {
@@ -95,7 +95,7 @@ export default {
         }
       }),
       difficulty: computed(() =>
-        StrDifficultyNum(AppState.activeChallenge.difficulty)
+        StrDifficultyNum(AppState.ChallengeState.challenge.difficulty)
       ),
       participantCompletionRate: computed(() => {
         const participants = AppState.participants

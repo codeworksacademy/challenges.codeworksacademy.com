@@ -11,7 +11,7 @@ class ChallengesService {
   async createChallenge(newChallenge) {
     const res = await api.post('/api/challenges', newChallenge)
     logger.log('Creating Challenge ⏩', res.data)
-    AppState.activeChallenge = new Challenge(res.data)
+    AppState.ChallengeState.challenge = new Challenge(res.data)
     return res.data
   }
 
@@ -51,10 +51,10 @@ class ChallengesService {
 
   async setActiveChallenge(challengeId) {
     const res = await api.get(`/api/challenges/${challengeId}`)
-    AppState.activeChallenge = new Challenge(res.data)
+    AppState.ChallengeState.challenge = new Challenge(res.data)
     participantsService.getParticipantsByChallengeId(challengeId)
     challengeModeratorsService.getModeratorsByChallengeId(challengeId)
-    logger.log('Active Challenge:', AppState.activeChallenge)
+    logger.log('Active Challenge:', AppState.ChallengeState.challenge)
   }
 
   async filterDifficulty(difficulty) {
@@ -77,14 +77,14 @@ class ChallengesService {
     logger.log('🚨🚨🚨Deleting Challenge ⏩', res.data)
     let indexToDelete = AppState.challenges.findIndex(c => c.id == challengeId)
     AppState.challenges.splice(indexToDelete, 1)
-    AppState.activeChallenge = res.data
+    AppState.ChallengeState.challenge = res.data
     Pop.toast('You have successfully deleted this challenge!', 'success')
   }
 
   async updateChallenge(challengeData, challengeId) {
     const res = await api.put(`/api/challenges/${challengeId}`, challengeData)
     logger.log('Updating Challenge ⏩', res.data)
-    AppState.activeChallenge = new Challenge(res.data)
+    AppState.ChallengeState.challenge = new Challenge(res.data)
     return res.data
   }
 
@@ -93,7 +93,7 @@ class ChallengesService {
 
     logger.log('[GIVING REPUTATION]', res.data)
 
-    AppState.activeChallenge = new Challenge(res.data)
+    AppState.ChallengeState.challenge = new Challenge(res.data)
 
     return res.data
   }

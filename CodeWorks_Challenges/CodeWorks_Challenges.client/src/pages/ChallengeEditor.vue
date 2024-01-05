@@ -36,7 +36,7 @@
     setup() {
       let route = useRoute()
       let router = useRouter()
-      const challenge = computed(() => AppState.activeChallenge)
+      const challenge = computed(() => AppState.ChallengeState.challenge)
 
       async function setActiveChallenge() {
         try {
@@ -51,13 +51,13 @@
       async function updateChallenge(){
         try {
           const updatedChallenge = {
-            ...AppState.activeChallenge
+            ...AppState.ChallengeState.challenge
           }
           await challengesService.updateChallenge(updatedChallenge, updatedChallenge.id)
           Pop.success("Challenge Updated")
           router.push({
             name: 'ChallengeDetails',
-            path: `/challenges/${AppState.activeChallenge?.id}/overview`
+            path: `/challenges/${AppState.ChallengeState.challenge?.id}/overview`
           })
         } catch (e){
           logger.log(e)
