@@ -57,7 +57,7 @@ export default {
       profile: computed(() => {
         return AppState.ProfileState.profiles.find(p => p.id === AppState.activeParticipant?.profile.id)
       }),
-      isGrader: computed(() => AppState.moderators.find(m => m.accountId == AppState.AccountState.account.id || m.originId == AppState.AccountState.account.id)),
+      isGrader: computed(() => AppState.ChallengeState.moderators.find(m => m.accountId == AppState.AccountState.account.id || m.originId == AppState.AccountState.account.id)),
     }
   }
 }

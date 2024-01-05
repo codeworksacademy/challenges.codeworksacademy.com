@@ -57,7 +57,7 @@ export default {
       getModeratorsByChallengeId();
     })
     return {
-      moderators: computed(() => AppState.moderators)
+      moderators: computed(() => AppState.ChallengeState.moderators)
     };
   },
   components: { ModSearchForm, ChallengeModeratorCard }

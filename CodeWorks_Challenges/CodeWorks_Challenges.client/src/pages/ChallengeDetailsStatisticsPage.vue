@@ -67,7 +67,7 @@ export default {
     }
 
     const participant = computed(() => {
-      return AppState.participants.find(p => p.accountId === AppState.user.id)
+      return AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id)
     })
 
     onMounted(() => {
@@ -82,23 +82,23 @@ export default {
 
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.ChallengeState.challenge),
-      myModerations: computed(() => AppState.moderators.filter(m => m.accountId === AppState.AccountState.account.id)),
-      participants: computed(() => AppState.participants),
+      myModerations: computed(() => AppState.ChallengeState.moderators.filter(m => m.accountId === AppState.AccountState.account.id)),
+      participants: computed(() => AppState.ChallengeState.participants),
       isParticipant: computed(() => {
-        return AppState.participants.find(p => p.accountId === AppState.user.id)
+        return AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id)
       }),
       participantFilter: computed(() => {
         if (!filterBy.value) {
-          return AppState.participants
+          return AppState.ChallengeState.participants
         } else {
-          return AppState.participants.filter(p => p.status === filterBy.value)
+          return AppState.ChallengeState.participants.filter(p => p.status === filterBy.value)
         }
       }),
       difficulty: computed(() =>
         StrDifficultyNum(AppState.ChallengeState.challenge.difficulty)
       ),
       participantCompletionRate: computed(() => {
-        const participants = AppState.participants
+        const participants = AppState.ChallengeState.participants
         const submissionTypes = participants.filter(p => p.status === SUBMISSION_TYPES ? p.status === SUBMISSION_TYPES : p.status !== SUBMISSION_TYPES['removed', 'left'])
         const completed = participants.filter(p => p.status === 'completed')
         const total = submissionTypes.length
@@ -106,7 +106,7 @@ export default {
         return percentage.toFixed(2) + '%'
       }),
       totalSubmitted: computed(() => {
-        const participants = AppState.participants
+        const participants = AppState.ChallengeState.participants
         const submissions = participants.filter(p => p.status === 'submitted' || p.status === 'completed')
         const total = submissions.length
         return total

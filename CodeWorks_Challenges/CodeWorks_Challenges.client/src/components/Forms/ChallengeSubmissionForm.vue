@@ -70,7 +70,7 @@ export default {
     })
 
     const participant = computed(() => {
-      return AppState.participants.find(p => p.accountId === AppState.user.id)
+      return AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id)
     })
 
     async function updateChallengeParticipant() {

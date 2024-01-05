@@ -72,7 +72,7 @@ export default {
             } else if(challengeTypes.value == 'Moderated'){
               const modChallenges = []
 
-              const approvedModerations = AppState.moderations.filter(m => m.status == 'active' && m.challenge.creatorId != AppState.AccountState.account.id)
+              const approvedModerations = AppState.ChallengeState.moderators.filter(m => m.status == 'active' && m.challenge.creatorId != AppState.AccountState.account.id)
 
               approvedModerations.forEach(m => modChallenges.push(m.challenge))
 

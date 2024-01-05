@@ -14,30 +14,30 @@ class ProfilesService {
 
   async getProfile(profileId) {
     const res = await api.get(`api/profiles/${profileId}`)
-    AppState.ProfileState.profileState.profile = new Profile(res.data)
-    return AppState.ProfileState.profileState.profile
+    AppState.ProfileState.profile = new Profile(res.data)
+    return AppState.ProfileState.profile
   }
 
   async getChallenges(profileId) {
     const res = await api.get(`api/profiles/${profileId}/challenges`)
-    AppState.ProfileState.profileState.challenges = res.data.map(m => new Challenge(m))
+    AppState.ProfileState.challenges = res.data.map(m => new Challenge(m))
   }
 
   async getParticipations(profileId) {
     const res = await api.get(`api/profiles/${profileId}/participations`)
-    AppState.ProfileState.profileState.participations = res.data.map(m => new ChallengeParticipant(m))
+    AppState.ProfileState.participations = res.data.map(m => new ChallengeParticipant(m))
   }
   async getMilestones(profileId) {
     const res = await api.get(`api/profiles/${profileId}/milestones`)
-    AppState.ProfileState.profileState.milestones = res.data.map(m => new AccountMilestone(m))
+    AppState.ProfileState.milestones = res.data.map(m => new AccountMilestone(m))
   }
 
   clearProfile() {
-    AppState.ProfileState.profileState.profile = null
-    AppState.ProfileState.profileState.challenges = []
-    AppState.ProfileState.profileState.moderations = []
-    AppState.ProfileState.profileState.participations = []
-    AppState.ProfileState.profileState.milestones = []
+    AppState.ProfileState.profile = null
+    AppState.ProfileState.challenges = []
+    AppState.ProfileState.moderations = []
+    AppState.ProfileState.participations = []
+    AppState.ProfileState.milestones = []
   }
 
 }

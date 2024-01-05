@@ -80,10 +80,10 @@ export default {
           loading,
           challenge: computed(() => AppState.ChallengeState.challenge),
           isParticipant: computed(() => {
-            return AppState.participants.find(p => p.accountId === AppState.user.id);
+            return AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id);
           }),
           isModStatus: computed(() => {
-            const isMod = AppState.moderators.find(m => m.accountId == AppState.AccountState.account.id);
+            const isMod = AppState.ChallengeState.moderators.find(m => m.accountId == AppState.AccountState.account.id);
             if (isMod) {
               if (isMod.status == false) {
                 return "pending";

@@ -49,7 +49,7 @@ export default {
     const route = useRoute()
     return {
       editable,
-      moderators: computed(() => AppState.moderators),
+      moderators: computed(() => AppState.ChallengeState.moderators),
       Profiles: computed(() => {
         return AppState.ProfileState.profiles.filter((profile) => profile.id != AppState.AccountState.account.id)
       }),

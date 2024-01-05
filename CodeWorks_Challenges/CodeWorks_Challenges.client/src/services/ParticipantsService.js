@@ -15,7 +15,7 @@ class ParticipantsService {
   async joinChallenge(newParticipant) {
     const res = await api.post('api/participants', newParticipant)
     logger.log('New participant:', res.data)
-    AppState.participants.push(new ChallengeParticipant(res.data))
+    AppState.ChallengeState.participants.push(new ChallengeParticipant(res.data))
   }
 
   async submitAnswer(challengeId, participantId, submission){
@@ -49,15 +49,15 @@ class ParticipantsService {
   async leaveChallenge(participantId) {
     const res = await api.delete(`api/participants/${participantId}`)
     logger.log('Deleted participant:', res.data)
-    let participantToRemove = AppState.participants.findIndex(p => p.id === participantId)
-    AppState.participants.splice(participantToRemove, 1)
+    let participantToRemove = AppState.ChallengeState.participants.findIndex(p => p.id === participantId)
+    AppState.ChallengeState.participants.splice(participantToRemove, 1)
     return res.data
   }
 
   async getParticipantsByChallengeId(challengeId) {
     const res = await api.get(`api/challenges/${challengeId}/participants`)
-    AppState.participants = res.data.map(p => new ChallengeParticipant(p))
-    logger.log('[Participants in this challenge]:', AppState.participants)
+    AppState.ChallengeState.participants = res.data.map(p => new ChallengeParticipant(p))
+    logger.log('[Participants in this challenge]:', AppState.ChallengeState.participants)
   }
 
   async getParticipationsByUserId(userId){
@@ -65,7 +65,7 @@ class ParticipantsService {
 
     logger.log('[GETTING PARTICIPATIONS BY USER ID', res.data)
 
-    AppState.participants = res.data.map(p => new ChallengeParticipant(p))
+    AppState.ChallengeState.participants = res.data.map(p => new ChallengeParticipant(p))
   }
 }
 

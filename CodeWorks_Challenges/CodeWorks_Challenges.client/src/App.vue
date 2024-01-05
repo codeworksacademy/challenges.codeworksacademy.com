@@ -44,8 +44,8 @@ export default {
   setup() {
     return {
       appState: computed(() => AppState),
-      participants: computed(() => AppState.participants),
-      moderators: computed(() => AppState.moderators),
+      participants: computed(() => AppState.ChallengeState.participants),
+      moderators: computed(() => AppState.ChallengeState.moderators),
     }
   },
   components: {

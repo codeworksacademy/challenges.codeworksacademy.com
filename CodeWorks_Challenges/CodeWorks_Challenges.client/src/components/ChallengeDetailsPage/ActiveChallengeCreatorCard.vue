@@ -35,7 +35,7 @@ export default {
     const isMobile = computed(() => window.innerWidth < 768)
 
     const isParticipant = computed(() => {
-      const participant = AppState.participants.find(p => p.accountId == AppState.AccountState.account.id)
+      const participant = AppState.ChallengeState.participants.find(p => p.accountId == AppState.AccountState.account.id)
       return participant
     })
 

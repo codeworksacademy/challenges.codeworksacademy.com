@@ -55,7 +55,7 @@ export default {
     const route = useRoute()
 
     const userSolveCount = computed(() => {
-      return AppState.participants.filter(p => p.status === 'completed')
+      return AppState.ChallengeState.participants.filter(p => p.status === 'completed')
   })
 
     const difficulty = computed(() => StrDifficultyNum(props.challenge.difficulty))

@@ -91,12 +91,12 @@ export default {
       account: computed(() => AppState.AccountState.account),
       myChallenges: computed(() => AppState.myChallenges),
       moderations: computed(() => {
-        let moderators = AppState.moderations
+        let moderators = AppState.ChallengeState.moderators
         let filterModerators = moderators.filter((m) => m.challenge.creatorId != AppState.AccountState.account.id)
         return filterModerators
       }),
       moderators: computed(() => {
-        let moderators = AppState.moderators
+        let moderators = AppState.ChallengeState.moderators
         let filterModerators = moderators.filter((m) => m.accountId != AppState.AccountState.account.id)
         return filterModerators
       }),

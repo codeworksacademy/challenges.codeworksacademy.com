@@ -2,7 +2,7 @@ import { AppState } from '../AppState';
 
 export function newChallengeParticipant(filterBy) {
   const { activeChallenge, activeParticipant } = AppState
-  const participants = filterBy ? AppState.participants.filter(p => p.status === filterBy) : AppState.participants;
+  const participants = filterBy ? AppState.ChallengeState.participants.filter(p => p.status === filterBy) : AppState.ChallengeState.participants;
   const participant = participants.find(p => p.accountId === AppState.user.id);
   const CHALLENGE_PARTICIPANT_FIELDS = {
     ...activeParticipant,

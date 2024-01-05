@@ -52,7 +52,7 @@ class AccountService {
   }
 
   clearSharedVariables(){
-    AppState.moderations = []
+    AppState.ChallengeState.moderators = []
   }
 }
 

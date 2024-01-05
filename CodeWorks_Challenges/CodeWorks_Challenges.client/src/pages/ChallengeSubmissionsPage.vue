@@ -84,7 +84,7 @@ export default {
     }
 
     function isModeratorStatus() {
-      const isMod = AppState.moderators.find(m => m.accountId == AppState.AccountState.account.id)
+      const isMod = AppState.ChallengeState.moderators.find(m => m.accountId == AppState.AccountState.account.id)
       if (isMod) {
         if (isMod.status == false) {
           return 'pending'
@@ -93,7 +93,7 @@ export default {
     }
 
     const participant = computed(() => {
-      return AppState.participants.find(p => p.accountId === AppState.user.id)
+      return AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id)
     })
 
     onMounted(() => {
@@ -108,16 +108,16 @@ export default {
 
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.ChallengeState.challenge),
-      myModerations: computed(() => AppState.moderators.filter(m => m.accountId === AppState.AccountState.account.id)),
-      participants: computed(() => AppState.participants),
+      myModerations: computed(() => AppState.ChallengeState.moderators.filter(m => m.accountId === AppState.AccountState.account.id)),
+      participants: computed(() => AppState.ChallengeState.participants),
       isParticipant: computed(() => {
-        return AppState.participants.find(p => p.accountId === AppState.user.id)
+        return AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id)
       }),
       participantFilter: computed(() => {
         if (!filterBy.value) {
-          return AppState.participants
+          return AppState.ChallengeState.participants
         } else {
-          return AppState.participants.filter(p => p.status === filterBy.value)
+          return AppState.ChallengeState.participants.filter(p => p.status === filterBy.value)
         }
       }),
       difficulty: computed(() =>

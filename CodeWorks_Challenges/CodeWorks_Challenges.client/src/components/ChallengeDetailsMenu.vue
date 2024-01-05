@@ -33,21 +33,15 @@
       <div v-else-if="!isParticipant">
         <h4 @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable text-success"> Join Challenge</h4>
       </div>
-      <h4 v-if="isParticipant?.status == 'completed'" class="text-success">Challenge Passed <span><i class="mdi mdi-check"></i></span></h4>
-      <h4 v-if="isParticipant?.status == 'incomplete'" class="text-warning">Challenge Incomplete <span><i class="mdi mdi-alert-box"></i></span></h4>
+      <h4 v-if="isParticipant?.status == 'completed'" class="text-success">Challenge Passed <span><i
+            class="mdi mdi-check"></i></span></h4>
+      <h4 v-if="isParticipant?.status == 'incomplete'" class="text-warning">Challenge Incomplete <span><i
+            class="mdi mdi-alert-box"></i></span></h4>
       <div v-else-if="isParticipant">
-        <h4
-          v-if="isParticipant.status === 'started'"
-          id="challengeSubmissionButton"
-          class="mdi mdi-send-check text-info selectable"
-          style="white-space: nowrap"
-          ref="submission"
-          role="button"
-          data-bs-target="#challengeSubmissionForm"
-          data-bs-toggle="modal"
-          aria-label="Go to Active Challenge Modal"
-          title="Create a new challenge"
-        > 
+        <h4 v-if="isParticipant.status === 'started'" id="challengeSubmissionButton"
+          class="mdi mdi-send-check text-info selectable" style="white-space: nowrap" ref="submission" role="button"
+          data-bs-target="#challengeSubmissionForm" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal"
+          title="Create a new challenge">
           Submit for Review
         </h4>
         <!-- <router-link v-if="isParticipant.status === 'submitted'" :to="{ name: 'ChallengeSubmissionsPage' }">
@@ -74,7 +68,7 @@ export default {
     const route = useRoute()
 
     const isParticipant = computed(() => {
-      return AppState.participants.find(p => p.accountId === AppState.user.id)
+      return AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id)
     })
 
     async function joinChallenge() {
@@ -118,7 +112,7 @@ export default {
         if (!removeConfirm) {
           return
         }
-        let participant = AppState.participants.find(p => p.accountId == AppState.AccountState.account.id)
+        let participant = AppState.ChallengeState.participants.find(p => p.accountId == AppState.AccountState.account.id)
         participant.status = SUBMISSION_TYPES.LEFT
         await participantsService.leaveChallenge(participant.id)
         Pop.success('left challenge!')
@@ -157,7 +151,7 @@ export default {
         return AppState.ChallengeState.challenge?.creatorId === AppState.user.id
       }),
       isModerator: computed(() => {
-        return AppState.moderators.find(m => m.accountId === AppState.user.id)
+        return AppState.ChallengeState.moderators.find(m => m.accountId === AppState.user.id)
       }),
     }
   }
@@ -165,7 +159,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 @media screen and (max-width: 768px) {
   .cancel-button {
     white-space: normal !important;
