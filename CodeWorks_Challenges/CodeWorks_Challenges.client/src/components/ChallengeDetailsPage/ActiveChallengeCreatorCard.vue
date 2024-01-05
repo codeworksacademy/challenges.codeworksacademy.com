@@ -7,7 +7,7 @@
       <h5 class="text-uppercase pe-2">Creator</h5>
     </div>
     <div class="col-8 d-flex flex-column justify-content-evenly">
-      <h3 :style="isMobile ? 'padding-left: 4rem;' : 'padding-left: 1.5rem;'" class="col-12 creator-text d-flex justify-content-center text-capitalize"> {{ challenge.creator.name }} </h3>
+      <h3 :style="isMobile ? 'padding-left: 4rem;' : 'padding-left: 1.5rem;'" class="col-12 creator-text d-flex justify-content-center offset-1 text-capitalize"> {{ challenge.creator.name }} </h3>
       <div class="col-12 button-container d-flex justify-content-center offset-2 mt-2">
         <button @click="giveReputation" class="btn bg-dark btn-success text-success me-3"><small>Give Reputation</small></button>
       </div>
