@@ -86,7 +86,7 @@ export default {
       getProfile,
       deleteChallenge,
       user: computed(() => AppState.user),
-      account: computed(() => AppState.account),
+      account: computed(() => AppState.AccountState.account),
       challenges: computed(() => AppState.challenges),
       activeChallenge: computed(() => AppState.activeChallenge),
       difficulty,

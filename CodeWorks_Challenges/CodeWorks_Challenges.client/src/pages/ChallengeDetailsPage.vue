@@ -82,7 +82,7 @@ export default {
             return AppState.participants.find(p => p.accountId === AppState.user.id);
           }),
           isModStatus: computed(() => {
-            const isMod = AppState.moderators.find(m => m.accountId == AppState.account.id);
+            const isMod = AppState.moderators.find(m => m.accountId == AppState.AccountState.account.id);
             if (isMod) {
               if (isMod.status == false) {
                 return "pending";

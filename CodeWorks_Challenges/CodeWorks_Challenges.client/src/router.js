@@ -66,7 +66,7 @@ const routes = [
       }
     ]
   },
-  { 
+  {
     path: '/challenges/:challengeId',
     name: 'ChallengeDetails',
     component: loadPage('ChallengeDetailsPage'),
@@ -170,6 +170,14 @@ const routes = [
     path: '/refactor/:challengeId',
     name: 'Refactor',
     component: loadPage('ChallengeDetailsPageRefactor')
+  },
+  {
+    path: '/Error',
+    name: 'Error',
+    component: loadPage('ErrorPage'),
+    meta: {
+      error: { message: 'hello' }
+    }
   }
 ]
 

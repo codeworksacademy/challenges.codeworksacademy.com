@@ -39,13 +39,13 @@ import { accountMilestonesService } from "../services/AccountMilestonesService.j
 export default {
     setup() {
       onMounted(() => {
-        accountMilestonesService.getAccountMilestonesByUserId(AppState.account.id)
+        accountMilestonesService.getAccountMilestonesByUserId(AppState.AccountState.account.id)
       })
         return {
-          account: computed(() => AppState.account),
+          account: computed(() => AppState.AccountState.account),
           // accountReputation: computed(() => {
           //   AppState.myChallenges.forEach(c => {
-          //     AppState.account.reputation += c.reputationIds.length
+          //     AppState.AccountState.account.reputation += c.reputationIds.length
           //   })
           // }),
           myChallenges: computed(() => AppState.myChallenges),
@@ -59,7 +59,7 @@ export default {
           }),
 
           approvedModerations: computed(() => {
-            const approvedMods = AppState.moderations.filter(m => m.status == 'active' && m.challenge.creatorId != AppState.account.id)
+            const approvedMods = AppState.moderations.filter(m => m.status == 'active' && m.challenge.creatorId != AppState.AccountState.account.id)
 
             return approvedMods
           })

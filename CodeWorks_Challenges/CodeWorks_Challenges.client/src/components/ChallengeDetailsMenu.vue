@@ -105,7 +105,7 @@ export default {
           status: SUBMISSION_TYPES.SUBMITTED
         }
         await participantsService.updateChallengeParticipant(participantId, newParticipant)
-        Pop.success(`${AppState.account.name} submitted ${AppState.activeChallenge?.name} successfully. Click 'View Competitors' to verify your submission and see how you 'stack' up! 😉`)
+        Pop.success(`${AppState.AccountState.account.name} submitted ${AppState.activeChallenge?.name} successfully. Click 'View Competitors' to verify your submission and see how you 'stack' up! 😉`)
       } catch (error) {
         logger.error(error)
         Pop.toast(error, 'error')
@@ -118,7 +118,7 @@ export default {
         if (!removeConfirm) {
           return
         }
-        let participant = AppState.participants.find(p => p.accountId == AppState.account.id)
+        let participant = AppState.participants.find(p => p.accountId == AppState.AccountState.account.id)
         participant.status = SUBMISSION_TYPES.LEFT
         await participantsService.leaveChallenge(participant.id)
         Pop.success('left challenge!')

@@ -74,7 +74,7 @@ export default {
 
     async function getModerationsByChallengeCreatorId() {
       try {
-        await challengeModeratorsService.getModerationsByChallengeCreatorId(AppState.account.id);
+        await challengeModeratorsService.getModerationsByChallengeCreatorId(AppState.AccountState.account.id);
       }
       catch (error) {
         Pop.toast(error, 'error');
@@ -90,14 +90,14 @@ export default {
       moderations: computed(() => {
         if(moderationTypes.value == 'My Moderations'){
           let moderators = AppState.moderations
-          let filterModerators = moderators.filter((m) => m.challenge.creatorId != AppState.account.id)
+          let filterModerators = moderators.filter((m) => m.challenge.creatorId != AppState.AccountState.account.id)
           return filterModerators
         } else if(moderationTypes.value == 'Challenge Moderators'){
           let moderators = AppState.moderators
-          let filterModerators = moderators.filter((m) => m.accountId != AppState.account.id)
+          let filterModerators = moderators.filter((m) => m.accountId != AppState.AccountState.account.id)
           return filterModerators
         } else {
-          let filterModerators = AppState.moderations.filter((m) => m.challenge.creatorId != AppState.account.id)
+          let filterModerators = AppState.moderations.filter((m) => m.challenge.creatorId != AppState.AccountState.account.id)
           return filterModerators
         }
       }),

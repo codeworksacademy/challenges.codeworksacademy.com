@@ -83,7 +83,7 @@ export default {
     }
 
     function isModeratorStatus() {
-      const isMod = AppState.moderators.find(m => m.accountId == AppState.account.id)
+      const isMod = AppState.moderators.find(m => m.accountId == AppState.AccountState.account.id)
       if (isMod) {
         if (isMod.status == false) {
           return 'pending'
@@ -107,7 +107,7 @@ export default {
 
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.activeChallenge),
-      myModerations: computed(() => AppState.moderators.filter(m => m.accountId === AppState.account.id)),
+      myModerations: computed(() => AppState.moderators.filter(m => m.accountId === AppState.AccountState.account.id)),
       participants: computed(() => AppState.participants),
       isParticipant: computed(() => {
         return AppState.participants.find(p => p.accountId === AppState.user.id)

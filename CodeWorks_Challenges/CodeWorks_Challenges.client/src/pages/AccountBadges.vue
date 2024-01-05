@@ -27,7 +27,7 @@ export default {
 
     async function getAccountMilestonesByUserId() {
       try {
-        const userId = AppState.account.id
+        const userId = AppState.AccountState.account.id
         await accountMilestonesService.getAccountMilestonesByUserId(userId)
       } catch (error) {
         Pop.error(error)

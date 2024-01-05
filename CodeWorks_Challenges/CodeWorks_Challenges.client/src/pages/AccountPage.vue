@@ -73,8 +73,8 @@ export default {
   setup() {
     async function getMyChallenges() {
       try {
-        logger.log(AppState.account.id)
-        await challengesService.getMyChallenges(AppState.account.id)
+        logger.log(AppState.AccountState.account.id)
+        await challengesService.getMyChallenges(AppState.AccountState.account.id)
       } catch (error) {
         Pop.error(error.message)
       }
@@ -90,7 +90,7 @@ export default {
 
     async function getMyModerations(){
       try {
-        await challengeModeratorsService.getModerationsByProfileId(AppState.account.id)
+        await challengeModeratorsService.getModerationsByProfileId(AppState.AccountState.account.id)
       } catch (error) {
         Pop.error(error.message)
       }
@@ -105,7 +105,7 @@ export default {
     }
 
     watchEffect(() => {
-      if (AppState.account.id) {
+      if (AppState.AccountState.account.id) {
         getMyChallenges()
         getMyParticipations()
         getMyModerations()
@@ -116,11 +116,11 @@ export default {
     })
 
     return {
-      account: computed(() => AppState.account),
+      account: computed(() => AppState.AccountState.account),
       myChallenges: computed(() => AppState.myChallenges),
 
       approvedModerations: computed(() => {
-        const approvedMods = AppState.moderations.filter(m => m.status == 'active' && m.challenge.creatorId != AppState.account.id)
+        const approvedMods = AppState.moderations.filter(m => m.status == 'active' && m.challenge.creatorId != AppState.AccountState.account.id)
 
         return approvedMods
       })

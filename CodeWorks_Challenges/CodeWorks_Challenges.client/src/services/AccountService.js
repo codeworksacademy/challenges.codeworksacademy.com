@@ -8,7 +8,7 @@ class AccountService {
   async getAccount() {
     try {
       const res = await api.get('/account')
-      AppState.account = new Account(res.data)
+      AppState.AccountState.account = new Account(res.data)
     } catch (err) {
       logger.error('HAVE YOU STARTED YOUR SERVER YET???', err)
     }
@@ -17,7 +17,7 @@ class AccountService {
   async updateAccount(formData) {
     const res = await api.put('/account', formData)
     logger.log(res.data)
-    AppState.account = new Account(res.data)
+    AppState.AccountState.account = new Account(res.data)
     return res.data
   }
 
@@ -40,13 +40,13 @@ class AccountService {
   async calculateAccountRank() {
     const res = await api.get('/account/rank')
     logger.log('[CURRENT ACCOUNT RANK]', res.data)
-    AppState.account.rank = res.data.rank
+    AppState.AccountState.account.rank = res.data.rank
     return res.data
   }
 
   async calculateReputation(){
     const res = await api.get('account/reputation')
-    AppState.account.reputation = res.data.reputation
+    AppState.AccountState.account.reputation = res.data.reputation
 
     logger.log('[CURRENT ACCOUNT REPUTATION]', res.data)
   }

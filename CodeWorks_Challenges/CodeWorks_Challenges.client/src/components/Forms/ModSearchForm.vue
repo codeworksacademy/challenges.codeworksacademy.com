@@ -51,7 +51,7 @@ export default {
       editable,
       moderators: computed(() => AppState.moderators),
       Profiles: computed(() => {
-        return AppState.profiles.filter((profile) => profile.id != AppState.account.id)
+        return AppState.profiles.filter((profile) => profile.id != AppState.AccountState.account.id)
       }),
       async getProfiles() {
         try {

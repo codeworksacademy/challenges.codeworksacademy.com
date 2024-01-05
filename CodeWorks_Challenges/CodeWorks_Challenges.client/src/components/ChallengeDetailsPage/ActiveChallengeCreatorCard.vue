@@ -35,13 +35,13 @@ export default {
     const isMobile = computed(() => window.innerWidth < 768)
 
     const isParticipant = computed(() => {
-      const participant = AppState.participants.find(p => p.accountId == AppState.account.id)
+      const participant = AppState.participants.find(p => p.accountId == AppState.AccountState.account.id)
       return participant
     })
 
     const gaveReputation = computed(() => {
       const challenge = props.challenge
-      if(challenge.reputationIds.find(r => r == AppState.account.id)){
+      if(challenge.reputationIds.find(r => r == AppState.AccountState.account.id)){
         return true
       }
       return false

@@ -67,7 +67,7 @@ export default {
   setup() {
     async function getModerationsByUserId() {
       try {
-        await challengeModeratorsService.getModerationsByUserId(AppState.account.id);
+        await challengeModeratorsService.getModerationsByUserId(AppState.AccountState.account.id);
       }
       catch (error) {
         Pop.toast(error, 'error');
@@ -75,29 +75,29 @@ export default {
     }
     async function getModerationsByChallengeCreatorId() {
       try {
-        await challengeModeratorsService.getModerationsByChallengeCreatorId(AppState.account.id);
+        await challengeModeratorsService.getModerationsByChallengeCreatorId(AppState.AccountState.account.id);
       }
       catch (error) {
         Pop.toast(error, 'error');
       }
     }
     watchEffect(() => {
-      if (AppState.account.id) {
+      if (AppState.AccountState.account.id) {
         getModerationsByUserId();
         getModerationsByChallengeCreatorId();
       }
     });
     return {
-      account: computed(() => AppState.account),
+      account: computed(() => AppState.AccountState.account),
       myChallenges: computed(() => AppState.myChallenges),
       moderations: computed(() => {
         let moderators = AppState.moderations
-        let filterModerators = moderators.filter((m) => m.challenge.creatorId != AppState.account.id)
+        let filterModerators = moderators.filter((m) => m.challenge.creatorId != AppState.AccountState.account.id)
         return filterModerators
       }),
       moderators: computed(() => {
         let moderators = AppState.moderators
-        let filterModerators = moderators.filter((m) => m.accountId != AppState.account.id)
+        let filterModerators = moderators.filter((m) => m.accountId != AppState.AccountState.account.id)
         return filterModerators
       }),
 

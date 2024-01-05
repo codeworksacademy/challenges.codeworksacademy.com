@@ -80,7 +80,7 @@ export default {
 
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.activeChallenge),
-      myModerations: computed(() => AppState.moderators.filter(m => m.accountId === AppState.account.id)),
+      myModerations: computed(() => AppState.moderators.filter(m => m.accountId === AppState.AccountState.account.id)),
       participants: computed(() => AppState.participants),
       isParticipant: computed(() => {
         return AppState.participants.find(p => p.accountId === AppState.user.id)

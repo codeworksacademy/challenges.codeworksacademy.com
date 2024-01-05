@@ -3,26 +3,29 @@
     <section class="row mt-3 my-0 my-md-3 mt-md-3">
 
       <div class="col-md-4 col-12">
-        <StatCard title="Moderated Challenges" :number="(challenges.length + approvedModerations.length)" color="#20C997" bgColor="#20c99629" icon="mdi-file-code" :themeStyle="true" :leftAlignedIcon="false" />
+        <StatCard title="Moderated Challenges" :number="challenges.length" color="#20C997" bgColor="#20c99629"
+          icon="mdi-file-code" :themeStyle="true" :leftAlignedIcon="false" />
       </div>
 
       <div class="col-md-4 col-12">
-        <StatCard title="Completed Challenges" :number="challenges.completedCount" color="#FD7E14" bgColor="#fd7d142e" icon="mdi-file-sign" :themeStyle="true" :leftAlignedIcon="false" />
+        <StatCard title="Completed Challenges" :number="badges.length" color="#FD7E14" bgColor="#fd7d142e"
+          icon="mdi-file-sign" :themeStyle="true" :leftAlignedIcon="false" />
       </div>
 
-      <!-- TODO - Add functionality to Badges -->
       <div class="col-md-4 col-12">
-        <StatCard title="Badges" :number="profileBadges.length" color="#6F42C1" bgColor="#1D213A" icon="mdi-seal" :themeStyle="true" :leftAlignedIcon="false" />
+        <StatCard title="Milestones" :number="milestones.length" color="#6F42C1" bgColor="#1D213A" icon="mdi-seal"
+          :themeStyle="true" :leftAlignedIcon="false" />
       </div>
     </section>
 
     <section class="row">
       <div class="col-md-8 col-12">
-        <RankCard :userRank="activeProfile.rank" />
+        <RankCard :profile="profile" />
       </div>
 
       <div class="col-md-4 col-12">
-        <StatCard title="Reputation" :number="activeProfile.reputation" color="#3E5374" bgColor="#3e53742a" icon="mdi-emoticon-happy" :leftAlignedIcon="false" :themeStyle="true" />
+        <StatCard title="Reputation" :number="profile.reputation" color="#3E5374" bgColor="#3e53742a"
+          icon="mdi-emoticon-happy" :leftAlignedIcon="false" :themeStyle="true" />
       </div>
     </section>
   </div>
@@ -36,26 +39,17 @@ import StatCard from '../components/AccountAndProfilePage/StatCard.vue'
 import RankCard from '../components/AccountAndProfilePage/RankCard.vue';
 
 export default {
-    setup() {
-        return {
-            activeProfile: computed(() => AppState.activeProfile),
-            profileBadges: computed(() => AppState.milestones),
-            challenges: computed(() => AppState.challenges),
-            completedChallenges: computed(() => {
-              const completed = AppState.participants.filter(p => p.status == 'completed')
-              return completed || 0
-            }),
-            approvedModerations: computed(() => {
-                const approvedMods = AppState.moderations.filter(m => m.status == 'active' && m.challenge.creatorId != AppState.activeProfile.id);
-                return approvedMods;
-            })
-        };
-    },
-    components: { StatCard, RankCard }
+  setup() {
+    return {
+      profile: computed(() => AppState.ProfileState.profile),
+      milestones: computed(() => AppState.ProfileState.milestones),
+      challenges: computed(() => AppState.ProfileState.challenges),
+      badges: computed(() => AppState.ProfileState.participations.filter(p => p.status == 'completed'))
+    };
+  },
+  components: { StatCard, RankCard }
 }
 </script>
 
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

@@ -171,14 +171,14 @@ export default {
     }
     async function getAccountMilestones() {
       try {
-        const userId = AppState.account.id
+        const userId = AppState.AccountState.account.id
         await accountMilestonesService.getAccountMilestones(userId)
       } catch (error) {
         Pop.error(error.message, '[getAccountMilestones]')
       }
     }
     watchEffect(() => {
-      if (AppState.account.id) {
+      if (AppState.AccountState.account.id) {
         getMilestones()
         // getAccountMilestones()
       }

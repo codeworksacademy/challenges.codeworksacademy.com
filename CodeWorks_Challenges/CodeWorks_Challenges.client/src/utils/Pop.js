@@ -1,6 +1,7 @@
 import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
 import { logger } from './Logger.js'
+import { AppState } from '../AppState.js'
 
 export default class Pop {
   /**
@@ -66,11 +67,14 @@ export default class Pop {
       const { response } = error
       const errorObj = (response.data ? response.data.error : response.data) || { message: 'Invalid Request ' + response.status }
       if (!errorObj) {
+        AppState.error = error
         return this.toast(error.message)
       }
+      AppState.error = errorObj
       this.toast(errorObj.message || errorObj.error || 'error')
     } else {
       this.toast(error.message || error, 'error')
+      AppState.error = error
     }
   }
 

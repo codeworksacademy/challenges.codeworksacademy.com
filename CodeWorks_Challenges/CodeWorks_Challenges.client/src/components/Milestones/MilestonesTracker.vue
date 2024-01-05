@@ -36,7 +36,7 @@ export default {
 
     async function getMilestones() {
       try {
-        const userId = AppState.account.id;
+        const userId = AppState.AccountState.account.id;
         await milestonesService.getMilestones(userId);
       }
       catch (error) {
@@ -45,7 +45,7 @@ export default {
     };
 
     watchEffect(() => {
-      if (AppState.account.id) {
+      if (AppState.AccountState.account.id) {
         checkMyMilestones();
         getMilestones()
       }
