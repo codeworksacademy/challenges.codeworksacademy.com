@@ -1,12 +1,11 @@
 <template>
   <section class="container-fluid">
-    <h4 class="px-3 pt-3" style="color: #7A7A7A">User Links</h4>
     <aside class="mt-5 pt-0 px-5">
       <router-link :to="{ name: 'Overview' }">
         <h4 class="mdi mdi-file-document-multiple text-light selectable"> Overview</h4>
       </router-link>
       <router-link :to="{ name: 'ChallengeSubmissionsPage' }">
-        <h4 class="mdi mdi-file-document-multiple text-light selectable"> Submissions</h4>
+        <h4 class="mdi mdi-email-multiple text-light selectable"> Submissions</h4>
       </router-link>
       <router-link :to="{ name: 'Requirements' }">
         <h4 class="mdi mdi-file-document-check text-light selectable"> Requirements</h4>
@@ -25,7 +24,7 @@
           <h4 class="mdi mdi-archive-edit text-warning selectable" style=""> Edit Challenge</h4>
         </router-link>
         <router-link :to="{ name: 'ChallengeModeratorsPage' }">
-          <h4 class="mdi mdi-archive-edit text-danger selectable" style="">Moderators</h4>
+          <h4 class="mdi mdi-archive-edit text-danger selectable" style=""> Moderators</h4>
         </router-link>
 
         <!-- <h4 @click="deprecateChallenge(challenge.id)" class="cancel-button mdi mdi-cancel text-danger selectable" style="white-space: nowrap"> Deprecate Challenge</h4> -->

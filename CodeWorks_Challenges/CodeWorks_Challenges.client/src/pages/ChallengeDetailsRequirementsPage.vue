@@ -1,7 +1,8 @@
 <template>
-  <section v-if="challenge" :key="challenge?.id" class="card text-light p-3 m-1 ms-0">
-    <div class="col-12 d-flex justify-content-center align-items-center">
-      <h3 class="text-center text-uppercase">Challenge Requirements</h3>
+  <section v-if="challenge" :key="challenge?.id" class="text-light p-3 mx-3 bg-detail rounded-2">
+    <div class="col-12 justify-content-center text-center">
+      <h3>Challenge Requirements</h3>
+      <h3 v-if="challenge.requirements.length == 0" class="text-warning">Challenge has no requirements</h3>
     </div>
       <ol class="col-12 justify-content-center align-items-center">
         <li v-for="(requirement, index) in challenge.requirements" :key="index" class="py-2">
@@ -32,5 +33,8 @@ export default {
   }
   li {
     font-size: 1.2rem;
+  }
+  .bg-detail{
+    background-color: #1c2332
   }
 </style>
