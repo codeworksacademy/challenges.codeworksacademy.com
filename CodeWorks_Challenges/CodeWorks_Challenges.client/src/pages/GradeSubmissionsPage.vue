@@ -4,7 +4,7 @@
       <div class="col-md-8 text-center" v-if="challenge">
         <h1> {{ challenge.name }}</h1>
         <div class="d-flex flex-row justify-content-center gap-1 align-items-center">
-          <img :src="challenge.creator.picture" class="rounded-circle profile-picture-small">
+          <img :src="challenge.creator.picture" class="rounded-circle profile-picture-small me-3">
           <h2>By {{ challenge.creator.name }}</h2>
         </div>
         <h1>Grading</h1>

@@ -4,13 +4,14 @@
     <div v-if="challenge" :key="challenge.id" class="row d-flex justify-content-center align-items-center">
       <div class="col-12 d-flex justify-content-center align-items-center">
         <h1 class="text-center"> {{ challenge.name }} </h1>
+        <h1>Submissions</h1>
       </div>
-      <div class="col-12 d-flex justify-content-center align-items-center">
+      <!-- <div class="col-12 d-flex justify-content-center align-items-center">
         <h3 class="text-center"> {{ challenge.description }} </h3>
-      </div>
-      <div class="col-12 d-flex justify-content-center align-items-center">
+      </div> -->
+      <!-- <div class="col-12 d-flex justify-content-center align-items-center">
         <h3 class="text-center"> {{ challenge.status }} </h3>
-      </div>
+      </div> -->
       <div class="col-12 d-flex justify-content-center align-items-center">
         <h3 class="text-center"> {{ challenge.creator.name }} </h3>
       </div>
