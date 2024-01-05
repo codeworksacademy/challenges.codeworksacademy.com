@@ -1,24 +1,23 @@
 <template>
-  <section class="container-fluid">
-
-    <div v-if="challenge" :key="challenge.id" class="p-3">
+  <section class="mx-3">
+    <div v-if="challenge" :key="challenge.id" class="p-3 bg-detail rounded-3">
       <div class="d-flex col-12">
         <div class="col-6 d-flex flex-column justify-content-start">
-          <span>Total Submitted: {{ totalSubmitted }} </span>
-          <span>Total Completed: {{ challenge.completedCount }} </span>
-          <span>Active Participants: {{ challenge.participantCount }} </span>
-          <span>Success Rate: {{ participantCompletionRate }} </span>
-        </div>
-        <div class="col-6 d-flex flex-column justify-content-center align-items-end pt-0">
-          <span v-html="difficulty.html"></span>
-          <img src="../../assets/img/chart-img.png" :alt="`Difficulty rating for ${challenge.name}`" :title="`The difficulty rating for '${challenge.name}'`" class=" img-fluid my-2" style="height:50px;width:70px">
+          <h3>Total Submitted: {{ totalSubmitted }} </h3>
+          <h3>Total Completed: {{ challenge.completedCount }} </h3>
+          <h3>Active Participants: {{ challenge.participantCount }} </h3>
+          <h3 v-if="participantCompletionRate <= 0">Success Rate: {{ participantCompletionRate }} </h3>
         </div>
       </div>
     </div>
-
-  
   </section>
 </template>
+
+<style scoped lang="scss">
+  .bg-detail{
+    background-color: #1c2332
+  }
+</style>
   
 <script>
 import { computed, onMounted, ref } from 'vue'
@@ -30,9 +29,12 @@ import { useRoute } from 'vue-router'
 import { participantsService } from '../services/ParticipantsService'
 import { StrDifficultyNum } from '../utils/StrDifficultyNum'
 import { SUBMISSION_TYPES } from '../constants'
+import ActiveChallengeDifficultyCard from '../components/ChallengeDetailsPage/ActiveChallengeDifficultyCard.vue'
 
 export default {
-
+  components: {
+    ActiveChallengeDifficultyCard
+  },
   setup() {
     let route = useRoute()
 

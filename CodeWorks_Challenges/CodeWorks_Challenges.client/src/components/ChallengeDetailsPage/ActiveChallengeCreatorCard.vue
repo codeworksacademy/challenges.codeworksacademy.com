@@ -4,7 +4,7 @@
       <router-link :to="{ name: 'Profile Overview', params: { profileId: challenge.creator.id } }">
         <img :src="challenge.creator.picture" :alt="`Image for Challenge creator named '${challenge.creator.name}' is broken`" :title="`Image of the Challenge Creator; ${challenge.creator.name}`" class="img-fluid rounded-circle me-2" style="height: 75px;width:75px">
       </router-link>
-      <h6 class="text-uppercase pe-2">Challenge Creator</h6>
+      <h5 class="text-uppercase pe-2">Creator</h5>
     </div>
     <div class="col-8 d-flex flex-column justify-content-evenly">
       <h3 :style="isMobile ? 'padding-left: 4rem;' : 'padding-left: 1.5rem;'" class="col-12 creator-text d-flex justify-content-center text-capitalize"> {{ challenge.creator.name }} </h3>

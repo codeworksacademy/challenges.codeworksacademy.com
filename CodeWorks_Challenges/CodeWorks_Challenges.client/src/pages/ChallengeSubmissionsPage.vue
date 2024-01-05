@@ -1,23 +1,19 @@
 <template>
   <section class="container-fluid">
-
-    <div v-if="challenge" :key="challenge.id" class="row d-flex justify-content-center align-items-center">
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <h1 class="text-center"> {{ challenge.name }} </h1>
-        <h1>Submissions</h1>
+    <div v-if="challenge" :key="challenge.id" class="row d-flex justify-content-center align-items-center mx-1 bg-detail rounded-2">
+      <div class="col-12 d-flex align-items-center p-3">
+        <h3 style="color: #7A7A7A">Submissions</h3>
       </div>
+
       <!-- <div class="col-12 d-flex justify-content-center align-items-center">
         <h3 class="text-center"> {{ challenge.description }} </h3>
       </div> -->
       <!-- <div class="col-12 d-flex justify-content-center align-items-center">
-        <h3 class="text-center"> {{ challenge.status }} </h3>
-      </div> -->
+        <h3 class="text-center">Status: {{ challenge.status }} </h3>
+      </div>
       <div class="col-12 d-flex justify-content-center align-items-center">
         <h3 class="text-center"> {{ challenge.creator.name }} </h3>
-      </div>
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <p v-html="difficulty.html"></p>
-      </div>
+      </div> -->
       <section>
         <div class="col-12 d-flex justify-content-between align-items-center">
           <div v-for="p in participants" :key="p.id" class="col-2 p-3">
@@ -33,11 +29,15 @@
         </div>
       </section>
     </div>
-
-  
   </section>
 </template>
   
+<style scoped lang="scss">
+  .bg-detail{
+    background-color: #1c2332
+  }
+</style>
+
 <script>
 import ParticipantCard from "../components/ParticipantCard.vue"
 import { computed, onMounted, ref } from 'vue'
@@ -49,10 +49,11 @@ import { useRoute } from 'vue-router'
 import { participantsService } from '../services/ParticipantsService'
 import { StrDifficultyNum } from "../utils/StrDifficultyNum.js"
 import { newChallengeParticipant } from "../utils/NewChallengeParticipant.js"
+import ActiveChallengeDifficultyCard from "../components/ChallengeDetailsPage/ActiveChallengeDifficultyCard.vue"
 
 export default {
   components: {
-    ParticipantCard
+    ParticipantCard, ActiveChallengeDifficultyCard
   },
   setup() {
     let route = useRoute()
