@@ -3,31 +3,25 @@
     <section class="row">
       <div class="col-12 d-flex flex-column">
         <div>
-          This is the Moderators page for your challenge
+          <span class="text-light">This is the Moderators page for your challenge</span>
         </div>
         <div>
-          Here you can search for new moderators
-          <div>
+          <span class="text-light">Here you can search for new moderators</span>
+          <div class="my-3">
             <ModSearchForm />
           </div>
         </div>
       </div>
-      <div class="col-12 d-flex flex-column">
-        These are active challenge moderators
-        <div v-for="moderator in moderators" :key="moderator.id">
-          <div v-if="moderator.status == 'active' || moderator.status == 'CodeWorks'">
-            {{ moderator.profile.name }}
-            <img :src="moderator.profile.picture" alt="">
-          </div>
+      <span class="text-light mb-3">These are active challenge moderators</span>
+      <div v-for="moderator in moderators" :key="moderator.id">
+        <div v-if="moderator.status == 'active' || moderator.status == 'CodeWorks'" class="text-light">
+            <ChallengeModeratorCard :moderator="moderator" />
         </div>
       </div>
-      <div class="col-12 d-flex flex-column">
-        These are the users that have been invited but have not accepted the invite
-        <div v-for="moderator in moderators" :key="moderator.id">
-          <div v-if="moderator.status == 'pending'">
-            {{ moderator.profile.name }}
-            <img :src="moderator.profile.picture" alt="">
-          </div>
+      <span class="text-light">These are the users that have been invited but have not accepted the invite</span>
+      <div v-for="moderator in moderators" :key="moderator.id">
+        <div v-if="moderator.status == 'pending'">
+            <ChallengeModeratorCard :moderator="moderator" />
         </div>
       </div>
     </section>
@@ -41,6 +35,7 @@ import Pop from '../utils/Pop';
 import { useRoute } from 'vue-router';
 import { challengeModeratorsService } from '../services/ChallengeModeratorsService';
 import { AppState } from '../AppState';
+import ChallengeModeratorCard from '../components/ChallengeModeratorCard.vue';
 
 export default {
   setup() {
@@ -62,8 +57,6 @@ export default {
       moderators: computed(() => AppState.moderators)
     };
   },
-  components: { ModSearchForm }
+  components: { ModSearchForm, ChallengeModeratorCard }
 }
 </script>
-
-<style lang="scss" scoped></style>

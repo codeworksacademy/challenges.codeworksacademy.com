@@ -345,5 +345,5 @@
         "COLOR": "#f208e8"
       }
 ],
-  "PROFILE_FIELDS": "name picture reputation title"
+  "PROFILE_FIELDS": "name picture reputation title aboutContent"
 }

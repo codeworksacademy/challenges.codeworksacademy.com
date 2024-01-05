@@ -1,3 +1,4 @@
+import { PROFILE_FIELDS } from "../constants/index.js"
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { challengesService } from "./ChallengesService.js"
@@ -14,7 +15,7 @@ class ChallengeModeratorsService {
     const moderators = await dbContext.ChallengeModerators.find({ challengeId: challengeId }).populate({
       path: 'challenge',
       populate: { path: 'creator participantCount' }
-    }).populate('profile', 'name picture')
+    }).populate('profile', PROFILE_FIELDS)
     return moderators
   }
   async getModeratorByUserIdAndChallengeId(userId, challengeId) {
@@ -26,7 +27,7 @@ class ChallengeModeratorsService {
     const moderators = await dbContext.ChallengeModerators.find({ accountId: profileId }).populate({
       path: 'challenge',
       populate: { path: 'creator participantCount' }
-    }).populate('profile', 'name picture')
+    }).populate('profile', PROFILE_FIELDS)
     return moderators
   }
 
@@ -38,7 +39,7 @@ class ChallengeModeratorsService {
         path: 'challenge',
         populate: { path: 'creator participantCount' }
       })
-      .populate('profile', 'name picture');
+      .populate('profile', PROFILE_FIELDS);
 
     return moderators;
   }
