@@ -1,18 +1,14 @@
 <template>
-  <section class="container-fluid" v-if="challengeCreator">
-    <div class="row justify-content-center align-items-center text-light">
-      <div class="col-md-8 text-center" v-if="challenge">
-        <h1> {{ challenge.name }}</h1>
-        <div class="d-flex flex-row justify-content-center gap-1 align-items-center">
-          <img :src="challenge.creator.picture" class="rounded-circle profile-picture-small me-3">
-          <h2>By {{ challenge.creator.name }}</h2>
-        </div>
-        <h1>Grading</h1>
+  <section class="bg-detail p-3 mx-3 rounded-3" v-if="challengeCreator">
+    <div class="">
+      <div class="col-md-8" v-if="challenge">
+        <h3> {{ challenge.name }}</h3>
+        <h3>Grading</h3>
       </div>
     </div>
-    <div class="row justify-content-center">
+    <div class="row">
       <div class="col-md-10 accordion accordion-flush" id="accordionFlushExample">
-        <h1 class="text-warning">Needs Grading</h1>
+        <h3 class="text-warning">Needs Grading</h3>
         <div v-for="p in participants" :key="p.id" class="accordion-item">
           <div v-if="p.status === 'submitted' && challengeCreator">
             <h2 class="accordion-header">
@@ -29,7 +25,7 @@
         </div>
       </div>
       <div class="col-md-10 accordion accordion-flush" id="accordionFlushExample">
-        <h1 class="text-info">Started</h1>
+        <h3 class="text-info">Started</h3>
         <div v-for="p in participants" :key="p.id" class="accordion-item">
           <div v-if="p.status === 'started' && challengeCreator">
             <h2 class="accordion-header bg-dark text-light">
@@ -46,7 +42,7 @@
         </div>
       </div>
       <div class="col-md-10 accordion accordion-flush" id="accordionFlushExample">
-        <h1 class="text-success">Complete</h1>
+        <h3 class="text-success">Complete</h3>
         <div v-for="p in participants" :key="p.id" class="accordion-item">
           <div v-if="p.status === 'completed' && challengeCreator">
             <h2 class="accordion-header">
@@ -163,5 +159,9 @@ export default {
   height: 60px;
   width: 60px;
 }
+
+.bg-detail{
+    background-color: #1c2332
+  }
 
 </style>
