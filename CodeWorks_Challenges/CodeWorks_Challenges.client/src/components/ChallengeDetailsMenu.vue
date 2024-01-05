@@ -6,7 +6,7 @@
         <h4 class="mdi mdi-file-document-multiple text-light selectable"> Overview</h4>
       </router-link>
       <router-link :to="{ name: 'ChallengeSubmissionsPage' }">
-        <h4 class="mdi mdi-account-box-multiple-outline text-light selectable"> Submissions</h4>
+        <h4 class="mdi mdi-file-document-multiple text-light selectable"> Submissions</h4>
       </router-link>
       <router-link :to="{ name: 'Requirements' }">
         <h4 class="mdi mdi-file-document-check text-light selectable"> Requirements</h4>

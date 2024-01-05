@@ -44,10 +44,8 @@
               <select v-model="editable.status" name="status" id="status" placeholder="Status"
                 class="form-select bg-light">
                 <option value="null">Select a status</option>
-                <option value="started">Started</option>
                 <option value="completed">Completed</option>
                 <option value="returned_for_review">Returned for Review</option>
-                <option value="removed">Flagged for Removal</option>
               </select>
               <button type="submit" class="btn btn-success">Submit</button>
             </div>
@@ -126,15 +124,6 @@ export default {
       }
     }
 
-    watchEffect(() => {
-
-      // FIXME This is backwards a component should be using getters to pull from the state. 
-      // Never set AppState from the component use a service.
-      // You should not be need to change the AppState in a watchEffect this could easily cause an infinite loop 
-      // AppState.activeChallenge = editable.value.challenge
-      // AppState.activeParticipant = editable.value
-      // AppState.activeParticipant.requirements.description = { ...AppState.activeChallenge.requirements }
-    })
 
     async function gradeChallengeParticipant() {
       try {

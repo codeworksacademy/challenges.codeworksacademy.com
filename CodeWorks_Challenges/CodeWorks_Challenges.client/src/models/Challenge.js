@@ -19,9 +19,7 @@ export class Challenge {
     this.difficulty = data.difficulty || 1
     this.difficultyStr = StrDifficultyNum(data.difficulty) || 1
     this.status = data.status
-    // this.pointValue = data.difficulty || 1
     this.badges = data.badges ? new Reward(data.badges) : null
-    // this.answers = data.answers || ''
     this.answer = data.answer || ''
     this.isCancelled = data.isCancelled || false
     this.participantCount = data.participantCount
