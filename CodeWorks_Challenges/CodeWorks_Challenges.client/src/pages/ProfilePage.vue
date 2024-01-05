@@ -110,7 +110,7 @@ export default {
 
     async function getProfileData() {
       try {
-        AppState.ProfileState.loading = true
+        AppState.ProfileState.profileState.loading = true
         await Promise.allSettled([
           getProfile(),
           getParticipations(),
@@ -119,11 +119,11 @@ export default {
         ])
 
 
-        if (!AppState.ProfileState.profile) {
+        if (!AppState.ProfileState.profileState.profile) {
           throw new Error('Unable to fetch profile')
         }
 
-        AppState.ProfileState.loading = false
+        AppState.ProfileState.profileState.loading = false
       } catch (error) {
         logger.error({ error })
         Pop.error(error)
@@ -140,11 +140,11 @@ export default {
     });
 
     return {
-      loading: computed(() => AppState.ProfileState.loading),
-      profile: computed(() => AppState.ProfileState.profile),
-      challenges: computed(() => AppState.ProfileState.challenges),
-      participations: computed(() => AppState.ProfileState.participations),
-      milestones: computed(() => AppState.ProfileState.milestones),
+      loading: computed(() => AppState.ProfileState.profileState.loading),
+      profile: computed(() => AppState.ProfileState.profileState.profile),
+      challenges: computed(() => AppState.ProfileState.profileState.challenges),
+      participations: computed(() => AppState.ProfileState.profileState.participations),
+      milestones: computed(() => AppState.ProfileState.profileState.milestones),
       MilestonesError
     };
   },

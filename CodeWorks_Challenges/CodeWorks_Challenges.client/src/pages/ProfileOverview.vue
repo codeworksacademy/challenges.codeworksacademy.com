@@ -41,10 +41,10 @@ import RankCard from '../components/AccountAndProfilePage/RankCard.vue';
 export default {
   setup() {
     return {
-      profile: computed(() => AppState.ProfileState.profile),
-      milestones: computed(() => AppState.ProfileState.milestones),
-      challenges: computed(() => AppState.ProfileState.challenges),
-      badges: computed(() => AppState.ProfileState.participations.filter(p => p.status == 'completed'))
+      profile: computed(() => AppState.ProfileState.profileState.profile),
+      milestones: computed(() => AppState.ProfileState.profileState.milestones),
+      challenges: computed(() => AppState.ProfileState.profileState.challenges),
+      badges: computed(() => AppState.ProfileState.profileState.participations.filter(p => p.status == 'completed'))
     };
   },
   components: { StatCard, RankCard }

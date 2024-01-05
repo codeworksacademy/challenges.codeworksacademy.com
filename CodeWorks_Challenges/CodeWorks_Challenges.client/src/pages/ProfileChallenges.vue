@@ -70,7 +70,7 @@ export default {
       challengeTypes,
 
       challenges: computed(() => {
-        return AppState.ProfileState.challenges
+        return AppState.ProfileState.profileState.challenges
         //   if(challengeTypes.value == 'Created'){
         // } else if(challengeTypes.value == 'Moderated'){
         //     const modChallenges = []
