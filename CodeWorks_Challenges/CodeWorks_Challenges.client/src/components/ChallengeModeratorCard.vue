@@ -1,6 +1,6 @@
 <template>
   <section class="container-fluid" v-if="moderator" :key="moderator?.id">
-    <div class="col-4 card card-custom border-white border-0 mb-3" style="overflow-y: auto; height: 30vh;">
+    <div class="card card-custom border-white border-0 mb-3" style="overflow-y: auto; height: 30vh;">
       <div class="card-custom-img" :style="`background-image: url(${moderator.profile.picture});`"></div>
       <router-link :to="{ name: 'Profile Overview', params: { profileId: moderator.profile?.id } }">
         <p class="btn bg-dark btn-success text-success mod-profile-button">Visit Profile</p>
@@ -56,6 +56,8 @@ export default {
 .card-custom {
   color: #efefef;
   text-shadow: 0 1px 5px #998ce2;
+  background-size: cover;
+  background-position: center;
   overflow: hidden;
   min-height: 350px;
   background-color: #0a0b14f3;
@@ -100,7 +102,7 @@ export default {
   font-size: .9rem;
   color: aliceblue;
   text-shadow: 1px 1px 3px #000000;
-  border-radius: .25rem;
+  border-radius: .5rem;
   position: absolute;
   top: .5rem;
   right: .5rem;
@@ -140,7 +142,7 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .mod-profile-button {
-    width: 20vw;
+    width: 13vw;
   }
 }
 </style>

@@ -3,25 +3,28 @@
     <section class="row">
       <div class="col-12 d-flex flex-column">
         <div>
-          <span class="text-light">This is the Moderators page for your challenge</span>
-        </div>
-        <div>
-          <span class="text-light">Here you can search for new moderators</span>
-          <div class="my-3">
+          <div class="text-center mt-3 mb-5">
             <ModSearchForm />
           </div>
         </div>
       </div>
-      <span class="text-light mb-3">These are active challenge moderators</span>
-      <div v-for="moderator in moderators" :key="moderator.id">
-        <div v-if="moderator.status == 'active' || moderator.status == 'CodeWorks'" class="text-light">
-            <ChallengeModeratorCard :moderator="moderator" />
+      <div class="col-12 d-flex justify-content-evenly">
+        <div class="col-4 flex-column">
+          <h5 class="text-light text-center mb-5">Active Challenge Moderators</h5>
+          <div v-for="moderator in moderators" :key="moderator.id">
+            <div v-if="moderator.status == 'active' || moderator.status == 'CodeWorks'" class="text-light">
+                <ChallengeModeratorCard :moderator="moderator" />
+            </div>
+          </div>
         </div>
-      </div>
-      <span class="text-light">These are the users that have been invited but have not accepted the invite</span>
-      <div v-for="moderator in moderators" :key="moderator.id">
-        <div v-if="moderator.status == 'pending'">
-            <ChallengeModeratorCard :moderator="moderator" />
+        <span class="col-1 vertical-line"></span>
+        <div class="col-4 flex-column">
+          <h5 class="text-light text-center mb-5">Awaiting Confirmation</h5>
+          <div v-for="moderator in moderators" :key="moderator.id">
+            <div v-if="moderator.status == 'pending'">
+                <ChallengeModeratorCard :moderator="moderator" />
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -60,3 +63,11 @@ export default {
   components: { ModSearchForm, ChallengeModeratorCard }
 }
 </script>
+
+<style scoped lang="scss">
+.vertical-line {
+  width: 5px;
+  height: 100%;
+  background-color: #77777733;
+}
+</style>
