@@ -51,11 +51,11 @@
 </template>
 
 <script>
-import Pop from '../utils/Pop'
-import { logger } from '../utils/Logger'
-import { AppState } from '../AppState'
-import { useRoute } from 'vue-router'
 import { computed } from 'vue'
+import Pop from '../utils/Pop'
+import { useRoute } from 'vue-router'
+import { AppState } from '../AppState'
+import { logger } from '../utils/Logger'
 import { SUBMISSION_TYPES } from '../constants'
 import { challengesService } from '../services/ChallengesService'
 import { participantsService } from '../services/ParticipantsService'
