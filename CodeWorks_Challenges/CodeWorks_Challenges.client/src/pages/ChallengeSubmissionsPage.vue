@@ -1,19 +1,19 @@
 <template>
   <section class="container-fluid">
     <div v-if="challenge" :key="challenge.id" class="row d-flex justify-content-center align-items-center mx-1 bg-detail rounded-2">
-      <div class="col-12 d-flex justify-content-center align-items-center">
-        <h4 class="text-center me-2"> {{ challenge.name }} </h4>
-        <h4>Submissions</h4>
+      <div class="col-12 d-flex align-items-center p-3">
+        <h3 style="color: #7A7A7A">Submissions</h3>
       </div>
+
       <!-- <div class="col-12 d-flex justify-content-center align-items-center">
         <h3 class="text-center"> {{ challenge.description }} </h3>
       </div> -->
-      <div class="col-12 d-flex justify-content-center align-items-center">
+      <!-- <div class="col-12 d-flex justify-content-center align-items-center">
         <h3 class="text-center">Status: {{ challenge.status }} </h3>
       </div>
       <div class="col-12 d-flex justify-content-center align-items-center">
         <h3 class="text-center"> {{ challenge.creator.name }} </h3>
-      </div>
+      </div> -->
       <section>
         <div class="col-12 d-flex justify-content-between align-items-center">
           <div v-for="p in participants" :key="p.id" class="col-2 p-3">

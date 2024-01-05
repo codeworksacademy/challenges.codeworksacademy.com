@@ -1,8 +1,9 @@
 <template>
   <section v-if="challenge" :key="challenge?.id" class="text-light p-3 mx-3 bg-detail rounded-2">
-    <div class="col-12 justify-content-center text-center">
-      <h3>Challenge Requirements</h3>
+    <div class="col-12 justify-content-center">
+      <h3 style="color: #7A7A7A">Challenge Requirements</h3>
       <h3 v-if="challenge.requirements.length == 0" class="text-warning">Challenge has no requirements</h3>
+
     </div>
       <ol class="col-12 justify-content-center align-items-center">
         <li v-for="(requirement, index) in challenge.requirements" :key="index" class="py-2">
