@@ -7,6 +7,7 @@
           <EditChallengeDetails :challenge="challenge" />
           <EditChallengeDescription :challenge="challenge" />
           <EditChallengeRequirements :challenge="challenge" />
+          <EditChallengeBadge :challenge="challenge" />
         </div>
         <div class="text-center my-3">
           <button class="btn btn-success" @click="updateChallenge"> Update Challenge</button>
@@ -18,7 +19,7 @@
   
 <script>
 import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"
@@ -26,15 +27,16 @@ import { challengesService } from '../services/ChallengesService'
 import EditChallengeDetails from '../components/EditChallenge/EditChallengeDetails.vue'
 import EditChallengeRequirements from '../components/EditChallenge/EditChallengeRequirements.vue'
 import EditChallengeDescription from '../components/EditChallenge/EditChallengeDescription.vue'
+import EditChallengeBadge from '../components/EditChallenge/EditChallengeBadge.vue'
 
 export default {
   components: {
     EditChallengeDetails,
     EditChallengeRequirements,
-    EditChallengeDescription
+    EditChallengeDescription,
+    EditChallengeBadge
   },
   setup() {
-    let router = useRouter()
     const challenge = computed(() => AppState.ChallengeState.challenge)
 
 

@@ -11,15 +11,15 @@ export class Challenge {
     this.category = data.category || ''
     this.description = data.description || ''
     this.requirements = data.requirements || []
+    this.status = data.status
     this.coverImg = data.coverImg || 'https://i.ibb.co/b1bXrRw/card-gradient.png'
+    this.badgeImg = data.badgeImg || ''
     this.createdAt = DateTime(data.createdAt)
     this.updatedAt = DateTime(data.updatedAt)
     this.supportLinks = data.supportLinks || []
     this.autoGrade = data.autoGrade || false
     this.difficulty = data.difficulty || 1
     this.difficultyStr = StrDifficultyNum(data.difficulty) || 1
-    this.status = data.status
-    this.badges = data.badges ? new Reward(data.badges) : null
     this.answer = data.answer || ''
     this.isCancelled = data.isCancelled || false
     this.participantCount = data.participantCount
