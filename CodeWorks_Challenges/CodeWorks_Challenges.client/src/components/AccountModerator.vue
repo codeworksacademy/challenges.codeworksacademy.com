@@ -56,40 +56,18 @@
 
 
 <script>
-import { computed, watchEffect } from 'vue'
+import { computed } from 'vue'
 import { AppState } from '../AppState'
-import { challengeModeratorsService } from '../services/ChallengeModeratorsService'
-import Pop from '../utils/Pop'
 import ModerationCard from './ModerationCard.vue'
 import ChallengeCard from './ChallengePage/ChallengeCard.vue'
 
 export default {
   setup() {
-    async function getModerationsByUserId() {
-      try {
-        await challengeModeratorsService.getModerationsByUserId(AppState.AccountState.account.id);
-      }
-      catch (error) {
-        Pop.toast(error, 'error');
-      }
-    }
-    async function getModerationsByChallengeCreatorId() {
-      try {
-        await challengeModeratorsService.getModerationsByChallengeCreatorId(AppState.AccountState.account.id);
-      }
-      catch (error) {
-        Pop.toast(error, 'error');
-      }
-    }
-    watchEffect(() => {
-      if (AppState.AccountState.account.id) {
-        getModerationsByUserId();
-        getModerationsByChallengeCreatorId();
-      }
-    });
+
+
     return {
       account: computed(() => AppState.AccountState.account),
-      myChallenges: computed(() => AppState.myChallenges),
+      myChallenges: computed(() => AppState.AccountState.challenges),
       moderations: computed(() => {
         let moderators = AppState.ChallengeState.moderators
         let filterModerators = moderators.filter((m) => m.challenge.creatorId != AppState.AccountState.account.id)

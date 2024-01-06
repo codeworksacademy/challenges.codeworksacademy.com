@@ -68,7 +68,7 @@ export default {
           challengeTypes,
           challenges: computed(() => {
             if(challengeTypes.value == 'Created'){
-              return AppState.myChallenges
+              return AppState.AccountState.challenges
             } else if(challengeTypes.value == 'Moderated'){
               const modChallenges = []
 
@@ -80,11 +80,11 @@ export default {
             } else if(challengeTypes.value == 'Participating'){
               const partChallenges = []
 
-              AppState.myParticipants.forEach(p => partChallenges.push(p.challenge))
+              AppState.AccountState.participations.forEach(p => partChallenges.push(p.challenge))
 
               return partChallenges
             } else{
-              return AppState.myChallenges
+              return AppState.AccountState.challenges
             }
           }),
         };

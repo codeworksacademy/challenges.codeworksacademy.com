@@ -35,10 +35,11 @@
 import { computed } from 'vue'
 import { AppState } from '../../AppState'
 import { Profile } from '../../models/Profile.js'
+import { Account } from '../../models/Account.js'
 
 export default {
   props: {
-    profile: { type: Profile, required: true },
+    profile: { type: [Profile, Account], required: true },
     challenges: { type: Array, required: true },
     participations: { type: Array, required: true },
     milestones: { type: Array, required: true },

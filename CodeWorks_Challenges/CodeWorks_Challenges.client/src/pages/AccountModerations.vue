@@ -61,38 +61,24 @@
 
 
 <script>
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { AppState } from '../AppState';
 import ModerationCard from '../components/ModerationCard.vue';
-import Pop from '../utils/Pop';
-import { challengeModeratorsService } from '../services/ChallengeModeratorsService';
+
 
 export default {
 
   setup() {
     const moderationTypes = ref('My Moderations')
 
-    async function getModerationsByChallengeCreatorId() {
-      try {
-        await challengeModeratorsService.getModerationsByChallengeCreatorId(AppState.AccountState.account.id);
-      }
-      catch (error) {
-        Pop.toast(error, 'error');
-      }
-    }
-
-    onMounted(() => {
-      getModerationsByChallengeCreatorId();
-    })
-
     return {
       moderationTypes,
       moderations: computed(() => {
-        if(moderationTypes.value == 'My Moderations'){
+        if (moderationTypes.value == 'My Moderations') {
           let moderators = AppState.ChallengeState.moderators
           let filterModerators = moderators.filter((m) => m.challenge.creatorId != AppState.AccountState.account.id)
           return filterModerators
-        } else if(moderationTypes.value == 'Challenge Moderators'){
+        } else if (moderationTypes.value == 'Challenge Moderators') {
           let moderators = AppState.ChallengeState.moderators
           let filterModerators = moderators.filter((m) => m.accountId != AppState.AccountState.account.id)
           return filterModerators

@@ -6,7 +6,8 @@
       <div class="col-12 col-md-6" v-for="milestone in milestones" :key="milestone">
         <div class="milestone-container bg-dark rounded p-3 border border-5 border-success text-success">
           <span @click="removeMilestone(milestone.id)" class="mdi mdi-delete selectable text-danger fs-3"></span>
-          <span @click="editMode = true, setUpMilestoneEditable(milestone)" class="mdi mdi-pencil selectable text-warning ms-3 fs-3"></span>
+          <span @click="editMode = true, setUpMilestoneEditable(milestone)"
+            class="mdi mdi-pencil selectable text-warning ms-3 fs-3"></span>
 
           <section class="col-12 d-flex flex-column justify-content-center milestone-info">
             <div class="row pe-4">
@@ -34,8 +35,10 @@
               <hr class="mt-2 me-2">
               <span class="row mb-2" style="transform: translateX(43%); font-weight: 650;">Tier Levels:</span>
               <div class="flex-container" style="transform: translateX(3%);">
-                <div class="col-6 split-columns text-capitalize" v-for="(n, index) in milestone.maxTierLevel" :key="index">
-                  <span class="fw-semibold pe-2 mt-0">{{ index + 1 }}:</span> requires {{ milestone.tierThresholdArr[n - 1] }} items
+                <div class="col-6 split-columns text-capitalize" v-for="(n, index) in milestone.maxTierLevel"
+                  :key="index">
+                  <span class="fw-semibold pe-2 mt-0">{{ index + 1 }}:</span> requires {{ milestone.tierThresholdArr[n -
+                    1] }} items
                 </div>
               </div>
             </div>
@@ -51,7 +54,7 @@
         <form @submit.prevent="submitForm()" action="" class="d-flex flex-column form-control">
           <div>
             <div class="d-flex flex-column">
-  
+
               <div class="d-flex flex-column">
                 <label for="">Ref - What data is this milestone about
                 </label>
@@ -86,7 +89,8 @@
             <div v-if="editable.maxTiers">
               <label for="">Requirements - each value must be higher than the previous (1-1000)</label>
               <div v-for="(tier, index) in editable.maxTiers" :key="index">
-                Tier {{ tier }}: <input v-model="editable[tier]" type="number" class="bg-light" min="1" max="1000" required>
+                Tier {{ tier }}: <input v-model="editable[tier]" type="number" class="bg-light" min="1" max="1000"
+                  required>
               </div>
             </div>
           </div>
@@ -126,7 +130,7 @@
               {{ index + 1 }}: requires {{ editable[n] }} items
             </div>
           </div>
-  
+
           <div>
             Title:
           </div>
@@ -150,10 +154,10 @@
 
 
 <script>
-import { computed, ref, watchEffect } from 'vue';
+import { computed, ref } from 'vue';
 import MilestonesTracker from '../components/Milestones/MilestonesTracker.vue';
 import { milestonesService } from '../services/MilestonesService'
-import { accountMilestonesService } from '../services/AccountMilestonesService';
+
 import { AppState } from '../AppState';
 import Pop from '../utils/Pop';
 import { logger } from '../utils/Logger';
@@ -162,31 +166,11 @@ export default {
   setup() {
     const editable = ref({})
     const editMode = ref(false)
-    async function getMilestones() {
-      try {
-        await milestonesService.getMilestones()
-      } catch (error) {
-        Pop.error(error.message, '[getMilestones]')
-      }
-    }
-    async function getAccountMilestones() {
-      try {
-        const userId = AppState.AccountState.account.id
-        await accountMilestonesService.getAccountMilestones(userId)
-      } catch (error) {
-        Pop.error(error.message, '[getAccountMilestones]')
-      }
-    }
-    watchEffect(() => {
-      if (AppState.AccountState.account.id) {
-        getMilestones()
-        // getAccountMilestones()
-      }
-    })
+
     return {
       editable,
       editMode,
-      milestones: computed(() => AppState.milestones),
+      milestones: computed(() => AppState.AccountState.milestones),
       logic: computed(() => {
         let tempStr = ''
         let char
@@ -267,34 +251,43 @@ export default {
 <style lang="scss" scoped>
 section.row {
   width: 100%;
+
   .milestone-container {
-    height:initial;
+    height: initial;
     margin-bottom: 25px;
+
     .milestone-info {
       font-size: .9rem;
-    span {
-      margin: 1px 0 0;
-      font-weight: 600;
-      text-transform: uppercase;
+
       span {
-        font-weight: 400;
-        text-transform: capitalize;
+        margin: 1px 0 0;
+        font-weight: 600;
+        text-transform: uppercase;
+
+        span {
+          font-weight: 400;
+          text-transform: capitalize;
+        }
       }
     }
-    }
+
     .flex-container {
       display: flex;
       flex-wrap: wrap;
       flex-direction: row;
       justify-content: space-between;
+
       .split-columns {
         flex-basis: 50%;
-        box-sizing: border-box; /* Ensure padding and borders are included in the width */
+        box-sizing: border-box;
+        /* Ensure padding and borders are included in the width */
         padding: 0px 2px;
         display: flex;
         flex-direction: row;
-        transform: translateX(15%);    }
-    } 
+        transform: translateX(15%);
+      }
+    }
+
     .selectable {
       cursor: pointer;
     }

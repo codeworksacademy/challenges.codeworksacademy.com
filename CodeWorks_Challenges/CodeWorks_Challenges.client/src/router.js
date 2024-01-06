@@ -27,7 +27,7 @@ const routes = [
     beforeEnter: authGuard,
     children: [
       {
-        path: 'overview',
+        path: '',
         name: 'Account Overview',
         component: loadPage('AccountOverview')
       },
@@ -51,12 +51,11 @@ const routes = [
   {
     path: '/challenges',
     name: 'Challenges',
-    component: loadPage('ChallengePage'),
-    redirect: { name: 'Browse' },
+    component: loadPage('ChallengesPage'),
     children: [
       {
-        path: 'browse',
-        name: 'Browse',
+        path: '',
+        name: 'Challenges.Browse',
         component: loadPage('ChallengeBrowsePage')
       },
       {
@@ -69,44 +68,43 @@ const routes = [
   {
     path: '/challenges/:challengeId',
     name: 'ChallengeDetails',
-    component: loadPage('ChallengeDetailsPage'),
-    redirect: { name: 'Overview' },
+    component: loadPage('ChallengePage'),
     children: [
       {
-        path: 'overview',
-        name: 'Overview',
+        path: '',
+        name: 'ChallengeDetails.Overview',
         component: loadPage('ChallengeDetailsOverviewPage')
       },
       {
         path: 'requirements',
-        name: 'Requirements',
+        name: 'ChallengeDetails.Requirements',
         component: loadPage('ChallengeDetailsRequirementsPage')
       },
       {
         path: 'statistics',
-        name: 'Statistics',
+        name: 'ChallengeDetails.Statistics',
         component: loadPage('ChallengeDetailsStatisticsPage')
       },
       {
         path: 'edit',
-        name: 'ChallengeEditor',
+        name: 'ChallengeDetails.ChallengeEditor',
         component: loadPage('ChallengeEditor')
       },
       {
         path: 'submissions',
-        name: 'ChallengeSubmissionsPage',
+        name: 'ChallengeDetails.ChallengeSubmissionsPage',
         component: loadPage('ChallengeSubmissionsPage')
         // beforeEnter: authguard
       },
       {
         path: 'moderators',
-        name: 'ChallengeModeratorsPage',
+        name: 'ChallengeDetails.ChallengeModeratorsPage',
         component: loadPage('ChallengeModeratorsPage'),
         beforeEnter: authGuard
       },
       {
         path: 'grade',
-        name: 'GradeSubmissionsPage',
+        name: 'ChallengeDetails.GradeSubmissionsPage',
         component: loadPage('GradeSubmissionsPage'),
         beforeEnter: authGuard
       }
@@ -118,7 +116,7 @@ const routes = [
     component: loadPage('ProfilePage'),
     children: [
       {
-        path: 'overview',
+        path: '',
         name: 'Profile Overview',
         component: loadPage('ProfileOverview')
       },
@@ -128,9 +126,9 @@ const routes = [
         component: loadPage('ProfileChallenges')
       },
       {
-        path: 'badges',
-        name: 'Profile Badges',
-        component: loadPage('ProfileBadges')
+        path: 'milestones',
+        name: 'Profile Milestones',
+        component: loadPage('ProfileMilestones')
       },
     ]
   },

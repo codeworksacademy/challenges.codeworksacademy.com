@@ -30,12 +30,11 @@ class ChallengesService {
 
   async getMyChallenges() {
     const res = await api.get(`/account/challenges`)
-    AppState.myChallenges = res.data.map(c => new Challenge(c))
-    logger.log('My Challenges:', AppState.myChallenges)
+    AppState.AccountState.challenges = res.data.map(c => new Challenge(c))
+    logger.log('My Challenges:', AppState.AccountState.challenges)
   }
 
   async getAllChallenges() {
-    logger.log('Getting Challenges')
     const res = await api.get('/api/challenges')
     AppState.challenges = res.data.map(c => new Challenge(c))
     logger.log('Challenges:', AppState.challenges)

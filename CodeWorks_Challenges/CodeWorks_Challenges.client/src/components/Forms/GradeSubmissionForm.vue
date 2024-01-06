@@ -58,17 +58,14 @@
 </template>
 
 <script>
-import Pop from '../../utils/Pop'
 import { useRoute } from 'vue-router'
 import { AppState } from '../../AppState'
 import { logger } from '../../utils/Logger'
 import { SUBMISSION_TYPES } from '../../constants'
 import { formatEnum } from '../../utils/FormatEnum'
-import { computed, onMounted, ref, watchEffect } from 'vue'
-import { challengesService } from '../../services/ChallengesService'
+import { computed, ref } from 'vue'
 import { participantsService } from '../../services/ParticipantsService'
 import { ChallengeParticipant } from '../../models/ChallengeParticipant'
-import { challengeModeratorsService } from '../../services/ChallengeModeratorsService'
 
 export default {
   props: {
@@ -88,42 +85,6 @@ export default {
       requirements: props.participant.requirements,
       status: props.participant.status
     })
-
-    onMounted(() => {
-      setActiveChallenge()
-      getModeratorsByChallengeId()
-      getParticipantsByChallengeId()
-    })
-
-    async function setActiveChallenge() {
-      try {
-        await challengesService.setActiveChallenge(route.params.challengeId)
-      } catch (error) {
-        logger.error(error)
-        Pop.toast(error, 'error')
-      }
-    }
-
-    async function getParticipantsByChallengeId() {
-      try {
-        const challengeId = route.params.challengeId
-        await participantsService.getParticipantsByChallengeId(challengeId)
-      } catch (error) {
-        logger.error(error)
-        Pop.toast(error, 'error')
-      }
-    }
-
-    async function getModeratorsByChallengeId() {
-      try {
-        const challengeId = route.params.challengeId
-        await challengeModeratorsService.getModeratorsByChallengeId(challengeId)
-      } catch (error) {
-        logger.error(error)
-        Pop.toast(error, 'error')
-      }
-    }
-
 
     async function gradeChallengeParticipant() {
       try {
@@ -190,5 +151,4 @@ ol li {
   margin-bottom: 10px;
   left: -10px;
 }
-
 </style>

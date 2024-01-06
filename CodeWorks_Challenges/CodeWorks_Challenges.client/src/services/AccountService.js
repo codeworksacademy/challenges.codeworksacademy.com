@@ -9,8 +9,25 @@ class AccountService {
     try {
       const res = await api.get('/account')
       AppState.AccountState.account = new Account(res.data)
+
+      this.getAccountData()
+
     } catch (err) {
       logger.error('HAVE YOU STARTED YOUR SERVER YET???', err)
+    }
+  }
+
+  async getAccountData() {
+    try {
+      await Promise.all([
+        this.getMyChallenges(),
+        this.getMyParticipations(),
+        this.calculateAccountRank(),
+        this.calculateReputation()
+      ])
+    } catch (error) {
+      // todo figure out repeat calls
+      logger.error(error)
     }
   }
 
@@ -24,8 +41,8 @@ class AccountService {
   async getMyChallenges() {
     try {
       const res = await api.get('/account/challenges')
-      AppState.myChallenges = res.data
-      logger.log('Challenges I created:', AppState.myChallenges)
+      AppState.AccountState.challenges = res.data
+      logger.log('Challenges I created:', AppState.AccountState.challenges)
     } catch (error) {
       logger.error(error)
     }
@@ -33,8 +50,8 @@ class AccountService {
 
   async getMyParticipations() {
     const res = await api.get('/account/participations')
-    AppState.myParticipants = res.data.map(p => new ChallengeParticipant(p))
-    logger.log('[GET PARTICIPANTS BY ACCOUNT]', AppState.myParticipants)
+    AppState.AccountState.participations = res.data.map(p => new ChallengeParticipant(p))
+    logger.log('[GET PARTICIPANTS BY ACCOUNT]', AppState.AccountState.participations)
   }
 
   async calculateAccountRank() {
@@ -44,16 +61,13 @@ class AccountService {
     return res.data
   }
 
-  async calculateReputation(){
+  async calculateReputation() {
     const res = await api.get('account/reputation')
     AppState.AccountState.account.reputation = res.data.reputation
 
     logger.log('[CURRENT ACCOUNT REPUTATION]', res.data)
   }
 
-  clearSharedVariables(){
-    AppState.ChallengeState.moderators = []
-  }
 }
 
 export const accountService = new AccountService()

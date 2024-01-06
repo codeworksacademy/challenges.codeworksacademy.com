@@ -2,29 +2,29 @@
   <section class="container-fluid">
     <h4 class="px-3 pt-3" style="color: #7A7A7A">User Links</h4>
     <aside class="mt-5 pt-0 px-5">
-      <router-link :to="{ name: 'Overview' }">
+      <router-link :to="{ name: 'ChallengeDetails.Overview' }">
         <h4 class="mdi mdi-file-document-multiple text-light selectable"> Overview</h4>
       </router-link>
-      <router-link :to="{ name: 'ChallengeSubmissionsPage' }">
+      <router-link :to="{ name: 'ChallengeDetails.ChallengeSubmissionsPage' }">
         <h4 class="mdi mdi-account-box-multiple-outline text-light selectable"> Submissions</h4>
       </router-link>
-      <router-link :to="{ name: 'Requirements' }">
+      <router-link :to="{ name: 'ChallengeDetails.Requirements' }">
         <h4 class="mdi mdi-file-document-check text-light selectable"> Requirements</h4>
       </router-link>
-      <router-link :to="{ name: 'Statistics' }">
+      <router-link :to="{ name: 'ChallengeDetails.Statistics' }">
         <h4 class="mdi mdi-finance text-light selectable"> Statistics</h4>
       </router-link>
 
       <hr>
 
       <div v-if="isOwned || isModerator" class="d-flex flex-column justify-content-center">
-        <router-link :to="{ name: 'GradeSubmissionsPage' }">
+        <router-link :to="{ name: 'ChallengeDetails.GradeSubmissionsPage' }">
           <h4 class="mdi mdi-progress-check text-info mt-1" style=""> Grade Users</h4>
         </router-link>
-        <router-link :to="{ name: 'ChallengeEditor' }">
+        <router-link :to="{ name: 'ChallengeDetails.ChallengeEditor' }">
           <h4 class="mdi mdi-archive-edit text-warning selectable" style=""> Edit Challenge</h4>
         </router-link>
-        <router-link :to="{ name: 'ChallengeModeratorsPage' }">
+        <router-link :to="{ name: 'ChallengeDetails.ChallengeModeratorsPage' }">
           <h4 class="mdi mdi-archive-edit text-danger selectable" style="">Moderators</h4>
         </router-link>
 

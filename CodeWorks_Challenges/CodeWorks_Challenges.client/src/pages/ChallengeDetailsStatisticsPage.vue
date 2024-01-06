@@ -14,19 +14,15 @@
 </template>
 
 <style scoped lang="scss">
-  .bg-detail{
-    background-color: #1c2332
-  }
+.bg-detail {
+  background-color: #1c2332
+}
 </style>
   
 <script>
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AppState } from '../AppState'
-import Pop from '../utils/Pop'
-import { logger } from '../utils/Logger'  
-import { challengesService } from '../services/ChallengesService'
 import { useRoute } from 'vue-router'
-import { participantsService } from '../services/ParticipantsService'
 import { StrDifficultyNum } from '../utils/StrDifficultyNum'
 import { SUBMISSION_TYPES } from '../constants'
 import ActiveChallengeDifficultyCard from '../components/ChallengeDetailsPage/ActiveChallengeDifficultyCard.vue'
@@ -36,7 +32,6 @@ export default {
     ActiveChallengeDifficultyCard
   },
   setup() {
-    let route = useRoute()
 
     const filterBy = ref('')
     const editable = ref({
@@ -46,34 +41,10 @@ export default {
       status: SUBMISSION_TYPES,
     })
 
-    async function setActiveChallenge() {
-      try {
-        await challengesService.setActiveChallenge(route.params.challengeId)
-        logger.log(route.params.challengeId)
-      } catch (error) {
-        logger.error(error)
-        Pop.toast(error, 'error')
-      }
-    }
-
-    async function getParticipantsByChallengeId() {
-      try {
-        const challengeId = route.params.challengeId
-        await participantsService.getParticipantsByChallengeId(challengeId)
-      } catch (error) {
-        logger.error(error)
-        Pop.toast(error, 'error')
-      }
-    }
-
     const participant = computed(() => {
       return AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id)
     })
 
-    onMounted(() => {
-      setActiveChallenge()
-      getParticipantsByChallengeId()
-    })
 
     return {
       filterBy,
@@ -111,7 +82,7 @@ export default {
         const total = submissions.length
         return total
       })
-    } 
+    }
   }
 }
 </script>

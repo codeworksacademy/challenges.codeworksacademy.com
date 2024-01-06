@@ -13,7 +13,7 @@
           <h5 class="text-light text-center mb-5">Active Challenge Moderators</h5>
           <div v-for="moderator in moderators" :key="moderator.id">
             <div v-if="moderator.status == 'active' || moderator.status == 'CodeWorks'" class="text-light">
-                <ChallengeModeratorCard :moderator="moderator" />
+              <ChallengeModeratorCard :moderator="moderator" />
             </div>
           </div>
         </div>
@@ -22,7 +22,7 @@
           <h5 class="text-light text-center mb-5">Awaiting Confirmation</h5>
           <div v-for="moderator in moderators" :key="moderator.id">
             <div v-if="moderator.status == 'pending'">
-                <ChallengeModeratorCard :moderator="moderator" />
+              <ChallengeModeratorCard :moderator="moderator" />
             </div>
           </div>
         </div>
@@ -32,30 +32,15 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue';
+import { computed } from 'vue';
 import ModSearchForm from '../components/Forms/ModSearchForm.vue';
-import Pop from '../utils/Pop';
-import { useRoute } from 'vue-router';
-import { challengeModeratorsService } from '../services/ChallengeModeratorsService';
+
 import { AppState } from '../AppState';
 import ChallengeModeratorCard from '../components/ChallengeModeratorCard.vue';
 
 export default {
   setup() {
-    const route = useRoute()
 
-    async function getModeratorsByChallengeId() {
-      try {
-        const challengeId = route.params.challengeId
-        await challengeModeratorsService.getModeratorsByChallengeId(challengeId)
-      } catch (error) {
-        Pop.error(error.message, '[getModeratorsByChallengeId - Challenge Moderators Page]')
-      }
-    }
-
-    onMounted(() => {
-      getModeratorsByChallengeId();
-    })
     return {
       moderators: computed(() => AppState.ChallengeState.moderators)
     };

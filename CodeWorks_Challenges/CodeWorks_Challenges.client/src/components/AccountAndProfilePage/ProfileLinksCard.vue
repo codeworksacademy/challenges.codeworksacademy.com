@@ -5,23 +5,23 @@
     </p>
     <div class="text-white d-flex flex-column">
       <div class="user-links-btn rounded">
-        <router-link :to="{name: 'Profile Overview'}">
+        <router-link :to="{ name: 'Profile Overview' }">
           <button class="btn text-white link-btn">
             <i class="mdi mdi-layers"></i> Overview
           </button>
         </router-link>
       </div>
       <div class="user-links-btn rounded">
-        <router-link :to="{name: 'Profile Challenges'}">
+        <router-link :to="{ name: 'Profile Challenges' }">
           <button class="btn text-white link-btn">
             <i class="mdi mdi-file-code"></i> Challenges
           </button>
         </router-link>
       </div>
       <div class="user-links-btn rounded">
-        <router-link :to="{name: 'Profile Badges'}">
+        <router-link :to="{ name: 'Profile Milestones' }">
           <button class="btn text-white link-btn">
-            <i class="mdi mdi-seal"></i> Badges
+            <i class="mdi mdi-seal"></i> Milestones
           </button>
         </router-link>
       </div>
@@ -33,7 +33,7 @@
 import { useRoute } from 'vue-router';
 
 export default {
-  setup(){
+  setup() {
     const route = useRoute()
 
     return {
@@ -44,15 +44,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.user-links-card{
+.user-links-card {
   background-color: #0E141E;
 }
 
-.user-links-btn:hover{
+.user-links-btn:hover {
   background-color: #0B0E13;
 }
 
-.link-btn:focus{
+.link-btn:focus {
   border: 1px solid #0B0E13;
 }
 </style>

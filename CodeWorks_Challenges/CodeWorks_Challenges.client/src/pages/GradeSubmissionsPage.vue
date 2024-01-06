@@ -16,9 +16,10 @@
         <div v-for="p in participants" :key="p.id" class="accordion-item">
           <div v-if="p.status === 'submitted' && challengeCreator">
             <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse'+ p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
-                  <span>{{ p.profile.name }}</span>
-                </button>
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                :data-bs-target="'#collapse' + p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
+                <span>{{ p.profile.name }}</span>
+              </button>
             </h2>
             <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
               <div class="accordion-body">
@@ -33,9 +34,10 @@
         <div v-for="p in participants" :key="p.id" class="accordion-item">
           <div v-if="p.status === 'started' && challengeCreator">
             <h2 class="accordion-header bg-dark text-light">
-                <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse'+ p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
-                  <span>{{ p.profile.name }}</span>
-                </button>
+              <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse"
+                :data-bs-target="'#collapse' + p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
+                <span>{{ p.profile.name }}</span>
+              </button>
             </h2>
             <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
               <div class="accordion-body bg-dark">
@@ -50,9 +52,10 @@
         <div v-for="p in participants" :key="p.id" class="accordion-item">
           <div v-if="p.status === 'completed' && challengeCreator">
             <h2 class="accordion-header">
-                <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse'+ p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
-                   <span>{{ p.profile.name }}</span>
-                </button>
+              <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse"
+                :data-bs-target="'#collapse' + p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
+                <span>{{ p.profile.name }}</span>
+              </button>
             </h2>
             <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
               <div class="accordion-body bg-dark text-light">
@@ -68,13 +71,8 @@
   
 <script>
 import GradeSubmissionForm from '../components/Forms/GradeSubmissionForm.vue'
-import { computed, onMounted, ref, watchEffect } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import { AppState } from '../AppState'
-import Pop from '../utils/Pop'
-import { logger } from '../utils/Logger'  
-import { challengesService } from '../services/ChallengesService'
-import { useRoute } from 'vue-router'
-import { participantsService } from '../services/ParticipantsService'
 import { StrDifficultyNum } from '../utils/StrDifficultyNum'
 import { newChallengeParticipant } from '../utils/NewChallengeParticipant'
 
@@ -83,31 +81,10 @@ export default {
     GradeSubmissionForm,
   },
   setup() {
-    let route = useRoute()
     const filterBy = ref('')
-    const editable = computed(() => 
+    const editable = computed(() =>
       newChallengeParticipant({ state: AppState }, filterBy.value)
     )
-
-    async function setActiveChallenge() {
-      try {
-        await challengesService.setActiveChallenge(route.params.challengeId)
-        logger.log(route.params.challengeId)
-      } catch (error) {
-        logger.error(error)
-        Pop.toast(error, 'error')
-      }
-    }
-
-    async function getParticipantsByChallengeId() {
-      try {
-        const challengeId = route.params.challengeId
-        await participantsService.getParticipantsByChallengeId(challengeId)
-      } catch (error) {
-        logger.error(error)
-        Pop.toast(error, 'error')
-      }
-    }
 
     function isModeratorStatus() {
       const isMod = AppState.ChallengeState.moderators.find(m => m.accountId == AppState.AccountState.account.id)
@@ -120,11 +97,6 @@ export default {
 
     const participant = computed(() => {
       return AppState.ChallengeState.participants.find(p => p.id === AppState.activeParticipant?.id)
-    })
-
-    onMounted(() => {
-      setActiveChallenge()
-      getParticipantsByChallengeId()
     })
 
     watchEffect(() => {
@@ -152,16 +124,14 @@ export default {
           return AppState.ChallengeState.participants.filter(p => p.status === filterBy.value)
         }
       }),
-    } 
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
-
-.profile-picture-small{
+.profile-picture-small {
   height: 60px;
   width: 60px;
 }
-
 </style>

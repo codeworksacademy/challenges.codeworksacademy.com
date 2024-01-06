@@ -8,11 +8,12 @@
       <div class="col-12 text-white">
         <section class="row justify-content-between">
           <div class="col-md-7 col-12 d-flex summary-height">
-            <SummarySection :name="account.name" :picture="account.picture" :rankNumber="account.rank" :challengesCount="(myChallenges.length + approvedModerations.length)" :reputation="account.reputation" :userRank="account.rank" />
+            <SummarySection :profile="account" :milestones="milestones" :challenges="challenges"
+              :participations="participations" />
           </div>
 
           <div class="col-4 align-items-center justify-content-end d-none d-md-flex summary-height">
-            <router-link :to="{name: 'Account Challenges'}">
+            <router-link :to="{ name: 'Account Challenges' }">
               <button class="btn aqua-btn-outline my-2">
                 View my challenges
               </button>
@@ -56,74 +57,21 @@
 </template>
 
 <script>
-import { computed, onUnmounted, watchEffect } from 'vue'
+import { computed, } from 'vue'
 import { AppState } from '../AppState';
-import Pop from "../utils/Pop.js";
-import { challengesService } from "../services/ChallengesService.js";
-import { logger } from "../utils/Logger.js";
 import ChallengeCard from '../components/ChallengePage/ChallengeCard.vue'
 import AccountModerator from "../components/AccountModerator.vue";
-import { accountService } from "../services/AccountService.js";
 import SummarySection from '../components/AccountAndProfilePage/SummarySection.vue';
-import { challengeModeratorsService } from '../services/ChallengeModeratorsService';
 import AccountLinksCard from '../components/AccountAndProfilePage/AccountLinksCard.vue';
 import AccountForm from '../components/AccountAndProfilePage/AccountForm.vue';
 
 export default {
   setup() {
-    async function getMyChallenges() {
-      try {
-        logger.log(AppState.AccountState.account.id)
-        await challengesService.getMyChallenges(AppState.AccountState.account.id)
-      } catch (error) {
-        Pop.error(error.message)
-      }
-    }
-
-    async function getMyParticipations() {
-      try {
-        await accountService.getMyParticipations()
-      } catch (error) {
-        Pop.error(error.message)
-      }
-    }
-
-    async function getMyModerations(){
-      try {
-        await challengeModeratorsService.getModerationsByProfileId(AppState.AccountState.account.id)
-      } catch (error) {
-        Pop.error(error.message)
-      }
-    }
-
-    function clearSharedVariables(){
-      try {
-        accountService.clearSharedVariables()
-      } catch (error) {
-        Pop.error(error.message)
-      }
-    }
-
-    watchEffect(() => {
-      if (AppState.AccountState.account.id) {
-        getMyChallenges()
-        getMyParticipations()
-        getMyModerations()
-      }
-    })
-    onUnmounted(() => {
-      clearSharedVariables()
-    })
-
     return {
       account: computed(() => AppState.AccountState.account),
-      myChallenges: computed(() => AppState.myChallenges),
-
-      approvedModerations: computed(() => {
-        const approvedMods = AppState.ChallengeState.moderators.filter(m => m.status == 'active' && m.challenge.creatorId != AppState.AccountState.account.id)
-
-        return approvedMods
-      })
+      challenges: computed(() => AppState.AccountState.challenges),
+      participations: computed(() => AppState.AccountState.participations),
+      milestones: computed(() => AppState.AccountState.milestones)
     };
   },
   components: { AccountForm, ChallengeCard, AccountModerator, SummarySection, AccountLinksCard, AccountForm }
@@ -131,7 +79,7 @@ export default {
 </script>
 
 <style scoped>
-.summary-height{
+.summary-height {
   height: 9vh;
 }
 
@@ -142,16 +90,16 @@ export default {
   width: 100%;
 }
 
-.dark-blue-bg{
+.dark-blue-bg {
   background-color: #0E131B;
 }
 
-.aqua-btn-outline{
+.aqua-btn-outline {
   border: 1px solid #00CCE6;
   color: #00CCE6;
 }
 
-.aqua-btn-outline:hover{
+.aqua-btn-outline:hover {
   background-color: #00CCE6;
   color: black;
 }
