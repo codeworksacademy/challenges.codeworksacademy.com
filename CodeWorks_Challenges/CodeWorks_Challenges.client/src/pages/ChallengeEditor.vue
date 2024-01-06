@@ -46,7 +46,7 @@ export default {
         await challengesService.updateChallenge(updatedChallenge, updatedChallenge.id)
         Pop.success("Challenge Updated")
         // router.push({
-        //   name: 'ChallengeDetails.Overview',
+        //   name: 'Challenge.Overview',
         //   params: {
         //     challengeId: AppState.ChallengeState.challenge?.id
         //   }

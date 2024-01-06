@@ -59,7 +59,7 @@
 <script>
 import { computed, } from 'vue'
 import { AppState } from '../AppState';
-import ChallengeCard from '../components/ChallengePage/ChallengeCard.vue'
+import ChallengeCard from '../components/ChallengesPage/ChallengeCard.vue'
 import AccountModerator from "../components/AccountModerator.vue";
 import SummarySection from '../components/AccountAndProfilePage/SummarySection.vue';
 import AccountLinksCard from '../components/AccountAndProfilePage/AccountLinksCard.vue';

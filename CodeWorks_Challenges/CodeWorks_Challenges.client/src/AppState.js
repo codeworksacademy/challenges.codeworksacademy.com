@@ -27,7 +27,7 @@ const AccountState = reactive({
 // Fetch this data each time you land on a challenge page
 const ChallengeState = reactive({
   /** @type {import('./models/Challenge.js')|null} */
-  challege: null,
+  challenge: null,
   /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]} */
   participants: [],
   /** @type {import('./models/ChallengeModerator.js').ChallengeModerator[]} */
@@ -52,6 +52,8 @@ export const AppState = reactive({
   // challenges that show up in search and can be joined by the user
   /** @type {import('./models/Challenge.js').Challenge[]} */
   challenges: [],
+  /**@type {import('./models/Profile.js').Profile} */
+  profiles: [],
 
 
   milestoneChecks: [

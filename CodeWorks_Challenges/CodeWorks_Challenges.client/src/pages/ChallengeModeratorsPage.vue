@@ -10,7 +10,7 @@
       </div>
       <div class="col-12 d-flex justify-content-evenly">
         <div class="col-4 flex-column">
-          <h5 class="text-light text-center mb-5">Active Challenge Moderators</h5>
+          <h5 class="text-light text-center mb-5" style="white-space: nowrap;">Active Challenge Moderators</h5>
           <div v-for="moderator in moderators" :key="moderator.id">
             <div v-if="moderator.status == 'active' || moderator.status == 'CodeWorks'" class="text-light">
               <ChallengeModeratorCard :moderator="moderator" />

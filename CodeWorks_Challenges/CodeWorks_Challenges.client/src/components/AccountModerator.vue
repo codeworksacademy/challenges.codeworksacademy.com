@@ -59,7 +59,7 @@
 import { computed } from 'vue'
 import { AppState } from '../AppState'
 import ModerationCard from './ModerationCard.vue'
-import ChallengeCard from './ChallengePage/ChallengeCard.vue'
+import ChallengeCard from './ChallengesPage/ChallengeCard.vue'
 
 export default {
   setup() {

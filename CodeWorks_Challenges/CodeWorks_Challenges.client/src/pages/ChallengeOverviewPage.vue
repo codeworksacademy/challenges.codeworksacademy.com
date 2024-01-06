@@ -39,11 +39,11 @@ import { useRoute } from 'vue-router'
 import { AppState } from '../AppState'
 import { StrDifficultyNum } from '../utils/StrDifficultyNum'
 import { challengeModeratorsService } from '../services/ChallengeModeratorsService'
-import ActiveChallengeCreatorCard from '../components/ChallengeDetailsPage/ActiveChallengeCreatorCard.vue'
-import ActiveChallengeCategoryCard from '../components/ChallengeDetailsPage/ActiveChallengeCategoryCard.vue'
-import ActiveChallengeDifficultyCard from '../components/ChallengeDetailsPage/ActiveChallengeDifficultyCard.vue'
-import ActiveChallengeReputationCard from '../components/ChallengeDetailsPage/ActiveChallengeReputationCard.vue'
-import ActiveChallengeParticipantsCard from '../components/ChallengeDetailsPage/ActiveChallengeParticipantsCard.vue'
+import ActiveChallengeCreatorCard from '../components/ChallengePage/ActiveChallengeCreatorCard.vue'
+import ActiveChallengeCategoryCard from '../components/ChallengePage/ActiveChallengeCategoryCard.vue'
+import ActiveChallengeDifficultyCard from '../components/ChallengePage/ActiveChallengeDifficultyCard.vue'
+import ActiveChallengeReputationCard from '../components/ChallengePage/ActiveChallengeReputationCard.vue'
+import ActiveChallengeParticipantsCard from '../components/ChallengePage/ActiveChallengeParticipantsCard.vue'
 
 export default {
   setup() {
