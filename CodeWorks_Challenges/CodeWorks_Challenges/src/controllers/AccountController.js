@@ -84,8 +84,8 @@ export class AccountController extends BaseController {
 
   async calculateMyRank(req, res, next) {
     try {
-      const user = req.userInfo
-      const rank = await accountService.calculateMyRank(user)
+      const userId = req.userInfo.id
+      const rank = await accountService.calculateMyRank(userId)
       return res.send(rank)
     } catch (error) {
       next(error);
