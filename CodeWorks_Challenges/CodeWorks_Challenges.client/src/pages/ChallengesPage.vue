@@ -90,6 +90,7 @@ import { challengesService } from '../services/ChallengesService'
 export default {
 
   setup() {
+    const router = useRouter()
     const search = ref({})
     const filterBy = ref('')
     const categoryTypes = ref(Object.values(CATEGORY_TYPES))
@@ -120,6 +121,7 @@ export default {
     })
 
     return {
+      router,
       search,
       categoryTypes,
       filterBy,
@@ -133,16 +135,16 @@ export default {
       findChallenges,
 
       routeToCategory() {
-        // try {
-        //   if (!filterBy.value) {
-        //     router.push({ name: 'Challenges' })
-        //     return
-        //   }
-        //   router.push({ name: 'ChallengeCategory', params: { category: filterBy.value } })
-        // } catch (error) {
-        //   logger.error(error)
-        //   Pop.error(error)
-        // }
+        try {
+          if (!filterBy.value) {
+            router.push({ name: 'Challenges' })
+            return
+          }
+          router.push({ name: 'ChallengeCategory', params: { category: filterBy.value } })
+        } catch (error) {
+          logger.error(error)
+          Pop.error(error)
+        }
       },
 
       async filterDifficulty(difficulty) {

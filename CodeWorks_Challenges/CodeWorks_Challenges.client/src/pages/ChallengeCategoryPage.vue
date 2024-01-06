@@ -34,3 +34,9 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+.row {
+  --bs-gutter-x: 0;
+}
+</style>
