@@ -55,9 +55,9 @@ export default {
     return {
       changeRoute,
       profile: computed(() => {
-        return AppState.profiles.find(p => p.id === AppState.activeParticipant?.profile.id)
+        return AppState.ProfileState.profiles.find(p => p.id === AppState.activeParticipant?.profile.id)
       }),
-      isGrader: computed(() => AppState.moderators.find(m => m.accountId == AppState.account.id || m.originId == AppState.account.id)),
+      isGrader: computed(() => AppState.ChallengeState.moderators.find(m => m.accountId == AppState.AccountState.account.id || m.originId == AppState.AccountState.account.id)),
     }
   }
 }

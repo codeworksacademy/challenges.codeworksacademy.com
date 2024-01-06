@@ -14,19 +14,15 @@
 </template>
 
 <style scoped lang="scss">
-  .bg-detail{
-    background-color: #1c2332
-  }
+.bg-detail {
+  background-color: #1c2332
+}
 </style>
   
 <script>
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { AppState } from '../AppState'
-import Pop from '../utils/Pop'
-import { logger } from '../utils/Logger'  
-import { challengesService } from '../services/ChallengesService'
 import { useRoute } from 'vue-router'
-import { participantsService } from '../services/ParticipantsService'
 import { StrDifficultyNum } from '../utils/StrDifficultyNum'
 import { SUBMISSION_TYPES } from '../constants'
 import ActiveChallengeDifficultyCard from '../components/ChallengeDetailsPage/ActiveChallengeDifficultyCard.vue'
@@ -36,44 +32,19 @@ export default {
     ActiveChallengeDifficultyCard
   },
   setup() {
-    let route = useRoute()
 
     const filterBy = ref('')
     const editable = ref({
       accountId: AppState.user.id,
-      challengeId: AppState.activeChallenge?.id,
+      challengeId: AppState.ChallengeState.challenge?.id,
       submission: '',
       status: SUBMISSION_TYPES,
     })
 
-    async function setActiveChallenge() {
-      try {
-        await challengesService.setActiveChallenge(route.params.challengeId)
-        logger.log(route.params.challengeId)
-      } catch (error) {
-        logger.error(error)
-        Pop.toast(error, 'error')
-      }
-    }
-
-    async function getParticipantsByChallengeId() {
-      try {
-        const challengeId = route.params.challengeId
-        await participantsService.getParticipantsByChallengeId(challengeId)
-      } catch (error) {
-        logger.error(error)
-        Pop.toast(error, 'error')
-      }
-    }
-
     const participant = computed(() => {
-      return AppState.participants.find(p => p.accountId === AppState.user.id)
+      return AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id)
     })
 
-    onMounted(() => {
-      setActiveChallenge()
-      getParticipantsByChallengeId()
-    })
 
     return {
       filterBy,
@@ -81,24 +52,24 @@ export default {
       participant,
 
       user: computed(() => AppState.user),
-      challenge: computed(() => AppState.activeChallenge),
-      myModerations: computed(() => AppState.moderators.filter(m => m.accountId === AppState.account.id)),
-      participants: computed(() => AppState.participants),
+      challenge: computed(() => AppState.ChallengeState.challenge),
+      myModerations: computed(() => AppState.ChallengeState.moderators.filter(m => m.accountId === AppState.AccountState.account.id)),
+      participants: computed(() => AppState.ChallengeState.participants),
       isParticipant: computed(() => {
-        return AppState.participants.find(p => p.accountId === AppState.user.id)
+        return AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id)
       }),
       participantFilter: computed(() => {
         if (!filterBy.value) {
-          return AppState.participants
+          return AppState.ChallengeState.participants
         } else {
-          return AppState.participants.filter(p => p.status === filterBy.value)
+          return AppState.ChallengeState.participants.filter(p => p.status === filterBy.value)
         }
       }),
       difficulty: computed(() =>
-        StrDifficultyNum(AppState.activeChallenge.difficulty)
+        StrDifficultyNum(AppState.ChallengeState.challenge.difficulty)
       ),
       participantCompletionRate: computed(() => {
-        const participants = AppState.participants
+        const participants = AppState.ChallengeState.participants
         const submissionTypes = participants.filter(p => p.status === SUBMISSION_TYPES ? p.status === SUBMISSION_TYPES : p.status !== SUBMISSION_TYPES['removed', 'left'])
         const completed = participants.filter(p => p.status === 'completed')
         const total = submissionTypes.length
@@ -106,12 +77,12 @@ export default {
         return percentage.toFixed(2) + '%'
       }),
       totalSubmitted: computed(() => {
-        const participants = AppState.participants
+        const participants = AppState.ChallengeState.participants
         const submissions = participants.filter(p => p.status === 'submitted' || p.status === 'completed')
         const total = submissions.length
         return total
       })
-    } 
+    }
   }
 }
 </script>

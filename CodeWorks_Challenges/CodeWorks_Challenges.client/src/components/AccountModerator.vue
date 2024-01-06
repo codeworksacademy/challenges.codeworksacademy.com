@@ -56,48 +56,26 @@
 
 
 <script>
-import { computed, watchEffect } from 'vue'
+import { computed } from 'vue'
 import { AppState } from '../AppState'
-import { challengeModeratorsService } from '../services/ChallengeModeratorsService'
-import Pop from '../utils/Pop'
 import ModerationCard from './ModerationCard.vue'
-import ChallengeCard from './ChallengePage/ChallengeCard.vue'
+import ChallengeCard from './ChallengesPage/ChallengeCard.vue'
 
 export default {
   setup() {
-    async function getModerationsByUserId() {
-      try {
-        await challengeModeratorsService.getModerationsByUserId(AppState.account.id);
-      }
-      catch (error) {
-        Pop.toast(error, 'error');
-      }
-    }
-    async function getModerationsByChallengeCreatorId() {
-      try {
-        await challengeModeratorsService.getModerationsByChallengeCreatorId(AppState.account.id);
-      }
-      catch (error) {
-        Pop.toast(error, 'error');
-      }
-    }
-    watchEffect(() => {
-      if (AppState.account.id) {
-        getModerationsByUserId();
-        getModerationsByChallengeCreatorId();
-      }
-    });
+
+
     return {
-      account: computed(() => AppState.account),
-      myChallenges: computed(() => AppState.myChallenges),
+      account: computed(() => AppState.AccountState.account),
+      myChallenges: computed(() => AppState.AccountState.challenges),
       moderations: computed(() => {
-        let moderators = AppState.moderations
-        let filterModerators = moderators.filter((m) => m.challenge.creatorId != AppState.account.id)
+        let moderators = AppState.ChallengeState.moderators
+        let filterModerators = moderators.filter((m) => m.challenge.creatorId != AppState.AccountState.account.id)
         return filterModerators
       }),
       moderators: computed(() => {
-        let moderators = AppState.moderators
-        let filterModerators = moderators.filter((m) => m.accountId != AppState.account.id)
+        let moderators = AppState.ChallengeState.moderators
+        let filterModerators = moderators.filter((m) => m.accountId != AppState.AccountState.account.id)
         return filterModerators
       }),
 

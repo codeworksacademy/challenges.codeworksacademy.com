@@ -37,7 +37,7 @@ export default {
     return {
       props,
 
-      account: computed(() => AppState.account),
+      account: computed(() => AppState.AccountState.account),
 
       async removeModeration(moderationId) {
         try {

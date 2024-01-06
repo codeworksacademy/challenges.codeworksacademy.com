@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ChallengeCategoryCard from '../components/ChallengePage/ChallengeCategoryCard.vue';
+import ChallengeCategoryCard from '../components/ChallengesPage/ChallengeCategoryCard.vue';
 import { ref } from 'vue';
 import { CATEGORY_TYPES } from "../constants/index.js";
 

@@ -39,11 +39,11 @@ export default {
   setup() {
     const editable = ref({})
     watchEffect(() => {
-      editable.value = { ...AppState.account }
+      editable.value = { ...AppState.AccountState.account }
     })
     return {
       editable,
-      account: computed(() => AppState.account),
+      account: computed(() => AppState.AccountState.account),
 
       async updateAccount() {
         try {

@@ -18,7 +18,7 @@
           <p>
             Empower Your Future and Career with Software Development Challenges
           </p>
-          <router-link to="Challenges">
+          <router-link :to="{ name: 'Challenges.Browse' }">
             <button class="btn btn-aqua btn-lg">
               Browse Challenges
             </button>

@@ -1,23 +1,31 @@
 <template>
   <div class="avatar-container col-md-4 col-lg-3 col-5">
     <div class="avatar-bg"></div>
-    <img :src="props.picture" :alt="props.name" class="avatar-lg mx-4 light-gold-border avatar-style">
+    <img :src="profile.picture" :alt="profile.name" class="avatar-lg mx-4 light-gold-border avatar-style">
   </div>
   <div class="d-flex flex-column col-md-8 col-lg-9 col-7">
     <p class="fs-2 m-0">
-      {{ props.name }}
+      {{ profile.name }}
     </p>
     <p class="fs-6 hide-sm">
-      <span class="light-gold-color">Rank: </span> {{ currentRank }}
+      <span class="light-gold-color">Rank: </span> {{ rankTitle }}
       <span title="experience" class="ms-4">
-        {{ props.rankNumber }} <span class="light-gold-color">XP</span>
+        {{ profile.rank }} <span class="light-gold-color">XP</span>
       </span>
       <span title="challenges" class="ms-4">
-        {{ props.challengesCount }}
+        {{ challenges.length }}
+        <i class="mdi mdi-file-code light-gold-color"></i>
+      </span>
+      <span title="milestones" class="ms-4">
+        {{ milestones.length }}
+        <i class="mdi mdi-file-code light-gold-color"></i>
+      </span>
+      <span title="badges" class="ms-4">
+        {{ badges.length }}
         <i class="mdi mdi-file-code light-gold-color"></i>
       </span>
       <span title="reputation" class="ms-4">
-        {{ props.reputation }} <i class="mdi light-gold-color mdi-emoticon-happy"></i>
+        {{ profile.reputation }} <i class="mdi light-gold-color mdi-emoticon-happy"></i>
       </span>
     </p>
   </div>
@@ -26,26 +34,25 @@
 <script>
 import { computed } from 'vue'
 import { AppState } from '../../AppState'
+import { Profile } from '../../models/Profile.js'
+import { Account } from '../../models/Account.js'
 
 export default {
-  props:{
-    name: {type: String, required: true},
-    picture: {type: String, required: true},
-    rankNumber: {type: Number, required: true},
-    challengesCount: {type: Number, required: true},
-    reputation: {type: Number, required: true},
-    userRank: {type: Number, required: true}
+  props: {
+    profile: { type: [Profile, Account], required: true },
+    challenges: { type: Array, required: true },
+    participations: { type: Array, required: true },
+    milestones: { type: Array, required: true },
   },
 
-  setup(props){
+  setup(props) {
     return {
-      props,
-
-      currentRank: computed(() => {
+      badges: computed(() => props.participations.filter(p => p.status == 'completed')),
+      rankTitle: computed(() => {
         let lastKey = 0
 
         for (const key in AppState.rankTitles) {
-          if (props.userRank >= key) {
+          if (props.profile.rank >= key) {
             lastKey = key
           }
         }
@@ -58,7 +65,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.avatar-container{
+.avatar-container {
   position: relative;
   top: -5.5vh;
 }
@@ -67,7 +74,7 @@ export default {
   position: absolute;
 }
 
-.avatar-bg{
+.avatar-bg {
   position: absolute;
   background-color: #0E131B;
   top: 0;
@@ -78,7 +85,7 @@ export default {
 }
 
 @media(max-width: 768px) {
-  .avatar-lg{
+  .avatar-lg {
     height: 5.5rem;
     width: 5.5rem;
     border-radius: 50%;
@@ -86,19 +93,19 @@ export default {
     object-position: center;
   }
 
-  .avatar-bg{
-  position: absolute;
-  background-color: #0E131B;
-  top: 0;
-  left: 24px;
-  height: 5.5rem;
-  width: 5.5rem;
-  border-radius: 50%;
-}
+  .avatar-bg {
+    position: absolute;
+    background-color: #0E131B;
+    top: 0;
+    left: 24px;
+    height: 5.5rem;
+    width: 5.5rem;
+    border-radius: 50%;
+  }
 }
 
-@media(max-width: 391px){
-  .hide-sm{
+@media(max-width: 391px) {
+  .hide-sm {
     display: none;
   }
 }

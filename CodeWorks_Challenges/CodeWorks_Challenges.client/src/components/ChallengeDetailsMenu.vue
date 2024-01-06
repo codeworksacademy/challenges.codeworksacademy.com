@@ -2,29 +2,29 @@
   <section class="container-fluid">
     <h4 class="px-3 pt-3" style="color: #7A7A7A">User Links</h4>
     <aside class="mt-5 pt-0 px-5">
-      <router-link :to="{ name: 'Overview' }">
+      <router-link :to="{ name: 'Challenge.Overview' }">
         <h4 class="mdi mdi-file-document-multiple text-light selectable"> Overview</h4>
       </router-link>
-      <router-link :to="{ name: 'ChallengeSubmissionsPage' }">
+      <router-link :to="{ name: 'Challenge.ChallengeSubmissionsPage' }">
         <h4 class="mdi mdi-account-box-multiple-outline text-light selectable"> Submissions</h4>
       </router-link>
-      <router-link :to="{ name: 'Requirements' }">
+      <router-link :to="{ name: 'Challenge.Requirements' }">
         <h4 class="mdi mdi-file-document-check text-light selectable"> Requirements</h4>
       </router-link>
-      <router-link :to="{ name: 'Statistics' }">
+      <router-link :to="{ name: 'Challenge.Statistics' }">
         <h4 class="mdi mdi-finance text-light selectable"> Statistics</h4>
       </router-link>
 
       <hr>
 
       <div v-if="isOwned || isModerator" class="d-flex flex-column justify-content-center">
-        <router-link :to="{ name: 'GradeSubmissionsPage' }">
+        <router-link :to="{ name: 'Challenge.GradeSubmissionsPage' }">
           <h4 class="mdi mdi-progress-check text-info mt-1" style=""> Grade Users</h4>
         </router-link>
-        <router-link :to="{ name: 'ChallengeEditor' }">
+        <router-link :to="{ name: 'Challenge.ChallengeEditor' }">
           <h4 class="mdi mdi-archive-edit text-warning selectable" style=""> Edit Challenge</h4>
         </router-link>
-        <router-link :to="{ name: 'ChallengeModeratorsPage' }">
+        <router-link :to="{ name: 'Challenge.ChallengeModeratorsPage' }">
           <h4 class="mdi mdi-archive-edit text-danger selectable" style="">Moderators</h4>
         </router-link>
 
@@ -33,21 +33,15 @@
       <div v-else-if="!isParticipant">
         <h4 @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable text-success"> Join Challenge</h4>
       </div>
-      <h4 v-if="isParticipant?.status == 'completed'" class="text-success">Challenge Passed <span><i class="mdi mdi-check"></i></span></h4>
-      <h4 v-if="isParticipant?.status == 'incomplete'" class="text-warning">Challenge Incomplete <span><i class="mdi mdi-alert-box"></i></span></h4>
+      <h4 v-if="isParticipant?.status == 'completed'" class="text-success">Challenge Passed <span><i
+            class="mdi mdi-check"></i></span></h4>
+      <h4 v-if="isParticipant?.status == 'incomplete'" class="text-warning">Challenge Incomplete <span><i
+            class="mdi mdi-alert-box"></i></span></h4>
       <div v-else-if="isParticipant">
-        <h4
-          v-if="isParticipant.status === 'started'"
-          id="challengeSubmissionButton"
-          class="mdi mdi-send-check text-info selectable"
-          style="white-space: nowrap"
-          ref="submission"
-          role="button"
-          data-bs-target="#challengeSubmissionForm"
-          data-bs-toggle="modal"
-          aria-label="Go to Active Challenge Modal"
-          title="Create a new challenge"
-        > 
+        <h4 v-if="isParticipant.status === 'started'" id="challengeSubmissionButton"
+          class="mdi mdi-send-check text-info selectable" style="white-space: nowrap" ref="submission" role="button"
+          data-bs-target="#challengeSubmissionForm" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal"
+          title="Create a new challenge">
           Submit for Review
         </h4>
         <!-- <router-link v-if="isParticipant.status === 'submitted'" :to="{ name: 'ChallengeSubmissionsPage' }">
@@ -74,7 +68,7 @@ export default {
     const route = useRoute()
 
     const isParticipant = computed(() => {
-      return AppState.participants.find(p => p.accountId === AppState.user.id)
+      return AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id)
     })
 
     async function joinChallenge() {
@@ -83,7 +77,7 @@ export default {
           challengeId: route.params.challengeId,
           accountId: AppState.user.id,
           status: SUBMISSION_TYPES.STARTED,
-          requirements: AppState.activeChallenge?.requirements,
+          requirements: AppState.ChallengeState.challenge?.requirements,
 
         }
         await participantsService.joinChallenge(newParticipant)
@@ -105,7 +99,7 @@ export default {
           status: SUBMISSION_TYPES.SUBMITTED
         }
         await participantsService.updateChallengeParticipant(participantId, newParticipant)
-        Pop.success(`${AppState.account.name} submitted ${AppState.activeChallenge?.name} successfully. Click 'View Competitors' to verify your submission and see how you 'stack' up! 😉`)
+        Pop.success(`${AppState.AccountState.account.name} submitted ${AppState.ChallengeState.challenge?.name} successfully. Click 'View Competitors' to verify your submission and see how you 'stack' up! 😉`)
       } catch (error) {
         logger.error(error)
         Pop.toast(error, 'error')
@@ -118,7 +112,7 @@ export default {
         if (!removeConfirm) {
           return
         }
-        let participant = AppState.participants.find(p => p.accountId == AppState.account.id)
+        let participant = AppState.ChallengeState.participants.find(p => p.accountId == AppState.AccountState.account.id)
         participant.status = SUBMISSION_TYPES.LEFT
         await participantsService.leaveChallenge(participant.id)
         Pop.success('left challenge!')
@@ -130,11 +124,11 @@ export default {
 
     async function deprecateChallenge() {
       try {
-        const confirmDeprecate = await Pop.confirm(`Are you sure you want to deprecate ${AppState.activeChallenge.name}?`)
+        const confirmDeprecate = await Pop.confirm(`Are you sure you want to deprecate ${AppState.ChallengeState.challenge.name}?`)
         if (!confirmDeprecate) {
           return
         }
-        const challengeId = AppState.activeChallenge.id
+        const challengeId = AppState.ChallengeState.challenge.id
         await challengesService.deleteChallenge(challengeId)
         Pop.success('Challenge deprecated!')
         router.push({
@@ -152,12 +146,12 @@ export default {
       leaveChallenge,
       updateChallengeParticipant,
       deprecateChallenge,
-      challenge: computed(() => AppState.activeChallenge),
+      challenge: computed(() => AppState.ChallengeState.challenge),
       isOwned: computed(() => {
-        return AppState.activeChallenge?.creatorId === AppState.user.id
+        return AppState.ChallengeState.challenge?.creatorId === AppState.user.id
       }),
       isModerator: computed(() => {
-        return AppState.moderators.find(m => m.accountId === AppState.user.id)
+        return AppState.ChallengeState.moderators.find(m => m.accountId === AppState.user.id)
       }),
     }
   }
@@ -165,7 +159,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 @media screen and (max-width: 768px) {
   .cancel-button {
     white-space: normal !important;

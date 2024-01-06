@@ -16,31 +16,13 @@
 <script>
 import { AppState } from '../AppState';
 import MilestonesTracker from '../components/Milestones/MilestonesTracker.vue';
-import { accountMilestonesService } from '../services/AccountMilestonesService';
-import { logger } from '../utils/Logger';
-import Pop from '../utils/Pop';
-import { onMounted } from 'vue'
 
 
 export default {
   setup() {
 
-    async function getAccountMilestonesByUserId() {
-      try {
-        const userId = AppState.account.id
-        await accountMilestonesService.getAccountMilestonesByUserId(userId)
-      } catch (error) {
-        Pop.error(error)
-        logger.error(error)
-      }
-    }
-
-    onMounted(() => {
-      getAccountMilestonesByUserId()
-    })
-
     return {
-      milestones: AppState.milestones
+      milestones: computed(() => AppState.AccountState.milestones)
     }
   },
 
@@ -48,6 +30,4 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

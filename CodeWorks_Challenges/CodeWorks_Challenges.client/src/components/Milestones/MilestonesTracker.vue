@@ -19,6 +19,7 @@ export default {
   setup() {
     const route = useRoute();
 
+    // QUESTION REFACTOR can I do this once on login?
     async function checkMyMilestones() {
       try {
         const checks = AppState.milestoneChecks;
@@ -36,7 +37,7 @@ export default {
 
     async function getMilestones() {
       try {
-        const userId = AppState.account.id;
+        const userId = AppState.AccountState.account.id;
         await milestonesService.getMilestones(userId);
       }
       catch (error) {
@@ -45,14 +46,13 @@ export default {
     };
 
     watchEffect(() => {
-      if (AppState.account.id) {
-        checkMyMilestones();
-        getMilestones()
+      if (AppState.AccountState.account.id) {
+        // checkMyMilestones();
       }
     });
 
     return {
-      milestones: computed(() => AppState.myMilestone),
+      milestones: computed(() => AppState.AccountState.milestones),
     };
   },
   components: { MilestoneCard, }

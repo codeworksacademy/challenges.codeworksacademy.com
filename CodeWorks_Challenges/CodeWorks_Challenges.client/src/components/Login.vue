@@ -51,12 +51,12 @@ export default {
   setup() {
     return {
       user: computed(() => AppState.user),
-      account: computed(() => AppState.account),
+      account: computed(() => AppState.AccountState.account),
       currentRank: computed(() => {
         let lastKey = 0
 
         for (const key in AppState.rankTitles) {
-          if (AppState.account.rank >= key) {
+          if (AppState.AccountState.account.rank >= key) {
             lastKey = key
           }
         }

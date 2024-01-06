@@ -1,54 +1,61 @@
 import { RANK_BADGE } from "./constants"
 import { reactive } from 'vue'
-import { ChallengeParticipant } from './models/ChallengeParticipant.js'
+
+// Fetch this data each time you land on a profile page
+const ProfileState = reactive({
+  loading: true,
+  /**@type {import('./models/Profile.js').Profile} */
+  profile: null,
+  challenges: [],
+  /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]} */
+  participations: [],
+  /** @type {import('./models/AccountMilestone.js').Milestone[]} */
+  milestones: [],
+})
+
+// Fetch this data one the user is logged-in
+const AccountState = reactive({
+  /** @type {import('./models/Account.js').Account} */
+  account: {},
+  challenges: [],
+  /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]} */
+  participations: [],
+  /** @type {import('./models/AccountMilestone.js').Milestone[]} */
+  milestones: [],
+})
+
+// Fetch this data each time you land on a challenge page
+const ChallengeState = reactive({
+  /** @type {import('./models/Challenge.js')|null} */
+  challenge: null,
+  /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]} */
+  participants: [],
+  /** @type {import('./models/ChallengeModerator.js').ChallengeModerator[]} */
+  moderators: [],
+  /** @type {import('./models/ChallengeParticipant.js')|null}*/
+  participant: null,
+  /** @type {import('./models/ChallengeModerator.js')|null}*/
+  moderator: null,
+  /** @type {import('./models/Submission.js').Submission[]} */
+  submissions: [],
+})
+
+
+
 
 // NOTE AppState is a reactive object to contain app level data
 export const AppState = reactive({
   user: {},
-  /** @type {import('./models/Account.js').Account} */
-  account: {},
-
-  /** @type {import('./models/Profile.js').Profile[]} */
-  profiles: [],
-
+  ProfileState,
+  AccountState,
+  ChallengeState,
+  // challenges that show up in search and can be joined by the user
   /** @type {import('./models/Challenge.js').Challenge[]} */
   challenges: [],
-  myChallenges: [],
+  /**@type {import('./models/Profile.js').Profile} */
+  profiles: [],
 
-  /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]} */
-  participants: [],
-  myParticipants: [],
 
-  /** @type {import('./models/Reward.js').Reward[]} */
-  rewards: [],
-  myRewards: [],
-
-  /** @type {import('./models/ChallengeModerator.js').ChallengeModerator[]} */
-  moderators: [],
-  moderations: [],
-
-  /** @type {import('./models/Submission.js').Submission[]} */
-  submissions: [],
-  mySubmissions: [],
-
-  /** @type {import('./models/Challenge.js')|null} */
-  activeChallenge: null,
-
-  /** @type {import('./models/ChallengeParticipant.js')|null}*/
-  activeParticipant: null,
-
-  /** @type {import('./models/ChallengeModerator.js')|null}*/
-  activeModerator: null,
-
-  /** @type {import('./models/Profile.js')|null} */
-  activeProfile: null,
-  // query: '',
-
-  /** @type {import('./models/AccountMilestone.js').Milestone[]} */
-  myMilestone: [],
-  milestones: [],
-
-  // "completedChallenge"
   milestoneChecks: [
     "createdChallenge",
     "joinedChallenge", "moderateChallenge"
@@ -102,3 +109,5 @@ export const AppState = reactive({
     500: RANK_BADGE[11].RANK_THRESHOLD
   },
 })
+
+

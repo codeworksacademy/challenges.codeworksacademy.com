@@ -27,7 +27,7 @@ const routes = [
     beforeEnter: authGuard,
     children: [
       {
-        path: 'overview',
+        path: '',
         name: 'Account Overview',
         component: loadPage('AccountOverview')
       },
@@ -51,12 +51,11 @@ const routes = [
   {
     path: '/challenges',
     name: 'Challenges',
-    component: loadPage('ChallengePage'),
-    redirect: { name: 'Browse' },
+    component: loadPage('ChallengesPage'),
     children: [
       {
-        path: 'browse',
-        name: 'Browse',
+        path: '',
+        name: 'Challenges.Browse',
         component: loadPage('ChallengeBrowsePage')
       },
       {
@@ -66,47 +65,46 @@ const routes = [
       }
     ]
   },
-  { 
+  {
     path: '/challenges/:challengeId',
-    name: 'ChallengeDetails',
-    component: loadPage('ChallengeDetailsPage'),
-    redirect: { name: 'Overview' },
+    name: 'Challenge',
+    component: loadPage('ChallengePage'),
     children: [
       {
-        path: 'overview',
-        name: 'Overview',
-        component: loadPage('ChallengeDetailsOverviewPage')
+        path: '',
+        name: 'Challenge.Overview',
+        component: loadPage('ChallengeOverviewPage')
       },
       {
         path: 'requirements',
-        name: 'Requirements',
-        component: loadPage('ChallengeDetailsRequirementsPage')
+        name: 'Challenge.Requirements',
+        component: loadPage('ChallengeRequirementsPage')
       },
       {
         path: 'statistics',
-        name: 'Statistics',
-        component: loadPage('ChallengeDetailsStatisticsPage')
+        name: 'Challenge.Statistics',
+        component: loadPage('ChallengeStatisticsPage')
       },
       {
         path: 'edit',
-        name: 'ChallengeEditor',
+        name: 'Challenge.ChallengeEditor',
         component: loadPage('ChallengeEditor')
       },
       {
         path: 'submissions',
-        name: 'ChallengeSubmissionsPage',
+        name: 'Challenge.ChallengeSubmissionsPage',
         component: loadPage('ChallengeSubmissionsPage')
         // beforeEnter: authguard
       },
       {
         path: 'moderators',
-        name: 'ChallengeModeratorsPage',
+        name: 'Challenge.ChallengeModeratorsPage',
         component: loadPage('ChallengeModeratorsPage'),
         beforeEnter: authGuard
       },
       {
         path: 'grade',
-        name: 'GradeSubmissionsPage',
+        name: 'Challenge.GradeSubmissionsPage',
         component: loadPage('GradeSubmissionsPage'),
         beforeEnter: authGuard
       }
@@ -118,7 +116,7 @@ const routes = [
     component: loadPage('ProfilePage'),
     children: [
       {
-        path: 'overview',
+        path: '',
         name: 'Profile Overview',
         component: loadPage('ProfileOverview')
       },
@@ -128,9 +126,9 @@ const routes = [
         component: loadPage('ProfileChallenges')
       },
       {
-        path: 'badges',
-        name: 'Profile Badges',
-        component: loadPage('ProfileBadges')
+        path: 'milestones',
+        name: 'Profile Milestones',
+        component: loadPage('ProfileMilestones')
       },
     ]
   },
@@ -148,6 +146,14 @@ const routes = [
     path: '/refactor/:challengeId',
     name: 'Refactor',
     component: loadPage('ChallengeDetailsPageRefactor')
+  },
+  {
+    path: '/Error',
+    name: 'Error',
+    component: loadPage('ErrorPage'),
+    meta: {
+      error: { message: 'hello' }
+    }
   }
 ]
 

@@ -2,7 +2,8 @@
   <div class="container-fluid">
     <section class="row mt-3">
       <div class="dropdown text-end">
-        <button class="btn aqua-btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn aqua-btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
           Filter Challenges
         </button>
         <ul class="dropdown-menu blue-dropdown">
@@ -22,7 +23,8 @@
       <div class="col-2"></div>
       <div class="col-4 text-end">
         <p class="text-white">
-          <span class="highlight-text fw-semibold">{{ challenges.length }} </span> {{ challengeTypes || 'Created' }} challenges
+          <span class="highlight-text fw-semibold">{{ challenges.length }} </span> {{ challengeTypes || 'Created' }}
+          challenges
         </p>
       </div>
     </section>
@@ -62,71 +64,71 @@ import { AppState } from '../AppState';
 import ChallengeMiniCard from '../components/AccountAndProfilePage/ChallengeMiniCard.vue';
 
 export default {
-    setup() {
-      const challengeTypes = ref('')
-        return {
-          challengeTypes,
+  setup() {
+    const challengeTypes = ref('')
+    return {
+      challengeTypes,
 
-          challenges: computed(() => {
-            if(challengeTypes.value == 'Created'){
-              return AppState.challenges
-            } else if(challengeTypes.value == 'Moderated'){
-              const modChallenges = []
+      challenges: computed(() => {
+        return AppState.ProfileState.challenges
+        //   if(challengeTypes.value == 'Created'){
+        // } else if(challengeTypes.value == 'Moderated'){
+        //     const modChallenges = []
 
-              const approvedModerations = AppState.moderations.filter(m => m.status == 'active' && m.challenge.creatorId != AppState.activeProfile.id)
+        //     const approvedModerations = AppState.ChallengeState.moderators.filter(m => m.status == 'active' && m.challenge.creatorId != AppState.activeProfile.id)
 
-              approvedModerations.forEach(m => modChallenges.push(m.challenge))
+        //     approvedModerations.forEach(m => modChallenges.push(m.challenge))
 
-              return modChallenges
-            } else if(challengeTypes.value == 'Participating'){
-              const participations = []
+        //     return modChallenges
+        //   } else if(challengeTypes.value == 'Participating'){
+        //     const participations = []
 
-              AppState.participants.forEach(m => participations.push(m.challenge))
+        //     AppState.ChallengeState.participants.forEach(m => participations.push(m.challenge))
 
-              return participations
-            } else{
-              return AppState.challenges
-            }
-          }),
-        };
-    },
-    components: { ChallengeMiniCard }
+        //     return participations
+        //   } else{
+        //     return AppState.challenges
+        //   }
+      }),
+    };
+  },
+  components: { ChallengeMiniCard }
 }
 </script>
 
 
 <style lang="scss" scoped>
-.border-underline{
+.border-underline {
   border-bottom: 1px solid #2F3E57;
 }
 
-.blue-dropdown{
+.blue-dropdown {
   background-color: #1A2332;
 }
 
-.dark-blue-bg{
+.dark-blue-bg {
   background-color: #0E141E;
 }
 
-.dropdown-item{
+.dropdown-item {
   color: white;
 }
 
-.dropdown-item:hover{
+.dropdown-item:hover {
   background-color: #0E141E;
 }
 
-.aqua-btn-outline{
+.aqua-btn-outline {
   border: 1px solid #00CCE6;
   color: #00CCE6;
 }
 
-.aqua-btn-outline:hover{
+.aqua-btn-outline:hover {
   background-color: #00CCE6;
   color: black;
 }
 
-.highlight-font{
+.highlight-font {
   font-family: 'Lekton', sans-serif;
 }
 </style>

@@ -39,11 +39,11 @@ import { useRoute } from 'vue-router'
 import { AppState } from '../AppState'
 import { StrDifficultyNum } from '../utils/StrDifficultyNum'
 import { challengeModeratorsService } from '../services/ChallengeModeratorsService'
-import ActiveChallengeCreatorCard from '../components/ChallengeDetailsPage/ActiveChallengeCreatorCard.vue'
-import ActiveChallengeCategoryCard from '../components/ChallengeDetailsPage/ActiveChallengeCategoryCard.vue'
-import ActiveChallengeDifficultyCard from '../components/ChallengeDetailsPage/ActiveChallengeDifficultyCard.vue'
-import ActiveChallengeReputationCard from '../components/ChallengeDetailsPage/ActiveChallengeReputationCard.vue'
-import ActiveChallengeParticipantsCard from '../components/ChallengeDetailsPage/ActiveChallengeParticipantsCard.vue'
+import ActiveChallengeCreatorCard from '../components/ChallengePage/ActiveChallengeCreatorCard.vue'
+import ActiveChallengeCategoryCard from '../components/ChallengePage/ActiveChallengeCategoryCard.vue'
+import ActiveChallengeDifficultyCard from '../components/ChallengePage/ActiveChallengeDifficultyCard.vue'
+import ActiveChallengeReputationCard from '../components/ChallengePage/ActiveChallengeReputationCard.vue'
+import ActiveChallengeParticipantsCard from '../components/ChallengePage/ActiveChallengeParticipantsCard.vue'
 
 export default {
   setup() {
@@ -81,10 +81,10 @@ export default {
       
       isMobile,
 
-      challenge: computed(() => AppState.activeChallenge),
-      isPuzzle: computed(() => AppState.activeChallenge.category === CATEGORY_TYPES.PUZZLES),
+      challenge: computed(() => AppState.ChallengeState.challenge),
+      isPuzzle: computed(() => AppState.ChallengeState.challenge.category === CATEGORY_TYPES.PUZZLES),
       difficulty: computed(() => {
-        const challenge = StrDifficultyNum(AppState.activeChallenge.difficulty)
+        const challenge = StrDifficultyNum(AppState.ChallengeState.challenge.difficulty)
         return challenge
       }),
     }

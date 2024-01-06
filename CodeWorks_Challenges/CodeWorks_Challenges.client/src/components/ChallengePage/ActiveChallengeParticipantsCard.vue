@@ -30,7 +30,7 @@ export default {
       return AppState.user.id === props.challenge.creatorId
     })
     const isModerator = computed(() => {
-      return AppState.moderations.find(m => m.accountId === AppState.user.id)
+      return AppState.ChallengeState.moderators.find(m => m.accountId === AppState.user.id)
     })
     return {
       isOwned,

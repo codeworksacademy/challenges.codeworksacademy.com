@@ -61,7 +61,7 @@ export default {
         editable.value = { ...editable.value, ...props.challenge }
         await challengesService.createChallenge(newChallenge)
         const moderatorData = {
-          challengeId: AppState.activeChallenge?.id,
+          challengeId: AppState.ChallengeState.challenge?.id,
           accountId: AppState.user.id
         }
         await challengeModeratorsService.createOwnedChallengeModeration(moderatorData)
@@ -71,7 +71,7 @@ export default {
           {
             name: 'ChallengeEditor',
             params: {
-              challengeId: AppState.activeChallenge?.id
+              challengeId: AppState.ChallengeState.challenge?.id
             }
           })
       } catch (error) {
