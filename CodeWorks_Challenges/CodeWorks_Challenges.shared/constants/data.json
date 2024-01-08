@@ -221,68 +221,7 @@
       "RANK_THRESHOLD": 500
     }
   ],
-  "BADGE_COLOR_FILL": [],
-    "MODERATOR_BADGE": [
-      {
-        "NAME": "Assistant",
-        "DESCRIPTION": "Grade First Challenge",
-        "MDI_ICON": "mdi-account-star-outline",
-        "COLOR": "#52ca97"
-      },
-      {
-        "NAME": "Guide",
-        "DESCRIPTION": "Grade 3 Challenges",
-        "MDI_ICON": "mdi-account-star",
-        "COLOR": "#85b067"
-      },
-      {
-        "NAME": "Mentor",
-        "DESCRIPTION": "Grade 6 Challenges",
-        "MDI_ICON": "",
-        "COLOR": "#d9df57"
-      },
-      {
-        "NAME": "Leader",
-        "DESCRIPTION": "Grade 10 Challenges",
-        "MDI_ICON": "mdi-account-group",
-        "COLOR": "#f5c827"
-      },
-      {
-        "NAME": "Veteran",
-        "DESCRIPTION": "Grade 15 Challenges",
-        "MDI_ICON": "mdi-shield-account-outline",
-        "COLOR": "#f4ae3d"
-      },
-      {
-        "NAME": "Expert",
-        "DESCRIPTION": "Grade 20 Challenges",
-        "MDI_ICON": "mdi-certificate-outline",
-        "COLOR": "#ef923d"
-      },
-      {
-        "NAME": "Master",
-        "DESCRIPTION": "Grade 30 Challenges",
-        "MDI_ICON": "mdi-certificate",
-        "COLOR": "#f07b0d"
-      },
-      {
-        "NAME": "Guru",
-        "DESCRIPTION": "Grade 40 Challenges",
-        "MDI_ICON": "mdi-school",
-        "COLOR": "#f9420d"
-      },
-      {
-        "NAME": "Sensei",
-        "DESCRIPTION": "Grade 50 Challenges",
-        "MDI_ICON": "mdi-eye-settings",
-        "COLOR": "#e03978"
-      },
-      {
-        "NAME": "Grandmaster",
-        "DESCRIPTION": "Grade 100 Challenges",
-        "MDI_ICON": "mdi-chess-queen",
-        "COLOR": "#f208e8"
-      }
-],
+  "TITLE_BGS": ["#FFF", "#D9D9D9", "#52CA96", "#F07B00", "#6E44C3", "#55CDFF", "#323358", "#0F141E"],
+  "COLOR_FILLS": ["#FF000090", "#FF7F0090", "#FFFF0090", "#00FF0090", "#0000FF90", "#4B008290", "#8F00FF90"],
   "PROFILE_FIELDS": "name picture reputation title aboutContent"
 }

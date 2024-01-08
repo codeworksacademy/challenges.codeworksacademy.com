@@ -7,7 +7,7 @@
       </svg>
       <div class="text-uppercase rounded-circle bg-light">
         <span :style="{ background: selectedBackground }" class="title"> {{ challenge.badge.title }} </span>
-        <img :src="challenge.badge.image" alt="" class="img-fluid position-absolute" style="height: 55px; top: 27.5%; left: 50%; transform: translateX(-50%)">
+        <img :src="challenge.badge.image" alt="" class="img-fluid position-absolute" style="max-height: 50px; max-width: 75px; top: 33%; left: 50%; transform: translateX(-50%)">
       </div>
     </div>
   </div>
@@ -15,6 +15,7 @@
 
 <script>
 import { AppState } from '../../AppState.js'
+import { TITLE_BGS, COLOR_FILLS } from "../../constants"
 import { Challenge } from '../../models/Challenge.js'
 import { ref } from 'vue'
 
@@ -28,11 +29,11 @@ export default {
   setup() {
     //Select the background color for the upper badge title
     const selectedBackground = ref('')
-    const titleBackground = AppState.ChallengeState.badgeTitleBackground
+    const titleBackground = Object.values(TITLE_BGS)
     
     //Select the SVG color fill for the body of the badge
     const selectedFill = ref('')
-    const colorFill = AppState.ChallengeState.badgeColorFill
+    const colorFill = Object.values(COLOR_FILLS)
     return {
       selectedFill,
       selectedBackground,

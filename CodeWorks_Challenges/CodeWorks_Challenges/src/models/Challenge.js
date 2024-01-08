@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import { CATEGORY_TYPES, STATUS_TYPES } from '../constants';
+import { CATEGORY_TYPES, STATUS_TYPES, TITLE_BGS, COLOR_FILLS } from '../constants';
 
 const ObjectId = Schema.Types.ObjectId;
 
@@ -19,7 +19,9 @@ export const ChallengeSchema = new Schema({
   coverImg: { type: String, required: true, default: 'https://i.ibb.co/b1bXrRw/card-gradient.png', maxLength: 500 },
   badge: {
     title: { type: String },
-    image: { type: String || File }
+    titleBg: [{ type: String, enum: Object.values(TITLE_BGS) }],
+    image: { type: String || File },
+    colorFill: [{ type: String, enum: Object.values(COLOR_FILLS) }]
   },
   answer: { type: String, required: false },
   reputationIds: [{ type: String, required: true }]
