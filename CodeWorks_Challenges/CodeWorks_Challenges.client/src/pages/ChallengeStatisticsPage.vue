@@ -25,7 +25,7 @@ import { AppState } from '../AppState'
 import { useRoute } from 'vue-router'
 import { StrDifficultyNum } from '../utils/StrDifficultyNum'
 import { SUBMISSION_TYPES } from '../constants'
-import ActiveChallengeDifficultyCard from '../components/ChallengeDetailsPage/ActiveChallengeDifficultyCard.vue'
+import ActiveChallengeDifficultyCard from '../components/ChallengePage/ActiveChallengeDifficultyCard.vue'
 
 export default {
   components: {

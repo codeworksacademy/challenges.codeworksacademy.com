@@ -28,6 +28,8 @@ const AccountState = reactive({
 const ChallengeState = reactive({
   /** @type {import('./models/Challenge.js')|null} */
   challenge: null,
+  badgeTitleBackground: ["#FFF", "#D9D9D9", "#52CA96", "#F07B00", "#6E44C3", "#55CDFF", "#323358", "#0F141E"],
+  badgeColorFill: ["#FF000090", "#FF7F0090", "#FFFF0090", "#00FF0090", "#0000FF90", "#4B008290", "#8F00FF90",],
   /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]} */
   participants: [],
   /** @type {import('./models/ChallengeModerator.js').ChallengeModerator[]} */

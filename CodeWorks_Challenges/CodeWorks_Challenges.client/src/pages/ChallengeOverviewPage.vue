@@ -29,6 +29,10 @@
         <ActiveChallengeCreatorCard :challenge="challenge" />
       </div>
     </div>
+    <div class="col-12 col-md-8 details-card m-auto mt-3">
+      <h3>New Badge to Earn!</h3>
+      <ChallengeBadge :challenge="challenge" />
+    </div>
   </section>
 </template>
 
@@ -44,6 +48,7 @@ import ActiveChallengeCategoryCard from '../components/ChallengePage/ActiveChall
 import ActiveChallengeDifficultyCard from '../components/ChallengePage/ActiveChallengeDifficultyCard.vue'
 import ActiveChallengeReputationCard from '../components/ChallengePage/ActiveChallengeReputationCard.vue'
 import ActiveChallengeParticipantsCard from '../components/ChallengePage/ActiveChallengeParticipantsCard.vue'
+import ChallengeBadge from '../components/ChallengePage/ChallengeBadge.vue'
 
 export default {
   setup() {
@@ -89,7 +94,7 @@ export default {
       }),
     }
   },
-  components: { ActiveChallengeDifficultyCard, ActiveChallengeCategoryCard, ActiveChallengeReputationCard, ActiveChallengeParticipantsCard, ActiveChallengeCreatorCard }
+  components: { ActiveChallengeDifficultyCard, ActiveChallengeCategoryCard, ActiveChallengeReputationCard, ActiveChallengeParticipantsCard, ActiveChallengeCreatorCard, ChallengeBadge }
 }
 </script>
 

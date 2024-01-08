@@ -17,7 +17,10 @@ export const ChallengeSchema = new Schema({
   autoGrade: { type: Boolean, default: false, required: false },
   difficulty: { type: Number, required: true, default: 1, min: 1, max: 5 },
   coverImg: { type: String, required: true, default: 'https://i.ibb.co/b1bXrRw/card-gradient.png', maxLength: 500 },
-  badgeImg: { type: String, default: '', maxLength: 500 },
+  badge: {
+    title: { type: String },
+    image: { type: String }
+  },
   answer: { type: String, required: false },
   reputationIds: [{ type: String, required: true }]
 },
