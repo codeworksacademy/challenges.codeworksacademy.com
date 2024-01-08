@@ -15,6 +15,7 @@ function sanitizeBody(body) {
 		submission: body.submission,
 		requirements: body.requirements,
 		grade: body.grade,
+		badge: body.badge,
 		feedback: body.feedback,
 		completedAt: body.completedAt
 	}
@@ -122,6 +123,8 @@ class ParticipantsService {
 
 		if (participantProgress.status == 'completed') {
 			participantProgress.completedAt = new Date()
+			this.getChallengeRewards(participant.accountId)
+
 		}
 		const isChallengeModerator = await challengeModeratorsService.getModeratorByUserIdAndChallengeId(userId, participant.challengeId)
 

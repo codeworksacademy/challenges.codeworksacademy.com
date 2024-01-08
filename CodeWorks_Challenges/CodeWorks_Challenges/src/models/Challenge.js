@@ -19,7 +19,7 @@ export const ChallengeSchema = new Schema({
   coverImg: { type: String, required: true, default: 'https://i.ibb.co/b1bXrRw/card-gradient.png', maxLength: 500 },
   badge: {
     title: { type: String },
-    image: { type: String }
+    image: { type: String || File }
   },
   answer: { type: String, required: false },
   reputationIds: [{ type: String, required: true }]

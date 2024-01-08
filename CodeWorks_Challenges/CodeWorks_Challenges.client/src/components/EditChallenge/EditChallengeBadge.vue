@@ -4,16 +4,31 @@
       <input type="text" class="form-control" id="badgeTitle" name="badgeTitle" placeholder="Provide Title for Badge" v-model="challenge.badge.title">
       <label class="input-group-text btn-success btn" for="badgeTitle">Confirm</label>
     </div>
+
+    <!-- START - Choose whether your Challenge Badge Image is uploaded by file, or by an image URL -->
+    <div class="input-group mb-3">
+      <div v-if="imageUploadOption === 'url'" class="form-check form-switch">
+        <input @change="handleUrlChange" id="radioDefault" type="checkbox" class="form-check-input">
+        <label class="form-check-label text-grey darken-10" for="radioDefault">Upload Image URL</label>
+      </div>
+      <div v-else class="form-check form-switch">
+        <input @change="handleUrlChange" id="radioChecked" type="checkbox" class="form-check-input" checked>
+        <label class="form-check-label text-grey darken-10" for="radioChecked">Upload Image File</label>
+      </div>
+    </div>
+    <div class="input-group mb-3">
+      <input v-if="imageUploadOption === 'url'" type="text" class="form-control" id="badgeImg" name="badgeImg" placeholder="Upload a Transparent Image" v-model="challenge.badge.image">
+      <input  v-if="imageUploadOption === 'file'" type="file" class="form-control" id="badgeImg" name="badgeImg" placeholder="Upload a Transparent Image" @change="handleFileUpload">
+      <label class="input-group-text btn-success btn" for="badgeImg">Upload Badge Image</label>
+    </div>
+    <!-- END - [Image Upload Options] -->
+
     <span class="d-flex justify-content-center align-items-center text-success fw-semibold mb-2">Select Title Background</span>
     <div class="col-12 select-options-color-picker-box d-flex justify-content-center align-items-center mb-2">
       <select class="col-4 select-options-color-picker" v-model="selectedBackground">
         <option :value="''" disabled>Select Color Fill</option>
         <option v-for="color in titleBackground" :value="color">{{ color }}</option>
       </select>
-    </div>
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" id="badgeImg" name="badgeImg" placeholder="Upload a Transparent Image" v-model="challenge.badge.image">
-      <label class="input-group-text btn-success btn" for="badgeImg">Upload Badge Image</label>
     </div>
     <span class="d-flex justify-content-center align-items-center text-success fw-semibold mb-2">Select Badge Fill Color</span>
     <div class="col-12 select-options-color-picker-box d-flex justify-content-center align-items-center mb-2">
@@ -43,6 +58,24 @@ export default {
     ChallengeBadge
   },
   setup() {
+    const imageUploadOption = ref('url')
+    
+    function handleUrlChange() {
+      if (imageUploadOption.value === 'url') {
+        imageUploadOption.value = 'file'
+      } else {
+        imageUploadOption.value = 'url'
+      }
+    }
+
+    function handleFileUpload(e) {
+      const file = e.target.files[0]
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onloadend = () => {
+        AppState.ChallengeState.challenge.badge.image = reader.result
+      }
+    }
     //Select the background color for the upper badge title
     const selectedBackground = ref('')
     const titleBackground = AppState.ChallengeState.badgeTitleBackground
@@ -51,6 +84,11 @@ export default {
     const selectedFill = ref('')
     const colorFill = AppState.ChallengeState.badgeColorFill
     return {
+      imageUploadOption,
+
+      handleUrlChange,
+      handleFileUpload,
+
       selectedFill,
       selectedBackground,
       colorFill,
