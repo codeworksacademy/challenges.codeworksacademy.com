@@ -37,12 +37,7 @@
           </ul> -->
         </div>
         <SelectChallengeDifficulty :difficultyFilter="difficultyTypes" />
-        <select v-model="filterCategory" @change="routeToCategory" name="category" id="category"
-          class="col-2 select-category text-center text-uppercase p-3">
-          <option class="disabled-option" :value="''" disabled>All Categories</option>
-          <option class="option-item" @click="filterCategory = ''" :value="''">All</option>
-          <option class="option-item" v-for="option in categoryTypes" :key="option" :value="option">{{ option }}</option>
-        </select>
+        <SelectChallengeCategory :categoryFilter="categoryTypes" />
       </div>
     </div>
     <div class="col-12 challenge-keys d-flex justify-content-center align-items-center text-uppercase">
@@ -77,9 +72,14 @@ import { computed, onMounted, ref } from 'vue'
 import { CATEGORY_TYPES } from '../constants/index'
 import { challengesService } from '../services/ChallengesService'
 import { StrDifficultyNum } from "../utils/StrDifficultyNum.js"
+import SelectChallengeDifficulty from '../components/ChallengesPage/SelectChallengeDifficulty.vue'
+import SelectChallengeCategory from "../components/ChallengesPage/SelectChallengeCategory.vue"
 
 export default {
-
+  components: {
+    SelectChallengeDifficulty,
+    SelectChallengeCategory
+  },
   setup() {
     const router = useRouter()
     const search = ref({})
