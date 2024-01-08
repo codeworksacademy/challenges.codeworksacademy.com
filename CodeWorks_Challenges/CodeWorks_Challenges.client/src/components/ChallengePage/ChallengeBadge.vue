@@ -45,4 +45,22 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.title {
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  font-size: 1em;
+  text-align: center;
+  position: absolute;
+  color: #000;
+  letter-spacing: .5px;
+  text-shadow: 0 1px 1px #FFF, 0 -1px 1px #FFF, 1px 0 1px #FFF, -1px 0 1px #FFF;
+  top: -5px;
+  left: 7.75%;
+  border-radius: 8px 8px 0 0;
+  text-align: center;
+  width: 97.75px;
+  height: 30px;
+  background: var(--bg-sub);
+  padding: 12px 0;
+}
 </style>
