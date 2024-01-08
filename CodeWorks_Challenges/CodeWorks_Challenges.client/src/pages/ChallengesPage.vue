@@ -14,7 +14,7 @@
     </div>
     <div class="col-12 d-flex justify-content-center align-items-center">
       <div class="col-6 ms-4 mb-4 pb-1 ps-5">
-        <form @submit.prevent="findChallenges">
+        <!-- <form @submit.prevent="findChallenges">
           <div class="input-group">
             <i role="button" type="submit" class="btn mdi mdi-magnify text-light" style="transform: scale(1.6)"
               id="search"></i>
@@ -22,11 +22,11 @@
               style="width: 85%" placeholder="Search active challenges..." aria-label="Search by name"
               aria-describedby="search" />
           </div>
-        </form>
+        </form> -->
       </div>
       <div class="col-6 d-flex justify-content-center mb-4">
         <div class="dropdown m-2">
-          <button class="btn filter-button text-uppercase dropdown-toggle" type="button" data-bs-toggle="dropdown"
+          <!-- <button class="btn filter-button text-uppercase dropdown-toggle" type="button" data-bs-toggle="dropdown"
             aria-expanded="false">
             Filter Status
           </button>
@@ -34,23 +34,13 @@
             <li @click="filterType('newest')" class="dropdown-item">Newest to Oldest</li>
             <li @click="filterType('oldest')" class="dropdown-item">Oldest to Newest</li>
             <li @click="filterType('cancelled')" class="dropdown-item">Cancelled</li>
-          </ul>
+          </ul> -->
         </div>
-        <div class="dropdown m-2">
-          <button class="btn filter-button text-uppercase dropdown-toggle" type="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            Filter Difficulty
-          </button>
-          <ul class="dropdown-menu">
-            <li @click="filterDifficulty('Easy')" class="dropdown-item">Easy</li>
-            <li @click="filterDifficulty('Medium')" class="dropdown-item">Medium</li>
-            <li @click="filterDifficulty('Hard')" class="dropdown-item">Hard</li>
-          </ul>
-        </div>
-        <select v-model="filterBy" @change="routeToCategory" name="category" id="category"
+        <SelectChallengeDifficulty :difficultyFilter="difficultyTypes" />
+        <select v-model="filterCategory" @change="routeToCategory" name="category" id="category"
           class="col-2 select-category text-center text-uppercase p-3">
           <option class="disabled-option" :value="''" disabled>All Categories</option>
-          <option class="option-item" @click="filterBy = ''" :value="''">All</option>
+          <option class="option-item" @click="filterCategory = ''" :value="''">All</option>
           <option class="option-item" v-for="option in categoryTypes" :key="option" :value="option">{{ option }}</option>
         </select>
       </div>
@@ -86,86 +76,69 @@ import { logger } from '../utils/Logger'
 import { computed, onMounted, ref } from 'vue'
 import { CATEGORY_TYPES } from '../constants/index'
 import { challengesService } from '../services/ChallengesService'
+import { StrDifficultyNum } from "../utils/StrDifficultyNum.js"
 
 export default {
-
-  setup() {
-    const router = useRouter()
-    const search = ref({})
-    const filterBy = ref('')
-    const categoryTypes = ref(Object.values(CATEGORY_TYPES))
-
-    async function findChallenges() {
-      // try {
-      //   const nameQuery = search.value.name
-      //   logger.log(nameQuery)
-      //   await challengesService.findChallenges(nameQuery)
-      //   search.value = {}
-      // } catch (error) {
-      //   logger.error(error)
-      //   Pop.toast(error, 'error')
-      // }
-    }
-
-    async function getAllChallenges() {
-      try {
-        await challengesService.getAllChallenges()
-      } catch (error) {
-        logger.error(error)
-        Pop.toast(error, 'error')
-      }
-    }
-
-    onMounted(() => {
-      getAllChallenges()
-    })
-
-    return {
-      router,
-      search,
-      categoryTypes,
-      filterBy,
-
-      challenges: computed(() => {
-        if (!filterBy.value) {
-          return AppState.challenges
+    setup() {
+        const router = useRouter();
+        const search = ref({});
+        async function getAllChallenges() {
+            try {
+                await challengesService.getAllChallenges();
+            }
+            catch (error) {
+                logger.error(error);
+                Pop.toast(error, "error");
+            }
         }
-        return AppState.challenges.filter(c => c.category === filterBy.value)
-      }),
-      findChallenges,
-
-      routeToCategory() {
-        try {
-          if (!filterBy.value) {
-            router.push({ name: 'Challenges' })
-            return
-          }
-          router.push({ name: 'ChallengeCategory', params: { category: filterBy.value } })
-        } catch (error) {
-          logger.error(error)
-          Pop.error(error)
-        }
-      },
-
-      async filterDifficulty(difficulty) {
-        // try {
-        //   await challengesService.filterDifficulty(difficulty);
-        // } catch (error) {
-        //   logger.error(error)
-        //   Pop.error(error.message)
-        // }
-      },
-
-      async filterType(type) {
-        // try {
-        //   await challengesService.filterType(type);
-        // } catch (error) {
-        //   logger.error(error)
-        //   Pop.error(error.message)
-        // }
-      }
-    }
-  }
+        onMounted(() => {
+            getAllChallenges();
+            logger.log(difficultyTypes.value);
+        });
+        return {
+            router,
+            search,
+            categorizedChallenges: computed(() => {
+                if (!filterCategory.value) {
+                    return AppState.challenges;
+                }
+                return AppState.challenges.filter(c => c.category === filterCategory.value);
+            }),
+            challengesByDifficulty: computed(() => {
+                if (!filterDifficulty.value) {
+                    return AppState.challenges;
+                }
+                return AppState.challenges.filter(c => StrDifficultyNum(c.difficulty).text === filterDifficulty.value);
+            }),
+            routeToCategory() {
+                try {
+                    if (!filterCategory.value) {
+                        router.push({ name: "Challenges" });
+                        return;
+                    }
+                    router.push({ name: "ChallengeCategory", params: { category: filterCategory.value } });
+                }
+                catch (error) {
+                    logger.error(error);
+                    Pop.error(error);
+                }
+            },
+            routeToDifficulty() {
+                try {
+                    if (!filterDifficulty.value) {
+                        router.push({ name: "Challenges" });
+                        return;
+                    }
+                    router.push({ name: "ChallengeDifficulty", params: { difficulty: filterDifficulty.value } });
+                }
+                catch (error) {
+                    logger.error(error);
+                    Pop.error(error);
+                }
+            }
+        };
+    },
+    components: { SelectChallengeDifficulty }
 }
 </script>
 

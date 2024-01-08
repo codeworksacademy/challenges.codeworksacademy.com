@@ -6,6 +6,6 @@ export const STATUS_TYPES = data.STATUS_TYPES
 export const MILESTONE_BADGE = data.MILESTONE_BADGE
 
 export const RANK_BADGE = data.RANK_BADGE
-export const TITLE_BGS =data.TITLE_BGS
+export const TITLE_BGS = data.TITLE_BGS
 export const COLOR_FILLS = data.COLOR_FILLS
 export const PROFILE_FIELDS = data.PROFILE_FIELDS
