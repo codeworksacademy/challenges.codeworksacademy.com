@@ -16,7 +16,7 @@ export const StrDifficultyNum = (difficulty) => {
           `
           <img src="../assets/img/easy-difficulty-chart.svg" alt="Easy" style="width: 1.5rem; height: 1.5rem; margin-right: .25rem;"/>
         `,
-        text: 'Easy',
+        text: 'easy',
       };
     case 2:
       return {
@@ -24,7 +24,7 @@ export const StrDifficultyNum = (difficulty) => {
           `
           <img src="../assets/img/medium-difficulty-chart.svg" alt="Medium" style="width: 1.5rem; height: 1.5rem; margin-right: .25rem;"/>
         `,
-        text: 'Medium',
+        text: 'medium',
       };
     case 3:
       return {
@@ -32,7 +32,7 @@ export const StrDifficultyNum = (difficulty) => {
           `
           <img src="../assets/img/hard-difficulty-chart.svg" alt="Hard" style="width: 1.5rem; height: 1.5rem; margin-right: .25rem;"/>
         `,
-        text: 'Hard',
+        text: 'hard',
       };
     default:
       return {

@@ -24,20 +24,15 @@
           </div>
         </form> -->
       </div>
-      <div class="col-6 d-flex justify-content-center mb-4">
-        <div class="dropdown m-2">
-          <!-- <button class="btn filter-button text-uppercase dropdown-toggle" type="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            Filter Status
-          </button>
-          <ul class="dropdown-menu">
-            <li @click="filterType('newest')" class="dropdown-item">Newest to Oldest</li>
-            <li @click="filterType('oldest')" class="dropdown-item">Oldest to Newest</li>
-            <li @click="filterType('cancelled')" class="dropdown-item">Cancelled</li>
-          </ul> -->
-        </div>
-        <SelectChallengeDifficulty :difficultyFilter="difficultyTypes" />
-        <SelectChallengeCategory :categoryFilter="categoryTypes" />
+      <div class="col-6 d-flex justify-content-between mb-4">
+        <select class="col-3 select-type filter-button text-uppercase" v-model="filterBy" @change="filterType(filterBy)">
+          <option class="text-center" value="" disabled>Filter By</option>
+          <option value="newest">Newest</option>
+          <option value="oldest">Oldest</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+          <SelectChallengeDifficulty :filterBy="difficultyTypes" />
+          <SelectChallengeCategory :filterBy="categoryTypes"  class="me-4"/>
       </div>
     </div>
     <div class="col-12 challenge-keys d-flex justify-content-center align-items-center text-uppercase">
@@ -71,7 +66,6 @@ import { logger } from '../utils/Logger'
 import { computed, onMounted, ref } from 'vue'
 import { CATEGORY_TYPES } from '../constants/index'
 import { challengesService } from '../services/ChallengesService'
-import { StrDifficultyNum } from "../utils/StrDifficultyNum.js"
 import SelectChallengeDifficulty from '../components/ChallengesPage/SelectChallengeDifficulty.vue'
 import SelectChallengeCategory from "../components/ChallengesPage/SelectChallengeCategory.vue"
 
@@ -84,7 +78,6 @@ export default {
     const router = useRouter()
     const search = ref({})
     const filterBy = ref('')
-    const categoryTypes = ref(Object.values(CATEGORY_TYPES))
 
     async function findChallenges() {
       // try {
@@ -114,47 +107,24 @@ export default {
     return {
       router,
       search,
-      categoryTypes,
       filterBy,
 
       challenges: computed(() => {
         if (!filterBy.value) {
           return AppState.challenges
         }
-        return AppState.challenges.filter(c => c.category === filterBy.value)
+        return AppState.challenges.filter(c => c.category === filterBy.value || c.difficultyStr.text === filterBy.value)
       }),
-      findChallenges,
 
-      routeToCategory() {
-        try {
-          if (!filterBy.value) {
-            router.push({ name: 'Challenges' })
-            return
-          }
-          router.push({ name: 'ChallengeCategory', params: { category: filterBy.value } })
-        } catch (error) {
-          logger.error(error)
-          Pop.error(error)
+      filterType(type) {
+        if(type == 'newest'){
+          AppState.challenges.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+        }else if(type == 'oldest'){
+          AppState.challenges.sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt))
+        }else if(type == 'cancelled'){
+          AppState.challenges.filter(c => c.isCancelled == true)
         }
       },
-
-      async filterDifficulty(difficulty) {
-        // try {
-        //   await challengesService.filterDifficulty(difficulty);
-        // } catch (error) {
-        //   logger.error(error)
-        //   Pop.error(error.message)
-        // }
-      },
-
-      async filterType(type) {
-        // try {
-        //   await challengesService.filterType(type);
-        // } catch (error) {
-        //   logger.error(error)
-        //   Pop.error(error.message)
-        // }
-      }
     }
   }
 }
@@ -226,7 +196,7 @@ export default {
   color: var(--text-main);
 }
 
-.select-category {
+.select-type {
   width: 30%;
   background-color: var(--bg-sub);
   border: none;

@@ -1,8 +1,9 @@
 <template>
   <select v-model="difficultyFilter" @change="routeToDifficulty" name="difficulty" id="difficulty"
-    class="col-2 select-category text-center text-uppercase p-3">
-    <option class="disabled-option" :value="''" disabled>All Difficulties</option>
-    <option class="option-item" v-for="difficulty in difficultyTypes" :key="difficulty" :value="difficulty">{{ difficulty }}</option>
+    class="col-3 select-difficulty text-center text-uppercase p-3">
+    <option :value="''" disabled>All Difficulties</option>
+    <option :value="''">All</option>
+    <option v-for="difficulty in difficultyTypes" :key="difficulty" :value="difficulty">{{ difficulty }}</option>
   </select>
 </template>
 
@@ -10,36 +11,27 @@
 import { useRouter } from 'vue-router'
 import { ref, computed } from 'vue'
 import { AppState } from "../../AppState"
-import { StrDifficultyNum } from "../../utils/StrDifficultyNum"
 
 export default {
-  setup(){
+  setup() {
     const router = useRouter()
     const difficultyFilter = ref('')
     const difficultyTypes = computed(() => {
-      const difficulties = []
+      const difficulties = new Set();
       AppState.challenges.forEach(c => {
-        if (!difficulties.includes(StrDifficultyNum(c.difficulty).text)) {
-          difficulties.push(StrDifficultyNum(c.difficulty).text)
-        }
-      })
-      return difficulties
-    })
+        difficulties.add(c.difficultyStr.text);
+      });
+      return Array.from(difficulties);
+    });
+
     return {
       difficultyFilter,
       difficultyTypes,
 
-      challengesByDifficulty: computed(() => {
-        if (!difficultyFilter.value) {
-          return AppState.challenges
-        }
-        return AppState.challenges.filter(c => StrDifficultyNum(c.difficulty).text === difficultyFilter.value)
-      }),
-
       routeToDifficulty() {
         try {
           if (!difficultyFilter.value) {
-            router.push({ name: 'Challenges' })
+            router.push({ name: 'Challenges.Browse' })
             return
           }
           router.push({ name: 'ChallengeDifficulty', params: { difficulty: difficultyFilter.value } })
@@ -48,10 +40,17 @@ export default {
           Pop.error(error)
         }
       },
-      allDifficulties() {
-        router.push({ name: 'Challenges' }, { params: { difficulty: '' } })
-      }
     }
   }
 }
 </script>
+
+<style scoped lang="scss">
+.select-difficulty {
+  background-color: var(--bg-sub);
+  border: none;
+  outline: none !important;
+  border-radius: 0;
+  color: var(--text-main);
+}
+</style>
