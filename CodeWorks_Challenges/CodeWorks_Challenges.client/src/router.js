@@ -62,6 +62,11 @@ const routes = [
         path: ':category',
         name: 'ChallengeCategory',
         component: loadPage('ChallengeCategoryPage')
+      },
+      {
+        path: ':difficulty',
+        name: 'ChallengeDifficulty',
+        component: loadPage('ChallengeDifficultyPage')
       }
     ]
   },

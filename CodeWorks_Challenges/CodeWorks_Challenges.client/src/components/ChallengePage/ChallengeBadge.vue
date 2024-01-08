@@ -1,4 +1,18 @@
 <template>
+  <span class="d-flex justify-content-center align-items-center text-success fw-semibold mb-2">Select Title Background</span>
+  <div class="col-12 select-options-color-picker-box d-flex justify-content-center align-items-center mb-2">
+    <select class="col-4 select-options-color-picker" v-model="selectedBackground">
+      <option :value="''" disabled>Select Color Fill</option>
+      <option v-for="color in titleBackground" :value="color" :style="{ background: color }">{{ color }}</option>
+    </select>
+  </div>
+  <span class="d-flex justify-content-center align-items-center text-success fw-semibold mb-2">Select Badge Fill Color</span>
+  <div class="col-12 select-options-color-picker-box d-flex justify-content-center align-items-center mb-2">
+    <select class="col-4 select-options-color-picker" v-model="selectedFill">
+      <option :value="''" disabled>Select Color Fill</option>
+      <option v-for="color in colorFill" :value="color" :style="{ background: color }">{{ color }}</option>
+    </select>
+  </div>
   <div class="d-flex justify-content-center align-items-center m-auto">
     <div class="badge badge-color position-relative mt-3" id="collaborator">
       <svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px" width="100px" height="105px" viewBox="0 0 216 232">

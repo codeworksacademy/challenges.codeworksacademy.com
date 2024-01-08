@@ -19,9 +19,9 @@ export const ChallengeSchema = new Schema({
   coverImg: { type: String, required: true, default: 'https://i.ibb.co/b1bXrRw/card-gradient.png', maxLength: 500 },
   badge: {
     title: { type: String },
-    titleBg: [{ type: String, enum: Object.values(TITLE_BGS) }],
+    titleBg: { type: String, enum:  Object.values(TITLE_BGS), default: TITLE_BGS[0] },
     image: { type: String || File },
-    colorFill: [{ type: String, enum: Object.values(COLOR_FILLS) }]
+    colorFill: { type: String, enum:  Object.values(COLOR_FILLS), default: COLOR_FILLS[0] }
   },
   answer: { type: String, required: false },
   reputationIds: [{ type: String, required: true }]
