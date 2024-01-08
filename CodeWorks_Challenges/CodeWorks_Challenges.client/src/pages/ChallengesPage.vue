@@ -79,66 +79,84 @@ import { challengesService } from '../services/ChallengesService'
 import { StrDifficultyNum } from "../utils/StrDifficultyNum.js"
 
 export default {
-    setup() {
-        const router = useRouter();
-        const search = ref({});
-        async function getAllChallenges() {
-            try {
-                await challengesService.getAllChallenges();
-            }
-            catch (error) {
-                logger.error(error);
-                Pop.toast(error, "error");
-            }
+
+  setup() {
+    const router = useRouter()
+    const search = ref({})
+    const filterBy = ref('')
+    const categoryTypes = ref(Object.values(CATEGORY_TYPES))
+
+    async function findChallenges() {
+      // try {
+      //   const nameQuery = search.value.name
+      //   logger.log(nameQuery)
+      //   await challengesService.findChallenges(nameQuery)
+      //   search.value = {}
+      // } catch (error) {
+      //   logger.error(error)
+      //   Pop.toast(error, 'error')
+      // }
+    }
+
+    async function getAllChallenges() {
+      try {
+        await challengesService.getAllChallenges()
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error, 'error')
+      }
+    }
+
+    onMounted(() => {
+      getAllChallenges()
+    })
+
+    return {
+      router,
+      search,
+      categoryTypes,
+      filterBy,
+
+      challenges: computed(() => {
+        if (!filterBy.value) {
+          return AppState.challenges
         }
-        onMounted(() => {
-            getAllChallenges();
-            logger.log(difficultyTypes.value);
-        });
-        return {
-            router,
-            search,
-            categorizedChallenges: computed(() => {
-                if (!filterCategory.value) {
-                    return AppState.challenges;
-                }
-                return AppState.challenges.filter(c => c.category === filterCategory.value);
-            }),
-            challengesByDifficulty: computed(() => {
-                if (!filterDifficulty.value) {
-                    return AppState.challenges;
-                }
-                return AppState.challenges.filter(c => StrDifficultyNum(c.difficulty).text === filterDifficulty.value);
-            }),
-            routeToCategory() {
-                try {
-                    if (!filterCategory.value) {
-                        router.push({ name: "Challenges" });
-                        return;
-                    }
-                    router.push({ name: "ChallengeCategory", params: { category: filterCategory.value } });
-                }
-                catch (error) {
-                    logger.error(error);
-                    Pop.error(error);
-                }
-            },
-            routeToDifficulty() {
-                try {
-                    if (!filterDifficulty.value) {
-                        router.push({ name: "Challenges" });
-                        return;
-                    }
-                    router.push({ name: "ChallengeDifficulty", params: { difficulty: filterDifficulty.value } });
-                }
-                catch (error) {
-                    logger.error(error);
-                    Pop.error(error);
-                }
-            }
-        };
-    },
-    components: { SelectChallengeDifficulty }
+        return AppState.challenges.filter(c => c.category === filterBy.value)
+      }),
+      findChallenges,
+
+      routeToCategory() {
+        try {
+          if (!filterBy.value) {
+            router.push({ name: 'Challenges' })
+            return
+          }
+          router.push({ name: 'ChallengeCategory', params: { category: filterBy.value } })
+        } catch (error) {
+          logger.error(error)
+          Pop.error(error)
+        }
+      },
+
+      async filterDifficulty(difficulty) {
+        // try {
+        //   await challengesService.filterDifficulty(difficulty);
+        // } catch (error) {
+        //   logger.error(error)
+        //   Pop.error(error.message)
+        // }
+      },
+
+      async filterType(type) {
+        // try {
+        //   await challengesService.filterType(type);
+        // } catch (error) {
+        //   logger.error(error)
+        //   Pop.error(error.message)
+        // }
+      }
+    }
+  }
 }
 </script>
 
