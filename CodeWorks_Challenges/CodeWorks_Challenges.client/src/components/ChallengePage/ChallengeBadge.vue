@@ -1,18 +1,4 @@
 <template>
-  <span class="d-flex justify-content-center align-items-center text-success fw-semibold mb-2">Select Title Background</span>
-  <div class="col-12 select-options-color-picker-box d-flex justify-content-center align-items-center mb-2">
-    <select class="col-4 select-options-color-picker" v-model="selectedBackground">
-      <option :value="''" disabled>Select Color Fill</option>
-      <option v-for="color in titleBackground" :value="color" :style="{ background: color }">{{ color }}</option>
-    </select>
-  </div>
-  <span class="d-flex justify-content-center align-items-center text-success fw-semibold mb-2">Select Badge Fill Color</span>
-  <div class="col-12 select-options-color-picker-box d-flex justify-content-center align-items-center mb-2">
-    <select class="col-4 select-options-color-picker" v-model="selectedFill">
-      <option :value="''" disabled>Select Color Fill</option>
-      <option v-for="color in colorFill" :value="color" :style="{ background: color }">{{ color }}</option>
-    </select>
-  </div>
   <div class="d-flex justify-content-center align-items-center m-auto">
     <div class="badge badge-color position-relative mt-3" id="collaborator">
       <svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px" width="100px" height="105px" viewBox="0 0 216 232">
@@ -59,22 +45,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.title {
-  font-family: "Montserrat", sans-serif;
-  font-weight: bold;
-  font-size: 1em;
-  text-align: center;
-  position: absolute;
-  color: #000;
-  letter-spacing: .5px;
-  text-shadow: 0 1px 1px #FFF, 0 -1px 1px #FFF, 1px 0 1px #FFF, -1px 0 1px #FFF;
-  top: -5px;
-  left: 7.75%;
-  border-radius: 8px 8px 0 0;
-  text-align: center;
-  width: 97.75px;
-  height: 30px;
-  background: var(--bg-sub);
-  padding: 12px 0;
-}
 </style>

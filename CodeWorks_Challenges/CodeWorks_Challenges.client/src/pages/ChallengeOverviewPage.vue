@@ -29,7 +29,7 @@
         <ActiveChallengeCreatorCard :challenge="challenge" />
       </div>
     </div>
-    <div class="col-12 col-md-8 details-card m-auto mt-3">
+    <div v-if="isPublished" class="col-12 col-md-8 badge-card m-auto mt-3">
       <h3>New Badge to Earn!</h3>
       <ChallengeBadge :challenge="challenge" />
     </div>
@@ -92,6 +92,7 @@ export default {
         const challenge = StrDifficultyNum(AppState.ChallengeState.challenge.difficulty)
         return challenge
       }),
+      isPublished: computed(() => AppState.ChallengeState.challenge.status === 'published')
     }
   },
   components: { ActiveChallengeDifficultyCard, ActiveChallengeCategoryCard, ActiveChallengeReputationCard, ActiveChallengeParticipantsCard, ActiveChallengeCreatorCard, ChallengeBadge }
@@ -119,6 +120,18 @@ export default {
   display: flex;
   justify-content: center;
   margin: 1rem;
+  color: #f0f0f0;
+  background:#1c2332;
+  text-align: center;
+}
+.badge-card {
+  height: 35vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+  padding:2rem;
   color: #f0f0f0;
   background:#1c2332;
   text-align: center;
