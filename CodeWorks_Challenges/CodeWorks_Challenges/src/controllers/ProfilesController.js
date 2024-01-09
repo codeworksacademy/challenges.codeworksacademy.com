@@ -11,7 +11,7 @@ export class ProfilesController extends BaseController {
       .get('/:id', this.getProfile)
       .get('/:id/challenges', this.getProfileChallenges)
       .get('/:id/rewards', this.getProfileRewards)
-      .get('/:id/participants', this.getParticipationsByUserId)
+      .get('/:id/participations', this.getParticipationsByUserId)
       .get('/:id/milestones', this.getProfileMilestones)
   }
 
@@ -57,7 +57,6 @@ export class ProfilesController extends BaseController {
   async getParticipationsByUserId(req, res, next) {
     try {
       const participations = await participantsService.getParticipationsByUserId(req.params.id)
-
       return res.send(participations)
     } catch (error) {
       next(error)

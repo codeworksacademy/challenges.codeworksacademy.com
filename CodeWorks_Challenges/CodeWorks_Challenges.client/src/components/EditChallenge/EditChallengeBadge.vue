@@ -25,14 +25,13 @@
 
   <div class="d-flex align-items-middle bg-light text-dark p-2 rounded mb-3 gap-1">
     <label for="">Primary Color</label>
-    <input type="color" name="primaryColor" id="primaryColor" v-model="editable.primaryColor">
+    <input type="color" name="primaryColor" id="primaryColor" v-model="editable.badge.primaryColor">
   </div>
   <div class="d-flex align-items-middle bg-light text-dark p-2 rounded gap-1">
     <label for="">Secondary Color</label>
-    <input type="color" name="secondaryColor" id="secondaryColor" v-model="editable.secondaryColor">
+    <input type="color" name="secondaryColor" id="secondaryColor" v-model="editable.badge.secondaryColor">
   </div>
-  {{ editable }}
-  <ChallengeBadge :challenge="challenge" />
+  <ChallengeBadge :challenge="editable" />
   </div>
 </template>
 
@@ -40,7 +39,7 @@
 import { AppState } from '../../AppState.js'
 import { Challenge } from '../../models/Challenge.js'
 import ChallengeBadge from '../ChallengePage/ChallengeBadge.vue'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { COLOR_FILLS, TITLE_BGS } from '../../constants'
 
 export default {
@@ -54,12 +53,9 @@ export default {
     ChallengeBadge
   },
   setup(props) {
-    const editable = ref({
-      primaryColor: `${props.challenge?.badge?.primaryColor}`,
-      secondaryColor: `${props.challenge?.badge?.secondaryColor}`,
-    });
+    const editable = ref(props.challenge);
     const imageUploadOption = ref('url')
-    
+
     function handleUrlChange() {
       if (imageUploadOption.value === 'url') {
         imageUploadOption.value = 'file'
@@ -86,12 +82,11 @@ export default {
     const colorFill = Object.values(COLOR_FILLS)
     //To set 
     return {
+      challenge: computed(() => AppState.ChallengeState.challenge),
       editable,
       imageUploadOption,
-
       handleUrlChange,
       handleFileUpload,
-
       selectedFill,
       selectedBackground,
       colorFill,

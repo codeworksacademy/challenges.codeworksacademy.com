@@ -25,7 +25,8 @@ class ProfilesService {
 
   async getParticipations(profileId) {
     const res = await api.get(`api/profiles/${profileId}/participations`)
-    AppState.ProfileState.participations = res.data.map(m => new ChallengeParticipant(m))
+    logger.log("participations", res.data)
+    // AppState.ProfileState.participations = res.data.map(m => new ChallengeParticipant(m))
   }
   async getMilestones(profileId) {
     const res = await api.get(`api/profiles/${profileId}/milestones`)
