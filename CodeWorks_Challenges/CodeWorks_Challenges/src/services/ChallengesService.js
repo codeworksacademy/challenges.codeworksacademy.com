@@ -15,7 +15,7 @@ class ChallengesService {
 
   async getAllChallenges() {
 
-    const challenges = await dbContext.Challenges.find()
+    const challenges = await dbContext.Challenges.find({status: 'published'})
       .populate('creator participantCount completedCount', PROFILE_FIELDS)
       .select('-answer') //⚠️answer here.
       .sort({ createdAt: -1 })

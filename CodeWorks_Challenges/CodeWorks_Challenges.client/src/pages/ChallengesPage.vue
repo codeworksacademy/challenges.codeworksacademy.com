@@ -1,6 +1,5 @@
 <template>
   <section class="container-fluid pt-5 g-0">
-    <span class="text-danger">Only published challenges should be showed on the challenge page</span>
     <div class="col-12 d-flex justify-content-end">
       <div class="col-4 d-flex create-challenge-card flex-column" style="position: relative; height: 14vh;right: 5rem">
         <span class="submission-subtitle text-uppercase" style="">Gain Reputation</span>
