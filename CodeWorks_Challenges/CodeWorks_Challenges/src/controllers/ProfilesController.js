@@ -56,7 +56,8 @@ export class ProfilesController extends BaseController {
 
   async getParticipationsByUserId(req, res, next) {
     try {
-      const participations = await participantsService.getParticipationsByUserId(req.params.id)
+      const profileId = req.params.id
+      const participations = await participantsService.getParticipationsByUserId(profileId)
       return res.send(participations)
     } catch (error) {
       next(error)

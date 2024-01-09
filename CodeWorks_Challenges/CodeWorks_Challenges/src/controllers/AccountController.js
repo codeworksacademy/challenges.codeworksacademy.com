@@ -54,7 +54,6 @@ export class AccountController extends BaseController {
     try {
       const accountId = req.userInfo.id
       const answers = await participantsService.getMyParticipations(accountId)
-
       res.send(answers)
     } catch (error) {
       next(error)
