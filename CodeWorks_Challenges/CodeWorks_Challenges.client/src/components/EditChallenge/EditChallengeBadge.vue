@@ -25,14 +25,14 @@
 
   <div class="d-flex align-items-middle bg-light text-dark p-2 rounded mb-3 gap-1">
     <label for="">Primary Color</label>
-    <input type="color" name="primaryFillColor" id="primaryFillColor" v-model="editable.primaryColor">
+    <input type="color" name="primaryColor" id="primaryColor" v-model="editable.primaryColor">
   </div>
   <div class="d-flex align-items-middle bg-light text-dark p-2 rounded gap-1">
     <label for="">Secondary Color</label>
-    <input type="color" name="secondaryFillColor" id="secondaryFillColor" v-model="editable.secondaryColor">
+    <input type="color" name="secondaryColor" id="secondaryColor" v-model="editable.secondaryColor">
   </div>
   {{ editable }}
-  <ChallengeBadge :challenge="challenge" :color="editable"/>
+  <ChallengeBadge :challenge="challenge" />
   </div>
 </template>
 
@@ -48,16 +48,15 @@ export default {
     challenge: {
       type: Challenge || Object,
       required: true
-    },
-
+    }
   },
   components: {
     ChallengeBadge
   },
-  setup() {
+  setup(props) {
     const editable = ref({
-      primaryColor: '#B3B2B2',
-      secondaryColor: '#242424',
+      primaryColor: `${props.challenge?.badge?.primaryColor}`,
+      secondaryColor: `${props.challenge?.badge?.secondaryColor}`,
     });
     const imageUploadOption = ref('url')
     
@@ -85,6 +84,7 @@ export default {
     //Select the SVG color fill for the body of the badge
     const selectedFill = ref('')
     const colorFill = Object.values(COLOR_FILLS)
+    //To set 
     return {
       editable,
       imageUploadOption,

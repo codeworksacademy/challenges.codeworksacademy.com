@@ -21,10 +21,8 @@ export const ChallengeSchema = new Schema({
   badge: {
     title: { type: String },
     image: { type: String || File },
-    color: {
-      secondaryColor: { type: String, default: `#${secondaryColor}` },
-      primaryColor: { type: String, default: `#${primaryColor}` },
-    }
+    secondaryColor: { type: String, default: `#${secondaryColor}` },
+    primaryColor: { type: String, default: `#${primaryColor}` },
   },
   answer: { type: String, required: false },
   reputationIds: [{ type: String, required: true }]

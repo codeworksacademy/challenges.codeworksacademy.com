@@ -78,7 +78,11 @@ class ChallengesService {
     challenge.autoGrade = challengeData.autoGrade || challenge.autoGrade
     challenge.difficulty = challengeData.difficulty || challenge.difficulty
     challenge.coverImg = challengeData.coverImg || challenge.coverImg
-    challenge.badge = challengeData.badge || challenge.badge
+    challenge.badge = challengeData.badge || challenge.badge;
+    // challenge.badge.title = challengeData.badge.title || challenge.badge.title;
+    // challenge.badge.image = challengeData.badge.image || challenge.badge.image;
+    // challenge.badge.secondaryColor = challengeData.badge.secondaryColor || challenge.badge.secondaryColor;
+    // challenge.badge.primaryColor = challengeData.badge.primaryColor || challenge.badge.primaryColor;
     challenge.answer = challengeData.answer || challenge.answer
 
     await challenge.save()
