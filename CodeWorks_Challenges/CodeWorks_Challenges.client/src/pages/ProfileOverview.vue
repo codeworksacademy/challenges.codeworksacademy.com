@@ -28,9 +28,6 @@
           icon="mdi-emoticon-happy" :leftAlignedIcon="false" :themeStyle="true" />
       </div>
     </section>
-    <div>
-      {{ badges }}
-    </div>
   </div>
 </template>
 
