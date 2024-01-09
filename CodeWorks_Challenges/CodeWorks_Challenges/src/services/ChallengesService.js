@@ -39,23 +39,14 @@ class ChallengesService {
 
   async findChallengesByQuery(name = '', offset = 0) {
     const filter = new RegExp(name, 'ig')
-    return await dbContext.Challenges
-      .aggregate([
-        {
-          $match: { name: filter }
-        }, {
-          $lookup: { //.populate() does not work here, this doesn't work yet
-            from: 'Account',
-            localField: 'creatorId',
-            foreignField: '_id',
-            as: 'creator'
-          }
-        }
-      ])
+      const challenges = await dbContext.Challenges
+      .find({ name: filter })
+      .populate('creator participantCount completedCount', PROFILE_FIELDS)
       .collation({ locale: 'en_US', strength: 1 })
       .skip(Number(offset))
       .limit(20)
       .exec()
+      return challenges
   }
 
   //This is where editing the challenge will have answers populated

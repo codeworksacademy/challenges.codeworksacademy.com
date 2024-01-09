@@ -2,7 +2,8 @@ import { Schema } from 'mongoose';
 import { CATEGORY_TYPES, STATUS_TYPES, TITLE_BGS, COLOR_FILLS } from '../constants';
 
 const ObjectId = Schema.Types.ObjectId;
-
+const primaryColor = 'B3B2B2';
+const secondaryColor = '242424';
 export const ChallengeSchema = new Schema({
   creatorId: { type: ObjectId, required: true, ref: 'Account' },
   category: { type: String, enum: Object.values(CATEGORY_TYPES), required: true, lowercase: true },
@@ -19,9 +20,11 @@ export const ChallengeSchema = new Schema({
   coverImg: { type: String, required: true, default: 'https://i.ibb.co/b1bXrRw/card-gradient.png', maxLength: 500 },
   badge: {
     title: { type: String },
-    titleBg: { type: String, enum:  Object.values(TITLE_BGS), default: TITLE_BGS[0] },
     image: { type: String || File },
-    colorFill: { type: String, enum:  Object.values(COLOR_FILLS), default: COLOR_FILLS[0] }
+    color: {
+      secondaryColor: { type: String, default: `#${secondaryColor}` },
+      primaryColor: { type: String, default: `#${primaryColor}` },
+    }
   },
   answer: { type: String, required: false },
   reputationIds: [{ type: String, required: true }]

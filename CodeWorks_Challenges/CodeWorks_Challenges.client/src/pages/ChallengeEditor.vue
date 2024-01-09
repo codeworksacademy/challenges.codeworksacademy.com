@@ -7,7 +7,7 @@
           <EditChallengeDetails :challenge="challenge" />
           <EditChallengeDescription :challenge="challenge" />
           <EditChallengeRequirements :challenge="challenge" />
-          <EditChallengeBadge :challenge="challenge" :color="editable" />
+          <EditChallengeBadge :challenge="challenge" :editable="editable" />
         </div>
         <div class="text-center my-3">
           <button class="btn btn-success" @click="updateChallenge"> Update Challenge</button>
@@ -38,7 +38,7 @@ export default {
   },
   setup() {
     const editable = {
-      primaryColor: '#b3b2b2',
+      primaryColor: '#B3B2B2',
       secondaryColor: '#242424',
     }
     const challenge = computed(() => AppState.ChallengeState.challenge)
@@ -48,6 +48,10 @@ export default {
       try {
         const updatedChallenge = {
           ...AppState.ChallengeState.challenge
+        }
+        updatedChallenge.badge = {
+          ...updatedChallenge.badge,
+          ...editable
         }
         await challengesService.updateChallenge(updatedChallenge, updatedChallenge.id)
         Pop.success("Challenge Updated")

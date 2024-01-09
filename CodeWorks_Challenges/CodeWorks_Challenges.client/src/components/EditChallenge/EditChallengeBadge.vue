@@ -56,7 +56,7 @@ export default {
   },
   setup() {
     const editable = ref({
-      primaryColor: '#b3b2b2',
+      primaryColor: '#B3B2B2',
       secondaryColor: '#242424',
     });
     const imageUploadOption = ref('url')
