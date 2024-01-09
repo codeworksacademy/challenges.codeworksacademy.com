@@ -13,7 +13,7 @@ export class AccountController extends BaseController {
       .get('', this.getUserAccount)
       .get('/challenges', this.getMyChallenges)
       .get('/participations', this.getMyParticipations)
-      .get('/rank', this.calculateMyRank)
+      .get('/rank', this.calculateAccountRank)
       .get('/reputation', this.calculateMyReputation)
       .put('', this.updateAccount)
       .put('/:milestoneId/accountMilestones', this.claimMyMilestone)
@@ -82,10 +82,10 @@ export class AccountController extends BaseController {
     }
   }
 
-  async calculateMyRank(req, res, next) {
+  async calculateAccountRank(req, res, next) {
     try {
-      const userId = req.userInfo.id
-      const rank = await accountService.calculateMyRank(userId)
+      const user = req.userInfo
+      const rank = await accountService.calculateAccountRank(user)
       return res.send(rank)
     } catch (error) {
       next(error);

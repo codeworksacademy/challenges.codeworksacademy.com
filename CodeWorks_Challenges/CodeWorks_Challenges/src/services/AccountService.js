@@ -108,7 +108,7 @@ class AccountService {
   }
 
   // Calculates the rank of the user by adding the following to the user's XP and reputation, which both contribute to increasing user rank => original XP level + total milestone XP from user's milestones + reputation
-  async calculateMyRank(user) {
+  async calculateAccountRank(user) {
     const update = await this.getAccount(user)
 
     const totalMilestoneExperience = await accountMilestonesService.getTotalMilestoneExperience(update)
@@ -133,10 +133,12 @@ class AccountService {
     const account = await this.getAccount(userInfo)
     let reputationScore = account.reputation += 0
 
-    //FIXME - The below condition is executed incorrectly
-    if (challenges.creatorId === userInfo.id) {
-      reputationScore += 1
-    }
+    challenges.forEach(c => {
+      if (c.creatorId === userInfo.id) {
+        reputationScore += 1
+      }
+    })
+    
     challenges.forEach(c => reputationScore === c.reputationIds.length)
     const newReputation = challenges.reduce((acc, curr) => acc + curr.reputationIds.length, 0)
     account.reputation = newReputation

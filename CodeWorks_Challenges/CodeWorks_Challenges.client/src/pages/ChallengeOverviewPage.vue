@@ -31,7 +31,7 @@
     </div>
     <div v-if="isPublished" class="col-12 col-md-8 badge-card m-auto mt-3">
       <h3>New Badge to Earn!</h3>
-      <ChallengeBadge :challenge="challenge" />
+      <ChallengeBadge :challenge="challenge" :color="editable" />
     </div>
   </section>
 </template>
@@ -52,6 +52,10 @@ import ChallengeBadge from '../components/ChallengePage/ChallengeBadge.vue'
 
 export default {
   setup() {
+    const editable = {
+      primaryColor: '#b3b2b2',
+      secondaryColor: '#242424',
+    }
     const route = useRoute()
     const isMobile = computed(() => window.innerWidth < 768)
 
@@ -81,6 +85,7 @@ export default {
       }
 
     return {
+      editable,
       createModeration,
       removeModeration,
       

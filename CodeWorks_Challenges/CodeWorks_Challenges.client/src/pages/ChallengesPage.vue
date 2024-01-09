@@ -31,8 +31,8 @@
           <option value="oldest">Oldest</option>
           <option value="cancelled">Cancelled</option>
         </select>
-          <SelectChallengeDifficulty :filterBy="difficultyTypes" />
-          <SelectChallengeCategory :filterBy="categoryTypes"  class="me-4"/>
+          <SelectChallengeDifficulty :filterBy="filterBy" />
+          <SelectChallengeCategory :filterBy="filterBy" />
       </div>
     </div>
     <div class="col-12 challenge-keys d-flex justify-content-center align-items-center text-uppercase">
