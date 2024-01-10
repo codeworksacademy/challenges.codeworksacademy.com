@@ -44,7 +44,7 @@ class ProfileService {
 
     await accountService.updateAccount(id, { rank });
 
-    return profile
+    return { ...profile.toObject(), rank };
   }
 
   async calculateProfileReputation(id) {

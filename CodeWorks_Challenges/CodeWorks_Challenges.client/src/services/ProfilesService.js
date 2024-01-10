@@ -15,7 +15,8 @@ class ProfilesService {
   async getProfile(profileId) {
     const res = await api.get(`api/profiles/${profileId}`)
     const profile = new Profile(res.data);
-    profile.rank = res.data.rank;
+    // profile.rank = res.data.rank;
+    // profile.reputation = res.data.reputation;
     AppState.ProfileState.profile = profile;
     return profile;
   }
@@ -26,7 +27,7 @@ class ProfilesService {
         this.getProfileChallenges(),
         this.getParticipations(),
         this.calculateProfileRank(),
-        this.calculateReputation()
+        this.calculateProfileReputation()
       ])
     } catch (error) {
       // todo figure out repeat calls
