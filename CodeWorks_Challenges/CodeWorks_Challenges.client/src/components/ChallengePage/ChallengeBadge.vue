@@ -3,11 +3,13 @@
     <div class="badge badge-color position-relative mt-3" id="collaborator">
       <svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px" width="100px" height="105px" viewBox="0 0 216 232">
         <path id="color-picker" :fill="challenge.badge.primaryColor"
-          d="M207,0C171.827,0.001,43.875,0.004,9.003,0c-5.619-0.001-9,3.514-9,9c0,28.23-0.006,151.375,0,169c0.005,13.875,124.499,54,107.999,54S216,191,216,178V9C216,3.298,212.732,0,207,0z" />
+          d="M207,0C171.827,0.001,43.875,0.004,9.003,0c-5.619-0.001-9,3.514-9,9c0,28.23-0.006,151.375,0,169c0.005,13.875,115.499,54,107.999,54S216,191,216,178V9C216,3.298,212.732,0,207,0z" />
       </svg>
       <div class="text-uppercase rounded-circle bg-light">
         <span :style="{ background: challenge.badge.secondaryColor }" class="title"> {{ challenge.badge.title }} </span>
-        <img :src="challenge.badge.image" alt="" class="img-fluid position-absolute" style="max-height: 50px; max-width: 75px; top: 33%; left: 50%; transform: translateX(-50%)">
+        <div class="img-box">
+          <img :src="challenge.badge.image" :alt="`Image of '${challenge.badge.title}' badge for '${challenge.name}' challenge`" class="img-fluid">
+        </div>
       </div>
     </div>
   </div>
@@ -30,9 +32,11 @@ export default {
     
     //Select the SVG color fill for the body of the badge
     const selectedFill = ref('')
+    const clipPath = ref('url(#color-picker)')
     return {
       selectedFill,
-      selectedBackground
+      selectedBackground,
+      clipPath
     }
   }
 }
@@ -59,4 +63,27 @@ export default {
   background: var(--bg-sub);
   padding: 12px 0;
 }
+.img-box {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 73%;
+  height: 73%;
+  background: linear-gradient(180deg, #00000050 0%, transparent 100%), #00000050;
+  clip-path: polygon(7% 80%, 7% 27%, 93% 27%, 93% 80%, 50% 100%);
+  img {
+    position: absolute;
+    top: 11%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-position: center;
+    background-size: cover;
+    display: block;
+    width: 80%;
+    height: 80%;
+    clip-path: polygon(5% 80%, 5% 27%, 95% 27%, 95% 80%, 50% 100%);
+  }
+}
+
 </style>
