@@ -82,9 +82,9 @@ export default {
 
     // this also includes the badges associated with this profile
     // participation => p.status == 'completed'||'active'
-    async function getParticipations() {
+    async function getParticipation() {
       try {
-        return await profilesService.getParticipations(profileId.value)
+        return await profilesService.getParticipation(profileId.value)
       } catch (error) {
         Pop.error(error.message)
       }
@@ -121,7 +121,7 @@ export default {
         AppState.ProfileState.loading = true
         await Promise.allSettled([
           getProfile(),
-          getParticipations(),
+          getParticipation(),
           getChallenges(),
           calculateProfileRank(),
           getMilestones(),

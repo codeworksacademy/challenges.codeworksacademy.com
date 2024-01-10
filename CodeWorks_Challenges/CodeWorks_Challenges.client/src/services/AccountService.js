@@ -21,7 +21,7 @@ class AccountService {
     try {
       await Promise.all([
         this.getMyChallenges(),
-        this.getMyParticipations(),
+        this.getMyParticipation(),
         this.calculateAccountRank(),
         this.calculateReputation()
       ])
@@ -48,7 +48,7 @@ class AccountService {
     }
   }
 
-  async getMyParticipations() {
+  async getMyParticipation() {
     const res = await api.get('/account/participation')
     AppState.AccountState.participation = res.data.map(p => new ChallengeParticipant(p))
     logger.log('[GET PARTICIPANTS BY ACCOUNT]', AppState.AccountState.participation)

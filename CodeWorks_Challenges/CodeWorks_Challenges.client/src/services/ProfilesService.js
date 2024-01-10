@@ -25,7 +25,7 @@ class ProfilesService {
     try {
       await Promise.all([
         this.getProfileChallenges(),
-        this.getParticipations(),
+        this.getParticipation(),
         this.calculateProfileRank(),
         this.calculateProfileReputation()
       ])
@@ -40,7 +40,7 @@ class ProfilesService {
     AppState.ProfileState.challenges = res.data.map(m => new Challenge(m))
   }
 
-  async getParticipations(profileId) {
+  async getParticipation(profileId) {
     const res = await api.get(`api/profiles/${profileId}/participation`)
     AppState.ProfileState.participation = res.data.map(m => new ChallengeParticipant(m))
   }

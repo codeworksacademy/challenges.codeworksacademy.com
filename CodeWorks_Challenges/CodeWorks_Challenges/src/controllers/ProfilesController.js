@@ -1,6 +1,6 @@
 import { challengesService } from '../services/ChallengesService.js'
 import { participantsService } from '../services/ParticipantsService.js'
-import { profileService } from '../services/ProfileService.js'
+import { profilesService } from '../services/ProfilesService.js'
 import BaseController from '../utils/BaseController'
 
 export class ProfilesController extends BaseController {
@@ -12,7 +12,7 @@ export class ProfilesController extends BaseController {
       .get('/:id/challenges', this.getProfileChallenges)
       .get('/:id/rank', this.calculateProfileRank)
       .get('/:id/rewards', this.getProfileRewards)
-      .get('/:id/participation', this.getParticipationsByUserId)
+      .get('/:id/participation', this.getParticipationByUserId)
       .get('/:id/milestones', this.getProfileMilestones)
   }
 
@@ -21,7 +21,7 @@ export class ProfilesController extends BaseController {
       const name = req.query.name
       const offset = req.query.offset
 
-      const profiles = await profileService.findProfiles(name, offset)
+      const profiles = await profilesService.findProfiles(name, offset)
       res.send(profiles)
     } catch (error) {
       next(error)
@@ -30,7 +30,7 @@ export class ProfilesController extends BaseController {
 
   async getProfile(req, res, next) {
     try {
-      const profile = await profileService.getProfileById(req.params.id)
+      const profile = await profilesService.getProfileById(req.params.id)
       res.send(profile)
     } catch (error) {
       next(error)
@@ -48,7 +48,7 @@ export class ProfilesController extends BaseController {
 
   async calculateProfileRank(req, res, next) {
     try {
-      const profile = await profileService.calculateProfileRank(req.params.id)
+      const profile = await profilesService.calculateProfileRank(req.params.id)
       return res.send(profile)
     } catch (error) {
       next(error)
@@ -57,7 +57,7 @@ export class ProfilesController extends BaseController {
 
   async calculateProfileReputation(req, res, next) {
     try {
-      const reputationScore = await profileService.calculateProfileReputation(req.params.id)
+      const reputationScore = await profilesService.calculateProfileReputation(req.params.id)
       res.send(reputationScore)
     } catch (error) {
       next(error)
@@ -73,10 +73,10 @@ export class ProfilesController extends BaseController {
     }
   }
 
-  async getParticipationsByUserId(req, res, next) {
+  async getParticipationByUserId(req, res, next) {
     try {
       const profileId = req.params.id
-      const participation = await participantsService.getParticipationsByUserId(profileId)
+      const participation = await participantsService.getParticipationByUserId(profileId)
       return res.send(participation)
     } catch (error) {
       next(error)
@@ -85,7 +85,7 @@ export class ProfilesController extends BaseController {
 
   async getProfileMilestones(req, res, next) {
     try {
-      const milestones = await profileService.getProfileMilestones(req.params.id)
+      const milestones = await profilesService.getProfileMilestones(req.params.id)
       return res.send(milestones)
     } catch (error) {
       next(error)

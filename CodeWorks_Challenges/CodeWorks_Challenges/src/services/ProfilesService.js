@@ -4,7 +4,7 @@ import { accountService } from "./AccountService.js"
 
 // IMPORTANT profiles should not be updated or modified in any way here. Use the AccountService
 
-class ProfileService {
+class ProfilesService {
   /**
     * Returns a user profile from its id
     * @param {string} id
@@ -70,4 +70,4 @@ class ProfileService {
   }
 }
 
-export const profileService = new ProfileService()
+export const profilesService = new ProfilesService()
