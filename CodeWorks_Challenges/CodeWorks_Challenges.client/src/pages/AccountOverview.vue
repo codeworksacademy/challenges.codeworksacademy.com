@@ -46,10 +46,10 @@ export default {
     return {
       account: computed(() => AppState.AccountState.account),
       challenges: computed(() => AppState.AccountState.challenges),
-      participations: computed(() => AppState.AccountState.participations),
+      participation: computed(() => AppState.AccountState.participation),
       milestones: computed(() => AppState.AccountState.milestones),
       completedChallenges: computed(() => {
-        const completed = AppState.AccountState.participations.filter(p => p.status == 'completed')
+        const completed = AppState.AccountState.participation.filter(p => p.status == 'completed')
 
         return completed
       }),

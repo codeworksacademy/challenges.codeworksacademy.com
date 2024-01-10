@@ -49,9 +49,9 @@ class AccountService {
   }
 
   async getMyParticipations() {
-    const res = await api.get('/account/participations')
-    AppState.AccountState.participations = res.data.map(p => new ChallengeParticipant(p))
-    logger.log('[GET PARTICIPANTS BY ACCOUNT]', AppState.AccountState.participations)
+    const res = await api.get('/account/participation')
+    AppState.AccountState.participation = res.data.map(p => new ChallengeParticipant(p))
+    logger.log('[GET PARTICIPANTS BY ACCOUNT]', AppState.AccountState.participation)
   }
 
   async calculateAccountRank() {

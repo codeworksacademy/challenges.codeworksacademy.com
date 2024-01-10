@@ -45,7 +45,7 @@ export default {
       profileRank: computed(() => AppState.ProfileState.profile.rank),
       milestones: computed(() => AppState.ProfileState.milestones),
       challenges: computed(() => AppState.ProfileState.challenges),
-      badges: computed(() => AppState.ProfileState.participations.filter(p => p.status == 'completed'))
+      badges: computed(() => AppState.ProfileState.participation.filter(p => p.status == 'completed'))
     };
   },
   components: { StatCard, RankCard }

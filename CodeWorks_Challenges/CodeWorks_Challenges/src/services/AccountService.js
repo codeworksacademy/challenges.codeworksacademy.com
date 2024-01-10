@@ -120,7 +120,7 @@ class AccountService {
     const updateToBeReturned = {
       ...update,
       totalExperience: totalExperience,
-      rank: totalExperience + update.reputation
+      rank: totalExperience
     }
 
     await this.updateAccount(user, updateToBeReturned)
@@ -133,14 +133,19 @@ class AccountService {
   async calculateAccountReputation(userInfo) {
     const challenges = await challengesService.getChallengesCreatedBy(userInfo.id)
     const account = await this.getAccount(userInfo)
-    let reputationScore = account.reputation += 0
+    const totalReputation = challenges.map(r => r.reputationIds.length)
 
-    challenges.forEach(c => reputationScore === c.reputationIds.length)
-
-    if(account.reputation != reputationScore){
-      await this.updateMyReputation(userInfo, reputationScore)
+    let total = 0
+    for (let i = 0; i < totalReputation.length; i++) {
+      total += totalReputation[i]
     }
-    return account
+    
+    const accountToBeReturned = {
+      ...account,
+      reputation: total
+    }
+
+    return accountToBeReturned
   }
 
   // Updates the reputation of the user

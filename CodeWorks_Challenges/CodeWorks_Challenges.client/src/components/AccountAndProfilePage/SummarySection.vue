@@ -41,13 +41,13 @@ export default {
   props: {
     profile: { type: [Profile, Account], required: true },
     challenges: { type: Array, required: true },
-    participations: { type: Array, required: true },
+    participation: { type: Array, required: true },
     milestones: { type: Array, required: true },
   },
 
   setup(props) {
     return {
-      badges: computed(() => props.participations.filter(p => p.status == 'completed')),
+      badges: computed(() => props.participation.filter(p => p.status == 'completed')),
       rankTitle: computed(() => {
         let lastKey = 0
 

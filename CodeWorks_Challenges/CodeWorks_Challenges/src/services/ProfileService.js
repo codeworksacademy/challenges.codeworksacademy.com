@@ -40,7 +40,7 @@ class ProfileService {
     const profile = await this.getProfileById(id);
     const totalMilestoneExperience = await accountMilestonesService.getTotalMilestoneExperience(profile);
     const totalExperience = profile.experience + totalMilestoneExperience;
-    const rank = totalExperience + profile.reputation;
+    const rank = totalExperience;
 
     await accountService.updateAccount(id, { rank });
 

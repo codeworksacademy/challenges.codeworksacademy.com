@@ -41,8 +41,8 @@ class ProfilesService {
   }
 
   async getParticipations(profileId) {
-    const res = await api.get(`api/profiles/${profileId}/participations`)
-    AppState.ProfileState.participations = res.data.map(m => new ChallengeParticipant(m))
+    const res = await api.get(`api/profiles/${profileId}/participation`)
+    AppState.ProfileState.participation = res.data.map(m => new ChallengeParticipant(m))
   }
 
   async calculateProfileRank(profileId) {
@@ -66,7 +66,7 @@ class ProfilesService {
     AppState.ProfileState.profile = null
     AppState.ProfileState.challenges = []
     AppState.ProfileState.moderations = []
-    AppState.ProfileState.participations = []
+    AppState.ProfileState.participation = []
     AppState.ProfileState.milestones = []
   }
 

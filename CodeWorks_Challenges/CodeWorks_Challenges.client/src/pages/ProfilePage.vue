@@ -8,7 +8,7 @@
       <div class="col-12 text-white">
         <section class="row justify-content-between">
           <div class="col-md-7 col-12 d-flex summary-height">
-            <SummarySection :profile="profile" :challenges="challenges" :participations="participations"
+            <SummarySection :profile="profile" :challenges="challenges" :participation="participation"
               :milestones="milestones" />
           </div>
 
@@ -29,7 +29,7 @@
       </div>
 
       <div class="col-12 col-md-9 p-0">
-        <router-view></router-view>
+        <router-view />
       </div>
     </section>
   </div>
@@ -81,7 +81,7 @@ export default {
     }
 
     // this also includes the badges associated with this profile
-    // participations => p.status == 'completed'||'active'
+    // participation => p.status == 'completed'||'active'
     async function getParticipations() {
       try {
         return await profilesService.getParticipations(profileId.value)
@@ -152,7 +152,7 @@ export default {
       loading: computed(() => AppState.ProfileState.loading),
       profile: computed(() => AppState.ProfileState.profile),
       challenges: computed(() => AppState.ProfileState.challenges),
-      participations: computed(() => AppState.ProfileState.participations),
+      participation: computed(() => AppState.ProfileState.participation),
       milestones: computed(() => AppState.ProfileState.milestones),
       MilestonesError
     };

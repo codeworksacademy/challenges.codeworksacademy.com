@@ -71,24 +71,6 @@ export default {
 
       challenges: computed(() => {
         return AppState.ProfileState.challenges
-        //   if(challengeTypes.value == 'Created'){
-        // } else if(challengeTypes.value == 'Moderated'){
-        //     const modChallenges = []
-
-        //     const approvedModerations = AppState.ChallengeState.moderators.filter(m => m.status == 'active' && m.challenge.creatorId != AppState.activeProfile.id)
-
-        //     approvedModerations.forEach(m => modChallenges.push(m.challenge))
-
-        //     return modChallenges
-        //   } else if(challengeTypes.value == 'Participating'){
-        //     const participations = []
-
-        //     AppState.ChallengeState.participants.forEach(m => participations.push(m.challenge))
-
-        //     return participations
-        //   } else{
-        //     return AppState.challenges
-        //   }
       }),
     };
   },

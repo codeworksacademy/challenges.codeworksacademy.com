@@ -80,7 +80,7 @@ export default {
             } else if(challengeTypes.value == 'Participating'){
               const partChallenges = []
 
-              AppState.AccountState.participations.forEach(p => partChallenges.push(p.challenge))
+              AppState.AccountState.participation.forEach(p => partChallenges.push(p.challenge))
 
               return partChallenges
             } else{

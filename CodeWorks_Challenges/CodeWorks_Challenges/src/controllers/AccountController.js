@@ -12,7 +12,7 @@ export class AccountController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getUserAccount)
       .get('/challenges', this.getMyChallenges)
-      .get('/participations', this.getMyParticipations)
+      .get('/participation', this.getMyParticipations)
       .get('/rank', this.calculateAccountRank)
       .get('/reputation', this.calculateAccountReputation)
       .put('', this.updateAccount)

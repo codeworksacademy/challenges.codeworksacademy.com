@@ -8,7 +8,7 @@ const ProfileState = reactive({
   profile: null,
   challenges: [],
   /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]} */
-  participations: [],
+  participation: [],
   /** @type {import('./models/AccountMilestone.js').Milestone[]} */
   milestones: [],
 })
@@ -19,7 +19,7 @@ const AccountState = reactive({
   account: {},
   challenges: [],
   /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]} */
-  participations: [],
+  participation: [],
   /** @type {import('./models/AccountMilestone.js').Milestone[]} */
   milestones: [],
 })
