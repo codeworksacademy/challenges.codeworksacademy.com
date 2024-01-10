@@ -19,9 +19,9 @@
         </router-link>
       </div>
       <div class="user-links-btn rounded">
-        <router-link :to="{ name: 'Profile Milestones' }">
+        <router-link :to="{ name: 'Profile Badges' }">
           <button class="btn text-white link-btn">
-            <i class="mdi mdi-seal"></i> Milestones
+            <i class="mdi mdi-seal"></i> Badges
           </button>
         </router-link>
       </div>

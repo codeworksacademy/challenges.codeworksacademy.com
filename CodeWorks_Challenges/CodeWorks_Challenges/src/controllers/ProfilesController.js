@@ -11,7 +11,6 @@ export class ProfilesController extends BaseController {
       .get('/:id', this.getProfile)
       .get('/:id/challenges', this.getProfileChallenges)
       .get('/:id/rank', this.calculateProfileRank)
-      .get('/:id/rewards', this.getProfileRewards)
       .get('/:id/participation', this.getParticipationByUserId)
       .get('/:id/milestones', this.getProfileMilestones)
   }
@@ -59,15 +58,6 @@ export class ProfilesController extends BaseController {
     try {
       const reputationScore = await profilesService.calculateProfileReputation(req.params.id)
       res.send(reputationScore)
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  async getProfileRewards(req, res, next) {
-    try {
-      const rewards = await participantsService.getChallengeRewards(req.params.id)
-      return res.send(rewards)
     } catch (error) {
       next(error)
     }

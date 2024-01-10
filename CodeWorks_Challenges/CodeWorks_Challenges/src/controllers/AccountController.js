@@ -100,4 +100,13 @@ export class AccountController extends BaseController {
       next(error)
     }
   }
+
+  async getAccountBadges(req, res, next) {
+    try {
+      const badges = await accountService.getAccountBadges(req.userInfo)
+      return res.send(badges)
+    } catch (error) {
+      next(error)
+    }
+  }
 }

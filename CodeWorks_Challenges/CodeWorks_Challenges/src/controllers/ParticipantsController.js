@@ -1,3 +1,4 @@
+import { challengesService } from "../services/ChallengesService.js";
 import { participantsService } from "../services/ParticipantsService.js";
 import BaseController from "../utils/BaseController.js"
 import { Auth0Provider } from "@bcwdev/auth0provider";
@@ -10,6 +11,7 @@ export class ParticipantsController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.joinChallenge)
       .put('/:participantId', this.updateChallengeParticipant)
+      .get('/:participantId/badges', this.getChallengeBadges)
       .delete('/:participantId', this.leaveChallenge)
   }
 
@@ -34,6 +36,21 @@ export class ParticipantsController extends BaseController {
       return res.send(participant)
     } catch (error) {
       next(error)
+    }
+  }
+
+  async getChallengeBadges(req, res, next) {
+    try {
+      const participant = await participantsService.getParticipantById(req.params.id);
+
+      // Assuming you have account and profile objects available
+      const accountId = participant.accountId
+      participantsService.getChallengeBadges(participant, accountId);
+
+      // ... any other necessary logic or response
+
+    } catch (error) {
+      next(error);
     }
   }
 

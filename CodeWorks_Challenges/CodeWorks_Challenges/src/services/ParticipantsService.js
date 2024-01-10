@@ -23,12 +23,18 @@ function sanitizeBody(body) {
 }
 
 class ParticipantsService {
-	async getChallengeRewards(accountId) {
-		const rewards = await dbContext.ChallengeParticipants.find({ accountId, status: 'completed' })
-			.populate('challenge', 'name badge')
-		// .select('-submission')
-		return rewards
-	}
+	
+	async getChallengeBadges(participant, accountId) {
+		const account = await dbContext.Account.findById(accountId);
+
+		participant.forEach(completed => {
+			const badge = participant.challenge.badge;
+
+			if (completed.accountId === account.id) {
+				account.badges.push(badge);
+			}
+		})
+  }
 
 	async joinChallenge(newParticipant) {
 
@@ -123,7 +129,7 @@ class ParticipantsService {
 
 		if (participantProgress.status == 'completed') {
 			participantProgress.completedAt = new Date()
-			this.getChallengeRewards(participant.accountId)
+			this.getChallengeBadges(participant, participant.accountId)
 
 		}
 		const isChallengeModerator = await challengeModeratorsService.getModeratorByUserIdAndChallengeId(userId, participant.challengeId)

@@ -68,6 +68,11 @@ class ProfilesService {
     }
     return foundMilestones
   }
+
+//   async getProfileChallengeBadges(id) {
+//     const foundChallengeBadges = await dbContext.Account.findById(id)
+//     const completedChallenges = await dbContext.ChallengeParticipants.find({ accountId: id, status: 'completed' })
+// }
 }
 
 export const profilesService = new ProfilesService()

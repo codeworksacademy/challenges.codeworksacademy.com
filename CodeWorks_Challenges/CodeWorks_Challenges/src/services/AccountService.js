@@ -1,6 +1,7 @@
 import { dbContext } from '../db/DbContext'
 import { accountMilestonesService } from "./AccountMilestonesService.js"
 import { challengesService } from './ChallengesService.js'
+import { participantsService } from "./ParticipantsService.js"
 
 // Private Methods
 
@@ -48,6 +49,7 @@ function sanitizeBody(body) {
     experience: body.experience,
     rank: body.rank,
     reputation: body.reputation,
+    badges: body.badges,
   }
   return writable
 }
@@ -64,7 +66,7 @@ class AccountService {
   async getAccount(user) {
     let account = await dbContext.Account.findOne({
       _id: user.id
-    })
+    }).populate('badges')
     account = await createAccountIfNeeded(account, user)
     await mergeSubsIfNeeded(account, user)
     return account
@@ -156,5 +158,22 @@ class AccountService {
 
     await account.save()
   }
+
+  // async getAccountBadges(user) {
+  //   const account = await this.getAccount(user)
+  //   const completedChallenges = await dbContext.ChallengeParticipants.find({ accountId: user.id, status: 'completed' })
+
+  //   const challengeBadges = completedChallenges.map(c => c.challenge.badge)
+  //   const accountBadges = account.badges
+
+  //   if (challengeBadges.length > 0) {
+  //     for (let i = 0; i < challengeBadges.length; i++) {
+  //       const foundBadge = accountBadges.find(b => b == challengeBadges[i])
+  //       if (!foundBadge) {
+  //         accountBadges.push(challengeBadges[i])
+  //       }
+  //     }
+  //   }
+  // }
 }
 export const accountService = new AccountService()
