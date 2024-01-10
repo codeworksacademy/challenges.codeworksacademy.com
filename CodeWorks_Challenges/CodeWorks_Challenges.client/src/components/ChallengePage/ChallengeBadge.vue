@@ -8,7 +8,7 @@
       <div class="text-uppercase rounded-circle bg-light">
         <span :style="{ background: challenge.badge.secondaryColor }" class="title"> {{ challenge.badge.title }} </span>
         <div class="img-box">
-          <img :src="challenge.badge.image" :alt="`Image of '${challenge.badge.title}' badge for '${challenge.name}' challenge`" class="img-fluid">
+          <img :src="challenge.badge.image" :alt="`Image of '${challenge.badge.title}' badge for '${challenge.name}' challenge`" class="badge-img img-fluid">
         </div>
       </div>
     </div>
@@ -49,9 +49,9 @@ export default {
   font-size: 1em;
   text-align: center;
   position: absolute;
-  color: #000;
-  letter-spacing: .5px;
-  text-shadow: 0 1px 1px #FFF, 0 -1px 1px #FFF, 1px 0 1px #FFF, -1px 0 1px #FFF;
+  color: var(--shadow-blue);
+  letter-spacing: -.7px;
+  text-shadow: 0px 1px .5px #000;
   top: -5px;
   left: 50%;
   margin: 0 auto;
@@ -72,7 +72,7 @@ export default {
   height: 73%;
   background: linear-gradient(180deg, #00000050 0%, transparent 100%), #00000050;
   clip-path: polygon(7% 80%, 7% 27%, 93% 27%, 93% 80%, 50% 100%);
-  img {
+  .badge-img {
     position: absolute;
     top: 11%;
     left: 50%;
@@ -85,5 +85,4 @@ export default {
     clip-path: polygon(5% 80%, 5% 27%, 95% 27%, 95% 80%, 50% 100%);
   }
 }
-
 </style>
