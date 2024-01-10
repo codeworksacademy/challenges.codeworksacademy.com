@@ -1,4 +1,6 @@
 import { dbContext } from '../db/DbContext.js'
+import { accountMilestonesService } from "./AccountMilestonesService.js"
+import { accountService } from "./AccountService.js"
 
 // IMPORTANT profiles should not be updated or modified in any way here. Use the AccountService
 
@@ -32,6 +34,30 @@ class ProfileService {
       .skip(Number(offset))
       .limit(20)
       .exec()
+  }
+
+  async calculateProfileRank(id) {
+    const profile = await this.getProfileById(id);
+    const totalMilestoneExperience = await accountMilestonesService.getTotalMilestoneExperience(profile);
+    const totalExperience = profile.experience + totalMilestoneExperience;
+    const rank = totalExperience + profile.reputation;
+
+    await accountService.updateAccount(id, { rank });
+
+    return profile
+  }
+
+  async calculateProfileReputation(id) {
+    const challenges = await dbContext.Challenges.find({ creatorId: id }).select('reputationIds')
+    const totalReputation = challenges.map(r => r.reputationIds.length)
+
+    let total = 0
+    for (let i = 0; i < totalReputation.length; i++) {
+      total += totalReputation[i]
+    }
+
+    await dbContext.Account.findByIdAndUpdate(id, { reputation: total })
+    return total
   }
 
   async getProfileMilestones(id) {

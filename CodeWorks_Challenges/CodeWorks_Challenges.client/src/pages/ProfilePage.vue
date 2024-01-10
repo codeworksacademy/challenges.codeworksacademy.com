@@ -90,6 +90,14 @@ export default {
       }
     }
 
+    async function calculateProfileRank() {
+      try {
+        return await profilesService.calculateProfileRank(profileId.value)
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+
     async function getMilestones() {
       try {
         return await profilesService.getMilestones(profileId.value)
@@ -115,6 +123,7 @@ export default {
           getProfile(),
           getParticipations(),
           getChallenges(),
+          calculateProfileRank(),
           getMilestones(),
         ])
 

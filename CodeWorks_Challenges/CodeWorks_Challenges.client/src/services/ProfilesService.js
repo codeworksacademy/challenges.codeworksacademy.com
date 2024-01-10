@@ -14,8 +14,24 @@ class ProfilesService {
 
   async getProfile(profileId) {
     const res = await api.get(`api/profiles/${profileId}`)
-    AppState.ProfileState.profile = new Profile(res.data)
-    return AppState.ProfileState.profile
+    const profile = new Profile(res.data);
+    profile.rank = res.data.rank;
+    AppState.ProfileState.profile = profile;
+    return profile;
+  }
+
+  async getProfileData() {
+    try {
+      await Promise.all([
+        this.getProfileChallenges(),
+        this.getParticipations(),
+        this.calculateProfileRank(),
+        this.calculateReputation()
+      ])
+    } catch (error) {
+      // todo figure out repeat calls
+      logger.error(error)
+    }
   }
 
   async getChallenges(profileId) {
@@ -26,6 +42,19 @@ class ProfilesService {
   async getParticipations(profileId) {
     const res = await api.get(`api/profiles/${profileId}/participations`)
     AppState.ProfileState.participations = res.data.map(m => new ChallengeParticipant(m))
+  }
+
+  async calculateProfileRank(profileId) {
+    const res = await api.get(`api/profiles/${profileId}/rank`)
+    logger.log('[CURRENT PROFILE RANK]', res.data)
+    AppState.ProfileState.profile.rank = res.data.rank
+    return res.data
+  }
+
+  async calculateProfileReputation(profileId) {
+    const res = await api.get(`api/profiles/${profileId}/reputation`)
+    AppState.ProfileState.profile.reputation = res.data.reputation
+    return res.data
   }
   async getMilestones(profileId) {
     const res = await api.get(`api/profiles/${profileId}/milestones`)

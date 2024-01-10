@@ -42,6 +42,7 @@ export default {
   setup() {
     return {
       profile: computed(() => AppState.ProfileState.profile),
+      profileRank: computed(() => AppState.ProfileState.profile.rank),
       milestones: computed(() => AppState.ProfileState.milestones),
       challenges: computed(() => AppState.ProfileState.challenges),
       badges: computed(() => AppState.ProfileState.participations.filter(p => p.status == 'completed'))

@@ -62,7 +62,7 @@ class AccountService {
   }
 
   async calculateReputation() {
-    const res = await api.get('account/reputation')
+    const res = await api.get('/account/reputation')
     AppState.AccountState.account.reputation = res.data.reputation
 
     logger.log('[CURRENT ACCOUNT REPUTATION]', res.data)

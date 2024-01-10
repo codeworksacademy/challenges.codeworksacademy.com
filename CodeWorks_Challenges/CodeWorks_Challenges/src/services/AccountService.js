@@ -45,6 +45,8 @@ function sanitizeBody(body) {
     picture: body.picture,
     coverImg: body.coverImg,
     aboutContent: body.aboutContent,
+    experience: body.experience,
+    rank: body.rank,
     reputation: body.reputation,
   }
   return writable
@@ -128,25 +130,16 @@ class AccountService {
 
   // Calculates the reputation of the user
   //FIXME - You need the challenge ID and currently logged in user. A challenge can have [repId] and verify user Id isnt already in [repIds]. If it doesn't we will add it and grab challenge creators profile, then add +1 to their account.
-  async calculateMyReputation(userInfo) {
-    const challenges = await challengesService.getChallengesCreatedBy(userInfo.id, userInfo.id)
+  async calculateAccountReputation(userInfo) {
+    const challenges = await challengesService.getChallengesCreatedBy(userInfo.id)
     const account = await this.getAccount(userInfo)
     let reputationScore = account.reputation += 0
 
-    challenges.forEach(c => {
-      if (c.creatorId === userInfo.id) {
-        reputationScore += 1
-      }
-    })
-    
     challenges.forEach(c => reputationScore === c.reputationIds.length)
-    const newReputation = challenges.reduce((acc, curr) => acc + curr.reputationIds.length, 0)
-    account.reputation = newReputation
 
     if(account.reputation != reputationScore){
       await this.updateMyReputation(userInfo, reputationScore)
     }
-
     return account
   }
 
