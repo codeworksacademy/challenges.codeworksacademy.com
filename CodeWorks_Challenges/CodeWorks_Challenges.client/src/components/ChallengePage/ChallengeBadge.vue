@@ -3,9 +3,9 @@
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px" width="100px" height="105px" viewBox="0 0 216 232">
       <defs>
         <linearGradient id="badgeGradient" x1="0%" y1="100%" x2="100%" y2="0%">
-          <stop offset="0%" style="stop-color: black; stop-opacity: .5" />
-          <stop offset="30%" :style="{ stopColor: challenge.badge?.primaryColor }" style="stop-opacity: .5;" />
-          <stop offset="50%" style="stop-color: black; stop-opacity: .5" />
+          <stop offset="0%" style="stop-color: black; stop-opacity: 1" />
+          <stop offset="30%" :style="{ stopColor: challenge.badge?.primaryColor }" style="stop-opacity: 1;" />
+          <stop offset="50%" style="stop-color: black; stop-opacity: 1" />
         </linearGradient>
       </defs>
       <path d="M207,0C171.827,0.001,43.875,0.004,9.003,0c-5.619-0.001-9,3.514-9,0c0,28.23-0.006,51.375,0,159c0.005,19.875,115.499,54,107.999,54S216,179,216,159V9C216,3.298,212.732,0,207,0z" stroke-width="50" stroke="url(#badgeGradient)" />
@@ -81,8 +81,8 @@ export default {
   }
   .title {
     font-family: "Montserrat", sans-serif;
-    font-weight: bold;
-    font-size: 1em;
+    font-weight: 525;
+    font-size: .95em;
     text-align: center;
     position: absolute;
     color: var(--shadow-blue);
@@ -94,19 +94,21 @@ export default {
     transform: translateX(-50%);
     border-radius: 8px 8px 0 0;
     text-align: center;
-    width: 85.75%;
-    height: 30px;
+    width: 89%;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, .75);
+    height: 35px;
     background: var(--bg-sub);
     padding: 12px 0;
   }
   .img-box {
     position: absolute;
-    top: 10%;
+    top: 15%;
     left: 50%;
     transform: translateX(-50%);
     width: 73%;
     height: 73%;
-    clip-path: polygon(7% 80%, 7% 27%, 93% 27%, 93% 80%, 50% 100%);
+    clip-path: polygon(12% 78%, 12% 30%, 88% 30%, 88% 77%, 50% 95%);
+    background: linear-gradient(90deg, #00000060 20%, var(--shadow-blue) 50%, #00000060 80%);
     .badge-img {
       position: absolute;
       top: 11%;
@@ -119,6 +121,8 @@ export default {
       width: 80%;
       height: 80%;
       clip-path: polygon(5% 80%, 5% 27%, 95% 27%, 95% 80%, 50% 100%);
+      opacity: .85;
+      filter: brightness(1.2);
     }
   }
 }
