@@ -1,9 +1,9 @@
 <template>
   <select v-model="filterCategory" @change="routeToCategory" name="category" id="category"
-    class="select-category text-center text-uppercase p-3">
+    class="select-category col-4 text-center text-uppercase p-3">
     <option class="disabled-option" :value="''" disabled>All Categories</option>
     <option class="option-item" :value="''">All</option>
-    <option class="option-item" v-for="option in categoryTypes" :key="option" :value="option">{{ option }}</option>
+    <option class="option-item" v-for="category in categoryTypes" :key="category" :value="category">{{ category }}</option>
   </select>
 </template>
 
@@ -27,10 +27,10 @@ export default {
       routeToCategory() {
         try {
           if (!filterCategory.value) {
-            router.push({ name: 'Challenges.Browse' })
+            router.push({ name: 'Challenges.browse' })
             return
           }
-          router.push({ name: 'ChallengeCategory', params: { category: filterCategory.value } })
+          router.push({ name: 'Challenges.challengeCategory', params: { category: filterCategory.value } })
         } catch (error) {
           logger.error(error)
           Pop.error(error)
@@ -48,5 +48,6 @@ export default {
   outline: none !important;
   border-radius: 0;
   color: var(--text-main);
+  margin-top: 1rem;
 }
 </style>

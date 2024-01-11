@@ -19,10 +19,11 @@ export const ChallengeSchema = new Schema({
   difficulty: { type: Number, required: true, default: 1, min: 1, max: 5 },
   coverImg: { type: String, required: true, default: 'https://i.ibb.co/b1bXrRw/card-gradient.png', maxLength: 500 },
   badge: {
-    title: { type: String },
-    image: { type: String || File },
-    secondaryColor: { type: String, default: `#${secondaryColor}` },
-    primaryColor: { type: String, default: `#${primaryColor}` },
+    type: Object, required: false, default: {},
+    // title: { type: String },
+    // image: { type: String || File },
+    // secondaryColor: { type: String, default: `#${secondaryColor}` },
+    // primaryColor: { type: String, default: `#${primaryColor}` },
   },
   answer: { type: String, required: false },
   reputationIds: [{ type: String, required: true }]

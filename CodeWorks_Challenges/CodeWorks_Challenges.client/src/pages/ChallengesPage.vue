@@ -8,12 +8,12 @@
           title="Create a new challenge" style="">Create a Challenge</a>
       </div>
     </div>
-    <div class="col-12 d-flex justify-content-start mb-2 ps-4" style="color: var(--text-primary);">
+    <!-- <div class="col-12 d-flex justify-content-start mb-2 ps-4" style="color: var(--text-primary);">
       <h5 class="ms-5 text-light">Search Challenges</h5>
-    </div>
+    </div> -->
     <div class="col-12 d-flex justify-content-center align-items-center">
-      <div class="col-6 ms-4 mb-4 pb-1 ps-5">
-        <!-- <form @submit.prevent="findChallenges">
+      <div class="col-md-6">
+       <!--  <form @submit.prevent="findChallenges">
           <div class="input-group">
             <i role="button" type="submit" class="btn mdi mdi-magnify text-light" style="transform: scale(1.6)"
               id="search"></i>
@@ -23,15 +23,15 @@
           </div>
         </form> -->
       </div>
-      <div class="col-6 d-flex justify-content-between mb-4">
-        <select class="col-3 select-type filter-button text-uppercase" v-model="filterBy" @change="filterType(filterBy)">
+      <div class="col-12 col-md-6 d-flex justify-space-around mb-4 pe-3 mobile-query">
+        <select class="col-4 select-type text-uppercase" v-model="filterBy" @change="filterType(filterBy)">
           <option class="text-center" value="" disabled>Filter By</option>
           <option value="newest">Newest</option>
           <option value="oldest">Oldest</option>
           <option value="cancelled">Cancelled</option>
         </select>
-          <SelectChallengeDifficulty :filterBy="filterBy" />
-          <SelectChallengeCategory :filterBy="filterBy" />
+          <SelectChallengeDifficulty :filterDifficulty="type" />
+          <SelectChallengeCategory :filterBy="type" />
       </div>
     </div>
     <div class="col-12 challenge-keys d-flex justify-content-center align-items-center text-uppercase">
@@ -62,8 +62,7 @@ import Pop from '../utils/Pop'
 import { useRouter } from 'vue-router'
 import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
-import { computed, onMounted, ref } from 'vue'
-import { CATEGORY_TYPES } from '../constants/index'
+import { onMounted, ref } from 'vue'
 import { challengesService } from '../services/ChallengesService'
 import SelectChallengeDifficulty from '../components/ChallengesPage/SelectChallengeDifficulty.vue'
 import SelectChallengeCategory from "../components/ChallengesPage/SelectChallengeCategory.vue"
@@ -108,20 +107,20 @@ export default {
       search,
       filterBy,
 
-      challenges: computed(() => {
-        if (!filterBy.value) {
-          return AppState.challenges
-        }
-        return AppState.challenges.filter(c => c.category === filterBy.value || c.difficultyStr.text === filterBy.value)
-      }),
-
       filterType(type) {
+        // Filter challenges by date created, updated, or cancelled
         if(type == 'newest'){
           AppState.challenges.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
         }else if(type == 'oldest'){
           AppState.challenges.sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt))
         }else if(type == 'cancelled'){
           AppState.challenges.filter(c => c.isCancelled == true)
+        } else if (type) {
+          // Filter challenges by difficulty
+          AppState.challenges = AppState.challenges.filter(c => c.difficultyStr.text === type);
+        } else {
+          //Filter challenges by category
+          AppState.challenges = AppState.challenges.filter(c => c.category === type);
         }
       },
     }
@@ -187,26 +186,26 @@ export default {
     }
   }
 }
-
-.filter-button {
-  background-color: var(--bg-main);
-  border: 1px solid var(--border-dark);
-  border-radius: 10px;
-  color: var(--text-main);
-}
-
 .select-type {
-  width: 30%;
   background-color: var(--bg-sub);
   border: none;
   outline: none !important;
   border-radius: 0;
   color: var(--text-main);
+  margin-top: 1rem;
 }
-
 h6 {
   color: var(--text-sub);
   font-size: 1.2rem;
   font-weight: 500;
+}
+.mobile-query {
+  @media screen and (max-width: 768px) {
+    height: 45px;
+    margin-bottom: 1rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 </style>
