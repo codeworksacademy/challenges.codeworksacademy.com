@@ -1,34 +1,34 @@
 <template>
   <section class="container-fluid">
     <h4 class="px-3 pt-3" style="color: #7A7A7A">User Links</h4>
-    <aside class="mt-5 pt-0 px-5">
-      <router-link :to="{ name: 'Challenge.overview' }">
-        <h4 class="mdi mdi-file-document-multiple text-light selectable"> Overview</h4>
+    <aside class="d-flex flex-column fs-4 mt-5 pt-0 px-5">
+      <router-link :to="{ name: 'Challenge.overview' }" class="hover-green rounded-1 selectable text-white">
+        <i class="mdi mdi-file-document-multiple text-green fst-normal"> Overview</i>
       </router-link>
-      <router-link :to="{ name: 'Challenge.challengeSubmissionsPage' }">
-        <h4 class="mdi mdi-account-box-multiple-outline text-light selectable"> Submissions</h4>
+      <router-link :to="{ name: 'Challenge.challengeSubmissionsPage' }" class="hover-orange rounded-1 selectable text-white">
+        <i class="mdi mdi-account-box-multiple-outline text-orange fst-normal"> Submissions</i>
       </router-link>
-      <router-link :to="{ name: 'Challenge.requirements' }">
-        <h4 class="mdi mdi-file-document-check text-light selectable"> Requirements</h4>
+      <router-link :to="{ name: 'Challenge.requirements' }" class="hover-purple rounded-1 selectable text-white">
+        <i class="mdi mdi-file-document-check text-purple fst-normal"> Requirements</i>
       </router-link>
-      <router-link :to="{ name: 'Challenge.statistics' }">
-        <h4 class="mdi mdi-finance text-light selectable"> Statistics</h4>
+      <router-link :to="{ name: 'Challenge.statistics' }" class="hover-primary rounded-1 selectable text-white">
+        <i class="mdi mdi-finance text-white fst-normal"> Statistics</i>
       </router-link>
 
       <hr>
 
       <div v-if="isOwned || isModerator" class="d-flex flex-column justify-content-center">
-        <router-link :to="{ name: 'Challenge.gradeSubmissionsPage' }">
-          <h4 class="mdi mdi-progress-check text-info mt-1" style=""> Grade Users</h4>
+        <router-link :to="{ name: 'Challenge.gradeSubmissionsPage' }" class="hover-info rounded-1 selectable text-white">
+          <i class="mdi mdi-progress-check text-info mt-1 fst-normal" style=""> Grade Users</i>
         </router-link>
-        <router-link :to="{ name: 'Challenge.challengeEditor' }">
-          <h4 class="mdi mdi-archive-edit text-warning selectable" style=""> Edit Challenge</h4>
+        <router-link :to="{ name: 'Challenge.challengeEditor' }" class="hover-warning rounded-1 selectable text-white">
+          <i class="mdi mdi-archive-edit text-yellow fst-normal" style=""> Edit Challenge</i>
         </router-link>
-        <router-link :to="{ name: 'Challenge.challengeModeratorsPage' }">
-          <h4 class="mdi mdi-archive-edit text-danger selectable" style="">Moderators</h4>
+        <router-link :to="{ name: 'Challenge.challengeModeratorsPage' }" class="hover-danger rounded-1 selectable text-white">
+          <i class="mdi mdi-archive-edit text-danger fst-normal" style="">Moderators</i>
         </router-link>
 
-        <!-- <h4 @click="deprecateChallenge(challenge.id)" class="cancel-button mdi mdi-cancel text-danger selectable" style="white-space: nowrap"> Deprecate Challenge</h4> -->
+        <!-- <i @click="deprecateChallenge(challenge.id)" class="cancel-button mdi mdi-cancel text-danger selectable text-white" style="white-space: nowrap"> Deprecate Challenge</i> -->
       </div>
       <div v-else-if="!isParticipant">
         <h4 @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable text-success"> Join Challenge</h4>
@@ -39,7 +39,7 @@
             class="mdi mdi-alert-box"></i></span></h4>
       <div v-else-if="isParticipant">
         <h4 v-if="isParticipant.status === 'started'" id="challengeSubmissionButton"
-          class="mdi mdi-send-check text-info selectable" style="white-space: nowrap" ref="submission" role="button"
+          class="mdi mdi-send-check text-info selectable text-white" style="white-space: nowrap" ref="submission" role="button"
           data-bs-target="#challengeSubmissionForm" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal"
           title="Create a new challenge">
           Submit for Review

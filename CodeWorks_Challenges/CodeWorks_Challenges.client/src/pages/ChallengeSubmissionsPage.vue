@@ -46,11 +46,10 @@ import { AppState } from '../AppState'
 
 import { StrDifficultyNum } from "../utils/StrDifficultyNum.js"
 import { newChallengeParticipant } from "../utils/NewChallengeParticipant.js"
-import ActiveChallengeDifficultyCard from "../components/ChallengePage/ActiveChallengeDifficultyCard.vue"
 
 export default {
   components: {
-    ParticipantCard, ActiveChallengeDifficultyCard
+    ParticipantCard
   },
   setup() {
 

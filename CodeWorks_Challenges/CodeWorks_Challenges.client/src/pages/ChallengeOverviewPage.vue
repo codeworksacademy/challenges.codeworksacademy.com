@@ -12,21 +12,23 @@
 
     <div class="col-12 mobile-media-query d-flex justify-content-center align-items-center">
       <div class="col-12 col-md-4 card-container">
-        <ActiveChallengeDifficultyCard :challenge="challenge" />
+        <ChallengeDifficultyCard :challenge="challenge" color="#20C997" bgColor="#20c99629" :themeStyle="true" />
       </div>
       <div class="col-12 col-md-4">
-        <ActiveChallengeCategoryCard :challenge="challenge" />
+        <ChallengeCategoryCard :challenge="challenge" color="#FD7E14" bgColor="#fd7d142e"
+        :themeStyle="true" />
       </div>
       <div class="col-12 col-md-4">
-        <ActiveChallengeReputationCard :challenge="challenge" />
+        <ChallengeReputationCard :challenge="challenge" color="#6F42C1" bgColor="#1D213A" icon="mdi-seal"
+        :themeStyle="true" />
       </div>
     </div>
     <div class="d-flex mobile-flex-column justify-content-center align-items-center">
       <div class="col-12 col-md-4">
-        <ActiveChallengeParticipantsCard :challenge="challenge" />
+        <ChallengeParticipantsCard :challenge="challenge" />
       </div>
       <div class="col-12 col-md-8 card-container">
-        <ActiveChallengeCreatorCard :challenge="challenge" />
+        <ChallengeCreatorCard :challenge="challenge" />
       </div>
     </div>
     <div v-if="isPublished" class="col-12 col-md-8 badge-card m-auto mt-3">
@@ -46,11 +48,11 @@ import { useRoute } from 'vue-router'
 import { AppState } from '../AppState'
 import { StrDifficultyNum } from '../utils/StrDifficultyNum'
 import { challengeModeratorsService } from '../services/ChallengeModeratorsService'
-import ActiveChallengeCreatorCard from '../components/ChallengePage/ActiveChallengeCreatorCard.vue'
-import ActiveChallengeCategoryCard from '../components/ChallengePage/ActiveChallengeCategoryCard.vue'
-import ActiveChallengeDifficultyCard from '../components/ChallengePage/ActiveChallengeDifficultyCard.vue'
-import ActiveChallengeReputationCard from '../components/ChallengePage/ActiveChallengeReputationCard.vue'
-import ActiveChallengeParticipantsCard from '../components/ChallengePage/ActiveChallengeParticipantsCard.vue'
+import ChallengeCreatorCard from '../components/ChallengePage/ChallengeCreatorCard.vue'
+import ChallengeCategoryCard from '../components/ChallengePage/ChallengeCategoryCard.vue'
+import ChallengeDifficultyCard from '../components/ChallengePage/ChallengeDifficultyCard.vue'
+import ChallengeReputationCard from '../components/ChallengePage/ChallengeReputationCard.vue'
+import ChallengeParticipantsCard from '../components/ChallengePage/ChallengeParticipantsCard.vue'
 import ChallengeBadge from '../components/ChallengePage/ChallengeBadge.vue'
 
 export default {
@@ -104,7 +106,7 @@ export default {
       isPublished: computed(() => AppState.ChallengeState.challenge.status === 'published')
     }
   },
-  components: { ActiveChallengeDifficultyCard, ActiveChallengeCategoryCard, ActiveChallengeReputationCard, ActiveChallengeParticipantsCard, ActiveChallengeCreatorCard, ChallengeBadge }
+  components: { ChallengeDifficultyCard, ChallengeCategoryCard, ChallengeReputationCard, ChallengeParticipantsCard, ChallengeCreatorCard, ChallengeBadge }
 }
 </script>
 

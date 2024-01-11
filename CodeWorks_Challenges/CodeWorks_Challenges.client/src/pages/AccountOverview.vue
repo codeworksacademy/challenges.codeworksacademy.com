@@ -13,7 +13,7 @@
       </div>
 
       <div class="col-md-4 col-12">
-        <StatCard title="Challenge Badges" :number="badgeArray.length" color="#6F42C1" bgColor="#1D213A" icon="mdi-seal"
+        <StatCard title="Challenge Badges" :number="badges.length" color="#6F42C1" bgColor="#1D213A" icon="mdi-seal"
           :themeStyle="true" :leftAlignedIcon="false" />
       </div>
     </section>
@@ -51,7 +51,7 @@ export default {
         const completed = AppState.AccountState.participation.filter(p => p.status == 'completed')
         return completed
       }),
-      badgeArray: computed(() => {
+      badges: computed(() => {
         const challengeWithBadge = AppState.AccountState.participation.filter(p => p.status == 'completed')
         const hasBadge = challengeWithBadge.filter(c => c.challenge.badge)
         return hasBadge

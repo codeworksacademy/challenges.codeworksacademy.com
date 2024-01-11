@@ -45,6 +45,11 @@ const routes = [
         path: 'badges',
         name: 'Account.badges',
         component: loadPage('AccountBadges')
+      },
+      {
+        path: 'milestones',
+        name: 'Account.milestones',
+        component: loadPage('AccountMilestones')
       }
     ]
   },

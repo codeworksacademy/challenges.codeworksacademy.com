@@ -4,24 +4,24 @@
       User Links
     </p>
     <div class="text-white d-flex flex-column">
-      <div class="user-links-btn rounded">
+      <div class="user-links-btn hover-green rounded selectable">
         <router-link :to="{ name: 'Profile.overview' }">
           <button class="btn text-white link-btn">
-            <i class="mdi mdi-layers"></i> Overview
+            <i class="mdi mdi-layers text-green"></i> Overview
           </button>
         </router-link>
       </div>
-      <div class="user-links-btn rounded">
+      <div class="user-links-btn hover-orange rounded selectable">
         <router-link :to="{ name: 'Profile.challenges' }">
           <button class="btn text-white link-btn">
-            <i class="mdi mdi-file-code"></i> Challenges
+            <i class="mdi mdi-file-code text-orange"></i> Challenges
           </button>
         </router-link>
       </div>
-      <div class="user-links-btn rounded">
+      <div class="user-links-btn hover-blue rounded selectable">
         <router-link :to="{ name: 'Profile.badges' }">
           <button class="btn text-white link-btn">
-            <i class="mdi mdi-seal"></i> Badges
+            <i class="mdi mdi-seal text-blue"></i> Badges
           </button>
         </router-link>
       </div>
@@ -44,6 +44,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import url('../../assets/scss/_root.scss');
 .user-links-card {
   background-color: #0E141E;
 }
