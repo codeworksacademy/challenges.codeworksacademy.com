@@ -31,10 +31,10 @@ export default {
       routeToDifficulty() {
         try {
           if (!difficultyFilter.value) {
-            router.push({ name: 'Challenges.Browse' })
+            router.push({ name: 'Challenges.browse' })
             return
           }
-          router.push({ name: 'ChallengeDifficulty', params: { difficulty: difficultyFilter.value } })
+          router.push({ name: 'Challenges.challengeDifficulty', params: { difficulty: difficultyFilter.value } })
         } catch (error) {
           logger.error(error)
           Pop.error(error)
