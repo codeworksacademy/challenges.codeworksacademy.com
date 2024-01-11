@@ -131,9 +131,9 @@ const routes = [
         component: loadPage('ProfileChallenges')
       },
       {
-        path: 'milestones',
-        name: 'Profile Milestones',
-        component: loadPage('ProfileMilestones')
+        path: 'badges',
+        name: 'Profile Badges',
+        component: loadPage('ProfileBadges')
       },
     ]
   },
