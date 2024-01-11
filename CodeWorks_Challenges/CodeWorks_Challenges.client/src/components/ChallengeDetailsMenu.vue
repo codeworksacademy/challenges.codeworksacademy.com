@@ -159,6 +159,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.text-yellow {
+  color: #ffc107;
+}
 @media screen and (max-width: 768px) {
   .cancel-button {
     white-space: normal !important;
