@@ -84,6 +84,7 @@ export default {
   }
   .card {
     background-color: var(--border-main);
+    text-shadow: 0 1px #000000;
     border-bottom-left-radius: 0px !important;
     border-bottom-right-radius: 0px !important;
   }
