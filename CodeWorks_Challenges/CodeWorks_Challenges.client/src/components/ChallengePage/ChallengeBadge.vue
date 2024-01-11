@@ -1,9 +1,16 @@
 <template>
-  <!-- {{ challenge?.badge }} -->
   <div class="col-3 badge badge-color position-relative mt-3" id="collaborator">
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px" width="100px" height="105px" viewBox="0 0 216 232">
+      <defs>
+        <linearGradient id="badgeGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color: black; stop-opacity: .5" />
+          <stop offset="30%" :style="{ stopColor: challenge.badge?.primaryColor }" style="stop-opacity: .5;" />
+          <stop offset="50%" style="stop-color: black; stop-opacity: .5" />
+        </linearGradient>
+      </defs>
+      <path d="M207,0C171.827,0.001,43.875,0.004,9.003,0c-5.619-0.001-9,3.514-9,0c0,28.23-0.006,51.375,0,159c0.005,19.875,115.499,54,107.999,54S216,179,216,159V9C216,3.298,212.732,0,207,0z" stroke-width="50" stroke="url(#badgeGradient)" />
       <path id="color-picker" :fill="challenge.badge?.primaryColor"
-        d="M207,0C171.827,0.001,43.875,0.004,9.003,0c-5.619-0.001-9,3.514-9,9c0,28.23-0.006,151.375,0,169c0.005,13.875,115.499,54,107.999,54S216,191,216,178V9C216,3.298,212.732,0,207,0z" />
+      d="M207,0C171.827,0.001,43.875,0.004,9.003,0c-5.619-0.001-9,3.514-9,9c0,28.23-0.006,151.375,0,169c0.005,13.875,115.499,54,107.999,54S216,191,216,178V9C216,3.298,212.732,0,207,0z" />
     </svg>
     <div class="text-uppercase rounded-circle bg-light">
       <span :style="{ background: challenge.badge?.secondaryColor }" class="title"> {{ challenge.badge?.title }} </span>
@@ -54,7 +61,24 @@ export default {
   //Make it so there are only 3 badges per row:
   flex-wrap: wrap;
   
-  
+  &:before {
+    background-image: url('../../assets/img/codeworks-logo.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    content: '';
+    position: absolute;
+    top: -10.5%;
+    left: 50%;
+    transform: translateX(-50%) rotate(30deg);
+    width: 130%;
+    height: 130%;
+    opacity: .25;
+  }
+  #color-picker {
+    position: absolute;
+    top: 40px;
+  }
   .title {
     font-family: "Montserrat", sans-serif;
     font-weight: bold;
@@ -82,7 +106,6 @@ export default {
     transform: translateX(-50%);
     width: 73%;
     height: 73%;
-    background: linear-gradient(180deg, #00000050 0%, transparent 100%), #00000050;
     clip-path: polygon(7% 80%, 7% 27%, 93% 27%, 93% 80%, 50% 100%);
     .badge-img {
       position: absolute;

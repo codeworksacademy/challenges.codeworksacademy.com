@@ -19,8 +19,6 @@
 import { computed } from "vue";
 import { AppState } from '../AppState';
 import ChallengeBadge from "../components/ChallengePage/ChallengeBadge.vue";
-import { accountService } from "../services/AccountService.js";
-import { logger } from "../utils/Logger.js";
 
 export default {
   setup() {
