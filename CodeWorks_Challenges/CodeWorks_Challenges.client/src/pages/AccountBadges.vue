@@ -6,8 +6,13 @@
           <span>My Achievements</span>
         </h5>
         <div class="row badge-card d-flex flex-row justify-space-evenly align-items-center mt-4 me-3">
-          <div class="col-3 d-flex justify-content-center align-items-center my-3" v-for="badge in challengeBadges" :key="badge">
-              <ChallengeBadge :challenge="badge.challenge" />
+          <div class="col-3 d-flex flex-column justify-content-center align-items-center my-3" v-for="earnedBadge in challengeBadges" :key="earnedBadge">
+            <router-link :to="{ name: 'Challenge.overview', params: { challengeId: earnedBadge.challengeId } }" :title="`Click to visit the '${earnedBadge.challenge.name}' Challenge Page to earn this badge!`" class=" badge-link">
+              <ChallengeBadge :challenge="earnedBadge.challenge" />
+            </router-link>
+            <div class="card bg-dark text-light p-1 px-3 mt-2">
+              <span class="text-capitalize fw-semibold text-truncate" style="max-width: 150px;"> {{ earnedBadge.challenge.name }} </span>
+            </div>
           </div>
         </div>
       </div>
@@ -47,5 +52,19 @@ export default {
   margin-top: 20px;
   margin-bottom: 20px;
   max-width: 100%;
+  transition: all .3s ease-in-out;
+  user-select: none;
+  .badge-link{
+    position: relative;
+    bottom: 0;
+    transition: all .3s ease-in-out;
+    &:hover{
+      position: relative;
+      bottom: 5px;
+      transition: all .3s ease-in-out;
+      transform: rotate(-2deg);
+      filter: brightness(1.2);
+    }
+  }
 }
 </style>

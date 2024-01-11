@@ -3,9 +3,9 @@
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px" width="100px" height="105px" viewBox="0 0 216 232">
       <defs>
         <linearGradient id="badgeGradient" x1="0%" y1="100%" x2="100%" y2="0%">
-          <stop offset="0%" style="stop-color: black; stop-opacity: 1" />
-          <stop offset="30%" :style="{ stopColor: challenge.badge?.primaryColor }" style="stop-opacity: 1;" />
-          <stop offset="50%" style="stop-color: black; stop-opacity: 1" />
+          <stop offset="0%" :style="{ stopColor: challenge.badge?.secondaryColor }" style="stop-opacity: 1" />
+          <stop offset="20%" :style="{ stopColor: challenge.badge?.primaryColor }" style="stop-opacity: 1;" />
+          <stop offset="70%" :style="{ stopColor: challenge.badge?.secondaryColor }" style="stop-opacity: 1" />
         </linearGradient>
       </defs>
       <path d="M207,0C171.827,0.001,43.875,0.004,9.003,0c-5.619-0.001-9,3.514-9,0c0,28.23-0.006,51.375,0,159c0.005,19.875,115.499,54,107.999,54S216,179,216,159V9C216,3.298,212.732,0,207,0z" stroke-width="50" stroke="url(#badgeGradient)" />
@@ -102,7 +102,7 @@ export default {
   }
   .img-box {
     position: absolute;
-    top: 15%;
+    top: 18%;
     left: 50%;
     transform: translateX(-50%);
     width: 73%;
@@ -111,18 +111,22 @@ export default {
     background: linear-gradient(90deg, #00000060 20%, var(--shadow-blue) 50%, #00000060 80%);
     .badge-img {
       position: absolute;
-      top: 11%;
+      top: 0%;
       left: 50%;
       transform: translateX(-50%);
       object-fit: cover;
       object-position: center;
+      background-repeat: no-repeat;
+      background-position: center;
       background-size: cover;
-      display: block;
-      width: 80%;
-      height: 80%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 90%;
+      height: 90%;
       clip-path: polygon(5% 80%, 5% 27%, 95% 27%, 95% 80%, 50% 100%);
       opacity: .85;
-      filter: brightness(1.2);
+      filter: brightness(1);
     }
   }
 }

@@ -26,12 +26,11 @@ class ParticipantsService {
 	
 	async getChallengeBadges(participant, accountId) {
 		const account = await dbContext.Account.findById(accountId);
-
 		participant.forEach(completed => {
 			const badge = participant.challenge.badge;
 
 			if (completed.accountId === account.id) {
-				account.badges.push(badge);
+				account.badges = [...account.badges, badge];
 			}
 		})
   }
