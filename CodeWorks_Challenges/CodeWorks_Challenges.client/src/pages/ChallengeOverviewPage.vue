@@ -9,26 +9,23 @@
         <p> {{ challenge.description }} </p>
       </div>
     </article>
-
     <div class="col-12 mobile-media-query d-flex justify-content-center align-items-center">
       <div class="col-12 col-md-4 card-container">
         <ChallengeDifficultyCard :challenge="challenge" color="#20C997" bgColor="#20c99629" :themeStyle="true" />
       </div>
       <div class="col-12 col-md-4">
-        <ChallengeCategoryCard :challenge="challenge" color="#FD7E14" bgColor="#fd7d142e"
-        :themeStyle="true" />
+        <ChallengeCategoryCard :challenge="challenge" color="#FD7E14" bgColor="#fd7d142e" :themeStyle="true" />
       </div>
       <div class="col-12 col-md-4">
-        <ChallengeReputationCard :challenge="challenge" color="#6F42C1" bgColor="#1D213A" icon="mdi-seal"
-        :themeStyle="true" />
+        <ChallengeReputationCard :challenge="challenge" color="#6F42C1" bgColor="#1D213A" :themeStyle="true" />
       </div>
     </div>
     <div class="d-flex mobile-flex-column justify-content-center align-items-center">
       <div class="col-12 col-md-4">
-        <ChallengeParticipantsCard :challenge="challenge" />
+        <ChallengeParticipantsCard :challenge="challenge" color="#323e78" bgColor="#323e7829" :themeStyle="true" />
       </div>
       <div class="col-12 col-md-8 card-container">
-        <ChallengeCreatorCard :challenge="challenge" />
+        <ChallengeCreatorCard :challenge="challenge" color="#323e78" bgColor="#323e7829" :themeStyle="true" />
       </div>
     </div>
     <div v-if="isPublished" class="col-12 col-md-8 badge-card m-auto mt-3">
@@ -144,7 +141,9 @@ export default {
   margin: 1rem;
   padding:2rem;
   color: #f0f0f0;
-  background:#1c2332;
+  border: 1px solid #323e78;
+  border-radius: 5px;
+  background: #323e7829;
   text-align: center;
 }
 
