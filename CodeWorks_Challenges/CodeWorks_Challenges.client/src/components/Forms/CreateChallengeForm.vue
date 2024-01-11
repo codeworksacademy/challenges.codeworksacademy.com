@@ -71,7 +71,7 @@ export default {
           {
             name: 'Challenge.challengeEditor',
             params: {
-              challengeId: AppState.ChallengeState.challenge?.id
+              challengeId: moderatorData.challengeId
             }
           })
       } catch (error) {

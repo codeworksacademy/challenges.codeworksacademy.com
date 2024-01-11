@@ -28,7 +28,7 @@
         <ChallengeCreatorCard :challenge="challenge" color="#323e78" bgColor="#323e7829" :themeStyle="true" />
       </div>
     </div>
-    <div v-if="isPublished" class="col-12 col-md-8 badge-card m-auto mt-3">
+    <div v-if="isPublished && challenge.badge?.title" class="col-12 col-md-8 badge-card m-auto mt-3">
       <h3>New Badge to Earn!</h3>
       <ChallengeBadge :challenge="challenge" :color="editable" />
     </div>
