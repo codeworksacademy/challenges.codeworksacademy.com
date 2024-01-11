@@ -133,7 +133,7 @@ export default {
   text-align: center;
 }
 .badge-card {
-  height: 35vh;
+  height: 30vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
