@@ -69,7 +69,7 @@ export default {
         Pop.toast('Challenge Created')
         router.push(
           {
-            name: 'ChallengeEditor',
+            name: 'Challenge.challengeEditor',
             params: {
               challengeId: AppState.ChallengeState.challenge?.id
             }
