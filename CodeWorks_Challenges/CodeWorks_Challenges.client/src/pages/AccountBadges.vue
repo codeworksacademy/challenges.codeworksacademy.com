@@ -4,12 +4,12 @@
       <div class="col-12 text-white">
         <h5 class="text-center">
           <span>My Achievements</span>
-          <div class="row badge-card d-flex flex-row justify-space-evenly align-items-center mt-4 me-3">
-            <div class="col-3 d-flex justify-content-center align-items-center my-3" v-for="badge in challengeBadges" :key="badge">
-                <ChallengeBadge :challenge="badge.challenge" />
-            </div>
-          </div>
         </h5>
+        <div class="row badge-card d-flex flex-row justify-space-evenly align-items-center mt-4 me-3">
+          <div class="col-3 d-flex justify-content-center align-items-center my-3" v-for="badge in challengeBadges" :key="badge">
+              <ChallengeBadge :challenge="badge.challenge" />
+          </div>
+        </div>
       </div>
     </section>
   </div>
