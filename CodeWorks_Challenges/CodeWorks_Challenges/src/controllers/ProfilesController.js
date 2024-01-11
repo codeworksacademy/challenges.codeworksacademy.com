@@ -1,7 +1,7 @@
 import { challengesService } from '../services/ChallengesService.js'
 import { participantsService } from '../services/ParticipantsService.js'
 import { profilesService } from '../services/ProfilesService.js'
-import BaseController from '../utils/BaseController'
+import BaseController from '../utils/BaseController.js'
 
 export class ProfilesController extends BaseController {
   constructor() {

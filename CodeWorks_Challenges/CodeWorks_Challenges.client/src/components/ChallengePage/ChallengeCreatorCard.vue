@@ -53,6 +53,11 @@ export default {
     async function giveReputation(){
         try {
           await challengesService.giveReputation(route.params.challengeId)
+          if(gaveReputation.value){
+            Pop.toast(`The CodeWorks team and ${props.challenge.creator.name} appreciate you gifting +1 Reputation to challenge '${props.challenge.name}'!`, 'success')
+          } else {
+            Pop.toast(`You have removed your reputation point to ${props.challenge.creator.name} for '${props.challenge.name}.'`, 'success')
+          }
         } catch (error) {
           Pop.error(error.message)
         }

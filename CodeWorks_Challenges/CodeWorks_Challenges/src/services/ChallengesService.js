@@ -79,10 +79,6 @@ class ChallengesService {
     challenge.difficulty = challengeData.difficulty || challenge.difficulty
     challenge.coverImg = challengeData.coverImg || challenge.coverImg
     challenge.badge = challengeData.badge || challenge.badge;
-    // challenge.badge.title = challengeData.badge.title || challenge.badge.title;
-    // challenge.badge.image = challengeData.badge.image || challenge.badge.image;
-    // challenge.badge.secondaryColor = challengeData.badge.secondaryColor || challenge.badge.secondaryColor;
-    // challenge.badge.primaryColor = challengeData.badge.primaryColor || challenge.badge.primaryColor;
     challenge.answer = challengeData.answer || challenge.answer
 
     await challenge.save()
@@ -92,16 +88,17 @@ class ChallengesService {
   async giveReputation(challengeId, userId) {
     const challenge = await this.getChallengeById(challengeId)
 
-    const foundUserId = challenge.reputationIds.find(i => i === userId)
-
-    if (foundUserId) {
-      throw new Forbidden('You have already given reputation to this challenge. You cannot give reputation twice.')
+    if (challenge.creatorId === userId) {
+      throw new Forbidden('You cannot give reputation to your own challenge.')
+    }
+    const index = challenge.reputationIds.findIndex(i => i === userId)
+    if (index !== -1) {
+      challenge.reputationIds.splice(index, 1)
+    } else {
+      challenge.reputationIds = [...challenge.reputationIds, userId]
     }
 
-    challenge.reputationIds = [...challenge.reputationIds, userId]
-
     await challenge.save()
-
     return challenge
   }
 
