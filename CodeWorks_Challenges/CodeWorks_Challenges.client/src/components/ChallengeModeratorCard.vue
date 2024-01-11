@@ -2,7 +2,7 @@
   <section class="container-fluid" v-if="moderator" :key="moderator?.id">
     <div class="card card-custom border-white border-0 mb-3" style="overflow-y: auto; height: 30vh;">
       <div class="card-custom-img" :style="`background-image: url(${moderator.profile.picture});`"></div>
-      <router-link :to="{ name: 'Profile Overview', params: { profileId: moderator.profile?.id } }">
+      <router-link :to="{ name: 'Profile.overview', params: { profileId: moderator.profile?.id } }">
         <p class="btn bg-dark btn-success text-success mod-profile-button">Visit Profile</p>
       </router-link>
       <div class="card-body" style="overflow-y: auto">

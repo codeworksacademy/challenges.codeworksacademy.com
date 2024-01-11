@@ -5,28 +5,28 @@
     </p>
     <div class="text-white d-flex flex-column">
       <div class="user-links-btn rounded">
-        <router-link :to="{name: 'Account Overview'}">
+        <router-link :to="{name: 'Account.overview'}">
           <button class="btn text-white link-btn">
             <i class="mdi mdi-layers"></i> Overview
           </button>
         </router-link>
       </div>
       <div class="user-links-btn rounded">
-        <router-link :to="{name: 'Account Challenges'}">
+        <router-link :to="{name: 'Account.challenges'}">
           <button class="btn text-white link-btn">
             <i class="mdi mdi-file-code"></i> Challenges
           </button>
         </router-link>
       </div>
       <div class="user-links-btn rounded">
-        <router-link :to="{name: 'Account Moderations'}">
+        <router-link :to="{name: 'Account.moderations'}">
           <button class="btn text-white link-btn">
             <i class="mdi mdi-account-star"></i> Moderations
           </button>
         </router-link>
       </div>
       <div class="user-links-btn rounded">
-        <router-link :to="{name: 'Account Badges'}">
+        <router-link :to="{name: 'Account.badges'}">
           <button class="btn text-white link-btn">
             <i class="mdi mdi-seal"></i> Badges
           </button>

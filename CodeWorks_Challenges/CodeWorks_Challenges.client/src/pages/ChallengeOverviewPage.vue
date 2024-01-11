@@ -33,6 +33,9 @@
       <h3>New Badge to Earn!</h3>
       <ChallengeBadge :challenge="challenge" :color="editable" />
     </div>
+    <div v-else-if="!challengeHasBadge" class="col-12 col-md-8 badge-card m-auto mt-3">
+      <h3>No Badge is set for this Challenge</h3>
+    </div>
   </section>
 </template>
 
@@ -92,6 +95,7 @@ export default {
       isMobile,
 
       challenge: computed(() => AppState.ChallengeState.challenge),
+      challengeHasBadge: computed(() => AppState.challenges.filter(c => c.badge !== null)),
       isPuzzle: computed(() => AppState.ChallengeState.challenge.category === CATEGORY_TYPES.PUZZLES),
       difficulty: computed(() => {
         const challenge = StrDifficultyNum(AppState.ChallengeState.challenge.difficulty)

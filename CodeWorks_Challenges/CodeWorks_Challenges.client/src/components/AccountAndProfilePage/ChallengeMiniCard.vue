@@ -21,7 +21,7 @@
     </div>
     <div class="col-3">
       <div class="d-flex align-items-center justify-content-center">
-        <router-link :to="{ name: 'Challenge.Overview', params: { challengeId: challengeProp.id } }">
+        <router-link :to="{ name: 'Challenge.overview', params: { challengeId: challengeProp.id } }">
           <button class="btn text-light" title="view challenge">
             <i class="mdi mdi-chevron-right"></i>
           </button>

@@ -28,22 +28,22 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'Account Overview',
+        name: 'Account.overview',
         component: loadPage('AccountOverview')
       },
       {
         path: 'challenges',
-        name: 'Account Challenges',
+        name: 'Account.challenges',
         component: loadPage('AccountChallenges')
       },
       {
         path: 'moderations',
-        name: 'Account Moderations',
+        name: 'Account.moderations',
         component: loadPage('AccountModerations')
       },
       {
         path: 'badges',
-        name: 'Account Badges',
+        name: 'Account.badges',
         component: loadPage('AccountBadges')
       }
     ]
@@ -55,17 +55,17 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'Challenges.Browse',
+        name: 'Challenges.browse',
         component: loadPage('ChallengeBrowsePage')
       },
       {
         path: ':category',
-        name: 'ChallengeCategory',
+        name: 'Challenges.challengeCategory',
         component: loadPage('ChallengeCategoryPage')
       },
       {
         path: ':difficulty',
-        name: 'ChallengeDifficulty',
+        name: 'Challenges.challengeDifficulty',
         component: loadPage('ChallengeDifficultyPage')
       }
     ]
@@ -74,42 +74,43 @@ const routes = [
     path: '/challenges/:challengeId',
     name: 'Challenge',
     component: loadPage('ChallengePage'),
+    redirect: { name: 'Challenge.overview' },
     children: [
       {
-        path: '',
-        name: 'Challenge.Overview',
+        path: 'overview',
+        name: 'Challenge.overview',
         component: loadPage('ChallengeOverviewPage')
       },
       {
         path: 'requirements',
-        name: 'Challenge.Requirements',
+        name: 'Challenge.requirements',
         component: loadPage('ChallengeRequirementsPage')
       },
       {
         path: 'statistics',
-        name: 'Challenge.Statistics',
+        name: 'Challenge.statistics',
         component: loadPage('ChallengeStatisticsPage')
       },
       {
         path: 'edit',
-        name: 'Challenge.ChallengeEditor',
+        name: 'Challenge.challengeEditor',
         component: loadPage('ChallengeEditor')
       },
       {
         path: 'submissions',
-        name: 'Challenge.ChallengeSubmissionsPage',
+        name: 'Challenge.challengeSubmissionsPage',
         component: loadPage('ChallengeSubmissionsPage')
         // beforeEnter: authguard
       },
       {
         path: 'moderators',
-        name: 'Challenge.ChallengeModeratorsPage',
+        name: 'Challenge.challengeModeratorsPage',
         component: loadPage('ChallengeModeratorsPage'),
         beforeEnter: authGuard
       },
       {
         path: 'grade',
-        name: 'Challenge.GradeSubmissionsPage',
+        name: 'Challenge.gradeSubmissionsPage',
         component: loadPage('GradeSubmissionsPage'),
         beforeEnter: authGuard
       }
@@ -122,17 +123,17 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'Profile Overview',
+        name: 'Profile.overview',
         component: loadPage('ProfileOverview')
       },
       {
         path: 'challenges',
-        name: 'Profile Challenges',
+        name: 'Profile.challenges',
         component: loadPage('ProfileChallenges')
       },
       {
         path: 'badges',
-        name: 'Profile Badges',
+        name: 'Profile.badges',
         component: loadPage('ProfileBadges')
       },
     ]

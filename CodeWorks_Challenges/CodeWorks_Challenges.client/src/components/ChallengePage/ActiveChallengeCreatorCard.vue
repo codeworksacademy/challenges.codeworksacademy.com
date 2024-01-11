@@ -1,7 +1,7 @@
 <template>
   <div class="creator-details-card p-2">
     <div class="col-4 d-flex flex-column justify-content-evenly align-items-center">
-      <router-link :to="{ name: 'Profile Overview', params: { profileId: challenge.creator.id } }">
+      <router-link :to="{ name: 'Profile.overview', params: { profileId: challenge.creator.id } }">
         <img :src="challenge.creator.picture" :alt="`Image for Challenge creator named '${challenge.creator.name}' is broken`" :title="`Image of the Challenge Creator; ${challenge.creator.name}`" class="img-fluid rounded-circle me-2" style="height: 75px;width:75px">
       </router-link>
       <h5 class="text-uppercase pe-2">Creator</h5>

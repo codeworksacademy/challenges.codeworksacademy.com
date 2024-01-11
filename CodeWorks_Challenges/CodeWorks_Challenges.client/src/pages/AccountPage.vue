@@ -13,7 +13,7 @@
           </div>
 
           <div class="col-4 align-items-center justify-content-end d-none d-md-flex summary-height">
-            <router-link :to="{ name: 'Account Challenges' }">
+            <router-link :to="{ name: 'Account.challenges' }">
               <button class="btn aqua-btn-outline my-2">
                 View my challenges
               </button>
