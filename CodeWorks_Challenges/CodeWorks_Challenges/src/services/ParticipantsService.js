@@ -25,8 +25,11 @@ function sanitizeBody(body) {
 class ParticipantsService {
 	
 	async getChallengeBadges(participant, accountId) {
+		const foundParticipation = await this.getParticipationByUserId(accountId)
+		const completedChallenges = foundParticipation.filter(participation => participation.status === 'completed');
 		const account = await dbContext.Account.findById(accountId);
-		participant.forEach(completed => {
+
+		completedChallenges.forEach(completed => {
 			const badge = participant.challenge.badge;
 
 			if (completed.accountId === account.id) {

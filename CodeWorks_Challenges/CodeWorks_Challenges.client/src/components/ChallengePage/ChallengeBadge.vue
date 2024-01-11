@@ -122,8 +122,8 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 90%;
-      height: 90%;
+      width: 100%;
+      height: 100%;
       clip-path: polygon(5% 80%, 5% 27%, 95% 27%, 95% 80%, 50% 100%);
       opacity: .85;
       filter: brightness(1);

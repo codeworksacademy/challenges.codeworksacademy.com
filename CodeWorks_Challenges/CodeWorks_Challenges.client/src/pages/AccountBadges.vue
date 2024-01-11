@@ -6,12 +6,24 @@
           <span>My Achievements</span>
         </h5>
         <div class="row badge-card d-flex flex-row justify-space-evenly align-items-center mt-4 me-3">
-          <div class="col-3 d-flex flex-column justify-content-center align-items-center my-3" v-for="earnedBadge in challengeBadges" :key="earnedBadge">
+          <div class="col-3 rounded-top d-flex flex-column justify-content-center align-items-center my-3" v-for="earnedBadge in challengeBadges" :key="earnedBadge">
             <router-link :to="{ name: 'Challenge.overview', params: { challengeId: earnedBadge.challengeId } }" :title="`Click to visit the '${earnedBadge.challenge.name}' Challenge Page to earn this badge!`" class=" badge-link">
               <ChallengeBadge :challenge="earnedBadge.challenge" />
             </router-link>
-            <div class="card bg-dark text-light p-1 px-3 mt-2">
-              <span class="text-capitalize fw-semibold text-truncate" style="max-width: 150px;"> {{ earnedBadge.challenge.name }} </span>
+            <div class="card col-12 d-flex justify-content-center align-items-center text-light mt-2 pb-2">
+              <span class="text-capitalize bg-black fw-semibold text-truncate text-center py-1 mb-1" style="width: 100%"> {{ earnedBadge.challenge.name }} </span>
+              <div v-if="earnedBadge.challenge.difficulty === 1" class="d-flex flex-column justify-content-center align-items-center">
+                <img src="../assets/img/easy-difficulty-chart.svg" :title="`Difficulty Rating: ${earnedBadge.challenge.difficulty}`" alt="Easy Difficulty Icon" class="img-fluid" style="width: 30px; height: 30px;">
+                <span class="text-capitalize text-success"> {{ earnedBadge.challenge.difficultyStr.text }}</span>
+              </div>
+              <div v-if="earnedBadge.challenge.difficulty === 2" class="d-flex flex-column justify-content-center align-items-center">
+                <img src="../assets/img/medium-difficulty-chart.svg" :title="`Difficulty Rating: ${earnedBadge.challenge.difficulty}`" alt="Medium Difficulty Icon" class="img-fluid" style="width: 30px; height: 30px;">
+                <span class="text-capitalize text-warning"> {{ earnedBadge.challenge.difficultyStr.text }}</span>
+              </div>
+              <div v-if="earnedBadge.challenge.difficulty === 3" class="d-flex flex-column justify-content-center align-items-center">
+                <img src="../assets/img/hard-difficulty-chart.svg" :title="`Difficulty Rating: ${earnedBadge.challenge.difficulty}`" alt="Hard Difficulty Icon" class="img-fluid" style="width: 30px; height: 30px;">
+                <span class="text-capitalize text-danger"> {{ earnedBadge.challenge.difficultyStr.text }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -65,6 +77,15 @@ export default {
       transform: rotate(-2deg);
       filter: brightness(1.2);
     }
+  }
+  .card >span {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  .card {
+    background-color: var(--border-main);
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
   }
 }
 </style>
