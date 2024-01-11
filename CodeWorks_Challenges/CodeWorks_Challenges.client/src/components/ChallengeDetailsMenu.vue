@@ -3,29 +3,29 @@
     <h4 class="px-3 pt-3" style="color: #7A7A7A">User Links</h4>
     <aside class="d-flex flex-column fs-4 mt-5 pt-0 px-5">
       <router-link :to="{ name: 'Challenge.overview' }" class="hover-green rounded-1 selectable text-white">
-        <i class="mdi mdi-file-document-multiple text-green fst-normal"> Overview</i>
+        <i class="mdi mdi-file-document-multiple text-green fst-normal p-3 ps-2"> Overview</i>
       </router-link>
       <router-link :to="{ name: 'Challenge.challengeSubmissionsPage' }" class="hover-orange rounded-1 selectable text-white">
-        <i class="mdi mdi-account-box-multiple-outline text-orange fst-normal"> Submissions</i>
+        <i class="mdi mdi-account-box-multiple-outline text-orange fst-normal p-3 ps-2"> Submissions</i>
       </router-link>
       <router-link :to="{ name: 'Challenge.requirements' }" class="hover-purple rounded-1 selectable text-white">
-        <i class="mdi mdi-file-document-check text-purple fst-normal"> Requirements</i>
+        <i class="mdi mdi-file-document-check text-purple fst-normal p-3 ps-2"> Requirements</i>
       </router-link>
       <router-link :to="{ name: 'Challenge.statistics' }" class="hover-primary rounded-1 selectable text-white">
-        <i class="mdi mdi-finance text-white fst-normal"> Statistics</i>
+        <i class="mdi mdi-finance text-white fst-normal p-3 ps-2"> Statistics</i>
       </router-link>
 
       <hr>
 
       <div v-if="isOwned || isModerator" class="d-flex flex-column justify-content-center">
         <router-link :to="{ name: 'Challenge.gradeSubmissionsPage' }" class="hover-info rounded-1 selectable text-white">
-          <i class="mdi mdi-progress-check text-info mt-1 fst-normal" style=""> Grade Users</i>
+          <i class="mdi mdi-progress-check text-info mt-1 fst-normal p-3 ps-2" style=""> Grade Users</i>
         </router-link>
         <router-link :to="{ name: 'Challenge.challengeEditor' }" class="hover-warning rounded-1 selectable text-white">
-          <i class="mdi mdi-archive-edit text-yellow fst-normal" style=""> Edit Challenge</i>
+          <i class="mdi mdi-archive-edit text-yellow fst-normal p-3 ps-2" style=""> Edit Challenge</i>
         </router-link>
         <router-link :to="{ name: 'Challenge.challengeModeratorsPage' }" class="hover-danger rounded-1 selectable text-white">
-          <i class="mdi mdi-archive-edit text-danger fst-normal" style="">Moderators</i>
+          <i class="mdi mdi-archive-edit text-danger fst-normal p-3 ps-2" style="">Moderators</i>
         </router-link>
 
         <!-- <i @click="deprecateChallenge(challenge.id)" class="cancel-button mdi mdi-cancel text-danger selectable text-white" style="white-space: nowrap"> Deprecate Challenge</i> -->
