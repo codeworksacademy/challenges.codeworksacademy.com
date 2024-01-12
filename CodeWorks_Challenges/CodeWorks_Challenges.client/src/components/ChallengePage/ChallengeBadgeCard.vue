@@ -6,20 +6,10 @@
       </h3>
       <div class="backdrop"></div>
       <p class="card-hover__text"> Hover for Preview </p>
-      <div class="text-center" style="text-shadow: 2px 2px 2px #000000;">
-        <div class="card-hover__link">
-
-          <!-- SECTION - ADD AN '@click' TO ENABLE OFFCANVAS DETAILS CARD (OPENS THE OFFCANVAS) ------------------------------>
-          <span id="offcanvas-button" class="my-link offcanvas-button" type="button"  aria-controls="detailsOffcanvas">Details</span>
-          <svg fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="#281704">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-          </svg>
-        </div>
-      </div>
     </div>
 
     <div class="card-hover__extra">
-      <h5 class="mt-4"><span>Craving </span> "Item" <span> today?</span> </h5>
+      <!-- <h4 class="mb-5 pb-5"><span>Play </span> to <span> Win!</span> </h4> -->
     </div>
     <div class="enlarge-badge">
       <span><ChallengeBadge :challenge="challenge" /></span>
@@ -60,11 +50,7 @@ setup(props) {
 
 $firaSans: 'Fira Sans', sans-serif;
 
-h1,
-h2,
-h3,
-h4,
-h5 {
+h3 {
   font-weight: 800;
   margin-top: 0;
   margin-bottom: 0;
@@ -83,19 +69,7 @@ h5 {
     position: absolute;
     top: 0;
     left: 0;
-    
-    
   }
-}
-.offcanvas-xxl {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-width: 75% !important;
-  right: 0 !important;
-  left: 0 !important;
-  margin: auto !important;
 }
 .card-hover__content {
   padding-top: 125px !important;
@@ -110,6 +84,7 @@ h5 {
   position: relative;
   overflow: hidden;
   box-shadow: 0 0 32px -10px rgba(0,0,0,0.08);
+  z-index: 3;
 
   &:has(#{$root}__link:hover) {
     #{$root}__extra {
@@ -127,14 +102,8 @@ h5 {
         transform: translateY(225%);
         padding: 25px 30px;
         transition: all 0.25s cubic-bezier(.1,.72,.4,.97);
-        z-index: 2;
+        z-index: 1;
         opacity: .9;
-      }
-      &__link {
-        bottom: -15rem;
-        opacity: 1;
-        transform: translate(-50%, 0);
-        transition: all 0.3s 0.25s cubic-bezier(.1,.72,.4,.97);
       }
     }
     .enlarge-badge:active {
@@ -154,7 +123,7 @@ h5 {
     transform: translateY(0);
     transition: all 0.25s 0.25s cubic-bezier(.1,.72,.4,.97);
     will-change: bottom, background-color, transform, padding;
-    z-index: 1;
+    z-index: 2;
     .backdrop {
       width: 100%;
       height: 100%;
@@ -199,36 +168,9 @@ h5 {
   &__text {
     color: var(--shadow-green);
     text-shadow: 3px 3px 5px  var(--text-sub);
-    font-size: 0.75rem;
+    margin-top: 1%;
+    font-size: 1rem;
     filter: brightness(1.15);
-  }
-  &__link {
-    font-size: 1.25rem;
-    font-weight: 700;
-    position: absolute;
-    bottom: -14.5rem;
-    left: 50%;
-    transform: translate(-50%, 10%);
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    text-decoration: none;
-    color: var(--shadow-blue);
-    text-shadow: 2px 2px 2px #000000;
-    background-color: 0 0 0 2px #000000;
-    opacity: 0;
-    padding: 10px;
-    transition: all 0.25s;   
-    &:hover {
-      svg {
-        transform: translateX(10px);
-      }
-    }
-    svg {
-      width: 18px;
-      margin-left: 4px;
-      transition: transform 0.3s;
-    }
   }
   &__extra {
     height: 50%;
@@ -237,15 +179,11 @@ h5 {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    width: 100%;
-    font-size: 1.4rem;
     text-align: center;
-    background-color: #fffdcb9b;
     padding: 40px;
-    bottom: 0;
+    bottom: 20%;
     color: var(--text-main);
     text-shadow: 2px 2px 3px #ffffff;
-    transform: translateY(100%);
     will-change: transform;
     transition: transform 0.25s;
     z-index: 1;
@@ -254,40 +192,14 @@ h5 {
       text-shadow: 2px 2px 2px var(--shadow-blue);
     }
   }
-  .my-link:hover {
-    color: var(--text-main) !important;
-    text-shadow: 2px 2px 3px var(--shadow-blue) !important;
-    transition: all 0.25s;
-  }
-  img {
+  .enlarge-badge {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: -60%;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center;
-    transform: scale(1.2);
+    transform: scale(2) translateY(53%);
     transition: 0.25s 0.25s transform cubic-bezier(.1,.72,.4,.97);
     opacity: 1;
   }
-}
-.enlarge-badge {
-  position: absolute;
-  top: -60%;
-  width: 100%;
-  height: 100%;
-  transform: scale(2) translateY(53%);
-  transition: 0.25s 0.25s transform cubic-bezier(.1,.72,.4,.97);
-  opacity: 1;
-
-}
-.offcanvas-button {
-  position: absolute;
-  bottom: 2.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  text-shadow: 2px 2px 2px black;
-  transition: all 0.25s;
 }
 </style>
