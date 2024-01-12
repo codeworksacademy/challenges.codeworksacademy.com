@@ -1,17 +1,17 @@
 <template>
   <div class="row d-flex justify-content-center align-items-center" style="width: 100%;">
-    <ChallengeCategoryCard :categoryTypes="categoryTypes" />
+    <ChallengesCategoryCard :categoryTypes="categoryTypes" />
   </div>
 </template>
 
 <script>
-import ChallengeCategoryCard from '../components/ChallengesPage/ChallengeCategoryCard.vue';
+import ChallengesCategoryCard from '../components/ChallengesPage/ChallengesCategoryCard.vue';
 import { ref } from 'vue';
 import { CATEGORY_TYPES } from "../constants/index.js";
 
 export default {
   components: {
-    ChallengeCategoryCard,
+    ChallengesCategoryCard,
   },
   setup() {
     const isActive = ref(false);

@@ -15,6 +15,7 @@ function sanitizeBody(body) {
 		submission: body.submission,
 		requirements: body.requirements,
 		grade: body.grade,
+		badge: body.badge,
 		feedback: body.feedback,
 		completedAt: body.completedAt
 	}
@@ -22,12 +23,20 @@ function sanitizeBody(body) {
 }
 
 class ParticipantsService {
-	async getChallengeRewards(accountId) {
-		const rewards = await dbContext.ChallengeParticipants.find({ accountId, status: 'completed' })
-			.populate('challenge', 'name badge')
-		// .select('-submission')
-		return rewards
-	}
+	
+	async getChallengeBadges(participant, accountId) {
+		const foundParticipation = await this.getParticipationByUserId(accountId)
+		const completedChallenges = foundParticipation.filter(participation => participation.status === 'completed');
+		const account = await dbContext.Account.findById(accountId);
+
+		completedChallenges.forEach(completed => {
+			const badge = participant.challenge.badge;
+
+			if (completed.accountId === account.id) {
+				account.badges = [...account.badges, badge];
+			}
+		})
+  }
 
 	async joinChallenge(newParticipant) {
 
@@ -65,7 +74,7 @@ class ParticipantsService {
 		return participants
 	}
 
-	async getMyParticipations(accountId) {
+	async getMyParticipation(accountId) {
 		const participants = await dbContext.ChallengeParticipants.find({ accountId }).populate({
 			path: 'challenge',
 			populate: { path: 'creator' }
@@ -73,12 +82,12 @@ class ParticipantsService {
 		return participants
 	}
 
-	async getParticipationsByUserId(userId) {
-    const participants = await dbContext.ChallengeParticipants.find({userId}).populate({
+	async getParticipationByUserId(userId) {
+    const participation = await dbContext.ChallengeParticipants.find({accountId: userId }).populate({
 			path: 'challenge',
 			populate: { path: 'creator' }
 		}).populate('profile', PROFILE_FIELDS)
-		return participants
+		return participation
   }
 
 	async getParticipantsByChallengeCreatorId(userId) {
@@ -122,6 +131,8 @@ class ParticipantsService {
 
 		if (participantProgress.status == 'completed') {
 			participantProgress.completedAt = new Date()
+			this.getChallengeBadges(participant, participant.accountId)
+
 		}
 		const isChallengeModerator = await challengeModeratorsService.getModeratorByUserIdAndChallengeId(userId, participant.challengeId)
 

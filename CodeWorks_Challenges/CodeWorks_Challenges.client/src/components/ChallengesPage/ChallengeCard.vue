@@ -1,6 +1,6 @@
 <template>
   <section v-if="challenge" :key="challenge?.id" class="">
-    <router-link :to="{ name: 'Challenge.Overview', params: { challengeId: challenge.id } }" class=""
+    <router-link :to="{ name: 'Challenge.overview', params: { challengeId: challenge.id } }" class=""
       style="z-index: 0; text-decoration: none;">
       <div class="challenge-card d-flex flex-row align-items-center text-light"
         style="height: 50px; font-weight: 500; padding: 1.75rem 0 1.75rem 0">

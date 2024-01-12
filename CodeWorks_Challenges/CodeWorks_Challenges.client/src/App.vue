@@ -1,5 +1,5 @@
 <template>
-  <header style="background: var(--bg-main);">
+  <header style="background: var(--bg-sub);">
     <Navbar />
   </header>
 

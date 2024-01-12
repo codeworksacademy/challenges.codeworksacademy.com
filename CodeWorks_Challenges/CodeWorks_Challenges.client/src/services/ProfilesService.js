@@ -14,8 +14,25 @@ class ProfilesService {
 
   async getProfile(profileId) {
     const res = await api.get(`api/profiles/${profileId}`)
-    AppState.ProfileState.profile = new Profile(res.data)
-    return AppState.ProfileState.profile
+    const profile = new Profile(res.data);
+    // profile.rank = res.data.rank;
+    // profile.reputation = res.data.reputation;
+    AppState.ProfileState.profile = profile;
+    return profile;
+  }
+
+  async getProfileData() {
+    try {
+      await Promise.all([
+        this.getProfileChallenges(),
+        this.getParticipation(),
+        this.calculateProfileRank(),
+        this.calculateProfileReputation()
+      ])
+    } catch (error) {
+      // todo figure out repeat calls
+      logger.error(error)
+    }
   }
 
   async getChallenges(profileId) {
@@ -23,9 +40,22 @@ class ProfilesService {
     AppState.ProfileState.challenges = res.data.map(m => new Challenge(m))
   }
 
-  async getParticipations(profileId) {
-    const res = await api.get(`api/profiles/${profileId}/participations`)
-    AppState.ProfileState.participations = res.data.map(m => new ChallengeParticipant(m))
+  async getParticipation(profileId) {
+    const res = await api.get(`api/profiles/${profileId}/participation`)
+    AppState.ProfileState.participation = res.data.map(m => new ChallengeParticipant(m))
+  }
+
+  async calculateProfileRank(profileId) {
+    const res = await api.get(`api/profiles/${profileId}/rank`)
+    logger.log('[CURRENT PROFILE RANK]', res.data)
+    AppState.ProfileState.profile.rank = res.data.rank
+    return res.data
+  }
+
+  async calculateProfileReputation(profileId) {
+    const res = await api.get(`api/profiles/${profileId}/reputation`)
+    AppState.ProfileState.profile.reputation = res.data.reputation
+    return res.data
   }
   async getMilestones(profileId) {
     const res = await api.get(`api/profiles/${profileId}/milestones`)
@@ -36,7 +66,7 @@ class ProfilesService {
     AppState.ProfileState.profile = null
     AppState.ProfileState.challenges = []
     AppState.ProfileState.moderations = []
-    AppState.ProfileState.participations = []
+    AppState.ProfileState.participation = []
     AppState.ProfileState.milestones = []
   }
 

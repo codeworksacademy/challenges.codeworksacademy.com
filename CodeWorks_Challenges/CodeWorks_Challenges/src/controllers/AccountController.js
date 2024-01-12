@@ -12,9 +12,9 @@ export class AccountController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getUserAccount)
       .get('/challenges', this.getMyChallenges)
-      .get('/participations', this.getMyParticipations)
-      .get('/rank', this.calculateMyRank)
-      .get('/reputation', this.calculateMyReputation)
+      .get('/participation', this.getMyParticipation)
+      .get('/rank', this.calculateAccountRank)
+      .get('/reputation', this.calculateAccountReputation)
       .put('', this.updateAccount)
       .put('/:milestoneId/accountMilestones', this.claimMyMilestone)
       .post('/accountMilestones', this.checkMilestonesByAccountId)
@@ -50,11 +50,10 @@ export class AccountController extends BaseController {
     }
   }
 
-  async getMyParticipations(req, res, next) {
+  async getMyParticipation(req, res, next) {
     try {
       const accountId = req.userInfo.id
-      const answers = await participantsService.getMyParticipations(accountId)
-
+      const answers = await participantsService.getMyParticipation(accountId)
       res.send(answers)
     } catch (error) {
       next(error)
@@ -82,21 +81,30 @@ export class AccountController extends BaseController {
     }
   }
 
-  async calculateMyRank(req, res, next) {
+  async calculateAccountRank(req, res, next) {
     try {
-      const userId = req.userInfo.id
-      const rank = await accountService.calculateMyRank(userId)
+      const user = req.userInfo
+      const rank = await accountService.calculateAccountRank(user)
       return res.send(rank)
     } catch (error) {
       next(error);
     }
   }
 
-  async calculateMyReputation(req, res, next) {
+  async calculateAccountReputation(req, res, next) {
     try {
-      const reputationScore = await accountService.calculateMyReputation(req.userInfo)
+      const reputationScore = await accountService.calculateAccountReputation(req.userInfo)
 
       res.send(reputationScore)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getAccountBadges(req, res, next) {
+    try {
+      const badges = await accountService.getAccountBadges(req.userInfo)
+      return res.send(badges)
     } catch (error) {
       next(error)
     }

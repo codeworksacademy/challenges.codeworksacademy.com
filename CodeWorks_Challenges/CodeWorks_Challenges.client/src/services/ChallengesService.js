@@ -16,10 +16,10 @@ class ChallengesService {
   }
 
   async findChallenges(nameQuery) {
-    const res = await api.get(`api/challenges/${nameQuery}/search`)
-    logger.log('[FINDCHALLENGES]', res.data)
+    const res = await api.get(`/api/challenges?name=${nameQuery}`)
     AppState.challenges = res.data.map(c => new Challenge(c))
-    logger.log('Queried Challenges by name:', AppState.challenges)
+    logger.log('Queried Challenges:', AppState.challenges)
+    //If it says cannot create property 'name' on string '' it's because the query is empty. That's because it's not a string, it's an object.
   }
 
   async findChallengesByCategory(query) {
@@ -88,9 +88,7 @@ class ChallengesService {
 
   async giveReputation(challengeId) {
     const res = await api.put(`api/challenges/${challengeId}/reputation`)
-
     logger.log('[GIVING REPUTATION]', res.data)
-
     AppState.ChallengeState.challenge = new Challenge(res.data)
 
     return res.data

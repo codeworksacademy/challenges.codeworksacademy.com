@@ -60,7 +60,7 @@ class ParticipantsService {
     logger.log('[Participants in this challenge]:', AppState.ChallengeState.participants)
   }
 
-  async getParticipationsByUserId(userId){
+  async getParticipationByUserId(userId){
     const res = await api.get(`api/profiles/${userId}/participants`)
 
     logger.log('[GETTING PARTICIPATIONS BY USER ID', res.data)

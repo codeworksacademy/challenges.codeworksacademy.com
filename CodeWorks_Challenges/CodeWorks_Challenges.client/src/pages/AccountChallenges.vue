@@ -67,25 +67,7 @@ export default {
         return {
           challengeTypes,
           challenges: computed(() => {
-            if(challengeTypes.value == 'Created'){
-              return AppState.AccountState.challenges
-            } else if(challengeTypes.value == 'Moderated'){
-              const modChallenges = []
-
-              const approvedModerations = AppState.ChallengeState.moderators.filter(m => m.status == 'active' && m.challenge.creatorId != AppState.AccountState.account.id)
-
-              approvedModerations.forEach(m => modChallenges.push(m.challenge))
-
-              return modChallenges
-            } else if(challengeTypes.value == 'Participating'){
-              const partChallenges = []
-
-              AppState.AccountState.participations.forEach(p => partChallenges.push(p.challenge))
-
-              return partChallenges
-            } else{
-              return AppState.AccountState.challenges
-            }
+            return AppState.AccountState.challenges.filter(c => c.creatorId == AppState.AccountState.account.id)
           }),
         };
       },

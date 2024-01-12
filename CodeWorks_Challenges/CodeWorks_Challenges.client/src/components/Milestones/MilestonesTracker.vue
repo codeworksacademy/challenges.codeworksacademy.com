@@ -14,12 +14,15 @@ import { computed, watchEffect } from 'vue';
 import MilestoneCard from './MilestoneCard.vue';
 import { milestonesService } from '../../services/MilestonesService';
 import { accountMilestonesService } from '../../services/AccountMilestonesService';
+import { logger } from "../../utils/Logger.js";
 
 export default {
   setup() {
     const route = useRoute();
 
     // QUESTION REFACTOR can I do this once on login?
+    // This is the key trigger for the calculation of milestones, With it just on login, You could complete 3 challenges and see no results without loging in and out.
+    // The 'get' that was a layer up in AccountMilestones.vue wasn't following order of operations and would never allow a new profile to generate miletstones.
     async function checkMyMilestones() {
       try {
         const checks = AppState.milestoneChecks;
@@ -47,7 +50,7 @@ export default {
 
     watchEffect(() => {
       if (AppState.AccountState.account.id) {
-        // checkMyMilestones();
+        checkMyMilestones();
       }
     });
 

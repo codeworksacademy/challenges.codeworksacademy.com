@@ -1,5 +1,5 @@
 <template>
-  <div class="details-card">
+  <div :class="`details-card ${themeStyle ? 'theme-style' : ''} rounded text-capitalize`" :style="{ backgroundColor: bgColor, borderColor: color, borderStyle: 'groove' }">
     <div v-if="isOwned || isModerator">
       <i class="mdi mdi-bell fs-1"></i>
       <h3> {{ challenge.completedCount }} / {{ challenge.participantCount }} </h3>
@@ -23,7 +23,10 @@ export default {
     challenge: {
       type: Challenge || Object,
       required: true
-    }
+    },
+    bgColor: {type: String, required: true},
+    color: {type: String, required: true},
+    themeStyle: {type: Boolean, required: true, default: false}
   },
   setup(props) {
     const isOwned = computed(() => {

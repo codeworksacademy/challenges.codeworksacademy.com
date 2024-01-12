@@ -66,6 +66,7 @@ import { formatEnum } from '../../utils/FormatEnum'
 import { computed, ref } from 'vue'
 import { participantsService } from '../../services/ParticipantsService'
 import { ChallengeParticipant } from '../../models/ChallengeParticipant'
+import Pop from "../../utils/Pop.js"
 
 export default {
   props: {
@@ -88,17 +89,14 @@ export default {
 
     async function gradeChallengeParticipant() {
       try {
-        // REVIEW 🟡 [JAKE] - Is this logic being handled properly? What about the case that a challenge only has 4 or 5 requirements? In this case I'm assuming you want to allow less than 3 missed checks to still be considered a completed challenge. If so - I'm assuming this should either be a util function or computed property as it would check the length of the completed requirements array and conditionally allow a certain amount of missedChecks depending on the number of requirements? - AJ 
-
-        // Two potential options for solving this problem
-        //  - Challenges must have a minimum x number of requirements.
-        //  - Challenge creator can declare this number on the challenge. Ensure the number is <= length
         const newGrade = editable.value
         const missedChecks = newGrade.requirements.filter(r => !r.isComplete).length
         newGrade.status = missedChecks > 2
           ? SUBMISSION_TYPES.RETURNED_FOR_REVIEW
           : SUBMISSION_TYPES.COMPLETED
         await participantsService.gradeChallengeParticipant(newGrade)
+        logger.log(`[GRADED PARTICIPANT]: ${newGrade}`)
+        Pop.success(`${editable.value.profile.name} has been graded! Result: ${editable.value.status}`)
       } catch (error) {
         logger.error(error)
       }

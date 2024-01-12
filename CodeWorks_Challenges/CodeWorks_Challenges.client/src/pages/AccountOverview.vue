@@ -12,9 +12,8 @@
           icon="mdi-file-sign" :themeStyle="true" :leftAlignedIcon="false" />
       </div>
 
-      <!-- TODO - Add functionality to Badges -->
       <div class="col-md-4 col-12">
-        <StatCard title="Milestones" :number="milestones.length" color="#6F42C1" bgColor="#1D213A" icon="mdi-seal"
+        <StatCard title="Challenge Badges" :number="badges.length" color="#6F42C1" bgColor="#1D213A" icon="mdi-seal"
           :themeStyle="true" :leftAlignedIcon="false" />
       </div>
     </section>
@@ -46,14 +45,18 @@ export default {
     return {
       account: computed(() => AppState.AccountState.account),
       challenges: computed(() => AppState.AccountState.challenges),
-      participations: computed(() => AppState.AccountState.participations),
+      participation: computed(() => AppState.AccountState.participation),
       milestones: computed(() => AppState.AccountState.milestones),
       completedChallenges: computed(() => {
-        const completed = AppState.AccountState.participations.filter(p => p.status == 'completed')
-
+        const completed = AppState.AccountState.participation.filter(p => p.status == 'completed')
         return completed
       }),
-    };
+      badges: computed(() => {
+        const challengeWithBadge = AppState.AccountState.participation.filter(p => p.status == 'completed')
+        const hasBadge = challengeWithBadge.filter(c => c.challenge.badge)
+        return hasBadge
+      })
+    }
   },
   components: { RankCard, StatCard, StatCard }
 }

@@ -9,11 +9,11 @@
         <section class="row justify-content-between">
           <div class="col-md-7 col-12 d-flex summary-height">
             <SummarySection :profile="account" :milestones="milestones" :challenges="challenges"
-              :participations="participations" />
+              :participation="participation" />
           </div>
 
           <div class="col-4 align-items-center justify-content-end d-none d-md-flex summary-height">
-            <router-link :to="{ name: 'Account Challenges' }">
+            <router-link :to="{ name: 'Account.challenges' }">
               <button class="btn aqua-btn-outline my-2">
                 View my challenges
               </button>
@@ -29,7 +29,7 @@
       </div>
 
       <div class="col-12 col-md-9">
-        <router-view></router-view>
+        <router-view />
       </div>
     </section>
   </div>
@@ -70,7 +70,7 @@ export default {
     return {
       account: computed(() => AppState.AccountState.account),
       challenges: computed(() => AppState.AccountState.challenges),
-      participations: computed(() => AppState.AccountState.participations),
+      participation: computed(() => AppState.AccountState.participation),
       milestones: computed(() => AppState.AccountState.milestones)
     };
   },

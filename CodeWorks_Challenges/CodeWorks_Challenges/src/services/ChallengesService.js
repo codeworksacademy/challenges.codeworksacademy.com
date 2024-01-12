@@ -15,7 +15,7 @@ class ChallengesService {
 
   async getAllChallenges() {
 
-    const challenges = await dbContext.Challenges.find()
+    const challenges = await dbContext.Challenges.find({status: 'published'})
       .populate('creator participantCount completedCount', PROFILE_FIELDS)
       .select('-answer') //⚠️answer here.
       .sort({ createdAt: -1 })
@@ -39,23 +39,14 @@ class ChallengesService {
 
   async findChallengesByQuery(name = '', offset = 0) {
     const filter = new RegExp(name, 'ig')
-    return await dbContext.Challenges
-      .aggregate([
-        {
-          $match: { name: filter }
-        }, {
-          $lookup: { //.populate() does not work here, this doesn't work yet
-            from: 'Account',
-            localField: 'creatorId',
-            foreignField: '_id',
-            as: 'creator'
-          }
-        }
-      ])
+      const challenges = await dbContext.Challenges
+      .find({ name: filter })
+      .populate('creator participantCount completedCount', PROFILE_FIELDS)
       .collation({ locale: 'en_US', strength: 1 })
       .skip(Number(offset))
       .limit(20)
       .exec()
+      return challenges
   }
 
   //This is where editing the challenge will have answers populated
@@ -87,6 +78,7 @@ class ChallengesService {
     challenge.autoGrade = challengeData.autoGrade || challenge.autoGrade
     challenge.difficulty = challengeData.difficulty || challenge.difficulty
     challenge.coverImg = challengeData.coverImg || challenge.coverImg
+    challenge.badge = challengeData.badge || challenge.badge;
     challenge.answer = challengeData.answer || challenge.answer
 
     await challenge.save()
@@ -96,16 +88,17 @@ class ChallengesService {
   async giveReputation(challengeId, userId) {
     const challenge = await this.getChallengeById(challengeId)
 
-    const foundUserId = challenge.reputationIds.find(i => i === userId)
-
-    if (foundUserId) {
-      throw new Forbidden('You have already given reputation to this challenge. You cannot give reputation twice.')
+    if (challenge.creatorId === userId) {
+      throw new Forbidden('You cannot give reputation to your own challenge.')
+    }
+    const index = challenge.reputationIds.findIndex(i => i === userId)
+    if (index !== -1) {
+      challenge.reputationIds.splice(index, 1)
+    } else {
+      challenge.reputationIds = [...challenge.reputationIds, userId]
     }
 
-    challenge.reputationIds = [...challenge.reputationIds, userId]
-
     await challenge.save()
-
     return challenge
   }
 

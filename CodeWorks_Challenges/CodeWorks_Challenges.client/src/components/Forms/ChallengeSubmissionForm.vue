@@ -87,8 +87,8 @@ export default {
           Modal.getOrCreateInstance('#challengeSubmissionForm').hide();
           Pop.success('Challenge Submitted!');
           router.push({
-            name: 'ChallengeSubmissionsPage',
-            path: `/challenges/${AppState.ChallengeState.challenge?.id}/submissions`
+            name: 'Challenge.challengeSubmissionsPage',
+            path: `/challenges/${newParticipant.challengeId}/submissions`
           })
         }
       } catch (error) {
@@ -119,8 +119,8 @@ export default {
         Modal.getOrCreateInstance('#challengeSubmissionForm').hide();
         Pop.toast(`Removed Participation: ${newSubmission}`);
         router.push({
-          name: 'GradeSubmissionsPage',
-          path: `/moderators/${participantId}/grade`
+          name: 'Challenge.gradeSubmissionsPage',
+          path: `/challenges/${newSubmission.challengeId}/grade`
         });
       } catch (error) {
         logger.error(error);

@@ -1,5 +1,5 @@
 <template>
-  <div class="details-card text-capitalize">
+  <div :class="`details-card ${themeStyle ? 'theme-style' : ''} rounded text-capitalize`" :style="{backgroundColor: bgColor, borderColor: color, borderStyle: 'groove'}">
     <i class="mdi mdi-account-star-outline"></i>
     <h3 class="circle-container"><span class="circle">+{{ challenge.reputationIds.length }}</span></h3>
     <h6 class="text-center pb-2">Total Reputation</h6>
@@ -13,7 +13,10 @@ export default {
     challenge: {
       type: Challenge || Object,
       required: true
-    }
+    },
+    bgColor: {type: String, required: true},
+    color: {type: String, required: true},
+    themeStyle: {type: Boolean, required: true, default: false}
   }
 }
 </script>

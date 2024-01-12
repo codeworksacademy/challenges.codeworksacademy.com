@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <section class="my-3">
-      <div class="col-12 text-white">
+      <div class="text-white">
         <div class="row badge-card d-flex flex-row justify-space-evenly align-items-center mt-4 me-3">
           <div class="col-3 rounded-top d-flex flex-column justify-content-center align-items-center my-3" v-for="earnedBadge in challengeBadges" :key="earnedBadge">
             <router-link :to="{ name: 'Challenge.overview', params: { challengeId: earnedBadge.challengeId } }" :title="`Click to visit the '${earnedBadge.challenge.name}' Challenge Page to earn this badge!`" class=" badge-link">
@@ -33,6 +33,8 @@
 import { computed } from "vue";
 import { AppState } from '../AppState';
 import ChallengeBadge from "../components/ChallengePage/ChallengeBadge.vue";
+import { accountService } from "../services/AccountService.js";
+import { logger } from "../utils/Logger.js";
 
 export default {
   setup() {
@@ -42,7 +44,7 @@ export default {
       challenges: computed(() => {
         return AppState.AccountState.challenges.filter(c => c.creatorId !== AppState.AccountState.account.id)
       }),
-      challengeBadges: computed(() => AppState.AccountState.participation.filter(p => p.status == 'completed'))
+      challengeBadges: computed(() => AppState.ProfileState.participation.filter(p => p.status == 'completed')),
     }
   },
   components: { ChallengeBadge }

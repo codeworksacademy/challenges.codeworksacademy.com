@@ -21,7 +21,7 @@ class AccountService {
     try {
       await Promise.all([
         this.getMyChallenges(),
-        this.getMyParticipations(),
+        this.getMyParticipation(),
         this.calculateAccountRank(),
         this.calculateReputation()
       ])
@@ -48,10 +48,10 @@ class AccountService {
     }
   }
 
-  async getMyParticipations() {
-    const res = await api.get('/account/participations')
-    AppState.AccountState.participations = res.data.map(p => new ChallengeParticipant(p))
-    logger.log('[GET PARTICIPANTS BY ACCOUNT]', AppState.AccountState.participations)
+  async getMyParticipation() {
+    const res = await api.get('/account/participation')
+    AppState.AccountState.participation = res.data.map(p => new ChallengeParticipant(p))
+    logger.log('[GET PARTICIPANTS BY ACCOUNT]', AppState.AccountState.participation)
   }
 
   async calculateAccountRank() {
@@ -62,7 +62,7 @@ class AccountService {
   }
 
   async calculateReputation() {
-    const res = await api.get('account/reputation')
+    const res = await api.get('/account/reputation')
     AppState.AccountState.account.reputation = res.data.reputation
 
     logger.log('[CURRENT ACCOUNT REPUTATION]', res.data)

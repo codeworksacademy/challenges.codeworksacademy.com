@@ -13,7 +13,7 @@
       </div>
 
       <div class="col-md-4 col-12">
-        <StatCard title="Milestones" :number="milestones.length" color="#6F42C1" bgColor="#1D213A" icon="mdi-seal"
+        <StatCard title="Challenge Badges" :number="badges.length" color="#6F42C1" bgColor="#1D213A" icon="mdi-seal"
           :themeStyle="true" :leftAlignedIcon="false" />
       </div>
     </section>
@@ -42,9 +42,10 @@ export default {
   setup() {
     return {
       profile: computed(() => AppState.ProfileState.profile),
+      profileRank: computed(() => AppState.ProfileState.profile.rank),
       milestones: computed(() => AppState.ProfileState.milestones),
       challenges: computed(() => AppState.ProfileState.challenges),
-      badges: computed(() => AppState.ProfileState.participations.filter(p => p.status == 'completed'))
+      badges: computed(() => AppState.ProfileState.participation.filter(p => p.status == 'completed'))
     };
   },
   components: { StatCard, RankCard }

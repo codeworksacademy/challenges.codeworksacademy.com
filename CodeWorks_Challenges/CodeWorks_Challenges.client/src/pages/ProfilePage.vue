@@ -8,12 +8,12 @@
       <div class="col-12 text-white">
         <section class="row justify-content-between">
           <div class="col-md-7 col-12 d-flex summary-height">
-            <SummarySection :profile="profile" :challenges="challenges" :participations="participations"
+            <SummarySection :profile="profile" :challenges="challenges" :participation="participation"
               :milestones="milestones" />
           </div>
 
           <div class="col-4 align-items-center justify-content-end d-none d-md-flex summary-height">
-            <router-link :to="{ name: 'Profile Challenges' }">
+            <router-link :to="{ name: 'Profile.challenges' }">
               <button class="btn aqua-btn-outline my-2">
                 View challenges
               </button>
@@ -29,7 +29,7 @@
       </div>
 
       <div class="col-12 col-md-9 p-0">
-        <router-view></router-view>
+        <router-view />
       </div>
     </section>
   </div>
@@ -81,10 +81,18 @@ export default {
     }
 
     // this also includes the badges associated with this profile
-    // participations => p.status == 'completed'||'active'
-    async function getParticipations() {
+    // participation => p.status == 'completed'||'active'
+    async function getParticipation() {
       try {
-        return await profilesService.getParticipations(profileId.value)
+        return await profilesService.getParticipation(profileId.value)
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+
+    async function calculateProfileRank() {
+      try {
+        return await profilesService.calculateProfileRank(profileId.value)
       } catch (error) {
         Pop.error(error.message)
       }
@@ -113,8 +121,9 @@ export default {
         AppState.ProfileState.loading = true
         await Promise.allSettled([
           getProfile(),
-          getParticipations(),
+          getParticipation(),
           getChallenges(),
+          calculateProfileRank(),
           getMilestones(),
         ])
 
@@ -143,7 +152,7 @@ export default {
       loading: computed(() => AppState.ProfileState.loading),
       profile: computed(() => AppState.ProfileState.profile),
       challenges: computed(() => AppState.ProfileState.challenges),
-      participations: computed(() => AppState.ProfileState.participations),
+      participation: computed(() => AppState.ProfileState.participation),
       milestones: computed(() => AppState.ProfileState.milestones),
       MilestonesError
     };

@@ -1,7 +1,7 @@
 <template>
-  <div class="creator-details-card p-2">
+  <div :class="`creator-details-card ${themeStyle ? 'theme-style' : ''} rounded text-capitalize p-2`" :style="{backgroundColor: bgColor, borderColor: color, borderStyle: 'groove'}">
     <div class="col-4 d-flex flex-column justify-content-evenly align-items-center">
-      <router-link :to="{ name: 'Profile Overview', params: { profileId: challenge.creator.id } }">
+      <router-link :to="{ name: 'Profile.overview', params: { profileId: challenge.creator.id } }">
         <img :src="challenge.creator.picture" :alt="`Image for Challenge creator named '${challenge.creator.name}' is broken`" :title="`Image of the Challenge Creator; ${challenge.creator.name}`" class="img-fluid rounded-circle me-2" style="height: 75px;width:75px">
       </router-link>
       <h5 class="text-uppercase pe-2">Creator</h5>
@@ -28,7 +28,10 @@ export default {
     challenge: {
       type: Challenge|| Object,
       required: true
-    }
+    },
+    bgColor: {type: String, required: true},
+    color: {type: String, required: true},
+    themeStyle: {type: Boolean, required: true, default: false}
   },
   setup(props) {
     const route = useRoute()
@@ -50,6 +53,11 @@ export default {
     async function giveReputation(){
         try {
           await challengesService.giveReputation(route.params.challengeId)
+          if(gaveReputation.value){
+            Pop.toast(`The CodeWorks team and ${props.challenge.creator.name} appreciate you gifting +1 Reputation to challenge '${props.challenge.name}'!`, 'success')
+          } else {
+            Pop.toast(`You have removed your reputation point to ${props.challenge.creator.name} for '${props.challenge.name}.'`, 'success')
+          }
         } catch (error) {
           Pop.error(error.message)
         }
