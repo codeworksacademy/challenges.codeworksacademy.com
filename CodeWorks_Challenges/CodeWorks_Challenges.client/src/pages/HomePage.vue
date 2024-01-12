@@ -1,33 +1,33 @@
 <template>
   <div class="container-fluid">
     <section class="row">
-      <div class="col-12 col-lg-7 calc-vh text-white d-flex justify-content-center align-items-center">
+      <div class="col-12 col-lg-6 calc-vh text-white d-flex justify-content-center align-items-center" style="">
         <div class="my-4 mx-2">
-          <p class="highlight-text rounded fs-6 p-2 px-3 text-center text-md-start">
-            Complete Applications, With Feedback and Grading
+          <p class="highlight-text rounded fs-5 p-2 px-3 text-center text-md-start">
+            Complete Applications, With <b>Feedback</b> and <b>Grading</b>
           </p>
-          <p class="hero-font fs-1">
-            Pursue New Projects
+          
+          <p class="hero-font fs-2">
+            <span style="color: var(--shadow-green)">Pursue</span> New Projects
           </p>
-          <p class="hero-font fs-1">
-            Showcase Your Skills
+          <p class="hero-font fs-2">
+            <span style="color: var(--shadow-orange)">Showcase</span> Your Skills
           </p>
-          <p class="hero-font fs-xl">
-            Build Your Portfolio!
+          <p class="hero-font fs-2">
+            <span style="color: var(--shadow-purple)">Build</span> Your Portfolio
           </p>
-          <p>
-            Empower Your Future and Career with Software Development Challenges
+          <p class="hero-font fs-2">
+            <span style="color: var(--shadow-blue)">Empower Your Career</span> with Software Development!
           </p>
-          <router-link :to="{ name: 'Challenges.browse' }">
-            <button class="btn btn-aqua btn-lg">
-              Browse Challenges
-            </button>
-          </router-link>
+          <div class="ps-0 ms-0 mt-3">
+            <BlueButton buttonContent="Browse Challenges" />
+          </div>
         </div>
       </div>
 
-      <div class="col-5 p-0 d-none d-lg-block">
-        <img src="https://images.unsplash.com/photo-1509966756634-9c23dd6e6815?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="hero image" class="calc-vh mw-100">
+      <div class="col-6 img-fluid hero-container">
+        <img src="https://i.gifer.com/origin/24/2457c47e228105862d2ce726fc60f7ad_w200.gif" alt="" class="twinkle-logo">
+        <img src="../assets/img/codeworks-logo.svg" alt="" class="hero">
       </div>
     </section>
   </div>
@@ -36,20 +36,64 @@
 <script>
 import { computed } from 'vue'
 import { AppState } from '../AppState'
+import BlueButton from '../components/ButtonComponents/BlueButton.vue'
 
 export default {
-
   setup() {
     return {
       challenges: computed(() => AppState.challenges),
     }
+  },
+  components: {
+    BlueButton
   }
 }
 </script>
 
 <style scoped lang="scss">
-@import '../assets/scss/variables.scss';
+@import '../assets/scss/_root.scss';
 
+.hero-container {
+  position: relative;
+  top: -5%;
+  overflow: hidden;
+  .twinkle-logo {
+    position: absolute;
+    top: 30%;
+    right: 50%;
+    width: 15%;
+    z-index: 2;
+    opacity: 0;
+    animation: twinkle 1s ease-in-out 2.7s forwards;
+    @keyframes twinkle {
+      0% { opacity: 0; }
+      30% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @media screen and (max-width: 1200px) {
+      top: 25%;
+      right: 45%;
+    }
+  }
+  .hero {
+    position: absolute;
+    top: -29%;
+    right: -70.3%;
+    width: 200%;
+    animation: rollIn 4s ease-in-out forwards;
+    @media screen and (max-width: 1200px) {
+      top: -15%;
+      right: -70.3%;
+      width: 200%;
+    }
+    @keyframes rollIn {
+      0% { opacity: 0; transform: translateX(75%) rotate(90deg); }
+      60% { opacity: .5; transform: translateX(0) rotate(0); }
+      75% { opacity: 1; transform: translateX(0) rotate(0); }
+      100% { opacity: .7; transform: translateX(0) rotate(0); }
+    }
+  }
+}
 .hero-font{
   font-family: 'Lekton', sans-serif;
 }
@@ -59,24 +103,10 @@ export default {
 }
 
 .highlight-text{
-  background-color: #00cbe619;
-  color: #00CCE6;
+  background-color: #1da3e619;
+  font-family: 'Lekton', sans-serif;
+  color: var(--shadow-blue);
   width: fit-content;
-}
-
-.btn-aqua{
-  background-color: #00CCE6;
-  color: black;
-}
-
-.btn-aqua:active{
-  border: 1px solid #00CCE6;
-  color: #00CCE6;
-}
-
-.btn-aqua:hover{
-  border: 1px solid #00CCE6;
-  color: #00CCE6;
 }
 
 .calc-vh{
