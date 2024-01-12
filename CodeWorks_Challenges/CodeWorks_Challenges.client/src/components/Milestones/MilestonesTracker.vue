@@ -14,6 +14,7 @@ import { computed, watchEffect } from 'vue';
 import MilestoneCard from './MilestoneCard.vue';
 import { milestonesService } from '../../services/MilestonesService';
 import { accountMilestonesService } from '../../services/AccountMilestonesService';
+import { logger } from "../../utils/Logger.js";
 
 export default {
   setup() {
@@ -24,8 +25,10 @@ export default {
       try {
         const checks = AppState.milestoneChecks;
         if (route.name.includes('Account') || route.name == 'Milestones') {
+          logger.log('[Account]')
           await accountMilestonesService.checkMyMilestones(checks);
         } else {
+          logger.log('[Profile]')
           const userId = route.params.profileId
           await accountMilestonesService.checkMilestonesByUserId(userId, checks);
         }
@@ -47,7 +50,7 @@ export default {
 
     watchEffect(() => {
       if (AppState.AccountState.account.id) {
-        // checkMyMilestones();
+        checkMyMilestones();
       }
     });
 

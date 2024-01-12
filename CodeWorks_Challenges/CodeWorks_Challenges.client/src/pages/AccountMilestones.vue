@@ -6,7 +6,8 @@
           <span>My Achievements</span>
         </h5>
       </div>
-      <div class="col-12" v-if="milestones">
+      <!-- <div class="col-12" v-if="milestones"> -->
+      <div class="col-12">
         <MilestonesTracker :milestones="milestones" />
       </div>
     </section>
@@ -25,19 +26,19 @@ import { onMounted } from 'vue'
 export default {
   setup() {
 
-    async function getAccountMilestonesByUserId() {
-      try {
-        const userId = AppState.account.id
-        await accountMilestonesService.getAccountMilestonesByUserId(userId)
-      } catch (error) {
-        Pop.error(error)
-        logger.error(error)
-      }
-    }
+    // async function getAccountMilestonesByUserId() {
+    //   try {
+    //     const userId = AppState.account.id
+    //     await accountMilestonesService.getAccountMilestonesByUserId(userId)
+    //   } catch (error) {
+    //     Pop.error(error)
+    //     logger.error(error)
+    //   }
+    // }
 
-    onMounted(() => {
-      getAccountMilestonesByUserId()
-    })
+    // onMounted(() => {
+    //   getAccountMilestonesByUserId()
+    // })
 
     return {
       milestones: AppState.milestones
@@ -48,6 +49,4 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>
