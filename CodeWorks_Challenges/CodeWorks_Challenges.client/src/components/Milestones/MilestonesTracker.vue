@@ -21,14 +21,14 @@ export default {
     const route = useRoute();
 
     // QUESTION REFACTOR can I do this once on login?
+    // This is the key trigger for the calculation of milestones, With it just on login, You could complete 3 challenges and see no results without loging in and out.
+    // The 'get' that was a layer up in AccountMilestones.vue wasn't following order of operations and would never allow a new profile to generate miletstones.
     async function checkMyMilestones() {
       try {
         const checks = AppState.milestoneChecks;
         if (route.name.includes('Account') || route.name == 'Milestones') {
-          logger.log('[Account]')
           await accountMilestonesService.checkMyMilestones(checks);
         } else {
-          logger.log('[Profile]')
           const userId = route.params.profileId
           await accountMilestonesService.checkMilestonesByUserId(userId, checks);
         }
