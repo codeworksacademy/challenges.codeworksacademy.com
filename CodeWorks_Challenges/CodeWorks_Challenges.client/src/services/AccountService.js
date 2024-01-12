@@ -57,7 +57,7 @@ class AccountService {
   async calculateAccountRank() {
     const res = await api.get('/account/rank')
     logger.log('[CURRENT ACCOUNT RANK]', res.data)
-    AppState.AccountState.account.rank = res.data
+    AppState.AccountState.account.rank = res.data.rank
     return res.data
   }
 

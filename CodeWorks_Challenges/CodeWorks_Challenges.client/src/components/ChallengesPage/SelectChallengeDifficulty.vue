@@ -1,5 +1,5 @@
 <template>
-  <select v-model="difficultyFilter" @change="routeToDifficulty" name="difficulty" id="difficulty"
+  <select v-model="filterBy" @change="routeToDifficulty" name="difficulty" id="difficulty"
     class="col-4 select-difficulty text-center text-uppercase p-3">
     <option :value="''" disabled>All Difficulties</option>
     <option :value="''">All</option>
@@ -17,26 +17,26 @@ import Pop from "../../utils/Pop.js"
 export default {
   setup() {
     const router = useRouter()
-    const difficultyFilter = ref('')
+    const filterBy = ref('')
     const difficultyTypes = computed(() => {
       const difficulties = new Set();
-      AppState.challenges.forEach(c => {
+      AppState.challenges.map(c => {
         difficulties.add(c.difficultyStr.text);
       });
       return Array.from(difficulties);
     });
 
     return {
-      difficultyFilter,
+      filterBy,
       difficultyTypes,
 
       routeToDifficulty() {
         try {
-          if (!difficultyFilter.value) {
+          if (!filterBy.value) {
             router.push({ name: 'Challenges.browse' })
             return
           }
-          router.push({ name: 'Challenges.challengeDifficulty', params: { difficulty: difficultyFilter.value } })
+          router.push({ name: 'Challenges.challengeDifficulty', params: { difficulty: filterBy.value } })
         } catch (error) {
           logger.error(error)
           Pop.error(error)

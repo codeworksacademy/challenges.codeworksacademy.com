@@ -30,7 +30,7 @@
           <option value="oldest">Oldest</option>
           <option value="cancelled">Cancelled</option>
         </select>
-          <SelectChallengeDifficulty :filterDifficulty="type" />
+          <SelectChallengeDifficulty :filterBy="challengeDifficulty" />
           <SelectChallengeCategory :filterBy="type" />
       </div>
     </div>
@@ -62,7 +62,7 @@ import Pop from '../utils/Pop'
 import { useRouter } from 'vue-router'
 import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { challengesService } from '../services/ChallengesService'
 import SelectChallengeDifficulty from '../components/ChallengesPage/SelectChallengeDifficulty.vue'
 import SelectChallengeCategory from "../components/ChallengesPage/SelectChallengeCategory.vue"
@@ -106,7 +106,8 @@ export default {
       router,
       search,
       filterBy,
-
+      challengeDifficulty: computed(() => AppState.challenges.find(c => c.difficultyStr.text == filterBy)),
+      challengeCategory: computed(() => AppState.challenges.find(c => c.category == filterBy)),
       filterType(type) {
         // Filter challenges by date created, updated, or cancelled
         if(type == 'newest'){
