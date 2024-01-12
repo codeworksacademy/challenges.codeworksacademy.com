@@ -2,9 +2,6 @@
   <div class="container-fluid">
     <section class="my-3">
       <div class="col-12 text-white">
-        <h5 class="text-center">
-          <span>My Achievements</span>
-        </h5>
         <div class="row badge-card d-flex flex-row justify-space-evenly align-items-center mt-4 me-3">
           <div class="col-3 rounded-top d-flex flex-column justify-content-center align-items-center my-3" v-for="earnedBadge in challengeBadges" :key="earnedBadge">
             <router-link :to="{ name: 'Challenge.overview', params: { challengeId: earnedBadge.challengeId } }" :title="`Click to visit the '${earnedBadge.challenge.name}' Challenge Page to earn this badge!`" class=" badge-link">

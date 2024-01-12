@@ -61,17 +61,17 @@ const routes = [
       {
         path: '',
         name: 'Challenges.browse',
-        component: loadPage('ChallengeBrowsePage')
+        component: loadPage('ChallengesBrowsePage')
       },
       {
         path: ':category',
         name: 'Challenges.challengeCategory',
-        component: loadPage('ChallengeCategoryPage')
+        component: loadPage('ChallengesCategoryPage')
       },
       {
         path: ':difficulty',
         name: 'Challenges.challengeDifficulty',
-        component: loadPage('ChallengeDifficultyPage')
+        component: loadPage('ChallengesDifficultyPage')
       }
     ]
   },
