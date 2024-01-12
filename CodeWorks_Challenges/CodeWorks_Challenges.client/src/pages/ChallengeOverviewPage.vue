@@ -28,13 +28,7 @@
         <ChallengeCreatorCard :challenge="challenge" color="#323e78" bgColor="#323e7829" :themeStyle="true" />
       </div>
     </div>
-    <div v-if="isPublished && challenge.badge?.title" class="col-12 col-md-8 badge-card m-auto mt-3">
-      <h3>New Badge to Earn!</h3>
-      <ChallengeBadge :challenge="challenge" :color="editable" />
-    </div>
-    <div v-else-if="!challengeHasBadge" class="col-12 col-md-8 badge-card m-auto mt-3">
-      <h3>No Badge is set for this Challenge</h3>
-    </div>
+    <ChallengeBadgeCard :challenge="challenge" color="#323e7829" bgColor="#323e7950" :themeStyle="true" />
   </section>
 </template>
 
@@ -50,7 +44,7 @@ import ChallengeCategoryCard from '../components/ChallengePage/ChallengeCategory
 import ChallengeDifficultyCard from '../components/ChallengePage/ChallengeDifficultyCard.vue'
 import ChallengeReputationCard from '../components/ChallengePage/ChallengeReputationCard.vue'
 import ChallengeParticipantsCard from '../components/ChallengePage/ChallengeParticipantsCard.vue'
-import ChallengeBadge from '../components/ChallengePage/ChallengeBadge.vue'
+import ChallengeBadgeCard from '../components/ChallengePage/ChallengeBadgeCard.vue'
 
 export default {
   setup() {
@@ -94,20 +88,19 @@ export default {
       isMobile,
 
       challenge: computed(() => AppState.ChallengeState.challenge),
-      challengeHasBadge: computed(() => AppState.challenges.filter(c => c.badge !== null)),
       isPuzzle: computed(() => AppState.ChallengeState.challenge.category === CATEGORY_TYPES.PUZZLES),
       difficulty: computed(() => {
         const challenge = StrDifficultyNum(AppState.ChallengeState.challenge.difficulty)
         return challenge
       }),
-      isPublished: computed(() => AppState.ChallengeState.challenge.status === 'published')
     }
   },
-  components: { ChallengeDifficultyCard, ChallengeCategoryCard, ChallengeReputationCard, ChallengeParticipantsCard, ChallengeCreatorCard, ChallengeBadge }
+  components: { ChallengeDifficultyCard, ChallengeCategoryCard, ChallengeReputationCard, ChallengeParticipantsCard, ChallengeCreatorCard, ChallengeBadgeCard }
 }
 </script>
 
 <style scoped lang="scss">
+@import url('../assets/scss/_root.scss');
 .container-fluid {
   background-color: var(--bg-main);
 }
