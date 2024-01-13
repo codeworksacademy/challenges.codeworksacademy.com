@@ -1,5 +1,5 @@
 <template>
-  <div class="row d-flex justify-content-center align-items-center" v-if="difficultyFilter">
+  <div class="row d-flex justify-content-center align-items-center" v-if="filterBy">
     <ChallengeCard v-for="c in filteredChallenges" :key="c.id" :challenge="c" />
   </div>
 </template>
@@ -16,23 +16,23 @@ export default {
 
   setup() {
     const route = useRoute()
-    const difficultyFilter = ref('')
+    const filterBy = ref(route.params.difficulty)
 
     // Create a local computed property for the filtered challenges
     const filteredChallenges = computed(() => {
-      if (!difficultyFilter.value) {
+      if (!filterBy.value) {
         return AppState.challenges
       }
-      return AppState.challenges.filter(c => StrDifficultyNum(c.difficulty).text === difficultyFilter.value)
+      return AppState.challenges.filter(c => c.difficultyStr.text === filterBy.value)
     })
 
-    // Use watch to update difficultyFilter when the route changes
+    // Use watch to update filterBy when the route changes
     watch(() => route.params.difficulty, () => {
-      difficultyFilter.value = route.params.difficulty
+      filterBy.value = route.params.difficulty
     })
 
     return {
-      difficultyFilter,
+      filterBy,
       filteredChallenges,
     }
   }

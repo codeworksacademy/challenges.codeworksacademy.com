@@ -9,8 +9,7 @@
 
 <script>
 import { useRouter } from 'vue-router'
-import { ref, computed } from 'vue'
-import { AppState } from "../../AppState"
+import { ref } from 'vue'
 import { logger } from "../../utils/Logger.js"
 import Pop from "../../utils/Pop.js"
 
@@ -18,13 +17,8 @@ export default {
   setup() {
     const router = useRouter()
     const filterBy = ref('')
-    const difficultyTypes = computed(() => {
-      const difficulties = new Set();
-      AppState.challenges.map(c => {
-        difficulties.add(c.difficultyStr.text);
-      });
-      return Array.from(difficulties);
-    });
+    const difficultyTypes = ref(['easy', 'medium', 'hard'])
+
 
     return {
       filterBy,

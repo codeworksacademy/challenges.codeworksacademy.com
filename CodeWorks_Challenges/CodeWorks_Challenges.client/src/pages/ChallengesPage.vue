@@ -30,8 +30,8 @@
           <option value="oldest">Oldest</option>
           <option value="cancelled">Cancelled</option>
         </select>
-          <SelectChallengeDifficulty :filterBy="challengeDifficulty" />
-          <SelectChallengeCategory :filterBy="type" />
+          <SelectChallengeDifficulty :filterBy="challengesDifficulty" />
+          <SelectChallengeCategory :filterBy="challengesCategory" />
       </div>
     </div>
     <div class="col-12 challenge-keys d-flex justify-content-center align-items-center text-uppercase">
@@ -106,24 +106,26 @@ export default {
       router,
       search,
       filterBy,
-      challengeDifficulty: computed(() => AppState.challenges.find(c => c.difficultyStr.text == filterBy)),
-      challengeCategory: computed(() => AppState.challenges.find(c => c.category == filterBy)),
-      filterType(type) {
-        // Filter challenges by date created, updated, or cancelled
-        if(type == 'newest'){
-          AppState.challenges.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
-        }else if(type == 'oldest'){
-          AppState.challenges.sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt))
-        }else if(type == 'cancelled'){
-          AppState.challenges.filter(c => c.isCancelled == true)
-        } else if (type) {
-          // Filter challenges by difficulty
-          AppState.challenges = AppState.challenges.filter(c => c.difficultyStr.text === type);
-        } else {
-          //Filter challenges by category
-          AppState.challenges = AppState.challenges.filter(c => c.category === type);
+      challengesDifficulty: computed(() => {
+        if (!filterBy.value) {
+          return AppState.challenges
         }
-      },
+        return AppState.challenges.filter(c => c.difficultyStr.text === filterBy.value)
+      }),
+      challengesCategory: computed(() => {
+        if (!filterBy.value) {
+          return AppState.challenges
+        }
+        return AppState.challenges.filter(c => c.category === filterBy.value)
+      }),
+      filterType(type) {
+        if (type == 'newest'){
+          AppState.challenges.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+        } else if (type == 'oldest'){
+          AppState.challenges.sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt))
+        } else 
+        AppState.challenges.filter(c => c.isCancelled == true)
+      }
     }
   }
 }
