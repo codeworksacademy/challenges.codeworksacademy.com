@@ -20,10 +20,6 @@ export const ChallengeSchema = new Schema({
   coverImg: { type: String, required: true, default: 'https://i.ibb.co/b1bXrRw/card-gradient.png', maxLength: 500 },
   badge: {
     type: Object, required: false, default: {},
-    // title: { type: String },
-    // image: { type: String || File },
-    // secondaryColor: { type: String, default: `#${secondaryColor}` },
-    // primaryColor: { type: String, default: `#${primaryColor}` },
   },
   answer: { type: String, required: false },
   reputationIds: [{ type: String, required: true }]

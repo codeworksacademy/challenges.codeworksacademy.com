@@ -12,8 +12,8 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto" style="z-index: 1000;">
         <li class="p-0">
-          <router-link :to="{ name: 'Challenges.browse' }" class="btn text-white selectable">
-            Challenges
+          <router-link :to="{ name: 'Leaderboards' }" class="btn text-white selectable">
+            Leaderboards
           </router-link>
         </li>
       </ul>

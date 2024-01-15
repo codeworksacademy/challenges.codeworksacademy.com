@@ -6,6 +6,12 @@ import Pop from '../utils/Pop';
 
 class ParticipantsService {
 
+  async getParticipantsLeaderboards() {
+    const res = await api.get('api/participants/leaderboards')
+    AppState.ChallengeState.participants = res.data.map(p => new ChallengeParticipant(p))
+    logger.log('[PARTICIPANTS LEADERBOARD DATA]:', AppState.ChallengeState.participants)
+  }
+
   async getParticipantById(participantId) {
     const res = await api.get(`api/participants/${participantId}`)
     logger.log('[GETTING PARTICIPANT BY ID]', res.data)

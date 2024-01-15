@@ -7,12 +7,22 @@ export class ParticipantsController extends BaseController {
   constructor() {
     super('api/participants')
     this.router
+      .get('/leaderboards', this.getParticipants)
       .get('/:participantId', this.getParticipantById)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.joinChallenge)
       .put('/:participantId', this.updateChallengeParticipant)
       .get('/:participantId/badges', this.getChallengeBadges)
       .delete('/:participantId', this.leaveChallenge)
+  }
+
+  async getParticipants(req, res, next) {
+    try {
+      const participants = await participantsService.getParticipantsLeaderboards()
+      return res.send(participants)
+    } catch (error) {
+      next(error)
+    }
   }
 
   async getParticipantById(req, res, next) {

@@ -23,19 +23,28 @@ function sanitizeBody(body) {
 }
 
 class ParticipantsService {
+
+	async getParticipantsLeaderboards() {
+		const participants = await dbContext.ChallengeParticipants.find({ status: 'completed' }).populate({
+			path: 'challenge',
+			populate: { path: 'creator requirements participantCount completedCount' }
+		}).populate('profile', PROFILE_FIELDS)
+		return participants
+	}
 	
 	async getChallengeBadges(participant, accountId) {
 		const foundParticipation = await this.getParticipationByUserId(accountId)
-		const completedChallenges = foundParticipation.filter(participation => participation.status === 'completed');
+		const challenges = challenge
 		const account = await dbContext.Account.findById(accountId);
 
-		completedChallenges.forEach(completed => {
-			const badge = participant.challenge.badge;
-
-			if (completed.accountId === account.id) {
-				account.badges = [...account.badges, badge];
-			}
-		})
+		// participant.forEach(completed => {
+		// 	if (completed.challenge.badge) {
+		// 		account.badges.push(completed.challenge.badge)
+		// 	}
+		// })
+		
+		await account.save()
+		return account
   }
 
 	async joinChallenge(newParticipant) {
@@ -75,11 +84,12 @@ class ParticipantsService {
 	}
 
 	async getMyParticipation(accountId) {
-		const participants = await dbContext.ChallengeParticipants.find({ accountId }).populate({
+		const myParticipation = await dbContext.ChallengeParticipants.find({ accountId }).populate({
 			path: 'challenge',
 			populate: { path: 'creator' }
 		}).populate('profile', PROFILE_FIELDS)
-		return participants
+		
+		return myParticipation
 	}
 
 	async getParticipationByUserId(userId) {

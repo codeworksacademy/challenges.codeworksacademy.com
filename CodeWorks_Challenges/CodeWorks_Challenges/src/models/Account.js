@@ -14,7 +14,8 @@ export const AccountSchema = new Schema(
     totalExperience: { type: Number, default: 0 },
     reputation: { type: Number, default: 0 },
     rank: { type: Number, default: 0 },
-    badges: [{ type: String }],
+    // badges: [{ type: Object, required: false, default: {}, }],
+    badges: [{ type: Object, required: false }],
   },
   { timestamps: true, toJSON: { virtuals: true } }
 )
