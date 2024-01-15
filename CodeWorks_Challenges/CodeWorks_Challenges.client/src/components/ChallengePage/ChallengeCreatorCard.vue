@@ -79,10 +79,10 @@ export default {
       gaveReputation,
       giveReputation,
       reputant: computed(() => {
-        if (challenge.reputationIds.find(r => r == AppState.AccountState.account.id)) {
-          return true
+        if (props.challenge.reputationIds.find(r => r == AppState.AccountState.account.id)) {
+          return false
         }
-        return false
+        return true
       })
     }
   }
