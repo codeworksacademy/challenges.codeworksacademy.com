@@ -34,15 +34,14 @@ class ParticipantsService {
 	
 	async getChallengeBadges(participant, accountId) {
 		const foundParticipation = await this.getParticipationByUserId(accountId)
-		const challenges = challenge
+		const completedChallenges = foundParticipation.filter(participation => participation.status === 'completed');
 		const account = await dbContext.Account.findById(accountId);
 
-		// participant.forEach(completed => {
-		// 	if (completed.challenge.badge) {
-		// 		account.badges.push(completed.challenge.badge)
-		// 	}
-		// })
-		
+		completedChallenges.forEach(completed => {
+			if (completed.challenge.badge) {
+				account.badges.push(completed.challenge.badge)
+			}
+		})
 		await account.save()
 		return account
   }

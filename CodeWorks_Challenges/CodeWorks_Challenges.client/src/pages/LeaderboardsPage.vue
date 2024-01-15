@@ -122,6 +122,7 @@ accountId: "6561824c14505e60de787445"
         <h3 class="text-center">Most Badges</h3>
       </div>
       <div v-for="participant in mostBadges" :key="participant.id">
+        <p class="text-white"> {{ participant.profile.name }} </p>
         <p class="text-white"> {{ participant.challenge.name }} </p>
         <p class="text-white"> {{ participant.challenge.badge }} </p>
       </div>
