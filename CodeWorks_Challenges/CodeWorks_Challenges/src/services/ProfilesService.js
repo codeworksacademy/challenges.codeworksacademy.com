@@ -11,11 +11,6 @@ class ProfilesService {
    */
   async getProfileById(id) {
     const profile = await dbContext.Account.findById(id)
-    const profileReputation = await dbContext.Challenges.find({ creatorId: id }).select('reputationIds')
-    const totalReputation = profileReputation.map(r => r.reputationIds.length)
-    const reducer = (acc, curr) => acc + curr
-    const total = totalReputation.reduce(reducer)
-    profile.reputation = total
     return profile
   }
 

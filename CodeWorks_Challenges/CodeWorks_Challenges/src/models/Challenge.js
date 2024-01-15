@@ -2,8 +2,8 @@ import { Schema } from 'mongoose';
 import { CATEGORY_TYPES, STATUS_TYPES, TITLE_BGS, COLOR_FILLS } from '../constants';
 
 const ObjectId = Schema.Types.ObjectId;
-const primaryColor = 'B3B2B2';
-const secondaryColor = '242424';
+const primaryColor = '#B3B2B2';
+const secondaryColor = '#242424';
 export const ChallengeSchema = new Schema({
   creatorId: { type: ObjectId, required: true, ref: 'Account' },
   category: { type: String, enum: Object.values(CATEGORY_TYPES), required: true, lowercase: true },
@@ -24,8 +24,8 @@ export const ChallengeSchema = new Schema({
     // type: Object, required: false, default: {},
     title: { type: String },
     image: { type: String || File },
-    secondaryColor: { type: String, default: `#${secondaryColor}` },
-    primaryColor: { type: String, default: `#${primaryColor}` },
+    secondaryColor: { type: String, default: secondaryColor },
+    primaryColor: { type: String, default: primaryColor },
   },
   answer: { type: String, required: false },
   reputationIds: [{ type: String, required: true }]

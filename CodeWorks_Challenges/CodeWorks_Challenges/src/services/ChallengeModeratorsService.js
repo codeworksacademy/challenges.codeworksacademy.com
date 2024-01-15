@@ -3,6 +3,7 @@ import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { challengesService } from "./ChallengesService.js"
 
+const EAZY_CACHE = {}
 
 class ChallengeModeratorsService {
 
@@ -12,22 +13,37 @@ class ChallengeModeratorsService {
   }
 
   async getModeratorsByChallengeId(challengeId) {
-    const moderators = await dbContext.ChallengeModerators.find({ challengeId: challengeId }).populate({
-      path: 'challenge',
-      populate: { path: 'creator participantCount' }
-    }).populate('profile', PROFILE_FIELDS)
+
+    if (EAZY_CACHE[challengeId]) {
+      return Promise.resolve(EAZY_CACHE[challengeId])
+    }
+
+    const moderators = await dbContext.ChallengeModerators.find({ challengeId: challengeId, status: 'active' }).populate('profile', PROFILE_FIELDS)
+    EAZY_CACHE[challengeId] = moderators
     return moderators
   }
   async getModeratorByUserIdAndChallengeId(userId, challengeId) {
-    const moderators = await dbContext.ChallengeModerators.findOne({ $and: [{ accountId: userId }, { challengeId: challengeId }] })
-    return moderators
+    const mods = await this.getModeratorsByChallengeId(challengeId)
+
+    // @ts-ignore
+    const isMod = mods.find(m => m.accountId == userId)
+
+    if (!isMod) {
+      throw new Forbidden('This user is not a moderator for this challenge')
+    }
+    return isMod
   }
 
   async getMyModerationsByProfileId(profileId) {
-    const moderators = await dbContext.ChallengeModerators.find({ accountId: profileId }).populate({
+    if (EAZY_CACHE[profileId]) {
+      return EAZY_CACHE[profileId]
+    }
+
+    const moderators = await dbContext.ChallengeModerators.find({ accountId: profileId, status: 'active' }).populate({
       path: 'challenge',
       populate: { path: 'creator participantCount' }
-    }).populate('profile', PROFILE_FIELDS)
+    })
+    EAZY_CACHE[profileId] = moderators
     return moderators
   }
 

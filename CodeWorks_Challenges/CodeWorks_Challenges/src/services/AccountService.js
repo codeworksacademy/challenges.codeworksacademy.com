@@ -1,3 +1,4 @@
+import { RANK_BADGE } from '../constants/index.js'
 import { dbContext } from '../db/DbContext'
 import { accountMilestonesService } from "./AccountMilestonesService.js"
 import { challengesService } from './ChallengesService.js'
@@ -41,15 +42,12 @@ async function mergeSubsIfNeeded(account, user) {
  * @param {any} body
  */
 function sanitizeBody(body) {
+  // Properties that the user can change about their own account
   const writable = {
     name: body.name,
     picture: body.picture,
     coverImg: body.coverImg,
     aboutContent: body.aboutContent,
-    experience: body.experience,
-    rank: body.rank,
-    reputation: body.reputation,
-    badges: body.badges,
   }
   return writable
 }
@@ -65,7 +63,7 @@ class AccountService {
    */
   async getAccount(user) {
     let account = await dbContext.Account.findOne({
-      _id: user.id
+      _id: user.id || user._id
     }).populate('badges')
     account = await createAccountIfNeeded(account, user)
     await mergeSubsIfNeeded(account, user)
@@ -87,93 +85,58 @@ class AccountService {
     return account
   }
 
+  // TODO let's simplify this approachs
   // Increments the experience of the user based on the difficulty of challenges they have completed
-  async increaseMyExperienceByChallengeDifficulty(user, challengeDifficulty) {
-    if (challengeDifficulty < 0 || challengeDifficulty > 1000) {
-      throw new Error('You must supply a number, with value between 1-999')
-    }
-    const update = await this.getAccount(user)
-    update.experience = update.experience += challengeDifficulty;
+  // async increaseMyExperienceByChallengeDifficulty(user, challengeDifficulty) {
+  //   if (challengeDifficulty < 0 || challengeDifficulty > 1000) {
+  //     throw new Error('You must supply a number, with value between 1-999')
+  //   }
+  //   const update = await this.getAccount(user)
+  //   update.experience = update.experience += challengeDifficulty;
 
-    const totalMilestoneExperience = await accountMilestonesService.getTotalMilestoneExperience(update)
-    update.totalExperience = update.experience + totalMilestoneExperience
-    const account = await this.updateAccount(user, update)
+  //   const totalMilestoneExperience = await accountMilestonesService.getTotalMilestoneExperience(update)
+  //   update.totalExperience = update.experience + totalMilestoneExperience
+  //   const account = await this.updateAccount(user, update)
 
-    const accountToBeReturned = {
-      name: account.name,
-      id: account.id,
-      experience: account.experience,
-      reputation: account.reputation,
-      totalExperience: account.totalExperience,
-      rank: account.rank
-    }
+  //   const accountToBeReturned = {
+  //     name: account.name,
+  //     id: account.id,
+  //     experience: account.experience,
+  //     reputation: account.reputation,
+  //     totalExperience: account.totalExperience,
+  //     rank: account.rank
+  //   }
 
-    return accountToBeReturned
-  }
+  //   return accountToBeReturned
+  // }
 
   // Calculates the rank of the user by adding the following to the user's XP and reputation, which both contribute to increasing user rank => original XP level + total milestone XP from user's milestones + reputation
+  /**
+   * 
+   * @param {{id:string}} user 
+   * @returns 
+   */
   async calculateAccountRank(user) {
     const update = await this.getAccount(user)
 
     const totalMilestoneExperience = await accountMilestonesService.getTotalMilestoneExperience(update)
 
-    let totalExperience = update.experience + totalMilestoneExperience
+    let rank = update.experience + totalMilestoneExperience + update.reputation
 
-    const updateToBeReturned = {
-      ...update,
-      totalExperience: totalExperience,
-      rank: totalExperience
+    const nextI = RANK_BADGE.findIndex(b => b.RANK_THRESHOLD > rank)
+    let badge = RANK_BADGE[nextI - 1]
+    if (nextI == -1) {
+      badge = RANK_BADGE.at(-1)
+    }
+    if (!badge) {
+      badge = RANK_BADGE[0]
     }
 
-    await this.updateAccount(user, updateToBeReturned)
-
-    return updateToBeReturned
+    update.rank = rank
+    update.title = badge.NAME
+    await update.save()
+    return update
   }
 
-  // Calculates the reputation of the user
-  //FIXME - You need the challenge ID and currently logged in user. A challenge can have [repId] and verify user Id isnt already in [repIds]. If it doesn't we will add it and grab challenge creators profile, then add +1 to their account.
-  async calculateAccountReputation(userInfo) {
-    const challenges = await challengesService.getChallengesCreatedBy(userInfo.id)
-    const account = await this.getAccount(userInfo)
-    const totalReputation = challenges.map(r => r.reputationIds.length)
-
-    let total = 0
-    for (let i = 0; i < totalReputation.length; i++) {
-      total += totalReputation[i]
-    }
-    
-    const accountToBeReturned = {
-      ...account,
-      reputation: total
-    }
-
-    return accountToBeReturned
-  }
-
-  // Updates the reputation of the user
-  async updateMyReputation(user, body){
-    const account = await this.getAccount(user)
-
-    account.reputation = body >= 0 ? body : account.reputation
-
-    await account.save()
-  }
-
-  // async getAccountBadges(user) {
-  //   const account = await this.getAccount(user)
-  //   const completedChallenges = await dbContext.ChallengeParticipants.find({ accountId: user.id, status: 'completed' })
-
-  //   const challengeBadges = completedChallenges.map(c => c.challenge.badge)
-  //   const accountBadges = account.badges
-
-  //   if (challengeBadges.length > 0) {
-  //     for (let i = 0; i < challengeBadges.length; i++) {
-  //       const foundBadge = accountBadges.find(b => b == challengeBadges[i])
-  //       if (!foundBadge) {
-  //         accountBadges.push(challengeBadges[i])
-  //       }
-  //     }
-  //   }
-  // }
 }
 export const accountService = new AccountService()

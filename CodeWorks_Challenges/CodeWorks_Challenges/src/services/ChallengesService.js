@@ -3,19 +3,26 @@ import { BadRequest, Forbidden } from "../utils/Errors.js";
 import { PROFILE_FIELDS } from '../constants';
 import { challengeModeratorsService } from "./ChallengeModeratorsService.js";
 import { participantsService } from "./ParticipantsService.js";
+import { accountService } from "./AccountService.js";
 
 
 class ChallengesService {
 
   async createChallenge(newChallenge) {
     const challenge = await dbContext.Challenges.create(newChallenge)
+    dbContext.ChallengeModerators.create({
+      accountId: newChallenge.creatorId,
+      originIdId: newChallenge.creatorId,
+      challengeId: challenge.id,
+      status: 'active'
+    })
     await challenge.populate('creator participantCount completedCount', PROFILE_FIELDS)
     return challenge
   }
 
   async getAllChallenges() {
 
-    const challenges = await dbContext.Challenges.find({status: 'published'})
+    const challenges = await dbContext.Challenges.find({ status: 'published' })
       .populate('creator participantCount completedCount', PROFILE_FIELDS)
       .select('-answer') //⚠️answer here.
       .sort({ createdAt: -1 })
@@ -39,14 +46,14 @@ class ChallengesService {
 
   async findChallengesByQuery(name = '', offset = 0) {
     const filter = new RegExp(name, 'ig')
-      const challenges = await dbContext.Challenges
+    const challenges = await dbContext.Challenges
       .find({ name: filter })
       .populate('creator participantCount completedCount', PROFILE_FIELDS)
       .collation({ locale: 'en_US', strength: 1 })
       .skip(Number(offset))
       .limit(20)
       .exec()
-      return challenges
+    return challenges
   }
 
   //This is where editing the challenge will have answers populated
@@ -91,12 +98,22 @@ class ChallengesService {
     if (challenge.creatorId === userId) {
       throw new Forbidden('You cannot give reputation to your own challenge.')
     }
+
+    const challengeCreator = await dbContext.Account.findById(challenge.creatorId)
+
+
     const index = challenge.reputationIds.findIndex(i => i === userId)
     if (index !== -1) {
       challenge.reputationIds.splice(index, 1)
+      challengeCreator.reputation--
     } else {
       challenge.reputationIds = [...challenge.reputationIds, userId]
+      challengeCreator.reputation++
     }
+
+
+    await challengeCreator.save()
+    await accountService.calculateAccountRank({ id: challengeCreator.id })
 
     await challenge.save()
     return challenge
@@ -112,25 +129,17 @@ class ChallengesService {
     return challenge
   }
 
-  // TODO [🚧 Chantha] consolidate challenge submission
-  // NOTE be sure to award points based on difficulty
-  // Is this submitting an answer as a user and setting as an authorized?
-  // 🚨 I don't understand, Is the submit answer values not supposed to be on the participant? If so, This 'correct' value is not being saved anywhere on a challenge => user relationship
   async submitAnswer(challengeId, participantId, answer) {
-    const challenge = await dbContext.Challenges.findById(challengeId)
     const participant = await participantsService.getParticipantById(participantId)
+    const challenge = await dbContext.Challenges.findById(challengeId)
     if (challenge.answer == answer) {
       participant.status = 'completed';
-      await participant.save()
-      return {
-        participant
-      }
+      await participantsService.awardExperience(participant)
+      return participant
     } else {
-      participant.status = 'incomplete';
+      participant.status = 'submitted';
       await participant.save()
-      return {
-        participant
-      }
+      return participant
     }
   }
 }
