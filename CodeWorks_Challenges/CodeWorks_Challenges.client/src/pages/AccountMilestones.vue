@@ -16,11 +16,6 @@
 <script>
 import { AppState } from '../AppState';
 import MilestonesTracker from '../components/Milestones/MilestonesTracker.vue';
-import { accountMilestonesService } from '../services/AccountMilestonesService';
-import { logger } from '../utils/Logger';
-import Pop from '../utils/Pop';
-import { onMounted } from 'vue'
-
 
 export default {
   setup() {
