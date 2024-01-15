@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="input-group mb-3">
-      <input type="text" class="form-control" id="badgeTitle" name="badgeTitle" placeholder="Provide Title for Badge" v-model="challenge.badge.title">
+      <input type="text" class="form-control" id="badgeTitle" name="badgeTitle" placeholder="Provide Title for Badge" v-model="editable.badge.title">
       <label class="input-group-text btn-success btn" for="badgeTitle">Confirm</label>
     </div>
 
@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="input-group mb-3">
-      <input v-if="imageUploadOption === 'url'" type="text" class="form-control" id="badgeImg" name="badgeImg" placeholder="Upload a Transparent Image" v-model="challenge.badge.image">
+      <input v-if="imageUploadOption === 'url'" type="text" class="form-control" id="badgeImg" name="badgeImg" placeholder="Upload a Transparent Image" v-model="editable.badge.image">
       <input  v-if="imageUploadOption === 'file'" type="file" class="form-control" id="badgeImg" name="badgeImg" placeholder="Upload a Transparent Image" @change="handleFileUpload">
       <label class="input-group-text btn-success btn" for="badgeImg">Upload Badge Image</label>
     </div>
@@ -31,7 +31,7 @@
     <label for="">Secondary Color</label>
     <input type="color" name="secondaryColor" id="secondaryColor" v-model="editable.badge.secondaryColor">
   </div>
-  <ChallengeBadge :challenge="editable" />
+  <ChallengeBadge :challenge="challenge" />
   </div>
 </template>
 
@@ -53,7 +53,7 @@ export default {
     ChallengeBadge
   },
   setup(props) {
-    const editable = ref(props.challenge);
+    const editable = ref({ ...props.challenge, badge: { ...props.challenge.badge } });
     const imageUploadOption = ref('url')
 
     function handleUrlChange() {

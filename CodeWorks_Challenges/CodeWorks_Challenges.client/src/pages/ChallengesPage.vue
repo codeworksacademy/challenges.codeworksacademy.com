@@ -23,15 +23,21 @@
           </div>
         </form> -->
       </div>
-      <div class="col-12 col-md-6 d-flex justify-space-around mb-4 pe-3 mobile-query">
-        <select class="col-4 select-type text-uppercase" v-model="filterBy" @change="filterType(filterBy)">
-          <option class="text-center" value="" disabled>Filter By</option>
-          <option value="newest">Newest</option>
-          <option value="oldest">Oldest</option>
-          <option value="cancelled">Cancelled</option>
-        </select>
+      <div class="col-12 col-md-6 mobile-query d-flex justify-content-center align-items-center">
+        <div class="col-4 d-flex justify-content-center align-items-center mb-3">
+          <select class="select-type text-uppercase" v-model="filterBy" @change="filterType(filterBy)">
+            <option class="text-center" value="" disabled>Filter By</option>
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div class="col-4 d-flex justify-content-center align-items-center mb-3">
           <SelectChallengeDifficulty :filterBy="challengesDifficulty" />
+        </div>
+        <div class="col-4 d-flex justify-content-center align-items-center mb-3">
           <SelectChallengeCategory :filterBy="challengesCategory" />
+        </div>
       </div>
     </div>
     <div class="col-12 challenge-keys d-flex justify-content-center align-items-center text-uppercase">
@@ -190,12 +196,14 @@ export default {
   }
 }
 .select-type {
+  width: 100%;
   background-color: var(--bg-sub);
   border: none;
   outline: none !important;
   border-radius: 0;
   color: var(--text-main);
   margin-top: 1rem;
+  margin-right: 1rem;
 }
 h6 {
   color: var(--text-sub);

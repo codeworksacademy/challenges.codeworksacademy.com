@@ -1,0 +1,276 @@
+@import './_root.scss';
+
+.modal-content {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background: #0F141FF6 !important;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  color: var(--border-dark);
+  text-shadow: 0 .5px 1px var(--shadow-blue);
+  box-sizing: border-box;
+  box-shadow: 0 5px 15px var(--shadow-blue);
+}
+.form-box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  color: var(--text-main);
+  text-shadow: 0 .5px 1px var(--shadow-blue);
+  background: #00000080;
+  box-sizing: border-box;
+  box-shadow: 0 5px 15px var(--shadow-blue);
+  border-radius: 10px;
+}
+h3 {
+  color: var(--text-sub);
+  text-shadow: 0 1px var(--shadow-blue);
+}
+.form-box {
+  margin: 0 0 20px;
+  padding: 20px;
+  color: var(--text-main);
+  text-shadow: 0px 1px 2px var(--shadow-blue);
+}
+.form-box .input-box {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  margin: 10px 0 5px;
+  color: var(--border-dark);
+}
+input:not(:placeholder-shown):invalid,
+textarea:not(:placeholder-shown):invalid,
+select:not(:placeholder-shown):invalid {
+  border: 1px solid var(--border-dark) !important;
+}
+input:not(:placeholder-shown):valid,
+textarea:not(:placeholder-shown):valid,
+select:not(:placeholder-shown):valid {
+  border: 1px solid var(--shadow-green) !important;
+  box-shadow: 0 0 0 1px #388FBBab !important;
+}
+input:checked {
+  background-color: var(--shadow-green);
+}
+input[type="radio"]:not(:checked) {
+  background-image: url(
+    'https://1001freedownloads.s3.amazonaws.com/vector/thumb/92443/1311627658.png'
+  );
+  background-repeat: no-repeat;
+  background-size: 18px 18px;
+  background-position-y: -1.75px;
+  background-position-x: -2px;
+  background-color: #555;
+  border-color: #141b23; /* Change the border color when checked */
+}
+select {
+  outline: none;
+  height: 50px;
+  background: var(--bg-sub);
+  color: var(--text-main);
+  font-size: 16px;
+  border: 1px solid var(--border-dark) !important;
+  border-radius: 5px;
+}
+select:focus {
+  outline: 1px solid var(--shadow-blue) !important;
+  box-shadow: 0 0 0 1px var(--shadow-blue) !important;
+}
+label[for="category"] {
+  font-size: 14px;
+  color: var(--text-main);
+  text-shadow: 0 .5px var(--shadow-blue);
+  margin-top: 10px;
+}
+option {
+  background: var(--bg-sub);
+  color: var(--text-main);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2;
+  padding: 0 2px 1px;
+  display: inline-block;
+  border: 1px solid var(--border-dark) !important;
+  text-align: center;
+}
+
+.form-box .input-box input,
+.form-box .input-box select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: var(--border-dark);
+  border: none;
+  border-bottom: 1px solid var(--border-dark);
+  outline: none;
+}
+.form-box .input-box input {
+  margin-top: 30px;
+}
+.form-box .select-category {
+  max-height: 40px !important;
+}
+.input-box label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 10px;
+  font-size: 16px;
+  color: var(--border-dark);
+  text-shadow: none;
+  pointer-events: none;
+  transition: .5s;
+}
+.input-box textarea:valid~label,
+.input-box textarea:focus~label,
+.input-box input[type="text"]:valid~label,
+.input-box input[type="text"]:focus~label {
+  position: absolute;
+  top: -45px !important;
+  left: 0;
+  padding: 10px 0 0;
+  margin-top: 10px;
+  color: var(--text-main) !important;
+  text-shadow: 0 .5px 0px var(--shadow-blue);
+  font-size: 14px;
+}
+input:not(:placeholder-shown):valid,
+textarea:not(:placeholder-shown):valid,
+select:not(:placeholder-shown):valid,
+input:not(:placeholder-shown):invalid:focus,
+textarea:not(:placeholder-shown):invalid:focus,
+select:not(:placeholder-shown):invalid:focus {
+  border: 1px solid var(--shadow-green) !important;
+  box-shadow: 0 0 0 1px #388FBBab !important;
+  --bs-form-switch-bg: url(
+    "https://clipart-library.com/images_k/black-circle-with-transparent-background/black-circle-with-transparent-background-13.png") !important;
+}
+.form-box button {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  color: var(--border-dark);
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px;
+  background: transparent;
+  border: none;
+}
+.form-box button.btn:hover {
+  color: var(--border-dark);
+  border-radius: 5px;
+  box-shadow: 
+  0 5px 5px 1px var(--shadow-blue) inset,
+  -5px 0 5px 1px var(--shadow-green) inset,
+  0 -5px 5px 1px var(--shadow-purple) inset,
+  5px 0 5px 1px var(--shadow-orange) inset;
+}
+.form-box .input-box input[data-v-a16fb1c8].event-date {
+  color: transparent;
+}
+.form-box .input-box input[data-v-a16fb1c8].event-date:focus {
+  color: var(--border-dark);
+  transition: all .5s ease-in-out;
+}
+.mdi-calendar-month-outline {
+  color: #797A7A;
+  font-size: 16px;
+  pointer-events: none;
+  transition: .5s;
+}
+.form-box button {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  background: transparent;
+  color: #FFF;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px
+}
+.form-box button:hover {
+  color: var(--border-dark);
+  border-radius: 5px;
+  box-shadow: 0 0 3px inset var(--shadow-green),
+              0 0 9px inset var(--shadow-blue),
+              0 0 12px inset var(--shadow-purple),
+              0 0 18px inset var(--shadow-orange);
+}
+/* Set the initial background colors for the pseudo-elements */
+.form-box button span:nth-child(1) {
+  background: var(--shadow-blue);
+}
+.form-box button span:nth-child(2) {
+  background: var(--shadow-green);
+  z-index: 1000;
+}
+.form-box button span:nth-child(3) {
+  background: var(--shadow-purple);
+}
+.form-box button span:nth-child(4) {
+  background: var(--shadow-orange);
+}
+.form-box button span {
+  position: absolute;
+  display: block;
+  background: transparent;
+}
+.input-box>input[type="file"] {
+  position: relative;
+  width: 100%;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+.custom-file-input {
+  position: relative;
+  background: linear-gradient(90deg, transparent 40%, var(--shadow-green)50),
+              linear-gradient(180deg, transparent 40%, var(--shadow-blue)),
+              linear-gradient(270deg, transparent 40%, #388FBB50),
+              linear-gradient(360deg, transparent 40%, #BB383850);
+  background-color: #000;
+  color: #FFF;
+  border: 2px ridge var(--shadow-blue);
+  width: 14%;
+  bottom: 21px;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+  z-index: 2;
+  filter: brightness(.9);
+}
+.custom-file-input~input[type="file"]:hover::after {
+  content: 'Click to Select an image...';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin-left: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  offset: 1;
+  background-color: black;
+  font-size: 16px;
+  color: var(--border-dark);
+  border-radius: 5px;
+  color: var(--border-dark);
+  z-index: 1;
+  animation: fadeIn .5s ease-in-out;
+}

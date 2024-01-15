@@ -1,6 +1,6 @@
 <template>
   <select v-model="filterBy" @change="routeToDifficulty" name="difficulty" id="difficulty"
-    class="col-4 select-difficulty text-center text-uppercase p-3">
+    class="select-difficulty text-center text-uppercase">
     <option :value="''" disabled>All Difficulties</option>
     <option :value="''">All</option>
     <option v-for="difficulty in difficultyTypes" :key="difficulty" :value="difficulty">{{ difficulty }}</option>
@@ -43,12 +43,14 @@ export default {
 
 <style scoped lang="scss">
 .select-difficulty {
+  width: 100%;
   background-color: var(--bg-sub);
   border: none;
   outline: none !important;
   border-radius: 0;
   color: var(--text-main);
   margin-top: 1rem;
+  margin-right: 1rem;
 }
 @media (max-width: 768px) {
   .select-difficulty {
