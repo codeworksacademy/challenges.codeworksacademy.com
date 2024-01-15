@@ -31,7 +31,7 @@
     <label for="">Secondary Color</label>
     <input type="color" name="secondaryColor" id="secondaryColor" v-model="editable.badge.secondaryColor">
   </div>
-  <ChallengeBadge :challenge="challenge" />
+  <ChallengeBadge :challenge="challenge" :color="editable"/>
   </div>
 </template>
 
@@ -53,7 +53,9 @@ export default {
     ChallengeBadge
   },
   setup(props) {
-    const editable = ref({ ...props.challenge, badge: { ...props.challenge.badge } });
+    const editable = ref({
+      ...props.challenge
+    });
     const imageUploadOption = ref('url')
 
     function handleUrlChange() {
