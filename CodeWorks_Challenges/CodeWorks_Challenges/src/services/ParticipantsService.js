@@ -161,7 +161,6 @@ class ParticipantsService {
 	// This method is used to give the experience of a challenge to a userId
 	// Triggered by grading or autoGrade
 	async awardExperience(participant) {
-
 		let challenge = participant.challenge
 		if (!challenge) {
 			challenge = await challengesService.getChallengeById(participant.challengeId)

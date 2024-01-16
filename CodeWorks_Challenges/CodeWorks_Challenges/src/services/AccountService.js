@@ -116,6 +116,8 @@ class AccountService {
    * @param {{id:string}} user 
    * @returns 
    */
+
+  //FIXME - Chantha check out the title enums
   async calculateAccountRank(user) {
     const update = await this.getAccount(user)
 
@@ -133,7 +135,7 @@ class AccountService {
     }
 
     update.rank = rank
-    update.title = badge.NAME
+    update.title = badge.NAME.toUpperCase()
     await update.save()
     return update
   }

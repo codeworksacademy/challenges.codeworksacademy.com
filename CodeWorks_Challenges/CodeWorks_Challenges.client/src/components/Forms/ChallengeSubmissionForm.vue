@@ -1,5 +1,6 @@
 <template>
-  <section v-if="user.isAuthenticated && !challenge?.autoGrade" class="container-fluid position-relative pt-5">
+  {{ participant }}
+  <!-- <section v-if="user.isAuthenticated && !challenge?.autoGrade" class="container-fluid position-relative pt-5">
     <form
       class="row bg-light p-3 rounded shadow"
       @submit.prevent="updateChallengeParticipant" id="challengeSubmissionForm"
@@ -21,8 +22,8 @@
       <button class="btn text-dark btn-outline-secondary text-light mdi mdi-plus-circle fw-700"> Submit Application</button>
       </div>
     </form>
-  </section>
-  <section v-if="user.isAuthenticated && challenge?.autoGrade" class="container-fluid position-relative pt-5">
+  </section> -->
+  <section v-if="user.isAuthenticated" class="container-fluid position-relative pt-5">
     <form
       class="row bg-light p-3 rounded shadow"
       @submit.prevent="submitAnswer" id="challengeSubmissionForm"
@@ -102,7 +103,6 @@ export default {
     async function submitAnswer(){
       try {
         if(await Pop.confirm(`Are you sure you are ready to submit ${AppState.challenges.challenge?.name}?`)){
-
         }
         await participantsService.submitAnswer(challenge.value.id, participant.value.id, editable.value.submission)
       } catch (error) {
