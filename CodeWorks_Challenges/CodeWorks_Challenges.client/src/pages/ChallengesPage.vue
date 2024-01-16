@@ -139,6 +139,7 @@ export default {
 
 <style scoped lang="scss">
 @import url('../assets/scss/_variables.scss');
+@import url('../assets/scss/_formStyles.scss');
 
 .container-fluid {
   --bs-gutter-x: 0;

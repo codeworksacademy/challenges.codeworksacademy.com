@@ -149,6 +149,11 @@ const routes = [
     component: loadPage('MilestonesPage')
   },
   {
+    path: '/leaderboards',
+    name: 'Leaderboards',
+    component: loadPage('LeaderboardsPage')
+  },
+  {
     path: '/markdown',
     name: 'Markdown',
     component: loadPage('MarkdownPage')

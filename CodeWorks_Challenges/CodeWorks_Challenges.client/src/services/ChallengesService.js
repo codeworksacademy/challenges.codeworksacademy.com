@@ -93,6 +93,12 @@ class ChallengesService {
 
     return res.data
   }
+
+  async getChallengesCreatedBy(id) {
+    const res = await api.get(`api/profiles/${id}/challenges`)
+    logger.log('[GETTING CHALLENGES CREATED BY USER]', res.data)
+    AppState.challenges = res.data.map(c => new Challenge(c))
+  }
 }
 
 export const challengesService = new ChallengesService()
