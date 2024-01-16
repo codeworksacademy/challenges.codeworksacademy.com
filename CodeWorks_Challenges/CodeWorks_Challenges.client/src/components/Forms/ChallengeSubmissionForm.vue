@@ -73,6 +73,8 @@ export default {
       return AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id)
     })
 
+    //TODO CHANTHA Move this logic to the backend, the backend should be handling the submission whether the challenge is an autograde or a submittable challenge
+    //NOTE WE DO NOT NEED THIS ANYMORE
     async function updateChallengeParticipant() {
       try {
         if (await Pop.confirm(`Are you sure you are ready to submit ${AppState.ChallengeState.challenge?.name} to be graded? This cannot be undone!`)) {
