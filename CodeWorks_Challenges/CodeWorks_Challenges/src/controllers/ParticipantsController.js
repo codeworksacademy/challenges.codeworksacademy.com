@@ -18,7 +18,7 @@ export class ParticipantsController extends BaseController {
 
   async getLeaderboards(req, res, next) {
     try {
-      const participants = await participantsService.getLeaderboardsLeaderboards()
+      const participants = await participantsService.getLeaderboards()
       return res.send(participants)
     } catch (error) {
       next(error)
