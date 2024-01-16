@@ -51,6 +51,7 @@ export default {
 
   setup(props) {
 
+    // This should be calculated on the backend only
     const currentRankBadge = computed(() => {
       let lastKey = 0
       for (const key in AppState.rankBadges) {

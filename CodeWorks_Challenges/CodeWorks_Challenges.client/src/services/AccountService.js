@@ -22,8 +22,6 @@ class AccountService {
       await Promise.all([
         this.getMyChallenges(),
         this.getMyParticipation(),
-        this.calculateAccountRank(),
-        this.calculateReputation()
       ])
     } catch (error) {
       // todo figure out repeat calls
@@ -53,21 +51,6 @@ class AccountService {
     AppState.AccountState.participation = res.data.map(p => new ChallengeParticipant(p))
     logger.log('[GET PARTICIPANTS BY ACCOUNT]', AppState.AccountState.participation)
   }
-
-  async calculateAccountRank() {
-    const res = await api.get('/account/rank')
-    logger.log('[CURRENT ACCOUNT RANK]', res.data)
-    AppState.AccountState.account.rank = res.data.rank
-    return res.data
-  }
-
-  async calculateReputation() {
-    const res = await api.get('/account/reputation')
-    AppState.AccountState.account.reputation = res.data.reputation
-
-    logger.log('[CURRENT ACCOUNT REPUTATION]', res.data)
-  }
-
 }
 
 export const accountService = new AccountService()
