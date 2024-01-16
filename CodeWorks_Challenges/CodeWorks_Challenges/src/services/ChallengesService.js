@@ -4,9 +4,61 @@ import { PROFILE_FIELDS } from '../constants';
 import { challengeModeratorsService } from "./ChallengeModeratorsService.js";
 import { participantsService } from "./ParticipantsService.js";
 import { accountService } from "./AccountService.js";
+import { accountMilestonesService } from "./AccountMilestonesService.js";
+import { logger } from "../utils/Logger.js";
 
+
+const EXPERIENCE_SCALE = {
+	1: 10,
+	2: 50,
+	3: 250,
+	4: 500,
+	5: 1000
+}
 
 class ChallengesService {
+  async gradeParticipant(challengeId, participantId, grade, userId) {
+    const challenge = await this.getChallengeById(challengeId)
+    const participant = await participantsService.getParticipantById(participantId)
+    await challengeModeratorsService.getModeratorByUserIdAndChallengeId(userId, challengeId)
+
+    if (userId == participantId) {
+      throw new BadRequest('You cannot grade your own submission.')
+    }
+
+    participant.requirements = grade.requirements
+    participant.grade = grade.requirements.reduce((acc, cur) => acc + cur.isCompleted ? 1 : 0, 0)
+    if (grade.status != 'completed' || grade.status != 'returned for review') {
+      throw new BadRequest('Invalid status.')
+    }
+    participant.status = grade.status
+
+    try {
+      accountMilestonesService.giveGradingMilestoneByAccountId(userId)
+      if (participant.status == 'completed') {
+        participant.completedAt = new Date()
+        this.awardExperience(participant)
+      }
+    } catch (error) {
+      // Address failure to award experience
+      logger.error('[GRADING_HOOK_FAILED] for awarding experience', {error, participant, challenge})
+    }
+
+    await participant.save()
+    return participant
+  }
+
+  // This method is used to give the experience of a challenge to a userId
+  // Triggered by grading or autoGrade
+  async awardExperience(participant) {
+
+    let challenge = participant.challenge
+    if (!challenge) {
+      challenge = await this.getChallengeById(participant.challengeId)
+    }
+    
+    await accountService.calculateAccountRank({ id: participant.accountId },  EXPERIENCE_SCALE[challenge.difficulty])
+  }
 
   async createChallenge(newChallenge) {
     const challenge = await dbContext.Challenges.create(newChallenge)
@@ -134,7 +186,7 @@ class ChallengesService {
     const challenge = await dbContext.Challenges.findById(challengeId)
     if (challenge.answer == answer) {
       participant.status = 'completed';
-      await participantsService.awardExperience(participant)
+      await this.awardExperience(participant)
       return participant
     } else {
       participant.status = 'submitted';

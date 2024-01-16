@@ -87,7 +87,7 @@ export class ChallengeModeratorsController extends BaseController {
     try {
       const moderatorId = req.params.moderatorId
       const userId = req.userInfo.id
-      const moderatorToRemove = await challengeModeratorsService.removeModeratoration(moderatorId, userId)
+      const moderatorToRemove = await challengeModeratorsService.removeModerator(moderatorId, userId)
       return res.send(moderatorToRemove)
     } catch (error) {
       next(error);

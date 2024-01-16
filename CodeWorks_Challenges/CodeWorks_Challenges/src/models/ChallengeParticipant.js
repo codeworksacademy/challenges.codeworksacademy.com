@@ -43,8 +43,7 @@ export const ChallengeParticipantSchema = new Schema({
     default: 0
   },
   claimedAt: { type: Date },
-  updatedAt: { type: Date },
-  createdAt: { type: Date }
+  completedAt: { type: Date },
 },
   { timestamps: true, toJSON: { virtuals: true } }
 )
