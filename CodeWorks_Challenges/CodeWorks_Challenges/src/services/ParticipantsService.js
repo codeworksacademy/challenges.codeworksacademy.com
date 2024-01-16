@@ -98,6 +98,31 @@ class ParticipantsService {
 		return moderators;
 	}
 
+	async submitChallenge(participantId, userId, body) {
+
+		let participant = await this.getParticipantById(participantId)
+
+		if (!participant) {
+			throw new BadRequest('Invalid participant ID.')
+		}
+		
+		if (userId != participant.accountId) {
+			throw new Forbidden("Your information does not match this participant's. You may not submit for other participants.")
+		}
+
+		participant.submission = body.submission
+		participant.status = body.status
+		participant.requirements.map(r => {
+			return {
+				description: r,
+			}
+		})
+		
+		await participant.save()
+		
+		return participant
+	}
+
 	async gradeChallengeParticipant(participantId, graderId, participantGrade) {
 		let participant = await this.getParticipantById(participantId)
 

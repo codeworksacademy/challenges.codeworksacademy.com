@@ -10,7 +10,7 @@ export class ParticipantsController extends BaseController {
       .get('/:participantId', this.getParticipantById)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.joinChallenge)
-      // .put('/:participantId', this.updateChallengeParticipant)
+      .put('/:participantId', this.submitChallenge)
       .get('/:participantId/badges', this.getChallengeBadges)
       .delete('/:participantId', this.leaveChallenge)
   }
@@ -51,6 +51,19 @@ export class ParticipantsController extends BaseController {
 
     } catch (error) {
       next(error);
+    }
+  }
+
+  async submitChallenge(req, res, next) {
+    try {
+      const participantId = req.params.participantId
+      const userId = req.userInfo.id
+      const newSubmission = req.body
+
+      const participant = await participantsService.submitChallenge(participantId, userId, newSubmission)
+      return res.send(participant)
+    } catch (error) {
+      next(error)
     }
   }
 
