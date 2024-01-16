@@ -101,6 +101,9 @@ export default {
 
     async function submitAnswer(){
       try {
+        if(await Pop.confirm(`Are you sure you are ready to submit ${AppState.challenges.challenge?.name}?`)){
+
+        }
         await participantsService.submitAnswer(challenge.value.id, participant.value.id, editable.value.submission)
       } catch (error) {
         logger.log(error)
