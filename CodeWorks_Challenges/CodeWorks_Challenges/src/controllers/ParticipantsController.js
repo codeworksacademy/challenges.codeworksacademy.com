@@ -7,7 +7,7 @@ export class ParticipantsController extends BaseController {
   constructor() {
     super('api/participants')
     this.router
-      .get('/leaderboards', this.getParticipants)
+      .get('/leaderboards', this.getLeaderboards)
       .get('/:participantId', this.getParticipantById)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.joinChallenge)
@@ -16,9 +16,9 @@ export class ParticipantsController extends BaseController {
       .delete('/:participantId', this.leaveChallenge)
   }
 
-  async getParticipants(req, res, next) {
+  async getLeaderboards(req, res, next) {
     try {
-      const participants = await participantsService.getParticipantsLeaderboards()
+      const participants = await participantsService.getLeaderboardsLeaderboards()
       return res.send(participants)
     } catch (error) {
       next(error)

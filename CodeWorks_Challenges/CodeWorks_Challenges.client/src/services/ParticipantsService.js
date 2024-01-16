@@ -6,7 +6,7 @@ import Pop from '../utils/Pop';
 
 class ParticipantsService {
 
-  async getParticipantsLeaderboards() {
+  async getLeaderboards() {
     const res = await api.get('api/participants/leaderboards')
     AppState.ChallengeState.participants = res.data.map(p => new ChallengeParticipant(p))
     logger.log('[PARTICIPANTS LEADERBOARD DATA]:', AppState.ChallengeState.participants)
