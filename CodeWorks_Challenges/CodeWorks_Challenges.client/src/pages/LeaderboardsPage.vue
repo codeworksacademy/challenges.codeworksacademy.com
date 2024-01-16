@@ -141,9 +141,9 @@ export default {
   setup() {
     const filterBy = ref('')
 
-    async function getParticipantsLeaderboards() {
+    async function getLeaderboards() {
       try {
-        await participantsService.getParticipantsLeaderboards()
+        await participantsService.getLeaderboards()
       } catch (error) {
         logger.error(error)
         logger.log('')
@@ -151,7 +151,7 @@ export default {
     }
 
     onMounted(() => {
-      getParticipantsLeaderboards()
+      getLeaderboards()
     })
 
     return {
