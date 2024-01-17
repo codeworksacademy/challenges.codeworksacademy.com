@@ -44,6 +44,7 @@
       </div>
     </form>
   </section>
+  {{ participant?.id }}
 </template>
 
 <script>
@@ -75,33 +76,33 @@ export default {
 
     //TODO CHANTHA Move this logic to the backend, the backend should be handling the submission whether the challenge is an autograde or a submittable challenge
     //NOTE WE DO NOT NEED THIS ANYMORE
-    async function updateChallengeParticipant() {
-      try {
-        if (await Pop.confirm(`Are you sure you are ready to submit ${AppState.ChallengeState.challenge?.name} to be graded? This cannot be undone!`)) {
-          const participantId = participant.value.id
-          const newParticipant = { 
-            ...editable.value,
-            status: SUBMISSION_TYPES.SUBMITTED
-          }
-          logger.log(`New Participation: ${newParticipant}`)
-          await participantsService.updateChallengeParticipant(participantId, newParticipant)
-          editable.value = {}
-          Modal.getOrCreateInstance('#challengeSubmissionForm').hide();
-          Pop.success('Challenge Submitted!');
-          router.push({
-            name: 'Challenge.challengeSubmissionsPage',
-            path: `/challenges/${newParticipant.challengeId}/submissions`
-          })
-        }
-      } catch (error) {
-        logger.error(error);
-        Pop.toast(error.message, 'error');
-      }
-    }
+    // async function updateChallengeParticipant() {
+    //   try {
+    //     if (await Pop.confirm(`Are you sure you are ready to submit ${AppState.ChallengeState.challenge?.name} to be graded? This cannot be undone!`)) {
+    //       const participantId = participant.value.id
+    //       const newParticipant = { 
+    //         ...editable.value,
+    //         status: SUBMISSION_TYPES.SUBMITTED
+    //       }
+    //       logger.log(`New Participation: ${newParticipant}`)
+    //       await participantsService.updateChallengeParticipant(participantId, newParticipant)
+    //       editable.value = {}
+    //       Modal.getOrCreateInstance('#challengeSubmissionForm').hide();
+    //       Pop.success('Challenge Submitted!');
+    //       router.push({
+    //         name: 'Challenge.challengeSubmissionsPage',
+    //         path: `/challenges/${newParticipant.challengeId}/submissions`
+    //       })
+    //     }
+    //   } catch (error) {
+    //     logger.error(error);
+    //     Pop.toast(error.message, 'error');
+    //   }
+    // }
 
     async function submitAnswer(){
       try {
-        await participantsService.submitAnswer(challenge.value.id, editable.value.submission)
+        await participantsService.submitAnswer(challenge.value.id, participant.value.id, editable.value.submission)
       } catch (error) {
         logger.log(error)
       }
@@ -135,7 +136,7 @@ export default {
       challenge,
       participant,
       editable,
-      updateChallengeParticipant,
+      // updateChallengeParticipant,
       submitAnswer,
       removeSubmission,
     } 

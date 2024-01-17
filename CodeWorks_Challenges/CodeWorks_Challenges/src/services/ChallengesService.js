@@ -188,7 +188,7 @@ class ChallengesService {
     const challenge = await dbContext.Challenges.findById(challengeId)
     if (challenge.answer == answer) {
       participant.status = 'completed';
-      await this.awardExperience(participant)
+      // await this.awardExperience(participant)
       await participant.save()
       return participant
     } else {
