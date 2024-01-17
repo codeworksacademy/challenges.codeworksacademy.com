@@ -9,8 +9,7 @@ import { ChallengeParticipant } from "../models/ChallengeParticipant.js"
 class ProfilesService {
   async getProfiles(name) {
     const res = await api.get(`api/profiles?name=${name}`)
-    AppState.profiles = res.data.map(p => new Profile(p))
-    
+    AppState.profiles = res.data.map(p => new Profile(p)) 
   }
 
   async getProfile(profileId) {

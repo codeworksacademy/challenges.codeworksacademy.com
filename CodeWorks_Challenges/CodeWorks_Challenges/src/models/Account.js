@@ -14,7 +14,8 @@ export const AccountSchema = new Schema(
     experience: { type: Number, default: 0 },
     reputation: { type: Number, default: 0 },
     rank: { type: Number, default: 0 },
-    title: { type: String, enum: Object.values(RANK_BADGE).map(b => b.NAME), default: 'Bugs Bunny', lowercase: true },
+    title: { type: String, enum: Object.values(RANK_BADGE).map(b => b.NAME), default: 'Bugs Bunny',
+     lowercase: true },
     badges: [{ type: String }],
   },
   { timestamps: true, toJSON: { virtuals: true } }
