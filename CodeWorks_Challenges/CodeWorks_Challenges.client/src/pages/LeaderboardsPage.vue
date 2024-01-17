@@ -5,12 +5,13 @@
         <div class="col-12">
           <h1 class="text-center">Leaderboard</h1>
         </div>
-        <div v-for="participant in leaderboard" :key="participant.name" class="col-12 d-flex flex-row justify-space-evenly card text-white my-2 px-3 py-1 border text-white" style="background: linear-gradient(90deg, var(--border-dark) 0%, var(--border-main) 35%, var(--bg-sub) 100%);">
-          <div class="col-4">Name: {{ participant.profile.name }}</div>
-          <div class="col-3">Badge Count: {{ participant.badges.length }}</div>
-          <div class="col-3">Rank: {{ participant.profile.rank }}</div>
-          <div class="col-2">Rep: {{ participant.profile.reputation }}</div>
-        </div>
+
+          <ol v-for="participant in participants" :key="participant.id" class="col-12 d-flex flex-row">
+            <ParticipantScoreCard v-if="participants.indexOf(participant) === 0" :participant="participant" :index="participants.indexOf(participant) + 1" style="filter: brightness(2); margin: auto" />
+            <ParticipantScoreCard v-else-if="participants.indexOf(participant) === 1" :participant="participant" :index="participants.indexOf(participant) + 1" style="filter: brightness(1.5);" />
+            <ParticipantScoreCard v-else-if="participants.indexOf(participant) === 2" :participant="participant" :index="participants.indexOf(participant) + 1" style="filter: brightness(1.2);" />
+            <ParticipantScoreCard v-else :participant="participant" :index="participants.indexOf(participant) + 1" />
+          </ol>
       </div>
     </div>
   </section>
@@ -23,6 +24,7 @@ import { logger } from '../utils/Logger'
 import { participantsService } from "../services/ParticipantsService.js"
 import ChallengeBadge from "../components/ChallengePage/ChallengeBadge.vue"
 import ChallengeCard from "../components/ChallengesPage/ChallengeCard.vue"
+import ParticipantScoreCard from "../components/Leaderboards/ParticipantScoreCard.vue"
 
 export default {
   setup() {
@@ -41,38 +43,22 @@ export default {
       getLeaderboards()
     })
 
-
-    const leaderboard = computed(() => {
-      const participantsWithBadges = AppState.ChallengeState.participants.filter(p => p.challenge.badge !== undefined);
-
-      const participantsMap = new Map();
-      participantsWithBadges.forEach(participant => {
-        if (!participantsMap.has(participant.accountId)) {
-          participantsMap.set(participant.accountId, {
-            accountId: participant.accountId,
-            profile: participant.profile,
-            badges: [],
-          });
-        }
-        participantsMap.get(participant.accountId).badges.push(participant.challenge.badge);
-      });
-
-      const uniqueParticipantsWithBadges = Array.from(participantsMap.values());
-      logger.log('sorted participants', uniqueParticipantsWithBadges.sort((a, b) => b - a))
-      return uniqueParticipantsWithBadges.sort((a, b) => b.badges.length - a.badges.length);      
-    });
-
-
-    const challenges = computed(() => AppState.challenges);
-
     return {
       filterBy,
-      challenges,
-      leaderboard
+      participants: computed(() => {
+        const participants = AppState.ChallengeState.participants
+        return participants.reduce((acc, participant) => {
+          const exists = acc.find(found => found.profile.id === participant.profile.id)
+          if (!exists) {
+            acc.push(participant)
+          }
+          return acc
+        }, [])
+      })
     }
   },
   components: {
-    ChallengeBadge, ChallengeCard
+    ChallengeBadge, ChallengeCard, ParticipantScoreCard
   }
 }
 </script>
