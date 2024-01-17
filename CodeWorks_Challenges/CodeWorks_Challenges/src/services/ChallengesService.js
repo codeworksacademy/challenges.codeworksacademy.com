@@ -182,17 +182,21 @@ class ChallengesService {
   }
 
   async submitAnswer(challengeId, participantId, answer) {
+    //FIXME message: "TypeError: Cannot set properties of null (setting 'status')", status: 400}
+    //FIXME {message: "TypeError: Cannot read properties of null (reading 'challenge')", status: 400}
     const participant = await participantsService.getParticipantById(participantId)
     const challenge = await dbContext.Challenges.findById(challengeId)
     if (challenge.answer == answer) {
       participant.status = 'completed';
       await this.awardExperience(participant)
+      await participant.save()
       return participant
     } else {
       participant.status = 'submitted';
       await participant.save()
       return participant
     }
+    // return answer;
   }
 }
 

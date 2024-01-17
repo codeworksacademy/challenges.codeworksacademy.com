@@ -2,7 +2,7 @@
   <section v-if="user.isAuthenticated && !challenge?.autoGrade" class="container-fluid position-relative pt-5">
     <form
       class="row bg-light p-3 rounded shadow"
-      @submit.prevent="updateChallengeParticipant" id="challengeSubmissionForm"
+      @submit.prevent="submitAnswer" id="challengeSubmissionForm"
     >
       <div class="col-12">
         <div class="mb-3">
@@ -101,7 +101,7 @@ export default {
 
     async function submitAnswer(){
       try {
-        await participantsService.submitAnswer(challenge.value.id, participant.value.id, editable.value.submission)
+        await participantsService.submitAnswer(challenge.value.id, editable.value.submission)
       } catch (error) {
         logger.log(error)
       }
