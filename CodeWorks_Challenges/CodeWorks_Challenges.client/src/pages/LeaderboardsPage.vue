@@ -92,39 +92,19 @@ accountId: "6561824c14505e60de787445"
  -->
 
 <template>
-  <div class="text-white fs-5" style="height: 100%; overflow-y: auto;">
-    <div class="d-flex flex-wrap justify-content-center">
-      <div class="col-12">
-        <h1 class="text-center">Leaderboards</h1>
-      </div>
-      <div class="col-12">
-        <h3 class="text-center">All Badges</h3>
-      </div>
-      <div v-for="participant in challenges" :key="participant.id">
-        <p class="text-white"> {{ participant.profile.name }} </p>
-        <ChallengeBadgeCard :challenge="participant.challenge" />
-      </div>
-      <div class="col-12">
-        <h3 class="text-center">Most Experience</h3>
-      </div>
-      <div v-for="participant in mostExperience" :key="participant.id">
-        <p class="text-white"> {{ participant.profile.name }} </p>
-        <p class="text-white"> {{ participant.profile.experience }} </p>
-      </div>
-      <div class="col-12">
-        <h3 class="text-center">Most Reputation</h3>
-      </div>
-      <div v-for="participant in mostReputation" :key="participant.id">
-        <p class="text-white"> {{ participant.profile.name }} </p>
-        <p class="text-white"> {{ participant.profile.reputation }} </p>
-      </div>
-      <div class="col-12">
-        <h3 class="text-center">Most Badges</h3>
-      </div>
-      <div v-for="participant in mostBadges" :key="participant.id">
-        <p class="text-white"> {{ participant.profile.name }} </p>
-        <p class="text-white"> {{ participant.challenge.name }} </p>
-        <p class="text-white"> {{ participant.challenge.badge }} </p>
+  <section class="container-fluid">
+    <div class="text-white" style="height: 100vh; overflow-y: auto; background: radial-gradient(circle, var(--border-main) 0%, var(--bg-main) 35%, var(--border-dark) 100%);">
+      <div class="d-flex flex-wrap justify-content-center">
+        <div class="col-12">
+          <h1 class="text-center">Leaderboard</h1>
+        </div>
+
+          <ol v-for="participant in participants" :key="participant.id" class="col-12 d-flex flex-row">
+            <ParticipantScoreCard v-if="participants.indexOf(participant) === 0" :participant="participant" :index="participants.indexOf(participant) + 1" style="filter: brightness(2); margin: auto" />
+            <ParticipantScoreCard v-else-if="participants.indexOf(participant) === 1" :participant="participant" :index="participants.indexOf(participant) + 1" style="filter: brightness(1.5);" />
+            <ParticipantScoreCard v-else-if="participants.indexOf(participant) === 2" :participant="participant" :index="participants.indexOf(participant) + 1" style="filter: brightness(1.2);" />
+            <ParticipantScoreCard v-else :participant="participant" :index="participants.indexOf(participant) + 1" />
+          </ol>
       </div>
     </div>
   </div>
@@ -135,7 +115,9 @@ import { computed, onMounted, ref } from 'vue'
 import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
 import { participantsService } from "../services/ParticipantsService.js"
-import ChallengeBadgeCard from "../components/ChallengePage/ChallengeBadgeCard.vue"
+import ChallengeBadge from "../components/ChallengePage/ChallengeBadge.vue"
+import ChallengeCard from "../components/ChallengesPage/ChallengeCard.vue"
+import ParticipantScoreCard from "../components/Leaderboards/ParticipantScoreCard.vue"
 
 export default {
   setup() {
@@ -157,24 +139,19 @@ export default {
     return {
       filterBy,
       participants: computed(() => {
-        return AppState.profiles
-      }),
-      challenges: computed(() => {
-        return AppState.ChallengeState.participants
-      }),
-      mostReputation: computed(() => {
-        return AppState.ChallengeState.participants.sort((a, b) => b.profile.reputation - a.profile.reputation)
-      }),
-      mostExperience: computed(() => {
-        return AppState.ChallengeState.participants.sort((a, b) => b.profile.experience - a.profile.experience)
-      }),
-      mostBadges: computed(() => {
-        return AppState.ChallengeState.participants.sort((a, b) => b.challenge.badge - a.challenge.badge)
+        const participants = AppState.ChallengeState.participants
+        return participants.reduce((acc, participant) => {
+          const exists = acc.find(found => found.profile.id === participant.profile.id)
+          if (!exists) {
+            acc.push(participant)
+          }
+          return acc
+        }, [])
       })
     }
   },
   components: {
-    ChallengeBadgeCard
+    ChallengeBadge, ChallengeCard, ParticipantScoreCard
   }
 }
 </script>
