@@ -186,16 +186,31 @@ class ChallengesService {
     //FIXME {message: "TypeError: Cannot read properties of null (reading 'challenge')", status: 400}
     const participant = await participantsService.getParticipantById(participantId)
     const challenge = await dbContext.Challenges.findById(challengeId)
-    if (challenge.answer == answer) {
-      participant.status = 'completed';
-      // await this.awardExperience(participant)
-      await participant.save()
-      return participant
-    } else {
-      participant.status = 'submitted';
+    if(challenge.autoGrade){
+      if (challenge.answer == answer) {
+        participant.status = 'completed';
+        // await this.awardExperience(participant)
+        await participant.save()
+        return participant
+      }
+    }
+    if(!challenge.autoGrade){
+      // return 'Challenge is not autograded'
+      participant.submission = answer;
+      participant.status = 'submitted',
       await participant.save()
       return participant
     }
+    // if (challenge.answer == answer) {
+    //   participant.status = 'completed';
+    //   // await this.awardExperience(participant)
+    //   await participant.save()
+    //   return participant
+    // } else {
+    //   participant.status = 'submitted';
+    //   await participant.save()
+    //   return participant
+    // }
     // return answer;
   }
 }
