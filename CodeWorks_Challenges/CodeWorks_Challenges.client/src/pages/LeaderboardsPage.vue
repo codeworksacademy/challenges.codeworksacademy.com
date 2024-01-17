@@ -107,7 +107,7 @@ accountId: "6561824c14505e60de787445"
           </ol>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
