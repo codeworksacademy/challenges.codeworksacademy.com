@@ -37,8 +37,8 @@
             class="mdi mdi-check"></i></span></h4>
       <h4 v-if="isParticipant?.status == 'incomplete'" class="text-warning">Challenge Incomplete <span><i
             class="mdi mdi-alert-box"></i></span></h4>
-      <div v-else-if="isParticipant">
-        <h4 v-if="isParticipant.status === 'started'" id="challengeSubmissionButton"
+      <div v-if="isParticipant">
+        <h4 v-if="isParticipant.status === 'started' || isParticipant.status === 'incomplete'" id="challengeSubmissionButton"
           class="mdi mdi-send-check text-info selectable text-white" style="white-space: nowrap" ref="submission" role="button"
           data-bs-target="#challengeSubmissionForm" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal"
           title="Create a new challenge">

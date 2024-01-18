@@ -92,8 +92,10 @@ class AccountService {
    * @param {{id:string}} user 
    * @returns 
    */
-  async calculateAccountRank(user, experience = 0) {
-    const account = await this.getAccount(user)
+
+  //FIXME - Chantha check out the title enums
+  async calculateAccountRank(user) {
+    const update = await this.getAccount(user)
 
     const totalMilestoneExperience = await accountMilestonesService.getTotalMilestoneExperience(account)
     account.experience += experience
@@ -109,10 +111,10 @@ class AccountService {
       badge = RANK_BADGE[0]
     }
 
-    account.rank = rank
-    account.title = badge.NAME
-    await account.save()
-    return account
+    update.rank = rank
+    update.title = badge.NAME.toUpperCase()
+    await update.save()
+    return update
   }
 
 }

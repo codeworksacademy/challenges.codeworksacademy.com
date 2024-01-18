@@ -55,7 +55,57 @@ class ParticipantsService {
 			path: 'challenge',
 			populate: { path: 'creator' }
 		})
-		return participation
+		
+		await participant.save()
+		
+		return participant
+	}
+
+	async gradeChallengeParticipant(participantId, graderId, participantGrade) {
+		let participant = await this.getParticipantById(participantId)
+
+		if (!participant) {
+			throw new BadRequest('Invalid participant ID.')
+		}
+
+		const isChallengeModerator = await challengeModeratorsService.getModeratorByUserIdAndChallengeId(graderId, participant.challengeId)
+
+		if (!isChallengeModerator) {
+			throw new Forbidden('Yo - bugs bunny - are NOT a moderator for this challenge. You cannot grade participants.')
+		}
+
+
+		participant.grade = participantGrade.grade
+		participant.status = participantGrade.status
+		participant.requirements = participantGrade.requirements
+
+		await participant.save()
+
+		try {
+			accountMilestonesService.giveGradingMilestoneByAccountId(graderId)
+			if (participantGrade.status == 'completed') {
+				participantGrade.completedAt = new Date()
+				this.awardExperience(participant)
+			}
+		} catch (error) {
+			logger.error('[GRADING_HOOK_FAILED]', error)
+		}
+
+
+		return participant
+	}
+
+
+	// This method is used to give the experience of a challenge to a userId
+	// Triggered by grading or autoGrade
+	async awardExperience(participant) {
+		let challenge = participant.challenge
+		if (!challenge) {
+			challenge = await challengesService.getChallengeById(participant.challengeId)
+		}
+		participant.experience += EXPERIENCE_SCALE[challenge.difficulty]
+		await participant.save()
+		await accountService.calculateAccountRank({ id: participant.accountId })
 	}
 
 	async leaveChallenge(participantId, userId) {
