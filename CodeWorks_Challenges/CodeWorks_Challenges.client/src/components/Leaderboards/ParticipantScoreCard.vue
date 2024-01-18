@@ -1,7 +1,7 @@
 <template>
   <div v-if="participant" :key="participant?.id" class="col-12 score-card d-flex justify-space-evenly align-items-center text-white my-0 pe-2 py-2 border">
     <span :class="`number-${index}-trophy`"></span>
-    <span class="m-auto" style="font-size: 1rem;">{{ index }}</span>
+    <span class="m-auto ps-4 fw-semibold" style="font-size: 1.1rem;">{{ index }}</span>
     <span class="col-4 d-flex justify-content-start align-items-center">
       <div class="col-7">{{ participant.profile.name }}</div>
       <router-link class="col-2" :to="{ name: 'Profile.overview', params: { profileId: participant.accountId } }">
