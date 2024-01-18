@@ -22,8 +22,6 @@
 
 <script>
 import { ChallengeParticipant } from "../../models/ChallengeParticipant.js";
-import { computed } from "vue";
-import { AppState } from "../../AppState.js";
 
 export default {
   props: {
@@ -38,7 +36,6 @@ export default {
     }
   }
 }
-
 </script>
 
 <style scoped lang="scss">
