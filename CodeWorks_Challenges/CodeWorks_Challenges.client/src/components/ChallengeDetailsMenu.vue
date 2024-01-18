@@ -47,6 +47,8 @@
           class="mdi mdi-send-check text-info selectable text-white" style="white-space: nowrap" ref="submission"
           role="button" data-bs-target="#challengeSubmissionForm" data-bs-toggle="modal"
           aria-label="Go to Active Challenge Modal" title="Create a new challenge">
+        </h4>
+      </div>
       <div v-if="isParticipant">
         <h4 v-if="isParticipant.status === 'started' || isParticipant.status === 'returned for review'" id="challengeSubmissionButton"
           class="mdi mdi-send-check text-info selectable text-white" style="white-space: nowrap" ref="submission" role="button"
@@ -54,6 +56,7 @@
           title="Create a new challenge">
           Submit for Review
         </h4>
+      
         <!-- <router-link v-if="isParticipant.status === 'submitted'" :to="{ name: 'ChallengeSubmissionsPage' }">
           <h4 v-if="isParticipant.status === 'submitted'" class="mdi mdi-eye-arrow-right selectable text-info"> Competitors</h4>
         </router-link> -->
