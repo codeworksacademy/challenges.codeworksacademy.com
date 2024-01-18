@@ -93,17 +93,18 @@ accountId: "6561824c14505e60de787445"
 
 <template>
   <section class="container-fluid">
-    <div class="text-white" style="height: 100vh; overflow-y: auto; background: radial-gradient(circle, var(--border-main) 0%, var(--bg-main) 35%, var(--border-dark) 100%);">
-      <div class="d-flex flex-wrap justify-content-center">
+    <div class="leaderboard-backdrop">
+      <div class="d-flex flex-wrap justify-content-center align-items-center">
         <div class="col-12">
-          <h1 class="text-center">Leaderboard</h1>
+          <h1 class="text-center mt-3 mb-5">Leaderboard</h1>
         </div>
-
-          <ol v-for="participant in participants" :key="participant.id" class="col-12 d-flex flex-row">
-            <ParticipantScoreCard v-if="participants.indexOf(participant) === 0" :participant="participant" :index="participants.indexOf(participant) + 1" style="filter: brightness(2); margin: auto" />
-            <ParticipantScoreCard v-else-if="participants.indexOf(participant) === 1" :participant="participant" :index="participants.indexOf(participant) + 1" style="filter: brightness(1.5);" />
-            <ParticipantScoreCard v-else-if="participants.indexOf(participant) === 2" :participant="participant" :index="participants.indexOf(participant) + 1" style="filter: brightness(1.2);" />
-            <ParticipantScoreCard v-else :participant="participant" :index="participants.indexOf(participant) + 1" />
+          <ol v-for="participant in participants" :key="participant.id" class="col-12 d-flex flex-row justify-content-center align-items-center mb-0">
+            <ParticipantScoreCard
+              class="my-0 me-3"
+              :id="`number-${participants.indexOf(participant) + 1}-player`"
+              :participant="participant"
+              :index="participants.indexOf(participant) + 1"
+            />
           </ol>
       </div>
     </div>
@@ -139,7 +140,7 @@ export default {
     return {
       filterBy,
       participants: computed(() => {
-        const participants = AppState.ChallengeState.participants
+        const participants = AppState.ChallengeState.participants.sort((a, b) => b.profile.rank - a.profile.rank)
         return participants.reduce((acc, participant) => {
           const exists = acc.find(found => found.profile.id === participant.profile.id)
           if (!exists) {
@@ -155,3 +156,21 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+@import url('../assets/scss/_root.scss');
+
+.leaderboard-backdrop {
+  height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  background: radial-gradient(circle, var(--border-main) 0%, var(--bg-main) 35%, var(--border-dark) 100%);
+  color: var(--text-main);
+  h1 {
+    text-shadow: 2px 2px 2px black;
+  }
+  span {
+    text-shadow: 1px 1px 1px black;
+  }
+}
+</style>
