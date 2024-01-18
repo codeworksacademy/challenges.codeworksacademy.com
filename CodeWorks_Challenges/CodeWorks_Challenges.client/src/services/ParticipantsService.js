@@ -2,6 +2,7 @@ import { api } from './AxiosService'
 import { AppState } from "../AppState"
 import { ChallengeParticipant } from "../models/ChallengeParticipant.js"
 import { logger } from './../utils/Logger';
+import Pop from '../utils/Pop';
 
 class ParticipantsService {
 
@@ -21,6 +22,32 @@ class ParticipantsService {
     const res = await api.post('api/participants', newParticipant)
     logger.log('New participant:', res.data)
     AppState.ChallengeState.participants.push(new ChallengeParticipant(res.data))
+  }
+
+  async submitAnswer(challengeId, participantId, submission){
+    const res = await api.put(`api/challenges/${challengeId}/submit`, {
+      challengeId: challengeId,
+      participantId: participantId,
+      submission: submission,
+    })
+    Modal.getOrCreateInstance('#challengeSubmissionForm').hide();
+    if(res.data == 'Incorrect'){
+      Pop.error("Answer was incorrect.")
+    }
+    if(res.data.participant.status == 'completed'){
+      Pop.success("Congratulations on finishing the challenge!")
+    }
+    logger.log(res.data)
+  }
+
+
+  async gradeChallengeParticipant(newGrade) {
+    throw new Error('Needs Moved to ChallengesService')
+    
+    // const res = await api.put(`api/moderators/${newGrade.participantId}/grade`, newGrade)
+    // logger.log('Participant Updated ⏩', res.data)
+    // AppState.activeParticipant = res.data
+    // return res.data
   }
 
   async leaveChallenge(participantId) {
