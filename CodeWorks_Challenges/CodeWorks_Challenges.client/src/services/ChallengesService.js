@@ -102,6 +102,45 @@ class ChallengesService {
     return res.data
   }
 
+  async submitAnswer(challengeId, participantId, submission){
+    
+    // const res = await api.post(`api/challenges/${challengeId}/participants/${participantId}`, {
+    //   challengeId: challengeId,
+    //   participantId: participantId,
+    //   answer: submission,
+    // })
+    // if(res.data.participant.status == 'incomplete'){
+    //   Pop.error("Answer was incorrect.")
+    // }
+    // if(res.data.participant.status == 'completed'){
+    //   Pop.success("Congratulations on finishing the challenge!")
+    // }
+    const res = await api.put(`api/challenges/${challengeId}/submit`, {
+      challengeId: challengeId,
+      participantId: participantId,
+      answer: submission,
+    })
+    logger.log('Submitting Answer ⏩', res.data)
+    
+    AppState.ChallengeState.participant = res.data.participant
+    
+    if(participant.status == 'incomplete'){
+      Pop.error("Answer was incorrect.")
+    } else if(participant.status == 'completed'){
+      Pop.success("Congratulations on finishing the challenge!")
+    }
+
+    return res.data
+  }
+
+
+  async gradeChallengeParticipant(newGrade) {
+    const res = await api.put(`api/moderators/${newGrade.participantId}/grade`, newGrade)
+    logger.log('Participant Updated ⏩', res.data)
+    AppState.ChallengeState.participant = res.data
+    return res.data
+  }
+
   async giveReputation(challengeId) {
     const res = await api.put(`api/challenges/${challengeId}/reputation`)
     logger.log('[GIVING REPUTATION]', res.data)
