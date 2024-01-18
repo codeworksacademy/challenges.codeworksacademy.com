@@ -1,21 +1,21 @@
 <template>
-  <div class="col-3 badge badge-color position-relative mt-3" id="collaborator">
+  <div :title="challenge.name" class="col-3 badge badge-color position-relative mt-3" id="collaborator">
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px" width="100px" height="105px" viewBox="0 0 216 232">
       <defs>
         <linearGradient id="badgeGradient" x1="0%" y1="100%" x2="100%" y2="0%">
-          <stop offset="0%" :style="{ stopColor: challenge.badge?.secondaryColor }" style="stop-opacity: 1" />
-          <stop offset="20%" :style="{ stopColor: challenge.badge?.primaryColor }" style="stop-opacity: 1;" />
-          <stop offset="70%" :style="{ stopColor: challenge.badge?.secondaryColor }" style="stop-opacity: 1" />
+          <stop offset="0%" :style="{ stopColor: badge?.secondaryColor }" style="stop-opacity: 1" />
+          <stop offset="20%" :style="{ stopColor: badge?.primaryColor }" style="stop-opacity: 1;" />
+          <stop offset="70%" :style="{ stopColor: badge?.secondaryColor }" style="stop-opacity: 1" />
         </linearGradient>
       </defs>
       <path d="M207,0C171.827,0.001,43.875,0.004,9.003,0c-5.619-0.001-9,3.514-9,0c0,28.23-0.006,51.375,0,159c0.005,19.875,115.499,54,107.999,54S216,179,216,159V9C216,3.298,212.732,0,207,0z" stroke-width="50" stroke="url(#badgeGradient)" />
-      <path id="color-picker" :fill="challenge.badge?.primaryColor"
+      <path id="color-picker" :fill="badge?.primaryColor"
       d="M207,0C171.827,0.001,43.875,0.004,9.003,0c-5.619-0.001-9,3.514-9,9c0,28.23-0.006,151.375,0,169c0.005,13.875,115.499,54,107.999,54S216,191,216,178V9C216,3.298,212.732,0,207,0z" />
     </svg>
     <div class="text-uppercase rounded-circle bg-light">
-      <span :style="{ background: challenge.badge?.secondaryColor }" class="title"> {{ challenge.badge?.title }} </span>
+      <span :style="{ background: badge?.secondaryColor }" class="title"> {{ badge?.title }} </span>
       <div class="img-box">
-        <img :src="challenge.badge?.image" :alt="`Image of '${challenge.badge?.title}' badge for '${challenge?.name}' challenge`" class="badge-img img-fluid">
+        <img :src="badge?.image" :alt="`Image of '${badge?.title}'`" class="badge-img img-fluid">
       </div>
     </div>
   </div>
@@ -24,13 +24,18 @@
 <script>
 import { Challenge } from '../../models/Challenge.js'
 import { ref } from 'vue'
-import { ChallengeParticipant } from "../../models/ChallengeParticipant.js"
 
 export default {
   props: {
-    challenge: {
-      type: Challenge || ChallengeParticipant || Object,
+    badge: {
+      type: Object,
       required: true
+    },
+    challenge: {
+      type: Challenge,
+      default () {
+        return {}
+      }
     }
   },
   setup() {

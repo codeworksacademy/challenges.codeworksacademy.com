@@ -31,7 +31,7 @@
     <label for="">Secondary Color</label>
     <input type="color" name="secondaryColor" id="secondaryColor" v-model="editable.badge.secondaryColor">
   </div>
-  <ChallengeBadge :challenge="challenge" :color="editable"/>
+  <ChallengeBadge :challenge="editable" :badge="editable.badge" />
   </div>
 </template>
 

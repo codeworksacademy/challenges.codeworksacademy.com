@@ -28,7 +28,7 @@
         <ChallengeCreatorCard :challenge="challenge" color="#323e78" bgColor="#323e7829" :themeStyle="true" />
       </div>
     </div>
-    <ChallengeBadgeCard :challenge="challenge" color="#323e7829" bgColor="#323e7950" :themeStyle="true" />
+    <ChallengeBadgeCard :challenge="challenge" :badge="challenge.badge" />
   </section>
 </template>
 

@@ -5,10 +5,6 @@ export function loadPage(page) {
   return () => import(`./pages/${page}.vue`)
 }
 
-export function loadPageBranch(folder, file) {
-  return () => import(`./pages/${folder}/${file}.vue`)
-}
-
 const routes = [
   {
     path: '/',

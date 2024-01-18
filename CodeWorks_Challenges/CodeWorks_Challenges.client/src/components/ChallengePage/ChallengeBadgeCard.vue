@@ -12,7 +12,7 @@
       <!-- <h4 class="mb-5 pb-5"><span>Play </span> to <span> Win!</span> </h4> -->
     </div>
     <div class="enlarge-badge">
-      <span><ChallengeBadge :challenge="challenge" /></span>
+      <span><ChallengeBadge :challenge="challenge" :badge="challenge.badge"/></span>
     </div>
   </div>
 </template>
