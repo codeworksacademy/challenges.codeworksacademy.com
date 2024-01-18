@@ -24,7 +24,6 @@ class ParticipantsService {
   }
 
   async submitAnswer(challengeId, participantId, submission){
-    // throw new Error('Needs Moved to ChallengesService')
     const res = await api.put(`api/challenges/${challengeId}/submit`, {
       challengeId: challengeId,
       participantId: participantId,
@@ -36,7 +35,6 @@ class ParticipantsService {
     if(res.data.participant.status == 'completed'){
       Pop.success("Congratulations on finishing the challenge!")
     }
-    // logger.log(participantId)
   }
 
 

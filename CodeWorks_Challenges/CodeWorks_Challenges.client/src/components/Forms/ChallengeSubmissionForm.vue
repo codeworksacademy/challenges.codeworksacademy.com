@@ -44,7 +44,6 @@
       </div>
     </form>
   </section>
-  {{ participant?.id }}
 </template>
 
 <script>
