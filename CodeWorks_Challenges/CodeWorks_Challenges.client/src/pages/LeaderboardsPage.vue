@@ -51,7 +51,6 @@ export default {
         await participantsService.getLeaderboards()
       } catch (error) {
         logger.error(error)
-        logger.log('')
       }
     }
 
