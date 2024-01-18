@@ -182,39 +182,28 @@ class ChallengesService {
   }
 
   async submitAnswer(challengeId, participantId, answer, accountId) {
-    //FIXME message: "TypeError: Cannot set properties of null (setting 'status')", status: 400}
-    //FIXME {message: "TypeError: Cannot read properties of null (reading 'challenge')", status: 400}
     const participant = await participantsService.getParticipantById(participantId)
+    const challenge = await dbContext.Challenges.findById(challengeId)
     if(accountId != participant.accountId){
       throw new Forbidden("You are not allowed to change this participant's submission")
     }
-    const challenge = await dbContext.Challenges.findById(challengeId)
     if(challenge.autoGrade){
       if (challenge.answer == answer) {
         participant.status = 'completed';
         // await this.awardExperience(participant)
         await participant.save()
         return participant
+      } else {
+        return 'incorrect'
       }
     }
     if(!challenge.autoGrade){
-      // return 'Challenge is not autograded'
       participant.submission = answer;
       participant.status = 'submitted',
       await participant.save()
       return participant
     }
-    // if (challenge.answer == answer) {
-    //   participant.status = 'completed';
-    //   // await this.awardExperience(participant)
-    //   await participant.save()
-    //   return participant
-    // } else {
-    //   participant.status = 'submitted';
-    //   await participant.save()
-    //   return participant
-    // }
-    // return answer;
+    return challenge;
   }
 }
 

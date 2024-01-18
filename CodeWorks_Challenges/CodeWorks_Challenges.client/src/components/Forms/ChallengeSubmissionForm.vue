@@ -1,4 +1,5 @@
 <template>
+  {{ participant?.id }}
   <section v-if="user.isAuthenticated && !challenge?.autoGrade" class="container-fluid position-relative pt-5">
     <form
       class="row bg-light p-3 rounded shadow"
