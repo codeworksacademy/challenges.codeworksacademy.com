@@ -33,11 +33,12 @@ class ParticipantsService {
 	}
 
 	async getParticipantById(participantId) {
-		const participant = await dbContext.ChallengeParticipants.findById(participantId).populate({
+		const participant = await dbContext.ChallengeParticipants.findById({participantId: participantId}).populate({
 			path: 'challenge',
 			populate: { path: 'creator requirements participantCount completedCount' }
 		}).populate('profile', 'name picture')
 		return participant
+		// return 'Hi'
 	}
 
 	// I already know what the challenge is so no need to populate the challenge 

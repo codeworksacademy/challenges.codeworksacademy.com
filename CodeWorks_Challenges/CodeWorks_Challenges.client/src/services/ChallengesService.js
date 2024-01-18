@@ -56,6 +56,22 @@ class ChallengesService {
     logger.log('Active Challenge:', AppState.ChallengeState.challenge)
   }
 
+  async submitAnswer(challengeId, participantId, submission){
+    // throw new Error('Needs Moved to ChallengesService')
+    
+    const res = await api.put(`api/challenges/${challengeId}/submit`, {
+      challengeId: challengeId,
+      participantId: participantId,
+      answer: submission,
+    })
+    if(res.data.participant.status == 'incomplete'){
+      Pop.error("Answer was incorrect.")
+    }
+    if(res.data.participant.status == 'completed'){
+      Pop.success("Congratulations on finishing the challenge!")
+    }
+  }
+
   async filterDifficulty(difficulty) {
     await this.getAllChallenges()
     let challenges = AppState.challenges.filter(c => c.difficulty == difficulty)

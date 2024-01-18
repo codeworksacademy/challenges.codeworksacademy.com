@@ -84,7 +84,7 @@ class ChallengesService {
   async getChallengeById(challengeId) {
     const challenge = await dbContext.Challenges.findById(challengeId)
       .populate('creator participantCount completedCount', PROFILE_FIELDS)
-      .select('-answer')//⚠️ but answers here? Corrected to answer after reviewing Schema
+      .select('-answer')
     if (!challenge) {
       throw new BadRequest('Invalid Challenge ID.')
     }
@@ -144,6 +144,8 @@ class ChallengesService {
     return challenge
   }
 
+  
+
   async giveReputation(challengeId, userId) {
     const challenge = await this.getChallengeById(challengeId)
 
@@ -181,18 +183,22 @@ class ChallengesService {
     return challenge
   }
 
+
   async submitAnswer(challengeId, participantId, answer) {
     const participant = await participantsService.getParticipantById(participantId)
     const challenge = await dbContext.Challenges.findById(challengeId)
     if (challenge.answer == answer) {
       participant.status = 'completed';
       await this.awardExperience(participant)
+      await participant.save()
       return participant
     } else {
       participant.status = 'submitted';
+      participant.submission = answer;
       await participant.save()
       return participant
     }
+    // return participant
   }
 }
 
