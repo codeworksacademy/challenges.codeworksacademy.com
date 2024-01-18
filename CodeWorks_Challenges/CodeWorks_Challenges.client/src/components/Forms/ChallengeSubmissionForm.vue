@@ -55,6 +55,7 @@ import { useRouter, } from 'vue-router'
 import { logger } from '../../utils/Logger'
 import { SUBMISSION_TYPES } from '../../constants'
 import { participantsService } from '../../services/ParticipantsService'
+import { challengesService } from "../../services/ChallengesService.js"
 
 export default {
   setup() {
@@ -101,7 +102,15 @@ export default {
 
     async function submitAnswer(){
       try {
-        await participantsService.submitAnswer(challenge.value.id, participant.value.id, editable.value.submission)
+        // if it's an answer submission, we need the status to be submitted along with the answer:
+        if (challenge.value.answer) {
+          editable.value.status = 'completed',
+          editable.value.submission = editable.value.submission.toLowerCase()
+        } else {
+          editable.value.status = 'submitted'
+        }
+        await challengesService.submitAnswer(challenge.value.id, AppState.user.id, editable.value.submission)
+        editable.value = ''
       } catch (error) {
         logger.log(error)
       }
