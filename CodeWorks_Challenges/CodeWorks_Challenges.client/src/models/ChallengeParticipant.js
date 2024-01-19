@@ -11,6 +11,7 @@ export class ChallengeParticipant {
     this.profile = data.profile ? new Profile(data.profile) : {}
     this.createdAt = data.createdAt
     this.updatedAt = data.updatedAt
+    this.completedAt = data.completedAt
     this.requirements = data.requirements || []
     this.challenge = data.challenge ? new Challenge(data.challenge) : {}
     this.grade = data.grade
