@@ -110,7 +110,7 @@ class AccountService {
     }
 
     account.rank = rank
-    account.title = badge.NAME
+    account.title = RANK_BADGE[nextI - 1].NAME
     await account.save()
     return account
   }

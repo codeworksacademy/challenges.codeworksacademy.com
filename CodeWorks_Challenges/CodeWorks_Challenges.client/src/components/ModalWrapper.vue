@@ -27,11 +27,15 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.modal-content {
+  background-color: var(--bg-sub) !important;
+  color: var(--text-main) !important;
+}
 button[type=button]:not(:disabled) {
   cursor: pointer;
   border: none;
   outline: none;
-  color: var(--text-sub);
+  color: var(--text-main);
   font-size: 27px;
   background: transparent;
   transition: all 0.3s ease-in-out;
