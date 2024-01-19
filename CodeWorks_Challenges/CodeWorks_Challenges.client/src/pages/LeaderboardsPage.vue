@@ -5,7 +5,7 @@
         <h1 class="text-center mt-3 mb-5">Leaderboard</h1>
       </div>
       <div class="d-flex flex-wrap justify-content-center align-items-center">
-        <ol v-for="participant in participants" :key="participant.id" class="col-12 d-flex flex-row justify-content-center align-items-center mb-0">
+        <ol v-for="participant in participants" :key="participant.id" class="col-12 d-flex justify-content-center align-items-center mb-0">
           <ParticipantScoreCard
             class="my-0 me-3"
             :id="`number-${participants.indexOf(participant) + 1}-player`"
@@ -14,21 +14,9 @@
           />
         </ol>
       </div>
-      <div  v-for="participant in challengeBadges" :key="participant.id" class="col-12 d-flex justify-content-center align-items-center mb-0 px-5">
-        <!-- {{ participant.challenge.badge }} -->
-        <div class="col-10 d-flex flex-column justify-content-center align-items-center">
-          <h4>{{ participant.profile.name  }}</h4>
-          {{ participant.badges }}
-          <h4>Badge count for {{ participant.profile.name }}: {{ participant.badges.length }}</h4>
-          <div v-for="badge in participant.badges" :key="badge.id" class="col-12 d-flex justify-content-center align-items-center mb-0 px-5">
-            <ChallengeBadge
-              class="my-0 me-3"
-              :badge="badge"
-            />
-          </div>
-        </div>
+      <div v-for="participant in challengeBadges" :key="participant.id" class="col-10 d-flex flex-column justify-content-center align-items-center">
+        <MostBadgesCard :participant="participant" />
       </div>
-
     </div>
   </section>
 </template>
@@ -41,6 +29,7 @@ import { participantsService } from "../services/ParticipantsService.js"
 import ChallengeBadge from "../components/ChallengePage/ChallengeBadge.vue"
 import ChallengeCard from "../components/ChallengesPage/ChallengeCard.vue"
 import ParticipantScoreCard from "../components/Leaderboards/ParticipantScoreCard.vue"
+import MostBadgesCard from "../components/Leaderboards/MostBadgesCard.vue"
 
 export default {
   setup() {
@@ -91,8 +80,11 @@ export default {
     }
   },
   components: {
-    ChallengeBadge, ChallengeCard, ParticipantScoreCard
-  }
+    ChallengeBadge,
+    ChallengeCard,
+    ParticipantScoreCard,
+    MostBadgesCard
+}
 }
 </script>
 
@@ -100,9 +92,14 @@ export default {
 @import url('../assets/scss/_root.scss');
 
 .leaderboard-backdrop {
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   width: 100%;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background: radial-gradient(circle, var(--border-main) 0%, var(--bg-main) 35%, var(--border-dark) 100%);
   color: var(--text-main);
   h1 {
