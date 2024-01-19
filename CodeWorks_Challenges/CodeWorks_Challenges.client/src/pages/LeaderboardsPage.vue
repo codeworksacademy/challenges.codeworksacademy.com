@@ -17,14 +17,14 @@
 
       <br /> <br /> <br />
 
-      <div v-for="participant in challengeBadges" :key="participant.id" class="col-12 d-flex flex-wrap justify-content-center align-items-center mb-0">
+      <div v-for="participant in challengeBadges" :key="participant?.id" class="col-12 d-flex flex-wrap justify-content-center align-items-center mb-0">
         <MostBadgesCard class="ms-2" :participant="participant" :index="challengeBadges.indexOf(participant) + 1" />
         <ModalWrapper id="badgeModal">
           <template #header>
             <h3 class="m-auto">{{ participant.profile.name }} has earned {{ participant.badges.length }} badges!</h3>
           </template>
           <template #body>
-            <BadgeModalBody :participant="participant" />
+            <BadgeModalBody :participant="participant" :key="participant?.id" />
           </template>
         </ModalWrapper>
       </div>

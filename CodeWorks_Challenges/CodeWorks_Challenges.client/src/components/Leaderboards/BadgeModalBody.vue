@@ -1,5 +1,5 @@
 <template>
-  <section class="container-fluid" v-if="participant" :key="participant.id">
+  <section class="container-fluid" v-if="participant" :key="participant?.id">
     <div class="p-3 text-white mt-3" style="width: 100%; background-color: var(--bg-main); border: 2px solid var(--border-main); border-radius: 10px;">
       <div class="col-12 d-flex justify-content-around align-items-center">
         
