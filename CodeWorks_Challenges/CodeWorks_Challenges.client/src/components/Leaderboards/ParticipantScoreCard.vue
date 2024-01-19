@@ -14,9 +14,8 @@
         />
       </router-link>
     </span>
-    <span class="col-4 text-center">Badge Count: {{ participant.challenge?.badge?.length }}</span>
-    <span class="col-2 text-center">Rank: {{ participant.profile.rank }}</span>
-    <span class="col-1 text-end pe-4">Rep: {{ participant.profile.reputation }}</span>
+    <span class="col-3 text-center">Rank: {{ participant.profile.rank }}</span>
+    <span class="col-3 text-end text-capitalize pe-4">Title: "{{ participant.profile.title }}"</span>
   </div>
 </template>
 
@@ -104,6 +103,8 @@ export default {
     background: #00000050;
   }
   .profile-picture {
+    height: 35px;
+    width: 35px;
     border-radius: 50%;
     border: 1px solid var(--border-dark);
     aspect-ratio: 1/1;

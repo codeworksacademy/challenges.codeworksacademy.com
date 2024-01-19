@@ -111,10 +111,10 @@ class AccountService {
       badge = RANK_BADGE[0]
     }
 
-    update.rank = rank
-    update.title = badge.NAME.toUpperCase()
-    await update.save()
-    return update
+    account.rank = rank
+    account.title = RANK_BADGE[nextI - 1].NAME
+    await account.save()
+    return account
   }
 
 }

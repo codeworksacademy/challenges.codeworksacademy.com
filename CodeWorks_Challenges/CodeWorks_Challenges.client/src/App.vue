@@ -45,6 +45,7 @@ export default {
     return {
       appState: computed(() => AppState),
       participants: computed(() => AppState.ChallengeState.participants),
+      participant: computed(() => AppState.ChallengeState.participant),
       moderators: computed(() => AppState.ChallengeState.moderators),
     }
   },

@@ -40,9 +40,10 @@
 
 <script>
 import { computed } from "vue"
-import { AppState } from "../../AppState"
 import { Profile } from "../../models/Profile.js"
 import { Account } from "../../models/Account.js"
+import { RANK_BADGE } from "../../constants/index.js"
+import { logger } from "../../utils/Logger.js"
 export default {
 
   props: {
@@ -50,37 +51,35 @@ export default {
   },
 
   setup(props) {
-
     // This should be calculated on the backend only
     const currentRankBadge = computed(() => {
-      let lastKey = 0
-      for (const key in AppState.rankBadges) {
-        if (props.profile.rank >= key) {
-          lastKey = key
-        }
-      }
-      return AppState.rankBadges[lastKey]
-    })
+  let lastKey = 0
+  for (const badge of RANK_BADGE) {
+    if (props.profile.rank >= badge.RANK_THRESHOLD) {
+      lastKey = badge.RANK_THRESHOLD
+    }
+  }
+  return RANK_BADGE.find(badge => badge.RANK_THRESHOLD === lastKey)
+})
 
     const rankBadgePercentage = computed(() => {
-      const rankBadgeKeys = Object.values(AppState.rankThresholds);
+      const rankThreshold = Object.values(RANK_BADGE).map(badge => badge.RANK_THRESHOLD);
       const rank = props.profile.rank;
-      const nextKey = rankBadgeKeys.find(key => key > rank);
-      if (!nextKey) {
+      const nextRank = rankThreshold.find(value => value > rank);
+      if (!nextRank) {
         return '100%';
       }
-      const percentage = (rank / nextKey) * 100;
+      const percentage = (rank / nextRank) * 100;
       return `${percentage.toFixed(1)}%`;
     });
-
     const nextRankBadge = computed(() => {
-      const rankBadgeKeys = Object.keys(AppState.rankBadges);
+      const rankThreshold = Object.values(RANK_BADGE).map(badge => badge.RANK_THRESHOLD);
       const rank = props.profile.rank;
-      const nextKey = rankBadgeKeys.find(key => key > rank);
-      if (!nextKey) {
+      const nextRank = rankThreshold.find(value => value > rank);
+      if (!nextRank) {
         return 'Celestial Scripter Reached! Final rank achieved!!';
       }
-      return AppState.rankBadges[nextKey];
+      return RANK_BADGE.find(badge => badge.RANK_THRESHOLD === nextRank);
     });
 
     return {
@@ -93,7 +92,7 @@ export default {
       }),
       currentBadgeColor: computed(() => {
         return currentRankBadge.value.COLOR
-      })
+      }),
     }
   }
 }
