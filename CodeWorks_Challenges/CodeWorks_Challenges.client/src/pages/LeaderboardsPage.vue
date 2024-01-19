@@ -17,7 +17,7 @@
       </div>
 
       <br /> <br /> <br />
-
+      
       <h3 class="col-12 text-center text-white mt-3 mb-5">Most Badges</h3>
       <div v-for="participant in challengeBadges" :key="participant.id" class="col-12 d-flex flex-wrap justify-content-center align-items-center mb-0">
         <MostBadgesCard class="ms-2" :participant="participant" :index="challengeBadges.indexOf(participant) + 1" />
@@ -33,7 +33,7 @@
 
       <br /> <br /> <br />
 
-      <div class="d-flex flex-wrap justify-content-center align-items-center">
+      <div class="d-flex col-12 justify-content-center align-items-center">
         <h3 class="col-12 text-center text-white mt-3 mb-5">Most Reputation</h3>
         <ol v-for="participant in sortedByReputation" :key="participant.id" class="col-12 d-flex justify-content-center align-items-center mb-0">
           <ParticipantReputationCard
