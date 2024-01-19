@@ -23,7 +23,7 @@ import ChallengeBadge from "../ChallengePage/ChallengeBadge.vue";
 export default {
   props: {
     participant: {
-      type: ChallengeParticipant || Object,
+      type: [ChallengeParticipant || Object],
       required: true
     }
   },

@@ -55,13 +55,7 @@ class ChallengesService {
     challengeModeratorsService.getModeratorsByChallengeId(challengeId)
     logger.log('Active Challenge:', AppState.ChallengeState.challenge)
   }
-
-  async filterDifficulty(difficulty) {
-    await this.getAllChallenges()
-    let challenges = AppState.challenges.filter(c => c.difficulty == difficulty)
-    AppState.challenges = challenges
-  }
-
+  
   async deprecateChallenge(challengeId) {
     const res = await api.delete(`/api/challenges/${challengeId}`)
     logger.log('🚨🚨🚨deprecating Challenge ⏩', res.data)

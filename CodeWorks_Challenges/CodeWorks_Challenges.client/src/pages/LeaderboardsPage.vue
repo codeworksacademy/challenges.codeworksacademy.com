@@ -5,6 +5,7 @@
         <h1 class="text-center mt-3 mb-5">Leaderboard</h1>
       </div>
       <div class="d-flex flex-wrap justify-content-center align-items-center">
+        <h3 class="col-12 text-center text-white mt-3 mb-5">Highest Ranks</h3>
         <ol v-for="participant in sortedByRank" :key="participant.id" class="col-12 d-flex justify-content-center align-items-center mb-0">
           <ParticipantRankCard
             class="my-0 me-3"
@@ -17,6 +18,7 @@
 
       <br /> <br /> <br />
 
+      <h3 class="col-12 text-center text-white mt-3 mb-5">Most Badges</h3>
       <div v-for="participant in challengeBadges" :key="participant.id" class="col-12 d-flex flex-wrap justify-content-center align-items-center mb-0">
         <MostBadgesCard class="ms-2" :participant="participant" :index="challengeBadges.indexOf(participant) + 1" />
         <ModalWrapper id="badgeModal">
@@ -32,6 +34,7 @@
       <br /> <br /> <br />
 
       <div class="d-flex flex-wrap justify-content-center align-items-center">
+        <h3 class="col-12 text-center text-white mt-3 mb-5">Most Reputation</h3>
         <ol v-for="participant in sortedByReputation" :key="participant.id" class="col-12 d-flex justify-content-center align-items-center mb-0">
           <ParticipantReputationCard
             class="my-0 me-3"
@@ -45,6 +48,7 @@
       <br /> <br /> <br />
 
       <div class="d-flex flex-wrap justify-content-center align-items-center">
+        <h3 class="col-12 text-center text-white mt-3 mb-5">Most Challenges Created</h3>
         <ol v-for="participant in sortedByChallengesCreated" :key="participant.id" class="col-12 d-flex justify-content-center align-items-center mb-0">
           <CreatedChallengesCard
             class="my-0 me-3"

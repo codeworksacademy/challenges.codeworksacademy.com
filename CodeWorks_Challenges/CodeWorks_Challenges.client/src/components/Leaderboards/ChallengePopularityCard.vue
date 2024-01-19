@@ -39,7 +39,7 @@ export default {
   setup(props) {
     return {
       challengePopularity: computed(() => {
-        const myChallengesParticipation = AppState.ChallengeState.participants.filter(p => p.accountId == props.challenge.creatorId).sort((a, b) => b.challenge.participantCount - a.challenge.participantCount)
+        const myChallengesParticipation = AppState.ChallengeState.participants.filter(p => p.accountId == props.participant.challenge.creatorId).sort((a, b) => b.challenge.participantCount - a.challenge.participantCount)
         return myChallengesParticipation
       })
     }
