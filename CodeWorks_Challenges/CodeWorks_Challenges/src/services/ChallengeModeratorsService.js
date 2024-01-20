@@ -8,6 +8,20 @@ const EASY_CACHE = {}
 class ChallengeModeratorsService {
 
   async createModeration(moderatorData) {
+    const challenge = await dbContext.Challenges.findById(moderatorData.challengeId)
+    if (!challenge) {
+      throw new BadRequest('Invalid challenge ID.')
+    }
+
+    if (challenge.creatorId != moderatorData.originId) {
+      throw new BadRequest('You are not the creator of this challenge.')
+    }
+
+    const existingModerator = await dbContext.ChallengeModerators.findOne({ challengeId: moderatorData.challengeId, accountId: moderatorData.accountId })
+    if (existingModerator) {
+      throw new BadRequest('This user is already a moderator for this challenge.')
+    }
+
     const moderation = await dbContext.ChallengeModerators.create(moderatorData)
     return moderation
   }
