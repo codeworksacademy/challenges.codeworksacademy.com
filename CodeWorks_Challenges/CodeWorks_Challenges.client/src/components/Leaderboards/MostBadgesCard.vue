@@ -1,7 +1,7 @@
 <template>
   <section v-if="participant" :key="participant?.id" class="container-fluid">
-    <div class="col-12 badge-card d-flex justify-content-around align-items-center text-white my-0 pe-2 py-2 border">
-      <span class="col-4 d-flex justify-content-start align-items-center">
+    <div class="col-12 badge-card d-flex justify-content-around align-items-center my-0 pe-2 py-2 border">
+      <span class="col-4 d-flex justify-content-start align-items-center text-white">
         <div class="col-7 pe-2">{{ participant.profile.name }}</div>
         <router-link class="col-2 d-flex justify-content-center ps-2" :to="{ name: 'Profile.overview', params: { profileId: participant.accountId } }">
           <img
@@ -13,12 +13,10 @@
           />
         </router-link>
       </span>
-      <span class="col-3 text-center">Badge Count: {{ participant.badges.length }}</span>
-      <span class="col-3 text-end text-capitalize pe-4">
-        View Badges: 
+      <span class="col-3 text-white text-center">Badge Count: {{ participant.badges.length }}</span>
+      <span @click="viewBadges" role="button" class="col-3 badge-modal-button text-end text-capitalize pe-4">
+        View Badges
         <i
-          @click="viewBadges"
-          role="button"
           class="mdi mdi-dots-grid"
           data-bs-toggle="modal"
           data-bs-target="#badgeModal"
@@ -38,7 +36,7 @@ import { Modal } from "bootstrap";
 export default {
   props: {
     participant: {
-      type: ChallengeParticipant || Object,
+      type: ChallengeParticipant,
       required: true
     }
   },
@@ -82,6 +80,24 @@ export default {
     color: var(--text-main) !important;
     text-shadow: 2px 2px 2px var(--border-dark);
     z-index: 1;
+  }
+  &>span.badge-modal-button {
+    position: relative;
+    right: 0%;
+    color: var(--shadow-orange) !important;
+    transition: 0.2s ease-in-out all;
+    user-select: none;
+    cursor: pointer;
+    filter: brightness(1.4);
+      >i.mdi-dots-grid {
+        position: absolute;
+        top: 5%;
+        right: 2%;
+      }
+    &:hover {
+      transition: 0.2s ease-in-out all;
+      filter: brightness(1.5);
+    }
   }
 }
 </style>
