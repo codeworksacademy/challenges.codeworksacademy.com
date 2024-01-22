@@ -8,22 +8,26 @@ const EASY_CACHE = {}
 class ChallengeModeratorsService {
 
   async createModeration(moderatorData) {
-    const challenge = await dbContext.Challenges.findById(moderatorData.challengeId)
-    if (!challenge) {
-      throw new BadRequest('Invalid challenge ID.')
-    }
+    const { challengeId, accountId } = moderatorData;
+  
+    const existingModeration = await dbContext.ChallengeModerators.findOne({ challengeId, accountId });
 
-    if (challenge.creatorId != moderatorData.originId) {
-      throw new BadRequest('You are not the creator of this challenge.')
+    if (existingModeration) {
+      if (existingModeration.status == 'active') {
+        throw new BadRequest(`[MODERATION_STATUS::${existingModeration.status}] This user is already a moderator for this challenge.`);
+      }
+      return existingModeration;
     }
-
-    const existingModerator = await dbContext.ChallengeModerators.findOne({ challengeId: moderatorData.challengeId, accountId: moderatorData.accountId })
-    if (existingModerator) {
-      throw new BadRequest('This user is already a moderator for this challenge.')
+  
+    const challenge = await challengesService.getChallengeById(challengeId);
+  
+    if (challenge.status == 'deprecated') {
+      throw new BadRequest(`[CHALLENGE_STATUS::${challenge.status}] This challenge cannot be moderated at this time.`);
     }
-
-    const moderation = await dbContext.ChallengeModerators.create(moderatorData)
-    return moderation
+  
+    const moderator = await dbContext.ChallengeModerators.create(moderatorData);
+  
+    return moderator;
   }
 
   async getModeratorsByChallengeId(challengeId) {
@@ -117,7 +121,7 @@ class ChallengeModeratorsService {
     }
 
     if (userId != moderatorToRemove.accountId && userId != challenge.creatorId) {
-      throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this moderator's. You may not remove other moderator.")
+      throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this moderator's. You may not remove other moderators.")
     }
 
     moderatorToRemove.status = 'terminated'

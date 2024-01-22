@@ -1,7 +1,7 @@
 <template>
   <section class="container-fluid">
     <h4 class="px-3 pt-3" style="color: #7A7A7A">User Links</h4>
-    <aside class="d-flex flex-column fs-4 mt-5 pt-0 px-5">
+    <aside id="challenge-menu" class="d-flex flex-column fs-4 mt-2 pt-0 px-5">
       <router-link :to="{ name: 'Challenge.overview' }" class="hover-green rounded-1 selectable text-white">
         <i class="mdi mdi-file-document-multiple text-green fst-normal p-3 ps-2"> Overview</i>
       </router-link>
@@ -174,12 +174,25 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.text-yellow {
-  color: #ffc107;
+section {
+  height: 100%;
+  white-space: nowrap;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  i.text-yellow {
+    color: #ffc107;
+  }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 768px) {
-  .cancel-button {
-    white-space: normal !important;
+  section {
+    aside#challenge-menu {
+      height: 100% !important;
+      white-space: normal !important;
+    }
   }
 }</style>

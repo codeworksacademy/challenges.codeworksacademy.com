@@ -107,7 +107,6 @@ h3 {
       }
     }
     .enlarge-badge:active {
-      transform: scale(1.1);
       transition: 0.25s 0.1s transform cubic-bezier(.1,.72,.4,.97);
     }
   }
@@ -194,10 +193,10 @@ h3 {
   }
   .enlarge-badge {
     position: absolute;
-    top: -60%;
+    top: -55%;
     width: 100%;
     height: 100%;
-    transform: scale(2) translateY(53%);
+    transform: scale(1.5) translateY(53%);
     transition: 0.25s 0.25s transform cubic-bezier(.1,.72,.4,.97);
     opacity: 1;
   }

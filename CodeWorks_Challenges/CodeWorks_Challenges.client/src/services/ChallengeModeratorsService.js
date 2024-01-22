@@ -7,13 +7,7 @@ class ChallengeModeratorsService {
   async createModeration(moderatorData) {
     const res = await api.post('api/moderators', moderatorData)
     logger.log('[New moderation]:', res.data)
-    AppState.ChallengeState.moderators.push(new ChallengeModerator(res.data))
-  }
-
-  async createOwnedChallengeModeration(moderatorData) {
-    const res = await api.post('api/moderators/account', moderatorData)
-    logger.log('[New moderation]:', res.data)
-    AppState.ChallengeState.moderators.push(new ChallengeModerator(res.data))
+    AppState.ChallengeState.moderator = new ChallengeModerator(res.data)
   }
 
   async getModerationsByProfileId(userId) {

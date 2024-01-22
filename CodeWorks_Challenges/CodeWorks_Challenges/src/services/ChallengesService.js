@@ -6,7 +6,7 @@ import { participantsService } from "./ParticipantsService.js";
 import { accountService } from "./AccountService.js";
 import { accountMilestonesService } from "./AccountMilestonesService.js";
 import { logger } from "../utils/Logger.js";
-
+import { profilesService } from "./ProfilesService.js";
 
 const EXPERIENCE_SCALE = {
 	1: 10,
@@ -62,13 +62,14 @@ class ChallengesService {
 
   async createChallenge(newChallenge) {
     const challenge = await dbContext.Challenges.create(newChallenge)
-    dbContext.ChallengeModerators.create({
-      accountId: newChallenge.creatorId,
-      originIdId: newChallenge.creatorId,
+
+    await challengeModeratorsService.createModeration({
       challengeId: challenge.id,
-      status: 'active'
+      accountId: challenge.creatorId,
+      status: 'active',
+      originId: challenge.creatorId
     })
-    await challenge.populate('creator participantCount completedCount', PROFILE_FIELDS)
+
     return challenge
   }
 
@@ -147,43 +148,31 @@ class ChallengesService {
   
 
   async giveReputation(challengeId, userId) {
-    const challenge = await this.getChallengeById(challengeId)
+    const challenge = (await this.getChallengeById(challengeId))
 
-    if (challenge.creatorId === userId) {
-      throw new Forbidden('You cannot give reputation to your own challenge.')
+    if (challenge.creatorId == userId) {
+      throw new BadRequest('You cannot give reputation to yourself.')
     }
-
-    const challengeCreator = await dbContext.Account.findById(challenge.creatorId)
-
-
-    const index = challenge.reputationIds.findIndex(i => i === userId)
-    if (index !== -1) {
+    
+    const challengeCreator = await accountService.getAccount({ id: challenge.creatorId })
+    const index = challenge.reputationIds.findIndex(i => i == userId)
+    if (index != -1) {
       challenge.reputationIds.splice(index, 1)
-      challengeCreator.reputation--
-    } else {
-      challenge.reputationIds = [...challenge.reputationIds, userId]
       challengeCreator.reputation++
+    } else {
+      challenge.reputationIds.push(userId)
+      challengeCreator.reputation--
     }
 
-
-    await challengeCreator.save()
-    await accountService.calculateAccountRank({ id: challengeCreator.id })
+    // await accountService.calculateAccountRank({ id: challengeCreator.id })
 
     await challenge.save()
+    await challengeCreator.save()
+
     return challenge
   }
 
-  async deleteChallenge(challengeId, userId) {
-    const challenge = await this.getChallengeById(challengeId)
-    if (challenge.creatorId != userId)
-      throw new Forbidden(
-        `[PERMISSIONS ERROR]: You are not the creator of ${challenge.name}, therefore you cannot delete it.`
-      )
-    challenge.remove()
-    return challenge
-  }
-
-  async submitAnswer(challengeId, participantId, answer, accountId) {
+  async submitChallenge(challengeId, participantId, answer) {
     const participant = await participantsService.getParticipantById(participantId)
     const challenge = await dbContext.Challenges.findById(challengeId)
     if(accountId != participant.accountId){

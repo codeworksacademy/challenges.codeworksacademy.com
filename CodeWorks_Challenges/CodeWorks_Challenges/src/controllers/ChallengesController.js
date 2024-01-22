@@ -19,20 +19,20 @@ export class ChallengesController extends BaseController {
       .post('', this.createChallenge)
       .put('/:challengeId', this.editChallenge)
       .put('/:challengeId/reputation', this.giveReputation)
-      .put('/:challengeId/submit', this.submitAnswer)
+      .put('/:challengeId/submit', this.submitChallenge)
       
       .put('/:challengeId/participants/:participantId', this.gradeParticipant)
-      .delete('/:challengeId', this.deleteChallenge)
+      // .delete('/:challengeId', this.deleteChallenge)
       .delete('/:challengeId/participants', this.removeParticipant)
   }
 
-  async submitAnswer(req, res, next) {
+  async submitChallenge(req, res, next) {
     try {
       const challengeId = req.params.challengeId
       const participantId = req.body.participantId
       const accountId = req.userInfo.id
       const submission = req.body.submission
-      const result = await challengesService.submitAnswer(challengeId, participantId, submission, accountId)
+      const result = await challengesService.submitChallenge(challengeId, participantId, submission, accountId)
       return res.send(result)
     } catch (e) {
       next(e)
@@ -91,17 +91,17 @@ export class ChallengesController extends BaseController {
   //   }
   // }
 
-  async deleteChallenge(req, res, next) {
-    try {
-      const challengeId = req.params.challengeId
-      const userId = req.userInfo.id
+  // async deleteChallenge(req, res, next) {
+  //   try {
+  //     const challengeId = req.params.challengeId
+  //     const userId = req.userInfo.id
 
-      await challengesService.deleteChallenge(challengeId, userId)
-      return res.send(challengeId)
-    } catch (error) {
-      next(error)
-    }
-  }
+  //     await challengesService.deleteChallenge(challengeId, userId)
+  //     return res.send(challengeId)
+  //   } catch (error) {
+  //     next(error)
+  //   }
+  // }
 
   async removeParticipant(req, res, next) {
     try {
