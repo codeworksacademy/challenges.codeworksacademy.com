@@ -19,19 +19,19 @@ export class ChallengesController extends BaseController {
       .post('', this.createChallenge)
       .put('/:challengeId', this.editChallenge)
       .put('/:challengeId/reputation', this.giveReputation)
-      .put('/:challengeId/submit', this.submitAnswer)
+      .put('/:challengeId/submit', this.submitChallenge)
       
       .put('/:challengeId/participants/:participantId', this.gradeParticipant)
       // .delete('/:challengeId', this.deleteChallenge)
       .delete('/:challengeId/participants', this.removeParticipant)
   }
 
-  async submitAnswer(req, res, next) {
+  async submitChallenge(req, res, next) {
     try {
       const challengeId = req.params.challengeId
-      const participantId = req.userInfo.id
-      const submission = req.body.submission
-      const result = await challengesService.submitAnswer(challengeId, participantId, submission)
+      const userId = req.userInfo.id
+      const submissionData = req.body
+      const result = await challengesService.submitChallenge(challengeId, userId, submissionData)
       return res.send(result)
     } catch (e) {
       next(e)

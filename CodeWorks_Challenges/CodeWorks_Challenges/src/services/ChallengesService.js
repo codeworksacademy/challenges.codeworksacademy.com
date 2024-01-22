@@ -170,18 +170,26 @@ class ChallengesService {
     return challenge
   }
 
-  async submitAnswer(challengeId, participantId, answer) {
-    const participant = await participantsService.getParticipantById(participantId)
+  async submitChallenge(challengeId, participantId, participant) {
     const challenge = await dbContext.Challenges.findById(challengeId)
-    if (challenge.answer == answer) {
-      participant.status = 'completed';
-      await this.awardExperience(participant)
-      return participant
-    } else {
-      participant.status = 'submitted';
+    const readyToGrade = await participantsService.getParticipantById(participant.id)
+    if(challenge.autoGrade){
+      if (challenge.answer == answer) {
+        participant.status = 'completed';
+        await this.awardExperience(participant)
+        await participant.save()
+        return participant
+      } else {
+        return 'incorrect'
+      }
+    }
+    if(!challenge.autoGrade){
+      participant.submission = answer;
+      participant.status = 'submitted',
       await participant.save()
       return participant
     }
+    return challenge;
   }
 }
 
