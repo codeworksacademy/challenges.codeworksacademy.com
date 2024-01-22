@@ -172,14 +172,14 @@ class ChallengesService {
     return challenge
   }
 
-  async submitChallenge(challengeId, participantId, answer) {
+  async submitChallenge(challengeId, participantId, submission, accountId) {
     const participant = await participantsService.getParticipantById(participantId)
     const challenge = await dbContext.Challenges.findById(challengeId)
     if(accountId != participant.accountId){
       throw new Forbidden("You are not allowed to change this participant's submission")
     }
     if(challenge.autoGrade){
-      if (challenge.answer == answer) {
+      if (challenge.answer == submission) {
         participant.status = 'completed';
         await this.awardExperience(participant)
         await participant.save()
@@ -189,7 +189,7 @@ class ChallengesService {
       }
     }
     if(!challenge.autoGrade){
-      participant.submission = answer;
+      participant.submission = submission;
       participant.status = 'submitted',
       await participant.save()
       return participant

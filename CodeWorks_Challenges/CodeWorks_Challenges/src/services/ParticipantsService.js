@@ -55,10 +55,7 @@ class ParticipantsService {
 			path: 'challenge',
 			populate: { path: 'creator' }
 		})
-		
-		await participant.save()
-		
-		return participant
+		return participation
 	}
 
 	async gradeChallengeParticipant(participantId, graderId, participantGrade) {
