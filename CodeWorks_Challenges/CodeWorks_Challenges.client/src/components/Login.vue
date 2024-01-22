@@ -16,7 +16,7 @@
               <p class="m-0">
                 <span class="bg-success rounded me-2" style="padding: 2px">{{ currentRank }} </span>
                 <span class="float-end">
-                  {{ account.rank }} 
+                  {{ account.experience }} 
                   <span class="light-gold-color">
                     XP
                   </span>

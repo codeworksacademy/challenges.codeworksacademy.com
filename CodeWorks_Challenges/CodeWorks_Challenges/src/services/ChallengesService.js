@@ -175,6 +175,7 @@ class ChallengesService {
 
   async submitChallenge(challengeId, participantId, submission, accountId) {
     const participant = await participantsService.getParticipantById(participantId)
+    //TODO Get Account so you can increase their experience
     const challenge = await dbContext.Challenges.findById(challengeId)
     if(accountId != participant.accountId){
       throw new Forbidden("You are not allowed to change this participant's submission")
@@ -182,7 +183,7 @@ class ChallengesService {
     if(challenge.autoGrade){
       if (challenge.answer == submission) {
         participant.status = 'completed';
-        await this.awardExperience(participant)
+        // await this.awardExperience(participant)
         await participant.save()
         return participant
       } else {
