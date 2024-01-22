@@ -44,7 +44,6 @@ class ChallengesService {
     const res = await api.get(`api/profiles/${profileId}/challenges`)
 
     logger.log('[GETTING PROFILE CHALLENGES]', res.data)
-
     AppState.challenges = res.data.map(c => new Challenge(c))
   }
 
@@ -119,11 +118,11 @@ class ChallengesService {
     return res.data
   }
 
-  async giveReputation(challengeId) {
-    const res = await api.put(`api/challenges/${challengeId}/reputation`)
-    logger.log('[GIVING REPUTATION]', res.data)
-    AppState.ChallengeState.challenge = new Challenge(res.data)
-
+  async giveReputation(challengeId, userId) {
+    logger.log('Challenge ID:', challengeId, 'User ID:', { userId })
+    const res = await api.put(`api/challenges/${challengeId}/reputation`, userId)
+    logger.log('Giving Reputation ⏩', res.data)
+    AppState.ChallengeState.challenge = res.data
     return res.data
   }
 

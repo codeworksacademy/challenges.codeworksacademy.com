@@ -1,4 +1,5 @@
 import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js";
+import { challengesService } from "../services/ChallengesService.js";
 import { participantsService } from "../services/ParticipantsService.js";
 import BaseController from "../utils/BaseController.js"
 import { Auth0Provider } from "@bcwdev/auth0provider";
@@ -11,9 +12,8 @@ export class ChallengeModeratorsController extends BaseController {
 
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createModeration)
-      .post('/account', this.createOwnedChallengeModeration)
       .get('/challenges/:userId', this.getModerationsByChallengeCreatorId)
-      .put('/:participantId/grade', this.gradeChallengeParticipant)
+      // .put('/:participantId/grade', this.gradeChallengeParticipant)
       .put('/:moderatorId', this.ApproveModeration)
       .delete('/:moderatorId', this.removeModeration)
   }
@@ -21,18 +21,6 @@ export class ChallengeModeratorsController extends BaseController {
   async createModeration(req, res, next) {
     try {
       const moderatorData = req.body
-      moderatorData.originId = req.userInfo.id
-      const moderation = await challengeModeratorsService.createModeration(moderatorData)
-      return res.send(moderation)
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  async createOwnedChallengeModeration(req, res, next) {
-    try {
-      const moderatorData = req.body
-      moderatorData.status = "active"
       moderatorData.originId = req.userInfo.id
       const moderation = await challengeModeratorsService.createModeration(moderatorData)
       return res.send(moderation)
@@ -61,17 +49,17 @@ export class ChallengeModeratorsController extends BaseController {
     }
   }
 
-  async gradeChallengeParticipant(req, res, next) {
-    try {
-      const participantId = req.params.participantId
-      const userId = req.userInfo.id
-      const newGrade = req.body
-      const participant = await participantsService.gradeChallengeParticipant(participantId, userId, newGrade)
-      return res.send(participant)
-    } catch (error) {
-      next(error);
-    }
-  }
+  // async gradeChallengeParticipant(req, res, next) {
+  //   try {
+  //     const participantId = req.params.participantId
+  //     const userId = req.userInfo.id
+  //     const newGrade = req.body
+  //     const participant = await challengeModeratorsService.
+  //     return res.send(participant)
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // }
 
   async ApproveModeration(req, res, next) {
     try {

@@ -72,7 +72,9 @@ export default {
 
     async function giveReputation() {
       try {
-        await challengesService.giveReputation(props.challenge.id)
+        const challengeId = props.challenge.id
+        const accountId = AppState.AccountState.account?.id
+        await challengesService.giveReputation(challengeId, accountId)
         if (gaveReputation.value) {
           Pop.toast(`The CodeWorks team and ${props.challenge.creator.name} appreciate you gifting +1 Reputation to challenge '${props.challenge.name}'!`, 'success')
         } else {

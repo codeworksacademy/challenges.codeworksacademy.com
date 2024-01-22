@@ -114,6 +114,5 @@ class AccountService {
     await account.save()
     return account
   }
-
 }
 export const accountService = new AccountService()

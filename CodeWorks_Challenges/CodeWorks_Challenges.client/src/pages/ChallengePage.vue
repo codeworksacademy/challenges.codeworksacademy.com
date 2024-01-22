@@ -117,7 +117,9 @@ export default {
       .mobile-menu {
         display: block;
         max-height: 350px;
-        width: 100%;
+        width: 92%;
+        transform: translateX(3%);
+        margin-bottom: 2%;
       }
     }
     .col-4 .col-8 {

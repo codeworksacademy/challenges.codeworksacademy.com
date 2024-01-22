@@ -22,7 +22,7 @@ export class ChallengesController extends BaseController {
       .put('/:challengeId/submit', this.submitAnswer)
       
       .put('/:challengeId/participants/:participantId', this.gradeParticipant)
-      .delete('/:challengeId', this.deleteChallenge)
+      // .delete('/:challengeId', this.deleteChallenge)
       .delete('/:challengeId/participants', this.removeParticipant)
   }
 
@@ -90,17 +90,17 @@ export class ChallengesController extends BaseController {
   //   }
   // }
 
-  async deleteChallenge(req, res, next) {
-    try {
-      const challengeId = req.params.challengeId
-      const userId = req.userInfo.id
+  // async deleteChallenge(req, res, next) {
+  //   try {
+  //     const challengeId = req.params.challengeId
+  //     const userId = req.userInfo.id
 
-      await challengesService.deleteChallenge(challengeId, userId)
-      return res.send(challengeId)
-    } catch (error) {
-      next(error)
-    }
-  }
+  //     await challengesService.deleteChallenge(challengeId, userId)
+  //     return res.send(challengeId)
+  //   } catch (error) {
+  //     next(error)
+  //   }
+  // }
 
   async removeParticipant(req, res, next) {
     try {
