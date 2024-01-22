@@ -17,14 +17,9 @@
       </div>
 
       <br /> <br /> <br />
-<<<<<<< HEAD
-
-      <div v-for="participant in challengeBadges" :key="participant?.id" class="col-12 d-flex flex-wrap justify-content-center align-items-center mb-0">
-=======
       
       <h3 class="col-12 text-center text-white mt-3 mb-5">Most Badges</h3>
       <div v-for="participant in challengeBadges" :key="participant.id" class="col-12 d-flex flex-wrap justify-content-center align-items-center mb-0">
->>>>>>> 311fd7479b170693e9388cfee1cbcf5df7d56538
         <MostBadgesCard class="ms-2" :participant="participant" :index="challengeBadges.indexOf(participant) + 1" />
         <ModalWrapper id="badgeModal">
           <template #header>
