@@ -57,7 +57,8 @@ class ChallengesService {
       challenge = await this.getChallengeById(participant.challengeId)
     }
     
-    await accountService.calculateAccountRank({ id: participant.accountId },  EXPERIENCE_SCALE[challenge.difficulty])
+    // await accountService.calculateAccountRank({ id: participant.accountId },  EXPERIENCE_SCALE[challenge.difficulty])
+    //TODO check out experience scale
   }
 
   async createChallenge(newChallenge) {
@@ -194,7 +195,7 @@ class ChallengesService {
       await participant.save()
       return participant
     }
-    return challenge;
+    return participant;
   }
 }
 

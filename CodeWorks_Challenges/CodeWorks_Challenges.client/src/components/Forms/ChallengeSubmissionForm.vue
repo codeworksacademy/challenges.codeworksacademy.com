@@ -1,4 +1,6 @@
 <template>
+  {{ participant?.id }}
+  {{ user?.id }}
   <section v-if="user.isAuthenticated && !challenge?.autoGrade" class="container-fluid position-relative pt-5">
     <form
       class="row bg-light p-3 rounded shadow"
@@ -22,7 +24,7 @@
       </div>
     </form>
   </section> 
-  <section v-if="user.isAuthenticated" class="container-fluid position-relative pt-5">
+  <section v-if="user.isAuthenticated && challenge.autoGrade" class="container-fluid position-relative pt-5">
     <form
       class="row bg-light p-3 rounded shadow"
       @submit.prevent="submitChallenge" id="challengeSubmissionForm"
@@ -54,6 +56,7 @@ import { AppState } from '../../AppState'
 import { useRouter, } from 'vue-router'
 import { logger } from '../../utils/Logger'
 import { SUBMISSION_TYPES } from '../../constants'
+import { challengesService } from '../../services/ChallengesService'
 import { participantsService } from '../../services/ParticipantsService'
 
 export default {
@@ -84,7 +87,7 @@ export default {
           challenge.value.submission = editable.value.submission
           editable.value.status = 'submitted'
         }
-        await challengesService.submitChallenge(challenge.value.id, AppState.user.id, editable.value.submission)
+        await challengesService.submitChallenge(challenge.value.id, participant.value.id, editable.value.submission)
         Modal.getOrCreateInstance('#challengeSubmissionForm').hide()
         Pop.toast(`Submitted: ${editable.value.submission} for ${challenge.value.name}`)
       } catch (error) {
