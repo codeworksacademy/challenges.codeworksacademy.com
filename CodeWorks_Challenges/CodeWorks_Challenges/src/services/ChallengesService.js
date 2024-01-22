@@ -159,10 +159,10 @@ class ChallengesService {
     const index = challenge.reputationIds.findIndex(i => i == userId)
     if (index != -1) {
       challenge.reputationIds.splice(index, 1)
-      challengeCreator.reputation++
+      challengeCreator.reputation -= 1
     } else {
       challenge.reputationIds.push(userId)
-      challengeCreator.reputation--
+      challengeCreator.reputation += 1
     }
 
     // await accountService.calculateAccountRank({ id: challengeCreator.id })
