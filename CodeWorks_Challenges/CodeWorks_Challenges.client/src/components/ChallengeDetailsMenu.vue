@@ -34,7 +34,7 @@
         <permissions-flag permissions="join:challenge">
           <h4 @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable text-success"> Join Challenge</h4>
         </permissions-flag>
-
+        <h4 @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable text-success"> Join Challenge</h4>
       </div>
       <div v-if="isParticipant" class="fw-semibold">
         <h4 v-if="isParticipant.status == 'completed'" class="text-success">Challenge Passed <span><i class="mdi mdi-check"></i></span></h4>
