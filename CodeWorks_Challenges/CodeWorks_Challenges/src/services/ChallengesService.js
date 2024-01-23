@@ -147,18 +147,20 @@ class ChallengesService {
 
   async giveReputation(challengeId, userId) {
     const challenge = await this.getChallengeById(challengeId)
-    await dbContext.Account.findById(challenge.creator.id)
+    // @ts-ignore
+    const challengeCreator = challenge.creator
+    await dbContext.Account.findById(challengeCreator.id)
     const index = challenge.reputationIds.findIndex(i => i === userId)
     if (index === -1) {
       challenge.reputationIds.push(userId)
-      challenge.creator.reputation++
+      challengeCreator.reputation++
     } else {
       challenge.reputationIds.splice(index, 1)
-      challenge.creator.reputation--
+      challengeCreator.reputation--
     }
-    await dbContext.Account.findByIdAndUpdate(challenge.creator.id, { reputation: challenge.creator.reputation })
+    await dbContext.Account.findByIdAndUpdate(challengeCreator.id, { reputation: challengeCreator.reputation })
     await challenge.save()
-    await challenge.creator.save()
+    await challengeCreator.save()
     return challenge
   }
 
