@@ -58,7 +58,6 @@ import { logger } from '../../utils/Logger'
 import { SUBMISSION_TYPES } from '../../constants'
 import { challengesService } from '../../services/ChallengesService'
 import { participantsService } from '../../services/ParticipantsService'
-import { challengesService } from "../../services/ChallengesService.js"
 
 export default {
   setup() {
