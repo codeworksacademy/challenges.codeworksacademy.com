@@ -54,29 +54,7 @@ class ChallengesService {
     challengeModeratorsService.getModeratorsByChallengeId(challengeId)
     logger.log('Active Challenge:', AppState.ChallengeState.challenge)
   }
-
-  async submitAnswer(challengeId, participantId, submission){
-    // throw new Error('Needs Moved to ChallengesService')
-    
-    const res = await api.put(`api/challenges/${challengeId}/submit`, {
-      challengeId: challengeId,
-      participantId: participantId,
-      answer: submission,
-    })
-    if(res.data.participant.status == 'incomplete'){
-      Pop.error("Answer was incorrect.")
-    }
-    if(res.data.participant.status == 'completed'){
-      Pop.success("Congratulations on finishing the challenge!")
-    }
-  }
-
-  async filterDifficulty(difficulty) {
-    await this.getAllChallenges()
-    let challenges = AppState.challenges.filter(c => c.difficulty == difficulty)
-    AppState.challenges = challenges
-  }
-
+  
   async deprecateChallenge(challengeId) {
     const res = await api.delete(`/api/challenges/${challengeId}`)
     logger.log('🚨🚨🚨deprecating Challenge ⏩', res.data)
@@ -101,26 +79,19 @@ class ChallengesService {
     return res.data
   }
 
-  async submitChallenge(challengeId, participantId, submission){
+  async submitChallenge(challengeId, participantId, participant){
 
+    logger.log(`[CHALLENGE ID]: ${challengeId} [PARTICIPANT ID]: ${participantId} [SUBMISSION]: ${participant.submission} [STATUS]: ${participant.status}`)
     const res = await api.put(`api/challenges/${challengeId}/submit`, {
       challengeId: challengeId,
       participantId: participantId,
-      submission: submission
+      submission: participant.submission,
+      status: participant.status
     })
     logger.log('Submitting Answer ⏩', res.data)
     
     AppState.ChallengeState.participant = res.data.participant
-    
-    if(participant.status == 'incomplete'){
-      Pop.error("Answer was incorrect.")
-    } else if(participant.status == 'completed'){
-      Pop.success("Congratulations on finishing the challenge!")
-    } else {
-      participant.status = 'submitted'
-      Pop.toast("Challenge submitted for review.")
-    }
-    
+    // AppState.ChallengeState.challenge = res.data.challenge
     return res.data
   }
 

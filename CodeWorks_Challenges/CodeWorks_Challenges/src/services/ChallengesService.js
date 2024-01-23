@@ -1,6 +1,6 @@
 import { dbContext } from "../db/DbContext.js";
 import { BadRequest, Forbidden } from "../utils/Errors.js";
-import { PROFILE_FIELDS } from '../constants';
+import { PROFILE_FIELDS, SUBMISSION_TYPES } from '../constants';
 import { challengeModeratorsService } from "./ChallengeModeratorsService.js";
 import { participantsService } from "./ParticipantsService.js";
 import { accountService } from "./AccountService.js";
@@ -86,7 +86,7 @@ class ChallengesService {
   async getChallengeById(challengeId) {
     const challenge = await dbContext.Challenges.findById(challengeId)
       .populate('creator participantCount completedCount', PROFILE_FIELDS)
-      .select('-answer')
+      .select('-answer')//⚠️ but answers here? Corrected to answer after reviewing Schema
     if (!challenge) {
       throw new BadRequest('Invalid Challenge ID.')
     }
@@ -146,57 +146,47 @@ class ChallengesService {
     return challenge
   }
 
-  
-
   async giveReputation(challengeId, userId) {
-    const challenge = (await this.getChallengeById(challengeId))
-
-    if (challenge.creatorId == userId) {
-      throw new BadRequest('You cannot give reputation to yourself.')
-    }
-    
-    const challengeCreator = await accountService.getAccount({ id: challenge.creatorId })
-    const index = challenge.reputationIds.findIndex(i => i == userId)
-    if (index != -1) {
-      challenge.reputationIds.splice(index, 1)
-      challengeCreator.reputation -= 1
-    } else {
+    const challenge = await this.getChallengeById(challengeId)
+    // @ts-ignore
+    const challengeCreator = challenge.creator
+    await dbContext.Account.findById(challengeCreator.id)
+    const index = challenge.reputationIds.findIndex(i => i === userId)
+    if (index === -1) {
       challenge.reputationIds.push(userId)
-      challengeCreator.reputation += 1
+      challengeCreator.reputation++
+    } else {
+      challenge.reputationIds.splice(index, 1)
+      challengeCreator.reputation--
     }
-
-    // await accountService.calculateAccountRank({ id: challengeCreator.id })
-
+    await dbContext.Account.findByIdAndUpdate(challengeCreator.id, { reputation: challengeCreator.reputation })
     await challenge.save()
     await challengeCreator.save()
-
     return challenge
   }
 
-  async submitChallenge(challengeId, participantId, submission, accountId) {
-    const participant = await participantsService.getParticipantById(participantId)
-    //TODO Get Account so you can increase their experience
+  async submitChallenge(challengeId, participantId, participantData) {
     const challenge = await dbContext.Challenges.findById(challengeId)
-    if(accountId != participant.accountId){
-      throw new Forbidden("You are not allowed to change this participant's submission")
-    }
+    const participant = await participantsService.getParticipantById(participantId)
     if(challenge.autoGrade){
-      if (challenge.answer == submission) {
-        participant.status = 'completed';
-        // await this.awardExperience(participant)
+      if (challenge.answer === participantData.submission) {
+        participant.status = SUBMISSION_TYPES.COMPLETED;
+        await this.awardExperience(participant)
         await participant.save()
         return participant
-      } else {
-        return 'incorrect'
+      } else if (challenge.answer !== participantData.submission) {
+        participant.status = SUBMISSION_TYPES.INCOMPLETE;
+        await participant.save()
+        return participant
       }
     }
-    if(!challenge.autoGrade){
-      participant.submission = submission;
-      participant.status = 'submitted',
+    if (!challenge.autoGrade) {
+      participant.status = SUBMISSION_TYPES.SUBMITTED;
+      participant.submission = participantData.submission;
       await participant.save()
       return participant
     }
-    return participant;
+    return challenge
   }
 }
 

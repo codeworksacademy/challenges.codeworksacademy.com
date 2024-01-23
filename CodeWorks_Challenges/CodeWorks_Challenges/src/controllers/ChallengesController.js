@@ -30,9 +30,8 @@ export class ChallengesController extends BaseController {
     try {
       const challengeId = req.params.challengeId
       const participantId = req.body.participantId
-      const accountId = req.userInfo.id
-      const submission = req.body.submission
-      const result = await challengesService.submitChallenge(challengeId, participantId, submission, accountId)
+      const participantData = req.body
+      const result = await challengesService.submitChallenge(challengeId, participantId, participantData)
       return res.send(result)
     } catch (e) {
       next(e)

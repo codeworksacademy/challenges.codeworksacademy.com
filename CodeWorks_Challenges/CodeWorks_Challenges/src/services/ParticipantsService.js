@@ -10,7 +10,7 @@ class ParticipantsService {
 		const participants = await dbContext.ChallengeParticipants.find({ status: 'completed' }).populate({
 			path: 'challenge',
 			populate: { path: 'creator requirements participantCount completedCount' }
-		}).populate('profile', PROFILE_FIELDS)
+		}).populate('profile', 'name picture')
 		return participants
 	}
 

@@ -108,7 +108,7 @@ export default {
       top: 27%;
       left: 50%;
       transform: translateX(-50%);
-      object-fit: cover;
+      object-fit: contain;
       object-position: center;
       background-repeat: no-repeat;
       background-position: center;

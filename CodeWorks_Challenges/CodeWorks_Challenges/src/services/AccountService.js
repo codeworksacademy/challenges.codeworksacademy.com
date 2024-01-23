@@ -64,7 +64,7 @@ class AccountService {
   async getAccount(user) {
     let account = await dbContext.Account.findOne({
       _id: user.id || user._id
-    }).populate('badges')
+    })
     account = await createAccountIfNeeded(account, user)
     await mergeSubsIfNeeded(account, user)
     return account
@@ -94,7 +94,7 @@ class AccountService {
    */
 
   //FIXME - Chantha check out the title enums
-  async calculateAccountRank(user) {
+  async calculateAccountRank(user, experience = 0) {
     const update = await this.getAccount(user)
 
     const totalMilestoneExperience = await accountMilestonesService.getTotalMilestoneExperience(account)
@@ -113,6 +113,13 @@ class AccountService {
 
     account.rank = rank
     account.title = RANK_BADGE[nextI - 1].NAME
+    await account.save()
+    return account
+  }
+
+  async calculateAccountReputation(user, reputation = 0) {
+    const account = await this.getAccount(user)
+    account.reputation += reputation
     await account.save()
     return account
   }

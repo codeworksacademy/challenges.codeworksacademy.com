@@ -23,19 +23,19 @@
       <button class="btn text-dark btn-outline-secondary text-light mdi mdi-plus-circle fw-700"> Submit Application</button>
       </div>
     </form>
-  </section> 
-  <section v-if="user.isAuthenticated && challenge.autoGrade" class="container-fluid position-relative pt-5">
+  </section>
+  <section v-if="user.isAuthenticated && challenge?.autoGrade" class="container-fluid position-relative pt-5">
     <form
       class="row bg-light p-3 rounded shadow"
       @submit.prevent="submitChallenge" id="challengeSubmissionForm"
     >
       <div class="col-12">
         <div class="mb-3">
-          <label for="submission" class="form-label">Submit Answer</label>
+          <label for="answer" class="form-label">Submit Answer</label>
           <input
-            v-model="editable.submission"
-            name="submission"
-            id="submission"
+            v-model="editable.challenge.answer"
+            name="answer"
+            id="answer"
             placeholder="Answer"
             class="form-control bg-light"
           >
@@ -58,6 +58,7 @@ import { logger } from '../../utils/Logger'
 import { SUBMISSION_TYPES } from '../../constants'
 import { challengesService } from '../../services/ChallengesService'
 import { participantsService } from '../../services/ParticipantsService'
+import { challengesService } from "../../services/ChallengesService.js"
 
 export default {
   setup() {
@@ -70,6 +71,9 @@ export default {
       challengeId: AppState.ChallengeState.challenge?.id,
       submission: '',
       status: SUBMISSION_TYPES.STARTED,
+      challenge: {
+        answer: ''
+      }
     })
 
     const participant = computed(() => {
@@ -81,15 +85,15 @@ export default {
         // If it's an answer submission, we need the status to be submitted along with the answer for auto-grading
         if (challenge.value.autoGrade) {
           editable.value.status = 'completed',
-          editable.value.submission = editable.value.submission.toLowerCase()
+          editable.value.challenge.answer = editable.value.challenge.answer
           // Else, it's a code submission URL. So we set the status to submitted, and their submission to their codebase URL provided
         } else {
-          challenge.value.submission = editable.value.submission
           editable.value.status = 'submitted'
+          editable.value.submission = editable.value.submission
         }
-        await challengesService.submitChallenge(challenge.value.id, participant.value.id, editable.value.submission)
+        await challengesService.submitChallenge(challenge.value.id, participant.value.id, editable.value)
         Modal.getOrCreateInstance('#challengeSubmissionForm').hide()
-        Pop.toast(`Submitted: ${editable.value.submission} for ${challenge.value.name}`)
+        Pop.toast('Challenge Submitted!')
       } catch (error) {
         logger.log(error)
       }
