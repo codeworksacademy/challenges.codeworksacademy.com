@@ -64,6 +64,7 @@
 import { computed, ref } from 'vue';
 import { AppState } from '../AppState';
 import ModerationCard from '../components/ModerationCard.vue';
+import { logger } from "../utils/Logger.js";
 
 
 export default {
@@ -80,6 +81,7 @@ export default {
           return filterModerators
         } else if (moderationTypes.value == 'Challenge Moderators') {
           let moderators = AppState.ChallengeState.moderators
+          logger.log('[MODERATORS]', moderators)
           let filterModerators = moderators.filter((m) => m.accountId != AppState.AccountState.account.id)
           return filterModerators
         } else {

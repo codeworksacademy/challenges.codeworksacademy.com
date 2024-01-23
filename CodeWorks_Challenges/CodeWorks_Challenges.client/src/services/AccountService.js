@@ -55,7 +55,7 @@ class AccountService {
   }
 
   async getMyModerations() {
-    const res = await api.get('/account/participation')
+    const res = await api.get('/account/moderation')
     AppState.AccountState.moderation = res.data.map(m => new ChallengeModerator(m))
     logger.log('[GET MODERATIONS BY ACCOUNT]', res.data, '[AS]', AppState.AccountState.moderation)
   }

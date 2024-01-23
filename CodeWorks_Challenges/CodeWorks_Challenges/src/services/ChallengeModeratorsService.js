@@ -38,8 +38,8 @@ class ChallengeModeratorsService {
 
     const moderators = await dbContext.ChallengeModerators.find({ $and: [{ $or: [{ status: 'active' }, { status: 'pending' }] }, { accountId: accountId }] }).populate({
       path: 'challenge',
-      populate: { path: 'creator participantCount' }
-    })
+      populate: { path: 'creator participantCount name description' }
+    }).populate({ path: 'profile', populate: { path: 'name picture' } })
     EASY_CACHE[accountId] = moderators
     return moderators
   }

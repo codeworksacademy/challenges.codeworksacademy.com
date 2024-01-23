@@ -1,5 +1,6 @@
 <template>
-  <section class="border-underline background-highlight row d-flex text-light justify-content-between align-items-center py-2">
+  <section
+    class="border-underline background-highlight row d-flex text-light justify-content-between align-items-center py-2">
     <div class="col-3 fw-semibold text-truncate fs-5">
       {{ moderationProp.profile.name }}
     </div>
@@ -13,9 +14,12 @@
       <button class="btn" @click="removeModeration(moderationProp.id)" title="remove moderation">
         <i class="mdi mdi-delete text-danger selectable"></i>
       </button>
-      <button v-if="moderationProp.originId != account.id" class="btn" @click="approveModeration(moderationProp.id)"
-        title="approve moderation">
+      <button v-if="moderationProp.originId != account.id && moderationProp.status != 'active'" class="btn"
+        @click="approveModeration(moderationProp.id)" title="approve moderation">
         <i class="mdi mdi-check-circle text-success selectable"></i>
+      </button>
+      <button v-else class="btn" title="moderation is active">
+        <i class="mdi mdi-check-circle text-dark selectable"></i>
       </button>
     </div>
   </section>
@@ -69,11 +73,11 @@ export default {
 
 
 <style lang="scss" scoped>
-.border-underline{
+.border-underline {
   border-bottom: 1px solid #2F3E57;
 }
 
-.background-highlight:hover{
+.background-highlight:hover {
   background-color: #1A2332;
 }
 </style>
