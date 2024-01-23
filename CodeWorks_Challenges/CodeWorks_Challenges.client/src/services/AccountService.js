@@ -4,6 +4,7 @@ import { ChallengeModerator } from "../models/ChallengeModerator.js"
 import { ChallengeParticipant } from "../models/ChallengeParticipant.js"
 import { logger } from '../utils/Logger'
 import { api } from './AxiosService'
+import { challengeModeratorsService } from "./ChallengeModeratorsService.js"
 
 class AccountService {
   async getAccount() {
@@ -23,7 +24,9 @@ class AccountService {
       await Promise.all([
         this.getMyChallenges(),
         this.getMyParticipation(),
-        this.getMyModerations()
+        this.getMyModerations(),
+        //FIXME - Is this appropriate here?
+        challengeModeratorsService.getModerationsByChallengeCreatorId(AppState.AccountState.account.id)
       ])
     } catch (error) {
       // todo figure out repeat calls
