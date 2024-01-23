@@ -147,7 +147,7 @@ class ChallengesService {
 
   async giveReputation(challengeId, userId) {
     const challenge = await this.getChallengeById(challengeId)
-    const challengeCreator = await dbContext.Account.findById(challenge.creator.id)
+    await dbContext.Account.findById(challenge.creator.id)
     const index = challenge.reputationIds.findIndex(i => i === userId)
     if (index === -1) {
       challenge.reputationIds.push(userId)
