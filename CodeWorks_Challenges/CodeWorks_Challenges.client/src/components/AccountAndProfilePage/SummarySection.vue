@@ -33,9 +33,9 @@
 
 <script>
 import { computed } from 'vue'
-import { AppState } from '../../AppState'
 import { Profile } from '../../models/Profile.js'
 import { Account } from '../../models/Account.js'
+import { RANK_BADGE } from '../../constants'
 
 export default {
   props: {
@@ -49,15 +49,13 @@ export default {
     return {
       badges: computed(() => props.participation.filter(p => p.status == 'completed')),
       rankTitle: computed(() => {
-        let lastKey = 0
-
-        for (const key in AppState.rankTitles) {
-          if (props.profile.rank >= key) {
-            lastKey = key
-          }
+      let lastKey = 0
+      for (const badge of RANK_BADGE) {
+        if (props.profile.rank >= badge.RANK_THRESHOLD) {
+          lastKey = badge.RANK_THRESHOLD
         }
-
-        return AppState.rankTitles[lastKey]
+      }
+      return RANK_BADGE.find(badge => badge.RANK_THRESHOLD === lastKey).NAME
       })
     }
   }

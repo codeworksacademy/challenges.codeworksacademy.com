@@ -8,8 +8,7 @@
       <div class="col-12 text-white">
         <section class="row justify-content-between">
           <div class="col-md-7 col-12 d-flex summary-height">
-            <SummarySection :profile="profile" :challenges="challenges" :participation="participation"
-              :milestones="milestones" />
+            <SummarySection :profile="profile" :account="profile" :challenges="challenges" :participation="participation" :milestones="milestones" />
           </div>
 
           <div class="col-4 align-items-center justify-content-end d-none d-md-flex summary-height">

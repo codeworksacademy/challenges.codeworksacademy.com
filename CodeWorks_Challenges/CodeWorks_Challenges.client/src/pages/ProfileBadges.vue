@@ -5,7 +5,7 @@
         <div class="row badge-card d-flex flex-row justify-space-evenly align-items-center mt-4 me-3">
           <div class="col-3 rounded-top d-flex flex-column justify-content-center align-items-center my-3" v-for="earnedBadge in challengeBadges" :key="earnedBadge">
             <router-link :to="{ name: 'Challenge.overview', params: { challengeId: earnedBadge.challengeId } }" :title="`Click to visit the '${earnedBadge.challenge.name}' Challenge Page to earn this badge!`" class=" badge-link">
-              <ChallengeBadge :challenge="earnedBadge.challenge" />
+              <ChallengeBadge :challenge="earnedBadge.challenge" :badge="earnedBadge.challenge.badge" />
             </router-link>
             <div class="card col-12 d-flex justify-content-center align-items-center text-light mt-2 pb-2">
               <span class="text-capitalize bg-black fw-semibold text-truncate text-center py-1 mb-1" style="width: 100%"> {{ earnedBadge.challenge.name }} </span>

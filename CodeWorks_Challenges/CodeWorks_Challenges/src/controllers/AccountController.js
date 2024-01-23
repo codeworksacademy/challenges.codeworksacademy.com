@@ -15,8 +15,6 @@ export class AccountController extends BaseController {
       .get('/challenges', this.getMyChallenges)
       .get('/participation', this.getMyParticipation)
       .get('/moderation', this.getMyModeration)
-      // .get('/rank', this.calculateAccountRank)
-      // .get('/reputation', this.calculateAccountReputation)
       .put('', this.updateAccount)
       .put('/:milestoneId/accountMilestones', this.claimMyMilestone)
       .post('/accountMilestones', this.checkMilestonesByAccountId)
@@ -24,6 +22,7 @@ export class AccountController extends BaseController {
 
   async getUserAccount(req, res, next) {
     try {
+      // TODO might want to calculate account Rank as I login
       const account = await accountService.getAccount(req.userInfo)
       res.send(account)
     } catch (error) {
@@ -55,7 +54,17 @@ export class AccountController extends BaseController {
   async getMyParticipation(req, res, next) {
     try {
       const accountId = req.userInfo.id
-      const answers = await participantsService.getMyParticipation(accountId)
+      const answers = await participantsService.getParticipationByUserId(accountId)
+      res.send(answers)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getMyModeration(req, res, next) {
+    try {
+      const accountId = req.userInfo.id
+      const answers = await challengeModeratorsService.getMyModerations(accountId)
       res.send(answers)
     } catch (error) {
       next(error)

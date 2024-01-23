@@ -44,7 +44,6 @@ class ChallengesService {
     const res = await api.get(`api/profiles/${profileId}/challenges`)
 
     logger.log('[GETTING PROFILE CHALLENGES]', res.data)
-
     AppState.challenges = res.data.map(c => new Challenge(c))
   }
 
@@ -54,6 +53,22 @@ class ChallengesService {
     participantsService.getParticipantsByChallengeId(challengeId)
     challengeModeratorsService.getModeratorsByChallengeId(challengeId)
     logger.log('Active Challenge:', AppState.ChallengeState.challenge)
+  }
+
+  async submitAnswer(challengeId, participantId, submission){
+    // throw new Error('Needs Moved to ChallengesService')
+    
+    const res = await api.put(`api/challenges/${challengeId}/submit`, {
+      challengeId: challengeId,
+      participantId: participantId,
+      answer: submission,
+    })
+    if(res.data.participant.status == 'incomplete'){
+      Pop.error("Answer was incorrect.")
+    }
+    if(res.data.participant.status == 'completed'){
+      Pop.success("Congratulations on finishing the challenge!")
+    }
   }
 
   async filterDifficulty(difficulty) {
@@ -86,12 +101,49 @@ class ChallengesService {
     return res.data
   }
 
-  async giveReputation(challengeId) {
-    const res = await api.put(`api/challenges/${challengeId}/reputation`)
-    logger.log('[GIVING REPUTATION]', res.data)
-    AppState.ChallengeState.challenge = new Challenge(res.data)
+  async submitChallenge(challengeId, participantId, submission){
 
+    const res = await api.put(`api/challenges/${challengeId}/submit`, {
+      challengeId: challengeId,
+      participantId: participantId,
+      submission: submission
+    })
+    logger.log('Submitting Answer ⏩', res.data)
+    
+    AppState.ChallengeState.participant = res.data.participant
+    
+    if(participant.status == 'incomplete'){
+      Pop.error("Answer was incorrect.")
+    } else if(participant.status == 'completed'){
+      Pop.success("Congratulations on finishing the challenge!")
+    } else {
+      participant.status = 'submitted'
+      Pop.toast("Challenge submitted for review.")
+    }
+    
     return res.data
+  }
+
+
+  async gradeChallengeParticipant(newGrade) {
+    const res = await api.put(`api/moderators/${newGrade.participantId}/grade`, newGrade)
+    logger.log('Participant Updated ⏩', res.data)
+    AppState.ChallengeState.participant = res.data
+    return res.data
+  }
+
+  async giveReputation(challengeId, userId) {
+    logger.log('Challenge ID:', challengeId, 'User ID:', { userId })
+    const res = await api.put(`api/challenges/${challengeId}/reputation`, userId)
+    logger.log('Giving Reputation ⏩', res.data)
+    AppState.ChallengeState.challenge = res.data
+    return res.data
+  }
+
+  async getChallengesCreatedBy(id) {
+    const res = await api.get(`api/profiles/${id}/challenges`)
+    logger.log('[GETTING CHALLENGES CREATED BY USER]', res.data)
+    AppState.challenges = res.data.map(c => new Challenge(c))
   }
 }
 

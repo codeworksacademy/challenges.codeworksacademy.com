@@ -2,7 +2,7 @@
   <section v-if="challenge" :key="challenge?.id" class="text-light pb-5">
 
     <article>
-      <div class="details-header ps-3 bg-detail mx-3">
+      <div class="details-header p-3 bg-detail mx-3 rounded-3 my-2">
         <h3 class="text-uppercase" style="color: #7A7A7A">
           Challenge Description
         </h3>
@@ -28,7 +28,7 @@
         <ChallengeCreatorCard :challenge="challenge" color="#323e78" bgColor="#323e7829" :themeStyle="true" />
       </div>
     </div>
-    <ChallengeBadgeCard :challenge="challenge" color="#323e7829" bgColor="#323e7950" :themeStyle="true" />
+    <ChallengeBadgeCard :challenge="challenge" :badge="challenge.badge" />
   </section>
 </template>
 
@@ -146,6 +146,7 @@ export default {
 
 @media screen and (max-width: 768px) {
   .details-header {
+    width: 92%;
     padding: 2rem;
     h3 {
       font-size: 1.75rem;

@@ -5,10 +5,6 @@ export function loadPage(page) {
   return () => import(`./pages/${page}.vue`)
 }
 
-export function loadPageBranch(folder, file) {
-  return () => import(`./pages/${folder}/${file}.vue`)
-}
-
 const routes = [
   {
     path: '/',
@@ -147,6 +143,11 @@ const routes = [
     path: '/milestones',
     name: 'Milestones',
     component: loadPage('MilestonesPage')
+  },
+  {
+    path: '/leaderboards',
+    name: 'Leaderboards',
+    component: loadPage('LeaderboardsPage')
   },
   {
     path: '/markdown',

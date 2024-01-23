@@ -3,14 +3,32 @@ import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { challengesService } from "./ChallengesService.js"
 
-const EAZY_CACHE = {}
+const EASY_CACHE = {}
 
 class ChallengeModeratorsService {
 
 
   async createModeration(moderatorData) {
-    const moderation = await dbContext.ChallengeModerators.create(moderatorData)
-    return moderation
+    const { challengeId, accountId } = moderatorData;
+  
+    const existingModeration = await dbContext.ChallengeModerators.findOne({ challengeId, accountId });
+
+    if (existingModeration) {
+      if (existingModeration.status == 'active') {
+        throw new BadRequest(`[MODERATION_STATUS::${existingModeration.status}] This user is already a moderator for this challenge.`);
+      }
+      return existingModeration;
+    }
+  
+    const challenge = await challengesService.getChallengeById(challengeId);
+  
+    if (challenge.status == 'deprecated') {
+      throw new BadRequest(`[CHALLENGE_STATUS::${challenge.status}] This challenge cannot be moderated at this time.`);
+    }
+  
+    const moderator = await dbContext.ChallengeModerators.create(moderatorData);
+  
+    return moderator;
   }
 
   async getMyModerations(accountId) {
@@ -28,12 +46,12 @@ class ChallengeModeratorsService {
 
   async getModeratorsByChallengeId(challengeId) {
 
-    if (EAZY_CACHE[challengeId]) {
-      return Promise.resolve(EAZY_CACHE[challengeId])
+    if (EASY_CACHE[challengeId]) {
+      return Promise.resolve(EASY_CACHE[challengeId])
     }
 
     const moderators = await dbContext.ChallengeModerators.find({ challengeId: challengeId, status: 'active' }).populate('profile', PROFILE_FIELDS)
-    EAZY_CACHE[challengeId] = moderators
+    EASY_CACHE[challengeId] = moderators
     return moderators
   }
   async getModeratorByUserIdAndChallengeId(userId, challengeId) {
@@ -49,15 +67,15 @@ class ChallengeModeratorsService {
   }
 
   async getMyModerationsByProfileId(profileId) {
-    if (EAZY_CACHE[profileId]) {
-      return EAZY_CACHE[profileId]
+    if (EASY_CACHE[profileId]) {
+      return EASY_CACHE[profileId]
     }
 
     const moderators = await dbContext.ChallengeModerators.find({ accountId: profileId, status: 'active' }).populate({
       path: 'challenge',
       populate: { path: 'creator participantCount' }
     })
-    EAZY_CACHE[profileId] = moderators
+    EASY_CACHE[profileId] = moderators
     return moderators
   }
 
@@ -108,7 +126,7 @@ class ChallengeModeratorsService {
     return moderation
   }
 
-  async removeModeratoration(moderatorId, userId) {
+  async removeModerator(moderatorId, userId) {
     const moderatorToRemove = await dbContext.ChallengeModerators.findById(moderatorId)
     const challenge = await challengesService.getChallengeById(moderatorToRemove.challengeId)
 
@@ -117,7 +135,7 @@ class ChallengeModeratorsService {
     }
 
     if (userId != moderatorToRemove.accountId && userId != challenge.creatorId) {
-      throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this moderator's. You may not remove other moderator.")
+      throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this moderator's. You may not remove other moderators.")
     }
 
     moderatorToRemove.status = 'terminated'

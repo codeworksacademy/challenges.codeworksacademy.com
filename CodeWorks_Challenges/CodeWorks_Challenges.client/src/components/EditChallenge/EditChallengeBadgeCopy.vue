@@ -32,7 +32,7 @@
       </div>
       {{ editable }}
     </div>
-    <ChallengeBadge :challenge="challenge" :color="editable"/>
+    <ChallengeBadge :challenge="challenge" :color="editable" />
   </div>
 </template>
 

@@ -15,10 +15,14 @@
         class="col-12 creator-text d-flex justify-content-center offset-1 text-capitalize"> {{ challenge.creator.name }}
       </h3>
       <div class="col-12 button-container d-flex justify-content-center offset-2 mt-2">
-        <button v-if="reputant" @click="giveReputation" class="btn bg-dark btn-success text-success me-3"><small>Give
-            Reputation</small></button>
-        <button v-else @click="giveReputation" class="btn bg-dark btn-success text-info me-3"><small>Remove
-            Reputation</small></button>
+        <button v-if="isParticipant && !gaveReputation" @click="giveReputation" class="btn bg-dark btn-success text-success me-3"><small>Give Reputation</small></button>
+        <button v-if="isParticipant && gaveReputation" @click="giveReputation" class="btn bg-dark btn-danger text-danger me-3"><small>Remove Reputation</small></button>
+        <div v-if="!isParticipant && !isCreator" class="disabled-title" :title="`You must be a participant of '${challenge.name}' before you can award it's creator with reputation.`">
+          <button class="btn bg-dark btn-warning text-light me-3" disabled><small>Give Reputation</small></button>
+        </div>
+        <div v-if="isCreator" class="disabled-title" :title="`${challenge.creator.name}'s total Reputation: ${challenge.creator.reputation}`">
+          <button class="btn bg-info btn-warning text-white me-3" disabled><small>View Reputation</small></button>
+        </div>
       </div>
     </div>
   </div>
@@ -51,6 +55,13 @@ export default {
       return participant
     })
 
+    const isCreator = computed(() => {
+      if (AppState.AccountState.account.id === props.challenge.creator.id) {
+        return true
+      }
+      return false
+    })
+
     const gaveReputation = computed(() => {
       const challenge = props.challenge
       if (challenge.reputationIds.find(r => r == AppState.AccountState.account.id)) {
@@ -61,7 +72,9 @@ export default {
 
     async function giveReputation() {
       try {
-        await challengesService.giveReputation(route.params.challengeId)
+        const challengeId = props.challenge.id
+        const accountId = AppState.AccountState.account?.id
+        await challengesService.giveReputation(challengeId, accountId)
         if (gaveReputation.value) {
           Pop.toast(`The CodeWorks team and ${props.challenge.creator.name} appreciate you gifting +1 Reputation to challenge '${props.challenge.name}'!`, 'success')
         } else {
@@ -75,10 +88,11 @@ export default {
     return {
       route,
       isMobile,
+      isCreator,
       isParticipant,
       gaveReputation,
       giveReputation,
-      reputant: computed(() => {
+      canGiveReputation: computed(() => {
         if (props.challenge.reputationIds.find(r => r == AppState.AccountState.account.id)) {
           return false
         }

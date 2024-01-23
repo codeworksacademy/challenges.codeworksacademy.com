@@ -108,7 +108,6 @@ export default {
   color: var(--shadow-blue);
   width: fit-content;
 }
-
 .calc-vh{
   height: calc(100vh - 64px);
 }

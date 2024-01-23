@@ -4,19 +4,73 @@ import { PROFILE_FIELDS } from '../constants';
 import { challengeModeratorsService } from "./ChallengeModeratorsService.js";
 import { participantsService } from "./ParticipantsService.js";
 import { accountService } from "./AccountService.js";
+import { accountMilestonesService } from "./AccountMilestonesService.js";
+import { logger } from "../utils/Logger.js";
+import { profilesService } from "./ProfilesService.js";
 
+const EXPERIENCE_SCALE = {
+	1: 10,
+	2: 50,
+	3: 250,
+	4: 500,
+	5: 1000
+}
 
 class ChallengesService {
+  async gradeParticipant(challengeId, participantId, grade, userId) {
+    const challenge = await this.getChallengeById(challengeId)
+    const participant = await participantsService.getParticipantById(participantId)
+    await challengeModeratorsService.getModeratorByUserIdAndChallengeId(userId, challengeId)
+
+    if (userId == participantId) {
+      throw new BadRequest('You cannot grade your own submission.')
+    }
+
+    participant.requirements = grade.requirements
+    participant.grade = grade.requirements.reduce((acc, cur) => acc + cur.isCompleted ? 1 : 0, 0)
+    if (grade.status != 'completed' || grade.status != 'returned for review') {
+      throw new BadRequest('Invalid status.')
+    }
+    participant.status = grade.status
+
+    try {
+      accountMilestonesService.giveGradingMilestoneByAccountId(userId)
+      if (participant.status == 'completed') {
+        participant.completedAt = new Date()
+        this.awardExperience(participant)
+      }
+    } catch (error) {
+      // Address failure to award experience
+      logger.error('[GRADING_HOOK_FAILED] for awarding experience', {error, participant, challenge})
+    }
+
+    await participant.save()
+    return participant
+  }
+
+  // This method is used to give the experience of a challenge to a userId
+  // Triggered by grading or autoGrade
+  async awardExperience(participant) {
+
+    let challenge = participant.challenge
+    if (!challenge) {
+      challenge = await this.getChallengeById(participant.challengeId)
+    }
+    
+    // await accountService.calculateAccountRank({ id: participant.accountId },  EXPERIENCE_SCALE[challenge.difficulty])
+    //TODO check out experience scale
+  }
 
   async createChallenge(newChallenge) {
     const challenge = await dbContext.Challenges.create(newChallenge)
-    dbContext.ChallengeModerators.create({
-      accountId: newChallenge.creatorId,
-      originIdId: newChallenge.creatorId,
+
+    await challengeModeratorsService.createModeration({
       challengeId: challenge.id,
-      status: 'active'
+      accountId: challenge.creatorId,
+      status: 'active',
+      originId: challenge.creatorId
     })
-    await challenge.populate('creator participantCount completedCount', PROFILE_FIELDS)
+
     return challenge
   }
 
@@ -32,7 +86,7 @@ class ChallengesService {
   async getChallengeById(challengeId) {
     const challenge = await dbContext.Challenges.findById(challengeId)
       .populate('creator participantCount completedCount', PROFILE_FIELDS)
-      .select('-answer')//⚠️ but answers here? Corrected to answer after reviewing Schema
+      .select('-answer')
     if (!challenge) {
       throw new BadRequest('Invalid Challenge ID.')
     }
@@ -92,55 +146,57 @@ class ChallengesService {
     return challenge
   }
 
+  
+
   async giveReputation(challengeId, userId) {
-    const challenge = await this.getChallengeById(challengeId)
+    const challenge = (await this.getChallengeById(challengeId))
 
-    if (challenge.creatorId === userId) {
-      throw new Forbidden('You cannot give reputation to your own challenge.')
+    if (challenge.creatorId == userId) {
+      throw new BadRequest('You cannot give reputation to yourself.')
     }
-
-    const challengeCreator = await dbContext.Account.findById(challenge.creatorId)
-
-
-    const index = challenge.reputationIds.findIndex(i => i === userId)
-    if (index !== -1) {
+    
+    const challengeCreator = await accountService.getAccount({ id: challenge.creatorId })
+    const index = challenge.reputationIds.findIndex(i => i == userId)
+    if (index != -1) {
       challenge.reputationIds.splice(index, 1)
-      challengeCreator.reputation--
+      challengeCreator.reputation -= 1
     } else {
-      challenge.reputationIds = [...challenge.reputationIds, userId]
-      challengeCreator.reputation++
+      challenge.reputationIds.push(userId)
+      challengeCreator.reputation += 1
     }
 
-
-    await challengeCreator.save()
-    await accountService.calculateAccountRank({ id: challengeCreator.id })
+    // await accountService.calculateAccountRank({ id: challengeCreator.id })
 
     await challenge.save()
+    await challengeCreator.save()
+
     return challenge
   }
 
-  async deleteChallenge(challengeId, userId) {
-    const challenge = await this.getChallengeById(challengeId)
-    if (challenge.creatorId != userId)
-      throw new Forbidden(
-        `[PERMISSIONS ERROR]: You are not the creator of ${challenge.name}, therefore you cannot delete it.`
-      )
-    challenge.remove()
-    return challenge
-  }
-
-  async submitAnswer(challengeId, participantId, answer) {
+  async submitChallenge(challengeId, participantId, submission, accountId) {
     const participant = await participantsService.getParticipantById(participantId)
+    //TODO Get Account so you can increase their experience
     const challenge = await dbContext.Challenges.findById(challengeId)
-    if (challenge.answer == answer) {
-      participant.status = 'completed';
-      await participantsService.awardExperience(participant)
-      return participant
-    } else {
-      participant.status = 'submitted';
+    if(accountId != participant.accountId){
+      throw new Forbidden("You are not allowed to change this participant's submission")
+    }
+    if(challenge.autoGrade){
+      if (challenge.answer == submission) {
+        participant.status = 'completed';
+        // await this.awardExperience(participant)
+        await participant.save()
+        return participant
+      } else {
+        return 'incorrect'
+      }
+    }
+    if(!challenge.autoGrade){
+      participant.submission = submission;
+      participant.status = 'submitted',
       await participant.save()
       return participant
     }
+    return participant;
   }
 }
 

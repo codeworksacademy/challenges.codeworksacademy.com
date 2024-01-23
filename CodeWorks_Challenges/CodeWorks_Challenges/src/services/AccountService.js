@@ -85,30 +85,6 @@ class AccountService {
     return account
   }
 
-  // TODO let's simplify this approachs
-  // Increments the experience of the user based on the difficulty of challenges they have completed
-  // async increaseMyExperienceByChallengeDifficulty(user, challengeDifficulty) {
-  //   if (challengeDifficulty < 0 || challengeDifficulty > 1000) {
-  //     throw new Error('You must supply a number, with value between 1-999')
-  //   }
-  //   const update = await this.getAccount(user)
-  //   update.experience = update.experience += challengeDifficulty;
-
-  //   const totalMilestoneExperience = await accountMilestonesService.getTotalMilestoneExperience(update)
-  //   update.totalExperience = update.experience + totalMilestoneExperience
-  //   const account = await this.updateAccount(user, update)
-
-  //   const accountToBeReturned = {
-  //     name: account.name,
-  //     id: account.id,
-  //     experience: account.experience,
-  //     reputation: account.reputation,
-  //     totalExperience: account.totalExperience,
-  //     rank: account.rank
-  //   }
-
-  //   return accountToBeReturned
-  // }
 
   // Calculates the rank of the user by adding the following to the user's XP and reputation, which both contribute to increasing user rank => original XP level + total milestone XP from user's milestones + reputation
   /**
@@ -116,12 +92,15 @@ class AccountService {
    * @param {{id:string}} user 
    * @returns 
    */
+
+  //FIXME - Chantha check out the title enums
   async calculateAccountRank(user) {
     const update = await this.getAccount(user)
 
-    const totalMilestoneExperience = await accountMilestonesService.getTotalMilestoneExperience(update)
+    const totalMilestoneExperience = await accountMilestonesService.getTotalMilestoneExperience(account)
+    account.experience += experience
 
-    let rank = update.experience + totalMilestoneExperience + update.reputation
+    let rank = account.experience + totalMilestoneExperience + account.reputation
 
     const nextI = RANK_BADGE.findIndex(b => b.RANK_THRESHOLD > rank)
     let badge = RANK_BADGE[nextI - 1]
@@ -132,11 +111,10 @@ class AccountService {
       badge = RANK_BADGE[0]
     }
 
-    update.rank = rank
-    update.title = badge.NAME
-    await update.save()
-    return update
+    account.rank = rank
+    account.title = RANK_BADGE[nextI - 1].NAME
+    await account.save()
+    return account
   }
-
 }
 export const accountService = new AccountService()

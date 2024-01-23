@@ -36,7 +36,7 @@ import { AppState } from '../../AppState'
 import Pop from '../../utils/Pop'
 import { challengesService } from '../../services/ChallengesService'
 import { challengeModeratorsService } from '../../services/ChallengeModeratorsService'
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { Modal } from 'bootstrap'
 
 export default {
@@ -48,24 +48,21 @@ export default {
       coverImg: 'https://i.ibb.co/c21hFZN/card-gradient.png',
     })
 
+    const route = useRoute()
     const router = useRouter()
 
     async function createChallenge() {
       try {
         const newChallenge = editable.value
         await challengesService.createChallenge(newChallenge)
-        const moderatorData = {
-          challengeId: AppState.ChallengeState.challenge.id,
-          accountId: AppState.user.id
-        }
-        await challengeModeratorsService.createOwnedChallengeModeration(moderatorData)
+        
         Modal.getOrCreateInstance('#createChallengeForm').hide()
         Pop.toast('Challenge Created')
         router.push(
           {
             name: 'Challenge.challengeEditor',
             params: {
-              challengeId: moderatorData.challengeId
+              challengeId: AppState.ChallengeState.challenge?.id
             }
           })
       } catch (error) {
