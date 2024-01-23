@@ -21,4 +21,9 @@ The content under the CodeWorks®, LLC Organization and all of the individual re
 <!-- 
 Challenge Details - Moderations are broken
 Mod search form is doing a raw data dump
+failed to give reputation, possibly due to recent changes
+Moderations on account page are broken
  -->
+ <!-- 
+ Collector Milestone seems broken, should be at a 3 but shows 5
+  -->
