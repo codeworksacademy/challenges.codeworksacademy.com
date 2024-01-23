@@ -8,7 +8,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12 d-flex justify-content-evenly">
+      <div v-if="moderator" class="col-12 d-flex justify-content-evenly">
         <div class="col-4 flex-column">
           <h5 class="text-light text-center mb-5" style="white-space: nowrap;">Active Challenge Moderators</h5>
           <div v-for="moderator in moderators" :key="moderator.id">
@@ -26,6 +26,9 @@
             </div>
           </div>
         </div>
+      </div>
+      <div v-else>
+        No Moderators
       </div>
     </section>
   </div>
