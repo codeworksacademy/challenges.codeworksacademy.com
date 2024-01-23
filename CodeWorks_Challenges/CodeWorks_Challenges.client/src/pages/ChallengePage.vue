@@ -5,11 +5,11 @@
     </div>
     <div class="d-flex mobile-column-query justify-content-center pt-5" style="height: 100%; background: #161d2b">
       <!-- STUB - Offcanvas Challenge Detail router-view links -->
-      <div class="col-md-4 rounded-3 mobile-menu" style="height:100vh; background: #0c0e13">
+      <div class="col-md-4 rounded-3 mobile-menu">
         <ChallengeDetailsMenu />
       </div>
       <!-- STUB - Challenge Details for active route -->
-      <div class="col-md-8 pt-0 m-0" style="height: 100%;">
+      <div class="col-md-8 pt-0 m-0">
         <div>
           <router-view />
         </div>

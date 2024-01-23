@@ -1,5 +1,5 @@
 <template>
-  <div :class="`details-card ${themeStyle ? 'theme-style' : ''} rounded text-capitalize`" :style="{ backgroundColor: bgColor, borderColor: color, borderStyle: 'groove' }">
+  <div :class="`details-card me-1 ${themeStyle ? 'theme-style' : ''} rounded text-capitalize`" :style="{ backgroundColor: bgColor, borderColor: color, borderStyle: 'groove' }">
     <div v-if="isOwned || isModerator">
       <i class="mdi mdi-bell fs-1"></i>
       <h3> {{ challenge.completedCount }} / {{ challenge.participantCount }} </h3>

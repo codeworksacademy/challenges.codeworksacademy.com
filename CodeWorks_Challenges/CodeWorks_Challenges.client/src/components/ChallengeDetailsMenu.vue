@@ -1,5 +1,5 @@
 <template>
-  <section class="container-fluid">
+  <section class="container-fluid bg-detail rounded-3">
     <h4 class="px-3 pt-3" style="color: #7A7A7A">User Links</h4>
     <aside id="challenge-menu" class="d-flex flex-column fs-4 mt-2 pt-0 px-5">
       <router-link :to="{ name: 'Challenge.overview' }" class="hover-green rounded-1 selectable text-white">
@@ -15,9 +15,7 @@
       <router-link :to="{ name: 'Challenge.statistics' }" class="hover-primary rounded-1 selectable text-white">
         <i class="mdi mdi-finance text-white fst-normal p-3 ps-2"> Statistics</i>
       </router-link>
-
       <hr>
-
       <div v-if="isOwned || isModerator" class="d-flex flex-column justify-content-center">
         <router-link :to="{ name: 'Challenge.gradeSubmissionsPage' }" class="hover-info rounded-1 selectable text-white">
           <i class="mdi mdi-progress-check text-info mt-1 fst-normal p-3 ps-2" style=""> Grade Users</i>
@@ -161,6 +159,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+.bg-detail{
+    background-color: #1c2332;
+    border: 1px solid #2d386b;
+  }
+
 section {
   height: 100%;
   white-space: nowrap;

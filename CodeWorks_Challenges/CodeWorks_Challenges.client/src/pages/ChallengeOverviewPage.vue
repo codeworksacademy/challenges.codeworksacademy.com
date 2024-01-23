@@ -1,30 +1,29 @@
 <template>
   <section v-if="challenge" :key="challenge?.id" class="text-light pb-5">
-
     <article>
-      <div class="details-header p-3 bg-detail mx-3 rounded-3 my-2">
+      <div class="details-header p-3 bg-detail ms-3 me-3 rounded-3">
         <h3 class="text-uppercase" style="color: #7A7A7A">
           Challenge Description
         </h3>
         <p> {{ challenge.description }} </p>
       </div>
     </article>
-    <div class="col-12 mobile-media-query d-flex justify-content-center align-items-center">
-      <div class="col-12 col-md-4 card-container">
+    <div class="row mobile-media-query justify-content-center px-3">
+      <div class="col-md-4 p-3">
         <ChallengeDifficultyCard :challenge="challenge" color="#20C997" bgColor="#20c99629" :themeStyle="true" />
       </div>
-      <div class="col-12 col-md-4">
+      <div class="col-md-4 p-3">
         <ChallengeCategoryCard :challenge="challenge" color="#FD7E14" bgColor="#fd7d142e" :themeStyle="true" />
       </div>
-      <div class="col-12 col-md-4">
+      <div class="col-md-4 p-3">
         <ChallengeReputationCard :challenge="challenge" color="#6F42C1" bgColor="#1D213A" :themeStyle="true" />
       </div>
     </div>
-    <div class="d-flex mobile-flex-column justify-content-center align-items-center">
-      <div class="col-12 col-md-4">
+    <div class="row justify-content-center ms-2 me-2 py-2">
+      <div class="col-md-4">
         <ChallengeParticipantsCard :challenge="challenge" color="#323e78" bgColor="#323e7829" :themeStyle="true" />
       </div>
-      <div class="col-12 col-md-8 card-container">
+      <div class="col-md-8">
         <ChallengeCreatorCard :challenge="challenge" color="#323e78" bgColor="#323e7829" :themeStyle="true" />
       </div>
     </div>
@@ -110,8 +109,8 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 1rem;
-  padding:2rem;
+  // margin: 1rem;
+  // padding:2rem;
   color: #f0f0f0;
   background:#1c2332;
   text-align: center;
@@ -120,7 +119,7 @@ export default {
   height: 25vh;
   display: flex;
   justify-content: center;
-  margin: 1rem;
+  // margin: 1rem;
   color: #f0f0f0;
   background:#1c2332;
   text-align: center;
@@ -141,7 +140,8 @@ export default {
 }
 
 .bg-detail{
-    background-color: #1c2332
+    background-color: #1c2332;
+    border: 1px solid #2d386b;
   }
 
 @media screen and (max-width: 768px) {
