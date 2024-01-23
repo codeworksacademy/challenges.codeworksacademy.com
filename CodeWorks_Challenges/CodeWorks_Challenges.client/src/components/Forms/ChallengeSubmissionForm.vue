@@ -1,6 +1,4 @@
 <template>
-  {{ participant?.id }}
-  {{ user?.id }}
   <section v-if="user.isAuthenticated && !challenge?.autoGrade" class="container-fluid position-relative pt-5">
     <form
       class="row bg-light p-3 rounded shadow"
@@ -56,8 +54,8 @@ import { AppState } from '../../AppState'
 import { useRouter, } from 'vue-router'
 import { logger } from '../../utils/Logger'
 import { SUBMISSION_TYPES } from '../../constants'
-import { challengesService } from '../../services/ChallengesService'
 import { participantsService } from '../../services/ParticipantsService'
+import { challengesService } from "../../services/ChallengesService.js"
 
 export default {
   setup() {
