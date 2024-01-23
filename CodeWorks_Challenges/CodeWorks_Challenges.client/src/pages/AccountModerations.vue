@@ -45,9 +45,13 @@
           STATUS
         </p>
       </div>
-      <div class="col-3 text-center">
+      <div class="col-2 text-center">
         <p title="remove or approve" class="text-truncate">
           REMOVE / APPROVE
+        </p>
+      </div>
+      <div class="col-1 text-center">
+        <p title="" class="text-truncate">
         </p>
       </div>
     </section>
@@ -80,7 +84,7 @@ export default {
           let filterModerators = moderators.filter((m) => m.challenge.creatorId != AppState.AccountState.account.id)
           return filterModerators
         } else if (moderationTypes.value == 'Challenge Moderators') {
-          let moderators = AppState.ChallengeState.moderators
+          let moderators = AppState.AccountState.challengeModeration
           logger.log('[MODERATORS]', moderators)
           let filterModerators = moderators.filter((m) => m.accountId != AppState.AccountState.account.id)
           return filterModerators

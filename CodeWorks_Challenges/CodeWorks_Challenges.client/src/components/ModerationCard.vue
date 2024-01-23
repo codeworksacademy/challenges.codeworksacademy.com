@@ -10,7 +10,7 @@
     <div class="col-3 fw-semibold">
       {{ moderationProp.status.toUpperCase() }}
     </div>
-    <div class="col-3 d-flex justify-content-evenly align-items-center">
+    <div class="col-2 d-flex justify-content-evenly align-items-center">
       <button class="btn" @click="removeModeration(moderationProp.id)" title="remove moderation">
         <i class="mdi mdi-delete text-danger selectable"></i>
       </button>
@@ -21,6 +21,15 @@
       <button v-else class="btn" title="moderation is active">
         <i class="mdi mdi-check-circle text-dark selectable"></i>
       </button>
+    </div>
+    <div class="col-1">
+      <div class="d-flex align-items-center justify-content-center">
+        <router-link :to="{ name: 'Challenge.overview', params: { challengeId: moderationProp.challenge.id } }">
+          <button class="btn text-light" title="view challenge">
+            <i class="mdi mdi-chevron-right"></i>
+          </button>
+        </router-link>
+      </div>
     </div>
   </section>
 </template>

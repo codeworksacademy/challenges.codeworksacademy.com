@@ -24,6 +24,8 @@ const AccountState = reactive({
   participation: [],
   /** @type {import('./models/ChallengeModerator.js').ChallengeModerator[]} */
   moderation: [],
+  /** @type {import('./models/ChallengeModerator.js').ChallengeModerator[]} */
+  challengeModeration: [],
   /** @type {import('./models/AccountMilestone.js').Milestone[]} */
   milestones: [],
 })

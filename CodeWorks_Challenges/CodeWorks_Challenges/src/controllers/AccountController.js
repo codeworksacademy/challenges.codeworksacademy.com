@@ -15,6 +15,7 @@ export class AccountController extends BaseController {
       .get('/challenges', this.getMyChallenges)
       .get('/participation', this.getMyParticipation)
       .get('/moderation', this.getMyModeration)
+      .get('/challengeModeration', this.getMyChallengeModeration)
       .put('', this.updateAccount)
       .put('/:milestoneId/accountMilestones', this.claimMyMilestone)
       .post('/accountMilestones', this.checkMilestonesByAccountId)
@@ -70,6 +71,17 @@ export class AccountController extends BaseController {
       next(error)
     }
   }
+
+  async getMyChallengeModeration(req, res, next) {
+    try {
+      const userId = req.userInfo.id
+      const moderations = await challengeModeratorsService.getModerationsByChallengeCreatorId(userId)
+      return res.send(moderations)
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async checkMilestonesByAccountId(req, res, next) {
     try {
       const accountId = req.userInfo.id

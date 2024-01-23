@@ -25,8 +25,7 @@ class AccountService {
         this.getMyChallenges(),
         this.getMyParticipation(),
         this.getMyModerations(),
-        //FIXME - Is this appropriate here?
-        challengeModeratorsService.getModerationsByChallengeCreatorId(AppState.AccountState.account.id)
+        this.getMyChallengeModeration()
       ])
     } catch (error) {
       // todo figure out repeat calls
@@ -61,6 +60,12 @@ class AccountService {
     const res = await api.get('/account/moderation')
     AppState.AccountState.moderation = res.data.map(m => new ChallengeModerator(m))
     logger.log('[GET MODERATIONS BY ACCOUNT]', res.data, '[AS]', AppState.AccountState.moderation)
+  }
+
+  async getMyChallengeModeration() {
+    const res = await api.get(`/account/challengeModeration`)
+    logger.log('[MODERATIONS BY CHALLENGEID]', res.data)
+    AppState.AccountState.challengeModeration = res.data.map(m => new ChallengeModerator(m))
   }
 }
 
