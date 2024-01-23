@@ -10,7 +10,7 @@ class ChallengeModeratorsService {
 
   async createModeration(moderatorData) {
     const { challengeId, accountId } = moderatorData;
-  
+
     const existingModeration = await dbContext.ChallengeModerators.findOne({ challengeId, accountId });
 
     if (existingModeration) {
@@ -19,28 +19,28 @@ class ChallengeModeratorsService {
       }
       return existingModeration;
     }
-  
+
     const challenge = await challengesService.getChallengeById(challengeId);
-  
+
     if (challenge.status == 'deprecated') {
       throw new BadRequest(`[CHALLENGE_STATUS::${challenge.status}] This challenge cannot be moderated at this time.`);
     }
-  
+
     const moderator = await dbContext.ChallengeModerators.create(moderatorData);
-  
+
     return moderator;
   }
 
   async getMyModerations(accountId) {
-    if (EAZY_CACHE[accountId]) {
-      return EAZY_CACHE[accountId]
+    if (EASY_CACHE[accountId]) {
+      return EASY_CACHE[accountId]
     }
 
-    const moderators = await dbContext.ChallengeModerators.find({ accountId: accountId, status: 'active' }).populate({
+    const moderators = await dbContext.ChallengeModerators.find({ $and: [{ $or: [{ status: 'active' }, { status: 'pending' }] }, { accountId: accountId }] }).populate({
       path: 'challenge',
       populate: { path: 'creator participantCount' }
     })
-    EAZY_CACHE[accountId] = moderators
+    EASY_CACHE[accountId] = moderators
     return moderators
   }
 
@@ -50,7 +50,7 @@ class ChallengeModeratorsService {
       return Promise.resolve(EASY_CACHE[challengeId])
     }
 
-    const moderators = await dbContext.ChallengeModerators.find({ challengeId: challengeId, status: 'active' }).populate('profile', PROFILE_FIELDS)
+    const moderators = await dbContext.ChallengeModerators.find({ $and: [{ $or: [{ status: 'active' }, { status: 'pending' }] }, { challengeId: challengeId }] }).populate('profile', PROFILE_FIELDS)
     EASY_CACHE[challengeId] = moderators
     return moderators
   }
