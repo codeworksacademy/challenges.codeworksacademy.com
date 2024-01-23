@@ -7,9 +7,23 @@ const EAZY_CACHE = {}
 
 class ChallengeModeratorsService {
 
+
   async createModeration(moderatorData) {
     const moderation = await dbContext.ChallengeModerators.create(moderatorData)
     return moderation
+  }
+
+  async getMyModerations(accountId) {
+    if (EAZY_CACHE[accountId]) {
+      return EAZY_CACHE[accountId]
+    }
+
+    const moderators = await dbContext.ChallengeModerators.find({ accountId: accountId, status: 'active' }).populate({
+      path: 'challenge',
+      populate: { path: 'creator participantCount' }
+    })
+    EAZY_CACHE[accountId] = moderators
+    return moderators
   }
 
   async getModeratorsByChallengeId(challengeId) {

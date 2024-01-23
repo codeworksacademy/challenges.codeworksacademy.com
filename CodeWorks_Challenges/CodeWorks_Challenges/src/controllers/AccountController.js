@@ -4,6 +4,7 @@ import BaseController from '../utils/BaseController'
 import { challengesService } from '../services/ChallengesService'
 import { participantsService } from '../services/ParticipantsService'
 import { accountMilestonesService } from "../services/AccountMilestonesService.js"
+import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js"
 
 export class AccountController extends BaseController {
   constructor() {
@@ -13,6 +14,7 @@ export class AccountController extends BaseController {
       .get('', this.getUserAccount)
       .get('/challenges', this.getMyChallenges)
       .get('/participation', this.getMyParticipation)
+      .get('/moderation', this.getMyModeration)
       // .get('/rank', this.calculateAccountRank)
       // .get('/reputation', this.calculateAccountReputation)
       .put('', this.updateAccount)
@@ -54,6 +56,16 @@ export class AccountController extends BaseController {
     try {
       const accountId = req.userInfo.id
       const answers = await participantsService.getMyParticipation(accountId)
+      res.send(answers)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getMyModeration(req, res, next) {
+    try {
+      const accountId = req.userInfo.id
+      const answers = await challengeModeratorsService.getMyModerations(accountId)
       res.send(answers)
     } catch (error) {
       next(error)

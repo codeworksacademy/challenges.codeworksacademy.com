@@ -2,7 +2,8 @@
   <div class="container-fluid">
     <section class="row mt-3">
       <div class="dropdown text-end">
-        <button class="btn aqua-btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn aqua-btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
           Filter Challenges
         </button>
         <ul class="dropdown-menu blue-dropdown">
@@ -22,8 +23,9 @@
       <div class="col-2"></div>
       <div class="col-4 text-end">
         <p class="text-white">
-          <span class="text-danger">fix participating count</span>
-          <span class="highlight-text fw-semibold">{{ challenges.length }} </span> {{ challengeTypes || 'Created' }} challenges
+          <!-- <span class="text-danger">fix participating count</span> -->
+          <span class="highlight-text fw-semibold">{{ challenges.length }} </span> {{ challengeTypes || 'Created' }}
+          challenges
         </p>
       </div>
     </section>
@@ -60,54 +62,81 @@
 import { computed, ref } from 'vue';
 import { AppState } from '../AppState';
 import ChallengeMiniCard from '../components/AccountAndProfilePage/ChallengeMiniCard.vue';
+import { logger } from "../utils/Logger.js";
 
 export default {
-    setup() {
-      const challengeTypes = ref('')
-        return {
-          challengeTypes,
-          challenges: computed(() => {
-            return AppState.AccountState.challenges.filter(c => c.creatorId == AppState.AccountState.account.id)
-          }),
-        };
-      },
-    components: { ChallengeMiniCard }
+  setup() {
+    const challengeTypes = ref('')
+    return {
+      challengeTypes,
+      challenges: computed(() => {
+        let challengesFiltered = []
+        let cf
+        switch (challengeTypes.value) {
+          case 'Created':
+            challengesFiltered = AppState.AccountState.challenges.filter(c => c.creatorId == AppState.AccountState.account.id)
+            break;
+
+          case 'Moderated':
+            cf = AppState.AccountState.moderation
+            cf.forEach(c => {
+              challengesFiltered.push(c.challenge)
+            });
+            break;
+
+          case 'Participating':
+            challengesFiltered = []
+            cf = AppState.AccountState.participation
+            cf.forEach(c => {
+              challengesFiltered.push(c.challenge)
+            });
+            break;
+
+          default:
+            challengesFiltered = AppState.AccountState.challenges.filter(c => c.creatorId == AppState.AccountState.account.id)
+            break;
+        }
+        return challengesFiltered;
+      }),
+    };
+  },
+  components: { ChallengeMiniCard }
 }
 </script>
 
 
 <style lang="scss" scoped>
-.border-underline{
+.border-underline {
   border-bottom: 1px solid #2F3E57;
 }
 
-.blue-dropdown{
+.blue-dropdown {
   background-color: #1A2332;
 }
 
-.dark-blue-bg{
+.dark-blue-bg {
   background-color: #0E141E;
 }
 
-.dropdown-item{
+.dropdown-item {
   color: white;
 }
 
-.dropdown-item:hover{
+.dropdown-item:hover {
   background-color: #0E141E;
 }
 
-.aqua-btn-outline{
+.aqua-btn-outline {
   border: 1px solid #00CCE6;
   color: #00CCE6;
 }
 
-.aqua-btn-outline:hover{
+.aqua-btn-outline:hover {
   background-color: #00CCE6;
   color: black;
 }
 
-.highlight-font{
+.highlight-font {
   font-family: 'Lekton', sans-serif;
 }
 </style>

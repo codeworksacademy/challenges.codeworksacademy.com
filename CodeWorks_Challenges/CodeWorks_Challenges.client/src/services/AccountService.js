@@ -1,5 +1,6 @@
 import { AppState } from '../AppState'
 import { Account } from '../models/Account.js'
+import { ChallengeModerator } from "../models/ChallengeModerator.js"
 import { ChallengeParticipant } from "../models/ChallengeParticipant.js"
 import { logger } from '../utils/Logger'
 import { api } from './AxiosService'
@@ -22,6 +23,7 @@ class AccountService {
       await Promise.all([
         this.getMyChallenges(),
         this.getMyParticipation(),
+        this.getMyModerations()
       ])
     } catch (error) {
       // todo figure out repeat calls
@@ -50,6 +52,12 @@ class AccountService {
     const res = await api.get('/account/participation')
     AppState.AccountState.participation = res.data.map(p => new ChallengeParticipant(p))
     logger.log('[GET PARTICIPANTS BY ACCOUNT]', AppState.AccountState.participation)
+  }
+
+  async getMyModerations() {
+    const res = await api.get('/account/participation')
+    AppState.AccountState.moderation = res.data.map(m => new ChallengeModerator(m))
+    logger.log('[GET MODERATIONS BY ACCOUNT]', AppState.AccountState.moderation)
   }
 }
 

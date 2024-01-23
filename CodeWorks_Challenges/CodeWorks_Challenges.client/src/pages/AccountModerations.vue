@@ -75,7 +75,7 @@ export default {
       moderationTypes,
       moderations: computed(() => {
         if (moderationTypes.value == 'My Moderations') {
-          let moderators = AppState.ChallengeState.moderators
+          let moderators = AppState.AccountState.moderation
           let filterModerators = moderators.filter((m) => m.challenge.creatorId != AppState.AccountState.account.id)
           return filterModerators
         } else if (moderationTypes.value == 'Challenge Moderators') {
