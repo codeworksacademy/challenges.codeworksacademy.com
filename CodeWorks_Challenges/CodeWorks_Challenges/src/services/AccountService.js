@@ -64,7 +64,7 @@ class AccountService {
   async getAccount(user) {
     let account = await dbContext.Account.findOne({
       _id: user.id || user._id
-    }).populate('badges')
+    })
     account = await createAccountIfNeeded(account, user)
     await mergeSubsIfNeeded(account, user)
     return account

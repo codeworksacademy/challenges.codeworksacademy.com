@@ -1,6 +1,6 @@
 import { dbContext } from "../db/DbContext.js";
 import { BadRequest, Forbidden } from "../utils/Errors.js";
-import { PROFILE_FIELDS } from '../constants';
+import { PROFILE_FIELDS, SUBMISSION_TYPES } from '../constants';
 import { challengeModeratorsService } from "./ChallengeModeratorsService.js";
 import { participantsService } from "./ParticipantsService.js";
 import { accountService } from "./AccountService.js";
@@ -168,22 +168,24 @@ class ChallengesService {
     const challenge = await dbContext.Challenges.findById(challengeId)
     const participant = await participantsService.getParticipantById(participantId)
     if(challenge.autoGrade){
-      if (challenge.answer == participantData.submission) {
-        participant.status = 'completed';
+      if (challenge.answer === participantData.submission) {
+        participant.status = SUBMISSION_TYPES.COMPLETED;
         await this.awardExperience(participant)
         await participant.save()
         return participant
-      } else {
-        return 'incorrect'
+      } else if (challenge.answer !== participantData.submission) {
+        participant.status = SUBMISSION_TYPES.INCOMPLETE;
+        await participant.save()
+        return participant
       }
     }
-    if(!challenge.autoGrade){
+    if (!challenge.autoGrade) {
+      participant.status = SUBMISSION_TYPES.SUBMITTED;
       participant.submission = participantData.submission;
-      participant.status = 'submitted',
       await participant.save()
       return participant
     }
-    return challenge;
+    return challenge
   }
 }
 
