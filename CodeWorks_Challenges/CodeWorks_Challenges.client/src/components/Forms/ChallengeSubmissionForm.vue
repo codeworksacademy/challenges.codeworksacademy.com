@@ -67,7 +67,7 @@ export default {
       accountId: AppState.user.id,
       challengeId: AppState.ChallengeState.challenge?.id,
       submission: '',
-      status: SUBMISSION_TYPES.STARTED,
+      status: SUBMISSION_TYPES.SUBMITTED,
       challenge: {
         answer: ''
       }

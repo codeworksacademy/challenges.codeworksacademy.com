@@ -7,7 +7,7 @@
       </router-link>
       <router-link :to="{ name: 'Challenge.challengeSubmissionsPage' }"
         class="hover-orange rounded-1 selectable text-white">
-        <i class="mdi mdi-account-box-multiple-outline text-orange fst-normal p-3 ps-2"> Submissions</i>
+        <i class="mdi mdi-eye-arrow-right text-orange fst-normal p-3 ps-2"> Submissions</i>
       </router-link>
       <router-link :to="{ name: 'Challenge.requirements' }" class="hover-purple rounded-1 selectable text-white">
         <i class="mdi mdi-file-document-check text-purple fst-normal p-3 ps-2"> Requirements</i>
@@ -36,28 +36,20 @@
         <permissions-flag permissions="join:challenge">
           <h4 @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable text-success"> Join Challenge</h4>
         </permissions-flag>
+
       </div>
-      <div><span class="text-danger">Temporary Join Challenge Button</span>
-        <h4 @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable text-success"> Join Challenge</h4>
-      </div>
-      <h4 v-if="isParticipant?.status == 'completed'" class="text-success">Challenge Passed <span><i
-            class="mdi mdi-check"></i></span></h4>
-      <h4 v-if="isParticipant?.status == 'incomplete'" class="text-warning">Challenge Incomplete <span><i
-            class="mdi mdi-alert-box"></i></span></h4>
-      <div v-if="isParticipant">
-        <h4 v-if="isParticipant.status === 'started' || isParticipant.status === 'returned for review'" id="challengeSubmissionButton"
+      <div v-if="isParticipant" class="fw-semibold">
+        <h4 v-if="isParticipant.status == 'completed'" class="text-success">Challenge Passed <span><i class="mdi mdi-check"></i></span></h4>
+        <h4 v-if="isParticipant.status == 'incomplete'" class="text-warning">Challenge Incomplete <span><i class="mdi mdi-alert-box"></i></span></h4>
+        <h4
+          v-if="isParticipant.status == 'started'"
+          id="challengeSubmissionButton"
           class="mdi mdi-send-check text-info selectable text-white" style="white-space: nowrap" ref="submission" role="button"
           data-bs-target="#challengeSubmissionForm" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal"
           title="Create a new challenge">
           Submit for Review
         </h4>
-      
-        <!-- <router-link v-if="isParticipant.status === 'submitted'" :to="{ name: 'ChallengeSubmissionsPage' }">
-          <h4 v-if="isParticipant.status === 'submitted'" class="mdi mdi-eye-arrow-right selectable text-info"> Competitors</h4>
-        </router-link> -->
-        <dev-flag>
           <h4 @click="leaveChallenge()" class="mdi mdi-cancel selectable text-danger"> Leave Challenge</h4>
-        </dev-flag>
       </div>
     </aside>
   </section>
@@ -175,6 +167,9 @@ section {
   overflow-y: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  h4 {
+    font-weight: semi-bold;
+  }
   i.text-yellow {
     color: #ffc107;
   }
