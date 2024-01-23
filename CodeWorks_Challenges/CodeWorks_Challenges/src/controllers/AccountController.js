@@ -70,16 +70,6 @@ export class AccountController extends BaseController {
       next(error)
     }
   }
-
-  async getMyModeration(req, res, next) {
-    try {
-      const accountId = req.userInfo.id
-      const answers = await challengeModeratorsService.getMyModerations(accountId)
-      res.send(answers)
-    } catch (error) {
-      next(error)
-    }
-  }
   async checkMilestonesByAccountId(req, res, next) {
     try {
       const accountId = req.userInfo.id
