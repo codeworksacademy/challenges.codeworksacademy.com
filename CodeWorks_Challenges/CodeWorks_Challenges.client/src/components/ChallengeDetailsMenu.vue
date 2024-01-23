@@ -1,7 +1,7 @@
 <template>
   <section class="container-fluid bg-detail rounded-3">
-    <h4 class="px-3 pt-3" style="color: #7A7A7A">User Links</h4>
-    <aside id="challenge-menu" class="d-flex flex-column fs-4 mt-2 pt-0 px-5">
+    <h4 class="ps-2 pt-3" style="color: #7A7A7A">User Links</h4>
+    <aside id="challenge-menu" class="d-flex flex-column fs-4">
       <router-link :to="{ name: 'Challenge.overview' }" class="hover-green rounded-1 selectable text-white">
         <i class="mdi mdi-file-document-multiple text-green fst-normal p-3 ps-2"> Overview</i>
       </router-link>
