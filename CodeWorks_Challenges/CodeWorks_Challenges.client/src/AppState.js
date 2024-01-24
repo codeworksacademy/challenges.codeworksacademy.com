@@ -30,20 +30,17 @@ const AccountState = reactive({
 
 // Fetch this data each time you land on a challenge page
 const ChallengeState = reactive({
+  loading: true,
   /** @type {import('./models/Challenge.js')|null} */
   challenge: null,
-  badgeTitleBackground: ["#FFF", "#D9D9D9", "#52CA96", "#F07B00", "#6E44C3", "#55CDFF", "#323358", "#0F141E"],
-  badgeColorFill: ["#FF000090", "#FF7F0090", "#FFFF0090", "#00FF0090", "#0000FF90", "#4B008290", "#8F00FF90",],
-  /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]} */
-  participants: [],
-  /** @type {import('./models/ChallengeModerator.js').ChallengeModerator[]} */
-  moderators: [],
   /** @type {import('./models/ChallengeParticipant.js')|null}*/
   participant: null,
   /** @type {import('./models/ChallengeModerator.js')|null}*/
   moderator: null,
-  /** @type {import('./models/Submission.js').Submission[]} */
-  submissions: [],
+  /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]} */
+  participants: [],
+  /** @type {import('./models/ChallengeModerator.js').ChallengeModerator[]} */
+  moderators: [],
 })
 
 
@@ -116,5 +113,3 @@ export const AppState = reactive({
     500: RANK_BADGE[11].RANK_THRESHOLD
   },
 })
-
-

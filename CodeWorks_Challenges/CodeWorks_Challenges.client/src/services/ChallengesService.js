@@ -15,17 +15,24 @@ class ChallengesService {
     return res.data
   }
 
-  async findChallenges(nameQuery) {
-    const res = await api.get(`/api/challenges?name=${nameQuery}`)
-    AppState.challenges = res.data.map(c => new Challenge(c))
-    logger.log('Queried Challenges:', AppState.challenges)
-    //If it says cannot create property 'name' on string '' it's because the query is empty. That's because it's not a string, it's an object.
+  async setActiveChallenge(challengeId) {
+    const res = await api.get(`/api/challenges/${challengeId}`)
+    AppState.ChallengeState.challenge = new Challenge(res.data)
+    participantsService.getParticipantsByChallengeId(challengeId)
+    challengeModeratorsService.getModeratorsByChallengeId(challengeId)
+    logger.log('Active Challenge:', AppState.ChallengeState.challenge)
   }
 
-  async findChallengesByCategory(query) {
-    const res = await api.get(`/api/challenges?category=${query}`)
-    AppState.challenges = res.data.map(c => new Challenge(c))
-    logger.log('Queried Challenges by category:', AppState.challenges)
+  async getChallengeData() {
+    try {
+      await Promise.all([
+        this.getMyChallenges(),
+        this.getAllChallenges()
+      ])
+    } catch (error) {
+      // TODO - figure out repeat calls
+      logger.error(error)
+    }
   }
 
   async getMyChallenges() {
@@ -45,14 +52,6 @@ class ChallengesService {
 
     logger.log('[GETTING PROFILE CHALLENGES]', res.data)
     AppState.challenges = res.data.map(c => new Challenge(c))
-  }
-
-  async setActiveChallenge(challengeId) {
-    const res = await api.get(`/api/challenges/${challengeId}`)
-    AppState.ChallengeState.challenge = new Challenge(res.data)
-    participantsService.getParticipantsByChallengeId(challengeId)
-    challengeModeratorsService.getModeratorsByChallengeId(challengeId)
-    logger.log('Active Challenge:', AppState.ChallengeState.challenge)
   }
   
   async deprecateChallenge(challengeId) {
@@ -116,6 +115,29 @@ class ChallengesService {
     logger.log('[GETTING CHALLENGES CREATED BY USER]', res.data)
     AppState.challenges = res.data.map(c => new Challenge(c))
   }
+
+    clearChallenge() {
+      AppState.ChallengeState.challenge = null
+      AppState.ChallengeState.participant = null
+      AppState.ChallengeState.moderator = null
+      AppState.ChallengeState.participants = []
+      AppState.ChallengeState.moderators = []
+    }
+
+    /* NOTE - Not sure if these search functions were being utilized, so i commented them out in case somewhere it;s still being used:
+
+    async findChallenges(nameQuery) {
+    const res = await api.get(`/api/challenges?name=${nameQuery}`)
+    AppState.challenges = res.data.map(c => new Challenge(c))
+    logger.log('Queried Challenges:', AppState.challenges)
+  }
+
+  async findChallengesByCategory(query) {
+    const res = await api.get(`/api/challenges?category=${query}`)
+    AppState.challenges = res.data.map(c => new Challenge(c))
+    logger.log('Queried Challenges by category:', AppState.challenges)
+  }
+  */
 }
 
 export const challengesService = new ChallengesService()
