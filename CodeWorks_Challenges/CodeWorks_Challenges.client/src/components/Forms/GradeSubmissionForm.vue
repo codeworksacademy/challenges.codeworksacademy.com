@@ -1,5 +1,5 @@
 <template>
-  <section v-if="participant" :key="participant?.id" class="container-fluid text-light">
+  <section v-if="participant" :key="participant?.id" class="container-fluid text-black">
     <div class="row justify-content-center align-items-center">
       <div class="col-12 d-flex flex-column justify-content-center align-items-center">
         <h1 class="text-center">Grade Challenge for {{ participant.profile.name }}</h1>
@@ -11,7 +11,7 @@
           {{ participant.submission }}
         </a>
       </div>
-      <form @submit.prevent="gradeChallengeParticipant" class="row">
+      <form @submit.prevent="gradeParticipant" class="row">
         <div v-if="participant?.challenge" class="col-12 d-flex justify-content-center align-items-center">
           <ol>
             <div class="d-flex justify-content-end align-items-center">
@@ -64,7 +64,7 @@ import { logger } from '../../utils/Logger'
 import { SUBMISSION_TYPES } from '../../constants'
 import { formatEnum } from '../../utils/FormatEnum'
 import { computed, ref } from 'vue'
-import { participantsService } from '../../services/ParticipantsService'
+import { challengesService } from '../../services/ChallengesService'
 import { ChallengeParticipant } from '../../models/ChallengeParticipant'
 import Pop from "../../utils/Pop.js"
 
@@ -80,6 +80,8 @@ export default {
     const route = useRoute()
 
     const editable = ref({
+      challengeId: route.params.challengeId,
+      accountId: props.participant.accountId,
       participantId: props.participant.id,
       challenge: props.participant.challenge,
       profile: props.participant.profile,
@@ -87,25 +89,27 @@ export default {
       status: props.participant.status
     })
 
-    async function gradeChallengeParticipant() {
+    const missedChecks = computed(() => editable.value.requirements.filter(r => !r.isComplete).length)
+
+    const passingGrade = computed(() => editable.value.requirements.filter(r => r.isComplete).length * .8)
+
+    async function gradeParticipant() {
       try {
         const newGrade = editable.value
-        const missedChecks = newGrade.requirements.filter(r => !r.isComplete).length
-        newGrade.status = missedChecks > 2
-          ? SUBMISSION_TYPES.RETURNED_FOR_REVIEW
-          : SUBMISSION_TYPES.COMPLETED
-        await participantsService.gradeChallengeParticipant(newGrade)
-        logger.log(`[GRADED PARTICIPANT]: ${newGrade}`)
-        Pop.success(`${editable.value.profile.name} has been graded! Result: ${editable.value.status}`)
+        newGrade.status = missedChecks.value < passingGrade.value
+        ? SUBMISSION_TYPES.COMPLETED
+        : SUBMISSION_TYPES.RETURNED_FOR_REVIEW
+        await challengesService.gradeParticipant(newGrade)
+        Pop.success(`${editable.value.profile?.name} has been graded! Result: ${editable.value.status}`)
       } catch (error) {
         logger.error(error)
       }
     }
 
     function addGradePoint(index) {
-      editable.value.requirements.map(
-        r => ({ ...r, description: editable.value.challenge.requirements.map(r => (r)), isComplete: false })
-      )
+      // editable.value.requirements.map(
+      //   r => ({ ...r, isComplete: false })
+      // )
       editable.value.requirements[index].isComplete = !editable.value.requirements[index].isComplete;
       editable.value.grade = editable.value.requirements.filter(r => r.isComplete).length;
 
@@ -125,12 +129,10 @@ export default {
 
     return {
       editable,
-      gradeCount: computed(() => {
-        return editable.value.requirements.filter(r => r.isComplete).length
-      }),
       challenge: computed(() => AppState.ChallengeState.challenge),
+      gradeCount: computed(() => editable.value.requirements.filter(r => r.isComplete).length),
       formatEnum,
-      gradeChallengeParticipant,
+      gradeParticipant,
       addGradePoint
     }
   }

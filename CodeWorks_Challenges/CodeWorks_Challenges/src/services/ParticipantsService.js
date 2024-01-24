@@ -3,6 +3,13 @@ import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { challengesService } from "./ChallengesService.js"
 import { PROFILE_FIELDS } from '../constants'
 
+const EXPERIENCE_SCALE = {
+	1: 10,
+	2: 50,
+	3: 250,
+	4: 500,
+	5: 1000
+}
 
 class ParticipantsService {
 
@@ -56,41 +63,6 @@ class ParticipantsService {
 		})
 		return participation
 	}
-
-	async gradeChallengeParticipant(participantId, graderId, participantGrade) {
-		let participant = await this.getParticipantById(participantId)
-
-		if (!participant) {
-			throw new BadRequest('Invalid participant ID.')
-		}
-
-		const isChallengeModerator = await challengeModeratorsService.getModeratorByUserIdAndChallengeId(graderId, participant.challengeId)
-
-		if (!isChallengeModerator) {
-			throw new Forbidden('Yo - bugs bunny - are NOT a moderator for this challenge. You cannot grade participants.')
-		}
-
-
-		participant.grade = participantGrade.grade
-		participant.status = participantGrade.status
-		participant.requirements = participantGrade.requirements
-
-		await participant.save()
-
-		try {
-			accountMilestonesService.giveGradingMilestoneByAccountId(graderId)
-			if (participantGrade.status == 'completed') {
-				participantGrade.completedAt = new Date()
-				this.awardExperience(participant)
-			}
-		} catch (error) {
-			logger.error('[GRADING_HOOK_FAILED]', error)
-		}
-
-
-		return participant
-	}
-
 
 	// This method is used to give the experience of a challenge to a userId
 	// Triggered by grading or autoGrade

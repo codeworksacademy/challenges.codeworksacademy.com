@@ -116,9 +116,9 @@ export class ChallengesController extends BaseController {
 
   async gradeParticipant(req, res, next) {
     try{
-      const challengeId = req.params.challengeId
-      const participantId = req.params.participantId
-      const grade = req.body.grade
+      const challengeId = req.body.challengeId
+      const participantId = req.body.participantId
+      const grade = req.body
       const userId = req.userInfo.id
 
       const participant = await challengesService.gradeParticipant(challengeId, participantId, grade, userId)

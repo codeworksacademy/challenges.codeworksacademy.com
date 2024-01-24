@@ -32,15 +32,15 @@ class ChallengeModeratorsService {
   }
 
   async getMyModerations(accountId) {
-    if (EAZY_CACHE[accountId]) {
-      return EAZY_CACHE[accountId]
+    if (EASY_CACHE[accountId]) {
+      return EASY_CACHE[accountId]
     }
 
     const moderators = await dbContext.ChallengeModerators.find({ accountId: accountId, status: 'active' }).populate({
       path: 'challenge',
       populate: { path: 'creator participantCount' }
     })
-    EAZY_CACHE[accountId] = moderators
+    EASY_CACHE[accountId] = moderators
     return moderators
   }
 

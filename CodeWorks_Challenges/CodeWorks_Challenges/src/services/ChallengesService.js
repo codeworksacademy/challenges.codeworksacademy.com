@@ -21,27 +21,32 @@ class ChallengesService {
     const challenge = await this.getChallengeById(challengeId)
     const participant = await participantsService.getParticipantById(participantId)
     await challengeModeratorsService.getModeratorByUserIdAndChallengeId(userId, challengeId)
-
-    if (userId == participantId) {
+    //@ts-ignore
+    if (userId == participant.profile.id) {
       throw new BadRequest('You cannot grade your own submission.')
     }
-
-    participant.requirements = grade.requirements
-    participant.grade = grade.requirements.reduce((acc, cur) => acc + cur.isCompleted ? 1 : 0, 0)
-    if (grade.status != 'completed' || grade.status != 'returned for review') {
-      throw new BadRequest('Invalid status.')
-    }
-    participant.status = grade.status
+    participant.requirements = grade.requirements.map(req => {
+      return {
+        description: req
+      }
+    })
+    participant.grade = grade.requirements.reduce((completedReq, newGrade) => {
+      if (newGrade.status == 'completed') {
+        completedReq++
+      }
+      return completedReq
+    }, 0)
+    grade.status = participant.status
 
     try {
       accountMilestonesService.giveGradingMilestoneByAccountId(userId)
-      if (participant.status == 'completed') {
+      if (grade.status == 'completed') {
         participant.completedAt = new Date()
         this.awardExperience(participant)
       }
     } catch (error) {
-      // Address failure to award experience
-      logger.error('[GRADING_HOOK_FAILED] for awarding experience', {error, participant, challenge})
+      //@ts-ignore
+      logger.log(`${participant.profile.name} ⚠️ [STATUS]: '${grade.status}' for ${challenge.name}. No rewards were given.`, error)
     }
 
     await participant.save()

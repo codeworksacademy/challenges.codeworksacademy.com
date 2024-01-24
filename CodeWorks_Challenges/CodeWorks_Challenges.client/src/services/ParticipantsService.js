@@ -40,16 +40,6 @@ class ParticipantsService {
     logger.log(res.data)
   }
 
-
-  async gradeChallengeParticipant(newGrade) {
-    throw new Error('Needs Moved to ChallengesService')
-    
-    // const res = await api.put(`api/moderators/${newGrade.participantId}/grade`, newGrade)
-    // logger.log('Participant Updated ⏩', res.data)
-    // AppState.activeParticipant = res.data
-    // return res.data
-  }
-
   async leaveChallenge(participantId) {
     const res = await api.delete(`api/participants/${participantId}`)
     logger.log('Deleted participant:', res.data)
