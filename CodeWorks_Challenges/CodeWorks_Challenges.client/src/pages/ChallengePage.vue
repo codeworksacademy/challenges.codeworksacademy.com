@@ -1,7 +1,7 @@
 <template>
-  <section v-if="challenge" :key="challenge?.id" class="text-light pb-5">
-    <div class="col-12 bottom-fade" :style="`background-image: url(${challenge.coverImg}); opacity: .9; background-repeat: no-repeat; background-size: cover; background-position:center; height:150px; overflow-x: hidden;`">
-    <h1 class="m-5 text-center">{{ challenge.name }}</h1>
+  <section v-if="challenge" :key="challenge?.id" class="text-light pb-5" style="overflow-x: hidden;">
+    <div class="col-12 bottom-fade" :style="`background-image: url(${challenge.coverImg});`">
+    <h1 class="text-center">{{ challenge.name }}</h1>
     </div>
     <div class="d-flex mobile-column-query justify-content-center pt-3" style=" background: #161d2b">
       <!-- STUB - Offcanvas Challenge Detail router-view links -->
@@ -22,7 +22,7 @@
 import Pop from '../utils/Pop'
 import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
-import { computed, onMounted, ref } from 'vue'
+import { computed, watch, ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { challengesService } from '../services/ChallengesService'
 import { participantsService } from '../services/ParticipantsService'
@@ -31,11 +31,10 @@ import ChallengeDetailsMenu from '../components/ChallengeDetailsMenu.vue'
 
 export default {
     setup() {
-        const loading = ref(false)
         const route = useRoute()
         const router = useRouter()
         const answer = ref("")
-        let challengeId = ""
+        const challengeId = computed(() => route.params.challengeId)
 
         async function setActiveChallenge() {
           try {
@@ -67,32 +66,49 @@ export default {
           }
         }
 
-        // todo refactor this like I did the profile page
-        onMounted(() => {
-            if (route.params.challengeId != challengeId) {
-                challengeId = route.params.challengeId;
-                getParticipantsByChallengeId();
-                getModeratorsByChallengeId();
-                setActiveChallenge();
+        function clearChallenge() {
+          try {
+            challengesService.clearChallenge();
+          }
+          catch (error) {
+            Pop.error(error.message);
+          }
+        }
+
+        async function getChallengeData() {
+          try {
+            AppState.ChallengeState.loading = true
+            await Promise.allSettled([
+              setActiveChallenge(),
+              getParticipantsByChallengeId(),
+              getModeratorsByChallengeId(),
+            ])
+
+            if (!AppState.ChallengeState.challenge) {
+              throw new Error('Unable to fetch challenge')
             }
-        })
+
+            AppState.ChallengeState.loading = false
+          } catch (error) {
+            logger.error({ error })
+            Pop.error(error)
+            router.push({ name: 'Error' })
+          }
+        }
+    
+        watch(challengeId, () =>{
+          getChallengeData()
+        }, {immediate: true});
+
+        onMounted(() => {
+          clearChallenge()
+        });
 
         return {
-          loading,
+          loading: computed(() => AppState.ProfileState.loading),
           challenge: computed(() => AppState.ChallengeState.challenge),
-          isParticipant: computed(() => {
-            return AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id);
-          }),
-          isModStatus: computed(() => {
-            const isMod = AppState.ChallengeState.moderators.find(m => m.accountId == AppState.AccountState.account.id);
-            if (isMod) {
-              if (isMod.status == false) {
-                return "pending";
-              }
-              else return "approved";
-            }
-            else return "null";
-          })
+          participant: computed(() => AppState.ChallengeState.participant),
+          moderator: computed(() => AppState.ChallengeState.moderator),
         };
     },
 
@@ -101,15 +117,20 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 .bottom-fade{
+  position: relative;
+  height:150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   color: rgb(255, 255, 255);
   text-shadow: 0 0 5px 0 gray;
-  // -webkit-background-clip: ;
-  height: 100%;
   box-shadow: inset 0 -20px 10px 0 #151d2b;
   background: linear-gradient(180deg, rgba(85, 21, 21, 0) 0%, #151d2b 80%, #151d2b 100%);
-  position: relative;
+  opacity: .9;
   &:before{
     position: absolute;
     content: '';
@@ -120,30 +141,20 @@ export default {
     background: rgba(0, 0, 0, 0.151)
   }
 }
-.container-fluid {
-  height: 100%;
-  width: 100%;
-  overflow-x: hidden;
-}
-
 @media screen and (max-width: 768px) {
-  .container-fluid {
-    height: 100%;
-    width: 100%;
-    .mobile-column-query {
-      display: flex;
-      flex-direction: column;
-      .mobile-menu {
-        display: block;
-        max-height: 350px;
-        width: 92%;
-        transform: translateX(3%);
-        margin-bottom: 2%;
-      }
+  .mobile-column-query {
+    display: flex;
+    flex-direction: column;
+    .mobile-menu {
+      display: block;
+      max-height: 350px;
+      width: 92%;
+      transform: translateX(3%);
+      margin-bottom: 2%;
     }
-    .col-4 .col-8 {
-      height:100%;
-    }
+  }
+  .col-4 .col-8 {
+    height:100%;
   }
 }
 </style>
