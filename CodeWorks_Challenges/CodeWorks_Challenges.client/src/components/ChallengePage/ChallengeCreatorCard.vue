@@ -15,7 +15,6 @@
         class="col-12 creator-text d-flex justify-content-center offset-1 text-capitalize"> {{ challenge.creator.name }}
       </h3>
       <div class="col-12 button-container d-flex justify-content-center offset-2 mt-2">
-        <span class="text-danger">Show how much reputation the creator has gained on the specific challenge, and how much reputation they have gained as a whole</span>
         <button v-if="isParticipant && !gaveReputation" @click="giveReputation" class="btn bg-dark btn-success text-success me-3"><small>Give Reputation</small></button>
         <button v-if="isParticipant && gaveReputation" @click="giveReputation" class="btn bg-dark btn-danger text-danger me-3"><small>Remove Reputation</small></button>
         <div v-if="!isParticipant && !isCreator" class="disabled-title" :title="`You must be a participant of '${challenge.name}' before you can award it's creator with reputation.`">

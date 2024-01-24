@@ -79,19 +79,23 @@ class ChallengesService {
     return res.data
   }
 
-  async submitChallenge(challengeId, participantId, participant){
+  async submitChallenge(challengeId, participantId, submission){
+    // Pop.success('test')
 
-    logger.log(`[CHALLENGE ID]: ${challengeId} [PARTICIPANT ID]: ${participantId} [SUBMISSION]: ${participant.submission} [STATUS]: ${participant.status}`)
+    // logger.log(`[CHALLENGE ID]: ${challengeId} [PARTICIPANT ID]: ${participantId} [SUBMISSION]: ${participant.submission} [STATUS]: ${participant.status}`)
     const res = await api.put(`api/challenges/${challengeId}/submit`, {
       challengeId: challengeId,
       participantId: participantId,
-      submission: participant.submission,
-      status: participant.status
+      submission: submission,
     })
+    logger.log(res.data)
     logger.log('Submitting Answer ⏩', res.data)
-    
-    AppState.ChallengeState.participant = res.data.participant
-    // AppState.ChallengeState.challenge = res.data.challenge
+    if(res.data.status == 'completed'){
+      Pop.success('Challenge completed!')
+    } else if(res.data.status == 'incomplete'){
+      Pop.error('Answer was incorrect.')
+    }
+    AppState.ChallengeState.participant = res.data
     return res.data
   }
 

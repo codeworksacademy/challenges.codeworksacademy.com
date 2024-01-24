@@ -31,7 +31,7 @@
         <div class="mb-3">
           <label for="answer" class="form-label">Submit Answer</label>
           <input
-            v-model="editable.challenge.answer"
+            v-model="editable.submission"
             name="answer"
             id="answer"
             placeholder="Answer"
@@ -79,18 +79,9 @@ export default {
 
     async function submitChallenge(){
       try {
-        // If it's an answer submission, we need the status to be submitted along with the answer for auto-grading
-        if (challenge.value.autoGrade) {
-          editable.value.status = 'completed',
-          editable.value.challenge.answer = editable.value.challenge.answer
-          // Else, it's a code submission URL. So we set the status to submitted, and their submission to their codebase URL provided
-        } else {
-          editable.value.status = 'submitted'
-          editable.value.submission = editable.value.submission
-        }
-        await challengesService.submitChallenge(challenge.value.id, participant.value.id, editable.value)
+        await challengesService.submitChallenge(challenge.value.id, participant.value.id, editable.value.submission)
         Modal.getOrCreateInstance('#challengeSubmissionForm').hide()
-        Pop.toast('Challenge Submitted!')
+        editable.value.submission = ''
       } catch (error) {
         logger.log(error)
       }

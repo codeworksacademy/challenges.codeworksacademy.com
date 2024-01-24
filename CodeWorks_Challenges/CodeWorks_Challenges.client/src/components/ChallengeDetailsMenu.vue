@@ -80,7 +80,7 @@ export default {
           requirements: AppState.ChallengeState.challenge?.requirements,
         };
         await participantsService.joinChallenge(newParticipant);
-        Pop.success("joined challenge!");
+        Pop.success("You have joined the challenge!");
       }
       catch (error) {
         logger.error(error);
@@ -114,7 +114,7 @@ export default {
         let participant = AppState.ChallengeState.participants.find(p => p.accountId == AppState.AccountState.account.id);
         participant.status = SUBMISSION_TYPES.LEFT;
         await participantsService.leaveChallenge(participant.id);
-        Pop.success("left challenge!");
+        Pop.success("You have left the challenge!");
       }
       catch (error) {
         logger.error(error);

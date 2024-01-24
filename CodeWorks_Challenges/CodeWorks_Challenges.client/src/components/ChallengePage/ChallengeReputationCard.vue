@@ -2,6 +2,8 @@
   <div :class="`details-card ${themeStyle ? 'theme-style' : ''} rounded text-capitalize`" :style="{backgroundColor: bgColor, borderColor: color, borderStyle: 'groove'}">
     <i class="mdi mdi-account-star-outline"></i>
     <h3 class="circle-container"><span class="circle">+{{ challenge.reputationIds.length }}</span></h3>
+    <span>Challenge Reputation {{ challenge.reputationIds.length }}</span>
+    <span>Creator Reputation {{ challenge.creator.reputation }}</span>
     <h6 class="text-center pb-2">Total Reputation</h6>
   </div>
 </template>
