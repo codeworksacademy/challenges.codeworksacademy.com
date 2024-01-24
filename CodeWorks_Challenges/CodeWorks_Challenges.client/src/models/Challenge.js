@@ -13,6 +13,7 @@ export class Challenge {
     this.requirements = data.requirements || []
     this.status = data.status
     this.coverImg = data.coverImg || 'https://i.ibb.co/b1bXrRw/card-gradient.png'
+    this.creatorCoverImg = data.creatorCoverImg || ''
     this.badge = data.badge
     this.createdAt = DateTime(data.createdAt)
     this.updatedAt = DateTime(data.updatedAt)

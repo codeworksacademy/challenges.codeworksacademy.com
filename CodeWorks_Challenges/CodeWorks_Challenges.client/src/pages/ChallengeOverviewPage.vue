@@ -1,21 +1,13 @@
 <template>
-  <section v-if="challenge" :key="challenge?.id" class="text-light pb-5">
-    <article>
-      <div class="details-header p-3 bg-detail ms-3 me-3 rounded-3">
-        <h3 class="text-uppercase" style="color: #7A7A7A">
-          Challenge Description
-        </h3>
-        <p> {{ challenge.description }} </p>
-      </div>
-    </article>
+  <section v-if="challenge" :key="challenge?.id" class="text-light">
     <div class="row mobile-media-query justify-content-center px-3">
-      <div class="col-md-4 p-3">
+      <div class="col-md-4 p-3 pt-0">
         <ChallengeDifficultyCard :challenge="challenge" color="#20C997" bgColor="#20c99629" :themeStyle="true" />
       </div>
-      <div class="col-md-4 p-3">
+      <div class="col-md-4 p-3 pt-0">
         <ChallengeCategoryCard :challenge="challenge" color="#FD7E14" bgColor="#fd7d142e" :themeStyle="true" />
       </div>
-      <div class="col-md-4 p-3">
+      <div class="col-md-4 p-3 pt-0">
         <ChallengeReputationCard :challenge="challenge" color="#6F42C1" bgColor="#1D213A" :themeStyle="true" />
       </div>
     </div>
@@ -27,9 +19,17 @@
         <ChallengeCreatorCard :challenge="challenge" color="#323e78" bgColor="#323e7829" :themeStyle="true" />
       </div>
     </div>
-    <div class="col-md-12 px-3">
-      <ChallengeBadgeCard :challenge="challenge" :badge="challenge.badge" />
+    <div class="col-md-12 px-3" style="height: 100%;">
+      <ChallengeBadgeCard :challenge="challenge" :badge="challenge.badge" class="mx-1" />
     </div>
+    <article>
+      <div class="details-header p-3 bg-detail mt-3 rounded-3" style="margin-right: 1.25rem; margin-left: 1.25rem;">
+        <h3 class="text-uppercase" style="color: #7A7A7A">
+          Challenge Description
+        </h3>
+        <p> {{ challenge.description }} </p>
+      </div>
+    </article>
   </section>
 </template>
 
