@@ -1,5 +1,5 @@
 <template>
-  <div class="my-3 mx-1 px-3 py-2 user-links-card rounded d-flex flex-column">
+  <div class="my-3 ms-2 px-3 py-2 user-links-card rounded-3 d-flex flex-column">
     <p class="text-white-50">
       User Links
     </p>
