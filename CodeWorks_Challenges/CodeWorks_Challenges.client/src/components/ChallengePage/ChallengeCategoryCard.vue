@@ -1,5 +1,5 @@
 <template>
-  <div :class="`details-card ${themeStyle ? 'theme-style' : ''} rounded`" :style="{backgroundColor: bgColor, borderColor: color, borderStyle: 'groove'}">
+  <div :class="`details-card ${themeStyle ? 'theme-style' : ''} rounded p-0`" :style="{backgroundColor: bgColor, borderColor: color, borderStyle: 'groove'}">
     <i class="mdi mdi-office-building-cog-outline fs-1"></i>
     <h3 class="text-capitalize"> {{ challenge.category }} <span v-if="challenge.autoGrade">(Auto Grade)</span></h3>
     <h6 class="text-uppercase">Category</h6>

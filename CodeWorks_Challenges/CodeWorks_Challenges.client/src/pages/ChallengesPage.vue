@@ -1,7 +1,7 @@
 <template>
   <section class="container-fluid pt-5 g-0">
-    <div class="col-12 d-flex justify-content-end">
-      <div class="col-4 d-flex create-challenge-card flex-column" style="position: relative; height: 14vh;right: 5rem">
+    <div class="col-12 d-flex justify-content-end ps-5">
+      <div class="col-4 d-flex create-challenge-card flex-column me-3" style="position: relative; height: 14vh;">
         <span class="submission-subtitle text-uppercase" style="">Gain Reputation</span>
         <a ref="challenge" id="createChallengeButton" class="create-challenge" type="button" role="button"
           data-bs-target="#createChallengeForm" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal"
@@ -12,20 +12,18 @@
       <h5 class="ms-5 text-light">Search Challenges</h5>
     </div> -->
     <div class="col-12 d-flex justify-content-center align-items-center">
-      <div class="col-md-6">
-       <!--  <form @submit.prevent="findChallenges">
+      <div class="col-md-6 ps-4 pe-3">
+        <form @submit.prevent="findChallenges">
           <div class="input-group">
-            <i role="button" type="submit" class="btn mdi mdi-magnify text-light" style="transform: scale(1.6)"
-              id="search"></i>
-            <input v-model="search.name" type="text" name="name" id="name" class="form-control bg-main search-input me-1"
-              style="width: 85%" placeholder="Search active challenges..." aria-label="Search by name"
+            <input v-model="search.name" type="text" name="name" id="name" class="form-control bg-main border search-input me-1"
+              style="height: 3rem" placeholder="Search active challenges..." aria-label="Search by name"
               aria-describedby="search" />
           </div>
-        </form> -->
+        </form>
       </div>
-      <div class="col-12 col-md-6 mobile-query d-flex justify-content-center align-items-center">
-        <div class="col-4 d-flex justify-content-center align-items-center mb-3">
-          <select class="select-type text-uppercase" v-model="filterBy" @change="filterType(filterBy)">
+      <div class="col-12 col-md-6 mobile-query d-flex justify-content-center align-items-center me-3">
+        <div class="col-4 d-flex justify-content-center align-items-center mb-3 mt-3 me-3">
+          <select class="text-uppercase form-select bg-dark text-light" v-model="filterBy" @change="filterType(filterBy)">
             <option class="text-center" value="" disabled>Filter By</option>
             <option value="newest">Newest</option>
             <option value="oldest">Oldest</option>
@@ -37,25 +35,6 @@
         </div>
         <div class="col-4 d-flex justify-content-center align-items-center mb-3">
           <SelectChallengeCategory :filterBy="challengesCategory" />
-        </div>
-      </div>
-    </div>
-    <div class="col-12 challenge-keys d-flex justify-content-center align-items-center text-uppercase">
-      <div class="col-4">
-        <h6>Challenge Name</h6>
-      </div>
-      <div class="col-2">
-        <h6>Difficulty</h6>
-      </div>
-      <div class="col-5 d-flex justify-content-center align-items-center">
-        <div class="col-4">
-          <h6>Rating</h6>
-        </div>
-        <div class="col-4">
-          <h6>Points</h6>
-        </div>
-        <div class="col-4">
-          <h6>User Solves</h6>
         </div>
       </div>
     </div>
@@ -147,8 +126,9 @@ export default {
 }
 
 .create-challenge-card {
+  // width: 100%;
   background-color: var(--bg-sub);
-  outline: 1px solid var(--border-dark);
+  border: 1px solid #2d386b;
   border-radius: 10px;
   color: var(--text-main);
   height: 8vh;
@@ -183,16 +163,14 @@ export default {
   border: none;
   border-radius: 10px;
   color: var(--text-sub);
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   height: 37px;
   padding-left: 1rem;
-
   &:not(:focus) {
     background-color: var(--bg-main);
-
     &::placeholder {
       color: var(--text-sub);
-      font-size: .95rem;
+      font-size: 1.5rem;
     }
   }
 }

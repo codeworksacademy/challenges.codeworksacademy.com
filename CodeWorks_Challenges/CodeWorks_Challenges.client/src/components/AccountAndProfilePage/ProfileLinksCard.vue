@@ -1,8 +1,8 @@
 <template>
   <div class="my-3 mx-1 px-3 py-2 user-links-card rounded d-flex flex-column">
-    <p class="text-white-50">
+    <h4 class="text-white-50">
       User Links
-    </p>
+    </h4>
     <div class="text-white d-flex flex-column">
       <div class="user-links-btn hover-green rounded selectable">
         <router-link :to="{ name: 'Profile.overview' }">
@@ -46,7 +46,8 @@ export default {
 <style lang="scss" scoped>
 @import url('../../assets/scss/_root.scss');
 .user-links-card {
-  background-color: #0E141E;
+  background-color: #1c2332;
+  border: 1px solid #2d386b;
 }
 
 .user-links-btn:hover {
