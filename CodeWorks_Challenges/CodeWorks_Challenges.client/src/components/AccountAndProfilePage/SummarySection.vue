@@ -7,7 +7,7 @@
     <p class="fs-2 m-0">
       {{ profile.name }}
     </p>
-    <p class="fs-6 hide-sm">
+    <p class="fs-5 hide-sm">
       <span class="light-gold-color">Rank: </span> {{ rankTitle }}
       <span title="experience" class="ms-4">
         {{ profile.rank }} <span class="light-gold-color">XP</span>
@@ -18,11 +18,11 @@
       </span>
       <span title="milestones" class="ms-4">
         {{ milestones.length }}
-        <i class="mdi mdi-file-code light-gold-color"></i>
+        <i class="mdi mdi-trophy light-gold-color"></i>
       </span>
       <span title="badges" class="ms-4">
         {{ badges.length }}
-        <i class="mdi mdi-file-code light-gold-color"></i>
+        <i class="mdi mdi-seal light-gold-color"></i>
       </span>
       <span title="reputation" class="ms-4">
         {{ profile.reputation }} <i class="mdi light-gold-color mdi-emoticon-happy"></i>
