@@ -8,7 +8,12 @@
       <input type="text" class="form-control" id="coverImg" name="coverImg" v-model="challenge.coverImg">
       <label class="input-group-text" for="coverImg">Cover Image</label>
     </div>
-    <img :src="challenge.coverImg" alt="" class="w-100 img-fluid rounded mb-3">
+    <img :src="challenge.coverImg" alt="" class="w-100 img-fluid rounded mb-3" style="height: 175px; object-position: center; object-fit: cover;">
+    <div class="input-box input-group mb-3">
+      <input type="text" class="form-control" id="creatorCoverImg" name="creatorCoverImg" v-model="challenge.creatorCoverImg">
+      <label class="input-group-text" for="creatorCoverImg">Creator Cover Image</label>
+    </div>
+    <img :src="challenge.creatorCoverImg" alt="" class="w-100 img-fluid rounded mb-3" style="height: 175px; object-position: center; object-fit: cover;">
     <div class="input-group mb-3">
       <label class="input-group-text" for="challengeCategory">Category</label>
       <select class="input-box form-select text-center" id="challengeCategory" v-model="challenge.category">

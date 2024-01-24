@@ -143,6 +143,7 @@ class ChallengesService {
     challenge.autoGrade = challengeData.autoGrade || challenge.autoGrade
     challenge.difficulty = challengeData.difficulty || challenge.difficulty
     challenge.coverImg = challengeData.coverImg || challenge.coverImg
+    challenge.creatorCoverImg = challengeData.creatorCoverImg || challenge.creatorCoverImg
     challenge.badge = challengeData.badge || challenge.badge;
     challenge.answer = challengeData.answer || challenge.answer
 

@@ -11,7 +11,7 @@
     <div class="card-hover__extra">
       <!-- <h4 class="mb-5 pb-5"><span>Play </span> to <span> Win!</span> </h4> -->
     </div>
-    <div class="enlarge-badge">
+    <div class="enlarge-badge d-flex flex-end">
       <span><ChallengeBadge :challenge="challenge" :badge="challenge.badge"/></span>
     </div>
   </div>
@@ -80,8 +80,8 @@ h3 {
 .card-hover {
   $root: &;
   // width: 7px;
-  height: 250px;
-  // position: relative;
+  height: 275px;
+  position: relative;
   overflow: hidden;
   box-shadow: 0 0 32px -10px rgba(0,0,0,0.08);
   z-index: 3;
@@ -119,21 +119,24 @@ h3 {
     position: absolute;
     bottom: 0;
     left: 0;
-    transform: translateY(0);
+    transform: translate(0);
     transition: all 0.25s 0.25s cubic-bezier(.1,.72,.4,.97);
     will-change: bottom, background-color, transform, padding;
     z-index: 2;
     .backdrop {
+      position: absolute;
+      left: 37%;
+      top: 48%;
       width: 100%;
       height: 100%;
-      position: absolute;
       display: flex;
       flex-direction: column;
-      justify-content:flex-start;
+      justify-content: center;
       background-image: url('../../assets/img/codeworks-logo.svg');
-      background-position: top;
-      background-size: cover;
-      transform: translate(30%, -50%);
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      transform: scale(2.5);
     }
     &::before,
     &::after {
@@ -193,10 +196,12 @@ h3 {
   }
   .enlarge-badge {
     position: absolute;
-    top: -55%;
+    top: -50%;
+    left: 50%;
+    right: 50%;
     width: 100%;
     height: 100%;
-    transform: scale(1.5) translateY(53%);
+    transform: scale(1.5) translate(30%, 53%);
     transition: 0.25s 0.25s transform cubic-bezier(.1,.72,.4,.97);
     opacity: 1;
   }

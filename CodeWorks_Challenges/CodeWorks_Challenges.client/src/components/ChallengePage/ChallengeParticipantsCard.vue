@@ -1,5 +1,6 @@
 <template>
-  <div :class="`details-card me-1 ${themeStyle ? 'theme-style' : ''} rounded text-capitalize`" :style="{ backgroundColor: bgColor, borderColor: color, borderStyle: 'groove' }">
+  <div></div>
+  <!-- <div :class="`details-card me-1 ${themeStyle ? 'theme-style' : ''} rounded text-capitalize`" :style="{ backgroundColor: bgColor, borderColor: color, borderStyle: 'groove' }">
     <div v-if="isOwned || isModerator">
       <i class="mdi mdi-bell fs-1"></i>
       <h3> {{ challenge.completedCount }} / {{ challenge.participantCount }} </h3>
@@ -10,7 +11,7 @@
       <h3> {{ challenge.difficulty }} </h3>
       <h6 class="text-uppercase">Points</h6>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
