@@ -12,16 +12,14 @@
       <h5 class="ms-5 text-light">Search Challenges</h5>
     </div> -->
     <div class="col-12 d-flex justify-content-center align-items-center">
-      <div class="col-md-6">
-        <!--  <form @submit.prevent="findChallenges">
+      <div class="col-md-6 ps-4 pe-3">
+        <form @submit.prevent="findChallenges">
           <div class="input-group">
-            <i role="button" type="submit" class="btn mdi mdi-magnify text-light" style="transform: scale(1.6)"
-              id="search"></i>
-            <input v-model="search.name" type="text" name="name" id="name" class="form-control bg-main search-input me-1"
-              style="width: 85%" placeholder="Search active challenges..." aria-label="Search by name"
+            <input v-model="search.name" type="text" name="name" id="name" class="form-control bg-main border search-input me-1"
+              style="height: 3rem" placeholder="Search active challenges..." aria-label="Search by name"
               aria-describedby="search" />
           </div>
-        </form> -->
+        </form>
       </div>
       <div class="col-12 col-md-6 mobile-query d-flex justify-content-center align-items-center me-3">
         <div class="col-4 d-flex justify-content-center align-items-center mb-3 mt-3 me-3">
@@ -37,25 +35,6 @@
         </div>
         <div class="col-4 d-flex justify-content-center align-items-center mb-3">
           <SelectChallengeCategory :filterBy="challengesCategory" />
-        </div>
-      </div>
-    </div>
-    <div class="col-12 challenge-keys d-flex justify-content-center align-items-center text-uppercase">
-      <div class="col-4">
-        <h6>Challenge Name</h6>
-      </div>
-      <div class="col-2">
-        <h6>Difficulty</h6>
-      </div>
-      <div class="col-5 d-flex justify-content-center align-items-center">
-        <div class="col-4">
-          <h6>Rating</h6>
-        </div>
-        <div class="col-4">
-          <h6>Points</h6>
-        </div>
-        <div class="col-4">
-          <h6>User Solves</h6>
         </div>
       </div>
     </div>
@@ -184,16 +163,14 @@ export default {
   border: none;
   border-radius: 10px;
   color: var(--text-sub);
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   height: 37px;
   padding-left: 1rem;
-
   &:not(:focus) {
     background-color: var(--bg-main);
-
     &::placeholder {
       color: var(--text-sub);
-      font-size: .95rem;
+      font-size: 1.5rem;
     }
   }
 }

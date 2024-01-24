@@ -1,7 +1,7 @@
 <template>
   <div class="accordion accordion-flush" id="accordionFlushExample">
     <div v-for="(category, index) in categoryTypes" :key="category" class="accordion-item">
-      <h2 class="accordion-header">
+      <div class="accordion-header">
         <button @click="isActive = !isActive" class="col-12 accordion-button collapsed text-white text-capitalize fw-semibold" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse' + index" :aria-expanded="isActive" :aria-controls="'collapse' + index" :aria-labelledby="'heading' + index">
           <div class="col-10">
             <span class="mdi me-3" :class="categoryIcons[category]"></span>
@@ -9,10 +9,10 @@
           </div>
           <div class="col-2 d-flex justify-content-end align-items center">
             <span class="badge mx-3 fw-normal" style="color: var(--text-sub); font-size: .9rem;"><b>{{ challengesByCategory(category).length }}</b> {{ category }} challenges</span>
-            <span :class="['mdi', isActive ? 'mdi-chevron-right' : 'mdi-chevron-down']"></span>
+            <span :class="['mdi fs-3', isActive ? 'mdi-chevron-up' : 'mdi-chevron-down']"></span>
           </div>
         </button>
-      </h2>
+      </div>
       <div :id="'collapse' + index" class="accordion-collapse collapse" :data-bs-parent="'#accordionFlushExample'">
         <div class="accordion-body py-2">
           <div class="d-flex flex-row align-items-center text-uppercase py-3">
@@ -86,7 +86,7 @@ export default {
 <style scoped lang="scss">
 @import "../../assets/scss/variables.scss";
 .accordion-button, .accordion-button:not(.collapsed) {
-  background: var(--bg-main)
+  background: var(--bg-main);
 }
 .accordion-body {
   background: var(--bg-main);

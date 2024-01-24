@@ -1,6 +1,8 @@
 <template>
-  <div class="row d-flex justify-content-center align-items-center" style="width: 100%;">
-    <ChallengesCategoryCard :categoryTypes="categoryTypes" />
+  <div class="container-fluid">
+    <div class="row d-flex justify-content-center align-items-center ps-3" style="width: 100%">
+      <ChallengesCategoryCard :categoryTypes="categoryTypes" />
+    </div>
   </div>
 </template>
 
@@ -39,6 +41,7 @@ export default {
 
 <style scoped lang="scss">
 @import "../assets/scss/variables.scss";
+
 .accordion-button, .accordion-button:not(.collapsed) {
   background: var(--bg-main)
 }
