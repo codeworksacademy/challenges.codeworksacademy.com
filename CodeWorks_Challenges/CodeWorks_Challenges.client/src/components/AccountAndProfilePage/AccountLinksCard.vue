@@ -31,7 +31,7 @@
             <i class="mdi mdi-seal text-blue"></i> Badges
           </button>
         </router-link>
-      </div>
+    </div>
       <div class="user-links-btn hover-warning rounded-1 selectable">
         <router-link :to="{name: 'Account.milestones'}">
           <button class="btn text-white link-btn">
@@ -40,7 +40,7 @@
         </router-link>
       </div>
     </div>
-    <div class="border-overline">
+    <div class="border-overline mt-1">
       <div class="user-links-btn rounded-1">
         <button class="btn text-white link-btn" data-bs-toggle="modal" data-bs-target="#accountFormModal">
           <i class="mdi mdi-account-edit"></i> Edit Account
