@@ -166,7 +166,7 @@ export default {
   }
 
 section {
-  height: 100%;
+  height: 600px;
   white-space: nowrap;
   overflow-y: hidden;
   scrollbar-width: none;
