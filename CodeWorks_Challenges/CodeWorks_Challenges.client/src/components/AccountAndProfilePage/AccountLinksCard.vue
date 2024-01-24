@@ -69,6 +69,8 @@ export default {
 @import url('../../assets/scss/_root.scss');
 .user-links-card{
   background-color: #0E141E;
+  border: 1px solid #2d386b;
+  height: 19rem;
 }
 .user-links-btn:hover{
   background-color: #0B0E13;
