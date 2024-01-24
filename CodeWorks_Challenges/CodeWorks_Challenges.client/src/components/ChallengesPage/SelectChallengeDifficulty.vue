@@ -1,6 +1,6 @@
 <template>
   <select v-model="filterBy" @change="routeToDifficulty" name="difficulty" id="difficulty"
-    class="select-difficulty text-center text-uppercase">
+    class="select-difficulty text-center text-uppercase form-select bg-dark text-light">
     <option :value="''" disabled>All Difficulties</option>
     <option :value="''">All</option>
     <option v-for="difficulty in difficultyTypes" :key="difficulty" :value="difficulty">{{ difficulty }}</option>

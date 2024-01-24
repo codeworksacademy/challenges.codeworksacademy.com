@@ -1,6 +1,6 @@
 <template>
   <select v-model="filterCategory" @change="routeToCategory" name="category" id="category"
-    class="select-category text-center text-uppercase">
+    class="select-category text-center text-uppercase form-select bg-dark text-light">
     <option class="disabled-option" :value="''" disabled>All Categories</option>
     <option class="option-item" :value="''">All</option>
     <option class="option-item" v-for="category in categoryTypes" :key="category" :value="category">{{ category }}</option>

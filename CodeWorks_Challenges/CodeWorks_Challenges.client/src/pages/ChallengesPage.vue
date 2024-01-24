@@ -1,19 +1,19 @@
 <template>
   <section class="container-fluid pt-5 g-0">
-    <div class="col-12 d-flex justify-content-end">
-      <div class="col-4 d-flex create-challenge-card flex-column" style="position: relative; height: 14vh;right: 5rem">
+    <!-- <div class="col-12 d-flex justify-content-end ps-5">
+      <div class="col-4 d-flex create-challenge-card flex-column me-3" style="position: relative; height: 14vh;">
         <span class="submission-subtitle text-uppercase" style="">Gain Reputation</span>
         <a ref="challenge" id="createChallengeButton" class="create-challenge" type="button" role="button"
           data-bs-target="#createChallengeForm" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal"
           title="Create a new challenge" style="">Create a Challenge</a>
       </div>
-    </div>
+    </div> -->
     <!-- <div class="col-12 d-flex justify-content-start mb-2 ps-4" style="color: var(--text-primary);">
       <h5 class="ms-5 text-light">Search Challenges</h5>
     </div> -->
     <div class="col-12 d-flex justify-content-center align-items-center">
-      <div class="col-md-6">
-       <!--  <form @submit.prevent="findChallenges">
+      <!-- <div class="col-md-6">
+          <form @submit.prevent="findChallenges">
           <div class="input-group">
             <i role="button" type="submit" class="btn mdi mdi-magnify text-light" style="transform: scale(1.6)"
               id="search"></i>
@@ -21,11 +21,17 @@
               style="width: 85%" placeholder="Search active challenges..." aria-label="Search by name"
               aria-describedby="search" />
           </div>
-        </form> -->
-      </div>
+        </form>
+      </div> -->
       <div class="col-12 col-md-6 mobile-query d-flex justify-content-center align-items-center">
-        <div class="col-4 d-flex justify-content-center align-items-center mb-3">
-          <select class="select-type text-uppercase" v-model="filterBy" @change="filterType(filterBy)">
+        <div class="col-4 d-flex create-challenge-card flex-column me-3" style="position: relative; height: 14vh;">
+          <span class="submission-subtitle text-uppercase" style="">Gain Reputation</span>
+          <a ref="challenge" id="createChallengeButton" class="create-challenge" type="button" role="button"
+            data-bs-target="#createChallengeForm" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal"
+            title="Create a new challenge" style="">Create a Challenge</a>
+        </div>
+        <div class="col-4 d-flex justify-content-center align-items-center mb-3 mt-3 me-3">
+          <select class="text-uppercase form-select bg-dark text-light" v-model="filterBy" @change="filterType(filterBy)">
             <option class="text-center" value="" disabled>Filter By</option>
             <option value="newest">Newest</option>
             <option value="oldest">Oldest</option>
@@ -147,8 +153,9 @@ export default {
 }
 
 .create-challenge-card {
+  // width: 100%;
   background-color: var(--bg-sub);
-  outline: 1px solid var(--border-dark);
+  border: 1px solid #2d386b;
   border-radius: 10px;
   color: var(--text-main);
   height: 8vh;
