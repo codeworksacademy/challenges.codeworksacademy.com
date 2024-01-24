@@ -1,15 +1,15 @@
 <template>
-  <section v-if="challenge" :key="challenge?.id" class="container-fluid text-light pb-5">
-    <div class="col-12" :style="`background-image: url(${challenge.coverImg}); opacity: .9; background-repeat: no-repeat; background-size: cover; background-position:center; height:150px; overflow-x: hidden;`">
+  <section v-if="challenge" :key="challenge?.id" class="text-light pb-5">
+    <div class="col-12 bottom-fade" :style="`background-image: url(${challenge.coverImg}); opacity: .9; background-repeat: no-repeat; background-size: cover; background-position:center; height:150px; overflow-x: hidden;`">
     <h1 class="m-5 text-center">{{ challenge.name }}</h1>
     </div>
-    <div class="d-flex mobile-column-query justify-content-center pt-5" style="height: 100%; background: #161d2b">
+    <div class="d-flex mobile-column-query justify-content-center pt-3" style=" background: #161d2b">
       <!-- STUB - Offcanvas Challenge Detail router-view links -->
-      <div class="col-md-4 rounded-3 mobile-menu" style="height:100vh; background: #0c0e13">
+      <div class="col-md-4 rounded-3 mobile-menu ps-3">
         <ChallengeDetailsMenu />
       </div>
       <!-- STUB - Challenge Details for active route -->
-      <div class="col-md-8 pt-0 m-0" style="height: 100%;">
+      <div class="col-md-8 pt-0 m-0">
         <div>
           <router-view />
         </div>
@@ -101,6 +101,25 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+.bottom-fade{
+  color: rgb(255, 255, 255);
+  text-shadow: 0 0 5px 0 gray;
+  // -webkit-background-clip: ;
+  height: 100%;
+  box-shadow: inset 0 -20px 10px 0 #151d2b;
+  background: linear-gradient(180deg, rgba(85, 21, 21, 0) 0%, #151d2b 80%, #151d2b 100%);
+  position: relative;
+  &:before{
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.151)
+  }
+}
 .container-fluid {
   height: 100%;
   width: 100%;

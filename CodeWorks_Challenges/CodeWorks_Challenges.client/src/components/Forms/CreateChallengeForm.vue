@@ -2,26 +2,30 @@
   <section v-if="user.isAuthenticated" class="container-fluid">
     <form @submit.prevent="createChallenge" id="createChallengeForm">
       <aside class="form-box">
-        <div class="input-box form-group">
+        <div class="input-group form-group mb-3">
+          <label class="input-group-text" for="name">Challenge Name</label>
           <input type="text" class="form-control" id="name" v-model="editable.name" required>
-          <label for="name">Challenge Name</label>
         </div>
-        <div class="input-box form-group">
+        <div class="input-group form-group mb-3">
+          <label class="input-group-text" for="description">Challenge Description</label>
           <input type="text" class="form-control" id="description" v-model="editable.description" required />
-          <label for="description">Challenge Description</label>
         </div>
-        <label for="category">Category</label>
-        <select class="input-box form-group form-select mb-3" aria-label="Category Selection" v-model="editable.category">
-          <option selected>Select Category</option>
-          <option value="full stack">Full-Stack</option>
-          <option value="front end">Frontend</option>
-          <option value="back end">Backend</option>
-          <option value="puzzles">Puzzle</option>
-          <option value="data structures">Data Structures</option>
-          <option value="style and design">Style and Design</option>
-          <option value="other">Other</option>
-        </select>
-        <button type="submit" class="btn btn-primary mb-4">Get Started</button>
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="category">Category</label>
+          <select class="input-box form-group form-select" aria-label="Category Selection" v-model="editable.category">
+            <option selected>Select Category</option>
+            <option value="full stack">Full-Stack</option>
+            <option value="front end">Frontend</option>
+            <option value="back end">Backend</option>
+            <option value="puzzles">Puzzle</option>
+            <option value="data structures">Data Structures</option>
+            <option value="style and design">Style and Design</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary mb-4">Get Started</button>
+        </div>
       </aside>
     </form>
   </section>
