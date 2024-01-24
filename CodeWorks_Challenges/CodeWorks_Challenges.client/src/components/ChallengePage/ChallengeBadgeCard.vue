@@ -79,9 +79,9 @@ h3 {
 }
 .card-hover {
   $root: &;
-  width: 350px;
+  // width: 7px;
   height: 250px;
-  position: relative;
+  // position: relative;
   overflow: hidden;
   box-shadow: 0 0 32px -10px rgba(0,0,0,0.08);
   z-index: 3;
@@ -133,7 +133,7 @@ h3 {
       background-image: url('../../assets/img/codeworks-logo.svg');
       background-position: top;
       background-size: cover;
-      transform: translate(30%, -25%);
+      transform: translate(30%, -50%);
     }
     &::before,
     &::after {
