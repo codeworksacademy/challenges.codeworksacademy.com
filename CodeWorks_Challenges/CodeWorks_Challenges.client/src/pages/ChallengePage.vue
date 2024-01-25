@@ -1,6 +1,6 @@
 <template>
   <section v-if="challenge" :key="challenge?.id" class="text-light pb-5" style="overflow-x: hidden;">
-    <div class="col-12 bottom-fade" :style="`background-image: url(${challenge.coverImg});`">
+    <div class="col-12 bottom-fade" :style="`background-image: url(${challenge.coverImg}); background-size: cover; background-position: center; background-repeat: no-repeat;`">
     <h1 class="text-center">{{ challenge.name }}</h1>
     </div>
     <div class="d-flex mobile-column-query justify-content-center pt-3" style=" background: #161d2b">
@@ -119,7 +119,8 @@ export default {
 <style scoped lang="scss">
 .bottom-fade{
   position: relative;
-  height:150px;
+  height: 150px;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -131,6 +132,11 @@ export default {
   box-shadow: inset 0 -20px 10px 0 #151d2b;
   background: linear-gradient(180deg, rgba(85, 21, 21, 0) 0%, #151d2b 80%, #151d2b 100%);
   opacity: .9;
+  h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    text-shadow: 0 5px 0px black !important;
+  }
   &:before{
     position: absolute;
     content: '';
@@ -138,7 +144,7 @@ export default {
     left: 0;
     height: 100%;
     width: 100%;
-    background: rgba(0, 0, 0, 0.151)
+    background: rgba(0, 0, 0, 0.271)
   }
 }
 @media screen and (max-width: 768px) {

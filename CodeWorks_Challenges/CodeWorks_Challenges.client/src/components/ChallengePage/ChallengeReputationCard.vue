@@ -1,13 +1,13 @@
 <template>
   <div :class="`details-card d-flex justify-content-center align-items-center ${themeStyle ? 'theme-style' : ''} rounded text-capitalize pt-3`" :style="{backgroundColor: bgColor, borderColor: color, borderStyle: 'groove'}">
     <div class="col-12 button-container d-flex justify-content-center align-items-center">
-      <button v-if="isParticipant && !gaveReputation" @click="giveReputation" class="btn bg-dark btn-success text-success me-3"><small>Give Reputation</small></button>
-      <button v-if="isParticipant && gaveReputation" @click="giveReputation" class="btn bg-dark btn-danger text-danger me-3"><small>Remove Reputation</small></button>
+      <button v-if="isParticipant && !gaveReputation" @click="giveReputation" class="me-3"><small>Give Reputation</small></button>
+      <button v-if="isParticipant && gaveReputation" @click="giveReputation" class="me-3"><small>Remove Reputation</small></button>
       <div v-if="!isParticipant && !isCreator" class="disabled-title" :title="`You must be a participant of '${challenge.name}' before you can award it's creator with reputation.`">
-        <button class="btn bg-dark btn-warning text-light me-3" disabled><small>Give Reputation</small></button>
+        <button class="me-3" disabled><small>Give Reputation</small></button>
       </div>
       <div v-if="isCreator" class="disabled-title" :title="`${challenge.creator.name}'s total Reputation: ${challenge.creator.reputation}`">
-        <button class="btn bg-info btn-warning text-white me-3" disabled><small>View Reputation</small></button>
+        <button class="me-3" disabled><small>View Reputation</small></button>
       </div>
     </div>
     <i class="mdi mdi-account-star-outline"></i>
@@ -23,6 +23,9 @@
 import { Challenge } from '../../models/Challenge'
 import { computed } from 'vue'
 import { AppState } from '../../AppState'
+import { challengesService } from '../../services/ChallengesService'
+import Pop from '../../utils/Pop'
+
 export default {
   props: {
     challenge: {
@@ -34,21 +37,47 @@ export default {
     themeStyle: {type: Boolean, required: true, default: false}
   },
   setup(props) {
-    const isParticipant = computed(() => {
-      const participant = AppState.ChallengeState.participants.find(p => p.accountId === AppState.AccountState.account.id)
-      return participant
-    })
-
-    const isCreator = computed(() => {
-      if (AppState.AccountState.account.id === props.challenge.creator.id) {
+    const gaveReputation = computed(() => {
+      const challenge = props.challenge
+      if (challenge.reputationIds.find(r => r == AppState.AccountState.account.id)) {
         return true
       }
       return false
     })
+    async function giveReputation() {
+      try {
+        const challengeId = props.challenge.id
+        const accountId = AppState.AccountState.account?.id
+        await challengesService.giveReputation(challengeId, accountId)
+        if (gaveReputation.value) {
+          Pop.toast(`The CodeWorks team and ${props.challenge.creator.name} appreciate you gifting +1 Reputation to challenge '${props.challenge.name}'!`, 'success')
+        } else {
+          Pop.toast(`You have removed your reputation point to ${props.challenge.creator.name} for '${props.challenge.name}.'`, 'success')
+        }
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
 
     return {
-      isCreator,
-      isParticipant,
+      giveReputation,
+      gaveReputation,
+      canGiveReputation: computed(() => {
+        if (props.challenge.reputationIds.find(r => r == AppState.AccountState.account.id)) {
+          return false
+        }
+        return true
+      }),
+      isParticipant: computed(() => {
+        const participant = AppState.ChallengeState.participants.find(p => p.accountId === AppState.AccountState.account.id)
+        return participant
+      }),
+      isCreator: computed(() => {
+        if (AppState.AccountState.account.id === props.challenge.creator.id) {
+          return true
+        }
+        return false
+      }),
     }
   }
 }
@@ -57,19 +86,105 @@ export default {
 <style scoped lang="scss">
 .details-card {
   position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
   .button-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 23%;
+    z-index: 1;
+    &:before, &:after {
+      content:"";
+      position: absolute;
+      top: 0%;
+      width: 65%;
+      height: 87%;
+      border-radius: 10%;
+      box-shadow: inset 25px 0 0 0px #38BB64, inset 28px 0 0 0 #408F4A;
+      filter: blur(.5px);
+      z-index: -1;
+    }
+    &:before {
+      right: 69.5%;
+      transform: rotate(-.5deg) scale(-1, 1) skewX(-50deg);
+      clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+    }
+    &:after {
+      left: 69.5%;
+      transform: rotate(.75deg) skewX(-50deg);
+      clip-path: polygon(0 0, 100% 0, 100% 60%, 0 60%);
+    }
     >button {
       position: absolute;
       top: 0;
       left: 50%;
       right: 50%;
-      width: 150px;
-      height: 40px;
+      width: 60%;
+      height: 23%;
+      color: #38BB64;
+      text-shadow: 0 0 1px var(--shadow-blue);
       transform: translateX(-50%);
       outline: none !important;
-      clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%, 0 0);
-      border-bottom-left-radius: 25%;
-      border-bottom-right-radius: 25%;
+      border: none !important;
+      background-color: transparent;
+      transition: .3s ease-in-out;
+      &:hover {
+        color: var(--text-main);
+        text-shadow: 0 1px 1px var(--border-dark);
+        transition: .3s ease-in-out;
+        &:after {
+        border-top-color: #6F42C1;
+        transition: .3s ease-in-out;
+        }
+      }
+      &:after {
+        content:"";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-repeat: no-repeat;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 30px solid #1D213A;
+        border-bottom-left-radius: 45%;
+        border-bottom-right-radius: 45%;
+        transition: .3s ease-in-out;
+        z-index: -1;
+      }
+      &:before {
+        content:"";
+        position: absolute;
+        top: -5px;
+        left: 50%;
+        right: 50%;
+        width: 80%;
+        height: 100%;
+        box-shadow: 0px 14.5px 1px 25px #38bb64E8;
+        border-radius: 40%;
+        transform: translateX(-50%) perspective(100px) rotateX(-20deg);
+        z-index: -1;
+      }
+      &:not(:hover) {
+        animation: ebbContainer .5s ease-in forwards;
+        transition: .3s ease-in-out;
+        @keyframes ebbContainer {
+          0% {
+            box-shadow: inset 0 -9px 3px 0px #6F42C1, inset 0px 0px 3px 3px #6F42C1, inset 130px 0 0 var(--shadow-blue);
+            background: repeating-conic-gradient(var(--border-main) 0%, var(--border-dark) 25%, var(--border-main) 50%);
+          }
+          100% {
+            box-shadow: inset 0 -9px 3px 0px #6F42C1, inset 0px 0px 3px 3px #6F42C1, inset 0 0 0 var(--shadow-blue);
+            background: repeating-conic-gradient(var(--border-main) 0%, var(--border-dark) 25%, var(--border-main) 50%);
+          }
+          
+        }
+      }
     }
   }
   .mdi-account-star-outline {
@@ -95,9 +210,9 @@ export default {
       align-items: center;
       width: 30px;
       height: 30px;
-      box-shadow: inset 0 0 0 2px #2a8f4c;
+      box-shadow: inset 0 0 0 2px #2a8cE8;
       border-radius: 50%;
-      background-color: #38BB64;
+      background-color: #38BB6499;
       color: white;
       font-size: 1.1rem;
       display: flex;
@@ -109,8 +224,14 @@ export default {
       @media screen and (max-width: 992px) {
         right: 5%;
       }
-      @media screen and (max-width: 768px) {
-        right: 40%;
+    }
+  }
+  @media screen and (min-width: 768px) and (max-width: 1200px) {
+    .button-container {
+      &:before, &:after {
+        width: 35%;
+        height: 67%;
+        border-radius: 15%;
       }
     }
   }

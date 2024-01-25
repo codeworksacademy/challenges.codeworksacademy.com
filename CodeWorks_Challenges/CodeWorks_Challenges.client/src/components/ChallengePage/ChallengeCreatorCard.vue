@@ -37,44 +37,13 @@ export default {
     color: { type: String, required: true },
     themeStyle: { type: Boolean, required: true, default: false }
   },
-  setup(props) {
+  setup() {
     const route = useRoute()
     const isMobile = computed(() => window.innerWidth < 768)
-
-    const gaveReputation = computed(() => {
-      const challenge = props.challenge
-      if (challenge.reputationIds.find(r => r == AppState.AccountState.account.id)) {
-        return true
-      }
-      return false
-    })
-
-    async function giveReputation() {
-      try {
-        const challengeId = props.challenge.id
-        const accountId = AppState.AccountState.account?.id
-        await challengesService.giveReputation(challengeId, accountId)
-        if (gaveReputation.value) {
-          Pop.toast(`The CodeWorks team and ${props.challenge.creator.name} appreciate you gifting +1 Reputation to challenge '${props.challenge.name}'!`, 'success')
-        } else {
-          Pop.toast(`You have removed your reputation point to ${props.challenge.creator.name} for '${props.challenge.name}.'`, 'success')
-        }
-      } catch (error) {
-        Pop.error(error.message)
-      }
-    }
 
     return {
       route,
       isMobile,
-      gaveReputation,
-      giveReputation,
-      canGiveReputation: computed(() => {
-        if (props.challenge.reputationIds.find(r => r == AppState.AccountState.account.id)) {
-          return false
-        }
-        return true
-      })
     }
   }
 }
