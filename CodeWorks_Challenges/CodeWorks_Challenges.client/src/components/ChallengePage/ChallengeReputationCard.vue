@@ -2,13 +2,9 @@
   <div :class="`details-card d-flex justify-content-center align-items-center ${themeStyle ? 'theme-style' : ''} rounded text-capitalize pt-3`" :style="{backgroundColor: bgColor, borderColor: color, borderStyle: 'groove'}">
     <div class="col-12 button-container d-flex justify-content-center align-items-center">
       <button v-if="isParticipant && !gaveReputation" @click="giveReputation" class="me-3"><small>Give Reputation</small></button>
-      <button v-if="isParticipant && gaveReputation" @click="giveReputation" class="me-3"><small>Remove Reputation</small></button>
-      <div v-if="!isParticipant && !isCreator" class="disabled-title" :title="`You must be a participant of '${challenge.name}' before you can award it's creator with reputation.`">
-        <button class="me-3" disabled><small>Give Reputation</small></button>
-      </div>
-      <div v-if="isCreator" class="disabled-title" :title="`${challenge.creator.name}'s total Reputation: ${challenge.creator.reputation}`">
-        <button class="me-3" disabled><small>View Reputation</small></button>
-      </div>
+      <button v-if="isParticipant && gaveReputation" @click="giveReputation" class="remove-reputation-hover me-3"><small>Remove Reputation</small></button>
+      <button v-if="!isParticipant && !isCreator" class="disabled-title me-3" :title="`You must be a participant of '${challenge.name}' before you can award it's creator with reputation.`" disabled><small>Give Reputation</small></button>
+      <button v-if="isCreator" :title="`${challenge.creator.name}'s total Reputation: ${challenge.creator.reputation}`" class="disabled-title me-3" disabled><small>View Reputation</small></button>
     </div>
     <i class="mdi mdi-account-star-outline"></i>
     <h3 class="circle-container"><span class="circle">+{{ challenge.reputationIds.length }}</span></h3>
@@ -100,12 +96,12 @@ export default {
     &:before, &:after {
       content:"";
       position: absolute;
-      top: 0%;
+      top: -1px;
       width: 65%;
       height: 87%;
       border-radius: 10%;
-      box-shadow: inset 25px 0 0 0px #38BB64, inset 28px 0 0 0 #408F4A;
-      filter: blur(.5px);
+      box-shadow: inset 25px 3px 0 0px #38BB64, inset 28px 3px 0 0 #6F42C1;
+      filter: blur(1.5px);
       z-index: -1;
     }
     &:before {
@@ -120,25 +116,29 @@ export default {
     }
     >button {
       position: absolute;
-      top: 0;
+      top: -1px;
       left: 50%;
       right: 50%;
       width: 60%;
       height: 23%;
       color: #38BB64;
+      font-size: .9rem;
+      font-weight: 600;
       text-shadow: 0 0 1px var(--shadow-blue);
       transform: translateX(-50%);
       outline: none !important;
       border: none !important;
       background-color: transparent;
-      transition: .3s ease-in-out;
+      transition: .5s ease-in-out all;
       &:hover {
         color: var(--text-main);
         text-shadow: 0 1px 1px var(--border-dark);
-        transition: .3s ease-in-out;
+        transition: .5s ease-in-out all;
         &:after {
-        border-top-color: #6F42C1;
-        transition: .3s ease-in-out;
+        border-top-color: #1D213A;
+        box-shadow: none !important;
+        filter: blur(.5px) brightness(1.4) saturate(1) drop-shadow(0 2px 2px #343b68);
+        transition: .5s ease-in-out all;
         }
       }
       &:after {
@@ -152,6 +152,7 @@ export default {
         border-left: 10px solid transparent;
         border-right: 10px solid transparent;
         border-top: 30px solid #1D213A;
+        filter: drop-shadow(0 2px 2px #343b68);
         border-bottom-left-radius: 45%;
         border-bottom-right-radius: 45%;
         transition: .3s ease-in-out;
@@ -165,25 +166,34 @@ export default {
         right: 50%;
         width: 80%;
         height: 100%;
-        box-shadow: 0px 14.5px 1px 25px #38bb64E8;
+        box-shadow: 0px 14.5px 1px 25px #38bb64;
         border-radius: 40%;
         transform: translateX(-50%) perspective(100px) rotateX(-20deg);
+        filter: blur(2px);
         z-index: -1;
       }
-      &:not(:hover) {
-        animation: ebbContainer .5s ease-in forwards;
-        transition: .3s ease-in-out;
-        @keyframes ebbContainer {
-          0% {
-            box-shadow: inset 0 -9px 3px 0px #6F42C1, inset 0px 0px 3px 3px #6F42C1, inset 130px 0 0 var(--shadow-blue);
-            background: repeating-conic-gradient(var(--border-main) 0%, var(--border-dark) 25%, var(--border-main) 50%);
-          }
-          100% {
-            box-shadow: inset 0 -9px 3px 0px #6F42C1, inset 0px 0px 3px 3px #6F42C1, inset 0 0 0 var(--shadow-blue);
-            background: repeating-conic-gradient(var(--border-main) 0%, var(--border-dark) 25%, var(--border-main) 50%);
-          }
-          
-        }
+      
+    }
+    button.remove-reputation-hover {
+      color: var(--shadow-orange);
+      text-shadow: 0 0 1px var(--shadow-purple);
+      box-shadow: inset 25px 3px 0 0px #38BB64, inset 28px 3px 0 0 #6F42C1;
+      filter: brightness(.9);
+      &:after {
+        border-top-color: #1D213A;
+        filter: blur(.5px) brightness(.9) saturate(.75) drop-shadow(0 1px 2px #343b68);
+        transition: .5s ease-in-out all;
+      }
+      &:hover {
+        border-top-color: #6F42C1;
+        filter: saturate(.5) drop-shadow(0 2px 2px #343b68);
+        transition: .5s ease-in-out all;
+      
+      }
+      &:before {
+        box-shadow: 0px 4px 1px 5px #bb8d38;
+        transform: translateX(-50%) perspective(100px) rotateX(-20deg) scale(1.1);
+        filter: blur(2px) brightness(.9);
       }
     }
   }
@@ -210,9 +220,9 @@ export default {
       align-items: center;
       width: 30px;
       height: 30px;
-      box-shadow: inset 0 0 0 2px #2a8cE8;
+      box-shadow: inset 0 0 2px 2px #1c5b2f99;
       border-radius: 50%;
-      background-color: #38BB6499;
+      background-color: #38BB64;
       color: white;
       font-size: 1.1rem;
       display: flex;

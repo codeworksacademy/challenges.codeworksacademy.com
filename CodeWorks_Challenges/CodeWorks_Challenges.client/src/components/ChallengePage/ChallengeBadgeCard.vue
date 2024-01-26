@@ -62,7 +62,7 @@ h3 {
   align-items: center;
   margin: 0;
   padding: 0;
-  max-height: 350px;
+  max-height: 25vh;
   color: #1F1D42;
   &:after {
     content: '';
@@ -79,9 +79,11 @@ h3 {
 }
 .card-hover {
   $root: &;
-  // width: 7px;
-  height: 275px;
+  width: 100%;
+  height: 100%;
   position: relative;
+  top: -8%;
+  left: -1%;
   overflow: hidden;
   box-shadow: 0 0 32px -10px rgba(0,0,0,0.08);
   z-index: 3;
@@ -204,6 +206,14 @@ h3 {
     transform: scale(1.5) translate(30%, 53%);
     transition: 0.25s 0.25s transform cubic-bezier(.1,.72,.4,.97);
     opacity: 1;
+  }
+}
+@media screen and (max-width: 768px) {
+  .card-hover {
+    top: 0;
+    left: -1%;
+    width: 100%;
+    height: 25vh;
   }
 }
 </style>
