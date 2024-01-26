@@ -44,7 +44,6 @@ import ChallengeCreatorCard from '../components/ChallengePage/ChallengeCreatorCa
 import ChallengeCategoryCard from '../components/ChallengePage/ChallengeCategoryCard.vue'
 import ChallengeDifficultyCard from '../components/ChallengePage/ChallengeDifficultyCard.vue'
 import ChallengeReputationCard from '../components/ChallengePage/ChallengeReputationCard.vue'
-import ChallengeParticipantsCard from '../components/ChallengePage/ChallengeParticipantsCard.vue'
 import ChallengeBadgeCard from '../components/ChallengePage/ChallengeBadgeCard.vue'
 
 export default {
@@ -96,7 +95,7 @@ export default {
       }),
     }
   },
-  components: { ChallengeDifficultyCard, ChallengeCategoryCard, ChallengeReputationCard, ChallengeParticipantsCard, ChallengeCreatorCard, ChallengeBadgeCard }
+  components: { ChallengeDifficultyCard, ChallengeCategoryCard, ChallengeReputationCard, ChallengeCreatorCard, ChallengeBadgeCard }
 }
 </script>
 

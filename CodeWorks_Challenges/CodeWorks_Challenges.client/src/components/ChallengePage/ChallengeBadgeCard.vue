@@ -2,16 +2,18 @@
   <div :class="`card-hover ${themeStyle ? 'theme-style' : ''} rounded-3 m-auto mt-3`" :style="{ backgroundColor: bgColor, border: `2px groove ${color}` }" style="filter: brightness(.9);">
     <div class="card-hover__content">
       <h3 class="card-hover__title">
-        Alert! New <span> Badge </span> available!
+        New <span> Badge </span> available
       </h3>
       <div class="backdrop"></div>
       <p class="card-hover__text"> Hover for Preview </p>
     </div>
 
-    <div class="card-hover__extra">
-      <!-- <h4 class="mb-5 pb-5"><span>Play </span> to <span> Win!</span> </h4> -->
+    <div class="col-8 d-flex flex-column justify-content-center align-items-center card-hover__extra fw-semibold">
+      <h4 class="me-auto"><span>Play </span> to <span> Win!</span> </h4>
+      <span class="me-auto text-capitalize">Title: '{{ challenge.badge.title }}'</span>
+      <span>Complete <span style="color: var(--shadow-green); text-shadow: 0 1px 0 black">'{{ challenge.name }}'</span> to earn add this badge to your collection!</span>
     </div>
-    <div class="enlarge-badge d-flex flex-end">
+    <div class="col-6 enlarge-badge d-flex">
       <span><ChallengeBadge :challenge="challenge" :badge="challenge.badge"/></span>
     </div>
   </div>
@@ -64,6 +66,35 @@ h3 {
   padding: 0;
   max-height: 25vh;
   color: #1F1D42;
+  transition: all 0.25s ease-in-out;
+  &:hover {
+    .enlarge-badge {
+      animation: slideIn 1s ease-in-out;
+      transition: 0.25s 0.1s transform cubic-bezier(.1,.72,.4,.97);
+      @keyframes slideIn {
+        0% {
+          transform: scale(1.05) translate(70%, 0);
+        }
+        100% {
+          transform: scale(1.05) translate(10%, 0);
+        }
+      }
+    }
+  }
+  &:not(:hover) {
+    .enlarge-badge {
+      animation: slideOut 1s ease-in-out;
+      transition: 0.25s 0.1s transform cubic-bezier(.1,.72,.4,.97);
+      @keyframes slideOut {
+        0% {
+          transform: scale(1.05) translate(10%, 0);
+        }
+        100% {
+          transform: scale(1.05) translate(70%, 0);
+        }
+      }
+    }
+  }
   &:after {
     content: '';
     position: absolute;
@@ -72,7 +103,7 @@ h3 {
   }
 }
 .card-hover__content {
-  padding-top: 125px !important;
+  padding-top: 100px !important;
 }
 .card-hover:hover {
   filter: brightness(1.1)
@@ -117,7 +148,7 @@ h3 {
     height: 100%;
     text-align: center;
     background-color: #212d49;
-    text-shadow: 1px 1px 2px var(--text-sub);
+    text-shadow: 0 1px 0 var(--text-sub);
     position: absolute;
     bottom: 0;
     left: 0;
@@ -163,47 +194,52 @@ h3 {
     font-size: 1.25rem;
     margin-top: -1.5em;
     color: var(--text-main);
-    text-shadow: 3px 3px 5px  var(--border-main);
+    text-shadow: 0 2px 0 var(--border-main);
     span {
       color: var(--shadow-green);
-      text-shadow: 3px 3px 5px  var(--shadow-blue);
+      text-shadow: 0 0 2px var(--shadow-blue);
     }
   }
   &__text {
     color: var(--shadow-green);
-    text-shadow: 3px 3px 5px  var(--text-sub);
+    text-shadow: 0 .5px 0 var(--text-sub);
     margin-top: 1%;
     font-size: 1rem;
     filter: brightness(1.15);
   }
   &__extra {
-    height: 50%;
+    height: 100%;
     position: absolute;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
     flex-direction: column;
-    text-align: center;
+    text-align: start;
     padding: 40px;
-    bottom: 20%;
+    top: 0%;
+    left: 0;
     color: var(--text-main);
-    text-shadow: 2px 2px 3px #ffffff;
+    text-shadow: 0 1px 0 #ffffff;
     will-change: transform;
     transition: transform 0.25s;
     z-index: 1;
     span {
       color: var(--text-main);
-      text-shadow: 2px 2px 2px var(--shadow-blue);
+      text-shadow: 0 1px 0 var(--shadow-blue);
     }
   }
   .enlarge-badge {
     position: absolute;
-    top: -50%;
+    top: 0;
     left: 50%;
     right: 50%;
     width: 100%;
     height: 100%;
-    transform: scale(1.5) translate(30%, 53%);
+    padding-top: 1rem;
+    padding-left: 2.5rem;
+    background: linear-gradient(90deg, #3278 0%, #323e 50%, #3278 100%);
+    box-shadow: -5px 0 10px 0px #3278;
+    transform: scale(1.05) translate(10%, 0);
     transition: 0.25s 0.25s transform cubic-bezier(.1,.72,.4,.97);
     opacity: 1;
   }

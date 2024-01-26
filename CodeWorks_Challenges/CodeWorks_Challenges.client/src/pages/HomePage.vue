@@ -20,7 +20,7 @@
             <span style="color: var(--shadow-blue)">Empower Your Career</span> with Software Development!
           </p>
           <div class="ps-0 ms-0 mt-3">
-            <BlueButton buttonContent="Browse Challenges" />
+            <ReflectiveButton buttonContent="Browse Challenges" />
           </div>
         </div>
       </div>
@@ -36,7 +36,7 @@
 <script>
 import { computed } from 'vue'
 import { AppState } from '../AppState'
-import BlueButton from '../components/ButtonComponents/BlueButton.vue'
+import ReflectiveButton from '../components/ButtonComponents/ReflectiveButton.vue'
 
 export default {
   setup() {
@@ -45,7 +45,7 @@ export default {
     }
   },
   components: {
-    BlueButton
+    ReflectiveButton
   }
 }
 </script>
