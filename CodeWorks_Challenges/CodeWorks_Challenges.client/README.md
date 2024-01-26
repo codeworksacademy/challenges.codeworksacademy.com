@@ -18,3 +18,9 @@ The content under the CodeWorks®, LLC Organization and all of the individual re
 
 
 <img src="https://bcw.blob.core.windows.net/public/img/7815839041305055" width="125">
+<!-- 
+<X> Challenge Details - Moderations are broken
+< > Mod search form is doing a raw data dump
+<X> Moderations on account page are broken
+< > The EZ Cache is a bit broken, It needs injections and ejections - currently it's preventing reactivity
+ -->
