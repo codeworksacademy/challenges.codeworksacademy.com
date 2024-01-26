@@ -12,15 +12,14 @@
       </div>
     </div>
     <div class="row justify-content-center ms-2 me-2 py-2">
-      <div class="col-md-6">
+      <div class="col-md-6 mb-1">
         <ChallengeCreatorCard :challenge="challenge" color="#323e78" bgColor="#323e7829" :themeStyle="true" />
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6 mt-1">
         <ChallengeBadgeCard :challenge="challenge" :badge="challenge.badge" class="mx-1" />
       </div>
     </div>
-    <div class="col-md-12 px-3" style="height: 100%;">
-      
+    <div class="col-md-12 px-3" style="height: 100%;">  
     </div>
     <article>
       <div class="details-header p-3 bg-detail mt-3 rounded-3" style="margin-right: 1.25rem; margin-left: 1.25rem;">
