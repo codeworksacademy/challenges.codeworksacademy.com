@@ -19,11 +19,8 @@ The content under the CodeWorks®, LLC Organization and all of the individual re
 
 <img src="https://bcw.blob.core.windows.net/public/img/7815839041305055" width="125">
 <!-- 
-Challenge Details - Moderations are broken
-Mod search form is doing a raw data dump
-failed to give reputation, possibly due to recent changes
-Moderations on account page are broken
+<X> Challenge Details - Moderations are broken
+< > Mod search form is doing a raw data dump
+<X> Moderations on account page are broken
+< > The EZ Cache is a bit broken, It needs injections and ejections - currently it's preventing reactivity
  -->
- <!-- 
- Collector Milestone seems broken, should be at a 3 but shows 5
-  -->
