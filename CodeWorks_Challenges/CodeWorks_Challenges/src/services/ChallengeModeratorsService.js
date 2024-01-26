@@ -43,20 +43,21 @@ class ChallengeModeratorsService {
         populate: { path: 'creator participantCount name description' }
       }).populate({ path: 'profile', populate: { path: 'name picture' } })
       EASY_CACHE[accountId] = moderators
-      return moderators
+      return moderators;
     }
+  }
 
-  async getModeratorsByChallengeId(challengeId) {
+    async getModeratorsByChallengeId(challengeId) {
 
       if (EASY_CACHE[challengeId]) {
         return Promise.resolve(EASY_CACHE[challengeId])
       }
 
       const moderators = await dbContext.ChallengeModerators.find({ $and: [{ $or: [{ status: 'active' }, { status: 'pending' }] }, { challengeId: challengeId }] }).populate('profile', PROFILE_FIELDS)
-      EASY_CACHE[challengeId] = moderators
-      return moderators
+      EASY_CACHE[challengeId] = moderators;
+      return moderators;
     }
-  async getModeratorByUserIdAndChallengeId(userId, challengeId) {
+    async getModeratorByUserIdAndChallengeId(userId, challengeId) {
       const mods = await this.getModeratorsByChallengeId(challengeId)
 
       // @ts-ignore
