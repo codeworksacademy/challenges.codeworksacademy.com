@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import { onMounted } from 'vue';
 
 export default {
   setup() {
@@ -30,8 +29,6 @@ export default {
       { text: 'Build', color: getRandomColor() },
       { text: 'Empower Your Career', color: getRandomColor() },
     ];
-
-    
 
     return {
       spans
