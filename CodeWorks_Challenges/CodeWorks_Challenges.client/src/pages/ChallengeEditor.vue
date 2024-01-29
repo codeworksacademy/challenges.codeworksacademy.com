@@ -8,6 +8,7 @@
           <EditChallengeDescription :challenge="challenge" />
           <EditChallengeRequirements :challenge="challenge" />
           <EditChallengeBadge :challenge="challenge" />
+          <MarkdownEditor :challenge="challenge"/>
         </div>
         <div class="text-center my-3">
           <button class="btn btn-success" @click="updateChallenge"> Update Challenge</button>
@@ -28,14 +29,16 @@ import EditChallengeDetails from '../components/EditChallenge/EditChallengeDetai
 import EditChallengeRequirements from '../components/EditChallenge/EditChallengeRequirements.vue'
 import EditChallengeDescription from '../components/EditChallenge/EditChallengeDescription.vue'
 import EditChallengeBadge from '../components/EditChallenge/EditChallengeBadge.vue'
+import MarkdownEditor from '../components/EditChallenge/MarkdownEditor.vue'
 
 export default {
   components: {
     EditChallengeDetails,
     EditChallengeRequirements,
     EditChallengeDescription,
-    EditChallengeBadge
-  },
+    EditChallengeBadge,
+    MarkdownEditor
+},
   setup() {
     const challenge = computed(() => AppState.ChallengeState.challenge)
 

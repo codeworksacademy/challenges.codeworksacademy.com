@@ -1,7 +1,7 @@
 <template>
   <div class="monaco-header bg-page lift-6 d-flex align-items-center gap-2 w-100">
     <div v-if="showSave">
-      <button type="button" class="btn p-1 clickable-dark square" @click="save">
+      <button type="button" class="btn p-1 clickable-dark square text-white ps-3" @click="save">
         <i class="mdi mdi-cloud"></i>
         Save
       </button>
@@ -11,16 +11,16 @@
   <div class="editor" ref="editorElem"></div>
   <div class="monaco-footer bg-page lift-6 d-flex justify-content-end gap-3">
     <div class="dropup">
-      <button type="button" class="btn clickable-dark dropdown-toggle p-1 square" data-bs-toggle="dropdown"
+      <button type="button" class="btn clickable-dark dropdown-toggle p-1 square text-white" data-bs-toggle="dropdown"
         aria-expanded="false">
         {{ theme }}
       </button>
       <ul class="dropdown-menu">
-        <li class="dropdown-item" @click="setTheme(t)" v-for="t in themes" :key="t">{{ t }}</li>
+        <li class="dropdown-item font-white" @click="setTheme(t)" v-for="t in themes" :key="t">{{ t }}</li>
       </ul>
     </div>
     <div class="dropup">
-      <button type="button" class="btn clickable-dark dropdown-toggle p-1 square" data-bs-toggle="dropdown"
+      <button type="button" class="btn clickable-dark dropdown-toggle p-1 square text-white" data-bs-toggle="dropdown"
         aria-expanded="false">
         {{ lang }}
       </button>
@@ -62,6 +62,7 @@ export default {
         language: props.language,
         theme: userSettings.theme || 'dracula',
         fontSize: 16,
+        lineNumbers: true,
         automaticLayout: true,
         minimap: { enabled: false }
       })

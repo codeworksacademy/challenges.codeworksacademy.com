@@ -1,7 +1,8 @@
 <template>
     <section class="container-fluid mb-3">
-      <div class="form-floating">
+      <div class="form-floating text-end">
         <textarea v-model="challenge.description" class="form-control" placeholder="Challenge Description" id="challengeDescriptionTextArea" style="height: 300px"></textarea>
+        <button class="btn btn-success">Edit in Markdown</button>
       </div>
     </section>
 </template>

@@ -197,8 +197,6 @@
       background: #091621;
       padding: .3em;
     }
-  
-  
     h1,
     h2,
     h3,
