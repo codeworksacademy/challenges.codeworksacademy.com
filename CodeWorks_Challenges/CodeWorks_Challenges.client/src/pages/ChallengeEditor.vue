@@ -8,7 +8,6 @@
           <EditChallengeDescription :challenge="challenge" />
           <EditChallengeRequirements :challenge="challenge" />
           <EditChallengeBadge :challenge="challenge" />
-          <MarkdownEditor :challenge="challenge"/>
         </div>
         <div class="text-center my-3">
           <button class="btn btn-success" @click="updateChallenge"> Update Challenge</button>

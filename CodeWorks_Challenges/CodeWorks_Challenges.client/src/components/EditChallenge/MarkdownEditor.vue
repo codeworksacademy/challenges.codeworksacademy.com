@@ -1,6 +1,6 @@
 <template>
     <div class="markdown-editor">
-      <div class="d-flex bg-menu rounded-3 m-2">
+      <div class="d-flex bg-menu rounded-3">
         <div class="editor h-100 sticky-top" v-if="!showPreview">
           <MonacoEditor language="markdown" :value="editable" @change="change" @save="save" :showSave="showSave">
             <template #toolbar>
@@ -13,10 +13,10 @@
           </MonacoEditor>
         </div>
         <div class="editor bg-page drop-4" v-else>
-          <div class="bg-menu">
+          <div class="menu-border">
             <div class="text-end flex-grow-1 text-light">
               <div class="d-flex justify-content-between ">
-                <span class="text-light fs-6 pt-2 ps-3">Preview</span>
+                <span class="text-light fs-6 pt-2 ps-3">Description Preview</span>
                 <button type="button" class="btn clickable-dark square" @click="showPreview = !showPreview">
                   <i class="mdi" :class="showPreview ? 'mdi-eye' : 'mdi-eye-off'"></i>
                 </button>
@@ -54,6 +54,7 @@
       watchEffect(() => {
         // editable.value = props.modelValue
         editable.value = props.challenge.description
+        // editable.value = 'Hello World'
       })
   
       return {
@@ -78,6 +79,9 @@
     .bg-menu {
     background-color: #1c2332;
     border: 1px solid #2d386b;
+  }
+  .menu-border{
+    border-bottom: 1px solid #2d386b;
   }
   .editor {
     overflow: hidden;

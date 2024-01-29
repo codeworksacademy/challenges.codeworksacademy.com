@@ -13,10 +13,11 @@
     <div class="dropup">
       <button type="button" class="btn clickable-dark dropdown-toggle p-1 square text-white" data-bs-toggle="dropdown"
         aria-expanded="false">
-        {{ theme }}
+        <i class="mdi mdi-palette"></i>
+        {{ theme }} 
       </button>
-      <ul class="dropdown-menu">
-        <li class="dropdown-item font-white" @click="setTheme(t)" v-for="t in themes" :key="t">{{ t }}</li>
+      <ul class="dropdown-menu bg-dark">
+        <li class="dropdown-item text-white" @click="setTheme(t)" v-for="t in themes" :key="t">{{ t }}</li>
       </ul>
     </div>
     <div class="dropup">
@@ -24,8 +25,8 @@
         aria-expanded="false">
         {{ lang }}
       </button>
-      <ul class="dropdown-menu">
-        <li class="dropdown-item" @click="setLang(l)" v-for="l in languages" :key="l">{{ l }}</li>
+      <ul class="dropdown-menu bg-dark">
+        <li class="dropdown-item text-light" @click="setLang(l)" v-for="l in languages" :key="l">{{ l }}</li>
       </ul>
     </div>
   </div>
@@ -78,7 +79,8 @@ export default {
       lang,
       theme,
       languages: ['javascript', 'css', 'html', 'markdown', 'csharp'],
-      themes: ['vs', 'vs-dark', 'hc-black', 'dracula', 'github', 'github-dark', 'night-owl', 'sunburst', 'oceanic', 'merbivore'],
+      // themes: ['vs', 'vs-dark', 'hc-black', 'dracula', 'github', 'github-dark', 'night-owl', 'sunburst', 'oceanic', 'merbivore'],
+      themes: ['vs', 'vs-dark', 'hc-black', 'dracula'],
       save() {
         emit('save', editor.getValue())
       },
@@ -99,6 +101,12 @@ export default {
   
   
 <style lang="scss" scoped>
+.menu-border{
+    border-bottom: 1px solid #2d386b;
+  }
+.dropdown-item:hover{
+  background-color: #2d386b;
+}
 .editor {
   min-height: 500px;
 }

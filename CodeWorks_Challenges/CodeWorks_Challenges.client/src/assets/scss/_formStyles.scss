@@ -113,30 +113,31 @@ option {
 .form-box .select-category {
   max-height: 40px !important;
 }
-.input-box label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 10px 10px;
-  font-size: 16px;
-  color: var(--border-dark);
-  text-shadow: none;
-  pointer-events: none;
-  transition: .5s;
-}
-.input-box textarea:valid~label,
-.input-box textarea:focus~label,
-.input-box input[type="text"]:valid~label,
-.input-box input[type="text"]:focus~label {
-  position: absolute;
-  top: -45px !important;
-  left: 0;
-  padding: 10px 0 0;
-  margin-top: 10px;
-  color: var(--text-main) !important;
-  text-shadow: 0 .5px 0px var(--shadow-blue);
-  font-size: 14px;
-}
+//TODO LOOK AT THIS CHANTHA 
+// .input-box label {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   padding: 10px 10px;
+//   font-size: 16px;
+//   color: var(--border-dark);
+//   text-shadow: none;
+//   pointer-events: none;
+//   transition: .5s;
+// }
+// .input-box textarea:valid~label,
+// .input-box textarea:focus~label,
+// .input-box input[type="text"]:valid~label,
+// .input-box input[type="text"]:focus~label {
+//   position: absolute;
+//   top: -45px !important;
+//   left: 0;
+//   padding: 10px 0 0;
+//   margin-top: 10px;
+//   color: var(--text-main) !important;
+//   text-shadow: 0 .5px 0px var(--shadow-blue);
+//   font-size: 14px;
+// }
 input:not(:placeholder-shown):valid,
 textarea:not(:placeholder-shown):valid,
 select:not(:placeholder-shown):valid,
