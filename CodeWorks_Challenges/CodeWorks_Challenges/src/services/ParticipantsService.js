@@ -14,11 +14,8 @@ const EXPERIENCE_SCALE = {
 class ParticipantsService {
 
 	async getLeaderboards() {
-		const participants = await dbContext.ChallengeParticipants.find({ status: 'completed' }).populate({
-			path: 'challenge',
-			populate: { path: 'creator requirements participantCount completedCount' }
-		}).populate('profile', 'name picture')
-		return participants
+		const accounts = await dbContext.Account.find().select(PROFILE_FIELDS).populate('badges')
+		return accounts
 	}
 
 	async joinChallenge(newParticipant) {

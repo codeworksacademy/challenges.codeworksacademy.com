@@ -52,6 +52,7 @@ export const AppState = reactive({
   ProfileState,
   AccountState,
   ChallengeState,
+  leaderboards: [],
   // challenges that show up in search and can be joined by the user
   /** @type {import('./models/Challenge.js').Challenge[]} */
   challenges: [],

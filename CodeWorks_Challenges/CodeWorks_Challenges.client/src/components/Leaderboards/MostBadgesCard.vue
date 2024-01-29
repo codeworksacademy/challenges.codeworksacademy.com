@@ -36,7 +36,7 @@ import { Modal } from "bootstrap";
 export default {
   props: {
     participant: {
-      type: ChallengeParticipant,
+      type: [ChallengeParticipant, Object],
       required: true
     }
   },

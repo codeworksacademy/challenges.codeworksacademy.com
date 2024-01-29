@@ -59,5 +59,6 @@ ChallengeParticipantSchema.virtual('challenge', {
   localField: 'challengeId',
   foreignField: '_id',
   ref: 'Challenge',
-  justOne: true
+  justOne: true,
+  
 })
