@@ -1,14 +1,10 @@
 <template>
   <div :class="`details-card d-flex justify-content-center align-items-center ${themeStyle ? 'theme-style' : ''} rounded text-capitalize pt-3`" :style="{backgroundColor: bgColor, borderColor: color, borderStyle: 'groove'}">
     <div class="col-12 button-container d-flex justify-content-center align-items-center">
-      <button v-if="isParticipant && !gaveReputation" @click="giveReputation" class="btn bg-dark btn-success text-success me-3"><small>Give Reputation</small></button>
-      <button v-if="isParticipant && gaveReputation" @click="giveReputation" class="btn bg-dark btn-danger text-danger me-3"><small>Remove Reputation</small></button>
-      <div v-if="!isParticipant && !isCreator" class="disabled-title" :title="`You must be a participant of '${challenge.name}' before you can award it's creator with reputation.`">
-        <button class="btn bg-dark btn-warning text-light me-3" disabled><small>Give Reputation</small></button>
-      </div>
-      <div v-if="isCreator" class="disabled-title" :title="`${challenge.creator.name}'s total Reputation: ${challenge.creator.reputation}`">
-        <button class="btn bg-info btn-warning text-white me-3" disabled><small>View Reputation</small></button>
-      </div>
+      <button v-if="isParticipant && !gaveReputation" @click="giveReputation" class="me-3"><small>Give Reputation</small></button>
+      <button v-if="isParticipant && gaveReputation" @click="giveReputation" class="remove-reputation-hover me-3"><small>Remove Reputation</small></button>
+      <button v-if="!isParticipant && !isCreator" class="disabled-title me-3" :title="`You must be a participant of '${challenge.name}' before you can award it's creator with reputation.`" disabled><small>Give Reputation</small></button>
+      <button v-if="isCreator" :title="`${challenge.creator.name}'s total Reputation: ${challenge.creator.reputation}`" class="disabled-title me-3" disabled><small>View Reputation</small></button>
     </div>
     <i class="mdi mdi-account-star-outline"></i>
     <h3 class="circle-container"><span class="circle">+{{ challenge.reputationIds.length }}</span></h3>
@@ -23,6 +19,9 @@
 import { Challenge } from '../../models/Challenge'
 import { computed } from 'vue'
 import { AppState } from '../../AppState'
+import { challengesService } from '../../services/ChallengesService'
+import Pop from '../../utils/Pop'
+
 export default {
   props: {
     challenge: {
@@ -34,44 +33,59 @@ export default {
     themeStyle: {type: Boolean, required: true, default: false}
   },
   setup(props) {
-    const isParticipant = computed(() => {
-      const participant = AppState.ChallengeState.participants.find(p => p.accountId === AppState.AccountState.account.id)
-      return participant
-    })
-
-    const isCreator = computed(() => {
-      if (AppState.AccountState.account.id === props.challenge.creator.id) {
+    const gaveReputation = computed(() => {
+      const challenge = props.challenge
+      if (challenge.reputationIds.find(r => r == AppState.AccountState.account.id)) {
         return true
       }
       return false
     })
+    async function giveReputation() {
+      try {
+        const challengeId = props.challenge.id
+        const accountId = AppState.AccountState.account?.id
+        await challengesService.giveReputation(challengeId, accountId)
+        if (gaveReputation.value) {
+          Pop.toast(`The CodeWorks team and ${props.challenge.creator.name} appreciate you gifting +1 Reputation to challenge '${props.challenge.name}'!`, 'success')
+        } else {
+          Pop.toast(`You have removed your reputation point to ${props.challenge.creator.name} for '${props.challenge.name}.'`, 'success')
+        }
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
 
     return {
-      isCreator,
-      isParticipant,
+      giveReputation,
+      gaveReputation,
+      canGiveReputation: computed(() => {
+        if (props.challenge.reputationIds.find(r => r == AppState.AccountState.account.id)) {
+          return false
+        }
+        return true
+      }),
+      isParticipant: computed(() => {
+        const participant = AppState.ChallengeState.participants.find(p => p.accountId === AppState.AccountState.account.id)
+        return participant
+      }),
+      isCreator: computed(() => {
+        if (AppState.AccountState.account.id === props.challenge.creator.id) {
+          return true
+        }
+        return false
+      }),
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
+@import url('../../assets/scss/_challengeReputationButton.scss');
 .details-card {
   position: relative;
-  .button-container {
-    >button {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      right: 50%;
-      width: 150px;
-      height: 40px;
-      transform: translateX(-50%);
-      outline: none !important;
-      clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%, 0 0);
-      border-bottom-left-radius: 25%;
-      border-bottom-right-radius: 25%;
-    }
-  }
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
   .mdi-account-star-outline {
     position: relative;
     top: 20%;
@@ -95,7 +109,7 @@ export default {
       align-items: center;
       width: 30px;
       height: 30px;
-      box-shadow: inset 0 0 0 2px #2a8f4c;
+      box-shadow: inset 0 0 2px 2px #1c5b2f99;
       border-radius: 50%;
       background-color: #38BB64;
       color: white;
@@ -109,12 +123,16 @@ export default {
       @media screen and (max-width: 992px) {
         right: 5%;
       }
-      @media screen and (max-width: 768px) {
-        right: 40%;
+    }
+  }
+  @media screen and (min-width: 768px) and (max-width: 1200px) {
+    .button-container {
+      &:before, &:after {
+        width: 35%;
+        height: 67%;
+        border-radius: 15%;
       }
     }
   }
-
-
 }
 </style>

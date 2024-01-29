@@ -166,7 +166,7 @@ export default {
   }
 
 section {
-  height: 600px;
+  height: 857px;
   white-space: nowrap;
   overflow-y: hidden;
   scrollbar-width: none;
@@ -184,8 +184,15 @@ section {
 
 @media screen and (max-width: 768px) {
   section {
+    position: relative;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 92.5vw;
+    height: 100%;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
     aside#challenge-menu {
-      height: 100% !important;
       white-space: normal !important;
     }
   }

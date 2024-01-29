@@ -6,21 +6,9 @@
           <p class="highlight-text rounded fs-5 p-2 px-3 text-center text-md-start">
             Complete Applications, With <b>Feedback</b> and <b>Grading</b>
           </p>
-          
-          <p class="hero-font fs-2">
-            <span style="color: var(--shadow-green)">Pursue</span> New Projects
-          </p>
-          <p class="hero-font fs-2">
-            <span style="color: var(--shadow-orange)">Showcase</span> Your Skills
-          </p>
-          <p class="hero-font fs-2">
-            <span style="color: var(--shadow-purple)">Build</span> Your Portfolio
-          </p>
-          <p class="hero-font fs-2">
-            <span style="color: var(--shadow-blue)">Empower Your Career</span> with Software Development!
-          </p>
+          <ColorThemeHeaderText />
           <div class="ps-0 ms-0 mt-3">
-            <BlueButton buttonContent="Browse Challenges" />
+            <ReflectiveButton buttonContent="Browse Challenges" />
           </div>
         </div>
       </div>
@@ -36,7 +24,8 @@
 <script>
 import { computed } from 'vue'
 import { AppState } from '../AppState'
-import BlueButton from '../components/ButtonComponents/BlueButton.vue'
+import ReflectiveButton from '../components/ButtonComponents/ReflectiveButton.vue'
+import ColorThemeHeaderText from '../components/HomePage/ColorThemeHeaderText.vue'
 
 export default {
   setup() {
@@ -45,7 +34,7 @@ export default {
     }
   },
   components: {
-    BlueButton
+    ReflectiveButton, ColorThemeHeaderText
   }
 }
 </script>
@@ -97,11 +86,9 @@ export default {
 .hero-font{
   font-family: 'Lekton', sans-serif;
 }
-
 .fs-xl{
   font-size: 3rem;
 }
-
 .highlight-text{
   background-color: #1da3e619;
   font-family: 'Lekton', sans-serif;
@@ -111,7 +98,6 @@ export default {
 .calc-vh{
   height: calc(100vh - 64px);
 }
-
 @media (min-width: 768px) {
   .fs-xl{
     font-size: 4rem;
