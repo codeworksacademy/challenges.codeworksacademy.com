@@ -89,7 +89,6 @@
   button.remove-reputation-hover {
     color: var(--shadow-orange);
     text-shadow: 0 0 1px var(--shadow-purple);
-    box-shadow: inset 25px 3px 0 0px #38BB64, inset 28px 3px 0 0 #6F42C1;
     filter: brightness(.9);
     transition: .3s ease-in-out all;
     &:after {
