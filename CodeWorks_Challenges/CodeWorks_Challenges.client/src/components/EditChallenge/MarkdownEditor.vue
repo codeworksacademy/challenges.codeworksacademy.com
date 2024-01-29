@@ -16,7 +16,7 @@
           <div class="menu-border">
             <div class="text-end flex-grow-1 text-light">
               <div class="d-flex justify-content-between ">
-                <span class="text-light fs-6 pt-2 ps-3">Description Preview</span>
+                <span class="text-light fs-6 pt-2 ps-3">Preview</span>
                 <button type="button" class="btn clickable-dark square" @click="showPreview = !showPreview">
                   <i class="mdi" :class="showPreview ? 'mdi-eye' : 'mdi-eye-off'"></i>
                 </button>
