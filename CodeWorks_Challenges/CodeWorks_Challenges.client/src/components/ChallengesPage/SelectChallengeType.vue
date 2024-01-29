@@ -30,7 +30,6 @@ import { ref } from "vue"
 </script>
 
 <style scoped lang="scss">
-@import url('../../assets/scss/_formStyles.scss');
 
 #select-type {
   width: 100%;

@@ -2,6 +2,7 @@ import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { challengesService } from "./ChallengesService.js"
 import { PROFILE_FIELDS } from '../constants'
+import { accountService } from "./AccountService.js"
 
 const EXPERIENCE_SCALE = {
 	1: 10,
@@ -47,6 +48,7 @@ class ParticipantsService {
 	// I already know what the challenge is so no need to populate the challenge 
 	async getParticipantsByChallengeId(challengeId) {
 		const participants = await dbContext.ChallengeParticipants.find({ challengeId })
+			.select('-requirements -submission -grade')
 			.populate('profile', PROFILE_FIELDS)
 
 		return participants

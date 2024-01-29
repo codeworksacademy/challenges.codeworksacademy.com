@@ -11,14 +11,24 @@
   --border-dark: #0f141e;
 }
 
-.hover-green:hover {
-  background: linear-gradient(90deg, #52ca9660 0%, #52ca9640 70%, #52ca9600 90%);
+
+.hoverable:hover{
+  $color: red;
   box-shadow: inset 0 0 10px 5px var(--bg-sub);
   border: none;
-  .text-green {
-    color: var(--shadow-green);
+  background: linear-gradient(90deg, $color, opacify($color, .4) 0%, opacify($color, .7) 70%, transparent 90%);
+  .hover-green{
+    $color: #52ca96;
   }
 }
+
+
+// .hover-green:hover {
+//   background: linear-gradient(90deg, #52ca9660 0%, #52ca9640 70%, #52ca9600 90%);
+//   .text-green {
+//     color: var(--shadow-green);
+//   }
+// }
 .hover-orange:hover {
   background: linear-gradient(90deg, #f07b0060 0%, #f07b0040 70%, #f07b0000 90%);
   box-shadow: inset 0 0 10px 5px var(--bg-sub);

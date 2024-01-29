@@ -1,129 +1,102 @@
 <template>
-  <section v-if="challenge" :key="challenge?.id" class="text-light">
-    <div class="row mobile-media-query justify-content-center px-3">
-      <div class="col-md-4 p-3 pt-0">
-        <ChallengeDifficultyCard :challenge="challenge" color="#20C997" bgColor="#20c99629" :themeStyle="true" />
+  <section v-if="challenge" :key="challenge?.id" class="text-light container-fluid px-lg-5">
+    <div class="row">
+      <div class="col-lg-4 my-2">
+        <ChallengeStatCard :challenge="challenge" :color="difficulty.color" :bgColor="difficulty.bgColor" :value="difficulty.value" prop="difficulty"
+          icon="mdi-diamond-stone" />
       </div>
-      <div class="col-md-4 p-3 pt-0">
-        <ChallengeCategoryCard :challenge="challenge" color="#FD7E14" bgColor="#fd7d142e" :themeStyle="true" />
+      <div class="col-lg-4 my-2">
+        <ChallengeStatCard :challenge="challenge" color="#ff9740" bgColor="#ff730038" prop="category"
+          icon="mdi-office-building-cog-outline" />
       </div>
-      <div class="col-md-4 p-3 pt-0">
-        <ChallengeReputationCard :challenge="challenge" color="#6F42C1" bgColor="#1D213A" :themeStyle="true" />
+      <div class="col-lg-2 my-2">
+        <ChallengeStatCard :challenge="challenge" color="#ff77e7" bgColor="#ff3cc938" prop="Users"
+          :value="challenge.participantCount" icon="mdi-bottle-tonic-skull" />
+      </div>
+      <div class="col-lg-2 my-2">
+        <ChallengeStatCard :challenge="challenge" color="#f7f4b3" bgColor="#161d2b" prop="Solves"
+          :value="challenge.completedCount" icon="mdi-seal" />
       </div>
     </div>
-    <div class="row justify-content-center ms-2 me-2 py-2">
-      <div class="col-md-6 mb-1">
-        <ChallengeCreatorCard :challenge="challenge" color="#323e78" bgColor="#323e7829" :themeStyle="true" />
+    <div class="row">
+      <div class="col-lg-4 my-2">
+        <ChallengeStatCard :challenge="challenge" color="#b78fff" bgColor="#1D213A" prop="reputation"
+          :value="challenge.reputationIds.length" icon="mdi-account-star-outline">
+          <GiveRepButton :challenge="challenge" />
+        </ChallengeStatCard>
       </div>
-      <div class="col-md-6 mt-1">
+      <div class="col-lg-8 my-2">
+        <ChallengeCreatorCard :challenge="challenge" :profile="challenge.creator" color="#323e78" bgColor="#323e7829" />
+      </div>
+      <!-- <div class="col-lg-12 mt-1">
         <ChallengeBadgeCard :challenge="challenge" :badge="challenge.badge" class="mx-1" />
+      </div> -->
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <article>
+          <div class="details-header p-3 bg-detail mt-3 rounded-3">
+            <h3 class="text-uppercase" style="color: #7A7A7A">
+              Challenge Description
+            </h3>
+            <Markdown :value="challenge.description" />
+          </div>
+        </article>
       </div>
     </div>
-    <div class="col-md-12 px-3" style="height: 100%;">  
-    </div>
-    <article>
-      <div class="details-header p-3 bg-detail mt-3 rounded-3" style="margin-right: 1.25rem; margin-left: 1.25rem;">
-        <h3 class="text-uppercase" style="color: #7A7A7A">
-          Challenge Description
-        </h3>
-        <p> {{ challenge.description }} </p>
-      </div>
-    </article>
   </section>
 </template>
 
 <script>
 import { computed } from 'vue'
-import Pop from '../utils/Pop'
-import { useRoute } from 'vue-router'
 import { AppState } from '../AppState'
-import { StrDifficultyNum } from '../utils/StrDifficultyNum'
-import { challengeModeratorsService } from '../services/ChallengeModeratorsService'
 import ChallengeCreatorCard from '../components/ChallengePage/ChallengeCreatorCard.vue'
-import ChallengeCategoryCard from '../components/ChallengePage/ChallengeCategoryCard.vue'
-import ChallengeDifficultyCard from '../components/ChallengePage/ChallengeDifficultyCard.vue'
-import ChallengeReputationCard from '../components/ChallengePage/ChallengeReputationCard.vue'
 import ChallengeBadgeCard from '../components/ChallengePage/ChallengeBadgeCard.vue'
 
 export default {
   setup() {
-    const editable = {
-      primaryColor: '#b3b2b2',
-      secondaryColor: '#242424',
-    }
-    const route = useRoute()
-    const isMobile = computed(() => window.innerWidth < 768)
-
-      async function createModeration() {
-        try {
-          const moderatorData = {
-            challengeId: route.params.challengeId,
-            accountId: AppState.user.id
-          } 
-          await challengeModeratorsService.createModeration(moderatorData)
-          Pop.success('You have requested to become a moderator for this challenge, please be patient while the owner of this challenge reviews your request')
-        } catch (error) {
-          Pop.toast(error, 'error')
-        }
-      }
-
-      async function removeModeration(moderationId) {
-        try {
-          const confirmRemove = await Pop.confirm('Delete Moderation?')
-          if (!confirmRemove) {
-            return
-          }
-          await challengeModeratorsService.removeModeration(moderationId)
-        } catch (error) {
-          Pop.toast(error, 'error')
-        }
-      }
 
     return {
-      editable,
-      createModeration,
-      removeModeration,
-      
-      isMobile,
-
       challenge: computed(() => AppState.ChallengeState.challenge),
-      isPuzzle: computed(() => AppState.ChallengeState.challenge.category === CATEGORY_TYPES.PUZZLES),
       difficulty: computed(() => {
-        const challenge = StrDifficultyNum(AppState.ChallengeState.challenge.difficulty)
-        return challenge
-      }),
+        const difficulty = AppState.ChallengeState.challenge?.difficulty
+        switch (difficulty) {
+          case 1:
+            return { value: 'Easy', color: '#09efab', bgColor: '#20c99629' }
+          case 2:
+            return { value: 'Medium', color: '#efc809', bgColor: '#c9b7203d' }
+          case 3:
+            return { value: 'Hard', color: '#c9b7203d', bgColor: '#c94c2029' }
+          case 4:
+            return { value: 'Extreme', color: '#ef09cb', bgColor: '#c920ac29' }
+          case 5:
+            return { value: 'Legendary', color: '#fff', bgColor: '#000' }
+          default:
+            return { value: 'Loading', color: '#181818', bgColor: '#52525278' }
+        }
+
+      })
     }
   },
-  components: { ChallengeDifficultyCard, ChallengeCategoryCard, ChallengeReputationCard, ChallengeCreatorCard, ChallengeBadgeCard }
+  components: { ChallengeCreatorCard, ChallengeBadgeCard }
 }
 </script>
 
 <style scoped lang="scss">
-@import url('../assets/scss/_root.scss');
 .container-fluid {
   background-color: var(--bg-main);
 }
-.details-card {
-  height: 25vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  // margin: 1rem;
-  // padding:2rem;
-  color: #f0f0f0;
-  background:#1c2332;
-  text-align: center;
-}
+
+
 .creator-details-card {
   height: 25vh;
   display: flex;
   justify-content: center;
-  // margin: 1rem;
   color: #f0f0f0;
-  background:#1c2332;
+  background: #1c2332;
   text-align: center;
 }
+
 .badge-card {
   height: 30vh;
   display: flex;
@@ -131,7 +104,7 @@ export default {
   justify-content: center;
   align-items: center;
   margin: 1rem;
-  padding:2rem;
+  padding: 2rem;
   color: #f0f0f0;
   border: 1px solid #323e78;
   border-radius: 5px;
@@ -139,52 +112,62 @@ export default {
   text-align: center;
 }
 
-.bg-detail{
-    background-color: #1c2332;
-    border: 1px solid #2d386b;
-  }
+.bg-detail {
+  background-color: #1c2332;
+  border: 1px solid #2d386b;
+}
 
 @media screen and (max-width: 768px) {
   .details-header {
     width: 92%;
     padding: 2rem;
+
     h3 {
       font-size: 1.75rem;
     }
+
     p {
       padding: .5rem 0 1rem 0;
       font-size: 1.25rem;
     }
   }
+
   .mobile-flex-column {
     flex-direction: column;
     padding-right: 1rem;
   }
+
   .mobile-media-query {
     flex-direction: column;
     padding-right: 1rem;
+
     .creator-details-card {
       flex-direction: row;
       justify-content: center;
       align-items: center;
       margin: 1rem;
-      padding:2rem;
+      padding: 2rem;
       color: #f0f0f0;
-      background:#1c2332;
+      background: #1c2332;
       text-align: center;
+
       .col-4 {
         padding: 0;
+
         img {
           height: 75px;
           width: 75px;
           margin-bottom: 1rem;
         }
       }
+
       .col-8 {
         padding: 0;
+
         .button-container {
           padding-right: 0rem;
           padding-top: 2rem;
+
           button {
             padding: .5rem 1rem;
             font-size: 1rem;

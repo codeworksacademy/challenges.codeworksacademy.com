@@ -42,7 +42,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import url('../../assets/scss/_formStyles.scss');
 
 .select-difficulty {
   width: 100%;

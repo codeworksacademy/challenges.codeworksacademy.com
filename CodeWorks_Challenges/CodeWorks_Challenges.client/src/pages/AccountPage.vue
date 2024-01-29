@@ -4,12 +4,12 @@
       <div class="p-0">
         <img class="coverImg-style" :src="account.coverImg" alt="Cover Image">
       </div>
-      <div class="col-12 text-white mb-3">
+      <div class=" text-white mb-3">
         <section class="row justify-content-between">
-          <div class="col-md-7 col-12 d-flex summary-height">
+          <div class="col-lg-7  d-flex summary-height">
             <SummarySection :profile="account" :milestones="milestones" :challenges="challenges" :participation="participation" />
           </div>
-          <div class="col-4 align-items-center justify-content-end d-none d-md-flex summary-height">
+          <div class="col-lg-4 align-items-center justify-content-end d-none d-lg-flex summary-height">
             <router-link :to="{ name: 'Account.challenges' }">
               <button class="btn aqua-btn-outline my-2 me-3">
                 View my challenges
@@ -21,11 +21,11 @@
     </section>
 
     <section class="row">
-      <div class="col-md-3 col-12">
+      <div class="col-lg-3 ">
         <AccountLinksCard />
       </div>
 
-      <div class="col-12 col-md-9">
+      <div class=" col-lg-9">
         <router-view />
       </div>
     </section>

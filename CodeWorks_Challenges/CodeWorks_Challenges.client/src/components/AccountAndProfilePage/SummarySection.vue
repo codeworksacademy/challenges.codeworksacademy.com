@@ -1,9 +1,9 @@
 <template>
-  <div class="avatar-container col-md-4 col-lg-3 col-5">
+  <div class="avatar-container col-lg-3 col-5">
     <div class="avatar-bg"></div>
     <img :src="profile.picture" :alt="profile.name" class="avatar-lg mx-4 light-gold-border avatar-style">
   </div>
-  <div class="d-flex flex-column col-md-8 col-lg-9 col-7">
+  <div class="d-flex flex-column col-lg-9 col-7">
     <p class="fs-2 m-0">
       {{ profile.name }}
     </p>

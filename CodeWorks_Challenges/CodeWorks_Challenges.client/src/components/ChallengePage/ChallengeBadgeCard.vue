@@ -64,7 +64,7 @@ h3 {
   align-items: center;
   margin: 0;
   padding: 0;
-  max-height: 25vh;
+  min-height: 25vh;
   color: #1F1D42;
   transition: all 0.25s ease-in-out;
   &:hover {
@@ -158,6 +158,7 @@ h3 {
     z-index: 2;
     .backdrop {
       position: absolute;
+      pointer-events: none;
       left: 37%;
       top: 48%;
       width: 100%;
@@ -180,6 +181,7 @@ h3 {
       position: absolute;
       left: 0;
       z-index: -1;
+      pointer-events: none;
     }
     &::before {
       top: -35px;
@@ -232,11 +234,9 @@ h3 {
     position: absolute;
     top: 0;
     left: 50%;
-    right: 50%;
-    width: 100%;
+    right: 0;
     height: 100%;
-    padding-top: 1rem;
-    padding-left: 2.5rem;
+    padding: 2.5rem;
     background: linear-gradient(90deg, #3278 0%, #323e 50%, #3278 100%);
     box-shadow: -5px 0 10px 0px #3278;
     transform: scale(1.05) translate(10%, 0);

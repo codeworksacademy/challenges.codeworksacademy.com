@@ -2,28 +2,28 @@
   <div class="container-fluid">
     <section class="row mt-3 my-0 my-md-3 mt-md-3">
 
-      <div class="col-md-4 col-12">
+      <div class="col-lg-4">
         <StatCard title="Moderated Challenges" :number="challenges.length" color="#20C997" bgColor="#20c99629"
           icon="mdi-file-code" :themeStyle="true" :leftAlignedIcon="false" />
       </div>
 
-      <div class="col-md-4 col-12">
+      <div class="col-lg-4">
         <StatCard title="Completed Challenges" :number="completedChallenges.length" color="#FD7E14" bgColor="#fd7d142e"
           icon="mdi-file-sign" :themeStyle="true" :leftAlignedIcon="false" />
       </div>
 
-      <div class="col-md-4 col-12">
+      <div class="col-lg-4">
         <StatCard title="Challenge Badges" :number="badges.length" color="#6F42C1" bgColor="#1D213A" icon="mdi-seal"
           :themeStyle="true" :leftAlignedIcon="false" />
       </div>
     </section>
 
     <section class="row">
-      <div class="col-md-8 col-12">
+      <div class="col-lg-8">
         <RankCard :profile="account" />
       </div>
 
-      <div class="col-md-4 col-12">
+      <div class="col-lg-4">
         <StatCard title="Reputation" :number="account.reputation" color="#3E5374" bgColor="#3e53742a"
           icon="mdi-emoticon-happy" :leftAlignedIcon="false" :themeStyle="true" />
       </div>

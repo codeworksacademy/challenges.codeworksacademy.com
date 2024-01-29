@@ -1,33 +1,33 @@
 <template>
-  <div :key="participant?.id" :class="`number-${index}-trophy`"
+  <div :key="profile?.id" :class="`number-${index}-trophy`"
     class="col-12 score-card d-flex gap-3 justify-content-between align-items-center p-2 border">
 
     <div class="d-flex gap-3 align-items-center">
       <span class="fs-5">{{ index }}.</span>
-      <router-link :to="{ name: 'Profile.overview', params: { profileId: participant.accountId } }">
-        <img :src="participant.profile.picture"
-          @error="(e) => e.target.src = `https://ui-avatars.com/api/?name=${participant.profile.name}&background=random`"
-          :title="`Click to Visit ${participant.profile.name}'s Profile Page`"
+      <router-link :to="{ name: 'Profile.overview', params: { profileId: profile.id } }">
+        <img :src="profile.picture"
+          @error="(e) => e.target.src = `https://ui-avatars.com/api/?name=${profile.name}&background=random`"
+          :title="`Click to Visit ${profile.name}'s Profile Page`"
           class="img-fluid profile-picture rounded-circle img-fluid selectable" height="35" width="35" />
       </router-link>
-      <span class="">{{ participant.profile.name }}</span>
+      <span class="">{{ profile.name }}</span>
     </div>
     <div>
-      <span class="text-center text-uppercase">{{ board.prop }} {{ participant.profile[board.prop] }}</span>
-      <span class="text-end text-capitalize" v-if="participant.profile.title">Title: {{
-        participant.profile.title
+      <span class="text-center text-uppercase">{{ board.prop }} {{ profile[board.prop] }}</span>
+      <span class="text-end text-capitalize" v-if="profile.title">Title: {{
+        profile.title
       }}</span>
     </div>
   </div>
 </template>
 
 <script>
-import { ChallengeParticipant } from "../../models/ChallengeParticipant.js";
+import { Profile } from "../../models/Profile.js";
 
 export default {
   props: {
-    participant: {
-      type: ChallengeParticipant,
+    profile: {
+      type: Profile,
       required: true,
     },
     index: {

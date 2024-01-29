@@ -1,6 +1,6 @@
 <template>
   <div class="row mx-3">
-    <div class="col-md-10 bg-detail rounded-3">
+    <div class="col-lg-10 bg-detail rounded-3">
       <h3 class="my-3 mx-4" style="color: #7A7A7A">Edit Challenge Details</h3>
       <section class="container-fluid text-light" v-if="challenge">
         <div>

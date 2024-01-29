@@ -1,6 +1,7 @@
 @import "./_variables.scss";
 @import "./_utilities.scss";
 @import "./loaders.scss";
+@import "./_formStyles.scss";
 @import "./_root.scss";
 
 body {
@@ -20,4 +21,9 @@ main {
 
 a {
   text-decoration: none;
+  color: unset;
+}
+
+button:hover:not(:disabled){
+  cursor: pointer;
 }

@@ -40,7 +40,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../assets/scss/variables.scss";
 
 .accordion-button, .accordion-button:not(.collapsed) {
   background: var(--bg-main)

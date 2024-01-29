@@ -9,11 +9,11 @@ import { logger } from "../utils/Logger.js";
 import { profilesService } from "./ProfilesService.js";
 
 const EXPERIENCE_SCALE = {
-	1: 10,
-	2: 50,
-	3: 250,
-	4: 500,
-	5: 1000
+  1: 10,
+  2: 50,
+  3: 250,
+  4: 500,
+  5: 1000
 }
 
 class ChallengesService {
@@ -61,8 +61,8 @@ class ChallengesService {
     if (!challenge) {
       challenge = await this.getChallengeById(participant.challengeId)
     }
-    
-    await accountService.calculateAccountRank({ id: participant.accountId },  EXPERIENCE_SCALE[challenge.difficulty])
+
+    await accountService.calculateAccountRank({ id: participant.accountId }, EXPERIENCE_SCALE[challenge.difficulty])
   }
 
   async createChallenge(newChallenge) {
@@ -81,16 +81,20 @@ class ChallengesService {
   async getAllChallenges() {
 
     const challenges = await dbContext.Challenges.find({ status: 'published' })
-      .populate('creator participantCount completedCount', PROFILE_FIELDS)
-      .select('-answer') //⚠️answer here.
       .sort({ createdAt: -1 })
+      .select('-answer')
+      .populate('creator', PROFILE_FIELDS)
+      .populate('participantCount')
+      .populate('completedCount')
     return challenges
   }
 
   async getChallengeById(challengeId) {
     const challenge = await dbContext.Challenges.findById(challengeId)
-      .populate('creator participantCount completedCount', PROFILE_FIELDS)
-      .select('-answer')//⚠️ but answers here? Corrected to answer after reviewing Schema
+      .select('-answer')
+      .populate('creator', PROFILE_FIELDS)
+      .populate('participantCount')
+      .populate('completedCount')
     if (!challenge) {
       throw new BadRequest('Invalid Challenge ID.')
     }
@@ -99,14 +103,17 @@ class ChallengesService {
   }
 
   /**
-  * @param {string} name
-   */
+   * @param {string} name
+  */
 
   async findChallengesByQuery(name = '', offset = 0) {
     const filter = new RegExp(name, 'ig')
     const challenges = await dbContext.Challenges
       .find({ name: filter })
-      .populate('creator participantCount completedCount', PROFILE_FIELDS)
+      .select('-answer')
+      .populate('creator', PROFILE_FIELDS)
+      .populate('participantCount')
+      .populate('completedCount')
       .collation({ locale: 'en_US', strength: 1 })
       .skip(Number(offset))
       .limit(20)
@@ -117,8 +124,15 @@ class ChallengesService {
   //This is where editing the challenge will have answers populated
   async getChallengesCreatedBy(profileId, accountId) {
     const challenges = accountId != profileId
-      ? await dbContext.Challenges.find({ creatorId: profileId }).populate('creator participantCount completedCount', PROFILE_FIELDS)
-      : await dbContext.Challenges.find({ creatorId: profileId }).select('-answers').populate('creator participantCount completedCount', PROFILE_FIELDS)
+      ? await dbContext.Challenges.find({ creatorId: profileId }).select('-answer')
+        .populate('creator', PROFILE_FIELDS)
+        .populate('participantCount')
+        .populate('completedCount')
+
+      : await dbContext.Challenges.find({ creatorId: profileId })
+        .populate('creator', PROFILE_FIELDS)
+        .populate('participantCount')
+        .populate('completedCount')
 
     return challenges
   }
@@ -173,7 +187,7 @@ class ChallengesService {
   async submitChallenge(challengeId, participantId, submission) {
     const challenge = await dbContext.Challenges.findById(challengeId)
     const participant = await participantsService.getParticipantById(participantId)
-    if(challenge.autoGrade){
+    if (challenge.autoGrade) {
       if (challenge.answer == submission) {
         participant.status = SUBMISSION_TYPES.COMPLETED;
         // participant.status = 'completed'

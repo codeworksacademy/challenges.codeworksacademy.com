@@ -66,7 +66,6 @@ export default {
 
 
 <style lang="scss" scoped>
-@import url('../../assets/scss/_root.scss');
 .user-links-card{
   background-color: #0E141E;
   border: 1px solid #2d386b;

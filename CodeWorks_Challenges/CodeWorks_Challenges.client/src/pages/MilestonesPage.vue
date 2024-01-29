@@ -3,7 +3,7 @@
 
     <section class="row">
       <h1> Milestones </h1>
-      <div class="col-12 col-md-6" v-for="milestone in milestones" :key="milestone">
+      <div class="col-12 col-lg-6" v-for="milestone in milestones" :key="milestone">
         <div class="milestone-container bg-dark rounded p-3 border border-5 border-success text-success">
           <span @click="removeMilestone(milestone.id)" class="mdi mdi-delete selectable text-danger fs-3"></span>
           <span @click="editMode = true, setUpMilestoneEditable(milestone)"
@@ -48,7 +48,7 @@
       </div>
     </section>
     <section class="row">
-      <div class="col-6">
+      <div class="col-lg-6">
         <h1 v-if="editMode == false" class="my-0"> Create a milestone </h1>
         <h1 v-else> Edit a milestone </h1>
         <form @submit.prevent="submitForm()" action="" class="d-flex flex-column form-control">

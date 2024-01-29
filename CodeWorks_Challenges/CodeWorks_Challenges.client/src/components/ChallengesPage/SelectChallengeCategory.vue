@@ -42,7 +42,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import url('../../assets/scss/_formStyles.scss');
 .select-category {
   width: 100%;
   background-color: var(--bg-sub);

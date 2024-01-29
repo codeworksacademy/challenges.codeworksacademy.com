@@ -1,53 +1,48 @@
 <template>
   <section class="container-fluid bg-detail rounded-3">
-    <h4 class="ps-2 pt-3" style="color: #7A7A7A">User Links</h4>
-    <aside id="challenge-menu" class="d-flex flex-column fs-4">
-      <router-link :to="{ name: 'Challenge.overview' }" class="hover-green rounded-1 selectable text-white">
-        <i class="mdi mdi-file-document-multiple text-green fst-normal p-3 ps-2"> Overview</i>
+    <h4 class="ps-2 py-3 badge">User Links</h4>
+    <aside id="challenge-menu" class="d-flex flex-column gap-lg-3">
+      <router-link :to="{ name: 'Challenge.overview' }" class="selectable ">
+        <i class="mdi mdi-file-document-multiple fst-normal p-3"> Overview</i>
       </router-link>
-      <router-link :to="{ name: 'Challenge.challengeSubmissionsPage' }"
-        class="hover-orange rounded-1 selectable text-white">
-        <i class="mdi mdi-eye-arrow-right text-orange fst-normal p-3 ps-2"> Submissions</i>
+      <router-link :to="{ name: 'Challenge.requirements' }" class="selectable ">
+        <i class="mdi mdi-file-document-check fst-normal p-3"> Requirements</i>
       </router-link>
-      <router-link :to="{ name: 'Challenge.requirements' }" class="hover-purple rounded-1 selectable text-white">
-        <i class="mdi mdi-file-document-check text-purple fst-normal p-3 ps-2"> Requirements</i>
-      </router-link>
-      <router-link :to="{ name: 'Challenge.statistics' }" class="hover-primary rounded-1 selectable text-white">
-        <i class="mdi mdi-finance text-white fst-normal p-3 ps-2"> Statistics</i>
+      <router-link :to="{ name: 'Challenge.statistics' }" class="selectable ">
+        <i class="mdi mdi-finance fst-normal p-3"> Statistics</i>
       </router-link>
       <hr>
       <div v-if="isOwned || isModerator" class="d-flex flex-column justify-content-center">
-        <router-link :to="{ name: 'Challenge.gradeSubmissionsPage' }" class="hover-info rounded-1 selectable text-white">
-          <i class="mdi mdi-progress-check text-info mt-1 fst-normal p-3 ps-2" style=""> Grade Users</i>
+        <router-link :to="{ name: 'Challenge.challengeSubmissionsPage' }" class="selectable ">
+          <i class="mdi mdi-eye-arrow-right text-orange fst-normal p-3"> Submissions</i>
         </router-link>
-        <router-link :to="{ name: 'Challenge.challengeEditor' }" class="hover-warning rounded-1 selectable text-white">
-          <i class="mdi mdi-archive-edit text-yellow fst-normal p-3 ps-2" style=""> Edit Challenge</i>
+        <router-link :to="{ name: 'Challenge.gradeSubmissionsPage' }" class="selectable ">
+          <i class="mdi mdi-progress-check text-info mt-1 fst-normal p-3"> Grade Users</i>
         </router-link>
-        <router-link :to="{ name: 'Challenge.challengeModeratorsPage' }"
-          class="hover-danger rounded-1 selectable text-white">
-          <i class="mdi mdi-archive-edit text-danger fst-normal p-3 ps-2" style="">Moderators</i>
+        <router-link :to="{ name: 'Challenge.challengeEditor' }" class="selectable ">
+          <i class="mdi mdi-archive-edit text-yellow fst-normal p-3"> Edit Challenge</i>
+        </router-link>
+        <router-link :to="{ name: 'Challenge.challengeModeratorsPage' }" class="selectable ">
+          <i class="mdi mdi-archive-edit text-danger fst-normal p-3">Moderators</i>
         </router-link>
 
-        <!-- <i @click="deprecateChallenge(challenge.id)" class="cancel-button mdi mdi-cancel text-danger selectable text-white" style="white-space: nowrap"> Deprecate Challenge</i> -->
+        <!-- <i @click="deprecateChallenge(challenge.id)" class="cancel-button mdi mdi-cancel text-danger selectable" style="white-space: nowrap"> Deprecate Challenge</i> -->
       </div>
       <div v-else-if="!isParticipant">
-        <permissions-flag permissions="join:challenge">
-          <h4 @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable text-success"> Join Challenge</h4>
-        </permissions-flag>
-        <!-- <h4 @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable text-success"> Join Challenge</h4> -->
+        <h4 @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable text-success"> Join Challenge</h4>
       </div>
       <div v-if="isParticipant" class="fw-semibold">
-        <h4 v-if="isParticipant.status == 'completed'" class="text-success">Challenge Passed <span><i class="mdi mdi-check"></i></span></h4>
-        <h4 v-if="isParticipant.status == 'incomplete'" class="text-warning">Challenge Incomplete <span><i class="mdi mdi-alert-box"></i></span></h4>
-        <h4
-          v-if="isParticipant.status == 'started' || isParticipant.status == 'incomplete'"
-          id="challengeSubmissionButton"
-          class="mdi mdi-send-check text-info selectable text-white" style="white-space: nowrap" ref="submission" role="button"
-          data-bs-target="#challengeSubmissionForm" data-bs-toggle="modal" aria-label="Go to Active Challenge Modal"
-          title="Create a new challenge">
+        <h4 v-if="isParticipant.status == 'completed'" class="text-success">Challenge Passed <span><i
+              class="mdi mdi-check"></i></span></h4>
+        <h4 v-if="isParticipant.status == 'incomplete'" class="text-warning">Challenge Incomplete <span><i
+              class="mdi mdi-alert-box"></i></span></h4>
+        <h4 v-if="isParticipant.status == 'started' || isParticipant.status == 'incomplete'"
+          id="challengeSubmissionButton" class="mdi mdi-send-check text-info selectable"
+          style="white-space: nowrap" ref="submission" role="button" data-bs-target="#challengeSubmissionForm"
+          data-bs-toggle="modal" aria-label="Go to Active Challenge Modal" title="Create a new challenge">
           Submit for Review
         </h4>
-          <h4 @click="leaveChallenge()" class="mdi mdi-cancel selectable text-danger"> Leave Challenge</h4>
+        <h4 @click="leaveChallenge()" class="mdi mdi-cancel selectable text-danger"> Leave Challenge</h4>
       </div>
     </aside>
   </section>
@@ -62,8 +57,8 @@ import { computed } from 'vue'
 import { SUBMISSION_TYPES } from '../constants'
 import { challengesService } from '../services/ChallengesService'
 import { participantsService } from '../services/ParticipantsService'
-import  DevFlag  from './DevFlag.vue'
-import  PermissionsFlag  from './PermissionsFlag.vue'
+import DevFlag from './DevFlag.vue'
+import PermissionsFlag from './PermissionsFlag.vue'
 
 export default {
   setup() {
@@ -159,11 +154,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
-.bg-detail{
-    background-color: #1c2332;
-    border: 1px solid #2d386b;
-  }
+.bg-detail {
+  background-color: #1c2332;
+  border: 1px solid #2d386b;
+}
 
 section {
   height: 857px;
@@ -171,12 +165,15 @@ section {
   overflow-y: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
+
   h4 {
     font-weight: semi-bold;
   }
+
   i.text-yellow {
     color: #ffc107;
   }
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -192,8 +189,10 @@ section {
     height: 100%;
     padding-bottom: 20px;
     margin-bottom: 20px;
+
     aside#challenge-menu {
       white-space: normal !important;
     }
   }
-}</style>
+}
+</style>

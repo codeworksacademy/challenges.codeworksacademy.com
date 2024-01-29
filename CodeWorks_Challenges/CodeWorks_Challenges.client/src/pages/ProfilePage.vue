@@ -7,11 +7,11 @@
 
       <div class="col-12 text-white">
         <section class="row justify-content-between">
-          <div class="col-md-7 col-12 d-flex summary-height">
+          <div class="col-lg-7 col-12 d-flex summary-height">
             <SummarySection :profile="profile" :account="profile" :challenges="challenges" :participation="participation" :milestones="milestones" />
           </div>
 
-          <div class="col-4 align-items-center justify-content-end d-none d-md-flex summary-height">
+          <div class="col-lg-4 align-items-center justify-content-end d-none d-lg-flex summary-height">
             <router-link :to="{ name: 'Profile.challenges' }">
               <button class="btn aqua-btn-outline my-2">
                 View challenges
@@ -23,11 +23,11 @@
     </section>
 
     <section class="row">
-      <div class="col-md-3 col-12">
+      <div class="col-lg-3 col-12">
         <ProfileLinksCard />
       </div>
 
-      <div class="col-12 col-md-9 p-0">
+      <div class="col-12 col-lg-9 p-0">
         <router-view />
       </div>
     </section>

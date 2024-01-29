@@ -74,7 +74,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import url('../../assets/scss/_variables.scss');
 
 .challenge-card {
   background-color: var(--bg-main);

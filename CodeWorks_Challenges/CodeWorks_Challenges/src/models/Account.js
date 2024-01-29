@@ -7,14 +7,14 @@ export const AccountSchema = new Schema(
     subs: [{ type: String, unique: true }],
     email: { type: String, lowercase: true, unique: true },
     name: { type: String, required: true },
-    picture: { type: String },
+    picture: { type: String, default: 'https://codeworks.blob.core.windows.net/public/assets/img/anonymous.jpg' },
     // NOTE If you wish to add additional properties do so here
-    coverImg: { type: String },
+    coverImg: { type: String, default: 'https://codeworks.blob.core.windows.net/public/assets/img/cover_img.jpg' },
     aboutContent: { type: String },
     experience: { type: Number, default: 0 },
     reputation: { type: Number, default: 0 },
     rank: { type: Number, default: 0 },
-    title: { type: String, enum: Object.values(RANK_BADGE).map(b => b.NAME), lowercase: true },
+    title: { type: String, enum: Object.values(RANK_BADGE).map(b => b.NAME.toLowerCase()), lowercase: true, default: 'bugs bunny' },
   },
   { timestamps: true, toJSON: { virtuals: true } }
 )

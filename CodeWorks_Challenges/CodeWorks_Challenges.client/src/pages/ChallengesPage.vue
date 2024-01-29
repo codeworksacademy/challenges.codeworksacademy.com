@@ -12,7 +12,7 @@
       <h5 class="ms-5 text-light">Search Challenges</h5>
     </div> -->
     <div class="col-12 d-flex justify-content-center align-items-center">
-      <div class="col-md-6 ps-4 pe-3">
+      <div class="col-lg-6 ps-4 pe-3">
         <form @submit.prevent="findChallenges">
           <div class="input-group">
             <input v-model="search.name" type="text" name="name" id="name" class="form-control bg-main border search-input me-1"
@@ -21,7 +21,7 @@
           </div>
         </form>
       </div>
-      <div class="col-12 col-md-6 mobile-query d-flex justify-content-center align-items-center me-3">
+      <div class="col-12 col-lg-6 mobile-query d-flex justify-content-center align-items-center me-3">
         <div class="col-4 d-flex justify-content-center align-items-center mb-3 mt-3 me-3">
           <select class="text-uppercase form-select bg-dark text-light" v-model="filterBy" @change="filterType(filterBy)">
             <option class="text-center" value="" disabled>Filter By</option>
@@ -117,8 +117,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import url('../assets/scss/_variables.scss');
-@import url('../assets/scss/_formStyles.scss');
 
 .container-fluid {
   --bs-gutter-x: 0;

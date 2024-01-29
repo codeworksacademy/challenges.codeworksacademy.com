@@ -3,33 +3,33 @@ import { AppState } from "../AppState"
 import { ChallengeParticipant } from "../models/ChallengeParticipant.js"
 import { logger } from './../utils/Logger';
 import Pop from '../utils/Pop';
+import { Profile } from '../models/Profile.js';
 
 class ParticipantsService {
 
   async getLeaderboards() {
     const res = await api.get('api/participants/leaderboards')
-    const participants = res.data.map(p => new ChallengeParticipant(p))
-    AppState.ChallengeState.participants = participants
+    const profiles = res.data.map(p => new Profile(p))
 
     AppState.leaderboards = [
       {
         prop: 'rank',
         name: 'Top Rank',
-        participants: participants.sort((a, b) => (b.profile.reputation - a.profile.reputation))
+        profiles: profiles.sort((a, b) => (b.reputation - a.reputation)).slice(0, 10)
       },
       {
         prop: 'experience',
         name: 'Most Experience',
-        participants: participants.sort((a, b) => (b.profile.experience - a.profile.experience))
+        profiles: profiles.sort((a, b) => (b.experience - a.experience)).slice(0, 10)
       },
       {
         prop: 'reputation',
         name: 'Most Reputation',
-        participants: participants.sort((a, b) => (b.profile.reputation - a.profile.reputation))
+        profiles: profiles.sort((a, b) => (b.reputation - a.reputation)).slice(0, 10)
       },
       // {
       //   name: 'Most Challenges Created',
-      //   participants: participants.sort((a, b) => (b.profile.reputation - a.profile.reputation))
+      //   participants: participants.sort((a, b) => (b.reputation - a.reputation))
       // },
       // {
       //   name: 'Most Popular Challenges',

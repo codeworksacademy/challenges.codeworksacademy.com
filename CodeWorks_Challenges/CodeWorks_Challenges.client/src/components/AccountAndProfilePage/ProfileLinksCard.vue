@@ -44,7 +44,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import url('../../assets/scss/_root.scss');
 .user-links-card {
   background-color: #1c2332;
   border: 1px solid #2d386b;
