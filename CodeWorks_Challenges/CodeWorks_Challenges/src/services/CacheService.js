@@ -55,7 +55,6 @@ class CacheService {
     const initializeCache = {};
     initializeCache.cacheId = cacheId;
     initializeCache.cachedData = [];
-    // initializeCache.lastEmptied = Date.now()
     const cacheItem = new EZCache(initializeCache)
     cacheEZ.push(cacheItem)
     return cacheItem
