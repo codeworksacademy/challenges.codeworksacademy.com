@@ -8,6 +8,8 @@ import { Profile } from '../models/Profile.js';
 class ParticipantsService {
 
   async getLeaderboards() {
+    if (AppState.leaderboards.length) { return }
+    
     const res = await api.get('api/participants/leaderboards')
     const profiles = res.data.map(p => new Profile(p))
 

@@ -14,7 +14,7 @@
       <button type="button" class="btn clickable-dark dropdown-toggle p-1 square text-white" data-bs-toggle="dropdown"
         aria-expanded="false">
         <i class="mdi mdi-palette"></i>
-        {{ theme }} 
+        {{ theme }}
       </button>
       <ul class="dropdown-menu bg-dark">
         <li class="dropdown-item text-white" @click="setTheme(t)" v-for="t in themes" :key="t">{{ t }}</li>
@@ -41,7 +41,7 @@ import { saveState, loadState } from '../../utils/Store.js'
 export default {
   props: {
     value: { type: String, default: '' },
-    language: { type: String, default: 'javascript' },
+    language: { type: String, default: 'markdown' },
     showSave: { type: Boolean, default: true }
   },
   emits: ['save', 'change'],
@@ -65,7 +65,7 @@ export default {
         fontSize: 16,
         lineNumbers: true,
         automaticLayout: true,
-        minimap: { enabled: false }
+        minimap: { enabled: false },
       })
       const model = editor.getModel()
 
@@ -79,7 +79,6 @@ export default {
       lang,
       theme,
       languages: ['javascript', 'css', 'html', 'markdown', 'csharp'],
-      // themes: ['vs', 'vs-dark', 'hc-black', 'dracula', 'github', 'github-dark', 'night-owl', 'sunburst', 'oceanic', 'merbivore'],
       themes: ['vs', 'vs-dark', 'hc-black', 'dracula'],
       save() {
         emit('save', editor.getValue())
@@ -101,12 +100,14 @@ export default {
   
   
 <style lang="scss" scoped>
-.menu-border{
-    border-bottom: 1px solid #2d386b;
-  }
-.dropdown-item:hover{
+.menu-border {
+  border-bottom: 1px solid #2d386b;
+}
+
+.dropdown-item:hover {
   background-color: #2d386b;
 }
+
 .editor {
   min-height: 500px;
 }

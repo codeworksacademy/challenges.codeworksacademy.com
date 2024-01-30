@@ -48,10 +48,6 @@ setup(props) {
 </script>
 
 <style scoped lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;600&display=swap');
-
-$firaSans: 'Fira Sans', sans-serif;
-
 h3 {
   font-weight: 800;
   margin-top: 0;

@@ -59,7 +59,6 @@ export default {
 </script>
 <style lang="scss">
 @import "./assets/scss/main.scss";
-@import url('https://fonts.googleapis.com/css2?family=Lekton:wght@400;700&display=swap');
 
 :root {
   --main-height: calc(100vh - 32px - 64px);
