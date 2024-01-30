@@ -17,6 +17,9 @@
     background: linear-gradient(var(--background));
     box-shadow: var(--box-shadow);
     border: var(--border);
+    .mdi {
+      color: var(--color);
+    }
   }
 }
 .hover-green {
