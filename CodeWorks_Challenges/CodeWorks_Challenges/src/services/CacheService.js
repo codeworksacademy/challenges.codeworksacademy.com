@@ -1,5 +1,29 @@
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest } from "../utils/Errors.js";
+
+// NOTE I see how putting Cache on the database is redundant because I am creating duplicates of the data I am calling.
+// My misunderstanding seems to be that I assumed a const cache = [] would be rewritten every time the service is accessed.Therfore every time someone would make a get request, cache would be set back to []
+// That is not the case becuase the service it's self is not being created it is its constant cacheService that is being accessed.
+
+// const cache = []
+
+// What kind of changes would be required to bring the existing cache system I have written in line with the correct methods of caching?
+// Does the model need to be deleted? is that useful or could that be replaced with a sanitizeBody type of situation
+
+// function cache(body) {
+//   // Properties that are writable to cache
+//   const cacheable = {
+//     cacheId: body.cacheId, string ex: 'myMilestoneCache'
+//     cachedData: body.data,
+//     lastEmptied: body.lastEmptied,
+//   }
+//   return cacheable
+// }
+
+// All of the Asyncs would be removed and could use a more direct look up method
+// such as object drilling
+
+
 class CacheService {
 
   async checkCache(accountId, userId, cacheId) {
