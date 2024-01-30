@@ -28,21 +28,21 @@
 
         <!-- <i @click="deprecateChallenge(challenge.id)" class="cancel-button mdi mdi-cancel text-danger selectable" style="white-space: nowrap"> Deprecate Challenge</i> -->
       </div>
-      <div v-else-if="!isParticipant">
-        <h4 @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable text-success"> Join Challenge</h4>
+      <div v-else-if="!isParticipant" class="p-3">
+        <p @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable text-success"> Join Challenge</p>
       </div>
       <div v-if="isParticipant" class="fw-semibold">
-        <h4 v-if="isParticipant.status == 'completed'" class="text-success">Challenge Passed <span><i
-              class="mdi mdi-check"></i></span></h4>
-        <h4 v-if="isParticipant.status == 'incomplete'" class="text-warning">Challenge Incomplete <span><i
-              class="mdi mdi-alert-box"></i></span></h4>
-        <h4 v-if="isParticipant.status == 'started' || isParticipant.status == 'incomplete'"
+        <p v-if="isParticipant.status == 'completed'" class="text-success">Challenge Passed <span><i
+              class="mdi mdi-check"></i></span></p>
+        <p v-if="isParticipant.status == 'incomplete'" class="text-warning">Challenge Incomplete <span><i
+              class="mdi mdi-alert-box"></i></span></p>
+        <p v-if="isParticipant.status == 'started' || isParticipant.status == 'incomplete'"
           id="challengeSubmissionButton" class="mdi mdi-send-check text-info selectable"
           style="white-space: nowrap" ref="submission" role="button" data-bs-target="#challengeSubmissionForm"
           data-bs-toggle="modal" aria-label="Go to Active Challenge Modal" title="Create a new challenge">
           Submit for Review
-        </h4>
-        <h4 @click="leaveChallenge()" class="mdi mdi-cancel selectable text-danger"> Leave Challenge</h4>
+        </p>
+        <p @click="leaveChallenge()" class="mdi mdi-cancel selectable text-danger p-3"> Leave Challenge</p>
       </div>
     </aside>
   </section>

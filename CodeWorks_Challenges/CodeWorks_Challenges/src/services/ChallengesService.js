@@ -37,7 +37,6 @@ class ChallengesService {
       return completedReq
     }, 0)
     grade.status = participant.status
-
     try {
       accountMilestonesService.giveGradingMilestoneByAccountId(userId)
       if (grade.status == 'completed') {
