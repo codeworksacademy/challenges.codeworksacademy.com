@@ -6,7 +6,7 @@ import { ChallengeModeratorSchema } from "../models/ChallengeModerator.js";
 // import { AnswerSchema } from '../models/Answer.js';
 import { MilestoneSchema } from "../models/Milestone.js";
 import { AccountMilestoneSchema } from "../models/AccountMilestone.js";
-import { CacheSchema } from "../models/Cache.js";
+import { CacheSchema } from "../models/EZCache.js";
 
 class DbContext {
   Account = mongoose.model('Account', AccountSchema);
