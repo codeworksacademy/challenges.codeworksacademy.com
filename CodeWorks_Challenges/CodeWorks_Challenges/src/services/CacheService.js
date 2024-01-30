@@ -72,8 +72,8 @@ class CacheService {
       const dataToPush = { [userId]: { dataToCache, expiresAt } }
       cache.cachedData.push(dataToPush)
     } else {
-      cacheItem[dataToCache] = dataToCache
-      cacheItem[expiresAt] = expiresAt
+      cacheItem[userId][dataToCache] = dataToCache;
+      cacheItem[userId].expiresAt = expiresAt;
     }
     return cache.cachedData[userId]
   }
@@ -82,12 +82,12 @@ class CacheService {
     this.setCachedDataItem(userId, dataToCache, cacheId)
   }
   checkCacheItemExpiration(cacheItem, userId) {
-    let expiraton = false
+    let expiration = false
     let currentTime = Date.now()
     if (cacheItem[userId].expiresAt < currentTime) {
-      expiraton = true
-    } else expiraton = false
-    return expiraton
+      expiration = true
+    } else expiration = false
+    return expiration
   }
   removeCacheItem(foundCache, cacheItem) {
     const cacheItemToRemove = foundCache.cachedData.findIndex((cd) => cd.userId == cacheItem.userId);
