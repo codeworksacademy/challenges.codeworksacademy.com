@@ -1,17 +1,18 @@
 <template>
   <section v-if="challenge" :key="challenge?.id" class="text-light pb-5" style="overflow-x: hidden;">
-    <div class="col-12 bottom-fade" :style="`background-image: url(${challenge.coverImg}); background-size: cover; background-position: center; background-repeat: no-repeat;`">
-    <h1 class="text-center">{{ challenge.name }}</h1>
+    <div class="col-12 bottom-fade"
+      :style="`background-image: url(${challenge.coverImg}); background-size: cover; background-position: center; background-repeat: no-repeat;`">
+      <h1 class="text-center">{{ challenge.name }}</h1>
     </div>
-    <div class="d-flex mobile-column-query justify-content-center pt-3" style=" background: #161d2b">
-      <!-- STUB - Offcanvas Challenge Detail router-view links -->
-      <div class="col-lg-2 rounded-3 mobile-menu ps-3">
-        <ChallengeDetailsMenu />
-      </div>
-      <!-- STUB - Challenge Details for active route -->
-      <div class="col-lg-10 pt-0 m-0">
-        <div>
-          <router-view />
+    <div class="container-fluid pt-3" style=" background: #161d2b">
+      <div class="row">
+        <div class="col-lg-2 rounded-3 mobile-menu">
+          <ChallengeDetailsMenu class="sticky-top" />
+        </div>
+        <div class="col-lg-10">
+          <div class="row">
+            <router-view />
+          </div>
         </div>
       </div>
     </div>
@@ -30,94 +31,94 @@ import { challengeModeratorsService } from '../services/ChallengeModeratorsServi
 import ChallengeDetailsMenu from '../components/ChallengeDetailsMenu.vue'
 
 export default {
-    setup() {
-        const route = useRoute()
-        const router = useRouter()
-        const answer = ref("")
-        const challengeId = computed(() => route.params.challengeId)
+  setup() {
+    const route = useRoute()
+    const router = useRouter()
+    const answer = ref("")
+    const challengeId = computed(() => route.params.challengeId)
 
-        async function setActiveChallenge() {
-          try {
-            const challengeId = route.params.challengeId;
-            await challengesService.setActiveChallenge(challengeId);
-          }
-          catch (error) {
-            logger.error(error);
-            Pop.toast(error, "error");
-          }
+    async function setActiveChallenge() {
+      try {
+        const challengeId = route.params.challengeId;
+        await challengesService.setActiveChallenge(challengeId);
+      }
+      catch (error) {
+        logger.error(error);
+        Pop.toast(error, "error");
+      }
+    }
+    async function getParticipantsByChallengeId() {
+      try {
+        await participantsService.getParticipantsByChallengeId(route.params.challengeId);
+      }
+      catch (error) {
+        logger.error(error);
+        Pop.toast(error, "error");
+      }
+    }
+
+    async function getModeratorsByChallengeId() {
+      try {
+        await challengeModeratorsService.getModeratorsByChallengeId(route.params.challengeId);
+      }
+      catch (error) {
+        logger.error(error);
+        Pop.toast(error, "error");
+      }
+    }
+
+    function clearChallenge() {
+      try {
+        challengesService.clearChallenge();
+      }
+      catch (error) {
+        Pop.error(error.message);
+      }
+    }
+
+    async function getChallengeData() {
+      try {
+        AppState.ChallengeState.loading = true
+        await Promise.allSettled([
+          setActiveChallenge(),
+          getParticipantsByChallengeId(),
+          getModeratorsByChallengeId(),
+        ])
+
+        if (!AppState.ChallengeState.challenge) {
+          throw new Error('Unable to fetch challenge')
         }
-        async function getParticipantsByChallengeId() {
-          try {
-            await participantsService.getParticipantsByChallengeId(route.params.challengeId);
-          }
-          catch (error) {
-            logger.error(error);
-            Pop.toast(error, "error");
-          }
-        }
 
-        async function getModeratorsByChallengeId() {
-          try {
-            await challengeModeratorsService.getModeratorsByChallengeId(route.params.challengeId);
-          }
-          catch (error) {
-            logger.error(error);
-            Pop.toast(error, "error");
-          }
-        }
+        AppState.ChallengeState.loading = false
+      } catch (error) {
+        logger.error({ error })
+        Pop.error(error)
+        router.push({ name: 'Error' })
+      }
+    }
 
-        function clearChallenge() {
-          try {
-            challengesService.clearChallenge();
-          }
-          catch (error) {
-            Pop.error(error.message);
-          }
-        }
+    watch(challengeId, () => {
+      getChallengeData()
+    }, { immediate: true });
 
-        async function getChallengeData() {
-          try {
-            AppState.ChallengeState.loading = true
-            await Promise.allSettled([
-              setActiveChallenge(),
-              getParticipantsByChallengeId(),
-              getModeratorsByChallengeId(),
-            ])
+    onMounted(() => {
+      clearChallenge()
+    });
 
-            if (!AppState.ChallengeState.challenge) {
-              throw new Error('Unable to fetch challenge')
-            }
+    return {
+      loading: computed(() => AppState.ProfileState.loading),
+      challenge: computed(() => AppState.ChallengeState.challenge),
+      participant: computed(() => AppState.ChallengeState.participant),
+      moderator: computed(() => AppState.ChallengeState.moderator),
+    };
+  },
 
-            AppState.ChallengeState.loading = false
-          } catch (error) {
-            logger.error({ error })
-            Pop.error(error)
-            router.push({ name: 'Error' })
-          }
-        }
-    
-        watch(challengeId, () =>{
-          getChallengeData()
-        }, {immediate: true});
-
-        onMounted(() => {
-          clearChallenge()
-        });
-
-        return {
-          loading: computed(() => AppState.ProfileState.loading),
-          challenge: computed(() => AppState.ChallengeState.challenge),
-          participant: computed(() => AppState.ChallengeState.participant),
-          moderator: computed(() => AppState.ChallengeState.moderator),
-        };
-    },
-
-    components: { ChallengeDetailsMenu }
+  components: { ChallengeDetailsMenu }
 }
 </script>
 
 <style scoped lang="scss">
-.bottom-fade{
+.bottom-fade {
   position: relative;
   height: 150px;
   width: 100%;
@@ -132,12 +133,14 @@ export default {
   box-shadow: inset 0 -20px 10px 0 #151d2b;
   background: linear-gradient(180deg, rgba(85, 21, 21, 0) 0%, #151d2b 80%, #151d2b 100%);
   opacity: .9;
+
   h1 {
     font-size: 3rem;
     font-weight: 700;
     text-shadow: 0 5px 0px black !important;
   }
-  &:before{
+
+  &:before {
     position: absolute;
     content: '';
     top: 0;
@@ -147,20 +150,5 @@ export default {
     background: rgba(0, 0, 0, 0.271)
   }
 }
-@media screen and (max-width: 768px) {
-  .mobile-column-query {
-    display: flex;
-    flex-direction: column;
-    .mobile-menu {
-      display: block;
-      max-height: 350px;
-      width: 92%;
-      transform: translateX(3%);
-      margin-bottom: 2%;
-    }
-  }
-  .col-4 .col-8 {
-    height:100%;
-  }
-}
+
 </style>

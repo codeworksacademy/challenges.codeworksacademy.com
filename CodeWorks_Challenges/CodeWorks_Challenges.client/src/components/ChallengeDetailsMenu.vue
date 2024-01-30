@@ -1,6 +1,6 @@
 <template>
-  <section class="container-fluid bg-detail rounded-3">
-    <h4 class="ps-2 py-3 badge">User Links</h4>
+  <section class="bg-detail rounded-3">
+    <p class="ps-2 py-3 badge">User Links</p>
     <aside id="challenge-menu" class="d-flex flex-column gap-lg-3">
       <router-link :to="{ name: 'Challenge.overview' }" class="selectable ">
         <i class="mdi mdi-file-document-multiple fst-normal p-3"> Overview</i>
@@ -25,24 +25,23 @@
         <router-link :to="{ name: 'Challenge.challengeModeratorsPage' }" class="selectable ">
           <i class="mdi mdi-archive-edit text-danger fst-normal p-3">Moderators</i>
         </router-link>
-
-        <!-- <i @click="deprecateChallenge(challenge.id)" class="cancel-button mdi mdi-cancel text-danger selectable" style="white-space: nowrap"> Deprecate Challenge</i> -->
-      </div>
-      <div v-else-if="!isParticipant">
-        <h4 @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable text-success"> Join Challenge</h4>
-      </div>
-      <div v-if="isParticipant" class="fw-semibold">
-        <h4 v-if="isParticipant.status == 'completed'" class="text-success">Challenge Passed <span><i
-              class="mdi mdi-check"></i></span></h4>
-        <h4 v-if="isParticipant.status == 'incomplete'" class="text-warning">Challenge Incomplete <span><i
-              class="mdi mdi-alert-box"></i></span></h4>
-        <h4 v-if="isParticipant.status == 'started' || isParticipant.status == 'incomplete'"
-          id="challengeSubmissionButton" class="mdi mdi-send-check text-info selectable"
-          style="white-space: nowrap" ref="submission" role="button" data-bs-target="#challengeSubmissionForm"
-          data-bs-toggle="modal" aria-label="Go to Active Challenge Modal" title="Create a new challenge">
-          Submit for Review
-        </h4>
-        <h4 @click="leaveChallenge()" class="mdi mdi-cancel selectable text-danger"> Leave Challenge</h4>
+        <div v-if="!isParticipant">
+          <span @click="joinChallenge()" class="mdi mdi-account-multiple-plus selectable text-success"> Join
+            Challenge</span>
+        </div>
+        <div v-if="isParticipant" class="fw-semibold">
+          <p v-if="isParticipant.status == 'completed'" class="text-success">Challenge Passed <span><i
+                class="mdi mdi-check"></i></span></p>
+          <p v-if="isParticipant.status == 'incomplete'" class="text-warning">Challenge Incomplete <span><i
+                class="mdi mdi-alert-box"></i></span></p>
+          <p v-if="isParticipant.status == 'started' || isParticipant.status == 'incomplete'"
+            id="challengeSubmissionButton" class="mdi mdi-send-check text-info selectable" style="white-space: nowrap"
+            ref="submission" role="button" data-bs-target="#challengeSubmissionForm" data-bs-toggle="modal"
+            aria-label="Go to Active Challenge Modal" title="Create a new challenge">
+            Submit for Review
+          </p>
+          <p @click="leaveChallenge()" class="mdi mdi-cancel selectable text-danger"> Leave Challenge</p>
+        </div>
       </div>
     </aside>
   </section>
@@ -160,39 +159,8 @@ export default {
 }
 
 section {
-  height: 857px;
-  white-space: nowrap;
-  overflow-y: hidden;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-
-  h4 {
-    font-weight: semi-bold;
-  }
-
   i.text-yellow {
     color: #ffc107;
-  }
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  section {
-    position: relative;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 92.5vw;
-    height: 100%;
-    padding-bottom: 20px;
-    margin-bottom: 20px;
-
-    aside#challenge-menu {
-      white-space: normal !important;
-    }
   }
 }
 </style>

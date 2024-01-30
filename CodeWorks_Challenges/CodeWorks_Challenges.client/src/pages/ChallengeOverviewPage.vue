@@ -2,8 +2,8 @@
   <section v-if="challenge" :key="challenge?.id" class="text-light container-fluid px-lg-5">
     <div class="row">
       <div class="col-lg-4 my-2">
-        <ChallengeStatCard :challenge="challenge" :color="difficulty.color" :bgColor="difficulty.bgColor" :value="difficulty.value" prop="difficulty"
-          icon="mdi-diamond-stone" />
+        <ChallengeStatCard :challenge="challenge" :color="difficulty.color" :bgColor="difficulty.bgColor"
+          :value="difficulty.value" prop="difficulty" icon="mdi-diamond-stone" />
       </div>
       <div class="col-lg-4 my-2">
         <ChallengeStatCard :challenge="challenge" color="#ff9740" bgColor="#ff730038" prop="category"
@@ -21,7 +21,7 @@
     <div class="row">
       <div class="col-lg-4 my-2">
         <ChallengeStatCard :challenge="challenge" color="#b78fff" bgColor="#1D213A" prop="reputation"
-          :value="challenge.reputationIds.length" icon="mdi-account-star-outline">
+          :value="challenge.reputationIds.length" icon="mdi-account-star-outline" style="min-height: 25vh;">
           <GiveRepButton :challenge="challenge" />
         </ChallengeStatCard>
       </div>
@@ -34,14 +34,12 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <article>
-          <div class="details-header p-3 bg-detail mt-3 rounded-3">
-            <h3 class="text-uppercase" style="color: #7A7A7A">
-              Challenge Description
-            </h3>
-            <Markdown :value="challenge.description" />
-          </div>
-        </article>
+        <div class="details-header p-3 bg-detail mt-3 rounded-3">
+          <h3 class="text-uppercase">
+            Challenge Description
+          </h3>
+          <Markdown :value="challenge.description" />
+        </div>
       </div>
     </div>
   </section>
@@ -66,7 +64,7 @@ export default {
           case 2:
             return { value: 'Medium', color: '#efc809', bgColor: '#c9b7203d' }
           case 3:
-            return { value: 'Hard', color: '#c9b7203d', bgColor: '#c94c2029' }
+            return { value: 'Hard', color: '#ff8080', bgColor: '#ae0c0c42' }
           case 4:
             return { value: 'Extreme', color: '#ef09cb', bgColor: '#c920ac29' }
           case 5:
@@ -119,7 +117,6 @@ export default {
 
 @media screen and (max-width: 768px) {
   .details-header {
-    width: 92%;
     padding: 2rem;
 
     h3 {

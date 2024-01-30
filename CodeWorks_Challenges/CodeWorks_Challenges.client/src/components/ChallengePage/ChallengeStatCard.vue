@@ -13,7 +13,7 @@ import { Challenge } from '../../models/Challenge'
 export default {
   props: {
     challenge: {
-      type: Challenge || Object,
+      type: [Challenge, Object],
       required: true
     },
     bgColor: { type: String, required: true },
@@ -33,7 +33,6 @@ export default {
 <style lang="scss" scoped>
 
 .details-card {
-  max-height: 125vh;
   height: 100%;
   display: flex;
   flex-direction: column;

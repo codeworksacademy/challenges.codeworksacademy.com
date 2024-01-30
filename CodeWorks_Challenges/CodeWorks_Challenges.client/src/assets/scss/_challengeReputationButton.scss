@@ -87,15 +87,16 @@
     
   }
   button.remove-reputation-hover {
-    color: var(--shadow-orange);
+    color: inherit;
     text-shadow: 0 0 1px var(--shadow-purple);
-    box-shadow: inset 25px 3px 0 0px #38BB64, inset 28px 3px 0 0 #6F42C1;
-    filter: brightness(.9);
+    box-shadow: none;
+    font-size: 9pt;
     transition: .3s ease-in-out all;
     &:after {
       border-top-color: #1D213A;
       filter: blur(.5px) brightness(.9) saturate(.75) drop-shadow(0 1px 2px #343b68);
       transition: .3s ease-in-out all;
+      top: -5px;
     }
     &:hover {
       border-top-color: #6F42C1;

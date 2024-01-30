@@ -46,54 +46,6 @@ export default {
 @import url('../../assets/scss/_challengeReputationButton.scss');
 
 .details-card {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-
-	.mdi-account-star-outline {
-		position: relative;
-		top: 20%;
-		font-size: 3rem;
-		transform: translateX(-10%);
-	}
-
-	.circle-container {
-		position: relative;
-		width: 100%;
-		height: 100%;
-		display: flex;
-		justify-content: end;
-		align-items: center;
-
-		.circle {
-			position: absolute;
-			top: 0;
-			right: 35%;
-			transform: translateY(-85%);
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			width: 30px;
-			height: 30px;
-			box-shadow: inset 0 0 2px 2px #1c5b2f99;
-			border-radius: 50%;
-			background-color: #38BB64;
-			color: white;
-			font-size: 1.1rem;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-
-			@media screen and (max-width: 1200px) {
-				right: 15%;
-			}
-
-			@media screen and (max-width: 992px) {
-				right: 5%;
-			}
-		}
-	}
 
 	@media screen and (min-width: 768px) and (max-width: 1200px) {
 		.button-container {
