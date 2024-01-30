@@ -1,5 +1,5 @@
 <template>
-  <section v-if="participant" :key="participant?.id" class="container-fluid text-black">
+  <section v-if="participant" :key="participant?.id" class="container-fluid text-light">
     <div class="row justify-content-center align-items-center">
       <div class="col-12 d-flex flex-column justify-content-center align-items-center">
         <h1 class="text-center">Grade Challenge for {{ participant.profile.name }}</h1>
@@ -40,9 +40,9 @@
         <div class="d-flex justify-content-center align-items-center my-3">
           <div class="">
             <div class="col-12 d-flex justify-content-center align-items-center input-group px-5 mb-5">
-              <label class="input-group-text" for="challengeAutoGrade">Status</label>
+              <label class="input-group-text" for="challengeStatus">Status</label>
               <select v-model="editable.status" name="status" id="status" placeholder="Status"
-                class="form-select bg-light">
+                class="input-box form-select">
                 <option value="null">Select a status</option>
                 <option value="completed">Completed</option>
                 <option value="returned_for_review">Returned for Review</option>
@@ -94,6 +94,7 @@ export default {
     const passingGrade = computed(() => editable.value.requirements.filter(r => r.isComplete).length * .8)
 
     async function gradeParticipant() {
+      logger.log(editable.value)
       try {
         const newGrade = editable.value
         newGrade.status = missedChecks.value < passingGrade.value

@@ -45,4 +45,14 @@ export default {
   position: relative;
   overflow: hidden;
 }
+
+@media screen and (max-width: 768px) {
+  .mdi-account-star-outline {
+    position: relative;
+    top: 15%;
+    margin-bottom: 1rem;
+    font-size: 3rem;
+    transform: translateX(-10%);
+  }
+}
 </style>

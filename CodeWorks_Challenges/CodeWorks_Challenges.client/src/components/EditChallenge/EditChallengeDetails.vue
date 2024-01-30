@@ -1,17 +1,17 @@
 <template>
   <section class="container-fluid" v-if="challenge">
     <div class="input-box input-group mb-3">
-      <input type="text" class="form-control" id="name" name="name" v-model="challenge.name">
       <label class="input-group-text" for="challengeName">Challenge Name</label>
+      <input type="text" class="form-control" id="name" name="name" v-model="challenge.name">
     </div>
     <div class="input-box input-group mb-3">
-      <input type="text" class="form-control" id="coverImg" name="coverImg" v-model="challenge.coverImg">
       <label class="input-group-text" for="coverImg">Cover Image</label>
+      <input type="text" class="form-control" id="coverImg" name="coverImg" v-model="challenge.coverImg">
     </div>
     <img :src="challenge.coverImg" alt="" class="w-100 img-fluid rounded mb-3" style="height: 175px; object-position: center; object-fit: cover;">
     <div class="input-box input-group mb-3">
-      <input type="text" class="form-control" id="creatorCoverImg" name="creatorCoverImg" v-model="challenge.creatorCoverImg">
       <label class="input-group-text" for="creatorCoverImg">Creator Cover Image</label>
+      <input type="text" class="form-control" id="creatorCoverImg" name="creatorCoverImg" v-model="challenge.creatorCoverImg">
     </div>
     <img :src="challenge.creatorCoverImg" alt="" class="w-100 img-fluid rounded mb-3" style="height: 175px; object-position: center; object-fit: cover;">
     <div class="input-group mb-3">
@@ -53,8 +53,8 @@
       </select>
     </div>
     <div class="input-box input-group mb-3">
-      <input type="text" class="form-control" id="challengeAnswer" v-model="challenge.answer" :disabled="challenge.autoGrade == 'false' || challenge.autoGrade == false">
       <label class="input-group-text" for="challengeAnswer">Answer</label>
+      <input type="text" class="form-control" id="challengeAnswer" v-model="challenge.answer" :disabled="challenge.autoGrade == 'false' || challenge.autoGrade == false">
     </div>
   </section>
 </template>
