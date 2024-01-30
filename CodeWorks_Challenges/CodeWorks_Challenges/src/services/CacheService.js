@@ -5,7 +5,7 @@ import { BadRequest } from "../utils/Errors.js";
 // My misunderstanding seems to be that I assumed a const cache = [] would be rewritten every time the service is accessed.Therfore every time someone would make a get request, cache would be set back to []
 // That is not the case becuase the service it's self is not being created it is its constant cacheService that is being accessed.
 
-// const cache = []
+// const cache = [] -- above class CacheService {}
 
 // What kind of changes would be required to bring the existing cache system I have written in line with the correct methods of caching?
 // Does the model need to be deleted? is that useful or could that be replaced with a sanitizeBody type of situation
