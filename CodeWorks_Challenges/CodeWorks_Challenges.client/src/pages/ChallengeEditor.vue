@@ -1,7 +1,7 @@
 <template>
-  <div class="row mx-3">
-    <div class="col-lg-10 bg-detail rounded-3">
-      <h3 class="my-3 mx-4" style="color: #7A7A7A">Edit Challenge Details</h3>
+  <div class="">
+    <div class="bg-menu rounded-3 mx-3">
+      <h3 class="pt-2 px-4" style="color: #7A7A7A">Challenge Editor</h3>
       <section class="container-fluid text-light" v-if="challenge">
         <div>
           <EditChallengeDetails :challenge="challenge" />
@@ -28,14 +28,16 @@ import EditChallengeDetails from '../components/EditChallenge/EditChallengeDetai
 import EditChallengeRequirements from '../components/EditChallenge/EditChallengeRequirements.vue'
 import EditChallengeDescription from '../components/EditChallenge/EditChallengeDescription.vue'
 import EditChallengeBadge from '../components/EditChallenge/EditChallengeBadge.vue'
+import MarkdownEditor from '../components/EditChallenge/MarkdownEditor.vue'
 
 export default {
   components: {
     EditChallengeDetails,
     EditChallengeRequirements,
     EditChallengeDescription,
-    EditChallengeBadge
-  },
+    EditChallengeBadge,
+    MarkdownEditor
+},
   setup() {
     const challenge = computed(() => AppState.ChallengeState.challenge)
 
@@ -74,7 +76,8 @@ export default {
 </script>
   
 <style scoped lang="scss">
-.bg-detail {
-  background-color: #1c2332
+.bg-menu {
+  background-color: #1c2332;
+  border: 1px solid #2d386b;
 }
 </style>
