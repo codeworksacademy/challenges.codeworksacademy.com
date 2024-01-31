@@ -4,8 +4,8 @@
         <router-link v-if="participant.status === 'submitted' && isGrader" :to="{ name: 'Challenge.gradeSubmissionsPage' }">
           <img
             :src="participant.profile.picture"
-            :title="`${participant.profile.name} has ${participant.status}. Click to grade.`"
-            :alt="`Participant Name: ${participant.profile.name} | Current Status: ${participant.status}`"
+            :title="`${participant.profile.nickname || profile.name} has ${participant.status}. Click to grade.`"
+            :alt="`Participant Name: ${participant.profile.nickname || profile.name} | Current Status: ${participant.status}`"
             class="rounded-circle img-fluid selectable"
             height="150"
             width="150"
@@ -14,8 +14,8 @@
         <router-link v-else :to="{ name: 'Profile.overview', params: { profileId: participant.profile?.id } }">
           <img
             :src="participant.profile.picture"
-            :title="`Click to Visit ${participant.profile.name}'s Profile Page`"
-            :alt="`Participant Name: ${participant.profile.name} | Current Status: ${participant.status}`"
+            :title="`Click to Visit ${participant.profile.nickname || profile.name}'s Profile Page`"
+            :alt="`Participant Name: ${participant.profile.nickname || profile.name} | Current Status: ${participant.status}`"
             class="rounded-circle img-fluid selectable"
             height="150"
             width="150"
@@ -24,7 +24,7 @@
         <p v-if="participant.status == 'completed'" class="text-success">{{ participant.status }}</p>
         <p v-if="participant.status == 'submitted'" class="text-warning">{{ participant.status }}</p>
         <p v-if="participant.status == 'started'" class="text-info">{{ participant.status }}</p>
-        <small class="text-truncate"> {{ participant.profile.name }} </small>
+        <small class="text-truncate"> {{ participant.profile.nickname || profile.name }} </small>
     </div>
   </section>
 </template>

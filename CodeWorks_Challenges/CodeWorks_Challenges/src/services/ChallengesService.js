@@ -45,7 +45,7 @@ class ChallengesService {
       }
     } catch (error) {
       //@ts-ignore
-      logger.log(`${participant.profile.name} ⚠️ [STATUS]: '${grade.status}' for ${challenge.name}. No rewards were given.`, error)
+      logger.log(`${participant.profile.nickname || profile.name} ⚠️ [STATUS]: '${grade.status}' for ${challenge.name}. No rewards were given.`, error)
     }
 
     await participant.save()

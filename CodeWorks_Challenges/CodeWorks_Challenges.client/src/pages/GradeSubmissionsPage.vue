@@ -13,7 +13,7 @@
             <h2 class="accordion-header">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                 :data-bs-target="'#collapse' + p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
-                <span>{{ p.profile.name }}</span>
+                <span>{{ p.profile.nickname || profile.name }}</span>
               </button>
             </h2>
             <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
@@ -31,7 +31,7 @@
             <h2 class="accordion-header bg-dark text-light">
               <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse"
                 :data-bs-target="'#collapse' + p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
-                <span>{{ p.profile.name }}</span>
+                <span>{{ p.profile.nickname || profile.name }}</span>
               </button>
             </h2>
             <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
@@ -49,7 +49,7 @@
             <h2 class="accordion-header">
               <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse"
                 :data-bs-target="'#collapse' + p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
-                <span>{{ p.profile.name }}</span>
+                <span>{{ p.profile.nickname || profile.name }}</span>
               </button>
             </h2>
             <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">

@@ -92,7 +92,7 @@ export default {
           status: SUBMISSION_TYPES.SUBMITTED
         };
         await participantsService.updateChallengeParticipant(participantId, newParticipant);
-        Pop.success(`${AppState.AccountState.account.name} submitted ${AppState.ChallengeState.challenge?.name} successfully. Click 'View Competitors' to verify your submission and see how you 'stack' up! 😉`);
+        Pop.success(`${AppState.AccountState.account.nickname || account.name} submitted ${AppState.ChallengeState.challenge?.name} successfully. Click 'View Competitors' to verify your submission and see how you 'stack' up! 😉`);
       }
       catch (error) {
         logger.error(error);

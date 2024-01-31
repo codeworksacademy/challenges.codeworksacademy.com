@@ -2,7 +2,7 @@
   <section v-if="participant" :key="participant?.id" class="container-fluid text-light">
     <div class="row justify-content-center align-items-center">
       <div class="col-12 d-flex flex-column justify-content-center align-items-center">
-        <h1 class="text-center">Grade Challenge for {{ participant.profile.name }}</h1>
+        <h1 class="text-center">Grade Challenge for {{ participant.profile.nickname || profile.name }}</h1>
       </div>
       <div class="col-12 d-flex justify-content-center align-items-center">
         <p>Submission Source Code Link: </p>
@@ -35,7 +35,7 @@
             class="form-control bg-light">
         </div>
         <div class="col-12 text-center mt-3">
-          <h4>Set status for {{ participant.profile.name }}</h4>
+          <h4>Set status for {{ participant.profile.nickname || profile.name }}</h4>
         </div>
         <div class="d-flex justify-content-center align-items-center my-3">
           <div class="">

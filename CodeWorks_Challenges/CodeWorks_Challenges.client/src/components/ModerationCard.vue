@@ -2,7 +2,7 @@
   <section
     class="border-underline background-highlight row d-flex text-light justify-content-between align-items-center py-2">
     <div class="col-3 fw-semibold text-truncate fs-5">
-      {{ moderationProp.profile.name }}
+      {{ moderationProp.profile.nickname || profile.name }}
     </div>
     <div class="col-3 fw-semibold text-truncate fs-5">
       {{ moderationProp.challenge.name }}

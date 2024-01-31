@@ -19,7 +19,7 @@
     </div>
     <div class="form-group py-2 bg-light rounded">
       <label for="aboutContent" class="w-100 text-dark text-center pb-1">About me</label>
-      <textarea v-model="editable.aboutContent" id="name" class="form-control" type="text" minlength="3" maxlength="250"
+      <textarea v-model="editable.bio" id="name" class="form-control" type="text" minlength="3" maxlength="250"
         placeholder="About me..." cols="20" rows="10" style="resize: none"></textarea>
     </div>
     <div class="text-center">

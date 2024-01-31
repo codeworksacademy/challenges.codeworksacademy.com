@@ -2,11 +2,11 @@
   <section v-if="participant" :key="participant?.id" class="container-fluid">
     <div class="col-12 badge-card d-flex justify-content-around align-items-center my-0 pe-2 py-2 border">
       <span class="col-4 d-flex justify-content-start align-items-center text-white">
-        <div class="col-7 pe-2">{{ participant.profile.name }}</div>
+        <div class="col-7 pe-2">{{ participant.profile.nickname || profile.name }}</div>
         <router-link class="col-2 d-flex justify-content-center ps-2" :to="{ name: 'Profile.overview', params: { profileId: participant.accountId } }">
           <img
             :src="participant.profile.picture"
-            :title="`Click to Visit ${participant.profile.name}'s Profile Page`"
+            :title="`Click to Visit ${participant.profile.nickname || profile.name}'s Profile Page`"
             class="img-fluid profile-picture rounded-circle img-fluid selectable"
             height="35"
             width="35"
@@ -20,7 +20,7 @@
           class="mdi mdi-dots-grid"
           data-bs-toggle="modal"
           data-bs-target="#badgeModal"
-          :title="`View ${participant.profile.name}'s Badges`"
+          :title="`View ${participant.profile.nickname || profile.name}'s Badges`"
         >
         </i>
       </span>

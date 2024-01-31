@@ -12,11 +12,11 @@
               <img :src="account.picture || user.picture" alt="account photo" class="avatar-xs light-gold-border" />
             </div>
             <div class="text-white">
-              <p class="m-0 fs-5">{{ account.name }}</p>
+              <p class="m-0 fs-5">{{ account.nickname || account.name }}</p>
               <p class="m-0">
                 <span class="bg-success rounded me-2" style="padding: 2px">{{ currentRank }} </span>
                 <span class="float-end">
-                  {{ account.experience }} 
+                  {{ account.xp }} 
                   <span class="light-gold-color">
                     XP
                   </span>

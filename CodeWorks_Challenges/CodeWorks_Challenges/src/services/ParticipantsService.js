@@ -70,7 +70,7 @@ class ParticipantsService {
 		if (!challenge) {
 			challenge = await challengesService.getChallengeById(participant.challengeId)
 		}
-		participant.experience += EXPERIENCE_SCALE[challenge.difficulty]
+		participant.xp += EXPERIENCE_SCALE[challenge.difficulty]
 		await participant.save()
 		await accountService.calculateAccountRank({ id: participant.accountId })
 	}

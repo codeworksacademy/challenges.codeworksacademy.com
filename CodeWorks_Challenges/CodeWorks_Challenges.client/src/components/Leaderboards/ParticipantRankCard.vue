@@ -3,11 +3,11 @@
     <span :class="`number-${index}-trophy`"></span>
     <span class="m-auto ps-4 fw-semibold" style="font-size: 1.1rem;">{{ index }}</span>
     <span class="col-4 d-flex justify-content-start align-items-center">
-      <div class="col-7">{{ participant.profile.name }}</div>
+      <div class="col-7">{{ participant.profile.nickname || profile.name }}</div>
       <router-link class="col-2" :to="{ name: 'Profile.overview', params: { profileId: participant.accountId } }">
         <img
           :src="participant.profile.picture"
-          :title="`Click to Visit ${participant.profile.name}'s Profile Page`"
+          :title="`Click to Visit ${participant.profile.nickname || profile.name}'s Profile Page`"
           class="img-fluid profile-picture rounded-circle img-fluid selectable"
           height="35"
           width="35"

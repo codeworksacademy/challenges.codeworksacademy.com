@@ -21,7 +21,7 @@
             <div v-if="!Profiles.length > 0 && editable.hasSearched">No results Match Search Criteria</div>
             <div v-for=" profile  in  Profiles " :key="profile.id" class="text-dark">
               <!-- This is now returning proper data queries within the network tab but isn't pulling up any users an an option to select visually -->
-              {{ profile.name }} <button v-if="!moderators.find(m => m.accountId == profile.id)"
+              {{ profile.nickname || profile.name }} <button v-if="!moderators.find(m => m.accountId == profile.id)"
                 @click="createModeration(profile.id)" class="mb-3">Send Invite</button>
             </div>
           </div>

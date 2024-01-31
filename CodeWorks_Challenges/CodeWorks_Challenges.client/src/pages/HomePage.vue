@@ -58,22 +58,15 @@ export default {
       30% { opacity: 1; }
       100% { opacity: 0; }
     }
-    @media screen and (max-width: 1200px) {
-      top: 25%;
-      right: 45%;
-    }
   }
   .hero {
     position: absolute;
-    top: -29%;
+    max-height: 80vh;
+    object-fit: contain;
+    top: 5vh;
     right: -70.3%;
     width: 200%;
     animation: rollIn 4s ease-in-out forwards;
-    @media screen and (max-width: 1200px) {
-      top: -15%;
-      right: -70.3%;
-      width: 200%;
-    }
     @keyframes rollIn {
       0% { opacity: 0; transform: translateX(75%) rotate(90deg); }
       60% { opacity: .5; transform: translateX(0) rotate(0); }

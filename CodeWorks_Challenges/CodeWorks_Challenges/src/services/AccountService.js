@@ -47,7 +47,7 @@ function sanitizeBody(body) {
     name: body.name,
     picture: body.picture,
     coverImg: body.coverImg,
-    aboutContent: body.aboutContent,
+    aboutContent: body.bio,
   }
   return writable
 }
@@ -98,9 +98,9 @@ class AccountService {
     const update = await this.getAccount(user)
 
     const totalMilestoneExperience = await accountMilestonesService.getTotalMilestoneExperience(account)
-    account.experience += experience
+    account.xp += experience
 
-    let rank = account.experience + totalMilestoneExperience + account.reputation
+    let rank = account.xp + totalMilestoneExperience + account.reputation
 
     const nextI = RANK_BADGE.findIndex(b => b.RANK_THRESHOLD > rank)
     let badge = RANK_BADGE[nextI - 1]

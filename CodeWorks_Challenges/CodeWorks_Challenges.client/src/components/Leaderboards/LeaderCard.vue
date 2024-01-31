@@ -6,11 +6,11 @@
       <span class="fs-5">{{ index }}.</span>
       <router-link :to="{ name: 'Profile.overview', params: { profileId: profile.id } }">
         <img :src="profile.picture"
-          @error="(e) => e.target.src = `https://ui-avatars.com/api/?name=${profile.name}&background=random`"
-          :title="`Click to Visit ${profile.name}'s Profile Page`"
+          @error="(e) => e.target.src = `https://ui-avatars.com/api/?name=${profile.nickname || profile.name}&background=random`"
+          :title="`Click to Visit ${profile.nickname || profile.name}'s Profile Page`"
           class="img-fluid profile-picture rounded-circle img-fluid selectable" height="35" width="35" />
       </router-link>
-      <span class="">{{ profile.name }}</span>
+      <span class="">{{ profile.nickname || profile.name }}</span>
     </div>
     <div>
       <span class="text-center text-uppercase">{{ board.prop }} {{ profile[board.prop] }}</span>

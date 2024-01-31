@@ -4,13 +4,13 @@
         <img
           :src="moderator.profile?.picture"
           :title="`Visit ${moderator.profile?.name}'s profile?'`"
-          :alt="`Moderator's Name: ${moderator.profile.name}`"
+          :alt="`Moderator's Name: ${moderator.profile.nickname || profile.name}`"
           @click="routeToModeratorProfile()"
           class="rounded-circle img-fluid"
           height="150"
           width="150"
         />
-        <small class="text-truncate"> {{ moderator.profile.name }} </small>
+        <small class="text-truncate"> {{ moderator.profile.nickname || profile.name }} </small>
     </div>
   </section>
 </template>
