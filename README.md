@@ -31,7 +31,7 @@ This platform is just starting out! We are happy to accept ideas, pull requests,
 Join our community to connect with other developers, seek help, and stay updated on the latest developments:
 
 <a href="https://discord.gg/QUBGYMJ" align="left" target="_blank">
-  <img alt="Discord Invite" src="https://img.shields.io/badge/CodeWorks+Discord?style=for-the-badge&labelColor=5865f2&logo=discord" title="CodeWorks Discord"/>
+  <img alt="Discord Invite" src="https://img.shields.io/badge/CodeWorks%20Discord-5865F2?logo=discord&logoColor=fff" title="CodeWorks Discord"/>
 </a>
   
 ## License
