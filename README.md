@@ -34,5 +34,15 @@ Join our community to connect with other developers, seek help, and stay updated
   <img alt="Discord Invite" src="https://img.shields.io/badge/CodeWorks%20Discord-5865F2?logo=discord&logoColor=fff" title="CodeWorks Discord"/>
 </a>
   
-## License
-This project is licensed under the MIT License, ensuring that it remains open and accessible to the community.
+## Legal Overview
+
+This content belongs to the CodeWorks®, LLC Organization
+
+---
+
+## Copyright
+
+© CodeWorks® LLC, 2023. Unauthorized use and/or duplication of this material without express and written permission from CodeWorks, LLC is strictly prohibited.
+
+
+<img src="https://bcw.blob.core.windows.net/public/img/7815839041305055" width="125">
