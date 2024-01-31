@@ -61,7 +61,6 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  opacity: .8;
   filter: brightness(1);
   z-index: 0;
   color: white;
@@ -77,8 +76,7 @@ export default {
     color: white;
     padding: .25rem 0 0 .25rem;
     text-wrap: nowrap;
-    background: linear-gradient(-45deg, #00000080 80%, #00000000);
-    background-color: invert(#00000000);
+    background: linear-gradient(-45deg, #00000080 80%, #00000061);
     transition: .5s ease-in-out;
     border-radius: 5px;
     z-index: -1;

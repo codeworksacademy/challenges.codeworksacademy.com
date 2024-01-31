@@ -8,12 +8,8 @@
       <label class="input-group-text" for="coverImg">Cover Image</label>
       <input type="text" class="form-control" id="coverImg" name="coverImg" v-model="challenge.coverImg">
     </div>
-    <img :src="challenge.coverImg" alt="" class="w-100 img-fluid rounded mb-3" style="height: 175px; object-position: center; object-fit: cover;">
-    <div class="input-box input-group mb-3">
-      <label class="input-group-text" for="creatorCoverImg">Creator Cover Image</label>
-      <input type="text" class="form-control" id="creatorCoverImg" name="creatorCoverImg" v-model="challenge.creatorCoverImg">
-    </div>
-    <img :src="challenge.creatorCoverImg" alt="" class="w-100 img-fluid rounded mb-3" style="height: 175px; object-position: center; object-fit: cover;">
+    <img :src="challenge.coverImg" alt="" class="w-100 img-fluid rounded mb-3"
+      style="height: 175px; object-position: center; object-fit: cover;">
     <div class="input-group mb-3">
       <label class="input-group-text" for="challengeCategory">Category</label>
       <select class="input-box form-select text-center" id="challengeCategory" v-model="challenge.category">
@@ -31,9 +27,9 @@
       <label class="input-group-text" for="challengeDifficulty">Difficulty</label>
       <select class="input-box form-select text-center" id="challengeDifficulty" v-model="challenge.difficulty">
         <option selected>Choose Difficulty</option>
-        <option value="1" class="bg-success">Easy</option>
-        <option value="2" class="bg-warning">Medium</option>
-        <option value="3" class="bg-danger">Hard</option>
+        <option value="1">Easy</option>
+        <option value="2">Medium</option>
+        <option value="3">Hard</option>
       </select>
     </div>
     <div class="input-group mb-3">
@@ -54,7 +50,8 @@
     </div>
     <div class="input-box input-group mb-3">
       <label class="input-group-text" for="challengeAnswer">Answer</label>
-      <input type="text" class="form-control" id="challengeAnswer" v-model="challenge.answer" :disabled="challenge.autoGrade == 'false' || challenge.autoGrade == false">
+      <input type="text" class="form-control" id="challengeAnswer" v-model="challenge.answer"
+        :disabled="challenge.autoGrade == 'false' || challenge.autoGrade == false">
     </div>
   </section>
 </template>
@@ -65,7 +62,7 @@ import { Challenge } from '../../models/Challenge.js'
 export default {
   props: {
     challenge: {
-      type: Challenge || Object,
+      type: [Challenge, Object],
       required: true
     }
   }

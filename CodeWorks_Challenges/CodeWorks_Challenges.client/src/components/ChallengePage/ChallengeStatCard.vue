@@ -2,7 +2,7 @@
   <div class="details-card rounded p-0" :style="{ backgroundColor: bgColor, borderColor: color, color: color }">
     <slot></slot>
     <i class="mdi fs-1" :class="icon"></i>
-    <h3 class="text-capitalize text-light"> {{ value || val || 0 }}</h3>
+    <h3 class="text-capitalize text-light"> {{ value || val }}</h3>
     <h6 class="text-uppercase">{{ prop }}</h6>
   </div>
 </template>

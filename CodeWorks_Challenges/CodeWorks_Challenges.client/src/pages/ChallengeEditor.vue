@@ -19,7 +19,6 @@
   
 <script>
 import { computed } from 'vue'
-import { useRouter } from 'vue-router'
 import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
 import { logger } from "../utils/Logger.js"

@@ -1,5 +1,15 @@
 <template>
   <section v-if="challenge" :key="challenge?.id" class="text-light container-fluid px-lg-5">
+
+    <div class="row">
+      <div class="col-12">
+        <div v-if="!isParticipant">
+          <ChallengeStatCard :challenge="challenge" color="#22ff33" bgColor="#22ff330f" value=""
+            icon="mdi-account-multiple-plus" @click="joinChallenge()" class="selectable" prop="Join Challenge" />
+        </div>
+      </div>
+    </div>
+
     <div class="row">
       <div class="col-lg-4 my-2">
         <ChallengeStatCard :challenge="challenge" :color="difficulty.color" :bgColor="difficulty.bgColor"
@@ -51,11 +61,33 @@ import { AppState } from '../AppState'
 import ChallengeCreatorCard from '../components/ChallengePage/ChallengeCreatorCard.vue'
 import ChallengeBadgeCard from '../components/ChallengePage/ChallengeBadgeCard.vue'
 import { difficultyMap } from '../utils/DifficultyMap.js'
+import { useRoute } from 'vue-router'
+import { participantsService } from '../services/ParticipantsService.js'
 
 export default {
   setup() {
 
+    const route = useRoute();
+    const isParticipant = computed(() => {
+      return AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id);
+    });
+    async function joinChallenge() {
+      try {
+        await participantsService.joinChallenge({
+          challengeId: route.params.challengeId,
+        });
+        Pop.success("You have joined the challenge!");
+      }
+      catch (error) {
+        logger.error(error);
+        Pop.toast(error, "error");
+      }
+    }
+
+
     return {
+      isParticipant,
+      joinChallenge,
       challenge: computed(() => AppState.ChallengeState.challenge),
       difficulty: computed(() => {
         const difficulty = AppState.ChallengeState.challenge?.difficulty
