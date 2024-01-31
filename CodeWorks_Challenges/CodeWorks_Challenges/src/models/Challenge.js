@@ -9,7 +9,7 @@ export const ChallengeSchema = new Schema({
   category: { type: String, enum: Object.values(CATEGORY_TYPES), required: true, lowercase: true },
   status: { type: String, enum: Object.values(STATUS_TYPES), required: true, default: STATUS_TYPES.DRAFT, lowercase: true },
   name: { type: String, required: true, maxLength: 100, minLength: 3 },
-  description: { type: String, required: true, maxLength: 5000, minLength: 3 },
+  description: { type: String, maxLength: 85000 },
   requirements: [{ type: String }],
   supportLinks: [
     {
@@ -19,10 +19,8 @@ export const ChallengeSchema = new Schema({
   ],
   autoGrade: { type: Boolean, default: false, required: false },
   difficulty: { type: Number, required: true, default: 1, min: 1, max: 5 },
-  coverImg: { type: String, required: true, default: 'https://i.ibb.co/b1bXrRw/card-gradient.png', maxLength: 500 },
-  creatorCoverImg: { type: String, required: false, default: '', maxLength: 500 },
+  coverImg: { type: String, required: true, default: 'https://codeworks.blob.core.windows.net/public/assets/img/cover_img.jpg', maxLength: 1500 },
   badge: {
-    // type: Object, required: false, default: {},
     title: { type: String },
     image: { type: String || File },
     secondaryColor: { type: String, default: secondaryColor },

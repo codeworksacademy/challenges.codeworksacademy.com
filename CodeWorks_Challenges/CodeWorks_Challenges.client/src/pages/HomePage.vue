@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <section class="row">
-      <div class="col-12 col-lg-6 calc-vh text-white d-flex justify-content-center align-items-center" style="">
+      <div class="col-12 col-lg-6 calc-vh text-white d-flex justify-content-center align-items-center" >
         <div class="my-4 mx-2">
           <p class="highlight-text rounded fs-5 p-2 px-3 text-center text-md-start">
             Complete Applications, With <b>Feedback</b> and <b>Grading</b>
@@ -15,7 +15,7 @@
 
       <div class="col-6 img-fluid hero-container">
         <img src="https://i.gifer.com/origin/24/2457c47e228105862d2ce726fc60f7ad_w200.gif" alt="" class="twinkle-logo">
-        <img src="../assets/img/codeworks-logo.svg" alt="" class="hero">
+        <img src="../assets/img/codeworks-logo.svg" alt="logo" class="hero">
       </div>
     </section>
   </div>
@@ -40,11 +40,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 .hero-container {
   position: relative;
   top: -5%;
   overflow: hidden;
+
   .twinkle-logo {
     position: absolute;
     top: 30%;
@@ -53,12 +53,22 @@ export default {
     z-index: 2;
     opacity: 0;
     animation: twinkle 1s ease-in-out 2.7s forwards;
+
     @keyframes twinkle {
-      0% { opacity: 0; }
-      30% { opacity: 1; }
-      100% { opacity: 0; }
+      0% {
+        opacity: 0;
+      }
+
+      30% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+      }
     }
   }
+
   .hero {
     position: absolute;
     max-height: 80vh;
@@ -67,32 +77,52 @@ export default {
     right: -70.3%;
     width: 200%;
     animation: rollIn 4s ease-in-out forwards;
+
     @keyframes rollIn {
-      0% { opacity: 0; transform: translateX(75%) rotate(90deg); }
-      60% { opacity: .5; transform: translateX(0) rotate(0); }
-      75% { opacity: 1; transform: translateX(0) rotate(0); }
-      100% { opacity: .7; transform: translateX(0) rotate(0); }
+      0% {
+        opacity: 0;
+        transform: translateX(75%) rotate(90deg);
+      }
+
+      60% {
+        opacity: .5;
+        transform: translateX(0) rotate(0);
+      }
+
+      75% {
+        opacity: 1;
+        transform: translateX(0) rotate(0);
+      }
+
+      100% {
+        opacity: .7;
+        transform: translateX(0) rotate(0);
+      }
     }
   }
 }
-.hero-font{
+
+.hero-font {
   font-family: 'Lekton', sans-serif;
 }
-.fs-xl{
+
+.fs-xl {
   font-size: 3rem;
 }
-.highlight-text{
+
+.highlight-text {
   background-color: #1da3e619;
   font-family: 'Lekton', sans-serif;
   color: var(--shadow-blue);
   width: fit-content;
 }
-.calc-vh{
+
+.calc-vh {
   height: calc(100vh - 64px);
 }
+
 @media (min-width: 768px) {
-  .fs-xl{
+  .fs-xl {
     font-size: 4rem;
   }
-}
-</style>
+}</style>

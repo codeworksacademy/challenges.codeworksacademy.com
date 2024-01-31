@@ -132,12 +132,12 @@ export default {
   text-shadow: 0 0 5px 0 gray;
   box-shadow: inset 0 -20px 10px 0 #151d2b;
   background: linear-gradient(180deg, rgba(85, 21, 21, 0) 0%, #151d2b 80%, #151d2b 100%);
-  opacity: .9;
 
   h1 {
     font-size: 3rem;
     font-weight: 700;
     text-shadow: 0 5px 0px black !important;
+    filter: brightness(1);
   }
 
   &:before {
@@ -147,7 +147,7 @@ export default {
     left: 0;
     height: 100%;
     width: 100%;
-    background: rgba(0, 0, 0, 0.271)
+    background: rgba(0, 0, 0, 0.371)
   }
 }
 

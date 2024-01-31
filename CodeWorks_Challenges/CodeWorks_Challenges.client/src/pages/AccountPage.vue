@@ -7,7 +7,8 @@
       <div class=" text-white mb-3">
         <section class="row justify-content-between">
           <div class="col-lg-7  d-flex summary-height">
-            <SummarySection :profile="account" :milestones="milestones" :challenges="challenges" :participation="participation" />
+            <SummarySection :profile="account" :milestones="milestones" :challenges="challenges"
+              :participation="participation" />
           </div>
           <div class="col-lg-4 align-items-center justify-content-end d-none d-lg-flex summary-height">
             <router-link :to="{ name: 'Account.challenges' }">
@@ -36,21 +37,6 @@
       Loading... <i class="mdi mdi-loading mdi-spin"></i>
     </h1>
   </div>
-
-  <!-- Modal -->
-  <div class="modal fade" id="accountFormModal" tabindex="-1" aria-labelledby="accountFormModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5 text-light" id="accountFormModalLabel">Edit Account</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <AccountForm />
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -60,7 +46,6 @@ import ChallengeCard from '../components/ChallengesPage/ChallengeCard.vue'
 import AccountModerator from "../components/AccountModerator.vue";
 import SummarySection from '../components/AccountAndProfilePage/SummarySection.vue';
 import AccountLinksCard from '../components/AccountAndProfilePage/AccountLinksCard.vue';
-import AccountForm from '../components/AccountAndProfilePage/AccountForm.vue';
 
 export default {
   setup() {
@@ -71,16 +56,16 @@ export default {
       milestones: computed(() => AppState.AccountState.milestones)
     };
   },
-  components: { AccountForm, ChallengeCard, AccountModerator, SummarySection, AccountLinksCard, AccountForm }
+  components: { ChallengeCard, AccountModerator, SummarySection, AccountLinksCard }
 }
 </script>
 
 <style scoped>
-.modal-body{
+.modal-body {
   background-color: #151d2b;
 }
 
-.modal-header{
+.modal-header {
   background-color: #151d2b;
 }
 

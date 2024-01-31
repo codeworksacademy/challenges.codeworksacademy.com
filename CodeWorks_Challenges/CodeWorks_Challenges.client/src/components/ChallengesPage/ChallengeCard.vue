@@ -1,41 +1,29 @@
 <template>
-  <section v-if="challenge" :key="challenge?.id" class="">
+  <section v-if="challenge" :key="challenge?.id" class="selectable fs-5">
     <router-link :to="{ name: 'Challenge.overview', params: { challengeId: challenge.id } }" class=""
       style="z-index: 0; text-decoration: none;">
       <div class="challenge-card d-flex flex-row align-items-center text-light"
         style="height: 50px; font-weight: 500; padding: 1.75rem 0 1.75rem 0">
-        <span class="col-4 ps-4 ms-3">
+        <span class="col-6 col-md-4 ps-lg-4 ms-lg-3 fs-6">
           {{ challenge.name }}
         </span>
-        <div class="col-2 me-5 pe-5">
-          <div class="col-12 d-flex flex-column justify-content-center align-items-center">
-            <img v-if="challenge.difficulty === 1" src="../../assets/img/easy-difficulty-chart.svg"
-              :title="`Difficulty Rating: ${challenge.difficulty}`" alt="Easy Difficulty Icon" class="img-fluid"
-              style="width: 30px; height: 30px;">
-            <img v-if="challenge.difficulty === 2" src="../../assets/img/medium-difficulty-chart.svg"
-              :title="`Difficulty Rating: ${challenge.difficulty}`" alt="Medium Difficulty Icon" class="img-fluid"
-              style="width: 30px; height: 30px;">
-            <img v-if="challenge.difficulty === 3" src="../../assets/img/hard-difficulty-chart.svg"
-              :title="`Difficulty Rating: ${challenge.difficulty}`" alt="Hard Difficulty Icon" class="img-fluid"
-              style="width: 30px; height: 30px;">
+        <div class="col-2 me-lg-5 pe-lg-5">
+          <div class="d-flex flex-lg-row flex-column align-items-center">
+            <i class="mdi mdi-diamond-stone" :style="{ color: difficulty.color }" :title="difficulty.value"></i>
+            <sub class="ms-lg-3 mb-2">{{ difficulty.value }}</sub>
           </div>
         </div>
         <div class="col-4 d-flex justify-content-center align-items-center">
-          <i class="col-4 mdi mdi-star-half-full fs-5 me-3"> <span class="ms-3" style="font-style: normal"> 4.7</span></i>
-          <i class="col-4 mdi mdi-diamond-stone text-light fs-5 me-3"> <span class="ms-3" style="font-style: normal"> {{
-            challenge.difficulty }}</span></i>
-          <i class="col-4 mdi mdi-account text-light fs-5"> <span class="ms-3" style="font-style: normal"> {{
-            challenge.participantCount }}</span></i>
+          <i class="col-4 mdi mdi-account-star-outline fs-lg-5 me-lg-3">
+            <span class="ms-3" style="font-style: normal">{{ challenge.reputationIds.length }}</span>
+          </i>
+
+          <i class="col-4 d-none d-md-block mdi mdi-seal text-light fs-lg-5"> <span class="ms-3"
+              style="font-style: normal">
+              {{ challenge.completedCount }}</span></i>
+
         </div>
-        <div class="col-1 d-flex justify-content-center align-items-center me-5">
-          <div v-if="user.id === challenge.creatorId" class="d-flex align-items-center">
-            <i class="mdi mdi-chevron-right fs-5 ms-3"></i>
-            <!-- <i class="mdi mdi-dots-vertical" :title="`Delete Challenge: '${challenge.name}' ?`" style="color: var(--text-sub);" @click.stop="deleteChallenge(challenge.id)" title="Delete Challenge"></i> -->
-          </div>
-          <div v-else>
-            <i class="mdi mdi-chevron-right fs-5"></i>
-          </div>
-        </div>
+
       </div>
     </router-link>
   </section>
@@ -43,43 +31,36 @@
 
 <script>
 import { computed } from 'vue'
-import Pop from '../../utils/Pop'
 import { AppState } from '../../AppState'
-import { logger } from '../../utils/Logger'
 import { Challenge } from '../../models/Challenge'
-import { StrDifficultyNum } from '../../utils/StrDifficultyNum'
-import { challengesService } from '../../services/ChallengesService'
+import { difficultyMap } from '../../utils/DifficultyMap.js'
 
 export default {
   props: {
     challenge: {
-      type: Challenge || Object,
+      type: [Challenge, Object],
       required: true
     }
   },
   setup(props) {
 
-    const userSolveCount = computed(() => {
-      return AppState.ChallengeState.participants.filter(p => p.status === 'completed')
-    })
     return {
       user: computed(() => AppState.user),
       account: computed(() => AppState.AccountState.account),
       challenges: computed(() => AppState.challenges),
       activeChallenge: computed(() => AppState.ChallengeState.challenge),
-      userSolveCount,
+      difficulty: computed(() => difficultyMap[props.challenge.difficulty] || difficultyMap.default),
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-
 .challenge-card {
   background-color: var(--bg-main);
   text-shadow: 0 1px #000000;
   transition: all .3s ease-in-out;
-  border-top: 2px solid var(--border-main);
-  border-bottom: 2px solid var(--border-main);
+  border-bottom: 2px dotted var(--border-main);
   width: 100%
-}</style>
+}
+</style>

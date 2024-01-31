@@ -5,10 +5,7 @@
     <div class="d-flex gap-3 align-items-center">
       <span class="fs-5">{{ index }}.</span>
       <router-link :to="{ name: 'Profile.overview', params: { profileId: profile.id } }">
-        <img :src="profile.picture"
-          @error="(e) => e.target.src = `https://ui-avatars.com/api/?name=${profile.nickname || profile.name}&background=random`"
-          :title="`Click to Visit ${profile.nickname || profile.name}'s Profile Page`"
-          class="img-fluid profile-picture rounded-circle img-fluid selectable" height="35" width="35" />
+        <ProfileImg :profile="profile" />
       </router-link>
       <span class="">{{ profile.nickname || profile.name }}</span>
     </div>
@@ -39,7 +36,7 @@ export default {
       type: Object,
       required: true
     }
-  }
+  },
 }
 </script>
 

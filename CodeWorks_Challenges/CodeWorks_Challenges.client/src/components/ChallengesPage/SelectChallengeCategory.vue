@@ -1,16 +1,15 @@
 <template>
   <select v-model="filterCategory" @change="routeToCategory" name="category" id="category"
-    class="select-category text-center text-uppercase form-select bg-dark text-light">
-    <option class="disabled-option" :value="''" disabled>All Categories</option>
-    <option class="option-item" :value="''">All</option>
-    <option class="option-item" v-for="category in categoryTypes" :key="category" :value="category">{{ category }}</option>
+    class="select-category text-capitalize form-select">
+    <option :value="''">All Categories</option>
+    <option v-for="category in categoryTypes" :key="category" :value="category">{{ category }}
+    </option>
   </select>
 </template>
 
 <script>
 import { useRouter } from 'vue-router'
-import { ref, computed } from 'vue'
-import { AppState } from "../../AppState"
+import { ref } from 'vue'
 import { CATEGORY_TYPES } from '../../constants'
 
 export default {
@@ -43,13 +42,9 @@ export default {
 
 <style scoped lang="scss">
 .select-category {
-  width: 100%;
   background-color: var(--bg-sub);
   border: none;
   outline: none !important;
-  border-radius: 0;
   color: var(--text-main);
-  margin-top: 1rem;
-  margin-right: 1rem;
 }
 </style>

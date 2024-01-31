@@ -1,39 +1,52 @@
 <template>
-  <div class="accordion accordion-flush" id="accordionFlushExample">
-    <div v-for="(category, index) in categoryTypes" :key="category" class="accordion-item">
-      <div class="accordion-header">
-        <button @click="isActive = !isActive" class="col-12 accordion-button collapsed text-white text-capitalize fw-semibold" type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse' + index" :aria-expanded="isActive" :aria-controls="'collapse' + index" :aria-labelledby="'heading' + index">
-          <div class="col-10">
-            <span class="mdi me-3" :class="categoryIcons[category]"></span>
-            {{ category }}
+  <div class="accordion accordion-flush" id="category">
+    <div class="accordion-body">
+      <div class="d-none d-md-flex flex-row align-items-center text-uppercase pt-3">
+        <div class="col-4 ps-4">
+          <span class="ps-3">Challenge Name</span>
+        </div>
+        <div class="col-2 pe-2">
+          <span class="col-12 d-flex justify-content-center">Difficulty</span>
+        </div>
+        <div class="col-5 d-flex justify-content-center align-items-center pe-1">
+          <div class="col-3 d-flex justify-content-center">
+            <span class="col-10">Reputation</span>
           </div>
-          <div class="col-2 d-flex justify-content-end align-items center">
-            <span class="badge mx-3 fw-normal" style="color: var(--text-sub); font-size: .9rem;"><b>{{ challengesByCategory(category).length }}</b> {{ category }} challenges</span>
+          <div class="col-4 d-flex justify-content-center">
+            <span>Solves</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-for="(category, index) in categoryTypes" :key="category">
+
+      <div class="accordion-header" v-if="challengesByCategory(category).length">
+
+        <button @click="isActive = !isActive"
+          class="col-12 accordion-button collapsed text-white text-capitalize fw-semibold" type="button"
+          data-bs-toggle="collapse" :data-bs-target="'#collapse' + index" :aria-expanded="isActive"
+          :aria-controls="'collapse' + index" :aria-labelledby="'heading' + index">
+          <div class="col-10">
+            <div class="d-flex  align-items-center">
+              <i class="mdi fs-1 me-3" :class="categoryIcons[category]"></i>
+              <p class="mb-0">
+                {{ category }}
+              </p>
+            </div>
+          </div>
+          <div class="col-2 d-none d-lg-flex justify-content-end align-items center">
+            <span class="badge mx-3 fw-normal" style="color: var(--text-sub); font-size: .9rem;"><b>
+                {{ challengesByCategory(category).length }}</b> challenges</span>
             <span :class="['mdi fs-3', isActive ? 'mdi-chevron-up' : 'mdi-chevron-down']"></span>
           </div>
         </button>
+
       </div>
-      <div :id="'collapse' + index" class="accordion-collapse collapse" :data-bs-parent="'#accordionFlushExample'">
+
+      <div :id="'collapse' + index" class="accordion-collapse collapse show" data-bs-parent="#category">
         <div class="accordion-body py-2">
-          <div class="d-flex flex-row align-items-center text-uppercase py-3">
-            <div class="col-4 ps-4">
-              <h6 class="ps-3">Challenge Name</h6>
-            </div>
-            <div class="col-2 pe-2">
-              <h6 class="col-12 d-flex justify-content-center">Difficulty</h6>
-            </div>
-            <div class="col-5 d-flex justify-content-center align-items-center pe-1">
-              <div class="col-3 d-flex justify-content-center">
-                <h6 class="col-10">Rating</h6>
-              </div>
-              <div class="col-3 d-flex justify-content-center ps-2">
-                <h6 class="col-9">Points</h6>
-              </div>
-              <div class="col-4 d-flex justify-content-center">
-                <h6>User Solves</h6>
-              </div>
-            </div>
-          </div>
+
           <div>
             <ChallengeCard v-for="c in challengesByCategory(category)" :key="c.id" :challenge="c" />
           </div>
@@ -77,22 +90,28 @@ export default {
       categoryIcons,
       categoryTypes,
       challengesByCategory,
-      
     };
   }
 };
 </script>
 
 <style scoped lang="scss">
-.accordion-button, .accordion-button:not(.collapsed) {
+.accordion-button,
+.accordion-button:not(.collapsed) {
   background: var(--bg-main);
 }
+
 .accordion-body {
   background: var(--bg-main);
-    h6 {
-      color: var(--text-sub);
-      font-size: .8rem;
-      font-weight: 500;
-    }
+
+  span {
+    color: var(--text-sub);
+    font-size: .8rem;
+    font-weight: 500;
+  }
+}
+
+.accordion-button::after {
+  content: unset
 }
 </style>

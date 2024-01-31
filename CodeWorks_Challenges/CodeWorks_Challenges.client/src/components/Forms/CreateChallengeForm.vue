@@ -1,19 +1,15 @@
 <template>
   <section v-if="user.isAuthenticated" class="container-fluid">
     <form @submit.prevent="createChallenge" id="createChallengeForm">
-      <aside class="form-box">
-        <div class="input-group form-group mb-3">
-          <label class="input-group-text" for="name">Challenge Name</label>
-          <input type="text" class="form-control" id="name" v-model="editable.name" required>
+      <div class="row">
+        <div class="col-lg-4 mb-2">
+          <label class="visually-hidden" for="name">Challenge Name</label>
+          <input type="text" class="form-control" id="name" v-model="editable.name" required placeholder="Challenge Name">
         </div>
-        <div class="input-group form-group mb-3">
-          <label class="input-group-text" for="description">Challenge Description</label>
-          <input type="text" class="form-control" id="description" v-model="editable.description" required />
-        </div>
-        <div class="input-group mb-3">
-          <label class="input-group-text" for="category">Category</label>
-          <select class="input-box form-group form-select" aria-label="Category Selection" v-model="editable.category">
-            <option selected>Select Category</option>
+        <div class="col-lg-4 mb-2">
+          <label class="visually-hidden" for="category">Category</label>
+          <select class="form-control " aria-label="Category Selection" v-model="editable.category">
+            <option :value="''" selected disabled>Select Category</option>
             <option value="full stack">Full-Stack</option>
             <option value="front end">Frontend</option>
             <option value="back end">Backend</option>
@@ -23,10 +19,10 @@
             <option value="other">Other</option>
           </select>
         </div>
-        <div class="text-center">
-          <button type="submit" class="btn btn-primary mb-4">Get Started</button>
+        <div class="col-lg-4 mb-2">
+          <button type="submit" class="btn btn-primary">Get Started</button>
         </div>
-      </aside>
+      </div>
     </form>
   </section>
   <section v-if="!user.isAuthenticated">
@@ -39,29 +35,22 @@ import { computed, ref } from 'vue'
 import { AppState } from '../../AppState'
 import Pop from '../../utils/Pop'
 import { challengesService } from '../../services/ChallengesService'
-import { challengeModeratorsService } from '../../services/ChallengeModeratorsService'
-import { useRouter, useRoute } from 'vue-router';
-import { Modal } from 'bootstrap'
+import { useRouter } from 'vue-router';
 
 export default {
   setup() {
 
     const editable = ref({
       name: '',
-      description: '',
+      category: '',
       coverImg: 'https://i.ibb.co/c21hFZN/card-gradient.png',
     })
 
-    const route = useRoute()
     const router = useRouter()
 
     async function createChallenge() {
       try {
-        const newChallenge = editable.value
-        await challengesService.createChallenge(newChallenge)
-        
-        Modal.getOrCreateInstance('#createChallengeForm').hide()
-        Pop.toast('Challenge Created')
+        await challengesService.createChallenge(editable.value)
         router.push(
           {
             name: 'Challenge.challengeEditor',
@@ -77,12 +66,10 @@ export default {
     return {
       editable,
       createChallenge,
-
       user: computed(() => AppState.user),
     }
   }
 }
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>

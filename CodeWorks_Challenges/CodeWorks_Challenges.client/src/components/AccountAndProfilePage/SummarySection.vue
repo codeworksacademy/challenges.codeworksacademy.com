@@ -1,7 +1,7 @@
 <template>
   <div class="avatar-container col-lg-3 col-5">
     <div class="avatar-bg"></div>
-    <img :src="profile.picture" :alt="profile.nickname || profile.name" class="avatar-lg mx-4 light-gold-border avatar-style">
+    <ProfileImg :profile="profile" class="avatar-lg mx-4 light-gold-border avatar-style" />
   </div>
   <div class="d-flex flex-column col-lg-9 col-7">
     <p class="fs-2 m-0">
@@ -49,13 +49,13 @@ export default {
     return {
       badges: computed(() => props.participation.filter(p => p.status == 'completed')),
       rankTitle: computed(() => {
-      let lastKey = 0
-      for (const badge of RANK_BADGE) {
-        if (props.profile.rank >= badge.RANK_THRESHOLD) {
-          lastKey = badge.RANK_THRESHOLD
+        let lastKey = 0
+        for (const badge of RANK_BADGE) {
+          if (props.profile.rank >= badge.RANK_THRESHOLD) {
+            lastKey = badge.RANK_THRESHOLD
+          }
         }
-      }
-      return RANK_BADGE.find(badge => badge.RANK_THRESHOLD === lastKey).NAME
+        return RANK_BADGE.find(badge => badge.RANK_THRESHOLD === lastKey).NAME
       })
     }
   }

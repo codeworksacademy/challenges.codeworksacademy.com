@@ -63,11 +63,11 @@ textarea,
 select {
   &:not(:placeholder-shown) {
     &:valid {
-      outline: solid 1px transparentize($success, .65);
+      outline: solid 1px transparentize($success, .25);
       outline-offset: -2px;
     }
     &:invalid {
-      outline: dashed 1px transparentize($danger, .65);
+      outline: dashed 1px transparentize($danger, .25);
       outline-offset: -2px;
     }
   }

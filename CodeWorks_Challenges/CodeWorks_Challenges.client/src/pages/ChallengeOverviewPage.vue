@@ -50,6 +50,7 @@ import { computed } from 'vue'
 import { AppState } from '../AppState'
 import ChallengeCreatorCard from '../components/ChallengePage/ChallengeCreatorCard.vue'
 import ChallengeBadgeCard from '../components/ChallengePage/ChallengeBadgeCard.vue'
+import { difficultyMap } from '../utils/DifficultyMap.js'
 
 export default {
   setup() {
@@ -58,21 +59,7 @@ export default {
       challenge: computed(() => AppState.ChallengeState.challenge),
       difficulty: computed(() => {
         const difficulty = AppState.ChallengeState.challenge?.difficulty
-        switch (difficulty) {
-          case 1:
-            return { value: 'Easy', color: '#09efab', bgColor: '#20c99629' }
-          case 2:
-            return { value: 'Medium', color: '#efc809', bgColor: '#c9b7203d' }
-          case 3:
-            return { value: 'Hard', color: '#ff8080', bgColor: '#ae0c0c42' }
-          case 4:
-            return { value: 'Extreme', color: '#ef09cb', bgColor: '#c920ac29' }
-          case 5:
-            return { value: 'Legendary', color: '#fff', bgColor: '#000' }
-          default:
-            return { value: 'Loading', color: '#181818', bgColor: '#52525278' }
-        }
-
+        return difficultyMap[difficulty] || difficultyMap.default
       })
     }
   },
