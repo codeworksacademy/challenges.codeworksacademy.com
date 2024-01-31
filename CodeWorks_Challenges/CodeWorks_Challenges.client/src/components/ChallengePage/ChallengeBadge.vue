@@ -65,6 +65,7 @@ export default {
   margin: 0 auto;
   //Make it so there are only 3 badges per row:
   flex-wrap: wrap;
+  overflow: hidden;
 
   &:before {
     background-image: url('../../assets/img/codeworks-logo.svg');
@@ -73,11 +74,11 @@ export default {
     background-position: center;
     content: '';
     position: absolute;
-    top: -10.5%;
+    top: 20%;
     left: 50%;
-    transform: translateX(-50%) rotate(30deg);
-    width: 130%;
-    height: 130%;
+    transform: translateX(-55%) rotate(30deg);
+    width: 70%;
+    height: 70%;
     opacity: .1;
   }
 
