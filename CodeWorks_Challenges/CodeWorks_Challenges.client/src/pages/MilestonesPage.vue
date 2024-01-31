@@ -58,7 +58,7 @@
               <div class="d-flex flex-column">
                 <label for="">Ref - What data is this milestone about
                 </label>
-                <select class="text-dark" v-model="editable.ref" required>
+                <select v-model="editable.ref" required>
                   <option disabled value="">Please select one</option>
                   <option>Account</option>
                   <option>Challenges</option>
@@ -69,16 +69,15 @@
                 </select>
               </div>
               <label for="">Check - What string will call this milestone to be checked</label>
-              <input v-model="editable.check" type="text" placeholder="check" class="bg-light" required>
+              <input v-model="editable.check" type="text" placeholder="check" required>
             </div>
             <div class="d-flex flex-column">
               <label for="">Highest number of possible tiers</label>
-              <input v-model="editable.maxTiers" type="number" placeholder="Number" class="bg-light" min="1" max="10"
-                required>
+              <input v-model="editable.maxTiers" type="number" placeholder="Number" min="1" max="10" required>
             </div>
             <div>
               <label for="">Operation - How are the values going to be compared </label>
-              <select class="text-dark" v-model="editable.operation" required>
+              <select v-model="editable.operation" required>
                 <option disabled value="">Please select one</option>
                 <option>$gte</option>
                 <option>$sum</option>
@@ -89,13 +88,12 @@
             <div v-if="editable.maxTiers">
               <label for="">Requirements - each value must be higher than the previous (1-1000)</label>
               <div v-for="(tier, index) in editable.maxTiers" :key="index">
-                Tier {{ tier }}: <input v-model="editable[tier]" type="number" class="bg-light" min="1" max="1000"
-                  required>
+                Tier {{ tier }}: <input v-model="editable[tier]" type="number" min="1" max="1000" required>
               </div>
             </div>
           </div>
           <label for="">Title of The Milestone </label>
-          <input v-model="editable.title" type="text" placeholder="Title" class="bg-light" required>
+          <input v-model="editable.title" type="text" placeholder="Title" required>
           <label for="">Description of The Milestone </label>
           <textarea v-model="editable.description" name="" id="" cols="30" rows="2" placeholder="Created XYZ Milestone"
             class="d-flex" required></textarea>
@@ -154,7 +152,7 @@
 
 
 <script>
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import MilestonesTracker from '../components/Milestones/MilestonesTracker.vue';
 import { milestonesService } from '../services/MilestonesService'
 
@@ -167,10 +165,23 @@ export default {
     const editable = ref({})
     const editMode = ref(false)
 
+    async function getMilestones() {
+      try {
+        await milestonesService.getMilestones()
+      } catch (error) {
+        logger.error(error)
+      }
+    }
+
+    onMounted(() => {
+      getMilestones();
+    });
+
     return {
       editable,
       editMode,
-      milestones: computed(() => AppState.AccountState.milestones),
+      milestones: computed(() => AppState.MilestoneState.milestones),
+      accountMilestones: computed(() => AppState.AccountState.milestones),
       logic: computed(() => {
         let tempStr = ''
         let char

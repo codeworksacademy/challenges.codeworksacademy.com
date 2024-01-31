@@ -5,10 +5,12 @@
     <div class="flex-grow-1 text-center m-auto fs-1">NEW</div>
   </section>
 
-  <section v-else class="row achievement-card bg-dark mt-3" :style="{ border: '3px', borderColor: tierAttributes.color1, borderStyle: 'solid' }">
+  <section v-else class="row achievement-card bg-dark mt-3"
+    :style="{ border: '3px', borderColor: tierAttributes.color1, borderStyle: 'solid' }">
     <div class="col-12 col-lg-3">
       <div class="badge-wrapper d-flex flex-row">
-        <div class="alt-badge badge" :style="{ background: `linear-gradient(${tierAttributes.color1} 0%, ${tierAttributes.color2} 100%)` }">
+        <div class="alt-badge badge"
+          :style="{ background: `linear-gradient(${tierAttributes.color1} 0%, ${tierAttributes.color2} 100%)` }">
           <div class="circle">
             <i class="m-auto" :style="{ color: tierAttributes.color2 }" :class="['mdi', tierAttributes.tierCurrent]"></i>
           </div>
@@ -79,22 +81,22 @@ export default {
       return condition
     })
 
-  const tierAttributes = computed(() => {
-    let attributes = {}
-    const badge = MILESTONE_BADGE[props.milestone.tier]
-    attributes.adjective = badge.ADJECTIVE
-    attributes.tierCurrent = badge.TIER_CURRENT
-    attributes.tierNext = badge.TIER_NEXT
-    
-    if (props.milestone.tier == 0) {
-      attributes.color1 = badge.COLOR_1[0]
-      attributes.color2 = badge.COLOR_2[0]
-    } else {
-      attributes.color1 = badge.COLOR_1[props.milestone.tier - 1]
-      attributes.color2 = badge.COLOR_2[props.milestone.tier - 1]
-    }
-    return attributes
-  })
+    const tierAttributes = computed(() => {
+      let attributes = {}
+      const badge = MILESTONE_BADGE[props.milestone.tier]
+      attributes.adjective = badge.ADJECTIVE
+      attributes.tierCurrent = badge.TIER_CURRENT
+      attributes.tierNext = badge.TIER_NEXT
+
+      if (props.milestone.tier == 0) {
+        attributes.color1 = badge.COLOR_1[0]
+        attributes.color2 = badge.COLOR_2[0]
+      } else {
+        attributes.color1 = badge.COLOR_1[props.milestone.tier - 1]
+        attributes.color2 = badge.COLOR_2[props.milestone.tier - 1]
+      }
+      return attributes
+    })
     return {
       badgeGradient1: computed(() => {
         const badge = tierAttributes.value.color1
@@ -133,7 +135,7 @@ export default {
         const milestoneDescription = props.milestone.milestone.description
         const milestoneCount = props.milestone.count
         let newDescription = milestoneDescription.replace(/X/g, milestoneCount)
-        if (!route.name.includes('Account')) {
+        if (!route.name.includes('Account') && !route.name.includes('Milestones')) {
           newDescription = newDescription.replace(/You have/g, AppState.activeProfile.name + ' has')
           newDescription = newDescription.replace(/You've/g, AppState.activeProfile.name + ' has')
           newDescription = newDescription.replace(/your/g, AppState.activeProfile.name + "'s")
@@ -164,6 +166,7 @@ export default {
   margin: auto;
   width: 100%;
 }
+
 .achievement-card {
   color: white;
   background-color: #3e53742a;
@@ -173,42 +176,49 @@ export default {
   border-radius: .5rem;
   min-height: 22vh;
   overflow-x: hidden;
+
   .badge-wrapper {
     font-family: 'Comfortaa', sans-serif;
     width: 100%;
     margin: .5em auto;
     text-align: center;
-  .alt-badge {
-    position: relative;
-    top: 0;
-    margin: 1.75em auto;
-    width: 7.67em;
-    height: 12.25em;
-    aspect-ratio: 1/1;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.2s ease;
-    &:before,
-    &:after {
-      position: absolute;
-      content: "";
-      width: inherit;
-      height: inherit;
-      border-radius: inherit;
-      background: inherit;
-      @include margin-auto;
-    }
-    &:before {
-      transform: rotate(60deg);
-    }
-    &:after {
-      transform: rotate(-60deg);
-    }
-    &:hover {
-      top: -4px;
-    }
+
+    .alt-badge {
+      position: relative;
+      top: 0;
+      margin: 1.75em auto;
+      width: 7.67em;
+      height: 12.25em;
+      aspect-ratio: 1/1;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.2s ease;
+
+      &:before,
+      &:after {
+        position: absolute;
+        content: "";
+        width: inherit;
+        height: inherit;
+        border-radius: inherit;
+        background: inherit;
+        @include margin-auto;
+      }
+
+      &:before {
+        transform: rotate(60deg);
+      }
+
+      &:after {
+        transform: rotate(-60deg);
+      }
+
+      &:hover {
+        top: -4px;
+      }
+
       .circle {
         position: absolute;
         display: flex;
@@ -222,12 +232,14 @@ export default {
         z-index: 10;
         border-radius: 50%;
         @include margin-auto;
+
         i.mdi {
           margin-top: 8px;
           font-size: 5.5em;
           color: v-bind(badgeGradient2);
           filter: drop-shadow(0 .5px .5px #000);
         }
+
         /*NOTE - For when you can't find the mdi icon you want, you can use a v-bind computed background image on any .png, just make sure the background of the .png is transparent */
         img {
           width: 2em;
@@ -235,12 +247,14 @@ export default {
           margin-top: 8px;
         }
       }
+
       .font {
         display: flex;
         margin-top: 1em;
       }
     }
   }
+
   .tier-block {
     height: 8px;
   }

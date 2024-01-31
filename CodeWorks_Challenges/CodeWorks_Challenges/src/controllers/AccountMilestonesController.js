@@ -13,8 +13,8 @@ export class AccountMilestonesController extends BaseController {
 
   async getMyMilestones(req, res, next) {
     try {
-      const userId = req.params.userId
-      const accountMilestones = await accountMilestonesService.getMyMilestones(userId)
+      const accountId = req.userInfo.id
+      const accountMilestones = await accountMilestonesService.getMyMilestones(accountId)
       return res.send(accountMilestones)
     } catch (error) {
       next(error);

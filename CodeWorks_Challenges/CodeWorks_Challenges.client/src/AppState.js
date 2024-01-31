@@ -45,24 +45,7 @@ const ChallengeState = reactive({
   moderators: [],
 })
 
-
-
-
-// NOTE AppState is a reactive object to contain app level data
-export const AppState = reactive({
-  user: {},
-  ProfileState,
-  AccountState,
-  ChallengeState,
-  leaderboards: [],
-  // challenges that show up in search and can be joined by the user
-  /** @type {import('./models/Challenge.js').Challenge[]} */
-  challenges: [],
-  /**@type {import('./models/Profile.js').Profile[]} */
-  profiles: [],
-  /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]} */
-  participants: [],
-
+const MilestoneState = reactive({
   milestoneChecks: [
     "createdChallenge",
     "joinedChallenge", "moderateChallenge"
@@ -73,6 +56,29 @@ export const AppState = reactive({
     , "passingParticipant"
     , "allMilestones"
   ],
+  /** @type {import('./models/Milestone.js').Milestone[]} */
+  milestones: []
+})
+
+
+
+// NOTE AppState is a reactive object to contain app level data
+export const AppState = reactive({
+  user: {},
+  ProfileState,
+  AccountState,
+  ChallengeState,
+  MilestoneState,
+  leaderboards: [],
+  // challenges that show up in search and can be joined by the user
+  /** @type {import('./models/Challenge.js').Challenge[]} */
+  challenges: [],
+  /**@type {import('./models/Profile.js').Profile[]} */
+  profiles: [],
+  /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]} */
+  participants: [],
+
+
   rankTitles: {
     0: "Bugs Bunny",
     5: "Widget Weenie",
