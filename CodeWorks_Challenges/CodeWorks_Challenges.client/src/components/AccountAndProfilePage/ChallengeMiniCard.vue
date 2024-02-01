@@ -20,12 +20,13 @@
       </span>
     </div>
     <div class="col-3">
-      <div class="d-flex align-items-center justify-content-center">
+      <div class="d-flex align-items-center justify-space-evenly align-items-center">
         <router-link :to="{ name: 'Challenge.overview', params: { challengeId: challenge?.id } }">
           <button class="btn text-light" title="view challenge">
-            <i class="mdi mdi-chevron-right"></i>
+            <i class="mdi mdi-chevron-right ms-5"></i>
           </button>
         </router-link>
+        <i @click="leaveChallenge()" :title="`Leave challenge: '${challenge.name}'`" class="mdi mdi-dots-horizontal m-auto text-muted"></i>
       </div>
     </div>
   </div>
@@ -35,6 +36,10 @@
 import { computed } from 'vue';
 import { Challenge } from '../../models/Challenge';
 import { difficultyMap } from '../../utils/DifficultyMap.js'
+import { AppState } from '../../AppState';
+import { participantsService } from '../../services/ParticipantsService';
+import Pop from '../../utils/Pop';
+import { logger } from '../../utils/Logger';
 
 export default {
   props: {
@@ -44,7 +49,24 @@ export default {
     }
   },
   setup(props) {
+    async function leaveChallenge() {
+      try {
+        const removeConfirm = await Pop.confirm("Are you sure you want to leave this challenge? Your points will not be refunded.");
+        if (!removeConfirm) {
+          return;
+        }
+        let participant = AppState.ChallengeState.participants.find(p => p.accountId == AppState.AccountState.account.id);
+        participant.status = 'left';
+        await participantsService.leaveChallenge(participant.id);
+        Pop.toast("You have left the challenge!");
+      }
+      catch (error) {
+        logger.error(error);
+        Pop.toast(error, "error");
+      }
+    }
     return {
+      leaveChallenge,
       difficulty: computed(() => difficultyMap[props.challenge.difficulty] || difficultyMap.default),
     }
   }
