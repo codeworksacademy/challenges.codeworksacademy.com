@@ -1,9 +1,9 @@
 <template>
-  <div
+  <div v-if="challengeProp" :key="challengeProp?.id"
     class="border-underline background-highlight row d-flex text-light justify-content-between align-items-center pt-2">
     <div class="col-3">
       <p class="m-0 fw-bold fs-5 text-truncate">
-        {{ challengeProp.name }}
+        {{ challengeProp?.name }}
       </p>
       <p>
         {{ challengeDifficulty }}
@@ -21,7 +21,7 @@
     </div>
     <div class="col-3">
       <div class="d-flex align-items-center justify-content-center">
-        <router-link :to="{ name: 'Challenge.overview', params: { challengeId: challengeProp.id } }">
+        <router-link :to="{ name: 'Challenge.overview', params: { challengeId: challengeProp?.id } }">
           <button class="btn text-light" title="view challenge">
             <i class="mdi mdi-chevron-right"></i>
           </button>

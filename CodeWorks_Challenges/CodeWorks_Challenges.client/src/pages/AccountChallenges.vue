@@ -62,15 +62,17 @@ import { computed, ref } from 'vue';
 import { AppState } from '../AppState';
 import ChallengeMiniCard from '../components/AccountAndProfilePage/ChallengeMiniCard.vue';
 import { logger } from "../utils/Logger.js";
+import { useRoute } from 'vue-router';
 
 export default {
   setup() {
+    const route = useRoute();
     const challengeTypes = ref('')
     return {
       challengeTypes,
       challenges: computed(() => {
         let challengesFiltered = []
-        let cf
+        let cf = []
         switch (challengeTypes.value) {
           case 'Created':
             challengesFiltered = AppState.AccountState.challenges.filter(c => c.creatorId == AppState.AccountState.account.id)
@@ -84,8 +86,7 @@ export default {
             break;
 
           case 'Participating':
-            challengesFiltered = []
-            cf = AppState.AccountState.participation
+            cf = AppState.AccountState.participation.filter(p => p.challengeId == p.challenge?.id)
             cf.forEach(c => {
               challengesFiltered.push(c.challenge)
             });
