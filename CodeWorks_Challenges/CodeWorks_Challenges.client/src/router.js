@@ -166,6 +166,11 @@ const routes = [
     meta: {
       error: { message: 'hello' }
     }
+  },
+  {
+    path: '/monacotests',
+    name: 'MonacoTests',
+    component: loadPage("MonacoTests")
   }
 ]
 

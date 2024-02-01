@@ -11,6 +11,11 @@
   --border-dark: #0f141e;
 }
 
+.bg-detail{
+  background-color: #1c2332;
+  border: 1px solid #2d386b;
+}
+
 .user-links-btn {
   &:hover {
     color: var(--color);

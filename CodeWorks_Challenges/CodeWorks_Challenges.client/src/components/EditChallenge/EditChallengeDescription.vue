@@ -6,7 +6,7 @@
   
 <script>
 import { Challenge } from '../../models/Challenge'
-import MarkdownEditor from './MarkdownEditor.vue';
+import MarkdownEditor from '../MonacoEditor/MarkdownEditor.vue';
   
   export default {
     props: {
