@@ -1,14 +1,14 @@
 <template>
-    <section class="container-fluid">
+    <section class="">
       <MonacoEditor language="javascript" :value="editable" @change="change"/>
-      <div class="bg-dark">
+      <div class="p-2 mb-3 mx-2 mt-2 bg-dark rounded-2 bg-detail" v-if="editable">
         {{ editable }}
       </div>
     </section>
 </template>
   
 <script>
-  import { computed, onMounted, ref, watch, watchEffect } from 'vue'
+  import { computed, onMounted, ref, watchEffect } from 'vue'
   import MonacoEditor from './MonacoEditor.vue'
   
   export default {

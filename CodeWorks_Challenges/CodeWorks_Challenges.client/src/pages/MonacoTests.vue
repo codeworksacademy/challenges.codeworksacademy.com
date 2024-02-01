@@ -1,37 +1,35 @@
 <template>
     <section class="container-fluid">
-      <div class="row">
-        <div class="col-md-6 bg-detail mt-3">
-          
+      <div class="row justify-content-between">
+        <div class="col-md-6 mt-3">
+          <div class="bg-detail rounded-3">
+            <h4 class="ps-3 pt-3">Code</h4>
+            <CodeEditor/>
+          </div>
         </div>
-        <div class="col-md-6 bg-detail mt-3">
-          <h4 class="ps-3 pt-3">Tests</h4>
-          <MonacoEditor language="javascript" :value="tests"/>
-          <p>{{ tests }}</p>
+        <div class="col-md-6 mt-3">
+          <div class="bg-detail rounded-3">
+            <h4 class="ps-3 pt-3">Tests</h4>
+            <TestEditor/>
+          </div>
         </div>
       </div>
     </section>
 </template>
   
 <script>
-  import { ref, computed, onMounted, watchEffect } from 'vue'
-  import { AppState } from '../AppState'
-  import Pop from "../utils/Pop.js"
-  import { logger } from "../utils/Logger.js"  
-  import MonacoEditor from '../components/EditChallenge/MonacoEditor.vue'
+import { ref, onMounted } from 'vue'
+import CodeEditor from '../components/MonacoEditor/CodeEditor.vue'
+import TestEditor from '../components/MonacoEditor/TestEditor.vue'
   
   export default {
     components: {
-
-    },
+    CodeEditor,
+    TestEditor
+},
     setup(props, {emit}) {
-      const code = ref('asd')
+      const code = ref('')
       const tests = ref('')
-
-      // watchEffect(() => {
-      //   code.value = props.modelValue
-      // })
-
       onMounted(() => {
 
       })
@@ -45,4 +43,8 @@
   
   <style scoped lang="scss">
   
+  .code-editor{
+    padding-right: 1rem;
+  }
+
   </style>
