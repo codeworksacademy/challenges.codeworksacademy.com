@@ -61,7 +61,6 @@
 import { computed, ref } from 'vue';
 import { AppState } from '../AppState';
 import ChallengeMiniCard from '../components/AccountAndProfilePage/ChallengeMiniCard.vue';
-import { logger } from "../utils/Logger.js";
 import { useRoute } from 'vue-router';
 
 export default {
@@ -70,34 +69,27 @@ export default {
     const challengeTypes = ref('')
     return {
       challengeTypes,
+      challenge: computed(() => AppState.AccountState.challenges.find(c => c.id == route.params.challengeId)),
       challenges: computed(() => {
         let challengesFiltered = []
         let cf = []
-        switch (challengeTypes.value) {
-          case 'Created':
-            challengesFiltered = AppState.AccountState.challenges.filter(c => c.creatorId == AppState.AccountState.account.id)
-            break;
-
-          case 'Moderated':
-            cf = AppState.AccountState.moderation
-            cf.forEach(c => {
-              challengesFiltered.push(c.challenge)
-            });
-            break;
-
-          case 'Participating':
-            cf = AppState.AccountState.participation.filter(p => p.challengeId == p.challenge?.id)
-            cf.forEach(c => {
-              challengesFiltered.push(c.challenge)
-            });
-            break;
-
-          default:
-            challengesFiltered = AppState.AccountState.challenges.filter(c => c.creatorId == AppState.AccountState.account.id)
-            break;
+        if (challengeTypes.value === 'Created') {
+          challengesFiltered = AppState.AccountState.challenges.filter(c => c.creatorId == AppState.AccountState.account.id)
+        } else if (challengeTypes.value === 'Moderated') {
+          cf = AppState.AccountState.moderation
+          cf.forEach(c => {
+            challengesFiltered.push(c.challenge)
+          });
+        } else if (challengeTypes.value === 'Participating') {
+          cf = AppState.AccountState.participation.filter(p => p.challengeId == p.challenge?.id)
+          cf.forEach(c => {
+            challengesFiltered.push(c.challenge)
+          });
+        } else {
+          challengesFiltered = AppState.AccountState.challenges.filter(c => c.creatorId == AppState.AccountState.account.id)
         }
-        return challengesFiltered;
-      }),
+        return challengesFiltered
+      })
     };
   },
   components: { ChallengeMiniCard }
