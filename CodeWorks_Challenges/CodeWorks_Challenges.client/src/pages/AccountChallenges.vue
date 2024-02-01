@@ -50,7 +50,7 @@
     </section>
     <section class="row">
       <div class="col-12 mt-1" v-for="challenge in challenges">
-        <ChallengeMiniCard :challengeProp="challenge" />
+        <ChallengeMiniCard :challenge="challenge" />
       </div>
     </section>
   </div>

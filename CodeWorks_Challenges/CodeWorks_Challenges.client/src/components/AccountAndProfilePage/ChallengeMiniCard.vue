@@ -1,27 +1,27 @@
 <template>
-  <div v-if="challengeProp" :key="challengeProp?.id"
+  <div v-if="challenge" :key="challenge?.id"
     class="border-underline background-highlight row d-flex text-light justify-content-between align-items-center pt-2">
     <div class="col-3">
       <p class="m-0 fw-bold fs-5 text-truncate">
-        {{ challengeProp?.name }}
+        {{ challenge?.name }}
       </p>
-      <p>
-        {{ challengeDifficulty }}
+      <p class="text-uppercase">
+        {{ challenge.difficultyStr?.text }}
       </p>
     </div>
     <div class="col-3">
       <span class="fw-semibold text-uppercase">
-        {{ challengeProp.category || "FULL STACK" }}
+        {{ challenge.category }}
       </span>
     </div>
     <div class="col-3">
       <span class="highlight-font fw-semibold fs-5">
-        <i class="mdi mdi-diamond-stone me-2 fs-5"></i> {{ challengeProp.difficulty }}
+        <i class="mdi mdi-diamond-stone me-2 fs-5" :style="{ color: difficulty.color }"></i> {{ challenge.difficulty }}
       </span>
     </div>
     <div class="col-3">
       <div class="d-flex align-items-center justify-content-center">
-        <router-link :to="{ name: 'Challenge.overview', params: { challengeId: challengeProp?.id } }">
+        <router-link :to="{ name: 'Challenge.overview', params: { challengeId: challenge?.id } }">
           <button class="btn text-light" title="view challenge">
             <i class="mdi mdi-chevron-right"></i>
           </button>
@@ -34,27 +34,18 @@
 <script>
 import { computed } from 'vue';
 import { Challenge } from '../../models/Challenge';
+import { difficultyMap } from '../../utils/DifficultyMap.js'
 
 export default {
   props: {
-    challengeProp: { type: Challenge, required: true }
+    challenge: {
+      type: [Challenge, Object],
+      required: true
+    }
   },
-
   setup(props) {
     return {
-      challengeDifficulty: computed(() => {
-        let description = ""
-
-        if (props.challengeProp.difficulty == 1) {
-          description = "EASY"
-        } else if (props.challengeProp.difficulty == 2) {
-          description = "MEDIUM"
-        } else if (props.challengeProp.difficulty == 3) {
-          description = "HARD"
-        }
-
-        return description
-      })
+      difficulty: computed(() => difficultyMap[props.challenge.difficulty] || difficultyMap.default),
     }
   }
 }
