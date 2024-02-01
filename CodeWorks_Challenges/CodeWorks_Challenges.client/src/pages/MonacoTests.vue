@@ -18,7 +18,7 @@
   import { AppState } from '../AppState'
   import Pop from "../utils/Pop.js"
   import { logger } from "../utils/Logger.js"  
-  import MonacoEditor from '../components/MonacoEditor/MonacoEditor.vue'
+  import MonacoEditor from '../components/EditChallenge/MonacoEditor.vue'
   
   export default {
     components: {
