@@ -67,46 +67,8 @@ export default {
         Pop.toast(error, "error");
       }
     }
-    async function leaveChallenge() {
-      try {
-        const removeConfirm = await Pop.confirm("Are you sure you want to leave this challenge? Your points will not be refunded.");
-        if (!removeConfirm) {
-          return;
-        }
-        let participant = AppState.ChallengeState.participants.find(p => p.accountId == AppState.AccountState.account.id);
-        participant.status = SUBMISSION_TYPES.LEFT;
-        await participantsService.leaveChallenge(participant.id);
-        Pop.success("You have left the challenge!");
-      }
-      catch (error) {
-        logger.error(error);
-        Pop.toast(error, "error");
-      }
-    }
-    // async function deprecateChallenge() {
-    //   try {
-    //     const confirmDeprecate = await Pop.confirm(`Are you sure you want to deprecate ${AppState.ChallengeState.challenge.name}?`);
-    //     if (!confirmDeprecate) {
-    //       return;
-    //     }
-    //     const challengeId = AppState.ChallengeState.challenge.id;
-    //     await challengesService.deleteChallenge(challengeId);
-    //     Pop.success("Challenge deprecated!");
-    //     router.push({
-    //       name: "Home"
-    //     });
-    //   }
-    //   catch (error) {
-    //     logger.error(error);
-    //     Pop.toast(error, "error");
-    //   }
-    // }
     return {
-      // isParticipant,
-      // joinChallenge,
-      leaveChallenge,
       updateChallengeParticipant,
-      // deprecateChallenge,
       challenge: computed(() => AppState.ChallengeState.challenge),
       isOwned: computed(() => {
         return AppState.ChallengeState.challenge?.creatorId === AppState.user.id;
