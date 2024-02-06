@@ -27,7 +27,7 @@ import EditChallengeDetails from '../components/EditChallenge/EditChallengeDetai
 import EditChallengeRequirements from '../components/EditChallenge/EditChallengeRequirements.vue'
 import EditChallengeDescription from '../components/EditChallenge/EditChallengeDescription.vue'
 import EditChallengeBadge from '../components/EditChallenge/EditChallengeBadge.vue'
-import MarkdownEditor from '../components/EditChallenge/MarkdownEditor.vue'
+import { useRouter } from 'vue-router'
 
 export default {
   components: {
@@ -35,11 +35,10 @@ export default {
     EditChallengeRequirements,
     EditChallengeDescription,
     EditChallengeBadge,
-    MarkdownEditor
 },
   setup() {
     const challenge = computed(() => AppState.ChallengeState.challenge)
-
+    const router = useRouter()
 
     async function updateChallenge() {
       try {
@@ -53,12 +52,12 @@ export default {
         }
         await challengesService.updateChallenge(updatedChallenge, updatedChallenge.id)
         Pop.success("Challenge Updated")
-        // router.push({
-        //   name: 'Challenge.Overview',
-        //   params: {
-        //     challengeId: AppState.ChallengeState.challenge?.id
-        //   }
-        // })
+        router.push({
+          name: 'Challenge.overview',
+          params: {
+            challengeId: AppState.ChallengeState.challenge?.id
+          }
+        })
       } catch (e) {
         logger.log(e)
         Pop.error(e)
