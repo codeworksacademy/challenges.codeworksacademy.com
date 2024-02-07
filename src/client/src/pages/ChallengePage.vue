@@ -35,12 +35,11 @@ export default {
     const route = useRoute()
     const router = useRouter()
     const answer = ref("")
-    const challengeId = computed(() => route.params.challengeId)
+    const challengeId = ref(route.params.challengeId)
 
     async function setActiveChallenge() {
       try {
-        const challengeId = route.params.challengeId;
-        await challengesService.setActiveChallenge(challengeId);
+        await challengesService.setActiveChallenge(route.params.challengeId);
       }
       catch (error) {
         logger.error(error);

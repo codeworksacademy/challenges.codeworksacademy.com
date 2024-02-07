@@ -63,15 +63,7 @@ export default {
     const router = useRouter()
     const challenge = computed(() => AppState.ChallengeState.challenge)
     
-    const editable = ref({
-      accountId: AppState.user.id,
-      challengeId: AppState.ChallengeState.challenge?.id,
-      submission: '',
-      status: SUBMISSION_TYPES.SUBMITTED,
-      challenge: {
-        answer: ''
-      }
-    })
+    const editable = ref({})
 
     const participant = computed(() => {
       return AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id)
@@ -79,7 +71,13 @@ export default {
 
     async function submitChallenge(){
       try {
-        await challengesService.submitChallenge(challenge.value.id, participant.value.id, editable.value.submission)
+        const submission = {
+          ...editable.value,
+          id: participant.value.id,
+          challengeId: challenge.value.id,
+          status: SUBMISSION_TYPES.SUBMITTED
+        }
+        await challengesService.submitChallenge(submission)
         Modal.getOrCreateInstance('#challengeSubmissionForm').hide()
         editable.value.submission = ''
       } catch (error) {

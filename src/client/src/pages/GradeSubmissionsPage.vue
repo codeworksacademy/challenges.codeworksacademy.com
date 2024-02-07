@@ -91,7 +91,7 @@ export default {
     }
 
     const participant = computed(() => {
-      return AppState.ChallengeState.participants.find(p => p.id === AppState.activeParticipant?.id)
+      return AppState.ChallengeState.participants.find(p => p.accountId === AppState.AccountState.account.id)
     })
 
     watchEffect(() => {
@@ -102,6 +102,7 @@ export default {
       filterBy,
       editable,
       participant,
+      profile: computed(() => AppState.ProfileState.profile),
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.ChallengeState.challenge),
       myModerations: computed(() => AppState.ChallengeState.moderators.filter(m => m.accountId === AppState.AccountState.account.id)),
