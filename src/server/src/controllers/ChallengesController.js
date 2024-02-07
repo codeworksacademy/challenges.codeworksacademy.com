@@ -20,18 +20,16 @@ export class ChallengesController extends BaseController {
       .put('/:challengeId', this.editChallenge)
       .put('/:challengeId/reputation', this.giveReputation)
       .put('/:challengeId/submit', this.submitChallenge)
-      
+
       .put('/:challengeId/participants/:participantId', this.gradeParticipant)
-      // .delete('/:challengeId', this.deleteChallenge)
       .delete('/:challengeId/participants', this.removeParticipant)
   }
 
   async submitChallenge(req, res, next) {
     try {
-      const challengeId = req.params.challengeId
-      const participantId = req.body.participantId
-      const submission = req.body.submission
-      const result = await challengesService.submitChallenge(challengeId, participantId, submission)
+      const submission = req.body
+      submission.accountId = req.userInfo.id
+      const result = await challengesService.submitChallenge(submission)
       return res.send(result)
     } catch (e) {
       next(e)
@@ -78,52 +76,25 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  // 🚨Is not connected to controller routing
-  // async deprecateChallenge(req, res, next) { //No Reference
-  //   try {
-  //     const challengeId = req.params.challengeId
-  //     const userId = req.userInfo.id
-  //     await challengesService.deprecateChallenge(challengeId, userId)
-  //     return res.send(challengeId)
-  //   } catch (error) {
-  //     next(error)
-  //   }
-  // }
-
-  // async deleteChallenge(req, res, next) {
-  //   try {
-  //     const challengeId = req.params.challengeId
-  //     const userId = req.userInfo.id
-
-  //     await challengesService.deleteChallenge(challengeId, userId)
-  //     return res.send(challengeId)
-  //   } catch (error) {
-  //     next(error)
-  //   }
-  // }
-
   async removeParticipant(req, res, next) {
     try {
       const challengeId = req.params.challengeId
       const participant = req.body
       const userId = req.userInfo.id
 
-      await participantsService.removeParticipant(challengeId, userId, participant)
+      const p = await participantsService.removeParticipant(challengeId, userId, participant)
+      res.send(p)
     } catch (error) {
       next(error)
     }
   }
 
   async gradeParticipant(req, res, next) {
-    // return res.send(req.body)
-    try{
-      const challengeId = req.body.challengeId
-      const participantId = req.body.participantId
-      const grade = req.body
-      const userId = req.userInfo.id
-      const participant = await challengesService.gradeParticipant(challengeId, participantId, grade, userId)
+    try {
+      const accountId = req.userInfo.id
+      const participant = await challengesService.gradeParticipant(req.body, accountId)
       return res.send(participant)
-    }catch(e){
+    } catch (e) {
       next(e)
     }
   }
@@ -151,7 +122,8 @@ export class ChallengesController extends BaseController {
     }
   }
 
-  async findChallengesByQuery(req, res, next) { //⚠️ -- This works but does not return creator $lookup is broken (I don't know how to use it)
+  async findChallengesByQuery(req, res, next) {
+    //FIXME ⚠️ -- This works but does not return creator $lookup is broken (I don't know how to use it)
     try {
       const name = req.params.challengeName
       const offset = 0

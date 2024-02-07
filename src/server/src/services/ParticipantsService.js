@@ -1,7 +1,7 @@
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { challengesService } from "./ChallengesService.js"
-import { PROFILE_FIELDS } from '../constants'
+import { PROFILE_FIELDS, STATUS_TYPES } from '../constants'
 import { accountService } from "./AccountService.js"
 
 const EXPERIENCE_SCALE = {
@@ -23,13 +23,14 @@ class ParticipantsService {
 
 		const challenge = await challengesService.getChallengeById(newParticipant.challengeId)
 
-		if (challenge.status != 'published') {
+		if (challenge.status != STATUS_TYPES.PUBLISHED) {
 			throw new BadRequest(`[CHALLENGE_STATUS::${challenge.status}] This challenge cannot be joined at this time.`)
 		}
 
 		newParticipant.requirements = challenge.requirements.map(r => {
 			return {
 				description: r,
+				isCompleted: false
 			}
 		})
 		const participant = await dbContext.ChallengeParticipants.create(newParticipant)

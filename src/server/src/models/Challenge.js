@@ -29,7 +29,7 @@ export const ChallengeSchema = new Schema({
   answer: { type: String, required: false },
   reputationIds: [{ type: String, required: true }]
 },
-  { timestamps: true, toJSON: { virtuals: true } }
+  { timestamps: true, toJSON: { virtuals: true }, }
 )
 
 ChallengeSchema.virtual('creator', {

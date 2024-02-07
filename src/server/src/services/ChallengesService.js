@@ -7,6 +7,7 @@ import { accountService } from "./AccountService.js";
 import { accountMilestonesService } from "./AccountMilestonesService.js";
 import { logger } from "../utils/Logger.js";
 import { profilesService } from "./ProfilesService.js";
+import { SimpleCache } from "../utils/SimpleCache.js";
 
 const EXPERIENCE_SCALE = {
   1: 10,
@@ -16,36 +17,33 @@ const EXPERIENCE_SCALE = {
   5: 1000
 }
 
+const COURSES_CACHE = new SimpleCache(60 * 60)
+
+
 class ChallengesService {
-  async gradeParticipant(challengeId, participantId, grade, userId) {
-    const challenge = await this.getChallengeById(challengeId)
-    const participant = await participantsService.getParticipantById(participantId)
-    await challengeModeratorsService.getModeratorByUserIdAndChallengeId(userId, challengeId)
-    //@ts-ignore
-    if (userId == participant.profile.id) {
+  async gradeParticipant(participantData, accountId) {
+    await challengeModeratorsService.getModeratorByUserIdAndChallengeId(accountId, participantData.challengeId)
+
+    const participant = await participantsService.getParticipantById(participantData.id)
+
+    if (
+      participantData.status != SUBMISSION_TYPES.COMPLETED ||
+      participantData.status != SUBMISSION_TYPES.RETURNED_FOR_REVIEW
+    ) {
+      throw new BadRequest('You cannot set the status type to ' + participantData.status)
+    }
+
+    participant.status = participantData.status
+    participant.requirements = participantData.requirements
+
+    if (accountId == participant.accountId) {
       throw new BadRequest('You cannot grade your own submission.')
     }
-    participant.requirements = grade.requirements.map(req => {
-      return {
-        description: req
-      }
-    })
-    participant.grade = grade.requirements.reduce((completedReq, newGrade) => {
-      if (newGrade.status == 'completed') {
-        completedReq++
-      }
-      return completedReq
-    }, 0)
-    grade.status = participant.status
-    try {
-      accountMilestonesService.giveGradingMilestoneByAccountId(userId)
-      if (grade.status == 'completed') {
-        participant.completedAt = new Date()
-        this.awardExperience(participant)
-      }
-    } catch (error) {
-      //@ts-ignore
-      logger.log(`${participant.profile.nickname || profile.name} ⚠️ [STATUS]: '${grade.status}' for ${challenge.name}. No rewards were given.`, error)
+
+    accountMilestonesService.giveGradingMilestoneByAccountId(accountId)
+    if (participantData.status == SUBMISSION_TYPES.COMPLETED) {
+      participant.completedAt = new Date()
+      this.awardExperience(participant)
     }
 
     await participant.save()
@@ -78,22 +76,22 @@ class ChallengesService {
   }
 
   async getAllChallenges() {
-
-    const challenges = await dbContext.Challenges.find({ status: 'published' })
+    const challenges = await COURSES_CACHE.getEntry('all_challenges', () => dbContext.Challenges.find({ status: 'published' })
       .sort({ createdAt: -1 })
       .select('-answer')
       .populate('creator', PROFILE_FIELDS)
       .populate('participantCount')
-      .populate('completedCount')
+      .populate('completedCount'))
     return challenges
   }
 
   async getChallengeById(challengeId) {
-    const challenge = await dbContext.Challenges.findById(challengeId)
+    const challenge = await COURSES_CACHE.getEntry(challengeId, () => dbContext.Challenges.findById(challengeId)
       .select('-answer')
       .populate('creator', PROFILE_FIELDS)
       .populate('participantCount')
-      .populate('completedCount')
+      .populate('completedCount'))
+
     if (!challenge) {
       throw new BadRequest('Invalid Challenge ID.')
     }
@@ -123,10 +121,10 @@ class ChallengesService {
   //This is where editing the challenge will have answers populated
   async getChallengesCreatedBy(profileId, accountId) {
     const challenges = accountId != profileId
-      ? await dbContext.Challenges.find({ creatorId: profileId }).select('-answer')
+      ? await COURSES_CACHE.getEntry(profileId, () => dbContext.Challenges.find({ creatorId: profileId }).select('-answer')
         .populate('creator', PROFILE_FIELDS)
         .populate('participantCount')
-        .populate('completedCount')
+        .populate('completedCount'))
 
       : await dbContext.Challenges.find({ creatorId: profileId })
         .populate('creator', PROFILE_FIELDS)
@@ -160,6 +158,8 @@ class ChallengesService {
     challenge.badge = challengeData.badge || challenge.badge;
     challenge.answer = challengeData.answer || challenge.answer
 
+    COURSES_CACHE.clearKey(challengeId)
+
     await challenge.save()
     return challenge
   }
@@ -183,32 +183,36 @@ class ChallengesService {
     return challenge
   }
 
-  async submitChallenge(challengeId, participantId, submission) {
-    const challenge = await dbContext.Challenges.findById(challengeId)
-    const participant = await participantsService.getParticipantById(participantId)
-    if (challenge.autoGrade) {
-      if (challenge.answer == submission) {
-        participant.status = SUBMISSION_TYPES.COMPLETED;
-        // participant.status = 'completed'
-        // await this.awardExperience(participant)
-        await participant.save()
-        return participant
-      } else if (challenge.answer != submission) {
-        participant.status = SUBMISSION_TYPES.INCOMPLETE;
-        // participant.status = 'incomplete'
-        await participant.save()
-        return participant
-      }
-    }
+  async submitChallenge(participantData) {
+    const challenge = await dbContext.Challenges.findById(participantData.challengeId)
+    const participant = await participantsService.getParticipantById(participantData.id)
+
+    participant.submission = participantData.submission;
+
+    if (participant.status = SUBMISSION_TYPES.COMPLETED) { return participant }
+
     if (!challenge.autoGrade) {
-      // participant.status = SUBMISSION_TYPES.SUBMITTED;
-      participant.status = 'submitted'
-      participant.submission = submission;
+      participant.status = SUBMISSION_TYPES.SUBMITTED
       await participant.save()
       return participant
     }
+
+    // Auto Grade
+    participant.status = challenge.answer == participantData.submission
+      ? SUBMISSION_TYPES.COMPLETED
+      : SUBMISSION_TYPES.RETURNED_FOR_REVIEW
+
+    if (participant.status == SUBMISSION_TYPES.COMPLETED) {
+      await this.awardExperience({ ...participant, challenge })
+    }
+    await participant.save()
     return participant
+
   }
 }
+
+
+
+
 
 export const challengesService = new ChallengesService()

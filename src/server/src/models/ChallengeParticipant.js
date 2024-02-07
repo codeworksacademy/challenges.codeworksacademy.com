@@ -12,7 +12,7 @@ const requirementSchema = new Schema({
     default: false
   }
 },
-{ timestamps: true })
+  { timestamps: true })
 
 export const ChallengeParticipantSchema = new Schema({
   challengeId: {
@@ -38,10 +38,6 @@ export const ChallengeParticipantSchema = new Schema({
     default: SUBMISSION_TYPES.STARTED,
     lowercase: true
   },
-  grade: {
-    type: Number,
-    default: 0
-  },
   claimedAt: { type: Date },
   completedAt: { type: Date },
 },
@@ -60,5 +56,5 @@ ChallengeParticipantSchema.virtual('challenge', {
   foreignField: '_id',
   ref: 'Challenge',
   justOne: true,
-  
+
 })

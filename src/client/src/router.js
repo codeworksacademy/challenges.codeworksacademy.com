@@ -166,6 +166,13 @@ const routes = [
     meta: {
       error: { message: 'hello' }
     }
+  },
+  {
+    path: '/:catchAll(.*)',
+    redirect: '/Error',
+    meta: {
+      error: { message: '404 Not Found' }
+    }
   }
 ]
 
