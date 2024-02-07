@@ -76,6 +76,7 @@ const routes = [
     name: 'Challenge',
     component: loadPage('ChallengePage'),
     redirect: { name: 'Challenge.overview' },
+    beforeEnter: authGuard,
     children: [
       {
         path: 'overview',

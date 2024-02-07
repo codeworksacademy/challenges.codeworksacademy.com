@@ -44,10 +44,10 @@ class ProfilesService {
   }
 
   async calculateProfileRank(profileId) {
-    const res = await api.get(`api/profiles/${profileId}/rank`)
-    logger.log('[CURRENT PROFILE RANK]', res.data)
-    AppState.ProfileState.profile.rank = res.data.rank
-    return res.data
+    // const res = await api.get(`api/profiles/${profileId}/rank`)
+    // logger.log('[CURRENT PROFILE RANK]', res.data)
+    // AppState.ProfileState.profile.rank = res.data.rank
+    // return res.data
   }
 
   async calculateProfileReputation(profileId) {

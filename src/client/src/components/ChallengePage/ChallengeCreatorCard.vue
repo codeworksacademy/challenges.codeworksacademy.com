@@ -4,13 +4,15 @@
     <div class="p-2">
       <div class="d-flex align-items-center">
         <router-link :to="{ name: 'Profile.overview', params: { profileId: profile.id } }">
-          <img :src="profile.picture" :alt="`Image for Challenge creator named '${profile.nickname || profile.name}' is broken`"
-            :title="`Image of the Challenge Creator ${profile.nickname || profile.name}`" class="creator-img img-fluid rounded-circle"
-            style="height: 55px; width: 55px;" @error="(e) => e.target.src = 'https://codeworks.blob.core.windows.net/public/assets/img/anonymous.jpg'">
+          <img :src="profile.picture"
+            :alt="`Image for Challenge creator named '${profile.nickname || profile.name}' is broken`"
+            :title="`Image of the Challenge Creator ${profile.nickname || profile.name}`"
+            class="creator-img img-fluid rounded-circle" style="height: 55px; width: 55px;"
+            @error="(e) => e.target.src = 'https://codeworks.blob.core.windows.net/public/assets/img/anonymous.jpg'">
         </router-link>
 
         <div class="ms-3 text-start">
-          <sub class="creator-text text-uppercase badge p-0 text-warning" v-if="profile.title">{{ profile.title }}</sub>
+          <ProfileTitle :title="profile.title" />
           <p class="creator-text text-capitalize fs-3 mb-0">{{ profile.nickname || profile.name }}
           </p>
           <div class="d-flex flex-wrap gap-3 fw-semibold">

@@ -11,6 +11,8 @@ export const RANK_BADGE = Object.values(data.RANK_BADGE).map(badge => {
     color: data.COLOR_FILLS[badge.color]
   }
 })
-export const TITLE_BGS =data.TITLE_BGS
+
+export const PROFILE_TITLES = data.RANK_BADGE
+export const TITLE_BGS = data.TITLE_BGS
 export const COLOR_FILLS = data.COLOR_FILLS
 export const PROFILE_FIELDS = data.PROFILE_FIELDS

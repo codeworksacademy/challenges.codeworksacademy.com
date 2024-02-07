@@ -65,9 +65,5 @@ export default {
   h1 {
     text-shadow: 2px 2px 2px black;
   }
-
-  span {
-    text-shadow: 1px 1px 1px black;
-  }
 }
 </style>

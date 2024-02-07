@@ -63,6 +63,7 @@ import ChallengeBadgeCard from '../components/ChallengePage/ChallengeBadgeCard.v
 import { difficultyMap } from '../utils/DifficultyMap.js'
 import { useRoute } from 'vue-router'
 import { participantsService } from '../services/ParticipantsService.js'
+import Pop from '../utils/Pop.js'
 
 export default {
   setup() {
@@ -79,7 +80,6 @@ export default {
         Pop.success("You have joined the challenge!");
       }
       catch (error) {
-        logger.error(error);
         Pop.toast(error, "error");
       }
     }

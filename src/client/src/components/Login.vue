@@ -13,10 +13,10 @@
             </div>
             <div class="text-white">
               <p class="m-0 fs-5">{{ account.nickname || account.name }}</p>
-              <p class="m-0">
-                <span class="bg-success rounded me-2" style="padding: 2px">{{ currentRank }} </span>
-                <span class="float-end">
-                  {{ account.xp }} 
+              <p class="m-0 d-flex gap-2 align-items-center">
+                <ProfileTitle :title="account.title" />
+                <span class="">
+                  {{ account.xp }}
                   <span class="light-gold-color">
                     XP
                   </span>
@@ -75,6 +75,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

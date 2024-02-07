@@ -42,6 +42,7 @@ class ChallengesService {
   }
 
   async getAllChallenges() {
+    if (AppState.challenges.length) { return }
     const res = await api.get('/api/challenges')
     AppState.challenges = res.data.map(c => new Challenge(c))
     logger.log('Challenges:', AppState.challenges)
@@ -53,7 +54,7 @@ class ChallengesService {
     logger.log('[GETTING PROFILE CHALLENGES]', res.data)
     AppState.challenges = res.data.map(c => new Challenge(c))
   }
-  
+
   async deprecateChallenge(challengeId) {
     const res = await api.delete(`/api/challenges/${challengeId}`)
     logger.log('🚨🚨🚨deprecating Challenge ⏩', res.data)
@@ -78,7 +79,7 @@ class ChallengesService {
     return res.data
   }
 
-  async submitChallenge(challengeId, participantId, submission){
+  async submitChallenge(challengeId, participantId, submission) {
     // Pop.success('test')
 
     // logger.log(`[CHALLENGE ID]: ${challengeId} [PARTICIPANT ID]: ${participantId} [SUBMISSION]: ${participant.submission} [STATUS]: ${participant.status}`)
@@ -89,9 +90,9 @@ class ChallengesService {
     })
     logger.log(res.data)
     logger.log('Submitting Answer ⏩', res.data)
-    if(res.data.status == 'completed'){
+    if (res.data.status == 'completed') {
       Pop.success('Challenge completed!')
-    } else if(res.data.status == 'incomplete'){
+    } else if (res.data.status == 'incomplete') {
       Pop.error('Answer was incorrect.')
     }
     AppState.ChallengeState.participant = res.data
@@ -120,28 +121,28 @@ class ChallengesService {
     AppState.challenges = res.data.map(c => new Challenge(c))
   }
 
-    clearChallenge() {
-      AppState.ChallengeState.challenge = null
-      AppState.ChallengeState.participant = null
-      AppState.ChallengeState.moderator = null
-      AppState.ChallengeState.participants = []
-      AppState.ChallengeState.moderators = []
-    }
-
-    /* NOTE - Not sure if these search functions were being utilized, so i commented them out in case somewhere it;s still being used:
-
-    async findChallenges(nameQuery) {
-    const res = await api.get(`/api/challenges?name=${nameQuery}`)
-    AppState.challenges = res.data.map(c => new Challenge(c))
-    logger.log('Queried Challenges:', AppState.challenges)
+  clearChallenge() {
+    AppState.ChallengeState.challenge = null
+    AppState.ChallengeState.participant = null
+    AppState.ChallengeState.moderator = null
+    AppState.ChallengeState.participants = []
+    AppState.ChallengeState.moderators = []
   }
 
-  async findChallengesByCategory(query) {
-    const res = await api.get(`/api/challenges?category=${query}`)
-    AppState.challenges = res.data.map(c => new Challenge(c))
-    logger.log('Queried Challenges by category:', AppState.challenges)
-  }
-  */
+  /* NOTE - Not sure if these search functions were being utilized, so i commented them out in case somewhere it;s still being used:
+
+  async findChallenges(nameQuery) {
+  const res = await api.get(`/api/challenges?name=${nameQuery}`)
+  AppState.challenges = res.data.map(c => new Challenge(c))
+  logger.log('Queried Challenges:', AppState.challenges)
+}
+
+async findChallengesByCategory(query) {
+  const res = await api.get(`/api/challenges?category=${query}`)
+  AppState.challenges = res.data.map(c => new Challenge(c))
+  logger.log('Queried Challenges by category:', AppState.challenges)
+}
+*/
 }
 
 export const challengesService = new ChallengesService()
