@@ -2,17 +2,21 @@
 {
   "folders": [
     {
-      "path": "CodeWorks_Challenges.client",
+      "path": ".github",
+      "name": "github"
+    },    
+    {
+      "path": "src/client",
       "name": "client"
     },
     {
-      "path": "CodeWorks_Challenges",
+      "path": "src/server",
       "name": "server"
     },
     {
-      "path": "CodeWorks_Challenges.shared",
+      "path": "src/CodeWorks_Challenges.shared",
       "name": "shared"
-    }
+    },
   ],
   "settings": {
     "editor.suggestSelection": "first",
@@ -41,32 +45,29 @@
     },
     /* Vue Theme */
     "workbench.colorCustomizations": {
-    
-      "activityBar.activeBackground": "#00d8ff50",
-      "activityBar.background": "#222",
-      "activityBar.foreground": "#94fded",
-      "activityBar.inactiveForeground": "#00d8ff",
+      "activityBar.activeBackground": "#1a1a1a",
+      "activityBar.background": "#1a1a1a",
+      "activityBar.foreground": "#e7e7e7",
+      "activityBar.inactiveForeground": "#e7e7e799",
       "activityBar.activeBorder": "#94fded",
-      "activityBarBadge.background": "#003366",
-      "activityBarBadge.foreground": "#bbeef7",
-      "commandCenter.border": "#222",
-      "sash.hoverBorder": "#222",
-      "statusBar.background": "#222",
-      "statusBar.foreground": "#00d8ff",
-      "statusBarItem.hoverBackground": "#00d8ff99",
-      "statusBarItem.remoteBackground": "#3399FF",
-      "statusBarItem.remoteForeground": "#00d8ff",
-      "titleBar.activeBackground": "#222",
-      "titleBar.activeForeground": "#00d8ff",
-      "titleBar.border": "#00d9ff",
-      "titleBar.inactiveBackground": "#3399FF",
-      "titleBar.inactiveForeground": "#00d8ff",
+      "activityBarBadge.background": "#606020",
+      "activityBarBadge.foreground": "#e7e7e7",
+      "commandCenter.border": "#e7e7e799",
+      "sash.hoverBorder": "#1a1a1a",
+      "statusBar.background": "#000000",
+      "statusBar.foreground": "#e7e7e7",
+      "statusBarItem.hoverBackground": "#1a1a1a",
+      "statusBarItem.remoteBackground": "#000000",
+      "statusBarItem.remoteForeground": "#e7e7e7",
+      "titleBar.activeBackground": "#000000",
+      "titleBar.activeForeground": "#e7e7e7",
+      "titleBar.inactiveBackground": "#00000099",
+      "titleBar.inactiveForeground": "#e7e7e799",
       "toolbar.hoverBackground": "#414141",
       "toolbar.hoverOutline": "#222",
       "toolbar.activeBackground": "#222",
       "toolbar.activeOutline": "#222",
       "editorGroupHeader.tabsBackground": "#222",
-      "editorGroup.border": "#222",
       "editorGroup.dropBackground": "#3399FF",
       "editorGroupHeader.noTabsBackground": "#222",
       "editorGroupHeader.noTabsBorder": "#222",
@@ -95,13 +96,11 @@
       "editor.wordHighlightBackground": "#94fded59",
       "editor.wordHighlightStrongBackground": "#94fded59",
       "editor.findMatchBackground": "#00d8ff59",
-      "statusBar.debuggingBackground": "#222",
-      "statusBar.debuggingForeground": "#00D8FF",
       "statusBar.noFolderBackground": "#222",
       "statusBar.noFolderForeground": "#222",
       "statusBarItem.activeBackground": "#003366",
       "statusBarItem.hoverForeground": "#94FDED",
-      "meta.block.script.vue": "#00d8ff",
+      "meta.block.script.vue": "#00d8ff"
     },
     "peacock.color": "#000000",
     "cSpell.words": [
