@@ -188,8 +188,9 @@ class ChallengesService {
     const participant = await participantsService.getParticipantById(participantData.id)
 
     participant.submission = participantData.submission;
+    participant.status = participantData.status;
 
-    if (participant.status = SUBMISSION_TYPES.COMPLETED) { return participant }
+    if (participant.status == SUBMISSION_TYPES.COMPLETED) { return participant }
 
     if (!challenge.autoGrade) {
       participant.status = SUBMISSION_TYPES.SUBMITTED

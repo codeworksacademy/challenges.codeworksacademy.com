@@ -3,9 +3,13 @@
 
     <div class="row">
       <div class="col-12">
-        <div v-if="!isParticipant">
+        <div v-if="!isParticipant || isParticipant?.status == 'left'">
           <ChallengeStatCard :challenge="challenge" color="#22ff33" bgColor="#22ff330f" value=""
-            icon="mdi-account-multiple-plus" @click="joinChallenge()" class="selectable" prop="Join Challenge" />
+            icon="mdi-account-multiple-plus" @click="joinChallenge()" class="selectable mb-2" prop="Join Challenge" />
+        </div>
+        <div v-if="isParticipant?.status == 'started'">
+          <ChallengeStatCard :challenge="challenge" title="Submit Challenge" data-bs-toggle="modal" data-bs-target="#challengeSubmissionForm"
+          data-bs-dismiss="modal" class="selectable mb-2"  bgColor="#1da3e60f" color="#1da3e6" value="" icon="mdi-send" prop="Submit Challenge" />
         </div>
       </div>
     </div>
@@ -63,7 +67,8 @@ import ChallengeBadgeCard from '../components/ChallengePage/ChallengeBadgeCard.v
 import { difficultyMap } from '../utils/DifficultyMap.js'
 import { useRoute } from 'vue-router'
 import { participantsService } from '../services/ParticipantsService.js'
-import Pop from '../utils/Pop.js'
+import Pop from '../utils/Pop'
+import { logger } from '../utils/Logger'
 
 export default {
   setup() {
@@ -80,6 +85,7 @@ export default {
         Pop.success("You have joined the challenge!");
       }
       catch (error) {
+        logger.error(error);
         Pop.toast(error, "error");
       }
     }

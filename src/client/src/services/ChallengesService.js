@@ -5,6 +5,7 @@ import { Challenge } from "../models/Challenge.js"
 import { participantsService } from "./ParticipantsService.js"
 import { challengeModeratorsService } from "./ChallengeModeratorsService.js"
 import Pop from "../utils/Pop.js"
+import { SUBMISSION_TYPES } from "../constants/index.js"
 
 class ChallengesService {
 
@@ -79,15 +80,8 @@ class ChallengesService {
     return res.data
   }
 
-  async submitChallenge(challengeId, participantId, submission) {
-    // Pop.success('test')
-
-    // logger.log(`[CHALLENGE ID]: ${challengeId} [PARTICIPANT ID]: ${participantId} [SUBMISSION]: ${participant.submission} [STATUS]: ${participant.status}`)
-    const res = await api.put(`api/challenges/${challengeId}/submit`, {
-      challengeId: challengeId,
-      participantId: participantId,
-      submission: submission,
-    })
+  async submitChallenge(submission) {
+    const res = await api.put(`api/challenges/${submission.challengeId}/submit`, submission)
     logger.log(res.data)
     logger.log('Submitting Answer ⏩', res.data)
     if (res.data.status == 'completed') {
