@@ -1,33 +1,33 @@
 <template>
-  <header style="background: var(--bg-sub);">
+  <header>
     <Navbar />
   </header>
 
-  <main style="background: var(--bg-main);">
+  <main>
     <router-view />
-
-    <ModalWrapper id="createChallengeForm">
-      <template #header>
-        <h3 class="m-auto">
-          Create Challenge
-        </h3>
-      </template>
-      <template #body>
-        <CreateChallengeForm />
-      </template>
-    </ModalWrapper>
-
-    <ModalWrapper id="challengeSubmissionForm">
-      <template #header>
-        <h3 class="m-auto">
-          Submit Challenge
-        </h3>
-      </template>
-      <template #body>
-        <ChallengeSubmissionForm />
-      </template>
-    </ModalWrapper>
   </main>
+
+  <ModalWrapper id="createChallengeForm">
+    <template #header>
+      <h3 class="m-auto">
+        Create Challenge
+      </h3>
+    </template>
+    <template #body>
+      <CreateChallengeForm />
+    </template>
+  </ModalWrapper>
+
+  <ModalWrapper id="challengeSubmissionForm">
+    <template #header>
+      <h3 class="m-auto">
+        Submit Challenge
+      </h3>
+    </template>
+    <template #body>
+      <ChallengeSubmissionForm />
+    </template>
+  </ModalWrapper>
 </template>
 
 <script>
@@ -65,11 +65,13 @@ export default {
 }
 
 header {
-  background-color: #0B0E13;
+  background-color: var(--bg-sub);
+  // background-color: #0B0E13;
 }
 
 main {
-  background-color: #141D2B;
+  background-color: var(--bg-main);
+  // background-color: #141D2B;
 }
 
 .avatar-xs {

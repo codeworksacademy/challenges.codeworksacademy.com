@@ -1,22 +1,30 @@
 <template>
   <div class="container-fluid">
-    <section class="row">
-      <div class="col-12 col-lg-6 calc-vh text-white d-flex justify-content-center align-items-center" >
-        <div class="my-4 mx-2">
-          <p class="highlight-text rounded fs-5 p-2 px-3 text-center text-md-start">
-            Complete Applications, With <b>Feedback</b> and <b>Grading</b>
-          </p>
+    <section class="row overflow-hidden">
+
+      <div class="col-12 col-lg-6 hero-text text-white d-flex justify-content-center align-items-center">
+        <div class="my-4 mx-2 text-center text-lg-start">
+
+          <span class="d-flex justify-content-center d-lg-block">
+            <p class="highlight-text rounded fs-5 p-2">
+              Complete Applications, With <b>Feedback</b> and <b>Grading</b>
+            </p>
+          </span>
+
           <ColorThemeHeaderText />
+
           <div class="ps-0 ms-0 mt-3">
             <ReflectiveButton buttonContent="Browse Challenges" />
           </div>
+
         </div>
       </div>
 
       <div class="col-6 img-fluid hero-container">
-        <img src="https://i.gifer.com/origin/24/2457c47e228105862d2ce726fc60f7ad_w200.gif" alt="" class="twinkle-logo">
+        <img src="https://i.gifer.com/origin/24/2457c47e228105862d2ce726fc60f7ad_w200.gif" class="twinkle-logo">
         <img src="../assets/img/codeworks-logo.svg" alt="logo" class="hero">
       </div>
+
     </section>
   </div>
 </template>
@@ -43,7 +51,6 @@ export default {
 .hero-container {
   position: relative;
   top: -5%;
-  overflow: hidden;
 
   .twinkle-logo {
     position: absolute;
@@ -117,12 +124,27 @@ export default {
   width: fit-content;
 }
 
-.calc-vh {
+.hero-text {
   height: calc(100vh - 64px);
+  z-index: 3;
+  // backdrop-filter: blur(1px);
 }
 
 @media (min-width: 768px) {
   .fs-xl {
     font-size: 4rem;
   }
-}</style>
+}
+
+@media (max-width: 991px) {
+  .hero-text {
+    height: calc(100vh - 210px);
+  }
+}
+
+@media (max-width: 280px) {
+  .hero-text {
+    height: calc(100vh - 160px);
+  }
+}
+</style>
