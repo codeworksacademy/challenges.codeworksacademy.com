@@ -40,16 +40,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
-.accordion-button, .accordion-button:not(.collapsed) {
+.accordion-button,
+.accordion-button:not(.collapsed) {
   background: var(--bg-main)
 }
+
 .accordion-body {
   background: var(--bg-main);
-    h6 {
-      color: var(--text-sub);
-      font-size: .8rem;
-      font-weight: 500;
-    }
+
+  h6 {
+    color: var(--text-sub);
+    font-size: .8rem;
+    font-weight: 500;
+  }
 }
 </style>

@@ -30,7 +30,9 @@
       </div>
     </div>
     <div class="row">
-      <router-view />
+      <div class="col-12 p-0">
+        <router-view />
+      </div>
     </div>
   </section>
 </template>

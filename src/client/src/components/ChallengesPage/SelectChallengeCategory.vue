@@ -2,18 +2,17 @@
   <select v-model="filterCategory" @change="routeToCategory" name="category" id="category"
     class="select-category text-capitalize form-select">
     <option :value="''">All Categories</option>
-    <option v-for="category in categoryTypes" :key="category" :value="category">{{ category }}
-    </option>
+    <option v-for="category in categoryTypes" :key="category" :value="category">{{ category }}</option>
   </select>
 </template>
 
 <script>
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
+import Pop from "../../utils/Pop.js"
 import { CATEGORY_TYPES } from '../../constants'
 
 export default {
-
   setup() {
     const router = useRouter()
     const filterCategory = ref('')
@@ -30,10 +29,8 @@ export default {
             return
           }
           router.push({ name: 'Challenges.challengeCategory', params: { category: filterCategory.value } })
-        } catch (error) {
-          logger.error(error)
-          Pop.error(error)
         }
+        catch (error) { Pop.error(error); }
       },
     }
   }

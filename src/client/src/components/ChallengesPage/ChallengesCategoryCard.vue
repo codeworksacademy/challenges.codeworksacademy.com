@@ -37,7 +37,9 @@
           </div>
           <div class="col-2 d-none d-lg-flex justify-content-end align-items center">
             <span class="badge mx-3 fw-normal" style="color: var(--text-sub); font-size: .9rem;"><b>
-                {{ challengesByCategory(category).length }}</b> challenges</span>
+                {{ challengesByCategory(category).length }}</b>
+              challenge{{ challengesByCategory(category).length > 1 ? 's' : '' }}
+            </span>
             <span :class="['mdi fs-3', isActive ? 'mdi-chevron-up' : 'mdi-chevron-down']"></span>
           </div>
         </button>

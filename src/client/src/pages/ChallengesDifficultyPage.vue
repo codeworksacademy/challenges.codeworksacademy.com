@@ -1,6 +1,8 @@
 <template>
-  <div class="row d-flex justify-content-center align-items-center" v-if="filterBy">
-    <ChallengeCard v-for="c in filteredChallenges" :key="c.id" :challenge="c" />
+  <div class="container-fluid">
+    <div class="row d-flex justify-content-center align-items-center" v-if="filterBy">
+      <ChallengeCard v-for="c in filteredChallenges" :key="c.id" :challenge="c" />
+    </div>
   </div>
 </template>
 
