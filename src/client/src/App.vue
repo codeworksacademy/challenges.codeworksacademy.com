@@ -88,7 +88,7 @@ main {
   object-position: center;
 }
 
-.avatar-lg{
+.avatar-lg {
   height: 7rem;
   width: 7rem;
   border-radius: 50%;
@@ -96,11 +96,11 @@ main {
   object-position: center;
 }
 
-.light-gold-color{
+.light-gold-color {
   color: #CBD4A5;
 }
 
-.light-gold-border{
+.light-gold-border {
   border: 3px solid #CBD4A5;
 }
 </style>

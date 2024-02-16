@@ -1,19 +1,20 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark px-3 pt-1 pb-0" style="z-index: 1000;">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
+  <nav class="navbar navbar-expand-lg navbar-dark px-md-2 pt-2 pt-md-0 pb-0" style="z-index: 1000;">
+    <router-link class="navbar-brand d-flex ps-3" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
         <img alt="logo" src="../assets/img/cw-logo.png" height="45" />
       </div>
     </router-link>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+    <button class="navbar-toggler me-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
       aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarText">
+    <div class="collapse navbar-collapse " id="navbarText">
       <ul class="navbar-nav me-auto" style="z-index: 1000;">
-        <li class="p-0">
+        <li class="p-0 pt-md-1 ps-2 ps-0">
           <router-link :to="{ name: 'Leaderboards' }" class="btn text-white selectable">
-            Leaderboards
+            <span class="fs-6 d-none d-lg-block"><i class="mdi mdi-trophy"></i> Leaderboards</span>
+            <span class="fs-3 d-block d-lg-none"><i class="mdi mdi-trophy"></i> Leaderboards</span>
           </router-link>
         </li>
       </ul>
@@ -54,7 +55,7 @@ a:hover {
 }
 
 @media (max-width: 991px) {
-  .navbar-collapse{
+  .navbar-collapse {
     padding-left: 1rem;
     margin-top: .25rem;
     background-color: #0B0E13;
