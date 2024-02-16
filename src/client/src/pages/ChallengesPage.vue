@@ -1,18 +1,23 @@
 <template>
-  <section class="container-fluid px-2 px-lg-5 pt-5">
+  <section class="container-fluid px-2 px-lg-5 pt-2 pt-lg-5">
     <div class="row">
-      <div class="col-12 mb-3">
-        <div class="create-challenge-card ">
-          <sub class="ms-3 text-uppercase">Gain Reputation</sub>
-          <div class="">
-            <button type="button" role="button" class="btn text-warning" title="Create a new challenge"
-            data-bs-toggle="collapse" data-bs-target="#createChallenge" aria-expanded="false" aria-controls="createChallenge">
-              Create a Challenge
-            </button>
-          </div>
-          <div class="collapse" id="createChallenge" >
-            <CreateChallengeForm />
-          </div>
+      <div class="col-12 mb-2 mb-lg-3">
+        <div class="create-challenge-card d-block d-md-flex align-items-end px-1 pb-1 p-md-2 p-lg-3">
+          <span>
+            <sub class="ms-3 text-uppercase">Gain Reputation</sub>
+            <div class="ms-1 mt-1">
+              <button type="button" role="button" class="btn text-warning selectable" title="Create a new challenge"
+                data-bs-toggle="collapse" data-bs-target="#createChallenge" aria-expanded="false"
+                aria-controls="createChallenge">
+                Create a Challenge
+              </button>
+            </div>
+          </span>
+          <span class="w-75">
+            <div class="collapse pt-2 pt-md-0" id="createChallenge">
+              <CreateChallengeForm />
+            </div>
+          </span>
         </div>
       </div>
     </div>
@@ -38,11 +43,13 @@ import { computed, onMounted, ref } from 'vue'
 import { challengesService } from '../services/ChallengesService'
 import SelectChallengeDifficulty from '../components/ChallengesPage/SelectChallengeDifficulty.vue'
 import SelectChallengeCategory from "../components/ChallengesPage/SelectChallengeCategory.vue"
+import CreateChallengeForm from "../components/Forms/CreateChallengeForm.vue"
 
 export default {
   components: {
     SelectChallengeDifficulty,
-    SelectChallengeCategory
+    SelectChallengeCategory,
+    CreateChallengeForm
   },
   setup() {
     const search = ref({})
@@ -66,6 +73,7 @@ export default {
       search,
       filterBy,
       showCreate,
+      user: computed(() => AppState.user),
       challengesDifficulty: computed(() => {
         if (!filterBy.value) {
           return AppState.challenges
@@ -103,7 +111,6 @@ export default {
   border: 1px solid #2d386b;
   border-radius: 10px;
   color: var(--text-main);
-  padding: 1rem;
   transition: all .3s ease;
 }
 
