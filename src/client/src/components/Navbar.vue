@@ -61,4 +61,17 @@ a:hover {
     background-color: #0B0E13;
   }
 }
+
+@media (max-width: 280px) {
+  .navbar-collapse {
+    padding-left: 0;
+    margin: 0;
+  }
+
+  .navbar-toggler {
+    padding: .125rem;
+    margin: 0;
+
+  }
+}
 </style>

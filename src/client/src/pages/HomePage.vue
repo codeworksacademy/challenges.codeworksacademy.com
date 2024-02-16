@@ -1,15 +1,21 @@
 <template>
   <div class="container-fluid">
     <section class="row">
-      <div class="col-12 col-lg-6 calc-vh text-white d-flex justify-content-center align-items-center" >
-        <div class="my-4 mx-2">
-          <p class="highlight-text rounded fs-5 p-2 px-3 text-center text-md-start">
-            Complete Applications, With <b>Feedback</b> and <b>Grading</b>
-          </p>
+      <div class="col-12 col-lg-6 calc-vh text-white d-flex justify-content-center align-items-center">
+        <div class="my-4 mx-2 text-center text-lg-start">
+
+          <span class="d-flex justify-content-center d-lg-block">
+            <p class="highlight-text rounded fs-5 py-2 px-3">
+              Complete Applications, With <b>Feedback</b> and <b>Grading</b>
+            </p>
+          </span>
+
           <ColorThemeHeaderText />
+
           <div class="ps-0 ms-0 mt-3">
             <ReflectiveButton buttonContent="Browse Challenges" />
           </div>
+
         </div>
       </div>
 
@@ -125,4 +131,17 @@ export default {
   .fs-xl {
     font-size: 4rem;
   }
-}</style>
+}
+
+@media (max-width: 991px) {
+  .calc-vh {
+    height: calc(100vh - 210px);
+  }
+}
+
+@media (max-width: 280px) {
+  .calc-vh {
+    height: calc(100vh - 160px);
+  }
+}
+</style>
