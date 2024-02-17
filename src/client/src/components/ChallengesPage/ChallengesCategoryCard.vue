@@ -17,6 +17,7 @@
           </div>
         </div>
       </div>
+      <hr>
     </div>
 
     <div v-for="(category, index) in categoryTypes" :key="category">
@@ -59,7 +60,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { AppState } from '../../AppState';
 import ChallengeCard from './ChallengeCard.vue';
 import { CATEGORY_TYPES } from '../../constants';
@@ -83,9 +84,26 @@ export default {
       'other': 'mdi-asterisk',
     });
 
+    const difficultySort = ref(AppState.enableDifficultySorting)
+
+    watch(() => AppState.enableDifficultySorting, () => {
+      difficultySort.value = AppState.enableDifficultySorting;
+    })
+
     function challengesByCategory(category) {
-      return category ? AppState.challenges.filter(c => c.category === category) : AppState.challenges;
-    };
+      if (difficultySort.value) {
+        return category
+          ? AppState.challenges
+            .filter(c => c.category === category)
+            .sort((a, b) => a.difficulty - b.difficulty)
+          : [...AppState.challenges]
+            .sort((a, b) => a.difficulty - b.difficulty)
+      }
+      return (AppState.challenges.filter(c => c.category === category))
+    }
+
+    // return category ? AppState.challenges.filter(c => c.category === category) : AppState.challenges;
+
 
     return {
       isActive,

@@ -12,9 +12,8 @@ import { ref } from 'vue';
 import { CATEGORY_TYPES } from "../constants/index.js";
 
 export default {
-  components: {
-    ChallengesCategoryCard,
-  },
+  components: { ChallengesCategoryCard },
+
   setup() {
     const isActive = ref(false);
 

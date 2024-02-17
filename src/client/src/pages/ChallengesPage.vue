@@ -23,9 +23,13 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <div class="d-flex gap-3 align-items-center justify-content-between mb-3">
-          <SelectChallengeDifficulty />
-          <SelectChallengeCategory />
+        <div class="d-flex gap-3 align-items-center justify-content-between my-2">
+          <span class="w-100 d-flex gap-2 align-items-center">
+            <SelectChallengeDifficulty />
+          </span>
+          <span class="w-100">
+            <SelectChallengeCategory />
+          </span>
         </div>
       </div>
     </div>

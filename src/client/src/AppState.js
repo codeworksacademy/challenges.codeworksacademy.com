@@ -77,7 +77,7 @@ export const AppState = reactive({
   profiles: [],
   /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]} */
   participants: [],
-
+  enableDifficultySorting: false,
 
   rankTitles: {
     0: "Bugs Bunny",

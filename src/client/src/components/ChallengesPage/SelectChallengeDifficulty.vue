@@ -1,4 +1,12 @@
 <template>
+  <div v-if="!filterDifficulty" class="">
+    <button v-if="enableDifficultySorting" class="btn btn-primary px-2 py-0" @click="toggleSorting">
+      <i class="fs-4 mdi mdi-sort" title="sorted by difficulty"></i>
+    </button>
+    <button v-else class="btn btn-outline-primary px-2 py-0" @click="toggleSorting">
+      <i class="fs-4 mdi mdi-sort-variant-remove" title="difficulty level sorting disabled"></i>
+    </button>
+  </div>
   <select v-model="filterDifficulty" @change="routeToDifficulty" name="difficulty" id="difficulty"
     class="select-difficulty form-select text-capitalize ">
     <option :value="''">All Difficulties</option>
@@ -8,8 +16,9 @@
 
 <script>
 import Pop from "../../utils/Pop.js"
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { AppState } from "../../AppState.js"
 
 
 export default {
@@ -17,12 +26,21 @@ export default {
     const route = useRoute()
     const router = useRouter()
     const filterDifficulty = ref('')
-    const difficultyTypes = ref(['easy', 'medium', 'hard'])
+    const enableDifficultySorting = ref(false)
+
+    watch(() => AppState.enableDifficultySorting, () => {
+      enableDifficultySorting.value = AppState.enableDifficultySorting;
+    })
 
     return {
       route,
       filterDifficulty,
-      difficultyTypes,
+      enableDifficultySorting,
+      difficultyTypes: ['easy', 'medium', 'hard'],
+
+      toggleSorting() {
+        AppState.enableDifficultySorting = !AppState.enableDifficultySorting;
+      },
 
       routeToDifficulty() {
         try {
