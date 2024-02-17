@@ -25,12 +25,8 @@ import { AppState } from '../AppState'
 import { useRoute } from 'vue-router'
 import { StrDifficultyNum } from '../utils/StrDifficultyNum'
 import { SUBMISSION_TYPES } from '../constants'
-import ChallengeDifficultyCard from '../components/ChallengePage/ChallengeDifficultyCard.vue'
 
 export default {
-  components: {
-    ChallengeDifficultyCard
-  },
   setup() {
 
     const filterBy = ref('')
