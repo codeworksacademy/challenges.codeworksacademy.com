@@ -51,31 +51,31 @@
 import { computed } from 'vue'
 import { AppState } from '../AppState'
 import { AuthService } from '../services/AuthService'
+import ProfileTitle from "./ProfileTitle.vue"
+
 export default {
   setup() {
     return {
       user: computed(() => AppState.user),
       account: computed(() => AppState.AccountState.account),
       currentRank: computed(() => {
-        let lastKey = 0
-
+        let lastKey = 0;
         for (const key in AppState.rankTitles) {
           if (AppState.AccountState.account.rank >= key) {
-            lastKey = key
+            lastKey = key;
           }
         }
-
-        return AppState.rankTitles[lastKey]
+        return AppState.rankTitles[lastKey];
       }),
-
       async login() {
-        AuthService.loginWithPopup()
+        AuthService.loginWithPopup();
       },
       async logout() {
-        AuthService.logout({ returnTo: window.location.origin })
+        AuthService.logout({ returnTo: window.location.origin });
       }
-    }
-  }
+    };
+  },
+  components: { ProfileTitle }
 }
 </script>
 

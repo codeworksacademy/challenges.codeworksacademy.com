@@ -44,11 +44,15 @@ export default {
 
       routeToDifficulty() {
         try {
-          if (!filterDifficulty.value && (!route.params.category || route.params.category == 'all')) {
+          if ((!filterDifficulty.value || filterDifficulty.value == 'all') && (!route.params.category || route.params.category == 'all')) {
             router.push({ name: 'Challenges.browse' });
             return
           }
-          if (!filterDifficulty.value && route.params.category) {
+          if (filterDifficulty.value && (!route.params.category || route.params.category == 'all')) {
+            router.push({ name: 'Challenges.browseDifficulty', params: { difficulty: filterDifficulty.value } });
+            return
+          }
+          if ((!filterDifficulty.value || filterDifficulty.value == 'all') && route.params.category) {
             router.push({ name: 'Challenges.challengeCategory', params: { category: route.params.category, difficulty: 'all' } });
             return
           }

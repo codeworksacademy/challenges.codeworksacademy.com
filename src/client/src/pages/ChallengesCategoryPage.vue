@@ -63,46 +63,17 @@ export default {
       difficultyTypes,
 
       challenges: computed(() => {
+        const challenges = [...AppState.challenges].filter(c => c.category === categoryFilter.value);
 
         if ((!difficultyFilter.value || difficultyFilter.value == 'all') && difficultySort.value) {
-          if (!categoryFilter.value || categoryFilter.value == 'all') {
-            return [...AppState.challenges]
-              .sort((a, b) => a.difficulty - b.difficulty)
-          }
-          return (AppState.challenges
-            .filter(c => c.category === categoryFilter.value))
-            .sort((a, b) => a.difficulty - b.difficulty)
+          return challenges.sort((a, b) => a.difficulty - b.difficulty);
         }
-
         if (!difficultyFilter.value || difficultyFilter.value == 'all') {
-          if (!categoryFilter.value || categoryFilter.value == 'all') {
-            return AppState.challenges
-          }
-          return AppState.challenges
-            .filter(c => c.category === categoryFilter.value)
+          return challenges;
         }
-
-        if (difficultyFilter.value && difficultySort.value) {
-          if (!categoryFilter.value || categoryFilter.value == 'all') {
-            return AppState.challenges
-              .filter(d => d.difficulty == (difficultyTypes.value.findIndex(d => d == difficultyFilter.value) + 1))
-              .sort((a, b) => a.difficulty - b.difficulty)
-          }
-          return AppState.challenges
-            .filter(c => c.category === categoryFilter.value)
-            .filter(d => d.difficulty == (difficultyTypes.value.findIndex(d => d == difficultyFilter.value) + 1))
-            .sort((a, b) => a.difficulty - b.difficulty)
+        if (difficultyFilter.value) {
+          return challenges.filter(d => d.difficulty == (difficultyTypes.value.findIndex(d => d == difficultyFilter.value) + 1));
         }
-
-        // if (difficultyFilter.value) {
-        if (!categoryFilter.value || categoryFilter.value == 'all') {
-          return AppState.challenges
-            .filter(d => d.difficulty == (difficultyTypes.value.findIndex(d => d == difficultyFilter.value) + 1))
-        }
-        return AppState.challenges
-          .filter(c => c.category === categoryFilter.value)
-          .filter(d => d.difficulty == (difficultyTypes.value.findIndex(d => d == difficultyFilter.value) + 1))
-        // }
 
       })
     }

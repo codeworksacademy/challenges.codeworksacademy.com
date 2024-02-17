@@ -60,6 +60,11 @@ const routes = [
         component: loadPage('ChallengesBrowsePage')
       },
       {
+        path: ':difficulty',
+        name: 'Challenges.browseDifficulty',
+        component: loadPage('ChallengesBrowsePage')
+      },
+      {
         path: ':category/:difficulty',
         name: 'Challenges.challengeCategory',
         component: loadPage('ChallengesCategoryPage')

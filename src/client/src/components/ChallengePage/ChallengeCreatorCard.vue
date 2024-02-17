@@ -12,7 +12,7 @@
         </router-link>
 
         <div class="ms-3 text-start">
-          <ProfileTitle :title="profile.title" />
+          <ProfileTitle :title="profile?.title" />
           <p class="creator-text text-capitalize fs-3 mb-0">{{ profile.nickname || profile.name }}
           </p>
           <div class="d-flex flex-wrap gap-3 fw-semibold">
@@ -29,6 +29,7 @@
 <script>
 import { Challenge } from '../../models/Challenge'
 import { Profile } from '../../models/Profile.js'
+import ProfileTitle from "../ProfileTitle.vue";
 
 export default {
   props: {
@@ -44,10 +45,9 @@ export default {
     color: { type: String, required: true },
   },
   setup() {
-
-    return {
-    }
-  }
+    return {};
+  },
+  components: { ProfileTitle }
 }
 </script>
 
