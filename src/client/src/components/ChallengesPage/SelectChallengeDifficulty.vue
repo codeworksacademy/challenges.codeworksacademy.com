@@ -9,7 +9,8 @@
   </div>
   <select v-model="filterDifficulty" @change="routeToDifficulty" name="difficulty" id="difficulty"
     class="select-difficulty form-select text-capitalize ">
-    <option :value="''" :selected="filterDifficulty == '' || filterDifficulty == 'all'">All Difficulties</option>
+    <option :value="''" :selected="filterDifficulty == '' || filterDifficulty == 'all'">
+      All Difficulties</option>
     <option v-for="difficulty in difficultyTypes" :key="difficulty" :value="difficulty"
       :selected="difficulty == filterDifficulty">{{ difficulty }}</option>
   </select>
@@ -26,7 +27,7 @@ export default {
   setup() {
     const route = useRoute()
     const router = useRouter()
-    const filterDifficulty = ref(route.params.difficulty)
+    const filterDifficulty = ref(route.params.difficulty ?? '')
     const enableDifficultySorting = ref(false)
 
     watch(() => AppState.enableDifficultySorting, () => {
