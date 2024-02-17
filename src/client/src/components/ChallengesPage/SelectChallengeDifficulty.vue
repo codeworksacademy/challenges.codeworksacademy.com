@@ -9,8 +9,9 @@
   </div>
   <select v-model="filterDifficulty" @change="routeToDifficulty" name="difficulty" id="difficulty"
     class="select-difficulty form-select text-capitalize ">
-    <option :value="''">All Difficulties</option>
-    <option v-for="difficulty in difficultyTypes" :key="difficulty" :value="difficulty">{{ difficulty }}</option>
+    <option :value="''" :selected="filterDifficulty == '' || filterDifficulty == 'all'">All Difficulties</option>
+    <option v-for="difficulty in difficultyTypes" :key="difficulty" :value="difficulty"
+      :selected="difficulty == filterDifficulty">{{ difficulty }}</option>
   </select>
 </template>
 
@@ -25,7 +26,7 @@ export default {
   setup() {
     const route = useRoute()
     const router = useRouter()
-    const filterDifficulty = ref('')
+    const filterDifficulty = ref(route.params.difficulty)
     const enableDifficultySorting = ref(false)
 
     watch(() => AppState.enableDifficultySorting, () => {
@@ -44,6 +45,7 @@ export default {
 
       routeToDifficulty() {
         try {
+          document.getElementById('difficulty').value = filterDifficulty.value;
           if ((!filterDifficulty.value || filterDifficulty.value == 'all') && (!route.params.category || route.params.category == 'all')) {
             router.push({ name: 'Challenges.browse' });
             return
