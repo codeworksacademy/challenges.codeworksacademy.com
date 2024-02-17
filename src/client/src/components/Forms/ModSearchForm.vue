@@ -36,11 +36,10 @@
 
 
 <script>
+import Pop from '../../utils/Pop.js';
 import { computed, ref } from 'vue';
 import { AppState } from '../../AppState'
 import { profilesService } from '../../services/ProfilesService.js';
-import { logger } from '../../utils/Logger.js';
-import Pop from '../../utils/Pop.js';
 import { useRoute } from 'vue-router';
 import { challengeModeratorsService } from '../../services/ChallengeModeratorsService.js';
 
@@ -59,10 +58,8 @@ export default {
           const name = editable.value.name
           await profilesService.getProfiles(name)
           editable.value.name = ''
-        } catch (error) {
-          logger.error(error)
-          Pop.toast(error, 'error')
         }
+        catch (error) { Pop.toast(error); }
       },
       async createModeration(profileId) {
         try {
@@ -72,10 +69,8 @@ export default {
           }
           await challengeModeratorsService.createModeration(moderatorData)
           Pop.success('You have requested that this profile become a moderator, Please be patient while they review your request')
-        } catch (error) {
-          logger.error(error)
-          Pop.toast(error, 'error')
         }
+        catch (error) { Pop.toast(error); }
       }
     }
   }

@@ -1,61 +1,65 @@
 <template>
-  <section class="container-fluid px-2 px-lg-5 pt-5">
+  <section class="container-fluid px-2 px-lg-5 pt-2 pt-lg-5">
     <div class="row">
-      <div class="col-12 mb-3">
-        <div class="create-challenge-card ">
-          <sub class="ms-3 text-uppercase">Gain Reputation</sub>
-          <div class="">
-            <button type="button" role="button" class="btn text-warning" title="Create a new challenge"
-            data-bs-toggle="collapse" data-bs-target="#createChallenge" aria-expanded="false" aria-controls="createChallenge">
-              Create a Challenge
-            </button>
-          </div>
-          <div class="collapse" id="createChallenge" >
-            <CreateChallengeForm />
-          </div>
+      <div class="col-12 mb-2 mb-lg-3">
+        <div class="create-challenge-card d-block d-md-flex align-items-end px-1 pb-1 p-md-2 p-lg-3">
+          <span>
+            <sub class="ms-3 text-uppercase">Gain Reputation</sub>
+            <div class="ms-1 mt-1">
+              <button type="button" role="button" class="btn text-warning selectable" title="Create a new challenge"
+                data-bs-toggle="collapse" data-bs-target="#createChallenge" aria-expanded="false"
+                aria-controls="createChallenge">
+                Create a Challenge
+              </button>
+            </div>
+          </span>
+          <span class="w-75">
+            <div class="collapse pt-2 pt-md-0" id="createChallenge">
+              <CreateChallengeForm />
+            </div>
+          </span>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-12">
-        <div class="d-flex gap-3 align-items-center justify-content-between">
-          <SelectChallengeDifficulty :filterBy="challengesDifficulty" />
-          <SelectChallengeCategory :filterBy="challengesCategory" />
+        <div class="d-flex gap-3 align-items-center justify-content-between my-2">
+          <span class="w-100 d-flex gap-2 align-items-center">
+            <SelectChallengeDifficulty />
+          </span>
+          <span class="w-100">
+            <SelectChallengeCategory />
+          </span>
         </div>
       </div>
     </div>
     <div class="row">
-      <router-view />
+      <div class="col-12 p-0">
+        <router-view />
+      </div>
     </div>
   </section>
 </template>
 
 <script>
 import Pop from '../utils/Pop'
-import { AppState } from '../AppState'
-import { logger } from '../utils/Logger'
-import { computed, onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
 import { challengesService } from '../services/ChallengesService'
 import SelectChallengeDifficulty from '../components/ChallengesPage/SelectChallengeDifficulty.vue'
 import SelectChallengeCategory from "../components/ChallengesPage/SelectChallengeCategory.vue"
+import CreateChallengeForm from "../components/Forms/CreateChallengeForm.vue"
 
 export default {
   components: {
     SelectChallengeDifficulty,
-    SelectChallengeCategory
+    SelectChallengeCategory,
+    CreateChallengeForm
   },
   setup() {
-    const search = ref({})
-    const filterBy = ref('')
-    const showCreate = ref(false)
 
     async function getAllChallenges() {
-      try {
-        await challengesService.getAllChallenges()
-      } catch (error) {
-        logger.error(error)
-        Pop.toast(error, 'error')
-      }
+      try { await challengesService.getAllChallenges(); }
+      catch (error) { Pop.toast(error); }
     }
 
     onMounted(() => {
@@ -63,29 +67,6 @@ export default {
     })
 
     return {
-      search,
-      filterBy,
-      showCreate,
-      challengesDifficulty: computed(() => {
-        if (!filterBy.value) {
-          return AppState.challenges
-        }
-        return AppState.challenges.filter(c => c.difficultyStr.text === filterBy.value)
-      }),
-      challengesCategory: computed(() => {
-        if (!filterBy.value) {
-          return AppState.challenges
-        }
-        return AppState.challenges.filter(c => c.category === filterBy.value)
-      }),
-      filterType(type) {
-        if (type == 'newest') {
-          AppState.challenges.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
-        } else if (type == 'oldest') {
-          AppState.challenges.sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt))
-        } else
-          AppState.challenges.filter(c => c.isCancelled == true)
-      }
     }
   }
 }
@@ -103,7 +84,6 @@ export default {
   border: 1px solid #2d386b;
   border-radius: 10px;
   color: var(--text-main);
-  padding: 1rem;
   transition: all .3s ease;
 }
 

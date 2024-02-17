@@ -69,15 +69,15 @@ export const AppState = reactive({
   AccountState,
   ChallengeState,
   MilestoneState,
-  leaderboards: [],
   // challenges that show up in search and can be joined by the user
+  leaderboards: [],
   /** @type {import('./models/Challenge.js').Challenge[]} */
   challenges: [],
   /**@type {import('./models/Profile.js').Profile[]} */
   profiles: [],
   /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]} */
   participants: [],
-
+  enableDifficultySorting: false,
 
   rankTitles: {
     0: "Bugs Bunny",

@@ -21,6 +21,7 @@ import { Profile } from "../../models/Profile.js";
 import gold from '../../assets/img/trophy-1.png'
 import silver from '../../assets/img/trophy-2.png'
 import bronze from '../../assets/img/trophy-3.png'
+import ProfileTitle from "../ProfileTitle.vue";
 
 
 export default {
@@ -44,16 +45,16 @@ export default {
       loadTrophy() {
         switch (props.index) {
           case 1:
-            return gold
+            return gold;
           case 2:
-            return silver
+            return silver;
           case 3:
-            return bronze
+            return bronze;
         }
       }
-    }
-  }
-
+    };
+  },
+  components: { ProfileTitle }
 }
 </script>
 

@@ -60,19 +60,19 @@ const routes = [
         component: loadPage('ChallengesBrowsePage')
       },
       {
-        path: ':category',
-        name: 'Challenges.challengeCategory',
-        component: loadPage('ChallengesCategoryPage')
+        path: ':difficulty',
+        name: 'Challenges.browseDifficulty',
+        component: loadPage('ChallengesBrowsePage')
       },
       {
-        path: ':difficulty',
-        name: 'Challenges.challengeDifficulty',
-        component: loadPage('ChallengesDifficultyPage')
+        path: ':category/:difficulty',
+        name: 'Challenges.challengeCategory',
+        component: loadPage('ChallengesCategoryPage')
       }
     ]
   },
   {
-    path: '/challenges/:challengeId',
+    path: '/challenge/:challengeId',
     name: 'Challenge',
     component: loadPage('ChallengePage'),
     redirect: { name: 'Challenge.overview' },
@@ -94,26 +94,27 @@ const routes = [
         component: loadPage('ChallengeStatisticsPage')
       },
       {
-        path: 'edit',
-        name: 'Challenge.challengeEditor',
-        component: loadPage('ChallengeEditor')
-      },
-      {
         path: 'submissions',
         name: 'Challenge.challengeSubmissionsPage',
-        component: loadPage('ChallengeSubmissionsPage')
-        // beforeEnter: authguard
-      },
-      {
-        path: 'moderators',
-        name: 'Challenge.challengeModeratorsPage',
-        component: loadPage('ChallengeModeratorsPage'),
-        beforeEnter: authGuard
+        component: loadPage('ChallengeSubmissionsPage'),
+        // beforeEnter: authGuard
       },
       {
         path: 'grade',
         name: 'Challenge.gradeSubmissionsPage',
         component: loadPage('GradeSubmissionsPage'),
+        beforeEnter: authGuard
+      },
+      {
+        path: 'edit',
+        name: 'Challenge.challengeEditor',
+        component: loadPage('ChallengeEditor'),
+        beforeEnter: authGuard
+      },
+      {
+        path: 'moderators',
+        name: 'Challenge.challengeModeratorsPage',
+        component: loadPage('ChallengeModeratorsPage'),
         beforeEnter: authGuard
       }
     ]
