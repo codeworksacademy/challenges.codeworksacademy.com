@@ -7,31 +7,37 @@
 </template>
 
 <script>
-import { useRouter } from 'vue-router'
-import { ref } from 'vue'
 import Pop from "../../utils/Pop.js"
+import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { CATEGORY_TYPES } from '../../constants'
 
 export default {
   setup() {
+    const route = useRoute()
     const router = useRouter()
     const filterCategory = ref('')
     const categoryTypes = ref(Object.values(CATEGORY_TYPES))
 
     return {
+      route,
       filterCategory,
       categoryTypes,
 
       routeToCategory() {
         try {
-          if (!filterCategory.value) {
-            router.push({ name: 'Challenges.browse' })
+          if (!filterCategory.value && (!route.params.difficulty || route.params.difficulty == 'all')) {
+            router.push({ name: 'Challenges.browse' });
             return
           }
-          router.push({ name: 'Challenges.challengeCategory', params: { category: filterCategory.value } })
+          if (!filterCategory.value && route.params.difficulty) {
+            router.push({ name: 'Challenges.challengeCategory', params: { category: 'all', difficulty: route.params.difficulty } });
+            return
+          }
+          router.push({ name: 'Challenges.challengeCategory', params: { category: filterCategory.value, difficulty: route.params.difficulty ?? 'all' } });
         }
         catch (error) { Pop.error(error); }
-      },
+      }
     }
   }
 }

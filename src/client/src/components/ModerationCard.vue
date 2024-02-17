@@ -55,25 +55,19 @@ export default {
       async removeModeration(moderationId) {
         try {
           const confirmRemove = await Pop.confirm('Delete Moderation?')
-          if (!confirmRemove) {
-            return
-          }
+          if (!confirmRemove) { return }
           await challengeModeratorsService.removeModeration(moderationId)
-        } catch (error) {
-          Pop.toast(error, 'error')
         }
+        catch (error) { Pop.toast(error); }
       },
 
       async approveModeration(moderationId) {
         try {
           const confirmApprove = await Pop.confirm('Approve Moderation?')
-          if (!confirmApprove) {
-            return
-          }
+          if (!confirmApprove) { return }
           await challengeModeratorsService.approveModeration(moderationId)
-        } catch (error) {
-          Pop.toast(error, 'error')
         }
+        catch (error) { Pop.toast(error); }
       },
     }
   }

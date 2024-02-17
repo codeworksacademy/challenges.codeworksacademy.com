@@ -23,9 +23,9 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <div class="d-flex gap-3 align-items-center justify-content-between">
-          <SelectChallengeDifficulty :filterBy="challengesDifficulty" />
-          <SelectChallengeCategory :filterBy="challengesCategory" />
+        <div class="d-flex gap-3 align-items-center justify-content-between mb-3">
+          <SelectChallengeDifficulty />
+          <SelectChallengeCategory />
         </div>
       </div>
     </div>
@@ -39,9 +39,7 @@
 
 <script>
 import Pop from '../utils/Pop'
-import { AppState } from '../AppState'
-import { logger } from '../utils/Logger'
-import { computed, onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
 import { challengesService } from '../services/ChallengesService'
 import SelectChallengeDifficulty from '../components/ChallengesPage/SelectChallengeDifficulty.vue'
 import SelectChallengeCategory from "../components/ChallengesPage/SelectChallengeCategory.vue"
@@ -54,17 +52,10 @@ export default {
     CreateChallengeForm
   },
   setup() {
-    const search = ref({})
-    const filterBy = ref('')
-    const showCreate = ref(false)
 
     async function getAllChallenges() {
-      try {
-        await challengesService.getAllChallenges()
-      } catch (error) {
-        logger.error(error)
-        Pop.toast(error, 'error')
-      }
+      try { await challengesService.getAllChallenges(); }
+      catch (error) { Pop.toast(error); }
     }
 
     onMounted(() => {
@@ -72,30 +63,6 @@ export default {
     })
 
     return {
-      search,
-      filterBy,
-      showCreate,
-      user: computed(() => AppState.user),
-      challengesDifficulty: computed(() => {
-        if (!filterBy.value) {
-          return AppState.challenges
-        }
-        return AppState.challenges.filter(c => c.difficultyStr.text === filterBy.value)
-      }),
-      challengesCategory: computed(() => {
-        if (!filterBy.value) {
-          return AppState.challenges
-        }
-        return AppState.challenges.filter(c => c.category === filterBy.value)
-      }),
-      filterType(type) {
-        if (type == 'newest') {
-          AppState.challenges.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
-        } else if (type == 'oldest') {
-          AppState.challenges.sort((a, b) => new Date(a.updatedAt) - new Date(b.updatedAt))
-        } else
-          AppState.challenges.filter(c => c.isCancelled == true)
-      }
     }
   }
 }

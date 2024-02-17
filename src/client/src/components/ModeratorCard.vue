@@ -1,16 +1,10 @@
 <template>
   <section class="container-fluid" v-if="moderator" :key="moderator?.id">
     <div class="d-flex flex-column justify-content-center align-items-center">
-        <img
-          :src="moderator.profile?.picture"
-          :title="`Visit ${moderator.profile?.name}'s profile?'`"
-          :alt="`Moderator's Name: ${moderator.profile.nickname || profile.name}`"
-          @click="routeToModeratorProfile()"
-          class="rounded-circle img-fluid"
-          height="150"
-          width="150"
-        />
-        <small class="text-truncate"> {{ moderator.profile.nickname || profile.name }} </small>
+      <img :src="moderator.profile?.picture" :title="`Visit ${moderator.profile?.name}'s profile?'`"
+        :alt="`Moderator's Name: ${moderator.profile.nickname || profile.name}`" @click="routeToModeratorProfile()"
+        class="rounded-circle img-fluid" height="150" width="150" />
+      <small class="text-truncate"> {{ moderator.profile.nickname || profile.name }} </small>
     </div>
   </section>
 </template>
@@ -18,7 +12,6 @@
 <script>
 import Pop from "../utils/Pop.js";
 import { useRouter } from "vue-router";
-import { logger } from "../utils/Logger.js";
 import { ChallengeModerator } from "../models/ChallengeModerator.js";
 import { Offcanvas } from "bootstrap";
 
@@ -33,7 +26,7 @@ export default {
 
     const router = useRouter();
 
-    function changeRoute(route){
+    function changeRoute(route) {
       router.push({
         path: `${route}/`
       })
@@ -45,10 +38,8 @@ export default {
           path: `/profiles/${props.moderator.profile.id}`
         })
         Offcanvas.getOrCreateInstance('#moderatorsOffcanvas').hide()
-      } catch (error) {
-        logger.error(error)
-        Pop.toast(error, 'error')
       }
+      catch (error) { Pop.toast(error); }
     }
 
     return {

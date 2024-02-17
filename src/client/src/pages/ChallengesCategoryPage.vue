@@ -18,6 +18,7 @@ export default {
   setup() {
     const route = useRoute()
     const filterBy = ref(route.params.category)
+    const difficultyFilter = ref(route.params.difficulty)
 
     watch(() => route.params.category, () => {
       filterBy.value = route.params.category
@@ -25,12 +26,20 @@ export default {
 
     return {
       filterBy,
-      challenge: computed(() => AppState.ChallengeState.challenge),
+      difficultyFilter,
+
       challenges: computed(() => {
-        if (!filterBy.value) {
+
+        if (difficultyFilter) {
+          if (!filterBy.value) {
+            return AppState.challenges
+              .sort((a, b) => a.difficulty - b.difficulty)
+          }
           return AppState.challenges
+            .filter(c => c.category === filterBy.value)
+            .sort((a, b) => a.difficulty - b.difficulty)
         }
-        return AppState.challenges.filter(c => c.category === filterBy.value)
+
       }),
     }
   }

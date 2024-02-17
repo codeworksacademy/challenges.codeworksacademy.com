@@ -1,5 +1,5 @@
 <template>
-  <select v-model="filterBy" @change="routeToDifficulty" name="difficulty" id="difficulty"
+  <select v-model="filterDifficulty" @change="routeToDifficulty" name="difficulty" id="difficulty"
     class="select-difficulty form-select text-capitalize ">
     <option :value="''">All Difficulties</option>
     <option v-for="difficulty in difficultyTypes" :key="difficulty" :value="difficulty">{{ difficulty }}</option>
@@ -7,31 +7,37 @@
 </template>
 
 <script>
-import { useRouter } from 'vue-router'
-import { ref } from 'vue'
 import Pop from "../../utils/Pop.js"
+import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 
 export default {
   setup() {
+    const route = useRoute()
     const router = useRouter()
-    const filterBy = ref('')
+    const filterDifficulty = ref('')
     const difficultyTypes = ref(['easy', 'medium', 'hard'])
 
     return {
-      filterBy,
+      route,
+      filterDifficulty,
       difficultyTypes,
 
       routeToDifficulty() {
         try {
-          if (!filterBy.value) {
-            router.push({ name: 'Challenges.browse' })
+          if (!filterDifficulty.value && (!route.params.category || route.params.category == 'all')) {
+            router.push({ name: 'Challenges.browse' });
             return
           }
-          router.push({ name: 'Challenges.challengeDifficulty', params: { difficulty: filterBy.value } })
+          if (!filterDifficulty.value && route.params.category) {
+            router.push({ name: 'Challenges.challengeCategory', params: { category: route.params.category, difficulty: 'all' } });
+            return
+          }
+          router.push({ name: 'Challenges.challengeCategory', params: { category: route.params.category ?? 'all', difficulty: filterDifficulty.value } });
         }
         catch (error) { Pop.error(error); }
-      },
+      }
     }
   }
 }
