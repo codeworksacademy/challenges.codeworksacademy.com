@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <div class="row d-flex justify-content-center align-items-center" v-if="categoryFilter">
+    <div class="row d-flex justify-content-center align-items-center" v-if="challenges.length > 0">
       <div class="d-none d-md-flex flex-row align-items-center text-uppercase py-3">
         <div class="col-4 ps-4">
           <span class="ps-3">Challenge Name</span>
@@ -20,6 +20,13 @@
       <hr>
       <ChallengeCard v-for="c in challenges" :key="c.id" :challenge="c" />
     </div>
+    <div v-else>
+      <div class="text-center my-5">
+        <p>Sorry, there are currently no</p>
+        <p>[{{ difficultyFilter.toUpperCase() }}] [{{ categoryFilter.toUpperCase() }}]</p>
+        <p> challenges available </p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -37,6 +44,7 @@ export default {
     const categoryFilter = ref(route.params.category)
     const difficultyFilter = ref(route.params.difficulty)
     const difficultySort = ref(AppState.enableDifficultySorting)
+    const difficultyTypes = ref(['easy', 'medium', 'hard'])
 
     watch(() => AppState.enableDifficultySorting, () => {
       difficultySort.value = AppState.enableDifficultySorting;
@@ -52,7 +60,7 @@ export default {
       categoryFilter,
       difficultyFilter,
       difficultySort,
-      difficultyTypes: ['easy', 'medium', 'hard'],
+      difficultyTypes,
 
       challenges: computed(() => {
 
@@ -74,12 +82,28 @@ export default {
             .filter(c => c.category === categoryFilter.value)
         }
 
+        if (difficultyFilter.value && difficultySort.value) {
+          if (!categoryFilter.value || categoryFilter.value == 'all') {
+            return AppState.challenges
+              .filter(d => d.difficulty == (difficultyTypes.value.findIndex(d => d == difficultyFilter.value) + 1))
+              .sort((a, b) => a.difficulty - b.difficulty)
+          }
+          return AppState.challenges
+            .filter(c => c.category === categoryFilter.value)
+            .filter(d => d.difficulty == (difficultyTypes.value.findIndex(d => d == difficultyFilter.value) + 1))
+            .sort((a, b) => a.difficulty - b.difficulty)
+        }
+
+        // if (difficultyFilter.value) {
         if (!categoryFilter.value || categoryFilter.value == 'all') {
           return AppState.challenges
-            .filter(d => d.difficulty == difficultyFilter.value)
+            .filter(d => d.difficulty == (difficultyTypes.value.findIndex(d => d == difficultyFilter.value) + 1))
         }
         return AppState.challenges
           .filter(c => c.category === categoryFilter.value)
+          .filter(d => d.difficulty == (difficultyTypes.value.findIndex(d => d == difficultyFilter.value) + 1))
+        // }
+
       })
     }
   }
