@@ -43,15 +43,20 @@ import { AppState } from '../AppState';
 import StatCard from '../components/AccountAndProfilePage/StatCard.vue';
 import RankCard from '../components/AccountAndProfilePage/RankCard.vue';
 
-
 export default {
   setup() {
 
     return {
       account: computed(() => AppState.AccountState.account),
       challenges: computed(() => AppState.AccountState.challenges),
-      participation: computed(() => AppState.AccountState.participation),
       milestones: computed(() => AppState.AccountState.milestones),
+      participation: computed(() => AppState.AccountState.participation),
+
+      // profile: computed(() => AppState.ProfileState.profile),
+      // challenges: computed(() => AppState.ProfileState.challenges),
+      // milestones: computed(() => AppState.ProfileState.milestones),
+      // profileRank: computed(() => AppState.ProfileState.profile.rank),
+
       completedChallenges: computed(() => {
         const completed = AppState.AccountState.participation.filter(p => p.status == 'completed')
         return completed

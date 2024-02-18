@@ -17,7 +17,7 @@ const routes = [
     component: loadPage('LeaderboardsPage')
   },
   {
-    path: '/profiles/:profileId',
+    path: '/profile/:profileId',
     name: 'Profile',
     component: loadPage('AccountPage'),
     children: [
