@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark px-md-2 pt-2 pt-md-0 pb-0" style="z-index: 1000;">
+  <nav class="navbar navbar-expand-lg navbar-dark py-0" style="z-index: 1000;">
     <router-link class="navbar-brand d-flex ps-3" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
         <img alt="logo" src="../assets/img/cw-logo.png" height="45" />
@@ -9,7 +9,7 @@
       aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse " id="navbarText">
+    <div class="collapse navbar-collapse rounded" id="navbarText">
       <ul class="navbar-nav me-auto" style="z-index: 1000;">
         <li class="p-0 pt-md-1 ps-2 ps-0">
           <router-link :to="{ name: 'Leaderboards' }" class="btn text-white selectable">
@@ -25,6 +25,7 @@
 
 <script>
 import Login from './Login.vue';
+
 export default {
   setup() {
     return {}
@@ -48,17 +49,15 @@ a:hover {
   border-bottom-right-radius: 0;
 }
 
+.navbar-collapse {
+  padding-left: 1rem;
+  margin-top: .25rem;
+  background-color: #0B0E13;
+}
+
 @media screen and (min-width: 768px) {
   nav {
     height: 64px;
-  }
-}
-
-@media (max-width: 991px) {
-  .navbar-collapse {
-    padding-left: 1rem;
-    margin-top: .25rem;
-    background-color: #0B0E13;
   }
 }
 

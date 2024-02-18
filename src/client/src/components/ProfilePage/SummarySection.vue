@@ -1,12 +1,12 @@
 <template>
   <div class="container-fluid">
     <section class="row">
-      <div class="avatar-container col-4 col-sm-2 p-0 border">
+      <div class="avatar-container col-4 col-sm-2 p-0">
         <div class=" avatar-bg"></div>
         <ProfileImg :profile="profile" class="avatar-lg mx-4 light-gold-border avatar-style" />
       </div>
 
-      <div class="d-flex flex-column col-8 col-sm-10 border">
+      <div class="d-flex flex-column col-8 col-sm-10">
         <p class="fs-2 hide-sm m-0">
           {{ profile.nickname || profile.name }}
         </p>
