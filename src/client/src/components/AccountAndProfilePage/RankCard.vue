@@ -1,5 +1,5 @@
 <template>
-  <section class="rank-card-style row my-2 my-md-0 p-1 m-1 mx-0">
+  <section class="rank-card-style row p-1 my-1 mx-0 mb-2 mb-lg-3">
     <div class="d-flex flex-row">
       <div class="col-4 d-flex justify-content-center align-items-center">
         <div class="badge badge-color position-relative" id="collaborator">
@@ -53,14 +53,14 @@ export default {
   setup(props) {
     // This should be calculated on the backend only
     const currentRankBadge = computed(() => {
-  let lastKey = 0
-  for (const badge of RANK_BADGE) {
-    if (props.profile.rank >= badge.RANK_THRESHOLD) {
-      lastKey = badge.RANK_THRESHOLD
-    }
-  }
-  return RANK_BADGE.find(badge => badge.RANK_THRESHOLD === lastKey)
-})
+      let lastKey = 0
+      for (const badge of RANK_BADGE) {
+        if (props.profile.rank >= badge.RANK_THRESHOLD) {
+          lastKey = badge.RANK_THRESHOLD
+        }
+      }
+      return RANK_BADGE.find(badge => badge.RANK_THRESHOLD === lastKey)
+    })
 
     const rankBadgePercentage = computed(() => {
       const rankThreshold = Object.values(RANK_BADGE).map(badge => badge.RANK_THRESHOLD);

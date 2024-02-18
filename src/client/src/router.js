@@ -12,9 +12,31 @@ const routes = [
     component: loadPage('HomePage')
   },
   {
-    path: '/about',
-    name: 'About',
-    component: loadPage('AboutPage')
+    path: '/leaderboards',
+    name: 'Leaderboards',
+    component: loadPage('LeaderboardsPage')
+  },
+  {
+    path: '/profiles/:profileId',
+    name: 'Profile',
+    component: loadPage('AccountPage'),
+    children: [
+      {
+        path: '',
+        name: 'Profile.overview',
+        component: loadPage('AccountOverview')
+      },
+      {
+        path: 'challenges',
+        name: 'Profile.challenges',
+        component: loadPage('AccountChallenges')
+      },
+      {
+        path: 'badges',
+        name: 'Profile.badges',
+        component: loadPage('AccountBadges')
+      },
+    ]
   },
   {
     path: '/account',
@@ -33,11 +55,6 @@ const routes = [
         component: loadPage('AccountChallenges')
       },
       {
-        path: 'moderations',
-        name: 'Account.moderations',
-        component: loadPage('AccountModerations')
-      },
-      {
         path: 'badges',
         name: 'Account.badges',
         component: loadPage('AccountBadges')
@@ -46,6 +63,11 @@ const routes = [
         path: 'milestones',
         name: 'Account.milestones',
         component: loadPage('AccountMilestones')
+      },
+      {
+        path: 'moderations',
+        name: 'Account.moderations',
+        component: loadPage('AccountModerations')
       }
     ]
   },
@@ -120,47 +142,20 @@ const routes = [
     ]
   },
   {
-    path: '/profiles/:profileId',
-    name: 'Profile',
-    component: loadPage('ProfilePage'),
-    children: [
-      {
-        path: '',
-        name: 'Profile.overview',
-        component: loadPage('ProfileOverview')
-      },
-      {
-        path: 'challenges',
-        name: 'Profile.challenges',
-        component: loadPage('ProfileChallenges')
-      },
-      {
-        path: 'badges',
-        name: 'Profile.badges',
-        component: loadPage('ProfileBadges')
-      },
-    ]
-  },
-  {
     path: '/milestones',
     name: 'Milestones',
     component: loadPage('MilestonesPage')
-  },
-  {
-    path: '/leaderboards',
-    name: 'Leaderboards',
-    component: loadPage('LeaderboardsPage')
   },
   {
     path: '/markdown',
     name: 'Markdown',
     component: loadPage('MarkdownPage')
   },
-  {
-    path: '/refactor/:challengeId',
-    name: 'Refactor',
-    component: loadPage('ChallengeDetailsPageRefactor')
-  },
+  // {
+  //   path: '/refactor/:challengeId',
+  //   name: 'Refactor',
+  //   component: loadPage('ChallengeDetailsPageRefactor')
+  // },
   {
     path: '/Error',
     name: 'Error',

@@ -4,12 +4,14 @@
       <div class="p-0">
         <img class="coverImg-style" :src="account.coverImg" alt="Cover Image">
       </div>
+
       <div class=" text-white mb-3">
         <section class="row justify-content-between">
           <div class="col-lg-7  d-flex summary-height">
             <SummarySection :profile="account" :milestones="milestones" :challenges="challenges"
               :participation="participation" />
           </div>
+
           <div class="col-lg-4 align-items-center justify-content-end d-none d-lg-flex summary-height">
             <router-link :to="{ name: 'Account.challenges' }">
               <button class="btn aqua-btn-outline my-2 me-3">
@@ -39,16 +41,18 @@
   </div>
 </template>
 
+
 <script>
 import { computed, } from 'vue'
 import { AppState } from '../AppState';
-import ChallengeCard from '../components/ChallengesPage/ChallengeCard.vue'
 import AccountModerator from "../components/AccountModerator.vue";
+import ChallengeCard from '../components/ChallengesPage/ChallengeCard.vue'
 import SummarySection from '../components/AccountAndProfilePage/SummarySection.vue';
 import AccountLinksCard from '../components/AccountAndProfilePage/AccountLinksCard.vue';
 
 export default {
   setup() {
+
     return {
       account: computed(() => AppState.AccountState.account),
       challenges: computed(() => AppState.AccountState.challenges),

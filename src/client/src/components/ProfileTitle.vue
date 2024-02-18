@@ -24,5 +24,5 @@ export default {
 
 
 <style lang="scss" scoped>
-.bugs-bunny {}
+// .bugs-bunny {}
 </style>

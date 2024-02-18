@@ -7,35 +7,35 @@
       <div class="user-links-btn hover-green rounded-1 selectable">
         <router-link :to="{ name: 'Account.overview' }">
           <button class="btn text-white link-btn">
-            <i class="mdi mdi-layers text-green"></i> Overview
+            <i class="text-primary fs-5 mdi mdi-layers text-green"></i> Overview
           </button>
         </router-link>
       </div>
       <div class="user-links-btn hover-orange rounded-1 selectable">
         <router-link :to="{ name: 'Account.challenges' }">
           <button class="btn text-white link-btn">
-            <i class="mdi mdi-file-code text-orange"></i> Challenges
-          </button>
-        </router-link>
-      </div>
-      <div class="user-links-btn hover-purple rounded-1 selectable">
-        <router-link :to="{ name: 'Account.moderations' }">
-          <button class="btn text-white link-btn">
-            <i class="mdi mdi-account-star text-purple"></i> Moderations
+            <i class="text-primary fs-5 mdi mdi-file-code text-orange"></i> Challenges
           </button>
         </router-link>
       </div>
       <div class="user-links-btn hover-blue rounded-1 selectable">
         <router-link :to="{ name: 'Account.badges' }">
           <button class="btn text-white link-btn">
-            <i class="mdi mdi-seal text-blue"></i> Badges
+            <i class="text-primary fs-5 mdi mdi-seal text-blue"></i> Badges
           </button>
         </router-link>
       </div>
       <div class="user-links-btn hover-warning rounded-1 selectable">
         <router-link :to="{ name: 'Account.milestones' }">
           <button class="btn text-white link-btn">
-            <i class="mdi mdi-trophy text-yellow"></i> Milestones
+            <i class="text-primary fs-5 mdi mdi-trophy text-yellow"></i> Milestones
+          </button>
+        </router-link>
+      </div>
+      <div class="user-links-btn hover-purple rounded-1 selectable" v-if="account.id === route.params.accountId">
+        <router-link :to="{ name: 'Account.moderations' }">
+          <button class="btn text-white link-btn">
+            <i class="text-primary fs-5 mdi mdi-account-star text-purple"></i> Moderations
           </button>
         </router-link>
       </div>
@@ -43,7 +43,7 @@
     <div class="border-overline mt-1">
       <div class="user-links-btn rounded-1">
         <a class="btn text-white link-btn" href="https://codeworksacademy.com/#/account/settings" target="_blank">
-          <i class="mdi mdi-account-edit"></i> Edit Account
+          <i class="text-primary fs-5 mdi mdi-account-edit"></i> Edit Account <i class="mdi mdi-open-in-new"></i>
         </a>
       </div>
     </div>
@@ -51,14 +51,16 @@
 </template>
 
 <script>
+import { computed } from "vue";
 import { useRoute } from 'vue-router';
+import { AppState } from "../../AppState.js";
 
 export default {
   setup() {
     const route = useRoute()
-
     return {
-      route
+      route,
+      account: computed(() => AppState.AccountState.account)
     }
   }
 }
@@ -69,7 +71,7 @@ export default {
 .user-links-card {
   background-color: #0E141E;
   border: 1px solid #2d386b;
-  height: 19rem;
+  // height: 19rem;
 }
 
 .user-links-btn:hover {
@@ -83,4 +85,5 @@ export default {
 .border-overline {
   border-top: 1px solid #797A7A;
   border-radius: 0px;
-}</style>
+}
+</style>
