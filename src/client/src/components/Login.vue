@@ -30,9 +30,9 @@
 
         <div class="dropdown-menu dropdown-menu-lg-end dropdown-menu-start p-0" aria-labelledby="authDropdown">
           <div class="list-group">
-            <router-link :to="{ name: 'Account.overview' }">
+            <router-link :to="{ name: 'Profile.overview', params: { profileId: account.id } }">
               <div class="list-group-item dropdown-item list-group-item-action">
-                View Account
+                View Profile
               </div>
             </router-link>
             <div class="list-group-item dropdown-item list-group-item-action text-danger selectable" @click="logout">

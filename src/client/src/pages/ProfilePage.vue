@@ -13,7 +13,7 @@
           </div>
 
           <div class="col-lg-4 align-items-center justify-content-end d-none d-lg-flex summary-height">
-            <router-link :to="{ name: 'Account.challenges' }">
+            <router-link :to="{ name: 'Profile.challenges' }">
               <button class="btn aqua-btn-outline my-2 me-3">
                 View my challenges
               </button>
@@ -25,7 +25,7 @@
 
     <section class="row">
       <div class="col-lg-3 ">
-        <AccountLinksCard />
+        <ProfileLinksCard />
       </div>
 
       <div class=" col-lg-9">
@@ -48,7 +48,7 @@ import { AppState } from '../AppState';
 import AccountModerator from "../components/AccountModerator.vue";
 import ChallengeCard from '../components/ChallengesPage/ChallengeCard.vue'
 import SummarySection from '../components/AccountAndProfilePage/SummarySection.vue';
-import AccountLinksCard from '../components/AccountAndProfilePage/AccountLinksCard.vue';
+import ProfileLinksCard from '../components/AccountAndProfilePage/ProfileLinksCard.vue';
 
 export default {
   setup() {
@@ -60,7 +60,7 @@ export default {
       milestones: computed(() => AppState.AccountState.milestones)
     };
   },
-  components: { ChallengeCard, AccountModerator, SummarySection, AccountLinksCard }
+  components: { ChallengeCard, AccountModerator, SummarySection, ProfileLinksCard }
 }
 </script>
 

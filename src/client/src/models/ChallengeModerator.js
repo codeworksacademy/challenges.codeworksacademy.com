@@ -1,3 +1,4 @@
+import { Profile } from './Profile'
 import { Challenge } from './Challenge'
 
 export class ChallengeModerator {
@@ -5,11 +6,13 @@ export class ChallengeModerator {
     this.id = data.id
     this.challengeId = data.challengeId
     this.accountId = data.accountId
-    this.challenge = data.challenge ? new Challenge(data.challenge) : null
+    this.originId = data.originId || null
+
     this.status = data.status
-    this.originId = data.originId
-    this.profile = data.profile
+    this.profile = data.profile ? new Profile(data.profile) : {}
+    this.challenge = data.challenge ? new Challenge(data.challenge) : null
     this.createdAt = data.createdAt
     this.updatedAt = data.updatedAt
+
   }
 }

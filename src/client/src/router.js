@@ -19,58 +19,68 @@ const routes = [
   {
     path: '/profile/:profileId',
     name: 'Profile',
-    component: loadPage('AccountPage'),
+    component: loadPage('ProfilePage'),
     children: [
       {
         path: '',
         name: 'Profile.overview',
-        component: loadPage('AccountOverview')
+        component: loadPage('ProfileOverview')
       },
       {
         path: 'challenges',
         name: 'Profile.challenges',
-        component: loadPage('AccountChallenges')
+        component: loadPage('ProfileChallenges')
       },
       {
         path: 'badges',
         name: 'Profile.badges',
-        component: loadPage('AccountBadges')
-      },
-    ]
-  },
-  {
-    path: '/account',
-    name: 'Account',
-    component: loadPage('AccountPage'),
-    beforeEnter: authGuard,
-    children: [
-      {
-        path: '',
-        name: 'Account.overview',
-        component: loadPage('AccountOverview')
-      },
-      {
-        path: 'challenges',
-        name: 'Account.challenges',
-        component: loadPage('AccountChallenges')
-      },
-      {
-        path: 'badges',
-        name: 'Account.badges',
-        component: loadPage('AccountBadges')
+        component: loadPage('ProfileBadges')
       },
       {
         path: 'milestones',
-        name: 'Account.milestones',
-        component: loadPage('AccountMilestones')
+        name: 'Profile.milestones',
+        component: loadPage('ProfileMilestones')
       },
       {
         path: 'moderations',
-        name: 'Account.moderations',
-        component: loadPage('AccountModerations')
+        name: 'Profile.moderations',
+        component: loadPage('ProfileModerations')
       }
     ]
   },
+  // {
+  //   path: '/account',
+  //   name: 'Account',
+  //   component: loadPage('AccountPage'),
+  //   beforeEnter: authGuard,
+  //   children: [
+  //     {
+  //       path: '',
+  //       name: 'Account.overview',
+  //       component: loadPage('AccountOverview')
+  //     },
+  //     {
+  //       path: 'challenges',
+  //       name: 'Account.challenges',
+  //       component: loadPage('AccountChallenges')
+  //     },
+  //     {
+  //       path: 'badges',
+  //       name: 'Account.badges',
+  //       component: loadPage('AccountBadges')
+  //     },
+  //     {
+  //       path: 'milestones',
+  //       name: 'Account.milestones',
+  //       component: loadPage('AccountMilestones')
+  //     },
+  //     {
+  //       path: 'moderations',
+  //       name: 'Account.moderations',
+  //       component: loadPage('AccountModerations')
+  //     }
+  //   ]
+  // },
   {
     path: '/challenges',
     name: 'Challenges',
