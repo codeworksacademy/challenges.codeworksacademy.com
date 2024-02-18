@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <section class="row align-items-center py-3 mt-3 border-underline dark-blue-bg">
+    <section class="row align-items-center py-3 mt-3 border-underline dark-blue-bg rounded-top">
       <div class="col">
         <p class="mb-0 text-white fw-semibold">
           {{ challengeTypes.toUpperCase() || 'CREATED' }}
@@ -29,23 +29,27 @@
       </div>
     </section>
 
-    <section class="row mt-3 border-underline">
-      <div class="col-12 col-md-6 col-lg-5">
-        <p class="text-white-50">
-          CHALLENGE
-        </p>
+    <section class="row justify-content-start mt-3 border-underline">
+      <div class="col-11 p-0">
+        <section class="row">
+          <div class="col-12 col-md-6">
+            <p class="text-white-50">
+              CHALLENGE
+            </p>
+          </div>
+          <div class="col-8 col-lg-4">
+            <p class="text-white-50">
+              CATEGORY
+            </p>
+          </div>
+          <div class="col-4 col-lg-2">
+            <p class="text-white-50">
+              POINTS
+            </p>
+          </div>
+        </section>
       </div>
-      <div class="col-8 col-lg-3">
-        <p class="text-white-50">
-          CATEGORY
-        </p>
-      </div>
-      <div class="col-4 col-lg-2">
-        <p class="text-white-50">
-          POINTS
-        </p>
-      </div>
-      <div class="col-1">
+      <div class="col-1 d-none d-md-flex align-items-center">
         <p class="text-white-50" title="Leave Challenge">
           LEAVE
         </p>
@@ -75,7 +79,7 @@
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { AppState } from '../AppState';
-import ChallengeMiniCard from '../components/AccountAndProfilePage/ChallengeMiniCard.vue';
+import ChallengeMiniCard from '../components/ProfilePage/ChallengeMiniCard.vue';
 
 export default {
   setup() {

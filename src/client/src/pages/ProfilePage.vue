@@ -1,34 +1,22 @@
 <template>
-  <div class="container-fluid" v-if="account.id">
+  <div class="container-fluid" v-if="profile || account.id">
     <section class="row dark-blue-bg">
-      <div class="p-0">
+      <div class="col-12 p-0">
         <img class="coverImg-style" :src="account.coverImg" alt="Cover Image">
       </div>
 
-      <div class=" text-white mb-3">
-        <section class="row justify-content-between">
-          <div class="col-lg-7  d-flex summary-height">
-            <SummarySection :profile="account" :milestones="milestones" :challenges="challenges"
-              :participation="participation" />
-          </div>
-
-          <div class="col-lg-4 align-items-center justify-content-end d-none d-lg-flex summary-height">
-            <router-link :to="{ name: 'Profile.challenges' }">
-              <button class="btn aqua-btn-outline my-2 me-3">
-                View my challenges
-              </button>
-            </router-link>
-          </div>
-        </section>
+      <div class="col-12 text-white mb-3">
+        <SummarySection :profile="account" :milestones="milestones" :challenges="challenges"
+          :participation="participation" />
       </div>
     </section>
 
     <section class="row">
-      <div class="col-lg-3 ">
+      <div class="col-12 col-lg-3">
         <ProfileLinksCard />
       </div>
 
-      <div class=" col-lg-9">
+      <div class="col-12 col-lg-9 pe-lg-4">
         <router-view />
       </div>
     </section>
@@ -47,20 +35,26 @@ import { computed, } from 'vue'
 import { AppState } from '../AppState';
 import AccountModerator from "../components/AccountModerator.vue";
 import ChallengeCard from '../components/ChallengesPage/ChallengeCard.vue'
-import SummarySection from '../components/AccountAndProfilePage/SummarySection.vue';
-import ProfileLinksCard from '../components/AccountAndProfilePage/ProfileLinksCard.vue';
+import SummarySection from '../components/ProfilePage/SummarySection.vue';
+import ProfileLinksCard from '../components/ProfilePage/ProfileLinksCard.vue';
 
 export default {
+  components: { ChallengeCard, AccountModerator, SummarySection, ProfileLinksCard },
   setup() {
 
     return {
       account: computed(() => AppState.AccountState.account),
       challenges: computed(() => AppState.AccountState.challenges),
       participation: computed(() => AppState.AccountState.participation),
-      milestones: computed(() => AppState.AccountState.milestones)
+      milestones: computed(() => AppState.AccountState.milestones),
+
+      // profile: computed(() => AppState.ProfileState.profile),
+      // challenges: computed(() => AppState.ProfileState.challenges),
+      // participation: computed(() => AppState.ProfileState.participation),
+      // milestones: computed(() => AppState.ProfileState.milestones),
+
     };
-  },
-  components: { ChallengeCard, AccountModerator, SummarySection, ProfileLinksCard }
+  }
 }
 </script>
 
@@ -71,10 +65,6 @@ export default {
 
 .modal-header {
   background-color: #151d2b;
-}
-
-.summary-height {
-  height: 9vh;
 }
 
 .coverImg-style {

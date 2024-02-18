@@ -40,8 +40,8 @@
 <script>
 import { computed } from 'vue';
 import { AppState } from '../AppState';
-import StatCard from '../components/AccountAndProfilePage/StatCard.vue';
-import RankCard from '../components/AccountAndProfilePage/RankCard.vue';
+import StatCard from '../components/ProfilePage/StatCard.vue';
+import RankCard from '../components/ProfilePage/RankCard.vue';
 
 export default {
   setup() {
