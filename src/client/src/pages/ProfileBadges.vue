@@ -62,11 +62,11 @@ export default {
   setup() {
 
     return {
-      account: computed(() => AppState.AccountState.account),
+      profile: computed(() => AppState.ProfileState.profile),
       challenges: computed(() => {
-        return AppState.AccountState.challenges.filter(c => c.creatorId !== AppState.AccountState.account.id)
+        return AppState.ProfileState.challenges.filter(c => c.creatorId !== AppState.ProfileState.profile.id)
       }),
-      challengeBadges: computed(() => AppState.AccountState.participation.filter(p => p.status == 'completed'))
+      challengeBadges: computed(() => AppState.ProfileState.participation.filter(p => p.status == 'completed'))
     }
   },
   components: { ChallengeBadge }
