@@ -31,9 +31,9 @@
 
 <script>
 import Pop from "../utils/Pop.js";
-import { useRoute } from "vue-router";
 import { AppState } from '../AppState';
 import { logger } from "../utils/Logger.js";
+import { useRoute, useRouter } from "vue-router";
 import { computed, onUnmounted, ref, watch, } from 'vue'
 import { profilesService } from "../services/ProfilesService.js";
 import SummarySection from '../components/ProfilePage/SummarySection.vue';
@@ -44,6 +44,7 @@ export default {
   setup() {
 
     const route = useRoute();
+    const router = useRouter();
     const MilestonesError = ref('');
 
     onUnmounted(() => { profilesService.clearProfile(); });
@@ -60,7 +61,7 @@ export default {
           getMilestones()
         ])
         if (!AppState.ProfileState.profile) { throw new Error('Unable to fetch profile') }
-        // Checking on data received
+        // Checking on data received - will remove on official release
         logger.log('[PROFILE PAGE] getProfileData profile', AppState.ProfileState.profile)
         logger.log('[PROFILE PAGE] getProfileData challenges', AppState.ProfileState.challenges)
         logger.log('[PROFILE PAGE] getProfileData participation', AppState.ProfileState.participation)
