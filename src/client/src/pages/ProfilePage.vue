@@ -46,26 +46,21 @@ export default {
     const route = useRoute();
     const MilestonesError = ref('');
 
-    // onUnmounted(() => { profilesService.clearProfile(); });
-    watch(() => AppState.AccountState.account.id, getProfileData());
-    watch(() => route.params.profileId, getProfileData());
+    onUnmounted(() => { profilesService.clearProfile(); });
+    watch(() => route.params.profileId, getProfileData(), { immediate: true });
 
     async function getProfileData() {
       try {
-        if (AppState.AccountState.account.id == route.params.profileId) {
-          logger.log('ID matched, side-loading data from Account into Profile');
-          profilesService.sideLoadAccountInfo();
-        } else {
-          await Promise.allSettled([
-            getProfileById(),
-            getChallenges(),
-            getParticipation(),
-            // calculateProfileRank(),
-            getMilestones()
-          ])
-        }
+        if (AppState.ProfileState.profile?.id == route.params.profileId) { return }
+        await Promise.allSettled([
+          getProfileById(),
+          getChallenges(),
+          getParticipation(),
+          // calculateProfileRank(),
+          getMilestones()
+        ])
         if (!AppState.ProfileState.profile) { throw new Error('Unable to fetch profile') }
-        logger.log('[PROFILE PAGE] getProfileData account', AppState.AccountState.account)
+        // Checking on data received
         logger.log('[PROFILE PAGE] getProfileData profile', AppState.ProfileState.profile)
         logger.log('[PROFILE PAGE] getProfileData challenges', AppState.ProfileState.challenges)
         logger.log('[PROFILE PAGE] getProfileData participation', AppState.ProfileState.participation)
@@ -74,7 +69,7 @@ export default {
       }
       catch (error) {
         Pop.error('Error when getting profile dataset', error);
-        // router.push({ name: 'Error' });
+        router.push({ name: 'Error' });
       }
     }
 

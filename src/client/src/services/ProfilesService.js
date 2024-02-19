@@ -51,19 +51,19 @@ class ProfilesService {
     AppState.ProfileState.milestones = [];
   }
 
-  sideLoadAccountInfo(profileId) { // when profile page is your own account
-    logger.log('[PROFILE SERVICE] Load ProfileState <- AccountState');
-    AppState.ProfileState.profile = AppState.AccountState.account
-      ? new Profile(AppState.AccountState.account)
-      : this.getProfileById(profileId);
-    AppState.ProfileState.challenges = [...AppState.AccountState.challenges]
-      ?? this.getChallenges(profileId);
-    AppState.ProfileState.participation = [...AppState.AccountState.participation]
-      ?? this.getParticipation(profileId);
-    // AppState.ProfileState.milestones = AppState.AccountState.milestones
-    //   ? [...AppState.AccountState.milestones]
-    //   : this.getMilestones(profileId);
-  }
+  // sideLoadAccountInfo(profileId) { // when profile page is your own account
+  //   logger.log('[PROFILE SERVICE] Load ProfileState <- AccountState');
+  //   AppState.ProfileState.profile = AppState.AccountState.account
+  //     ? new Profile(AppState.AccountState.account)
+  //     : this.getProfileById(profileId);
+  //   AppState.ProfileState.challenges = [...AppState.AccountState.challenges]
+  //     ?? this.getChallenges(profileId);
+  //   AppState.ProfileState.participation = [...AppState.AccountState.participation]
+  //     ?? this.getParticipation(profileId);
+  //   // AppState.ProfileState.milestones = AppState.AccountState.milestones
+  //   //   ? [...AppState.AccountState.milestones]
+  //   //   : this.getMilestones(profileId);
+  // }
 
 }
 
