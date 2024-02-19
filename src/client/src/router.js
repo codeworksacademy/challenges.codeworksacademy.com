@@ -111,7 +111,7 @@ const routes = [
     name: 'Challenge',
     component: loadPage('ChallengePage'),
     // redirect: { name: 'Challenge.overview' },
-    beforeEnter: authGuard,
+    beforeEnter: authSettled,
     children: [
       {
         path: '',
