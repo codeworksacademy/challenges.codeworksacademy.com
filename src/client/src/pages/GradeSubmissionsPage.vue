@@ -1,19 +1,21 @@
 <template>
-  <section class="bg-detail p-3 mx-3 rounded-3" v-if="challengeCreator">
-    <div class="">
-      <div class="col-lg-8" v-if="challenge">
+  <div class="bg-detail p-3 mx-3 rounded-3">
+    <section class="row pb-3">
+      <div class="col-12">
         <h2>Grading</h2>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-12 accordion accordion-flush">
+    </section>
+
+    <section class="row">
+
+      <div class="col-12 accordion accordion-flush">
         <h3 class="text-warning">Needs Grading</h3>
-        <div v-for="p in participants" :key="p.id" class="accordion-item">
+        <div v-for="p in participants" :key="p.id" class="accordion-item mb-1">
           <div v-if="p.status === 'submitted' && challengeCreator">
             <h2 class="accordion-header">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                 :data-bs-target="'#collapse' + p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
-                <span>{{ p.profile.nickname || profile.name }}</span>
+                <span>{{ p.profile.nickname || p.profile.name }}</span>
               </button>
             </h2>
             <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
@@ -24,14 +26,15 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-12 accordion accordion-flush">
+
+      <div class="col-12 accordion accordion-flush">
         <h3 class="text-info">Started</h3>
-        <div v-for="p in participants" :key="p.id" class="accordion-item">
+        <div v-for="p in participants" :key="p.id" class="accordion-item mb-1">
           <div v-if="p.status === 'started' && challengeCreator">
             <h2 class="accordion-header bg-dark text-light">
               <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse"
                 :data-bs-target="'#collapse' + p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
-                <span>{{ p.profile.nickname || profile.name }}</span>
+                <span>{{ p.profile.nickname || p.profile.name }}</span>
               </button>
             </h2>
             <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
@@ -42,14 +45,15 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-12 accordion accordion-flush">
+
+      <div class="col-12 accordion accordion-flush">
         <h3 class="text-success">Complete</h3>
-        <div v-for="p in participants" :key="p.id" class="accordion-item">
+        <div v-for="p in participants" :key="p.id" class="accordion-item mb-1">
           <div v-if="p.status === 'completed' && challengeCreator" class="bg-detail rounded-bottom">
             <h2 class="accordion-header">
               <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse"
                 :data-bs-target="'#collapse' + p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
-                <span>{{ p.profile.nickname || profile.name }}</span>
+                <span>{{ p.profile.nickname || p.profile.name }}</span>
               </button>
             </h2>
             <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
@@ -60,16 +64,17 @@
           </div>
         </div>
       </div>
-    </div>
-  </section>
+
+    </section>
+  </div>
 </template>
   
 <script>
-import GradeSubmissionForm from '../components/Forms/GradeSubmissionForm.vue'
-import { computed, ref, watchEffect } from 'vue'
 import { AppState } from '../AppState'
+import { computed, ref, watchEffect } from 'vue'
 import { StrDifficultyNum } from '../utils/StrDifficultyNum'
-import { newChallengeParticipant } from '../utils/NewChallengeParticipant'
+import { newChallengeParticipant } from '../utils/NewChallengeParticipant.js'
+import GradeSubmissionForm from '../components/Forms/GradeSubmissionForm.vue'
 
 export default {
   components: {
@@ -102,12 +107,13 @@ export default {
       filterBy,
       editable,
       participant,
-      profile: computed(() => AppState.ProfileState.profile),
-      user: computed(() => AppState.user),
-      challenge: computed(() => AppState.ChallengeState.challenge),
-      myModerations: computed(() => AppState.ChallengeState.moderators.filter(m => m.accountId === AppState.AccountState.account.id)),
-      challengeCreator: computed(() => AppState.user.id === AppState.ChallengeState.challenge?.creatorId),
       isModeratorStatus,
+
+      user: computed(() => AppState.user),
+      profile: computed(() => AppState.ProfileState.profile),
+      challenge: computed(() => AppState.ChallengeState.challenge),
+      challengeCreator: computed(() => AppState.user.id === AppState.ChallengeState.challenge?.creatorId),
+      myModerations: computed(() => AppState.ChallengeState.moderators.filter(m => m.accountId === AppState.AccountState.account.id)),
       difficulty: computed(() => StrDifficultyNum(AppState.ChallengeState.challenge.difficulty)),
       participants: computed(() => AppState.ChallengeState.participants),
       isParticipant: computed(() => {
@@ -126,15 +132,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 .profile-picture-small {
   height: 60px;
   width: 60px;
 }
 
-.bg-detail{
-    background-color: #1c2332;
-    border: 1px solid #2d386b;
+.bg-detail {
+  background-color: #1c2332;
+  border: 1px solid #2d386b;
 }
-
 </style>

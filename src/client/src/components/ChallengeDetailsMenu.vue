@@ -14,7 +14,7 @@
         </router-link>
       </div>
 
-      <div class="sub-nav d-flex flex-column" v-if="isOwned || isModerator">
+      <div class="sub-nav mt-2 d-flex flex-column" v-if="isOwned || isModerator">
         <p class="badge mb-0 pt-2 text-start">Moderator Links</p>
         <router-link :to="{ name: 'Challenge.challengeSubmissionsPage' }" class="selectable my-2">
           <i class="mdi mdi-eye-arrow-right text-orange fst-normal p-3"> Submissions</i>
@@ -22,11 +22,11 @@
         <router-link :to="{ name: 'Challenge.gradeSubmissionsPage' }" class="selectable my-2">
           <i class="mdi mdi-progress-check text-info mt-1 fst-normal p-3"> Grade Users</i>
         </router-link>
+        <router-link :to="{ name: 'Challenge.challengeModeratorsPage' }" class="selectable my-2">
+          <i class="mdi mdi-archive-edit text-danger fst-normal p-3"> Moderators</i>
+        </router-link>
         <router-link :to="{ name: 'Challenge.challengeEditor' }" class="selectable my-2">
           <i class="mdi mdi-archive-edit text-yellow fst-normal p-3"> Edit Challenge</i>
-        </router-link>
-        <router-link :to="{ name: 'Challenge.challengeModeratorsPage' }" class="selectable my-2">
-          <i class="mdi mdi-archive-edit text-danger fst-normal p-3">Moderators</i>
         </router-link>
       </div>
 

@@ -34,7 +34,7 @@ import Pop from "../utils/Pop.js";
 import { AppState } from '../AppState';
 import { logger } from "../utils/Logger.js";
 import { useRoute, useRouter } from "vue-router";
-import { computed, onUnmounted, ref, watch, } from 'vue'
+import { computed, onUnmounted, ref, watchEffect, } from 'vue'
 import { profilesService } from "../services/ProfilesService.js";
 import SummarySection from '../components/ProfilePage/SummarySection.vue';
 import ProfileLinksCard from '../components/ProfilePage/ProfileLinksCard.vue';
@@ -48,7 +48,12 @@ export default {
     const MilestonesError = ref('');
 
     onUnmounted(() => { profilesService.clearProfile(); });
-    watch(() => route.params.profileId, getProfileData(), { immediate: true });
+
+    watchEffect(() => {
+      if (route.params.profileId) {
+        getProfileData();
+      }
+    });
 
     async function getProfileData() {
       try {

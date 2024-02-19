@@ -4,12 +4,17 @@
     <div class="row">
       <div class="col-12">
         <div v-if="!isParticipant || isParticipant?.status == 'left'">
-          <ChallengeStatCard :challenge="challenge" color="#22ff33" bgColor="#22ff330f" value=""
-            icon="mdi-account-multiple-plus" @click="joinChallenge()" class="selectable mb-2" prop="Join Challenge" />
+          <ChallengeStatCard :challenge="challenge" color="#22ff33" bgColor="#22ff330f" icon="mdi-account-multiple-plus"
+            @click="joinChallenge()" class="selectable mb-2" prop="Join Challenge" />
         </div>
         <div v-if="isParticipant?.status == 'started'">
-          <ChallengeStatCard :challenge="challenge" title="Submit Challenge" data-bs-toggle="modal" data-bs-target="#challengeSubmissionForm"
-          data-bs-dismiss="modal" class="selectable mb-2"  bgColor="#1da3e60f" color="#1da3e6" value="" icon="mdi-send" prop="Submit Challenge" />
+          <ChallengeStatCard :challenge="challenge" title="Submit Challenge" data-bs-toggle="modal"
+            data-bs-target="#challengeSubmissionForm" data-bs-dismiss="modal" class="selectable mb-2" bgColor="#1da3e60f"
+            color="#1da3e6" icon="mdi-send" prop="Submit Challenge" />
+        </div>
+        <div v-if="isParticipant?.status == 'submitted'">
+          <ChallengeStatCard :challenge="challenge" title="Awaiting Review" class="selectable mb-2" bgColor="#0516270f"
+            color="#1da3e6" icon="mdi-message-draw" prop="Awaiting Review" />
         </div>
       </div>
     </div>
@@ -60,15 +65,18 @@
 </template>
 
 <script>
+import Pop from '../utils/Pop.js'
 import { computed } from 'vue'
-import { AppState } from '../AppState'
+import { useRoute } from 'vue-router'
+import { AppState } from '../AppState.js'
+import { difficultyMap } from '../utils/DifficultyMap.js'
+import { AuthService } from "../services/AuthService.js"
+import { participantsService } from '../services/ParticipantsService.js'
 import ChallengeCreatorCard from '../components/ChallengePage/ChallengeCreatorCard.vue'
 import ChallengeBadgeCard from '../components/ChallengePage/ChallengeBadgeCard.vue'
-import { difficultyMap } from '../utils/DifficultyMap.js'
-import { useRoute } from 'vue-router'
-import { participantsService } from '../services/ParticipantsService.js'
-import Pop from '../utils/Pop'
-import { logger } from '../utils/Logger'
+import ChallengeStatCard from "../components/ChallengePage/ChallengeStatCard.vue"
+import GiveRepButton from "../components/ChallengePage/GiveRepButton.vue"
+import Markdown from "../components/EditChallenge/Markdown.vue"
 
 export default {
   setup() {
@@ -77,17 +85,19 @@ export default {
     const isParticipant = computed(() => {
       return AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id);
     });
+
     async function joinChallenge() {
       try {
+        if (!AppState.AccountState.account.id) {
+          AuthService.loginWithPopup();
+          return
+        }
         await participantsService.joinChallenge({
           challengeId: route.params.challengeId,
         });
         Pop.success("You have joined the challenge!");
       }
-      catch (error) {
-        logger.error(error);
-        Pop.toast(error, "error");
-      }
+      catch (error) { Pop.toast('[CHALLENGE OVERVIEW PAGE] joinChallenge', error); }
     }
 
 
@@ -98,10 +108,10 @@ export default {
       difficulty: computed(() => {
         const difficulty = AppState.ChallengeState.challenge?.difficulty
         return difficultyMap[difficulty] || difficultyMap.default
-      })
+      }),
     }
   },
-  components: { ChallengeCreatorCard, ChallengeBadgeCard }
+  components: { ChallengeCreatorCard, ChallengeBadgeCard, ChallengeStatCard, GiveRepButton, Markdown }
 }
 </script>
 
@@ -109,7 +119,6 @@ export default {
 .container-fluid {
   background-color: var(--bg-main);
 }
-
 
 .creator-details-card {
   height: 25vh;

@@ -48,7 +48,7 @@ export default {
     onMounted(() => { clearChallenge() });
     function clearChallenge() {
       try { challengesService.clearChallenge(); }
-      catch (error) { Pop.error('[CHALLENGES PAGE] clearChallenge', error); }
+      catch (error) { Pop.error('[CHALLENGE PAGE] clearChallenge', error); }
     }
 
     watch(() => route.params.challengeId, () => { getChallengeData(); }, { immediate: true });
@@ -65,7 +65,7 @@ export default {
           throw new Error('Unable to fetch challenge');
         }
       } catch (error) {
-        Pop.error('[CHALLENGES PAGE] getChallengeData', error);
+        Pop.error('[CHALLENGE PAGE] getChallengeData', error);
         // router.push({ name: 'Error' });
       }
     }
