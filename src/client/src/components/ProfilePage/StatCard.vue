@@ -1,5 +1,5 @@
 <template>
-  <div class="p-1 p-md-3 my-1 mx-0 mb-2 mb-lg-3 d-flex flex-row align-items-center justify-content-center"
+  <div class="p-1 p-md-3 my-1 mx-0 mb-2 mb-lg-3 d-flex flex-row align-items-center justify-content-evenly"
     :class="props.themeStyle ? 'theme-card' : 'card'"
     :style="{ backgroundColor: props.bgColor, border: '1px', borderColor: props.color, borderStyle: 'solid' }">
 

@@ -26,6 +26,10 @@ class ProfilesService {
     const res = await api.get(`api/profiles/${profileId}/participation`);
     AppState.ProfileState.participation = res.data.map(m => new ChallengeParticipant(m));
   }
+  async getMilestones(profileId) {
+    const res = await api.get(`api/profiles/${profileId}/milestones`)
+    AppState.ProfileState.milestones = res.data.map(m => new AccountMilestone(m))
+  }
 
   async calculateProfileRank(profileId) {
     const res = await api.get(`api/profiles/${profileId}/rank`);
@@ -39,10 +43,6 @@ class ProfilesService {
     AppState.ProfileState.profile.reputation = res.data.reputation
     return res.data
   }
-  async getMilestones(profileId) {
-    const res = await api.get(`api/profiles/${profileId}/milestones`)
-    AppState.ProfileState.milestones = res.data.map(m => new AccountMilestone(m))
-  }
 
   clearProfile() {
     AppState.ProfileState.profile = null;
@@ -55,13 +55,14 @@ class ProfilesService {
     logger.log('[PROFILE SERVICE] Load ProfileState <- AccountState');
     AppState.ProfileState.profile = AppState.AccountState.account
       ? new Profile(AppState.AccountState.account)
-      : getProfileById(profileId);
+      : this.getProfileById(profileId);
     AppState.ProfileState.challenges = [...AppState.AccountState.challenges]
-      ?? getChallenges(profileId);
+      ?? this.getChallenges(profileId);
     AppState.ProfileState.participation = [...AppState.AccountState.participation]
-      ?? getParticipation(profileId);
-    AppState.ProfileState.milestones = [...AppState.AccountState.milestones]
-      ?? getMilestones(profileId);
+      ?? this.getParticipation(profileId);
+    // AppState.ProfileState.milestones = AppState.AccountState.milestones
+    //   ? [...AppState.AccountState.milestones]
+    //   : this.getMilestones(profileId);
   }
 
 }

@@ -1,29 +1,38 @@
 <template>
-  <section v-if="challenge" class="text-light pb-5" style="overflow-x: hidden;">
-    <div class="col-12 bottom-fade"
-      :style="`background-image: url(${challenge.coverImg}); background-size: cover; background-position: center; background-repeat: no-repeat;`">
-      <h1 class="text-center">{{ challenge.name }}</h1>
-    </div>
-    <div class="container-fluid pt-3" style=" background: #161d2b">
-      <div class="row">
-        <div class="col-lg-2 rounded-3 mobile-menu">
-          <ChallengeDetailsMenu class="sticky-top" />
-        </div>
-        <div class="col-lg-10">
-          <div class="row">
-            <router-view />
-          </div>
+  <div class="container-fluid">
+    <section v-if="challenge" class="row text-light pb-5" style="overflow-x: hidden;">
+
+      <div class="col-12 bottom-fade challenge-BG-img" :style="`background-image: url(${challenge.coverImg});`">
+        <h1 class="text-center">{{ challenge.name }}</h1>
+      </div>
+
+      <div class="col-12 col-lg-2 pt-3" style="background: #161d2b">
+        <ChallengeDetailsMenu class="sticky-top" />
+      </div>
+
+      <div class="col-12 col-lg-10 pt-3">
+        <div class="row">
+          <router-view />
         </div>
       </div>
-    </div>
-  </section>
+
+    </section>
+
+    <section v-else class="row">
+      <div class="col-12 p-5 text-center">
+        <h1 class="fs-1 fw-bold">
+          Loading... <i class="mdi mdi-loading mdi-spin"></i>
+        </h1>
+      </div>
+    </section>
+
+  </div>
 </template>
 
 <script>
 import Pop from '../utils/Pop'
 import { AppState } from '../AppState'
-import { logger } from '../utils/Logger'
-import { computed, watch, ref, onMounted } from 'vue'
+import { computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { challengesService } from '../services/ChallengesService'
 import { participantsService } from '../services/ParticipantsService'
@@ -87,6 +96,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.challenge-BG-img {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .bottom-fade {
   position: relative;
   height: 150px;
@@ -94,13 +109,13 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
   color: rgb(255, 255, 255);
   text-shadow: 0 0 5px 0 gray;
   box-shadow: inset 0 -20px 10px 0 #151d2b;
   background: linear-gradient(180deg, rgba(85, 21, 21, 0) 0%, #151d2b 80%, #151d2b 100%);
+  // background-repeat: no-repeat;
+  // background-position: center;
+  // background-size: cover;
 
   h1 {
     font-size: 3rem;

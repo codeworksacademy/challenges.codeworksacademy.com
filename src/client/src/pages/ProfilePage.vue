@@ -31,7 +31,6 @@
 
 <script>
 import Pop from "../utils/Pop.js";
-import { router } from "../router.js";
 import { useRoute } from "vue-router";
 import { AppState } from '../AppState';
 import { logger } from "../utils/Logger.js";
@@ -47,8 +46,9 @@ export default {
     const route = useRoute();
     const MilestonesError = ref('');
 
-    onUnmounted(() => profilesService.clearProfile());
+    // onUnmounted(() => { profilesService.clearProfile(); });
     watch(() => AppState.AccountState.account.id, getProfileData());
+    watch(() => route.params.profileId, getProfileData());
 
     async function getProfileData() {
       try {

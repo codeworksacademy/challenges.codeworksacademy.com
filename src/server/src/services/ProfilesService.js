@@ -55,8 +55,8 @@ class ProfilesService {
     return total
   }
 
-  async getProfileMilestones(id) {
-    const foundMilestones = await dbContext.AccountMilestones.find({ accountId: id }).populate('milestone')
+  async getProfileMilestones(accountId) {
+    const foundMilestones = await dbContext.AccountMilestones.find({ accountId }).populate('milestone')
     if (!foundMilestones) {
       new Error('This user does not have any milestones')
       return
@@ -64,10 +64,10 @@ class ProfilesService {
     return foundMilestones
   }
 
-//   async getProfileChallengeBadges(id) {
-//     const foundChallengeBadges = await dbContext.Account.findById(id)
-//     const completedChallenges = await dbContext.ChallengeParticipants.find({ accountId: id, status: 'completed' })
-// }
+  //   async getProfileChallengeBadges(id) {
+  //     const foundChallengeBadges = await dbContext.Account.findById(id)
+  //     const completedChallenges = await dbContext.ChallengeParticipants.find({ accountId: id, status: 'completed' })
+  // }
 }
 
 export const profilesService = new ProfilesService()
