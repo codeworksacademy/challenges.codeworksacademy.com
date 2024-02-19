@@ -56,16 +56,7 @@ export default {
     const route = useRoute();
     return {
       route,
-      account: computed(() => AppState.AccountState.account),
-      isMyProfile: computed(() => {
-        if (route.path.includes('profile')) {
-          return route.params.profileId == AppState.AccountState.account.id;
-        }
-        if (route.path.includes('account')) {
-          return true
-        }
-
-      }),
+      isMyProfile: computed(() => route.params.profileId == AppState.AccountState.account.id),
     }
   }
 }

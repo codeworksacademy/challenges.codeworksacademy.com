@@ -11,7 +11,7 @@
     </div>
     <div class="d-flex gap-3 align-items-center">
       <span class="text-center text-uppercase">{{ board.prop }} {{ profile[board.prop] }}</span>
-      <ProfileTitle :title="profile.title" />
+      <ProfileTitle :titleName="profile.title" />
     </div>
   </div>
 </template>
@@ -22,6 +22,7 @@ import gold from '../../assets/img/trophy-1.png'
 import silver from '../../assets/img/trophy-2.png'
 import bronze from '../../assets/img/trophy-3.png'
 import ProfileTitle from "../ProfileTitle.vue";
+import ProfileImg from "../ProfileImg.vue";
 
 
 export default {
@@ -54,7 +55,7 @@ export default {
       }
     };
   },
-  components: { ProfileTitle }
+  components: { ProfileTitle, ProfileImg }
 }
 </script>
 

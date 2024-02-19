@@ -12,7 +12,7 @@
         </router-link>
 
         <div class="ms-3 text-start">
-          <ProfileTitle :title="profile?.title" />
+          <ProfileTitle :titleName="profile?.title" />
           <p class="creator-text text-capitalize fs-3 mb-0">{{ profile.nickname || profile.name }}
           </p>
           <div class="d-flex flex-wrap gap-3 fw-semibold">

@@ -20,6 +20,7 @@ const routes = [
     path: '/profile/:profileId',
     name: 'Profile',
     component: loadPage('ProfilePage'),
+    // beforeEnter: authSettled,
     children: [
       {
         path: '',
@@ -39,12 +40,14 @@ const routes = [
       {
         path: 'milestones',
         name: 'Profile.milestones',
-        component: loadPage('ProfileMilestones')
+        component: loadPage('ProfileMilestones'),
+        // beforeEnter: authGuard
       },
       {
         path: 'moderations',
         name: 'Profile.moderations',
-        component: loadPage('ProfileModerations')
+        component: loadPage('ProfileModerations'),
+        // beforeEnter: authGuard
       }
     ]
   },
@@ -107,11 +110,11 @@ const routes = [
     path: '/challenge/:challengeId',
     name: 'Challenge',
     component: loadPage('ChallengePage'),
-    redirect: { name: 'Challenge.overview' },
+    // redirect: { name: 'Challenge.overview' },
     beforeEnter: authGuard,
     children: [
       {
-        path: 'overview',
+        path: '',
         name: 'Challenge.overview',
         component: loadPage('ChallengeOverviewPage')
       },

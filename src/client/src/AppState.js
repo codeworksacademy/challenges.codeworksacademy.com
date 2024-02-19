@@ -3,10 +3,10 @@ import { reactive } from 'vue'
 
 // Fetch this data each time you land on a profile page
 const ProfileState = reactive({
-  loading: true,
-  /**@type {import('./models/Profile.js').Profile} */
+  /**@type {import('./models/Profile.js').Profile||null} */
   profile: null,
-  challenges: [],
+  /** @type {import('./models/Challenge.js').Challenge[]||null} */
+  challenges: null,
   /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]} */
   participation: [],
   /** @type {import('./models/ChallengeModerator.js').ChallengeModerator[]} */
@@ -19,29 +19,29 @@ const ProfileState = reactive({
 const AccountState = reactive({
   /** @type {import('./models/Account.js').Account} */
   account: {},
-  challenges: [],
-  /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]} */
-  participation: [],
-  /** @type {import('./models/ChallengeModerator.js').ChallengeModerator[]} */
-  moderation: [],
-  /** @type {import('./models/ChallengeModerator.js').ChallengeModerator[]} */
-  challengeModeration: [],
-  /** @type {import('./models/AccountMilestone.js').Milestone[]} */
-  milestones: [],
+  /** @type {import('./models/Challenge.js').Challenge[]||null} */
+  challenges: null,
+  /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]||null} */
+  participation: null,
+  /** @type {import('./models/ChallengeModerator.js').ChallengeModerator[]||null} */
+  moderation: null,
+  /** @type {import('./models/ChallengeModerator.js').ChallengeModerator[]||null} */
+  challengeModeration: null,
+  /** @type {import('./models/AccountMilestone.js').Milestone[]||null} */
+  milestones: null,
 })
 
 // Fetch this data each time you land on a challenge page
 const ChallengeState = reactive({
-  loading: true,
-  /** @type {import('./models/Challenge.js')|null} */
+  /** @type {import('./models/Challenge.js').Challenge||null} */
   challenge: null,
-  /** @type {import('./models/ChallengeParticipant.js')|null}*/
+  /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant||null}*/
   participant: null,
-  /** @type {import('./models/ChallengeModerator.js')|null}*/
-  moderator: null,
-  /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]} */
+  /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]||null} */
   participants: [],
-  /** @type {import('./models/ChallengeModerator.js').ChallengeModerator[]} */
+  /** @type {import('./models/ChallengeModerator.js').ChallengeModerator||null}*/
+  moderator: null,
+  /** @type {import('./models/ChallengeModerator.js').ChallengeModerator[]||null} */
   moderators: [],
 })
 

@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <section class="row">
       <div class="avatar-container col-4 col-sm-2 p-0">
-        <div class=" avatar-bg"></div>
+        <div class="avatar-bg"></div>
         <ProfileImg :profile="profile" class="avatar-lg mx-4 light-gold-border avatar-style" />
       </div>
 
@@ -16,15 +16,15 @@
             {{ profile.rank }} <span class="light-gold-color">XP</span>
           </span>
           <span title="challenges" class="ms-4">
-            {{ challenges.length }}
+            {{ summary.challenges }}
             <i class="mdi mdi-file-code light-gold-color"></i>
           </span>
           <span title="milestones" class="ms-4">
-            {{ milestones.length }}
+            {{ summary.milestones }}
             <i class="mdi mdi-trophy light-gold-color"></i>
           </span>
           <span title="badges" class="ms-4">
-            {{ badges.length }}
+            {{ summary.badges }}
             <i class="mdi mdi-seal light-gold-color"></i>
           </span>
           <span title="reputation" class="ms-4">
@@ -47,9 +47,11 @@ export default {
   components: { ProfileImg },
   props: {
     profile: { type: [Profile, Account], required: true },
-    challenges: { type: Array, required: true },
-    participation: { type: Array, required: true },
-    milestones: { type: Array, required: true },
+    summary: {
+      challenges: { type: Number },
+      milestones: { type: Number },
+      badges: { type: Number },
+    },
   },
   setup(props) {
     return {

@@ -38,40 +38,45 @@
 <script>
 import Pop from '../../utils/Pop.js';
 import { computed, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import { AppState } from '../../AppState'
 import { profilesService } from '../../services/ProfilesService.js';
-import { useRoute } from 'vue-router';
 import { challengeModeratorsService } from '../../services/ChallengeModeratorsService.js';
 
 export default {
   setup() {
-    const editable = ref({})
-    const route = useRoute()
+    const editable = ref({});
+    const route = useRoute();
+
     return {
       editable,
       moderators: computed(() => AppState.ChallengeState.moderators),
+
       Profiles: computed(() => {
         return AppState.profiles.filter((profile) => profile.id != AppState.AccountState.account.id)
       }),
+
       async getProfiles() {
         try {
-          const name = editable.value.name
-          await profilesService.getProfiles(name)
-          editable.value.name = ''
+          const name = editable.value.name;
+          await profilesService.getProfiles(name);
+          editable.value.name = '';
         }
         catch (error) { Pop.toast(error); }
       },
+
       async createModeration(profileId) {
         try {
           const moderatorData = {
             challengeId: route.params.challengeId,
             accountId: profileId
           }
-          await challengeModeratorsService.createModeration(moderatorData)
-          Pop.success('You have requested that this profile become a moderator, Please be patient while they review your request')
+          await challengeModeratorsService.createModeration(moderatorData);
+          Pop.success('You have requested that this profile become a moderator, Please be patient while they review your request');
         }
         catch (error) { Pop.toast(error); }
       }
+
     }
   }
 }

@@ -1,23 +1,23 @@
 <template>
-  <span class="navbar-text p-0">
-    <button class="btn selectable text-success lighten-30 text-uppercase my-2 my-lg-0" @click="login"
-      v-if="!user.isAuthenticated">
+  <span class="navbar-text">
+    <button class="btn selectable text-success lighten-30 text-uppercase my-2 my-lg-0" v-if="!user.isAuthenticated"
+      @click="login">
       Login
     </button>
     <div v-else>
-      <div class="dropdown my-1 me-1 ms-2 my-lg-0">
+      <div class="dropdown my-1 me-1 ms-2 my-lg-0 p-2">
 
-        <div type="button" class="border-0 selectable no-select rounded px-1 py-0" data-bs-toggle="dropdown"
+        <div class="border-0 selectable no-select rounded p-1" type="button" data-bs-toggle="dropdown"
           aria-expanded="false">
-          <div v-if="account.picture || user.picture" class="d-flex align-items-center">
+          <div class="d-flex align-items-center">
             <div class="me-2">
               <img :src="account.picture || user.picture" alt="account photo" class="avatar-xs light-gold-border" />
             </div>
             <div class="text-white">
               <p class="m-0 fs-5">{{ account.nickname || account.name }}</p>
               <p class="m-0 d-flex gap-2 align-items-center">
-                <ProfileTitle :title="account.title" />
-                <span class="">
+                <ProfileTitle :titleName="account.title" />
+                <span>
                   {{ account.xp }}
                   <span class="light-gold-color">
                     XP
@@ -30,7 +30,7 @@
 
         <div class="dropdown-menu dropdown-menu-lg-end dropdown-menu-start p-0" aria-labelledby="authDropdown">
           <div class="list-group">
-            <router-link :to="{ name: 'Profile.overview', params: { profileId: account.id } }">
+            <router-link :to="{ name: 'Profile.overview', params: { profileId: account.id } }" v-if="account?.title">
               <div class="list-group-item dropdown-item list-group-item-action">
                 View Profile
               </div>

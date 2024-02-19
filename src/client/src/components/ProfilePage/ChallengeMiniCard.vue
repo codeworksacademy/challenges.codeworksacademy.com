@@ -59,7 +59,7 @@ export default {
 
         Pop.toast("You have left the challenge!");
       }
-      catch (error) { Pop.toast('Leave challenge attempt failed ', error); }
+      catch (error) { Pop.toast('Attempt to leave the challenge failed ', error); }
     }
 
     return {

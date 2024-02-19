@@ -10,7 +10,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse rounded" id="navbarText">
-      <ul class="navbar-nav me-auto" style="z-index: 1000;">
+      <ul class="navbar-nav me-auto gap-1" style="z-index: 1000;">
         <li class="p-0 pt-md-1 ps-2 ps-0">
           <router-link :to="{ name: 'Leaderboards' }" class="btn text-white selectable">
             <span class="fs-6 d-none d-lg-block"><i class="mdi mdi-trophy"></i> Leaderboards</span>
@@ -52,12 +52,16 @@ a:hover {
 .navbar-collapse {
   padding-left: 1rem;
   margin-top: .25rem;
-  background-color: #0B0E13;
 }
 
-@media screen and (min-width: 768px) {
-  nav {
-    height: 64px;
+nav {
+  height: 64px;
+}
+
+@media screen and (max-width: 991px) {
+
+  .navbar-collapse {
+    background-color: #0B0E13;
   }
 }
 

@@ -5,7 +5,8 @@
       <input v-model="editable.name" id="name" class="form-control" type="text" minlength="3" maxlength="20"
         placeholder="Name...">
     </div>
-    <img :src="editable.picture" alt="profile picture" class="img-fluid my-2 rounded-circle" style="width: 65px; height: 65px;">
+    <img :src="editable.picture" alt="profile picture" class="img-fluid my-2 rounded-circle"
+      style="width: 65px; height: 65px;">
     <div class="input-group py-2">
       <label for="picture" class="input-group-text">Profile Picture</label>
       <input v-model="editable.picture" id="picture" class="form-control" type="url" minlength="3" maxlength="300"
@@ -30,27 +31,22 @@
 
 
 <script>
-import Pop from '../../utils/Pop'
-import { AppState } from '../../AppState'
-import { computed, ref, watchEffect } from 'vue'
-import { accountService } from '../../services/AccountService'
+import Pop from '../../utils/Pop.js'
+import { ref, watchEffect } from 'vue'
+import { AppState } from '../../AppState.js'
+import { accountService } from '../../services/AccountService.js'
 
 export default {
   setup() {
-    const editable = ref({})
-    watchEffect(() => {
-      editable.value = { ...AppState.AccountState.account }
-    })
+    const editable = ref({});
+    watchEffect(() => { editable.value = { ...AppState.AccountState.account } })
+
     return {
       editable,
-      account: computed(() => AppState.AccountState.account),
 
       async updateAccount() {
-        try {
-          await accountService.updateAccount(editable.value)
-        } catch (error) {
-          Pop.error(error.message, '[UPDATING ACCOUNT]')
-        }
+        try { await accountService.updateAccount(editable.value); }
+        catch (error) { Pop.error('[UPDATING ACCOUNT]', error.message); }
       }
     }
   }
