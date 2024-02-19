@@ -12,43 +12,78 @@ const routes = [
     component: loadPage('HomePage')
   },
   {
-    path: '/about',
-    name: 'About',
-    component: loadPage('AboutPage')
+    path: '/leaderboards',
+    name: 'Leaderboards',
+    component: loadPage('LeaderboardsPage')
   },
   {
-    path: '/account',
-    name: 'Account',
-    component: loadPage('AccountPage'),
-    beforeEnter: authGuard,
+    path: '/profile/:profileId',
+    name: 'Profile',
+    component: loadPage('ProfilePage'),
+    // beforeEnter: authSettled,
     children: [
       {
         path: '',
-        name: 'Account.overview',
-        component: loadPage('AccountOverview')
+        name: 'Profile.overview',
+        component: loadPage('ProfileOverview')
       },
       {
         path: 'challenges',
-        name: 'Account.challenges',
-        component: loadPage('AccountChallenges')
-      },
-      {
-        path: 'moderations',
-        name: 'Account.moderations',
-        component: loadPage('AccountModerations')
+        name: 'Profile.challenges',
+        component: loadPage('ProfileChallenges')
       },
       {
         path: 'badges',
-        name: 'Account.badges',
-        component: loadPage('AccountBadges')
+        name: 'Profile.badges',
+        component: loadPage('ProfileBadges')
       },
       {
         path: 'milestones',
-        name: 'Account.milestones',
-        component: loadPage('AccountMilestones')
+        name: 'Profile.milestones',
+        component: loadPage('ProfileMilestones'),
+        // beforeEnter: authGuard
+      },
+      {
+        path: 'moderations',
+        name: 'Profile.moderations',
+        component: loadPage('ProfileModerations'),
+        // beforeEnter: authGuard
       }
     ]
   },
+  // {
+  //   path: '/account',
+  //   name: 'Account',
+  //   component: loadPage('AccountPage'),
+  //   beforeEnter: authGuard,
+  //   children: [
+  //     {
+  //       path: '',
+  //       name: 'Account.overview',
+  //       component: loadPage('AccountOverview')
+  //     },
+  //     {
+  //       path: 'challenges',
+  //       name: 'Account.challenges',
+  //       component: loadPage('AccountChallenges')
+  //     },
+  //     {
+  //       path: 'badges',
+  //       name: 'Account.badges',
+  //       component: loadPage('AccountBadges')
+  //     },
+  //     {
+  //       path: 'milestones',
+  //       name: 'Account.milestones',
+  //       component: loadPage('AccountMilestones')
+  //     },
+  //     {
+  //       path: 'moderations',
+  //       name: 'Account.moderations',
+  //       component: loadPage('AccountModerations')
+  //     }
+  //   ]
+  // },
   {
     path: '/challenges',
     name: 'Challenges',
@@ -75,11 +110,11 @@ const routes = [
     path: '/challenge/:challengeId',
     name: 'Challenge',
     component: loadPage('ChallengePage'),
-    redirect: { name: 'Challenge.overview' },
-    beforeEnter: authGuard,
+    // redirect: { name: 'Challenge.overview' },
+    beforeEnter: authSettled,
     children: [
       {
-        path: 'overview',
+        path: '',
         name: 'Challenge.overview',
         component: loadPage('ChallengeOverviewPage')
       },
@@ -120,47 +155,20 @@ const routes = [
     ]
   },
   {
-    path: '/profiles/:profileId',
-    name: 'Profile',
-    component: loadPage('ProfilePage'),
-    children: [
-      {
-        path: '',
-        name: 'Profile.overview',
-        component: loadPage('ProfileOverview')
-      },
-      {
-        path: 'challenges',
-        name: 'Profile.challenges',
-        component: loadPage('ProfileChallenges')
-      },
-      {
-        path: 'badges',
-        name: 'Profile.badges',
-        component: loadPage('ProfileBadges')
-      },
-    ]
-  },
-  {
     path: '/milestones',
     name: 'Milestones',
     component: loadPage('MilestonesPage')
-  },
-  {
-    path: '/leaderboards',
-    name: 'Leaderboards',
-    component: loadPage('LeaderboardsPage')
   },
   {
     path: '/markdown',
     name: 'Markdown',
     component: loadPage('MarkdownPage')
   },
-  {
-    path: '/refactor/:challengeId',
-    name: 'Refactor',
-    component: loadPage('ChallengeDetailsPageRefactor')
-  },
+  // {
+  //   path: '/refactor/:challengeId',
+  //   name: 'Refactor',
+  //   component: loadPage('ChallengeDetailsPageRefactor')
+  // },
   {
     path: '/Error',
     name: 'Error',

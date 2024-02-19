@@ -6,12 +6,12 @@
 </template>
 
 <script>
-import { Account } from '../models/Account.js';
 import { Profile } from '../models/Profile.js';
+import { Account } from '../models/Account.js';
 
 export default {
 	props: {
-		profile: { type: [Account, Profile] }
+		profile: { type: [Profile, Account] }
 	}
 }
 </script>

@@ -1,29 +1,38 @@
 <template>
-  <section v-if="challenge" :key="challenge?.id" class="text-light pb-5" style="overflow-x: hidden;">
-    <div class="col-12 bottom-fade"
-      :style="`background-image: url(${challenge.coverImg}); background-size: cover; background-position: center; background-repeat: no-repeat;`">
-      <h1 class="text-center">{{ challenge.name }}</h1>
-    </div>
-    <div class="container-fluid pt-3" style=" background: #161d2b">
-      <div class="row">
-        <div class="col-lg-2 rounded-3 mobile-menu">
-          <ChallengeDetailsMenu class="sticky-top" />
-        </div>
-        <div class="col-lg-10">
-          <div class="row">
-            <router-view />
-          </div>
+  <div class="container-fluid">
+    <section v-if="challenge" class="row text-light pb-5" style="overflow-x: hidden;">
+
+      <div class="col-12 bottom-fade challenge-BG-img" :style="`background-image: url(${challenge.coverImg});`">
+        <h1 class="text-center">{{ challenge.name }}</h1>
+      </div>
+
+      <div class="col-12 col-lg-2 pt-3" style="background: #161d2b">
+        <ChallengeDetailsMenu class="sticky-top" />
+      </div>
+
+      <div class="col-12 col-lg-10 pt-3">
+        <div class="row">
+          <router-view />
         </div>
       </div>
-    </div>
-  </section>
+
+    </section>
+
+    <section v-else class="row">
+      <div class="col-12 p-5 text-center">
+        <h1 class="fs-1 fw-bold">
+          Loading... <i class="mdi mdi-loading mdi-spin"></i>
+        </h1>
+      </div>
+    </section>
+
+  </div>
 </template>
 
 <script>
 import Pop from '../utils/Pop'
 import { AppState } from '../AppState'
-import { logger } from '../utils/Logger'
-import { computed, watch, ref, onMounted } from 'vue'
+import { computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { challengesService } from '../services/ChallengesService'
 import { participantsService } from '../services/ParticipantsService'
@@ -32,80 +41,50 @@ import ChallengeDetailsMenu from '../components/ChallengeDetailsMenu.vue'
 
 export default {
   setup() {
-    const route = useRoute()
-    const router = useRouter()
-    const answer = ref("")
-    const challengeId = ref(route.params.challengeId)
 
-    async function setActiveChallenge() {
-      try {
-        await challengesService.setActiveChallenge(route.params.challengeId);
-      }
-      catch (error) {
-        logger.error(error);
-        Pop.toast(error, "error");
-      }
-    }
-    async function getParticipantsByChallengeId() {
-      try {
-        await participantsService.getParticipantsByChallengeId(route.params.challengeId);
-      }
-      catch (error) {
-        logger.error(error);
-        Pop.toast(error, "error");
-      }
-    }
+    const route = useRoute();
+    const router = useRouter();
 
-    async function getModeratorsByChallengeId() {
-      try {
-        await challengeModeratorsService.getModeratorsByChallengeId(route.params.challengeId);
-      }
-      catch (error) {
-        logger.error(error);
-        Pop.toast(error, "error");
-      }
-    }
-
+    onMounted(() => { clearChallenge() });
     function clearChallenge() {
-      try {
-        challengesService.clearChallenge();
-      }
-      catch (error) {
-        Pop.error(error.message);
-      }
+      try { challengesService.clearChallenge(); }
+      catch (error) { Pop.error('[CHALLENGES PAGE] clearChallenge', error); }
     }
+
+    watch(() => route.params.challengeId, () => { getChallengeData(); }, { immediate: true });
 
     async function getChallengeData() {
       try {
-        AppState.ChallengeState.loading = true
         await Promise.allSettled([
           setActiveChallenge(),
           getParticipantsByChallengeId(),
-          getModeratorsByChallengeId(),
+          getModeratorsByChallengeId()
         ])
 
         if (!AppState.ChallengeState.challenge) {
-          throw new Error('Unable to fetch challenge')
+          throw new Error('Unable to fetch challenge');
         }
-
-        AppState.ChallengeState.loading = false
       } catch (error) {
-        logger.error({ error })
-        Pop.error(error)
-        router.push({ name: 'Error' })
+        Pop.error('[CHALLENGES PAGE] getChallengeData', error);
+        // router.push({ name: 'Error' });
       }
     }
 
-    watch(challengeId, () => {
-      getChallengeData()
-    }, { immediate: true });
+    async function setActiveChallenge() {
+      try { await challengesService.setActiveChallenge(route.params.challengeId); }
+      catch (error) { Pop.toast('[CHALLENGES PAGE] setActiveChallenge', error); }
+    }
+    async function getParticipantsByChallengeId() {
+      try { await participantsService.getParticipantsByChallengeId(route.params.challengeId); }
+      catch (error) { Pop.toast('[CHALLENGES PAGE] getParticipantsByChallengeId', error); }
+    }
 
-    onMounted(() => {
-      clearChallenge()
-    });
+    async function getModeratorsByChallengeId() {
+      try { await challengeModeratorsService.getModeratorsByChallengeId(route.params.challengeId); }
+      catch (error) { Pop.toast('[CHALLENGES PAGE] getModeratorsByChallengeId', error); }
+    }
 
     return {
-      loading: computed(() => AppState.ProfileState.loading),
       challenge: computed(() => AppState.ChallengeState.challenge),
       participant: computed(() => AppState.ChallengeState.participant),
       moderator: computed(() => AppState.ChallengeState.moderator),
@@ -117,6 +96,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.challenge-BG-img {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .bottom-fade {
   position: relative;
   height: 150px;
@@ -124,13 +109,13 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
   color: rgb(255, 255, 255);
   text-shadow: 0 0 5px 0 gray;
   box-shadow: inset 0 -20px 10px 0 #151d2b;
   background: linear-gradient(180deg, rgba(85, 21, 21, 0) 0%, #151d2b 80%, #151d2b 100%);
+  // background-repeat: no-repeat;
+  // background-position: center;
+  // background-size: cover;
 
   h1 {
     font-size: 3rem;
@@ -149,5 +134,4 @@ export default {
     background: rgba(0, 0, 0, 0.371)
   }
 }
-
 </style>

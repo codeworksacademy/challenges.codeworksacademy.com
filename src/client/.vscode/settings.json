@@ -1,3 +1,8 @@
 {
   "javascript.preferences.importModuleSpecifier": "relative",
+  "cSpell.words": [
+    "leaderboards",
+    "moderations",
+    "Scripter"
+  ],
 }

@@ -1,31 +1,31 @@
 <template>
   <section class="bg-detail rounded-3">
     <aside id="challenge-menu">
-      <div class="sub-nav d-flex flex-column ">
+      <div class="sub-nav d-flex flex-column">
         <p class="badge mb-0 pt-2 text-start">User Links</p>
-        <router-link :to="{ name: 'Challenge.overview' }" class="selectable my-2 ">
+        <router-link :to="{ name: 'Challenge.overview' }" class="selectable my-2">
           <i class="mdi mdi-file-document-multiple fst-normal p-3"> Overview</i>
         </router-link>
-        <router-link :to="{ name: 'Challenge.requirements' }" class="selectable my-2 ">
+        <router-link :to="{ name: 'Challenge.requirements' }" class="selectable my-2">
           <i class="mdi mdi-file-document-check fst-normal p-3"> Requirements</i>
         </router-link>
-        <router-link :to="{ name: 'Challenge.statistics' }" class="selectable my-2 ">
+        <router-link :to="{ name: 'Challenge.statistics' }" class="selectable my-2">
           <i class="mdi mdi-finance fst-normal p-3"> Statistics</i>
         </router-link>
       </div>
 
-      <div class="sub-nav d-flex flex-column ">
+      <div class="sub-nav d-flex flex-column" v-if="isOwned || isModerator">
         <p class="badge mb-0 pt-2 text-start">Moderator Links</p>
-        <router-link :to="{ name: 'Challenge.challengeSubmissionsPage' }" class="selectable my-2 ">
+        <router-link :to="{ name: 'Challenge.challengeSubmissionsPage' }" class="selectable my-2">
           <i class="mdi mdi-eye-arrow-right text-orange fst-normal p-3"> Submissions</i>
         </router-link>
-        <router-link :to="{ name: 'Challenge.gradeSubmissionsPage' }" class="selectable my-2 ">
+        <router-link :to="{ name: 'Challenge.gradeSubmissionsPage' }" class="selectable my-2">
           <i class="mdi mdi-progress-check text-info mt-1 fst-normal p-3"> Grade Users</i>
         </router-link>
-        <router-link :to="{ name: 'Challenge.challengeEditor' }" class="selectable my-2 ">
+        <router-link :to="{ name: 'Challenge.challengeEditor' }" class="selectable my-2">
           <i class="mdi mdi-archive-edit text-yellow fst-normal p-3"> Edit Challenge</i>
         </router-link>
-        <router-link :to="{ name: 'Challenge.challengeModeratorsPage' }" class="selectable my-2 ">
+        <router-link :to="{ name: 'Challenge.challengeModeratorsPage' }" class="selectable my-2">
           <i class="mdi mdi-archive-edit text-danger fst-normal p-3">Moderators</i>
         </router-link>
       </div>
@@ -35,20 +35,18 @@
 </template>
 
 <script>
-import Pop from '../utils/Pop'
-import { logger } from '../utils/Logger'
-import { AppState } from '../AppState'
-import { useRoute } from 'vue-router'
+import Pop from '../utils/Pop.js'
 import { computed } from 'vue'
+import { AppState } from '../AppState.js'
+import { logger } from '../utils/Logger.js'
 import { SUBMISSION_TYPES } from '../constants'
-import { challengesService } from '../services/ChallengesService'
-import { participantsService } from '../services/ParticipantsService'
-import DevFlag from './DevFlag.vue'
+import { participantsService } from '../services/ParticipantsService.js'
 import PermissionsFlag from './PermissionsFlag.vue'
+import DevFlag from './DevFlag.vue'
 
 export default {
   setup() {
-    
+
     async function updateChallengeParticipant() {
       try {
         const confirmComplete = await Pop.confirm("Are you sure you want to complete this challenge?");

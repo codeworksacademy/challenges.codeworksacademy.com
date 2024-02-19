@@ -1,77 +1,121 @@
 <template>
   <div class="container-fluid">
-    <section class="row mt-3">
-      <div class="dropdown text-end">
-        <button class="btn aqua-btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown"
-          aria-expanded="false">
-          Filter Challenges
-        </button>
-        <ul class="dropdown-menu blue-dropdown">
-          <li><button @click="challengeTypes = 'Created'" class="btn dropdown-item">Created</button></li>
-          <li><button @click="challengeTypes = 'Moderated'" class="btn dropdown-item">Moderated</button></li>
-          <li><button @click="challengeTypes = 'Participating'" class="btn dropdown-item">Participating</button></li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="row pt-3 mt-3 border-underline dark-blue-bg">
-      <div class="col-6">
-        <p class="text-white fw-semibold">
+    <section class="row align-items-center py-3 mt-3 border-underline dark-blue-bg rounded-top">
+      <div class="col">
+        <p class="mb-0 text-white fw-semibold">
           {{ challengeTypes.toUpperCase() || 'CREATED' }}
         </p>
       </div>
-      <div class="col-2"></div>
-      <div class="col-4 text-end">
-        <p class="text-white">
-          <span class="highlight-text fw-semibold">{{ challenges.length }} </span> {{ challengeTypes || 'Created' }}
-          challenges
+
+      <div class="col-4 ms-auto d-flex justify-content-center">
+        <div class="dropdown text-end">
+          <button class="btn aqua-btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Filter Challenges
+          </button>
+          <ul class="dropdown-menu blue-dropdown">
+            <li><button @click="challengeTypes = 'Created'" class="btn dropdown-item">Created</button></li>
+            <li><button @click="challengeTypes = 'Participating'" class="btn dropdown-item">Participating</button></li>
+            <li v-if="isMyProfile"><button @click="challengeTypes = 'Moderated'"
+                class="btn dropdown-item">Moderated</button></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col ms-auto text-end pe-3">
+        <p class="mb-0 text-white">
+          <span class="highlight-text fw-semibold">{{ challenges.length }} </span>
+          challenge{{ challenges.length > 1 || challenges.length == 0 ? 's' : '' }}
         </p>
       </div>
     </section>
 
-    <section class="row mt-3 border-underline">
-      <div class="col-3">
-        <p class="text-white-50">
-          CHALLENGE
-        </p>
+    <section class="row justify-content-start mt-3 border-underline">
+      <div class="col-11 p-0">
+        <section class="row">
+          <div class="col-12 col-md-6">
+            <p class="text-white-50">
+              CHALLENGE
+            </p>
+          </div>
+          <div class="col-8 col-lg-4">
+            <p class="text-white-50">
+              CATEGORY
+            </p>
+          </div>
+          <div class="col-4 col-lg-2">
+            <p class="text-white-50">
+              POINTS
+            </p>
+          </div>
+        </section>
       </div>
-      <div class="col-3">
-        <p class="text-white-50">
-          CATEGORY
+      <div class="col-1 d-none d-md-flex align-items-center">
+        <p class="text-white-50" title="Leave Challenge">
+          LEAVE
         </p>
-      </div>
-      <div class="col-3">
-        <p class="text-white-50">
-          POINTS
-        </p>
-      </div>
-      <div class="col-3">
-
       </div>
     </section>
-    <section class="row">
+
+    <section v-if="loading" class="row">
+      <div class="col-12 p-5 text-center">
+        <h1 class="fs-1 fw-bold">
+          Loading... <i class="mdi mdi-loading mdi-spin"></i>
+        </h1>
+      </div>
+    </section>
+
+    <section v-else-if="challenges.length > 0" class="row">
       <div class="col-12 mt-1" v-for="challenge in challenges">
-        <ChallengeMiniCard :challengeProp="challenge" />
+        <ChallengeMiniCard :challenge="challenge" />
       </div>
     </section>
+
+    <section v-else class="row badge-card text-white">
+      <div class="col-12 rounded-top text-center">
+        <div class="my-2"> <em> No {{ challengeTypes }} challenges yet! </em> </div>
+        <router-link :to="{ name: 'Challenges.browse' }" class="d-flex justify-content-center">
+          <p class="btn selectable">Create or join a challenge!</p>
+        </router-link>
+      </div>
+    </section>
+
   </div>
 </template>
 
 
 <script>
-import { computed, ref } from 'vue';
 import { AppState } from '../AppState';
-import ChallengeMiniCard from '../components/AccountAndProfilePage/ChallengeMiniCard.vue';
+import { computed, ref, watch } from 'vue';
+import ChallengeMiniCard from '../components/ProfilePage/ChallengeMiniCard.vue';
+import { useRoute } from "vue-router";
 
 export default {
   setup() {
-    const challengeTypes = ref('')
-    return {
-      challengeTypes,
+    const route = useRoute();
+    const challenges = ref('');
+    const challengeTypes = ref('Created');
 
-      challenges: computed(() => {
-        return AppState.ProfileState.challenges
-      }),
+    function updateFiltered() {
+      let cf = [];
+      if (challengeTypes.value === 'Created') {
+        cf = AppState.ProfileState.challenges.filter(c => c.creatorId == AppState.ProfileState.profile.id)
+      } else if (challengeTypes.value === 'Moderated') {
+        cf = AppState.ProfileState.moderation.map(c => c.challenge)
+      } else if (challengeTypes.value === 'Participating') {
+        cf = AppState.ProfileState.participation.map(c => c.challenge)
+      }
+      challenges.value = cf;
+    }
+    watch(() => challengeTypes.value, updateFiltered, { immediate: true })
+    watch(() => AppState.ProfileState.challenges, updateFiltered)
+
+    return {
+      challenges,
+      challengeTypes,
+      loading: computed(() => AppState.ProfileState.loading),
+      isMyProfile: computed(() => route.params.profileId == AppState.AccountState.account.id),
+
     };
   },
   components: { ChallengeMiniCard }
@@ -80,6 +124,10 @@ export default {
 
 
 <style lang="scss" scoped>
+p {
+  margin-bottom: .5rem;
+}
+
 .border-underline {
   border-bottom: 1px solid #2F3E57;
 }

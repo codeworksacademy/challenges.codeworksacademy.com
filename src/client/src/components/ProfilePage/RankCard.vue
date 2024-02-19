@@ -1,39 +1,39 @@
 <template>
-  <section class="rank-card-style row my-2 my-md-0 p-1 m-1 mx-0">
-    <div class="d-flex flex-row">
-      <div class="col-4 d-flex justify-content-center align-items-center">
-        <div class="badge badge-color position-relative" id="collaborator">
-          <svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px" width="100px" height="105px"
-            viewBox="0 0 216 232">
-            <path :fill="currentRankBadge.FILL_PATH"
-              d="M207,0C171.827,0.001,43.875,0.004,9.003,0c-5.619-0.001-9,3.514-9,9c0,28.23-0.006,151.375,0,169c0.005,13.875,94.499,54,107.999,54S216,191.57,216,178V9C216,3.298,212.732,0,207,0z" />
-          </svg>
-          <div class="text-uppercase">
-            <p class="title pt-3"> {{ currentRankBadge.NAME }} </p>
-            <p class="subtitle"> {{ currentRankBadge.DESCRIPTION }} </p>
-            <span class="badge-icon" :class="['mdi', currentRankBadge.MDI_ICON]"></span>
-          </div>
+  <section class="rank-card-style row p-1 my-1 mx-0 mb-2 mb-lg-3">
+    <div class="col-4 d-flex justify-content-center align-items-center">
+      <div class="badge badge-color position-relative" id="collaborator">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px" width="100px" height="105px"
+          viewBox="0 0 216 232">
+          <path :fill="currentRankBadge.FILL_PATH"
+            d="M207,0C171.827,0.001,43.875,0.004,9.003,0c-5.619-0.001-9,3.514-9,9c0,28.23-0.006,151.375,0,169c0.005,13.875,94.499,54,107.999,54S216,191.57,216,178V9C216,3.298,212.732,0,207,0z" />
+        </svg>
+        <div class="text-uppercase">
+          <p class="title pt-3"> {{ currentRankBadge.NAME }} </p>
+          <p class="subtitle"> {{ currentRankBadge.DESCRIPTION }} </p>
+          <span class="badge-icon" :class="['mdi', currentRankBadge.MDI_ICON]"></span>
         </div>
       </div>
-      <div class="col-8 m-auto mt-3">
-        <div class="col-12 d-flex flex-column justify-content-center align-items-center text-white mb-2">
-          <div class="col-12">
-            <h4> Rank Progress </h4>
-          </div>
-          <div class="col-12">
-            <p>
-              <span class="theme-color fw-semibold mb-2">{{ rankBadgePercentage }}</span> towards {{ nextRankBadge.NAME }}
-            </p>
-          </div>
-          <div class="col-12">
-            <div class="progress" style="height: 5px; background-color: #0B1019;">
-              <div class="progress-bar theme-style-box" role="progressbar" :style="{ width: rankBadgePercentage }"
-                style="background-color: #F2FAC4;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-              </div>
+    </div>
+    <div class="col-8 mb-3 d-flex align-items-center">
+      <section class="row flex-column text-center text-md-start text-white w-100">
+        <div class="col-12">
+          <h4> Rank Progress </h4>
+        </div>
+        <div class="col-12">
+          <p>
+            <span class="theme-color fw-semibold mb-2">{{ rankBadgePercentage }}</span>
+            towards
+            <span class="text-nowrap"> {{ nextRankBadge.NAME }} </span>
+          </p>
+        </div>
+        <div class="col-12">
+          <div class="progress" style="height: 5px; background-color: #0B1019;">
+            <div class="progress-bar theme-style-box" role="progressbar" :style="{ width: rankBadgePercentage }"
+              style="background-color: #F2FAC4;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   </section>
 </template>
@@ -43,7 +43,6 @@ import { computed } from "vue"
 import { Profile } from "../../models/Profile.js"
 import { Account } from "../../models/Account.js"
 import { RANK_BADGE } from "../../constants/index.js"
-import { logger } from "../../utils/Logger.js"
 export default {
 
   props: {
@@ -53,14 +52,14 @@ export default {
   setup(props) {
     // This should be calculated on the backend only
     const currentRankBadge = computed(() => {
-  let lastKey = 0
-  for (const badge of RANK_BADGE) {
-    if (props.profile.rank >= badge.RANK_THRESHOLD) {
-      lastKey = badge.RANK_THRESHOLD
-    }
-  }
-  return RANK_BADGE.find(badge => badge.RANK_THRESHOLD === lastKey)
-})
+      let lastKey = 0
+      for (const badge of RANK_BADGE) {
+        if (props.profile.rank >= badge.RANK_THRESHOLD) {
+          lastKey = badge.RANK_THRESHOLD
+        }
+      }
+      return RANK_BADGE.find(badge => badge.RANK_THRESHOLD === lastKey)
+    })
 
     const rankBadgePercentage = computed(() => {
       const rankThreshold = Object.values(RANK_BADGE).map(badge => badge.RANK_THRESHOLD);
