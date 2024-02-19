@@ -17,12 +17,12 @@
 import MilestonesTracker from '../components/Milestones/MilestonesTracker.vue';
 
 export default {
+  components: { MilestonesTracker },
+
   setup() {
     return {
     }
-  },
-
-  components: { MilestonesTracker }
+  }
 }
 </script>
 
