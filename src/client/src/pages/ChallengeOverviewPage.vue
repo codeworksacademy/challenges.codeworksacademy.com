@@ -7,7 +7,7 @@
           <ChallengeStatCard :challenge="challenge" color="#22ff33" bgColor="#22ff330f" icon="mdi-account-multiple-plus"
             @click="joinChallenge()" class="selectable mb-2" prop="Join Challenge" />
         </div>
-        <div v-if="isParticipant?.status == 'started'">
+        <div v-if="isParticipant?.status == 'started' || 'returned for review'">
           <ChallengeStatCard :challenge="challenge" title="Submit Challenge" data-bs-toggle="modal"
             data-bs-target="#challengeSubmissionForm" data-bs-dismiss="modal" class="selectable mb-2" bgColor="#1da3e60f"
             color="#1da3e6" icon="mdi-send" prop="Submit Challenge" />

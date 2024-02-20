@@ -84,7 +84,7 @@ export default {
 .card-custom-img::after {
   position: absolute;
   content: '';
-  top: 120px;
+  top: 135px;
   left: 0;
   width: 0;
   height: 0;

@@ -24,44 +24,6 @@
         </div>
       </div>
 
-      <div class="col-12 px-3 mt-2 accordion accordion-flush">
-        <h3 class="text-info">Started</h3>
-        <div v-for="p in participants" :key="p.id" class="accordion-item mb-1 mx-2">
-          <div v-if="p.status === 'started' && challengeCreator">
-            <h2 class="accordion-header bg-dark text-light">
-              <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse"
-                :data-bs-target="'#collapse' + p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
-                <span>{{ p.profile.nickname || p.profile.name }}</span>
-              </button>
-            </h2>
-            <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-              <div class="accordion-body bg-dark">
-                <GradeSubmissionForm :participant="p" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-12 px-3 mt-2 mb-3 mb-md-5 accordion accordion-flush">
-        <h3 class="text-success">Complete</h3>
-        <div v-for="p in participants" :key="p.id" class="accordion-item mb-1 mx-2">
-          <div v-if="p.status === 'completed' && challengeCreator" class="bg-detail rounded-bottom">
-            <h2 class="accordion-header">
-              <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse"
-                :data-bs-target="'#collapse' + p.id" aria-expanded="false" :aria-controls="'collapse' + p.id">
-                <span>{{ p.profile.nickname || p.profile.name }}</span>
-              </button>
-            </h2>
-            <div :id="'collapse' + p.id" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-              <div class="accordion-body text-light">
-                <GradeSubmissionForm :participant="p" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </section>
   </div>
 </template>

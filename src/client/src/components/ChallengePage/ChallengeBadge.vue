@@ -111,7 +111,7 @@ export default {
 
   .badge-img {
     position: absolute;
-    top: 27%;
+    top: 25%;
     left: 50%;
     transform: translateX(-50%);
     object-fit: contain;
