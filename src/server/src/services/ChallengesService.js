@@ -24,10 +24,10 @@ class ChallengesService {
   async gradeParticipant(participantData, accountId) {
     await challengeModeratorsService.getModeratorByUserIdAndChallengeId(accountId, participantData.challengeId)
 
-    const participant = await participantsService.getParticipantById(participantData.id)
+    const participant = await participantsService.getParticipantById(participantData.participantId)
 
     if (
-      participantData.status != SUBMISSION_TYPES.COMPLETED ||
+      participantData.status != SUBMISSION_TYPES.COMPLETED &&
       participantData.status != SUBMISSION_TYPES.RETURNED_FOR_REVIEW
     ) {
       throw new BadRequest('You cannot set the status type to ' + participantData.status)

@@ -109,6 +109,7 @@
       "leaderboards",
       "Moderations"
     ],
-    "commentAnchors.tagHighlights.enabled": true
+    "commentAnchors.tagHighlights.enabled": true,
+    "editor.stickyScroll.scrollWithEditor": true
   }
 }

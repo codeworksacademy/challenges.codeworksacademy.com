@@ -15,7 +15,6 @@
           <router-view />
         </div>
       </section>
-
     </section>
 
     <section v-else class="row">
