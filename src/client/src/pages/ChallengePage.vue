@@ -7,11 +7,11 @@
       </div>
 
       <section class="row pt-3 pe-0 px-xl-5">
-        <div class="col-12 col-lg-2" style="background: #161d2b">
+        <div class="col-12 col-lg-3 col-xl-2" style="background: #161d2b">
           <ChallengeDetailsMenu class="sticky-top" />
         </div>
 
-        <div class="col-12 col-lg-10 pt-3 pt-md-0">
+        <div class="col-12 col-lg-9 col-xl-10 pt-3 pt-lg-0">
           <router-view />
         </div>
       </section>

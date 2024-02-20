@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark py-0" style="z-index: 1000;">
+  <nav class="navbar navbar-expand-lg navbar-dark py-0" style="z-index: 3000;">
     <router-link class="navbar-brand d-flex ps-3" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
         <img alt="logo" src="../assets/img/cw-logo.png" height="45" />
@@ -10,11 +10,19 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse rounded" id="navbarText">
-      <ul class="navbar-nav me-auto gap-1" style="z-index: 1000;">
+      <ul class="navbar-nav me-auto gap-1">
+        <li class="p-0 pt-md-1 ps-2 ps-0">
+          <router-link :to="{ name: 'Challenges.browse' }" class="btn text-white selectable">
+            <span class="fs-6 d-none d-lg-block"><i class="mdi mdi-book-multiple-outline text-primary"></i> Browse
+              Challenges </span>
+            <span class="fs-3 d-block d-lg-none"><i class="mdi mdi-book-multiple-outline text-primary"></i> Browse
+              Challenges </span>
+          </router-link>
+        </li>
         <li class="p-0 pt-md-1 ps-2 ps-0">
           <router-link :to="{ name: 'Leaderboards' }" class="btn text-white selectable">
-            <span class="fs-6 d-none d-lg-block"><i class="mdi mdi-trophy"></i> Leaderboards</span>
-            <span class="fs-3 d-block d-lg-none"><i class="mdi mdi-trophy"></i> Leaderboards</span>
+            <span class="fs-6 d-none d-lg-block"><i class="mdi mdi-trophy text-warning"></i> Leaderboards </span>
+            <span class="fs-3 d-block d-lg-none"><i class="mdi mdi-trophy text-warning"></i> Leaderboards </span>
           </router-link>
         </li>
       </ul>

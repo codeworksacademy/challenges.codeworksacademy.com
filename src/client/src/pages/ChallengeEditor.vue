@@ -15,7 +15,7 @@
             <h4>Challenge Description</h4>
             <EditChallengeDescription :challenge="challenge" />
             <hr>
-            <h4>Challenge Requirements</h4>
+            <h4>Challenge Requirements <i class="text-primary mdi mdi-format-list-numbered"></i></h4>
             <EditChallengeRequirements :challenge="challenge" />
             <hr>
             <h4>Challenge Badge</h4>
