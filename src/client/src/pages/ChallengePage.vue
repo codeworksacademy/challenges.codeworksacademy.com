@@ -66,7 +66,7 @@ export default {
         }
       } catch (error) {
         Pop.error('[CHALLENGE PAGE] getChallengeData', error);
-        // router.push({ name: 'Error' });
+        router.push({ name: 'Error' });
       }
     }
 

@@ -5,8 +5,10 @@
       <label for="newRequirement" class="input-group-text btn-success btn" @click="addRequirement">Add Requirement</label>
     </div>
     <div class="input-group my-3" v-for="(requirement, index) in requirements" :key="index">
-      <input type="text" class="form-control" :value="requirement" @input="updateRequirement($event, index)">
-      <label for="" class="input-group-text btn-danger btn" @click="deleteRequirement(index)">Delete</label>
+      <input type="text" class="form-control" :id="'requirement' + index" :value="requirement"
+        @input="updateRequirement($event, index)">
+      <label :for="'requirement' + index" class="input-group-text btn-danger btn"
+        @click="deleteRequirement(index)">Delete</label>
     </div>
   </section>
 </template>

@@ -23,7 +23,9 @@
             <hr>
           </div>
           <div class="text-center my-3" v-if="challenge.creatorId == accountId">
-            <button class="btn btn-success" @click="updateChallenge"> Update Challenge</button>
+            <button class="btn btn-success" @click="updateChallenge">
+              <span>{{ challenge.status.toLowerCase() == 'draft' ? 'Save Challenge' : 'Update Challenge' }}</span>
+            </button>
           </div>
         </section>
       </div>
