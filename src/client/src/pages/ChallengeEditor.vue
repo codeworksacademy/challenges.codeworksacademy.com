@@ -1,19 +1,24 @@
 <template>
   <div class="container-fluid bg-detail p-3 rounded-3">
     <section class="row">
-      <div class="col-12 pb-3">
+      <div class="col-12">
         <h3 class="fs-2" style="color: #7A7A7A">Challenge Editor</h3>
       </div>
 
       <div class="col-12">
         <section class="text-light" v-if="challenge">
           <div>
+            <hr>
+            <h4>Challenge Settings</h4>
             <EditChallengeDetails :challenge="challenge" />
             <hr>
+            <h4>Challenge Description</h4>
             <EditChallengeDescription :challenge="challenge" />
             <hr>
+            <h4>Challenge Requirements</h4>
             <EditChallengeRequirements :challenge="challenge" />
             <hr>
+            <h4>Challenge Badge</h4>
             <EditChallengeBadge :challenge="challenge" />
             <hr>
           </div>
@@ -30,23 +35,21 @@
 import Pop from "../utils/Pop.js"
 import { computed } from 'vue'
 import { AppState } from '../AppState.js'
-import { logger } from "../utils/Logger.js"
 import { challengesService } from '../services/ChallengesService.js'
 import EditChallengeDetails from '../components/EditChallenge/EditChallengeDetails.vue'
-import EditChallengeRequirements from '../components/EditChallenge/EditChallengeRequirements.vue'
 import EditChallengeDescription from '../components/EditChallenge/EditChallengeDescription.vue'
+import EditChallengeRequirements from '../components/EditChallenge/EditChallengeRequirements.vue'
 import EditChallengeBadge from '../components/EditChallenge/EditChallengeBadge.vue'
 
 export default {
   components: {
     EditChallengeDetails,
-    EditChallengeRequirements,
     EditChallengeDescription,
+    EditChallengeRequirements,
     EditChallengeBadge,
   },
   setup() {
     const challenge = computed(() => AppState.ChallengeState.challenge)
-
 
     async function updateChallenge() {
       try {
@@ -59,19 +62,16 @@ export default {
           secondaryColor: AppState.ChallengeState.challenge.badge.secondaryColor
         }
         await challengesService.updateChallenge(updatedChallenge, updatedChallenge.id)
-        Pop.success("Challenge Updated")
+        Pop.success("Challenge Updated");
         // router.push({
         //   name: 'Challenge.Overview',
         //   params: {
         //     challengeId: AppState.ChallengeState.challenge?.id
         //   }
         // })
-      } catch (e) {
-        logger.log(e)
-        Pop.error(e)
       }
+      catch (err) { Pop.error('[CHALLENGE EDITOR] updateChallenge', err); }
     }
-
 
     return {
       challenge,
@@ -80,8 +80,12 @@ export default {
   }
 }
 </script>
-  
+
 <style scoped lang="scss">
+h4 {
+  margin-bottom: 1rem;
+}
+
 .bg-detail {
   background-color: #1c2332;
   border: 1px solid #2d386b;

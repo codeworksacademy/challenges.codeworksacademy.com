@@ -1,5 +1,5 @@
 <template>
-  <section class="container-fluid mb-3">
+  <section class="px-2 mb-4">
     <MarkdownEditor :challenge="challenge" v-model="challenge.description" />
   </section>
 </template>

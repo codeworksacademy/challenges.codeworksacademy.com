@@ -1,18 +1,20 @@
 <template>
   <div class="container-fluid">
-    <section v-if="challenge" class="row text-light pb-5" style="overflow-x: hidden;">
+    <section v-if="challenge" class="row text-light pb-3 pb-lg-5" style="overflow-x: hidden;">
 
       <div class="col-12 bottom-fade challenge-BG-img" :style="`background-image: url(${challenge.coverImg});`">
         <h1 class="text-center">{{ challenge.name }}</h1>
       </div>
 
-      <div class="col-12 col-lg-2 pt-3" style="background: #161d2b">
-        <ChallengeDetailsMenu class="sticky-top" />
-      </div>
+      <section class="row pt-3 pe-0 px-xl-5">
+        <div class="col-12 col-lg-2" style="background: #161d2b">
+          <ChallengeDetailsMenu class="sticky-top" />
+        </div>
 
-      <div class="col-12 col-lg-10 pt-3">
-        <router-view />
-      </div>
+        <div class="col-12 col-lg-10 pt-3 pt-md-0">
+          <router-view />
+        </div>
+      </section>
 
     </section>
 

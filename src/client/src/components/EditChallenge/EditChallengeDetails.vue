@@ -1,5 +1,5 @@
 <template>
-  <section class="container-fluid" v-if="challenge">
+  <section class="px-2 mb-4" v-if="challenge">
     <div class="input-box input-group mb-3">
       <label class="input-group-text" for="challengeName">Challenge Name</label>
       <input type="text" class="form-control" id="name" name="name" v-model="challenge.name">
@@ -68,3 +68,5 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss"></style>

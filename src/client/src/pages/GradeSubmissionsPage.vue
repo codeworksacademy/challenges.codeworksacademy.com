@@ -7,7 +7,7 @@
 
       <div class="col-12 px-3 accordion accordion-flush">
         <h3 class="text-warning">Needs Grading</h3>
-        <div v-for="p in participants" :key="p.id" class="accordion-item mb-1">
+        <div v-for="p in participants" :key="p.id" class="accordion-item mb-1 mx-2">
           <div v-if="p.status === 'submitted' && challengeCreator">
             <h2 class="accordion-header">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -26,7 +26,7 @@
 
       <div class="col-12 px-3 mt-2 accordion accordion-flush">
         <h3 class="text-info">Started</h3>
-        <div v-for="p in participants" :key="p.id" class="accordion-item mb-1">
+        <div v-for="p in participants" :key="p.id" class="accordion-item mb-1 mx-2">
           <div v-if="p.status === 'started' && challengeCreator">
             <h2 class="accordion-header bg-dark text-light">
               <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse"
@@ -45,7 +45,7 @@
 
       <div class="col-12 px-3 mt-2 mb-3 mb-md-5 accordion accordion-flush">
         <h3 class="text-success">Complete</h3>
-        <div v-for="p in participants" :key="p.id" class="accordion-item mb-1">
+        <div v-for="p in participants" :key="p.id" class="accordion-item mb-1 mx-2">
           <div v-if="p.status === 'completed' && challengeCreator" class="bg-detail rounded-bottom">
             <h2 class="accordion-header">
               <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse"
