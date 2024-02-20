@@ -1,5 +1,5 @@
 <template>
-  <section v-if="challenge" :key="challenge?.id" class="text-light container-fluid px-lg-5">
+  <section v-if="challenge" class="text-light container-fluid px-lg-5">
 
     <div class="row">
       <div class="col-12">

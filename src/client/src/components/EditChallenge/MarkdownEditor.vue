@@ -1,6 +1,6 @@
 <template>
   <div class="markdown-editor">
-    <div class="d-flex bg-menu rounded-3">
+    <div class="d-flex bg-details rounded-3">
       <div class="editor h-100 sticky-top" v-if="!showPreview">
         <MonacoEditor language="markdown" :value="editable" @change="change" @save="save" :showSave="showSave">
           <template #toolbar>
@@ -12,6 +12,7 @@
           </template>
         </MonacoEditor>
       </div>
+
       <div class="editor bg-page drop-4" v-else>
         <div class="menu-border">
           <div class="text-end flex-grow-1 text-light">
@@ -27,6 +28,7 @@
           <Markdown class="__q-md-renderer__" :value="editable" />
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -34,8 +36,8 @@
   
 <script>
 import { ref, watchEffect } from 'vue';
-import Markdown from './Markdown.vue';
-import MonacoEditor from './MonacoEditor.vue';
+import MonacoEditor from "./MonacoEditor.vue";
+import Markdown from "./Markdown.vue";
 
 export default {
   props: {
@@ -43,35 +45,38 @@ export default {
     showSave: { type: Boolean, default: true },
     startPreview: { type: Boolean, default: false }
   },
+
   emits: ['update:modelValue', 'save'],
+
   setup(props, { emit }) {
-    const editable = ref('')
-    const showPreview = ref(props.startPreview)
+    const editable = ref('');
+    const showPreview = ref(props.startPreview);
 
     watchEffect(() => {
-      editable.value = props.modelValue
-    })
+      editable.value = props.modelValue;
+    });
 
     return {
       editable,
       showPreview,
       change(value) {
-        editable.value = value
-        emit('update:modelValue', value)
+        editable.value = value;
+        emit('update:modelValue', value);
       },
       save(value) {
-        editable.value = value
-        emit('update:modelValue', value)
-        emit('save')
+        editable.value = value;
+        emit('update:modelValue', value);
+        emit('save');
       }
-    }
-  }
+    };
+  },
+  components: { MonacoEditor, Markdown }
 }
 </script>
   
   
 <style lang="scss" scoped>
-.bg-menu {
+.bg-details {
   background-color: #1c2332;
   border: 1px solid #2d386b;
 }

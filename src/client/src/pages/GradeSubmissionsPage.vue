@@ -1,14 +1,11 @@
 <template>
-  <div class="bg-detail p-3 mx-3 rounded-3">
-    <section class="row pb-3">
-      <div class="col-12">
-        <h2>Grading</h2>
-      </div>
-    </section>
-
+  <div class="container-fluid bg-detail p-3 rounded-3">
     <section class="row">
+      <div class="col-12 pb-3">
+        <h3 class="fs-2">User Participation & Submissions</h3>
+      </div>
 
-      <div class="col-12 accordion accordion-flush">
+      <div class="col-12 px-3 accordion accordion-flush">
         <h3 class="text-warning">Needs Grading</h3>
         <div v-for="p in participants" :key="p.id" class="accordion-item mb-1">
           <div v-if="p.status === 'submitted' && challengeCreator">
@@ -27,7 +24,7 @@
         </div>
       </div>
 
-      <div class="col-12 accordion accordion-flush">
+      <div class="col-12 px-3 mt-2 accordion accordion-flush">
         <h3 class="text-info">Started</h3>
         <div v-for="p in participants" :key="p.id" class="accordion-item mb-1">
           <div v-if="p.status === 'started' && challengeCreator">
@@ -46,7 +43,7 @@
         </div>
       </div>
 
-      <div class="col-12 accordion accordion-flush">
+      <div class="col-12 px-3 mt-2 mb-3 mb-md-5 accordion accordion-flush">
         <h3 class="text-success">Complete</h3>
         <div v-for="p in participants" :key="p.id" class="accordion-item mb-1">
           <div v-if="p.status === 'completed' && challengeCreator" class="bg-detail rounded-bottom">

@@ -11,9 +11,7 @@
       </div>
 
       <div class="col-12 col-lg-10 pt-3">
-        <div class="row">
-          <router-view />
-        </div>
+        <router-view />
       </div>
 
     </section>

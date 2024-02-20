@@ -1,33 +1,41 @@
 <template>
-  <div class="">
-    <div class="bg-menu rounded-3 mx-3">
-      <h3 class="pt-2 px-4" style="color: #7A7A7A">Challenge Editor</h3>
-      <section class="container-fluid text-light" v-if="challenge">
-        <div>
-          <EditChallengeDetails :challenge="challenge" />
-          <EditChallengeDescription :challenge="challenge" />
-          <EditChallengeRequirements :challenge="challenge" />
-          <EditChallengeBadge :challenge="challenge" />
-        </div>
-        <div class="text-center my-3">
-          <button class="btn btn-success" @click="updateChallenge"> Update Challenge</button>
-        </div>
-      </section>
-    </div>
+  <div class="container-fluid bg-detail p-3 rounded-3">
+    <section class="row">
+      <div class="col-12 pb-3">
+        <h3 class="fs-2" style="color: #7A7A7A">Challenge Editor</h3>
+      </div>
+
+      <div class="col-12">
+        <section class="text-light" v-if="challenge">
+          <div>
+            <EditChallengeDetails :challenge="challenge" />
+            <hr>
+            <EditChallengeDescription :challenge="challenge" />
+            <hr>
+            <EditChallengeRequirements :challenge="challenge" />
+            <hr>
+            <EditChallengeBadge :challenge="challenge" />
+            <hr>
+          </div>
+          <div class="text-center my-3">
+            <button class="btn btn-success" @click="updateChallenge"> Update Challenge</button>
+          </div>
+        </section>
+      </div>
+    </section>
   </div>
 </template>
   
 <script>
-import { computed } from 'vue'
-import { AppState } from '../AppState'
 import Pop from "../utils/Pop.js"
+import { computed } from 'vue'
+import { AppState } from '../AppState.js'
 import { logger } from "../utils/Logger.js"
-import { challengesService } from '../services/ChallengesService'
+import { challengesService } from '../services/ChallengesService.js'
 import EditChallengeDetails from '../components/EditChallenge/EditChallengeDetails.vue'
 import EditChallengeRequirements from '../components/EditChallenge/EditChallengeRequirements.vue'
 import EditChallengeDescription from '../components/EditChallenge/EditChallengeDescription.vue'
 import EditChallengeBadge from '../components/EditChallenge/EditChallengeBadge.vue'
-import MarkdownEditor from '../components/EditChallenge/MarkdownEditor.vue'
 
 export default {
   components: {
@@ -35,8 +43,7 @@ export default {
     EditChallengeRequirements,
     EditChallengeDescription,
     EditChallengeBadge,
-    MarkdownEditor
-},
+  },
   setup() {
     const challenge = computed(() => AppState.ChallengeState.challenge)
 
@@ -44,7 +51,7 @@ export default {
     async function updateChallenge() {
       try {
         const updatedChallenge = {
-        ...AppState.ChallengeState.challenge,
+          ...AppState.ChallengeState.challenge,
         }
         updatedChallenge.badge = {
           ...AppState.ChallengeState.challenge.badge,
@@ -75,7 +82,7 @@ export default {
 </script>
   
 <style scoped lang="scss">
-.bg-menu {
+.bg-detail {
   background-color: #1c2332;
   border: 1px solid #2d386b;
 }

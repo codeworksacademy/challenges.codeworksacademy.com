@@ -1,5 +1,5 @@
 <template>
-  <section class="bg-detail rounded-3">
+  <section class="bg-detail rounded-3 py-1 ps-1">
     <aside id="challenge-menu">
       <div class="sub-nav d-flex flex-column">
         <p class="badge mb-0 pt-2 text-start">User Links</p>
