@@ -65,10 +65,12 @@
 
 
 <script>
-import { computed, ref } from 'vue';
-import { AppState } from '../AppState';
-import ModerationCard from '../components/ModerationCard.vue';
+import Pop from "../utils/Pop.js";
+import { useRoute, useRouter } from "vue-router";
+import { computed, onMounted, ref } from 'vue';
+import { AppState } from '../AppState.js';
 import { logger } from "../utils/Logger.js";
+import ModerationCard from '../components/ModerationCard.vue';
 
 
 export default {
@@ -76,22 +78,38 @@ export default {
   setup() {
     const moderationTypes = ref('My Moderations')
 
+    const route = useRoute();
+    const router = useRouter();
+    function accountCheck() {
+      if (!AppState.AccountState.account.id) { // give time for account to login
+        logger.log('[AUTH-CHECK] loop trigger, no ID:', AppState.AccountState.account.id);
+        setTimeout(() => accountCheck(), 200);
+        return
+      }
+      // logger.log('[AUTH-CHECK] loop bypass trigger got accountId', AppState.AccountState.account.id);
+      // logger.log('[AUTH-CHECK] compare ID route.params.profileId', route.params.profileId);
+      if (!(route.params.profileId == AppState.AccountState.account.id)) {
+        Pop.error('[UNAUTHORIZED ACCESS] Profile Moderations Page');
+        router.push({ name: 'Error' });
+      }
+    }
+    onMounted(() => { accountCheck(); })
+
     return {
       moderationTypes,
       moderations: computed(() => {
-        if (moderationTypes.value == 'My Moderations') {
-          let moderators = AppState.AccountState.moderation
-          let filterModerators = moderators.filter((m) => m.challenge.creatorId != AppState.AccountState.account.id)
-          return filterModerators
-        } else if (moderationTypes.value == 'Challenge Moderators') {
-          let moderators = AppState.AccountState.challengeModeration
-          logger.log('[MODERATORS]', moderators)
-          let filterModerators = moderators.filter((m) => m.accountId != AppState.AccountState.account.id)
-          return filterModerators
-        } else {
-          let filterModerators = AppState.ChallengeState.moderators.filter((m) => m.challenge.creatorId != AppState.AccountState.account.id)
-          return filterModerators
-        }
+        // if (moderationTypes.value == 'My Moderations') {
+        let filterModerators = AppState.ProfileState.moderation.filter((m) => m.challenge.creatorId != AppState.AccountState.account.id)
+        return filterModerators
+        // } else if (moderationTypes.value == 'Challenge Moderators') {
+        //   let moderators = AppState.AccountState.challengeModeration
+        //   logger.log('[MODERATORS]', moderators)
+        //   let filterModerators = moderators.filter((m) => m.accountId != AppState.AccountState.account.id)
+        //   return filterModerators
+        // } else {
+        //   let filterModerators = AppState.ChallengeState.moderators.filter((m) => m.challenge.creatorId != AppState.AccountState.account.id)
+        //   return filterModerators
+        // }
       }),
     }
   },
