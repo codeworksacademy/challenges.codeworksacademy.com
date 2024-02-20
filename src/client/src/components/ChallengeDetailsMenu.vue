@@ -39,7 +39,7 @@
           <i class="text-primary mx-1 fst-normal mdi mdi-progress-check text-green"></i>
           <span class="text-white mx-2 d-flex justify-content-between align-items-center w-100">
             Grade Users
-            <span v-if="needsGrading.length > 0" class="text-danger notify">{{ needsGrading.length }}</span>
+            <span v-if="needsGrading.length > 0" class="ms-3 text-danger notify">{{ needsGrading.length }}</span>
           </span>
         </router-link>
       </div>

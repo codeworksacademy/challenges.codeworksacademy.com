@@ -3,7 +3,7 @@
 
     <div class="row">
       <div class="col-12">
-        <div v-if="!isParticipant || isParticipant?.status == 'left'">
+        <div v-if="(!isParticipant || isParticipant?.status == 'left') && challenge?.status.toLowerCase() == 'published'">
           <ChallengeStatCard :challenge="challenge" color="#22ff33" bgColor="#22ff330f" icon="mdi-account-multiple-plus"
             @click="joinChallenge()" class="selectable mb-2" prop="Join Challenge" />
         </div>
@@ -82,9 +82,6 @@ export default {
   setup() {
 
     const route = useRoute();
-    const isParticipant = computed(() => {
-      return AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id);
-    });
 
     async function joinChallenge() {
       try {
@@ -102,9 +99,9 @@ export default {
 
 
     return {
-      isParticipant,
       joinChallenge,
       challenge: computed(() => AppState.ChallengeState.challenge),
+      isParticipant: computed(() => AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id)),
       difficulty: computed(() => {
         const difficulty = AppState.ChallengeState.challenge?.difficulty
         return difficultyMap[difficulty] || difficultyMap.default

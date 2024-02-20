@@ -22,7 +22,7 @@
             <EditChallengeBadge :challenge="challenge" />
             <hr>
           </div>
-          <div class="text-center my-3">
+          <div class="text-center my-3" v-if="challenge.creatorId == accountId">
             <button class="btn btn-success" @click="updateChallenge"> Update Challenge</button>
           </div>
         </section>
@@ -30,7 +30,7 @@
     </section>
   </div>
 </template>
-  
+
 <script>
 import Pop from "../utils/Pop.js"
 import { computed } from 'vue'
@@ -75,7 +75,8 @@ export default {
 
     return {
       challenge,
-      updateChallenge
+      updateChallenge,
+      accountId: computed(() => AppState.AccountState.account.id)
     }
   }
 }
