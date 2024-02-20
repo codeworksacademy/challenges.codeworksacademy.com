@@ -117,8 +117,8 @@ export default {
       milestones: computed(() => AppState.ProfileState.milestones),
       summary: computed(() => {
         return {
-          challenges: AppState.ProfileState.challenges.length,
-          milestones: AppState.ProfileState.milestones.length,
+          challenges: AppState.ProfileState.challenges?.length,
+          milestones: AppState.ProfileState.milestones?.length,
           badges: AppState.ProfileState.participation.filter(p => p.status == 'completed').length
         }
       }),

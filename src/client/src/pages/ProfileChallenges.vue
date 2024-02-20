@@ -31,7 +31,7 @@
     </section>
 
     <section class="row justify-content-start mt-3 border-underline">
-      <div class="col-11 p-0">
+      <div class="col-11">
         <section class="row">
           <div class="col-12 col-md-6">
             <p class="text-white-50">

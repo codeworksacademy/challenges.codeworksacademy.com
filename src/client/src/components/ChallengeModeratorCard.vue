@@ -6,7 +6,8 @@
         <p class="btn bg-dark btn-success text-success mod-profile-button">Visit Profile</p>
       </router-link>
       <div class="card-body" style="overflow-y: auto">
-        <h6 class="card-title fw-bold pt-2">Name: <span class="fw-normal">{{ moderator.profile.nickname || profile.name }}</span></h6>
+        <h6 class="card-title fw-bold pt-2">Name: <span class="fw-normal">{{ moderator.profile.nickname ||
+          moderator.profile.name }}</span></h6>
         <p class="card-text"><span class="fw-bold">Bio: </span>{{ moderator.profile.bio }} </p>
         <hr>
         <div v-if="moderator.challenge" class="d-flex flex-column">

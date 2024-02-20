@@ -22,7 +22,7 @@
           <span class="text-white mx-2">Badges</span>
         </router-link>
       </div>
-      <div class="user-links-btn hover-warning rounded-1 selectable my-1" v-if="isMyProfile">
+      <div class="user-links-btn hover-warning rounded-1 selectable my-1">
         <router-link :to="{ name: 'Profile.milestones' }" class="btn d-flex align-items-center p-1 ps-3 px-lg-3">
           <i class="text-primary mx-1 fs-5 mdi mdi-trophy text-yellow"></i>
           <span class="text-white mx-2">Milestones</span>

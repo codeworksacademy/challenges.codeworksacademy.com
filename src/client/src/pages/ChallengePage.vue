@@ -1,20 +1,20 @@
 <template>
   <div class="container-fluid">
-    <section v-if="challenge" class="row text-light pb-5" style="overflow-x: hidden;">
+    <section v-if="challenge" class="row text-light pb-3 pb-lg-5" style="overflow-x: hidden;">
 
       <div class="col-12 bottom-fade challenge-BG-img" :style="`background-image: url(${challenge.coverImg});`">
         <h1 class="text-center">{{ challenge.name }}</h1>
       </div>
 
-      <div class="col-12 col-lg-2 pt-3" style="background: #161d2b">
-        <ChallengeDetailsMenu class="sticky-top" />
-      </div>
+      <section class="row pt-3 pe-0 px-xl-5">
+        <div class="col-12 col-lg-3 col-xl-2" style="background: #161d2b">
+          <ChallengeDetailsMenu class="sticky-top" />
+        </div>
 
-      <div class="col-12 col-lg-10 pt-3">
-        <div class="row">
+        <div class="col-12 col-lg-9 col-xl-10 pt-3 pt-lg-0">
           <router-view />
         </div>
-      </div>
+      </section>
 
     </section>
 
@@ -48,7 +48,7 @@ export default {
     onMounted(() => { clearChallenge() });
     function clearChallenge() {
       try { challengesService.clearChallenge(); }
-      catch (error) { Pop.error('[CHALLENGES PAGE] clearChallenge', error); }
+      catch (error) { Pop.error('[CHALLENGE PAGE] clearChallenge', error); }
     }
 
     watch(() => route.params.challengeId, () => { getChallengeData(); }, { immediate: true });
@@ -65,8 +65,8 @@ export default {
           throw new Error('Unable to fetch challenge');
         }
       } catch (error) {
-        Pop.error('[CHALLENGES PAGE] getChallengeData', error);
-        // router.push({ name: 'Error' });
+        Pop.error('[CHALLENGE PAGE] getChallengeData', error);
+        router.push({ name: 'Error' });
       }
     }
 

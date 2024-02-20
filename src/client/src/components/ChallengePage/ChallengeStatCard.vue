@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { Challenge } from '../../models/Challenge'
+import { Challenge } from '../../models/Challenge.js'
 
 export default {
   props: {
@@ -31,7 +31,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .details-card {
   height: 100%;
   display: flex;
@@ -45,5 +44,4 @@ export default {
   position: relative;
   overflow: hidden;
 }
-
 </style>

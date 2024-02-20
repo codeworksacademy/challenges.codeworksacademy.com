@@ -1,16 +1,20 @@
 <template>
-  <section class="mx-3">
-    <div v-if="challenge" :key="challenge.id" class="p-3 bg-detail rounded-3">
-      <div class="d-flex col-12">
-        <div class="col-6 d-flex flex-column justify-content-start">
+  <div class="container-fluid bg-detail p-3 rounded-3">
+    <section class="row" v-if="challenge">
+      <div class="col-12 pb-3">
+        <h3 class="fs-2" style="color: #7A7A7A">Challenge Statistics</h3>
+      </div>
+
+      <div class="col-12 px-4">
+        <div class="d-flex flex-column">
           <h3>Total Submitted: {{ totalSubmitted }} </h3>
           <h3>Total Completed: {{ challenge.completedCount }} </h3>
           <h3>Active Participants: {{ challenge.participantCount }} </h3>
-          <h3 v-if="participantCompletionRate <= 0">Success Rate: {{ participantCompletionRate }} </h3>
+          <h3 v-if="participantCompletionRate > 0">Success Rate: {{ participantCompletionRate }} </h3>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -21,10 +25,9 @@
   
 <script>
 import { computed, ref } from 'vue'
-import { AppState } from '../AppState'
-import { useRoute } from 'vue-router'
-import { StrDifficultyNum } from '../utils/StrDifficultyNum'
+import { AppState } from '../AppState.js'
 import { SUBMISSION_TYPES } from '../constants'
+import { StrDifficultyNum } from '../utils/StrDifficultyNum.js'
 
 export default {
   setup() {
@@ -40,7 +43,6 @@ export default {
     const participant = computed(() => {
       return AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id)
     })
-
 
     return {
       filterBy,
@@ -82,3 +84,10 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+.bg-detail {
+  background-color: #1c2332;
+  border: 1px solid #2d386b;
+}
+</style>

@@ -18,7 +18,7 @@
     <div class="text-uppercase rounded-circle bg-light">
       <span :style="{ background: badge?.secondaryColor, filter: `drop-shadow(0 3px 3px 0 ${badge?.secondaryColor})` }"
         class="title"> {{ badge?.title }} </span>
-      <img :src="badge?.image" :alt="`Image of '${badge?.title}'`" class="badge-img img-fluid">
+      <img v-if="badge?.image" :src="badge?.image" :alt="`Image of '${badge?.title}'`" class="badge-img img-fluid">
     </div>
   </div>
 </template>

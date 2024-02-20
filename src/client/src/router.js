@@ -40,50 +40,16 @@ const routes = [
       {
         path: 'milestones',
         name: 'Profile.milestones',
-        component: loadPage('ProfileMilestones'),
-        // beforeEnter: authGuard
+        component: loadPage('ProfileMilestones')
       },
       {
         path: 'moderations',
         name: 'Profile.moderations',
         component: loadPage('ProfileModerations'),
-        // beforeEnter: authGuard
+        beforeEnter: authGuard
       }
     ]
   },
-  // {
-  //   path: '/account',
-  //   name: 'Account',
-  //   component: loadPage('AccountPage'),
-  //   beforeEnter: authGuard,
-  //   children: [
-  //     {
-  //       path: '',
-  //       name: 'Account.overview',
-  //       component: loadPage('AccountOverview')
-  //     },
-  //     {
-  //       path: 'challenges',
-  //       name: 'Account.challenges',
-  //       component: loadPage('AccountChallenges')
-  //     },
-  //     {
-  //       path: 'badges',
-  //       name: 'Account.badges',
-  //       component: loadPage('AccountBadges')
-  //     },
-  //     {
-  //       path: 'milestones',
-  //       name: 'Account.milestones',
-  //       component: loadPage('AccountMilestones')
-  //     },
-  //     {
-  //       path: 'moderations',
-  //       name: 'Account.moderations',
-  //       component: loadPage('AccountModerations')
-  //     }
-  //   ]
-  // },
   {
     path: '/challenges',
     name: 'Challenges',
@@ -132,7 +98,7 @@ const routes = [
         path: 'submissions',
         name: 'Challenge.challengeSubmissionsPage',
         component: loadPage('ChallengeSubmissionsPage'),
-        // beforeEnter: authGuard
+        beforeEnter: authGuard
       },
       {
         path: 'grade',
@@ -141,15 +107,15 @@ const routes = [
         beforeEnter: authGuard
       },
       {
-        path: 'edit',
-        name: 'Challenge.challengeEditor',
-        component: loadPage('ChallengeEditor'),
-        beforeEnter: authGuard
-      },
-      {
         path: 'moderators',
         name: 'Challenge.challengeModeratorsPage',
         component: loadPage('ChallengeModeratorsPage'),
+        beforeEnter: authGuard
+      },
+      {
+        path: 'edit',
+        name: 'Challenge.challengeEditor',
+        component: loadPage('ChallengeEditor'),
         beforeEnter: authGuard
       }
     ]

@@ -1,8 +1,8 @@
 <template>
   <div class="container-fluid p-0 text-light">
-    <section class="row border-underline background-highlight  align-items-center pt-2"
+    <section class="row border-underline background-highlight selectable rounded align-items-center pt-2"
       @click="openChallenge(challenge.id)" v-if="challenge">
-      <div class="col-11 p-0">
+      <div class="col-11">
         <section class="row">
           <div class="col-12 col-lg-6">
             <p class="m-0 fw-bold fs-5 text-truncate">
