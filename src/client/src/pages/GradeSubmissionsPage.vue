@@ -67,21 +67,44 @@
 </template>
   
 <script>
-import { AppState } from '../AppState'
-import { computed, ref, watchEffect } from 'vue'
+import Pop from "../utils/Pop.js"
+import { AppState } from '../AppState.js'
+import { useRouter } from "vue-router"
+import { computed, onMounted, ref, watchEffect } from 'vue'
 import { StrDifficultyNum } from '../utils/StrDifficultyNum'
 import { newChallengeParticipant } from '../utils/NewChallengeParticipant.js'
 import GradeSubmissionForm from '../components/Forms/GradeSubmissionForm.vue'
+import { logger } from "../utils/Logger.js"
 
 export default {
   components: {
     GradeSubmissionForm,
   },
   setup() {
+
     const filterBy = ref('')
     const editable = computed(() =>
       newChallengeParticipant({ state: AppState }, filterBy.value)
     )
+
+    const router = useRouter();
+    function modCheck() {
+      if (!AppState.AccountState.account.id) { // give time for account to login
+        logger.log('[MODCHECK] loop trigger, no ID:', AppState.AccountState.account.id);
+        setTimeout(() => modCheck(), 200);
+        return
+      }
+      logger.log('[MODCHECK] loop bypass trigger', AppState.AccountState.account.id);
+      const authorizedUser = AppState.ChallengeState.challenge.creatorId == AppState.AccountState.account.id
+        || !!AppState.ChallengeState.moderators.find(m => m.accountId == AppState.AccountState.account.id);
+      // logger.log('[MODCHECK] ', AppState.ChallengeState.challenge.creatorId == AppState.AccountState.account.id);
+      // logger.log('[MODCHECK] ', !!AppState.ChallengeState.moderators.find(m => m.accountId == AppState.AccountState.account.id));
+      if (!authorizedUser) {
+        Pop.error('[UNAUTHORIZED ACCESS] Grade Submission Page');
+        router.push({ name: 'Error' });
+      }
+    }
+    onMounted(() => { modCheck(); })
 
     function isModeratorStatus() {
       const isMod = AppState.ChallengeState.moderators.find(m => m.accountId == AppState.AccountState.account.id)

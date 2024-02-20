@@ -35,13 +35,15 @@
 
 <script>
 import Pop from "../utils/Pop.js"
-import { computed } from 'vue'
+import { useRouter } from "vue-router"
+import { computed, onMounted } from 'vue'
 import { AppState } from '../AppState.js'
 import { challengesService } from '../services/ChallengesService.js'
 import EditChallengeDetails from '../components/EditChallenge/EditChallengeDetails.vue'
 import EditChallengeDescription from '../components/EditChallenge/EditChallengeDescription.vue'
 import EditChallengeRequirements from '../components/EditChallenge/EditChallengeRequirements.vue'
 import EditChallengeBadge from '../components/EditChallenge/EditChallengeBadge.vue'
+import { logger } from "../utils/Logger.js"
 
 export default {
   components: {
@@ -52,6 +54,25 @@ export default {
   },
   setup() {
     const challenge = computed(() => AppState.ChallengeState.challenge)
+
+    const router = useRouter();
+    function modCheck() {
+      if (!AppState.AccountState.account.id) {
+        logger.log('[MODCHECK] loop trigger, no ID:', AppState.AccountState.account.id);
+        setTimeout(() => modCheck(), 200);
+        return
+      }
+      logger.log('[MODCHECK] loop bypass trigger', AppState.AccountState.account.id);
+      const authorizedUser = AppState.ChallengeState.challenge.creatorId == AppState.AccountState.account.id
+        || !!AppState.ChallengeState.moderators.find(m => m.accountId == AppState.AccountState.account.id);
+      // logger.log('[MODCHECK] ', AppState.ChallengeState.challenge.creatorId == AppState.AccountState.account.id);
+      // logger.log('[MODCHECK] ', !!AppState.ChallengeState.moderators.find(m => m.accountId == AppState.AccountState.account.id));
+      if (!authorizedUser) {
+        Pop.error('[UNAUTHORIZED ACCESS] Challenge Submission Page');
+        router.push({ name: 'Error' });
+      }
+    }
+    onMounted(() => { modCheck(); })
 
     async function updateChallenge() {
       try {

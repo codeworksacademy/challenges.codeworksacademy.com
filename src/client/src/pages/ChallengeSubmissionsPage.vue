@@ -42,12 +42,14 @@
 </style>
 
 <script>
-import ParticipantCard from "../components/ParticipantCard.vue"
-import { computed, ref } from 'vue'
-import { AppState } from '../AppState'
-
+import Pop from "../utils/Pop.js"
+import { useRouter } from "vue-router"
+import { AppState } from '../AppState.js'
+import { computed, onMounted, ref } from 'vue'
 import { StrDifficultyNum } from "../utils/StrDifficultyNum.js"
 import { newChallengeParticipant } from "../utils/NewChallengeParticipant.js"
+import ParticipantCard from "../components/ParticipantCard.vue"
+import { logger } from "../utils/Logger.js"
 
 export default {
   components: {
@@ -60,14 +62,28 @@ export default {
       newChallengeParticipant({ state: AppState }, filterBy.value)
     )
 
-    const participant = computed(() => {
-      return AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id)
-    })
+    const router = useRouter();
+    function modCheck() {
+      if (!AppState.AccountState.account.id) { // give time for account to login
+        logger.log('[MODCHECK] loop trigger, no ID:', AppState.AccountState.account.id);
+        setTimeout(() => modCheck(), 200);
+        return
+      }
+      logger.log('[MODCHECK] loop bypass trigger', AppState.AccountState.account.id);
+      const authorizedUser = AppState.ChallengeState.challenge.creatorId == AppState.AccountState.account.id
+        || !!AppState.ChallengeState.moderators.find(m => m.accountId == AppState.AccountState.account.id);
+      // logger.log('[MODCHECK] ', AppState.ChallengeState.challenge.creatorId == AppState.AccountState.account.id);
+      // logger.log('[MODCHECK] ', !!AppState.ChallengeState.moderators.find(m => m.accountId == AppState.AccountState.account.id));
+      if (!authorizedUser) {
+        Pop.error('[UNAUTHORIZED ACCESS] Challenge Submission Page');
+        router.push({ name: 'Error' });
+      }
+    }
+    onMounted(() => { modCheck(); })
 
     return {
       filterBy,
       editable,
-      participant,
 
       user: computed(() => AppState.user),
       challenge: computed(() => AppState.ChallengeState.challenge),

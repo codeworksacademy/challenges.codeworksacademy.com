@@ -132,7 +132,7 @@ const routes = [
         path: 'submissions',
         name: 'Challenge.challengeSubmissionsPage',
         component: loadPage('ChallengeSubmissionsPage'),
-        // beforeEnter: authGuard
+        beforeEnter: authGuard
       },
       {
         path: 'grade',
@@ -141,15 +141,15 @@ const routes = [
         beforeEnter: authGuard
       },
       {
-        path: 'edit',
-        name: 'Challenge.challengeEditor',
-        component: loadPage('ChallengeEditor'),
-        beforeEnter: authGuard
-      },
-      {
         path: 'moderators',
         name: 'Challenge.challengeModeratorsPage',
         component: loadPage('ChallengeModeratorsPage'),
+        beforeEnter: authGuard
+      },
+      {
+        path: 'edit',
+        name: 'Challenge.challengeEditor',
+        component: loadPage('ChallengeEditor'),
         beforeEnter: authGuard
       }
     ]
