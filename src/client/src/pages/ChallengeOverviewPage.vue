@@ -3,18 +3,22 @@
 
     <div class="row">
       <div class="col-12">
-        <div v-if="(!isParticipant || isParticipant?.status == 'left') && challenge?.status.toLowerCase() == 'published'">
+        <div v-if="(!isParticipant || isParticipant?.status === 'left') && challenge?.status.toLowerCase() === 'published'">
           <ChallengeStatCard :challenge="challenge" color="#22ff33" bgColor="#22ff330f" icon="mdi-account-multiple-plus"
             @click="joinChallenge()" class="selectable mb-2" prop="Join Challenge" />
         </div>
-        <div v-if="isParticipant?.status == 'started' || 'returned for review'">
+        <div v-if="isParticipant?.status === 'started' || isParticipant?.status === 'returned for review'">
           <ChallengeStatCard :challenge="challenge" title="Submit Challenge" data-bs-toggle="modal"
             data-bs-target="#challengeSubmissionForm" data-bs-dismiss="modal" class="selectable mb-2" bgColor="#1da3e60f"
             color="#1da3e6" icon="mdi-send" prop="Submit Challenge" />
         </div>
-        <div v-if="isParticipant?.status == 'submitted'">
+        <div v-if="isParticipant?.status === 'submitted'">
           <ChallengeStatCard :challenge="challenge" title="Awaiting Review" class="selectable mb-2" bgColor="#0516270f"
             color="#1da3e6" icon="mdi-message-draw" prop="Awaiting Review" />
+        </div>
+        <div v-if="isParticipant?.status === 'completed'">
+          <ChallengeStatCard :challenge="challenge" title="Completed!" class="mb-2" bgColor="#0516270f"
+            color="#1da3e6" icon="mdi-party-popper" prop="Completed!" />
         </div>
       </div>
     </div>
