@@ -183,18 +183,18 @@ class ChallengesService {
   }
 
   async submitChallenge(participantData) {
-    const challenge = await dbContext.Challenges.findById(participantData.challengeId)
-    const participant = await participantsService.getParticipantById(participantData.id)
+    const challenge = await dbContext.Challenges.findById(participantData.challengeId);
+    const participant = await participantsService.getParticipantById(participantData.id);
 
     participant.submission = participantData.submission;
     participant.status = participantData.status;
 
-    if (participant.status == SUBMISSION_TYPES.COMPLETED) { return participant }
+    if (participant.status == SUBMISSION_TYPES.COMPLETED) { return participant; }
 
     if (!challenge.autoGrade) {
-      participant.status = SUBMISSION_TYPES.SUBMITTED
-      await participant.save()
-      return participant
+      participant.status = SUBMISSION_TYPES.SUBMITTED;
+      await participant.save();
+      return participant;
     }
 
     // Auto Grade
@@ -203,7 +203,7 @@ class ChallengesService {
       : SUBMISSION_TYPES.RETURNED_FOR_REVIEW
 
     if (participant.status == SUBMISSION_TYPES.COMPLETED) {
-      await this.awardExperience({ ...participant, challenge })
+      await this.awardExperience({ accountId: participant.accountId, challengeId: participant.challengeId, challenge })
     }
     await participant.save()
     return participant

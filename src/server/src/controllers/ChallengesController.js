@@ -27,13 +27,12 @@ export class ChallengesController extends BaseController {
 
   async submitChallenge(req, res, next) {
     try {
-      const submission = req.body
-      submission.accountId = req.userInfo.id
-      const result = await challengesService.submitChallenge(submission)
-      return res.send(result)
-    } catch (e) {
-      next(e)
+      const submission = req.body;
+      submission.accountId = req.userInfo.id;
+      const result = await challengesService.submitChallenge(submission);
+      return res.send(result);
     }
+    catch (e) { next(e); }
   }
 
   //#region MANAGE_CHALLENGE_ACTIONS

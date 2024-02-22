@@ -95,7 +95,7 @@ class AccountService {
 
   //FIXME - Chantha check out the title enums
   async calculateAccountRank(user, experience = 0) {
-    const update = await this.getAccount(user)
+    const account = await this.getAccount(user)
 
     const totalMilestoneExperience = await accountMilestonesService.getTotalMilestoneExperience(account)
     account.xp += experience
