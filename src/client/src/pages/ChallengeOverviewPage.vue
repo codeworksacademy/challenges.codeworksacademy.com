@@ -13,12 +13,12 @@
             color="#1da3e6" icon="mdi-send" prop="Submit Challenge" />
         </div>
         <div v-if="isParticipant?.status === 'submitted'">
-          <ChallengeStatCard :challenge="challenge" title="Awaiting Review" class="selectable mb-2" bgColor="#0516270f"
-            color="#1da3e6" icon="mdi-message-draw" prop="Awaiting Review" />
+          <ChallengeStatCard :challenge="challenge" title="Awaiting Review" class="selectable lighten-30 mb-2" bgColor="#00000000"
+            color="#887766" icon="mdi-message-draw" prop="Awaiting Review" />
         </div>
         <div v-if="isParticipant?.status === 'completed'">
-          <ChallengeStatCard :challenge="challenge" title="Completed!" class="mb-2" bgColor="#0516270f"
-            color="#1da3e6" icon="mdi-party-popper" prop="Completed!" />
+          <ChallengeStatCard :challenge="challenge" title="Completed!" class="mb-2" bgColor="#00000000"
+            color="gold" icon="mdi-party-popper" prop="Completed!" />
         </div>
       </div>
     </div>
