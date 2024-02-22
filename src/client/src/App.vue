@@ -98,6 +98,12 @@ main {
   object-position: center;
 }
 
+.difficulty-styled{
+  width: 1.5rem; 
+  height: 1.5rem; 
+  margin-right: .25rem;
+}
+
 .light-gold-color {
   color: #CBD4A5;
 }

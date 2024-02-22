@@ -33,7 +33,6 @@ import Pop from "../utils/Pop.js"
 import { AppState } from '../AppState.js'
 import { useRouter } from "vue-router"
 import { computed, onMounted, ref, watchEffect } from 'vue'
-import { StrDifficultyNum } from '../utils/StrDifficultyNum'
 import { newChallengeParticipant } from '../utils/NewChallengeParticipant.js'
 import GradeSubmissionForm from '../components/Forms/GradeSubmissionForm.vue'
 import { logger } from "../utils/Logger.js"
@@ -96,7 +95,6 @@ export default {
       challenge: computed(() => AppState.ChallengeState.challenge),
       challengeCreator: computed(() => AppState.user.id === AppState.ChallengeState.challenge?.creatorId),
       myModerations: computed(() => AppState.ChallengeState.moderators.filter(m => m.accountId === AppState.AccountState.account.id)),
-      difficulty: computed(() => StrDifficultyNum(AppState.ChallengeState.challenge.difficulty)),
       participants: computed(() => AppState.ChallengeState.participants),
       isParticipant: computed(() => {
         return AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id)

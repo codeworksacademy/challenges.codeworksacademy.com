@@ -27,7 +27,6 @@
 import { computed, ref } from 'vue'
 import { AppState } from '../AppState.js'
 import { SUBMISSION_TYPES } from '../constants'
-import { StrDifficultyNum } from '../utils/StrDifficultyNum.js'
 
 export default {
   setup() {
@@ -63,9 +62,6 @@ export default {
           return AppState.ChallengeState.participants.filter(p => p.status === filterBy.value)
         }
       }),
-      difficulty: computed(() =>
-        StrDifficultyNum(AppState.ChallengeState.challenge.difficulty)
-      ),
       participantCompletionRate: computed(() => {
         const participants = AppState.ChallengeState.participants
         const submissionTypes = participants.filter(p => p.status === SUBMISSION_TYPES ? p.status === SUBMISSION_TYPES : p.status !== SUBMISSION_TYPES['removed', 'left'])

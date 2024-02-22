@@ -46,7 +46,6 @@ import Pop from "../utils/Pop.js"
 import { useRouter } from "vue-router"
 import { AppState } from '../AppState.js'
 import { computed, onMounted, ref } from 'vue'
-import { StrDifficultyNum } from "../utils/StrDifficultyNum.js"
 import { newChallengeParticipant } from "../utils/NewChallengeParticipant.js"
 import ParticipantCard from "../components/ParticipantCard.vue"
 import { logger } from "../utils/Logger.js"
@@ -99,9 +98,7 @@ export default {
           return AppState.ChallengeState.participants.filter(p => p.status === filterBy.value)
         }
       }),
-      difficulty: computed(() =>
-        StrDifficultyNum(AppState.ChallengeState.challenge.difficulty)
-      ),
+
     }
   }
 }

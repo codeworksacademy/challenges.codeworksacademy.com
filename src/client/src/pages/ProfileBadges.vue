@@ -20,21 +20,21 @@
             class="d-flex flex-column justify-content-center align-items-center">
             <img src="../assets/img/easy-difficulty-chart.svg" alt="Easy Difficulty Icon" class="img-fluid"
               style="width: 30px; height: 30px;" :title="`Difficulty Rating: ${earnedBadge.challenge.difficulty}`">
-            <span class="text-capitalize text-success"> {{ earnedBadge.challenge.difficultyStr.text }}</span>
+            <!-- <span class="text-capitalize text-success"> {{ earnedBadge.challenge.difficultyStr.text }}</span> -->
           </div>
 
           <div v-if="earnedBadge.challenge.difficulty === 2"
             class="d-flex flex-column justify-content-center align-items-center">
             <img src="../assets/img/medium-difficulty-chart.svg" alt="Medium Difficulty Icon" class="img-fluid"
               style="width: 30px; height: 30px;" :title="`Difficulty Rating: ${earnedBadge.challenge.difficulty}`">
-            <span class="text-capitalize text-warning"> {{ earnedBadge.challenge.difficultyStr.text }}</span>
+            <!-- <span class="text-capitalize text-warning"> {{ earnedBadge.challenge.difficultyStr.text }}</span> -->
           </div>
 
           <div v-if="earnedBadge.challenge.difficulty === 3"
             class="d-flex flex-column justify-content-center align-items-center">
             <img src="../assets/img/hard-difficulty-chart.svg" alt="Hard Difficulty Icon" class="img-fluid"
               style="width: 30px; height: 30px;" :title="`Difficulty Rating: ${earnedBadge.challenge.difficulty}`">
-            <span class="text-capitalize text-danger"> {{ earnedBadge.challenge.difficultyStr.text }}</span>
+            <!-- <span class="text-capitalize text-danger"> {{ earnedBadge.challenge.difficultyStr.text }}</span> -->
           </div>
 
         </div>

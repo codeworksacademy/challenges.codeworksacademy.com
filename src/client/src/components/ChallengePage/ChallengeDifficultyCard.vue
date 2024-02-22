@@ -1,13 +1,9 @@
 <template>
   <div :class="`details-card ${themeStyle ? 'theme-style' : ''} rounded`"
     :style="{ backgroundColor: bgColor, borderColor: color, borderStyle: 'groove' }">
-    <img v-if="challenge.difficulty === 1" src="../../assets/img/easy-difficulty-chart.svg"
-      :title="`Difficulty Rating: ${challenge.difficulty}`" alt="Easy Difficulty Icon" class="img-fluid">
-    <img v-if="challenge.difficulty === 2" src="../../assets/img/medium-difficulty-chart.svg"
-      :title="`Difficulty Rating: ${challenge.difficulty}`" alt="Medium Difficulty Icon" class="img-fluid">
-    <img v-if="challenge.difficulty === 3" src="../../assets/img/hard-difficulty-chart.svg"
-      :title="`Difficulty Rating: ${challenge.difficulty}`" alt="Hard Difficulty Icon" class="img-fluid">
-    <h3 class="text-capitalize mt-3"> {{ difficulty.text }} </h3>
+    <img :src="`../../assets/img/{{difficulty}}-difficulty-chart.svg`"
+      :title="`Difficulty Rating: ${challenge.difficulty}`" alt="{{difficulty}} Difficulty Icon" class="difficulty-styled">
+    <h3 class="text-capitalize mt-3"> {{ difficulty }} </h3>
     <h6 class="text-uppercase">Difficulty</h6>
   </div>
 </template>
@@ -15,7 +11,6 @@
 <script>
 import { computed } from 'vue'
 import { Challenge } from '../../models/Challenge'
-import { StrDifficultyNum } from '../../utils/StrDifficultyNum'
 
 export default {
   props: {
@@ -29,7 +24,18 @@ export default {
   },
   setup(props) {
 
-    const difficulty = computed(() => StrDifficultyNum(props.challenge.difficulty))
+    const difficulty = computed(() => {
+      switch (props.challenge.difficulty) {
+        case 1:
+          return 'easy';
+        case 2:
+          return 'medium';
+        case 3:
+          return 'hard';
+        default:
+          return 'Not Specified';
+      }
+    })
 
     return {
       difficulty
