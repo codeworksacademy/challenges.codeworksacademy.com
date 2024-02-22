@@ -7,36 +7,13 @@
     <router-view />
   </main>
 
-  <ModalWrapper id="createChallengeForm">
-    <template #header>
-      <h3 class="m-auto">
-        Create Challenge
-      </h3>
-    </template>
-    <template #body>
-      <CreateChallengeForm />
-    </template>
-  </ModalWrapper>
 
-  <ModalWrapper id="challengeSubmissionForm">
-    <template #header>
-      <h3 class="m-auto">
-        Submit Challenge
-      </h3>
-    </template>
-    <template #body>
-      <ChallengeSubmissionForm />
-    </template>
-  </ModalWrapper>
 </template>
 
 <script>
 import { computed } from 'vue'
 import { AppState } from './AppState'
 import Navbar from './components/Navbar.vue'
-import ModalWrapper from './components/ModalWrapper.vue'
-import CreateChallengeForm from './components/Forms/CreateChallengeForm.vue'
-import ChallengeSubmissionForm from './components/Forms/ChallengeSubmissionForm.vue'
 import ModeratorCard from './components/ModeratorCard.vue'
 
 
@@ -50,9 +27,6 @@ export default {
   },
   components: {
     Navbar,
-    ModalWrapper,
-    CreateChallengeForm,
-    ChallengeSubmissionForm,
     ModeratorCard,
   }
 }
@@ -72,6 +46,10 @@ header {
 main {
   background-color: var(--bg-main);
   // background-color: #141D2B;
+}
+
+.modal{
+  z-index: 9001;
 }
 
 .avatar-xs {
@@ -96,12 +74,6 @@ main {
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
-}
-
-.difficulty-styled{
-  width: 1.5rem; 
-  height: 1.5rem; 
-  margin-right: .25rem;
 }
 
 .light-gold-color {

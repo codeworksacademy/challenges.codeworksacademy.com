@@ -26,6 +26,17 @@
     </section>
 
   </div>
+
+  <ModalWrapper id="challengeSubmissionForm">
+    <template #header>
+      <h3 class="m-auto">
+        Submit Challenge
+      </h3>
+    </template>
+    <template #body>
+      <ChallengeSubmissionForm />
+    </template>
+  </ModalWrapper>
 </template>
 
 <script>
@@ -36,7 +47,9 @@ import { useRoute, useRouter } from 'vue-router'
 import { challengesService } from '../services/ChallengesService'
 import { participantsService } from '../services/ParticipantsService'
 import { challengeModeratorsService } from '../services/ChallengeModeratorsService'
+import ChallengeSubmissionForm from "../components/Forms/ChallengeSubmissionForm.vue"
 import ChallengeDetailsMenu from '../components/ChallengeDetailsMenu.vue'
+import ModalWrapper from "../components/ModalWrapper.vue"
 
 export default {
   setup() {
@@ -90,7 +103,7 @@ export default {
     };
   },
 
-  components: { ChallengeDetailsMenu }
+  components: { ChallengeDetailsMenu, ModalWrapper, ChallengeSubmissionForm }
 }
 </script>
 
