@@ -1,4 +1,4 @@
-import { RANK_BADGE } from '../constants/index.js'
+import { RANK_TITLE } from '../constants/index.js'
 import { dbContext } from '../db/DbContext'
 import { accountMilestonesService } from "./AccountMilestonesService.js"
 import { challengesService } from './ChallengesService.js'
@@ -31,7 +31,7 @@ async function createAccountIfNeeded(account, user) {
  * @param {any} user
  */
 async function mergeSubsIfNeeded(account, user) {
-  if (!account.subs.includes(user.sub)) {
+  if (!account.subs.includes(user.sub) && user.sub != null) {
     // @ts-ignore
     account.subs.push(user.sub)
     await account.save()
@@ -102,17 +102,17 @@ class AccountService {
 
     let rank = account.xp + totalMilestoneExperience + account.reputation
 
-    const nextI = RANK_BADGE.findIndex(b => b.RANK_THRESHOLD > rank)
-    let badge = RANK_BADGE[nextI - 1]
+    const nextI = RANK_TITLE.findIndex(b => b.RANK_THRESHOLD > rank)
+    let badge = RANK_TITLE[nextI - 1]
     if (nextI == -1) {
-      badge = RANK_BADGE.at(-1)
+      badge = RANK_TITLE.at(-1)
     }
     if (!badge) {
-      badge = RANK_BADGE[0]
+      badge = RANK_TITLE[0]
     }
 
     account.rank = rank
-    account.title = RANK_BADGE[nextI - 1].NAME
+    account.title = RANK_TITLE[nextI - 1].NAME
     await account.save()
     return account
   }

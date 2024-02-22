@@ -90,12 +90,11 @@ export class ChallengesController extends BaseController {
 
   async gradeParticipant(req, res, next) {
     try {
-      const accountId = req.userInfo.id
-      const participant = await challengesService.gradeParticipant(req.body, accountId)
-      return res.send(participant)
-    } catch (e) {
-      next(e)
+      const accountId = req.userInfo.id;
+      const participant = await challengesService.gradeParticipant(req.body, accountId);
+      return res.send(participant);
     }
+    catch (e) { next(e); }
   }
 
   //#endregion

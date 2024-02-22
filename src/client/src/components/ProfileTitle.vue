@@ -9,7 +9,7 @@
 
 <script>
 import { computed } from 'vue';
-import { RANK_BADGE } from '../constants/index.js';
+import { RANK_TITLE } from '../constants/index.js';
 
 export default {
   props: {
@@ -17,7 +17,7 @@ export default {
   },
   setup(props) {
     return {
-      styleSet: computed(() => RANK_BADGE.find(b => b.NAME.toLowerCase() == props.titleName.toLowerCase()))
+      styleSet: computed(() => RANK_TITLE.find(b => b.NAME.toLowerCase() == props.titleName.toLowerCase()))
     }
   }
 }

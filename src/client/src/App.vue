@@ -49,7 +49,7 @@ main {
 }
 
 .modal{
-  z-index: 9001;
+  z-index: 4001;
 }
 
 .avatar-xs {

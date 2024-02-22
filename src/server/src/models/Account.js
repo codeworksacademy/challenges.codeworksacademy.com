@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { MILESTONE_BADGE, RANK_BADGE, SUBMISSION_TYPES } from '../constants/index.js';
+import { MILESTONE_TIER, RANK_TITLE, SUBMISSION_TYPES } from '../constants/index.js';
 const Schema = mongoose.Schema;
 
 export const AccountSchema = new Schema(
@@ -15,7 +15,7 @@ export const AccountSchema = new Schema(
     xp: { type: Number, default: 0 },
     reputation: { type: Number, default: 0 },
     rank: { type: Number, default: 0 },
-    title: { type: String, enum: Object.values(RANK_BADGE).map(b => b.NAME.toLowerCase()), lowercase: true, default: 'bugs bunny' },
+    title: { type: String, enum: Object.values(RANK_TITLE).map(b => b.NAME.toLowerCase()), lowercase: true, default: 'bugs bunny' },
     github: { type: String, default: '' },
     linkedin: { type: String, default: '' },
     resume: { type: String, default: '' },

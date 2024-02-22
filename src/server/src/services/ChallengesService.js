@@ -22,44 +22,44 @@ const COURSES_CACHE = new SimpleCache(60 * 60)
 
 class ChallengesService {
   async gradeParticipant(participantData, accountId) {
-    await challengeModeratorsService.getModeratorByUserIdAndChallengeId(accountId, participantData.challengeId)
+    await challengeModeratorsService.getModeratorByUserIdAndChallengeId(accountId, participantData.challengeId);
 
-    const participant = await participantsService.getParticipantById(participantData.participantId)
+    const participant = await participantsService.getParticipantById(participantData.participantId);
 
     if (
       participantData.status != SUBMISSION_TYPES.COMPLETED &&
       participantData.status != SUBMISSION_TYPES.RETURNED_FOR_REVIEW
     ) {
-      throw new BadRequest('You cannot set the status type to ' + participantData.status)
+      throw new BadRequest('You cannot set the status type to ' + participantData.status);
     }
 
-    participant.status = participantData.status
-    participant.requirements = participantData.requirements
+    participant.status = participantData.status;
+    participant.requirements = participantData.requirements;
 
     if (accountId == participant.accountId) {
-      throw new BadRequest('You cannot grade your own submission.')
+      throw new BadRequest('You cannot grade your own submission.');
     }
 
     accountMilestonesService.giveGradingMilestoneByAccountId(accountId)
     if (participantData.status == SUBMISSION_TYPES.COMPLETED) {
-      participant.completedAt = new Date()
-      this.awardExperience(participant)
+      participant.completedAt = new Date();
+      await this.awardExperience(participant);
     }
 
-    await participant.save()
-    return participant
+    await participant.save();
+    return participant;
   }
 
   // This method is used to give the experience of a challenge to a userId
   // Triggered by grading or autoGrade
   async awardExperience(participant) {
 
-    let challenge = participant.challenge
+    let challenge = participant.challenge;
     if (!challenge) {
-      challenge = await this.getChallengeById(participant.challengeId)
+      challenge = await this.getChallengeById(participant.challengeId);
     }
 
-    await accountService.calculateAccountRank({ id: participant.accountId }, EXPERIENCE_SCALE[challenge.difficulty])
+    await accountService.calculateAccountRank({ id: participant.accountId }, EXPERIENCE_SCALE[challenge.difficulty]);
   }
 
   async createChallenge(newChallenge) {
