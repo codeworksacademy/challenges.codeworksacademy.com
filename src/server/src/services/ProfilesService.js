@@ -7,11 +7,11 @@ import { accountService } from "./AccountService.js"
 class ProfilesService {
   /**
     * Returns a user profile from its id
-    * @param {string} id
+    * @param {string} accountId
    */
-  async getProfileById(id) {
-    const profile = await dbContext.Account.findById(id)
-    return profile
+  async getProfileById(accountId) {
+    const profile = await dbContext.Account.findById(accountId);
+    return profile;
   }
 
   /**
@@ -31,34 +31,35 @@ class ProfilesService {
       .exec()
   }
 
-  async calculateProfileRank(id) {
-    const profile = await this.getProfileById(id);
+  async calculateProfileRank(accountId) {
+    const profile = await this.getProfileById(accountId);
     const totalMilestoneExperience = await accountMilestonesService.getTotalMilestoneExperience(profile);
     const totalExperience = profile.xp + totalMilestoneExperience;
     const rank = totalExperience;
 
-    await accountService.updateAccount(id, { rank });
+    await accountService.updateAccount(accountId, { rank });
 
     return { ...profile.toObject(), rank };
   }
 
-  async calculateProfileReputation(id) {
-    const challenges = await dbContext.Challenges.find({ creatorId: id }).select('reputationIds')
-    const totalReputation = challenges.map(r => r.reputationIds.length)
+  // NOTE was not routed in at the controller nor called upon anywhere
+  // async calculateProfileReputation(id) {
+  //   const challenges = await dbContext.Challenges.find({ creatorId: id }).select('reputationIds')
+  //   const totalReputation = challenges.map(r => r.reputationIds.length)
 
-    let total = 0
-    for (let i = 0; i < totalReputation.length; i++) {
-      total += totalReputation[i]
-    }
+  //   let total = 0
+  //   for (let i = 0; i < totalReputation.length; i++) {
+  //     total += totalReputation[i]
+  //   }
 
-    await dbContext.Account.findByIdAndUpdate(id, { reputation: total })
-    return total
-  }
+  //   await dbContext.Account.findByIdAndUpdate(id, { reputation: total })
+  //   return total
+  // }
 
   async getProfileMilestones(accountId) {
     const foundMilestones = await dbContext.AccountMilestones.find({ accountId }).populate('milestone')
     if (!foundMilestones) {
-      new Error('This user does not have any milestones')
+      new Error('This user does not have any milestones') // NOTE should this be an error?
       return
     }
     return foundMilestones
