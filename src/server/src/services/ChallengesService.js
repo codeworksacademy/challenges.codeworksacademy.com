@@ -43,7 +43,7 @@ class ChallengesService {
     accountMilestonesService.giveGradingMilestoneByAccountId(accountId)
     if (participantData.status == SUBMISSION_TYPES.COMPLETED) {
       participant.completedAt = new Date();
-      await this.awardExperience(participant);
+      this.awardExperience(participant);
     }
 
     await participant.save();
