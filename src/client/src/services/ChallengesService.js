@@ -82,8 +82,7 @@ class ChallengesService {
   }
 
   async submitChallenge(submission) {
-    const res = await api.put(`api/challenges/${submission.challengeId}/submit`, submission)
-    AppState.ChallengeState.participant = new ChallengeParticipant(res.data); // being used properly anywhere?
+    const res = await api.put(`api/challenges/${submission.challengeId}/submit`, submission);
     const challenger = AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id);
     challenger.status = res.data.status;
     return res.data.status;
@@ -91,9 +90,12 @@ class ChallengesService {
 
 
   async gradeParticipant(newGrade) {
-    const res = await api.put(`api/challenges/${newGrade.challengeId}/participants/${newGrade.participantId}`, newGrade)
-    logger.log('Participant Updated ⏩', res.data)
-    AppState.ChallengeState.participant = new ChallengeParticipant(res.data);
+    const res = await api.put(`api/challenges/${newGrade.challengeId}/participants/${newGrade.participantId}`, newGrade);
+    const participantIndex = AppState.ChallengeState.participants.findIndex(p => p.participantId === newGrade.participantId);
+    if (res.data.status == 'completed') {
+      AppState.ChallengeState.challenge.completedCount++;
+    }
+    AppState.ChallengeState.participants.splice(participantIndex, 1, new ChallengeParticipant(res.data));
     return res.data
   }
 
@@ -113,7 +115,6 @@ class ChallengesService {
 
   clearChallenge() {
     AppState.ChallengeState.challenge = null
-    AppState.ChallengeState.participant = null
     AppState.ChallengeState.moderator = null
     AppState.ChallengeState.participants = []
     AppState.ChallengeState.moderators = []

@@ -56,6 +56,8 @@ export default {
         Modal.getOrCreateInstance('#challengeSubmissionForm').hide();
         if (result == 'completed') {
           Pop.toast('Challenge completed!', 'success', 'top', 3000, true);
+        } else if (result == 'submitted') {
+          Pop.toast('Link submitted, pending review', 'warning', 'top', 3000, true);
         } else if (result == 'returned for review') {
           Pop.toast('Answer was incorrect.', 'error', 'top', 3000, true);
         }
