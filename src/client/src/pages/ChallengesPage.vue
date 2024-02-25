@@ -53,8 +53,8 @@ export default {
   components: {
     SelectChallengeDifficulty,
     SelectChallengeCategory,
-    CreateChallengeForm
-  },
+    CreateChallengeForm,
+},
   setup() {
 
     async function getAllChallenges() {

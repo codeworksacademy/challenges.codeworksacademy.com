@@ -2,20 +2,9 @@ import { Schema } from "mongoose";
 const ObjectId = Schema.Types.ObjectId
 
 export const ChallengeModeratorSchema = new Schema({
-  challengeId: {
-    type: ObjectId,
-    required: true,
-    ref: 'Challenge'
-  },
-  accountId: {
-    type: ObjectId,
-    required: true,
-    ref: 'Account'
-  },
-  originId: {
-    type: ObjectId,
-    ref: 'Account'
-  },
+  challengeId: { type: ObjectId, required: true, ref: 'Challenge' },
+  accountId: { type: ObjectId, required: true, ref: 'Account' },
+  originId: { type: ObjectId, ref: 'Account' },
   status: {
     type: String,
     // Pending - The beginning of the moderation relationship that carries no privileges

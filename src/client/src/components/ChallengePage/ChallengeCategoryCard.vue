@@ -1,5 +1,6 @@
 <template>
-  <div :class="`details-card ${themeStyle ? 'theme-style' : ''} rounded p-0`" :style="{backgroundColor: bgColor, borderColor: color, borderStyle: 'groove'}">
+  <div :class="`details-card ${themeStyle ? 'theme-style' : ''} rounded p-0`"
+    :style="{ backgroundColor: bgColor, borderColor: color, borderStyle: 'groove' }">
     <i class="mdi mdi-office-building-cog-outline fs-1"></i>
     <h3 class="text-capitalize"> {{ challenge.category }} <span v-if="challenge.autoGrade">(Auto Grade)</span></h3>
     <h6 class="text-uppercase">Category</h6>
@@ -15,9 +16,26 @@ export default {
       type: Challenge || Object,
       required: true
     },
-    bgColor: {type: String, required: true},
-    color: {type: String, required: true},
-    themeStyle: {type: Boolean, required: true, default: false}
+    bgColor: { type: String, required: true },
+    color: { type: String, required: true },
+    themeStyle: { type: Boolean, required: true, default: false }
   }
 }
 </script>
+
+
+<style lang="scss" scoped>
+// .details-card {
+//   height: 100%;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   color: #f0f0f0;
+//   background: #1c2332;
+//   text-align: center;
+//   border-style: groove;
+//   position: relative;
+//   overflow: hidden;
+// }
+</style>

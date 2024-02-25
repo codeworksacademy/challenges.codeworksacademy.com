@@ -1,8 +1,6 @@
-import { RANK_BADGE } from '../constants/index.js'
+import { RANK_TITLE } from '../constants/index.js'
 import { dbContext } from '../db/DbContext'
 import { accountMilestonesService } from "./AccountMilestonesService.js"
-import { challengesService } from './ChallengesService.js'
-import { participantsService } from "./ParticipantsService.js"
 
 // Private Methods
 
@@ -31,7 +29,7 @@ async function createAccountIfNeeded(account, user) {
  * @param {any} user
  */
 async function mergeSubsIfNeeded(account, user) {
-  if (!account.subs.includes(user.sub)) {
+  if (!account.subs.includes(user.sub) && user.sub != null) {
     // @ts-ignore
     account.subs.push(user.sub)
     await account.save()
@@ -45,9 +43,14 @@ function sanitizeBody(body) {
   // Properties that the user can change about their own account
   const writable = {
     name: body.name,
+    nickname: body.nickname,
+    bio: body.bio,
+    resume: body.resume,
+    github: body.github,
+    linkedin: body.linkedin,
+    portfolioLink: body.portfolioLink,
     picture: body.picture,
     coverImg: body.coverImg,
-    aboutContent: body.bio,
   }
   return writable
 }
@@ -92,29 +95,26 @@ class AccountService {
    * @param {{id:string}} user 
    * @returns 
    */
-
-  //FIXME - Chantha check out the title enums
   async calculateAccountRank(user, experience = 0) {
-    const account = await this.getAccount(user)
+    const account = await this.getAccount(user);
+    account.xp += experience;
 
-    const totalMilestoneExperience = await accountMilestonesService.getTotalMilestoneExperience(account)
-    account.xp += experience
+    const totalMilestoneXp = await accountMilestonesService.getTotalMilestoneExperience(account);
+    let rank = account.xp + account.reputation + totalMilestoneXp;
 
-    let rank = account.xp + totalMilestoneExperience + account.reputation
-
-    const nextI = RANK_BADGE.findIndex(b => b.RANK_THRESHOLD > rank)
-    let badge = RANK_BADGE[nextI - 1]
-    if (nextI == -1) {
-      badge = RANK_BADGE.at(-1)
+    const nextIndex = RANK_TITLE.findIndex(r => r.RANK_THRESHOLD > rank);
+    let rankTitle = RANK_TITLE[nextIndex - 1];
+    if (nextIndex == -1) {
+      rankTitle = RANK_TITLE.at(-1);
     }
-    if (!badge) {
-      badge = RANK_BADGE[0]
+    if (!rankTitle) {
+      rankTitle = RANK_TITLE[0];
     }
 
-    account.rank = rank
-    account.title = RANK_BADGE[nextI - 1].NAME
-    await account.save()
-    return account
+    account.rank = rank;
+    account.title = rankTitle.NAME;
+    await account.save();
+    return account;
   }
 
   async calculateAccountReputation(user, reputation = 0) {

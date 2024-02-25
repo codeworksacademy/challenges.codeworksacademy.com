@@ -6,6 +6,7 @@ import { participantsService } from "./ParticipantsService.js"
 import { challengeModeratorsService } from "./ChallengeModeratorsService.js"
 import Pop from "../utils/Pop.js"
 import { SUBMISSION_TYPES } from "../constants/index.js"
+import { ChallengeParticipant } from "../models/ChallengeParticipant.js"
 
 class ChallengesService {
 
@@ -81,23 +82,20 @@ class ChallengesService {
   }
 
   async submitChallenge(submission) {
-    const res = await api.put(`api/challenges/${submission.challengeId}/submit`, submission)
-    logger.log(res.data)
-    logger.log('Submitting Answer ⏩', res.data)
-    if (res.data.status == 'completed') {
-      Pop.success('Challenge completed!')
-    } else if (res.data.status == 'incomplete') {
-      Pop.error('Answer was incorrect.')
-    }
-    AppState.ChallengeState.participant = res.data
-    return res.data
+    const res = await api.put(`api/challenges/${submission.challengeId}/submit`, submission);
+    const challenger = AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id);
+    challenger.status = res.data.status;
+    return res.data.status;
   }
 
 
   async gradeParticipant(newGrade) {
-    const res = await api.put(`api/challenges/${newGrade.challengeId}/participants/${newGrade.participantId}`, newGrade)
-    logger.log('Participant Updated ⏩', res.data)
-    AppState.ChallengeState.participant = res.data
+    const res = await api.put(`api/challenges/${newGrade.challengeId}/participants/${newGrade.participantId}`, newGrade);
+    const participantIndex = AppState.ChallengeState.participants.findIndex(p => p.participantId === newGrade.participantId);
+    if (res.data.status == 'completed') {
+      AppState.ChallengeState.challenge.completedCount++;
+    }
+    AppState.ChallengeState.participants.splice(participantIndex, 1, new ChallengeParticipant(res.data));
     return res.data
   }
 
@@ -117,7 +115,6 @@ class ChallengesService {
 
   clearChallenge() {
     AppState.ChallengeState.challenge = null
-    AppState.ChallengeState.participant = null
     AppState.ChallengeState.moderator = null
     AppState.ChallengeState.participants = []
     AppState.ChallengeState.moderators = []

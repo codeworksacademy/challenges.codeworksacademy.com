@@ -4,32 +4,15 @@ import { SUBMISSION_TYPES } from "../constants";
 const ObjectId = Schema.Types.ObjectId
 
 const requirementSchema = new Schema({
-  description: {
-    type: String,
-  },
-  isComplete: {
-    type: Boolean,
-    default: false
-  }
+  description: { type: String },
+  isComplete: { type: Boolean, default: false }
 },
   { timestamps: true })
 
 export const ChallengeParticipantSchema = new Schema({
-  challengeId: {
-    type: ObjectId,
-    required: true,
-    ref: 'Challenge'
-  },
-  accountId: {
-    type: ObjectId,
-    required: true,
-    ref: 'Account'
-  },
-  submission: {
-    type: String,
-    maxLength: 700,
-    default: ''
-  },
+  challengeId: { type: ObjectId, required: true, ref: 'Challenge' },
+  accountId: { type: ObjectId, required: true, ref: 'Account' },
+  submission: { type: String, maxLength: 700, default: '' },
   requirements: [requirementSchema],
   status: {
     type: String,
@@ -55,6 +38,5 @@ ChallengeParticipantSchema.virtual('challenge', {
   localField: 'challengeId',
   foreignField: '_id',
   ref: 'Challenge',
-  justOne: true,
-
+  justOne: true
 })

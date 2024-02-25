@@ -11,27 +11,35 @@
 
 <script>
 import { Challenge } from '../../models/Challenge'
-import { computed } from 'vue'
-import { AppState } from '../../AppState'
-import { challengesService } from '../../services/ChallengesService'
-import Pop from '../../utils/Pop'
 import GiveRepButton from './GiveRepButton.vue'
 
 export default {
-    props: {
-        challenge: {
-            type: Challenge || Object,
-            required: true
-        },
-        bgColor: { type: String, required: true },
-        color: { type: String, required: true },
-        themeStyle: { type: Boolean, required: true, default: false }
+  props: {
+    challenge: {
+      type: Challenge || Object,
+      required: true
     },
-    
-    components: { GiveRepButton }
+    bgColor: { type: String, required: true },
+    color: { type: String, required: true },
+    themeStyle: { type: Boolean, required: true, default: false }
+  },
+
+  components: { GiveRepButton }
 }
 </script>
 
-<style scoped lang="scss">
-
+<style lang="scss" scoped>
+// .details-card {
+//   height: 100%;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   color: #f0f0f0;
+//   background: #1c2332;
+//   text-align: center;
+//   border-style: groove;
+//   position: relative;
+//   overflow: hidden;
+// }
 </style>

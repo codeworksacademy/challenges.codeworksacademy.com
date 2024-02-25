@@ -31,11 +31,12 @@
 <script>
 import Pop from "../utils/Pop.js"
 import { AppState } from '../AppState.js'
-import { useRouter } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 import { computed, onMounted, ref, watchEffect } from 'vue'
 import { newChallengeParticipant } from '../utils/NewChallengeParticipant.js'
 import GradeSubmissionForm from '../components/Forms/GradeSubmissionForm.vue'
 import { logger } from "../utils/Logger.js"
+import { participantsService } from "../services/ParticipantsService.js"
 
 export default {
   components: {
@@ -43,7 +44,9 @@ export default {
   },
   setup() {
 
-    const filterBy = ref('')
+    const route = useRoute();
+
+    const filterBy = ref('');
     const editable = computed(() =>
       newChallengeParticipant({ state: AppState }, filterBy.value)
     )
@@ -65,7 +68,16 @@ export default {
         router.push({ name: 'Error' });
       }
     }
-    onMounted(() => { modCheck(); })
+
+    async function getParticipantsByChallengeId() {
+      try { await participantsService.getParticipantsByChallengeId(route.params.challengeId); }
+      catch (error) { Pop.error('[GRADE SUBMISSIONS PAGE] getParticipantsByChallengeId' + error); }
+    }
+
+    onMounted(() => {
+      modCheck();
+      getParticipantsByChallengeId();
+    })
 
     function isModeratorStatus() {
       const isMod = AppState.ChallengeState.moderators.find(m => m.accountId == AppState.AccountState.account.id)

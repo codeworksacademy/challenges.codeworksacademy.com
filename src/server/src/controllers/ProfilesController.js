@@ -17,8 +17,8 @@ export class ProfilesController extends BaseController {
 
   async findProfiles(req, res, next) {
     try {
-      const name = req.query.name
-      const offset = req.query.offset
+      const name = req.query.name;
+      const offset = req.query.offset;
 
       const profiles = await profilesService.findProfiles(name, offset);
       res.send(profiles);
@@ -50,13 +50,14 @@ export class ProfilesController extends BaseController {
     catch (error) { next(error); }
   }
 
-  async calculateProfileReputation(req, res, next) {
-    try {
-      const reputationScore = await profilesService.calculateProfileReputation(req.params.id);
-      res.send(reputationScore);
-    }
-    catch (error) { next(error); }
-  }
+  // NOTE was not routed in nor called on within this controller
+  // async calculateProfileReputation(req, res, next) {
+  //   try {
+  //     const reputationScore = await profilesService.calculateProfileReputation(req.params.id);
+  //     res.send(reputationScore);
+  //   }
+  //   catch (error) { next(error); }
+  // }
 
   async getParticipationByUserId(req, res, next) {
     try {

@@ -42,7 +42,7 @@
 import { computed } from "vue"
 import { Profile } from "../../models/Profile.js"
 import { Account } from "../../models/Account.js"
-import { RANK_BADGE } from "../../constants/index.js"
+import { RANK_TITLE } from "../../constants/index.js"
 export default {
 
   props: {
@@ -53,16 +53,16 @@ export default {
     // This should be calculated on the backend only
     const currentRankBadge = computed(() => {
       let lastKey = 0
-      for (const badge of RANK_BADGE) {
+      for (const badge of RANK_TITLE) {
         if (props.profile.rank >= badge.RANK_THRESHOLD) {
           lastKey = badge.RANK_THRESHOLD
         }
       }
-      return RANK_BADGE.find(badge => badge.RANK_THRESHOLD === lastKey)
+      return RANK_TITLE.find(badge => badge.RANK_THRESHOLD === lastKey)
     })
 
     const rankBadgePercentage = computed(() => {
-      const rankThreshold = Object.values(RANK_BADGE).map(badge => badge.RANK_THRESHOLD);
+      const rankThreshold = Object.values(RANK_TITLE).map(badge => badge.RANK_THRESHOLD);
       const rank = props.profile.rank;
       const nextRank = rankThreshold.find(value => value > rank);
       if (!nextRank) {
@@ -72,13 +72,13 @@ export default {
       return `${percentage.toFixed(1)}%`;
     });
     const nextRankBadge = computed(() => {
-      const rankThreshold = Object.values(RANK_BADGE).map(badge => badge.RANK_THRESHOLD);
+      const rankThreshold = Object.values(RANK_TITLE).map(badge => badge.RANK_THRESHOLD);
       const rank = props.profile.rank;
       const nextRank = rankThreshold.find(value => value > rank);
       if (!nextRank) {
         return 'Celestial Scripter Reached! Final rank achieved!!';
       }
-      return RANK_BADGE.find(badge => badge.RANK_THRESHOLD === nextRank);
+      return RANK_TITLE.find(badge => badge.RANK_THRESHOLD === nextRank);
     });
 
     return {

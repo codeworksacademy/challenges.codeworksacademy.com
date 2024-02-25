@@ -43,3 +43,11 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+.difficulty-styled{
+  width: 1.5rem; 
+  height: 1.5rem; 
+  margin-right: .25rem;
+}
+</style>

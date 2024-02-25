@@ -40,32 +40,18 @@ class ParticipantsService {
     ]
   }
 
-  async getParticipantById(participantId) {
-    const res = await api.get(`api/participants/${participantId}`)
-    logger.log('[GETTING PARTICIPANT BY ID]', res.data)
-    AppState.ChallengeState.participant = res.data
-  }
+  // NOTE not used anywhere yet
+  // async getParticipantById(participantId) {
+  //   const res = await api.get(`api/participants/${participantId}`)
+  //   logger.log('[GETTING PARTICIPANT BY ID]', res.data)
+  //   AppState.ChallengeState.participant = new ChallengeParticipant(res.data)
+  // }
 
   async joinChallenge(newParticipant) {
-    const res = await api.post('api/participants', newParticipant)
+    const res = await api.post('api/participants', newParticipant);
     logger.log('New participant:', res.data)
-    AppState.ChallengeState.participants.push(new ChallengeParticipant(res.data))
-  }
-
-  async submitAnswer(challengeId, participantId, submission) {
-    const res = await api.put(`api/challenges/${challengeId}/submit`, {
-      challengeId: challengeId,
-      participantId: participantId,
-      submission: submission,
-    })
-    Modal.getOrCreateInstance('#challengeSubmissionForm').hide();
-    if (res.data == 'Incorrect') {
-      Pop.error("Answer was incorrect.")
-    }
-    if (res.data.participant.status == 'completed') {
-      Pop.success("Congratulations on finishing the challenge!")
-    }
-    logger.log(res.data)
+    AppState.ChallengeState.participants.push(new ChallengeParticipant(res.data));
+    AppState.ChallengeState.challenge.participantCount++;
   }
 
   async leaveChallenge(participantId) {

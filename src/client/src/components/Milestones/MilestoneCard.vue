@@ -49,7 +49,7 @@
 import { computed } from 'vue';
 import { accountMilestonesService } from '../../services/AccountMilestonesService';
 import Pop from '../../utils/Pop';
-import { MILESTONE_BADGE } from '../../constants';
+import { MILESTONE_TIER } from '../../constants';
 import { AppState } from '../../AppState';
 import { useRoute } from 'vue-router';
 
@@ -83,7 +83,7 @@ export default {
 
     const tierAttributes = computed(() => {
       let attributes = {}
-      const badge = MILESTONE_BADGE[props.milestone.tier]
+      const badge = MILESTONE_TIER[props.milestone.tier]
       attributes.adjective = badge.ADJECTIVE
       attributes.tierCurrent = badge.TIER_CURRENT
       attributes.tierNext = badge.TIER_NEXT

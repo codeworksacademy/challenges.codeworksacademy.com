@@ -1,5 +1,6 @@
 <template>
-	<div class="col-12 button-container d-flex justify-content-center align-items-center" v-if="isParticipant">
+	<div class="col-12 button-container d-flex justify-content-center align-items-center"
+		v-if="isParticipant && !isCreator">
 		<button v-if="!gaveReputation" @click="giveReputation(1)" class="me-3">
 			<small>Give Reputation</small>
 		</button>
@@ -27,9 +28,7 @@ export default {
 				const accountId = AppState.AccountState.account?.id;
 				await challengesService.giveReputation(challengeId, accountId);
 			}
-			catch (error) {
-				Pop.error(error.message);
-			}
+			catch (error) { Pop.error(error.message); }
 		}
 		return {
 			giveReputation,

@@ -13,40 +13,41 @@ export class MilestonesController extends BaseController {
       .put('/:milestoneId', this.editMilestone)
       .delete('/:milestoneId', this.removeMilestone)
   }
-  async createMilestone(req, res, next) {
-    try {
-      const milestoneData = req.body
-      const milestone = await milestonesService.createMilestone(milestoneData)
-      return res.send(milestone)
-    } catch (error) {
-      next(error);
-    }
-  }
+
   async getMilestones(req, res, next) {
     try {
-      const milestones = await milestonesService.getMilestones()
-      return res.send(milestones)
-    } catch (error) {
-      next(error);
+      const milestones = await milestonesService.getMilestones();
+      return res.send(milestones);
     }
+    catch (error) { next(error); }
   }
+
+  // 🔽 AUTHENTICATION REQUIRED 🔽
+
+  async createMilestone(req, res, next) {
+    try {
+      const milestoneData = req.body;
+      const milestone = await milestonesService.createMilestone(milestoneData);
+      return res.send(milestone);
+    }
+    catch (error) { next(error); }
+  }
+
   async editMilestone(req, res, next) {
     try {
-      const milestoneData = req.body
-      const milestoneId = req.params.milestoneId
-      const milestone = await milestonesService.editMilestone(milestoneId, milestoneData)
+      const milestoneData = req.body;
+      const milestoneId = req.params.milestoneId;
+      const milestone = await milestonesService.editMilestone(milestoneId, milestoneData);
       return res.send(milestone)
-    } catch (error) {
-      next(error);
     }
+    catch (error) { next(error); }
   }
   async removeMilestone(req, res, next) {
     try {
-      const milestoneId = req.params.milestoneId
-      const milestone = await milestonesService.removeMilestone(milestoneId)
-      return res.send(milestone)
-    } catch (error) {
-      next(error);
+      const milestoneId = req.params.milestoneId;
+      const milestone = await milestonesService.removeMilestone(milestoneId);
+      return res.send(milestone);
     }
+    catch (error) { next(error); }
   }
 }

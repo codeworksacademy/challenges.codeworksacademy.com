@@ -11,26 +11,26 @@ export class AccountMilestonesController extends BaseController {
       .post('/:userId', this.checkMilestonesByUserId)
   }
 
+  // 🔽 AUTHENTICATION REQUIRED 🔽
+
   async getMyMilestones(req, res, next) {
     try {
-      const accountId = req.userInfo.id
-      const accountMilestones = await accountMilestonesService.getMyMilestones(accountId)
-      return res.send(accountMilestones)
-    } catch (error) {
-      next(error);
+      const accountId = req.userInfo.id;
+      const accountMilestones = await accountMilestonesService.getMyMilestones(accountId);
+      return res.send(accountMilestones);
     }
+    catch (error) { next(error); }
   }
 
   async checkMilestonesByUserId(req, res, next) {
     try {
-      const accountId = req.userInfo.id
-      const userId = req.params.userId
-      const checks = req.body
-      const milestones = await accountMilestonesService.checkMyMilestoneCache(accountId, userId, checks)
-      return res.send(milestones)
-    } catch (error) {
-      next(error);
+      const accountId = req.userInfo.id;
+      const userId = req.params.userId;
+      const checks = req.body;
+      const milestones = await accountMilestonesService.checkMyMilestoneCache(accountId, userId, checks);
+      return res.send(milestones);
     }
+    catch (error) { next(error); }
   }
 
 }
