@@ -1,29 +1,34 @@
 <template>
-  <section v-if="challenge" class="text-light container-fluid px-lg-5">
+  <div v-if="challenge" class="container-fluid text-light px-lg-5">
 
-    <div class="row">
+    <section class="row">
       <div class="col-12">
-        <div v-if="(!isParticipant || isParticipant?.status === 'left') && challenge?.status.toLowerCase() === 'published'">
+        <div
+          v-if="(!isParticipant || isParticipant?.status === 'left') && challenge?.status.toLowerCase() === 'published'">
           <ChallengeStatCard :challenge="challenge" color="#22ff33" bgColor="#22ff330f" icon="mdi-account-multiple-plus"
             @click="joinChallenge()" class="selectable mb-2" prop="Join Challenge" />
         </div>
         <div v-if="isParticipant?.status === 'started' || isParticipant?.status === 'returned for review'">
           <ChallengeStatCard :challenge="challenge" title="Submit Challenge" data-bs-toggle="modal"
             data-bs-target="#challengeSubmissionForm" data-bs-dismiss="modal" class="selectable mb-2" bgColor="#1da3e60f"
-            color="#1da3e6" icon="mdi-send" prop="Submit Challenge" />
+            color="#1da3e6" icon="mdi-send" prop="Submit Challenge">
+            <span v-if="isParticipant?.status === 'returned for review'" class="text-uppercase text-warning mt-2">
+              Returned for Review
+            </span>
+          </ChallengeStatCard>
         </div>
         <div v-if="isParticipant?.status === 'submitted'">
-          <ChallengeStatCard :challenge="challenge" title="Awaiting Review" class="selectable lighten-30 mb-2" bgColor="#00000000"
-            color="#887766" icon="mdi-message-draw" prop="Awaiting Review" />
+          <ChallengeStatCard :challenge="challenge" title="Awaiting Review" class="mb-2" color="#887766"
+            icon="mdi-message-draw" prop="Awaiting Review" />
         </div>
         <div v-if="isParticipant?.status === 'completed'">
-          <ChallengeStatCard :challenge="challenge" title="Completed!" class="mb-2" bgColor="#00000000"
-            color="gold" icon="mdi-party-popper" prop="Completed!" />
+          <ChallengeStatCard :challenge="challenge" title="Completed!" class="mb-2" color="gold" icon="mdi-party-popper"
+            prop="Completed!" />
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="row">
+    <section class="row">
       <div class="col-lg-4 my-2">
         <ChallengeStatCard :challenge="challenge" :color="difficulty.color" :bgColor="difficulty.bgColor"
           :value="difficulty.value" prop="difficulty" icon="mdi-diamond-stone" />
@@ -40,8 +45,9 @@
         <ChallengeStatCard :challenge="challenge" color="#f7f4b3" bgColor="#161d2b" prop="Solves"
           :value="challenge.completedCount" icon="mdi-seal" />
       </div>
-    </div>
-    <div class="row">
+    </section>
+
+    <section class="row">
       <div class="col-lg-4 my-2">
         <ChallengeStatCard :challenge="challenge" color="#b78fff" bgColor="#1D213A" prop="reputation"
           :value="challenge.reputationIds.length" icon="mdi-account-star-outline" style="min-height: 25vh;">
@@ -51,11 +57,15 @@
       <div class="col-lg-8 my-2">
         <ChallengeCreatorCard :challenge="challenge" :profile="challenge.creator" color="#323e78" bgColor="#323e7829" />
       </div>
-      <!-- <div class="col-lg-12 mt-1">
-        <ChallengeBadgeCard :challenge="challenge" :badge="challenge.badge" class="mx-1" />
-      </div> -->
-    </div>
-    <div class="row">
+    </section>
+
+    <section class="row">
+      <div class="col-lg-12 my-2">
+        <ChallengeBadgeCard :challenge="challenge" :badge="challenge.badge" />
+      </div>
+    </section>
+
+    <section class="row" v-if="challenge.description">
       <div class="col-12">
         <div class="details-header p-3 bg-detail mt-3 rounded-3">
           <h3 class="text-uppercase">
@@ -64,8 +74,8 @@
           <Markdown :value="challenge.description" />
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <script>
@@ -127,21 +137,6 @@ export default {
   justify-content: center;
   color: #f0f0f0;
   background: #1c2332;
-  text-align: center;
-}
-
-.badge-card {
-  height: 30vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 1rem;
-  padding: 2rem;
-  color: #f0f0f0;
-  border: 1px solid #323e78;
-  border-radius: 5px;
-  background: #323e7829;
   text-align: center;
 }
 

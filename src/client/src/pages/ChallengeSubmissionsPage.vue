@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid bg-detail p-3 rounded-3">
-    <section v-if="challenge" class="row justify-content-center align-items-center pb-3">
+    <section class="row justify-content-center align-items-center pb-3" v-if="challenge">
       <div class="col-12 pb-3">
         <h3 class="fs-2" style="color: #7A7A7A">Challenge Submissions</h3>
       </div>
@@ -14,22 +14,18 @@
       </div>
     </section>
 
-    <section class="row">
-      <div class="col-12 d-flex justify-content-evenly align-items-center">
-        <div v-for="p in participants" :key="p.id" class="col-2 p-3">
+    <section class="row justify-content-evenly align-items-center">
+      <div v-for="p in participants" :key="p.id" class="col-2 p-3">
 
-          <div v-if="p.status === 'submitted'">
-            <ParticipantCard :participant="p" />
-            <small class="d-flex justify-content-center align-items-center text-success text-capitalize"
-              style="font-style: bold;">gradable</small>
-          </div>
-          <div v-else class="not-submitted">
-            <ParticipantCard :participant="p" />
-            <small class="d-flex justify-content-center align-items-center subtle-header text-capitalize p-0 m-0"
-              style="font-style: italic;">not submitted</small>
-          </div>
-
+        <div>
+          <ParticipantCard :participant="p" />
+          <small v-if="p.status === 'completed'"></small>
+          <small class="d-flex justify-content-center text-success text-capitalize"
+            v-else-if="p.status === 'submitted'"><b>gradable</b></small>
+          <small v-else class="d-flex justify-content-center subtle-header text-capitalize p-0 m-0">
+            <em>not submitted</em></small>
         </div>
+
       </div>
     </section>
   </div>

@@ -16,7 +16,7 @@ export default {
       type: [Challenge, Object],
       required: true
     },
-    bgColor: { type: String, required: true },
+    bgColor: { type: String, required: true, default: '#00000000' },
     color: { type: String, required: true },
     icon: { type: String, required: true },
     prop: { type: String, required: true },
