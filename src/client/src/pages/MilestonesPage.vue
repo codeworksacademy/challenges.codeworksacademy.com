@@ -218,7 +218,7 @@ export default {
           await milestonesService.createMilestone(milestoneData)
           editable.value = {}
         } catch (error) {
-          Pop.error(error)
+          Pop.error('[MILESTONES PAGE] createMilestone:: ' + error);
         }
       },
       setUpMilestoneEditable(milestone) {
@@ -237,7 +237,7 @@ export default {
           editable.value = {}
           editMode.value = false
         } catch (error) {
-          Pop.error(error)
+          Pop.error('[MILESTONES PAGE] editMilestone:: ' + error);
         }
       },
       async removeMilestone(milestoneId) {
@@ -249,7 +249,7 @@ export default {
           }
           await milestonesService.removeMilestone(milestoneId)
         } catch (error) {
-          Pop.error(error)
+          Pop.error('[MILESTONES PAGE] removeMilestone:: ' + error);
         }
       }
     };

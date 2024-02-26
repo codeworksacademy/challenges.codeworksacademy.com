@@ -85,7 +85,7 @@ export default {
         await participantsService.updateChallengeParticipant(participantId, newParticipant);
         Pop.success(`${AppState.AccountState.account.nickname || account.name} submitted ${AppState.ChallengeState.challenge?.name} successfully. Click 'View Competitors' to verify your submission and see how you 'stack' up! 😉`);
       }
-      catch (error) { Pop.toast('[CHALLENGE DETAILS MENU] updateChallengeParticipant', error); }
+      catch (error) { Pop.error('[CHALLENGE DETAILS MENU] updateChallengeParticipant:: ' + error); }
     }
 
     return {

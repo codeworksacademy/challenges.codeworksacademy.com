@@ -55,11 +55,10 @@ class ParticipantsService {
   }
 
   async leaveChallenge(participantId) {
-    const res = await api.delete(`api/participants/${participantId}`)
-    logger.log('Deleted participant:', res.data)
-    let participantToRemove = AppState.ChallengeState.participants.findIndex(p => p.id === participantId)
-    AppState.ChallengeState.participants.splice(participantToRemove, 1)
-    return res.data
+    const res = await api.delete(`api/participants/${participantId}`);
+    logger.log('Deleted participant:', res.data);
+    let participantIndex = AppState.ChallengeState.participants.findIndex(p => p.id === participantId);
+    AppState.ChallengeState.participants.splice(participantIndex, 1);
   }
 
   async getParticipantsByChallengeId(challengeId) {

@@ -44,7 +44,7 @@ export default {
           await accountMilestonesService.checkMilestonesByUserId(userId, checks);
         }
       }
-      catch (error) { Pop.error('[MILESTONES TRACKER] checkMyMilestones', error); }
+      catch (error) { Pop.error('[MILESTONES TRACKER] checkMyMilestones:: ' + error); }
     };
 
     watchEffect(() => {

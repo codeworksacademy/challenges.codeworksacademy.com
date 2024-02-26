@@ -2,8 +2,9 @@
   <select v-model="filterCategory" @change="routeToCategory" name="category" id="category"
     class="select-category text-capitalize form-select">
     <option :value="''" :selected="filterCategory == '' || filterCategory == 'all'">All Categories</option>
-    <option v-for="category in categoryTypes" :key="category" :value="category" :selected="category == filterCategory">{{
-      category }}</option>
+    <option v-for="category in categoryTypes" :key="category" :value="category" :selected="category == filterCategory">
+      {{ category }}
+    </option>
   </select>
 </template>
 
@@ -41,7 +42,7 @@ export default {
           }
           router.push({ name: 'Challenges.challengeCategory', params: { category: filterCategory.value, difficulty: route.params.difficulty ?? 'all' } });
         }
-        catch (error) { Pop.error(error); }
+        catch (error) { Pop.error('[SELECT CHALLENGE CATEGORY] routeToCategory:: ' + error); }
       }
     }
   }

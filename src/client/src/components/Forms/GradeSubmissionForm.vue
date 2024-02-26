@@ -98,14 +98,13 @@ export default {
     const totalReqs = computed(() => editable.value.requirements.length)
 
     async function gradeParticipant() {
-      logger.log(editable.value)
       try {
-        const participantResult = editable.value
-        participantResult.status = editable.value.status
-        await challengesService.gradeParticipant(participantResult)
+        const participantResult = editable.value;
+        // participantResult.status = editable.value.status
+        await challengesService.gradeParticipant(participantResult);
         Pop.success(`${editable.value.profile?.name} has been graded! Result: ${editable.value.status}`)
       } catch (error) {
-        logger.error(error)
+        Pop.error('[GRADE SUBMISSION FORM] gradeParticipant:: ' + error);
       }
     }
 

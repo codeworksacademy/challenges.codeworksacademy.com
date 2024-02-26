@@ -74,37 +74,37 @@ export default {
         logger.log('[PROFILE PAGE] getProfileData milestones', AppState.ProfileState.milestones)
       }
       catch (error) {
-        Pop.error('Error when getting profile dataset', error);
+        Pop.error('Error when getting profile dataset:: ' + error);
         router.push({ name: 'Error' });
       }
     }
 
     async function getProfileById() {
       try { return await profilesService.getProfileById(route.params.profileId); }
-      catch (error) { Pop.error('[PROFILE PAGE] getProfileById', error.message); }
+      catch (error) { Pop.error('[PROFILE PAGE] getProfileById:: ' + error); }
     }
 
     async function getChallenges() {
       try { return await profilesService.getChallenges(route.params.profileId); }
-      catch (error) { Pop.error('[PROFILE PAGE] getChallenges', error.message); }
+      catch (error) { Pop.error('[PROFILE PAGE] getChallenges:: ' + error); }
     }
 
     // this also includes the badges associated with this profile
     // participation => p.status == 'completed'||'active'
     async function getParticipation() {
       try { return await profilesService.getParticipation(route.params.profileId); }
-      catch (error) { Pop.error('[PROFILE PAGE] getParticipation', error.message); }
+      catch (error) { Pop.error('[PROFILE PAGE] getParticipation:: ' + error); }
     }
 
     async function calculateProfileRank() {
       try { return await profilesService.calculateProfileRank(route.params.profileId) }
-      catch (error) { Pop.error('[PROFILE PAGE] calculateProfileRank', error.message); }
+      catch (error) { Pop.error('[PROFILE PAGE] calculateProfileRank:: ' + error); }
     }
 
     async function getMilestones() {
       try { return await profilesService.getMilestones(route.params.profileId) }
       catch (error) {
-        Pop.error('[PROFILE PAGE] getMilestones', error)
+        Pop.error('[PROFILE PAGE] getMilestones:: ' + error);
         MilestonesError.value = 'Sorry we were unable to pull the milestones for this account. We are working on it try again later'
       }
     }

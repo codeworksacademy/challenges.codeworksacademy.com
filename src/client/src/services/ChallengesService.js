@@ -52,27 +52,25 @@ class ChallengesService {
 
   async getProfileChallenges(profileId) {
     const res = await api.get(`api/profiles/${profileId}/challenges`)
-
     logger.log('[GETTING PROFILE CHALLENGES]', res.data)
     AppState.challenges = res.data.map(c => new Challenge(c))
   }
 
-  async deprecateChallenge(challengeId) {
-    const res = await api.delete(`/api/challenges/${challengeId}`)
-    logger.log('🚨🚨🚨deprecating Challenge ⏩', res.data)
-    let i = AppState.challenges.findIndex(c => c.id == challengeId)
-    AppState.challenges.splice(i, 1)
-    Pop.toast('Your challenges has been marked as deprecated.', 'success')
-  }
+  // async deprecateChallenge(challengeId) {
+  //   const res = await api.delete(`/api/challenges/${challengeId}`)
+  //   logger.log('🚨🚨🚨deprecating Challenge ⏩', res.data)
+  //   let i = AppState.challenges.findIndex(c => c.id == challengeId)
+  //   AppState.challenges.splice(i, 1)
+  // }
 
-  async deleteChallenge(challengeId) {
-    const res = await api.delete(`/api/challenges/${challengeId}`)
-    logger.log('🚨🚨🚨Deleting Challenge ⏩', res.data)
-    let indexToDelete = AppState.challenges.findIndex(c => c.id == challengeId)
-    AppState.challenges.splice(indexToDelete, 1)
-    AppState.ChallengeState.challenge = res.data
-    Pop.toast('You have successfully deleted this challenge!', 'success')
-  }
+  // async deleteChallenge(challengeId) {
+  //   const res = await api.delete(`/api/challenges/${challengeId}`)
+  //   logger.log('🚨🚨🚨Deleting Challenge ⏩', res.data)
+  //   let indexToDelete = AppState.challenges.findIndex(c => c.id == challengeId)
+  //   AppState.challenges.splice(indexToDelete, 1)
+  //   AppState.ChallengeState.challenge = res.data
+  //   Pop.toast('You have successfully deleted this challenge!', 'success')
+  // }
 
   async updateChallenge(challengeData, challengeId) {
     const res = await api.put(`/api/challenges/${challengeId}`, challengeData)
@@ -96,15 +94,11 @@ class ChallengesService {
       AppState.ChallengeState.challenge.completedCount++;
     }
     AppState.ChallengeState.participants.splice(participantIndex, 1, new ChallengeParticipant(res.data));
-    return res.data
   }
 
   async giveReputation(challengeId, userId) {
-    logger.log('Challenge ID:', challengeId, 'User ID:', { userId })
-    const res = await api.put(`api/challenges/${challengeId}/reputation`, userId)
-    logger.log('Giving Reputation ⏩', res.data)
-    AppState.ChallengeState.challenge = res.data
-    return res.data
+    const res = await api.put(`api/challenges/${challengeId}/reputation`, userId);
+    AppState.ChallengeState.challenge = new Challenge(res.data);
   }
 
   async getChallengesCreatedBy(id) {

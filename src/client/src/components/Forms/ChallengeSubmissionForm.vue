@@ -63,7 +63,7 @@ export default {
         }
         editable.value.submission = '';
       }
-      catch (error) { Pop.error(error); }
+      catch (error) { Pop.error('[CHALLENGE SUBMISSION FORM] submitChallenge:: ' + error); }
     }
 
     // async function removeSubmission() {
@@ -78,13 +78,13 @@ export default {
     //     participant.value = ''
     //     editable.value = ''
     //     Modal.getOrCreateInstance('#challengeSubmissionForm').hide();
-    //     Pop.toast(`Removed Participation: ${newSubmission}`);
+    //     Pop.toast(`Removed Participation: ${newSubmission}`, 'success', 'top', 3000, true);
     //     router.push({
     //       name: 'Challenge.gradeSubmissionsPage',
     //       path: `/challenges/${newSubmission.challengeId}/grade`
     //     });
     //   } catch (error) {
-    //     Pop.error('Unable to remove submission', error);
+    //     Pop.error('[CHALLENGE SUBMISSION FORM] submitChallenge: Unable to remove submission:: ' + error);
     //   }
     // }
 

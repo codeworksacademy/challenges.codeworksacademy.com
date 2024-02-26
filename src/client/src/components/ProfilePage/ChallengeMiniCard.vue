@@ -18,8 +18,8 @@
 
           <div class="col-4 col-lg-2">
             <span class="highlight-font fw-semibold fs-5">
-              <i class="mdi mdi-diamond-stone me-2 fs-5" :style="{ color: difficulty.color }"></i> {{ challenge.difficulty
-              }}
+              <i class="mdi mdi-diamond-stone me-2 fs-5" :style="{ color: difficulty.color }"></i>
+              {{ challenge.difficulty }}
             </span>
           </div>
         </section>
@@ -35,12 +35,12 @@
 </template>
 
 <script>
-import Pop from '../../utils/Pop';
+import Pop from '../../utils/Pop.js';
 import { computed } from 'vue';
 import { router } from "../../router.js";
-import { AppState } from '../../AppState';
-import { Challenge } from '../../models/Challenge';
-import { difficultyMap } from '../../utils/DifficultyMap.js'
+import { AppState } from '../../AppState.js';
+import { Challenge } from '../../models/Challenge.js';
+import { difficultyMap } from '../../utils/DifficultyMap.js';
 import { participantsService } from '../../services/ParticipantsService.js';
 
 export default {
@@ -57,9 +57,9 @@ export default {
         participant.status = 'left';
         await participantsService.leaveChallenge(participant.id);
 
-        Pop.toast("You have left the challenge!");
+        Pop.success("You have left the challenge!");
       }
-      catch (error) { Pop.toast('Attempt to leave the challenge failed ', error); }
+      catch (error) { Pop.error('[CHALLENGE MINI CARD] Attempt to leave the challenge failed :: ' + error); }
     }
 
     return {

@@ -46,7 +46,7 @@ export default {
 
       async updateAccount() {
         try { await accountService.updateAccount(editable.value); }
-        catch (error) { Pop.error('[UPDATING ACCOUNT]', error.message); }
+        catch (error) { Pop.error('[ACCOUNT FORM] updateAccount:: ' + error.message); }
       }
     }
   }

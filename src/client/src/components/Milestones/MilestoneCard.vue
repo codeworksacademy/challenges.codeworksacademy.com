@@ -149,7 +149,7 @@ export default {
           await accountMilestonesService.claimMilestone(accountMilestone);
         }
         catch (error) {
-          Pop.error(error);
+          Pop.error('[MILESTONE CARD] claimMilestone:: ' + error);
         }
       }
     }

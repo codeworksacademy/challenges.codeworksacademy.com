@@ -31,11 +31,11 @@
 </template>
   
 <script>
+import Pop from '../../utils/Pop.js'
 import { computed, ref } from 'vue'
-import { AppState } from '../../AppState'
-import Pop from '../../utils/Pop'
-import { challengesService } from '../../services/ChallengesService'
 import { useRouter } from 'vue-router';
+import { AppState } from '../../AppState.js'
+import { challengesService } from '../../services/ChallengesService.js'
 
 export default {
   setup() {
@@ -59,7 +59,7 @@ export default {
             }
           })
       } catch (error) {
-        Pop.toast(error.message, 'error')
+        Pop.error('[CREATE CHALLENGE FORM] createChallenge:: ' + error);
       }
     }
 

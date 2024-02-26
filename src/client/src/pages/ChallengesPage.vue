@@ -54,12 +54,12 @@ export default {
     SelectChallengeDifficulty,
     SelectChallengeCategory,
     CreateChallengeForm,
-},
+  },
   setup() {
 
     async function getAllChallenges() {
       try { await challengesService.getAllChallenges(); }
-      catch (error) { Pop.toast(error); }
+      catch (error) { Pop.error('[CHALLENGES PAGE] getAllChallenges:: ' + error); }
     }
 
     onMounted(() => {

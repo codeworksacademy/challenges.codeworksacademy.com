@@ -85,10 +85,10 @@
 
 
 <script>
-import { AppState } from '../AppState';
+import { AppState } from '../AppState.js';
 import { computed, ref, watch } from 'vue';
-import ChallengeMiniCard from '../components/ProfilePage/ChallengeMiniCard.vue';
 import { useRoute } from "vue-router";
+import ChallengeMiniCard from '../components/ProfilePage/ChallengeMiniCard.vue';
 
 export default {
   setup() {
@@ -99,11 +99,11 @@ export default {
     function updateFiltered() {
       let cf = [];
       if (challengeTypes.value === 'Created') {
-        cf = AppState.ProfileState.challenges.filter(c => c.creatorId == AppState.ProfileState.profile.id)
+        cf = AppState.ProfileState.challenges.filter(c => c.creatorId == AppState.ProfileState.profile.id);
       } else if (challengeTypes.value === 'Moderated') {
-        cf = AppState.ProfileState.moderation.map(c => c.challenge)
+        cf = AppState.ProfileState.moderation.map(c => c.challenge);
       } else if (challengeTypes.value === 'Participating') {
-        cf = AppState.ProfileState.participation.map(c => c.challenge)
+        cf = AppState.ProfileState.participation.map(c => c.challenge);
       }
       challenges.value = cf;
     }

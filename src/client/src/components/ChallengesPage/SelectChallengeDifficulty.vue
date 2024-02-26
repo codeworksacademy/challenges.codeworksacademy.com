@@ -61,7 +61,7 @@ export default {
           }
           router.push({ name: 'Challenges.challengeCategory', params: { category: route.params.category ?? 'all', difficulty: filterDifficulty.value } });
         }
-        catch (error) { Pop.error(error); }
+        catch (error) { Pop.error('[SELECT CHALLENGE DIFFICULTY] routeToDifficulty:: ' + error); }
       }
     }
   }
