@@ -1,14 +1,8 @@
 <template>
   <div class="container-fluid">
     <section class="row align-items-center py-3 mt-3 border-underline dark-blue-bg rounded-top">
-      <div class="col">
-        <p class="mb-0 text-white fw-semibold">
-          {{ challengeTypes.toUpperCase() || 'CREATED' }}
-        </p>
-      </div>
-
-      <div class="col-4 ms-auto d-flex justify-content-center">
-        <div class="dropdown text-end">
+      <div class="col-12 d-flex align-items-center">
+        <div class="dropdown">
           <button class="btn aqua-btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown"
             aria-expanded="false">
             Filter Challenges
@@ -20,12 +14,10 @@
                 class="btn dropdown-item">Moderated</button></li>
           </ul>
         </div>
-      </div>
-
-      <div class="col ms-auto text-end pe-3">
-        <p class="mb-0 text-white">
-          <span class="highlight-text fw-semibold">{{ challenges.length }} </span>
-          challenge{{ challenges.length > 1 || challenges.length == 0 ? 's' : '' }}
+        <p class="ms-3 mb-0 text-white">
+          <span class="highlight-text fw-semibold"> {{ challenges.length + ' ' }} </span>
+          <span class="highlight-text fw-semibold"> {{ (challengeTypes.toUpperCase() || 'CREATED') + ' ' }} </span>
+          Challenge{{ challenges.length > 1 || challenges.length == 0 ? 's' : '' }}
         </p>
       </div>
     </section>
@@ -43,14 +35,15 @@
               CATEGORY
             </p>
           </div>
-          <div class="col-4 col-lg-2">
+          <div class="col-4 col-lg-2 d-flex justify-content-center">
             <p class="text-white-50">
               POINTS
             </p>
           </div>
         </section>
       </div>
-      <div class="col-1 d-none d-md-flex align-items-center">
+      <div class="col-1 d-none d-md-flex justify-content-md-center"
+        v-if="isMyProfile && (challengeTypes == 'Participating')">
         <p class="text-white-50" title="Leave Challenge">
           LEAVE
         </p>
@@ -67,7 +60,7 @@
 
     <section v-else-if="challenges.length > 0" class="row">
       <div class="col-12 mt-1" v-for="challenge in challenges">
-        <ChallengeMiniCard :challenge="challenge" />
+        <ChallengeMiniCard :challenge="challenge" :type="challengeTypes" />
       </div>
     </section>
 
@@ -85,9 +78,9 @@
 
 
 <script>
+import { useRoute } from "vue-router";
 import { AppState } from '../AppState.js';
 import { computed, ref, watch } from 'vue';
-import { useRoute } from "vue-router";
 import ChallengeMiniCard from '../components/ProfilePage/ChallengeMiniCard.vue';
 
 export default {
@@ -107,6 +100,7 @@ export default {
       }
       challenges.value = cf;
     }
+
     watch(() => challengeTypes.value, updateFiltered, { immediate: true })
     watch(() => AppState.ProfileState.challenges, updateFiltered)
 
