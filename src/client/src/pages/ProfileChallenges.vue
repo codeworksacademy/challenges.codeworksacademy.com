@@ -1,8 +1,8 @@
 <template>
   <div class="container-fluid">
     <section class="row align-items-center py-3 mt-3 border-underline dark-blue-bg rounded-top">
-      <div class="col-12 d-flex align-items-center">
-        <div class="dropdown">
+      <div class="col-12 d-flex align-items-center flex-wrap">
+        <div class="dropdown me-3">
           <button class="btn aqua-btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown"
             aria-expanded="false">
             Filter Challenges
@@ -14,11 +14,19 @@
                 class="btn dropdown-item">Moderated</button></li>
           </ul>
         </div>
-        <p class="ms-3 mb-0 text-white">
+        <p class="mb-0 text-white">
           <span class="highlight-text fw-semibold"> {{ challenges.length + ' ' }} </span>
           <span class="highlight-text fw-semibold"> {{ (challengeTypes.toUpperCase() || 'CREATED') + ' ' }} </span>
           Challenge{{ challenges.length > 1 || challenges.length == 0 ? 's' : '' }}
         </p>
+        <div class="form-switch ms-auto d-flex align-items-center" v-if="challengeTypes == 'Participating'">
+          <label for="hideCompleted" class="form-check-label">Hide Completed?</label>
+          <input v-model="hideCompleted" type="checkbox" name="hideCompleted" class="form-check-input ms-2">
+        </div>
+        <div class="form-switch ms-auto d-flex align-items-center" v-if="challengeTypes != 'Participating'">
+          <label for="hideDeprecated" class="form-check-label">Hide Retired?</label>
+          <input v-model="hideDeprecated" type="checkbox" name="hideDeprecated" class="form-check-input ms-2">
+        </div>
       </div>
     </section>
 
@@ -45,7 +53,13 @@
       <div class="col-1 d-none d-md-flex justify-content-md-center"
         v-if="isMyProfile && (challengeTypes == 'Participating')">
         <p class="text-white-50" title="Leave Challenge">
-          LEAVE
+          DONE
+        </p>
+      </div>
+      <div class="col-1 d-none d-md-flex justify-content-md-center"
+        v-if="isMyProfile && (challengeTypes == 'Created')">
+        <p class="text-white-50" title="Challenge status">
+          STATUS
         </p>
       </div>
     </section>
@@ -58,7 +72,7 @@
       </div>
     </section>
 
-    <section v-else-if="challenges.length > 0" class="row">
+    <section v-else-if="challenges.length > 0" class="row mb-4">
       <div class="col-12 mt-1" v-for="challenge in challenges">
         <ChallengeMiniCard :challenge="challenge" :type="challengeTypes" />
       </div>
@@ -88,25 +102,50 @@ export default {
     const route = useRoute();
     const challenges = ref('');
     const challengeTypes = ref('Created');
+    const hideCompleted = ref(true);
+    const hideDeprecated = ref(true);
 
     function updateFiltered() {
       let cf = [];
       if (challengeTypes.value === 'Created') {
-        cf = AppState.ProfileState.challenges.filter(c => c.creatorId == AppState.ProfileState.profile.id);
+        if (hideDeprecated.value) {
+          cf = AppState.ProfileState.challenges
+            .filter(c => c.creatorId == AppState.ProfileState.profile.id)
+            .filter(c => c.status != 'deprecated');
+        } else {
+          cf = AppState.ProfileState.challenges
+            .filter(c => c.creatorId == AppState.ProfileState.profile.id);
+      }
       } else if (challengeTypes.value === 'Moderated') {
-        cf = AppState.ProfileState.moderation.map(c => c.challenge);
+        if (hideDeprecated.value) {
+          cf = AppState.ProfileState.moderation
+            .filter(c => c.status != 'deprecated')
+            .map(c => c.challenge);
+          } else {
+          cf = AppState.ProfileState.moderation.map(c => c.challenge);
+        }
       } else if (challengeTypes.value === 'Participating') {
-        cf = AppState.ProfileState.participation.map(c => c.challenge);
+        if (hideCompleted.value) {
+          cf = AppState.ProfileState.participation
+            .filter(p => p.status != 'completed')
+            .map(c => c.challenge);
+        } else {
+          cf = AppState.ProfileState.participation.map(c => c.challenge);
+        }
       }
       challenges.value = cf;
     }
 
     watch(() => challengeTypes.value, updateFiltered, { immediate: true })
+    watch(() => hideCompleted.value, updateFiltered)
+    watch(() => hideDeprecated.value, updateFiltered)
     watch(() => AppState.ProfileState.challenges, updateFiltered)
 
     return {
       challenges,
       challengeTypes,
+      hideCompleted,
+      hideDeprecated,
       loading: computed(() => AppState.ProfileState.loading),
       isMyProfile: computed(() => route.params.profileId == AppState.AccountState.account.id),
 

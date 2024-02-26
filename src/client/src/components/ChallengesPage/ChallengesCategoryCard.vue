@@ -1,7 +1,7 @@
 <template>
   <div class="accordion-header" v-if="filterByCategory().length">
     <button @click="isActive = !isActive"
-      class="col-12 accordion-button collapsed text-primary text-capitalize fw-semibold" type="button"
+      class="accordion-button collapsed text-primary text-capitalize fw-semibold" type="button"
       data-bs-toggle="collapse" :data-bs-target="'#collapse' + index" :aria-expanded="isActive"
       :aria-controls="'collapse' + index" :aria-labelledby="'heading' + index">
       <div class="col-10">

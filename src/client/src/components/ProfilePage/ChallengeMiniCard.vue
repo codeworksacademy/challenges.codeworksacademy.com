@@ -26,15 +26,20 @@
       </div>
 
       <div class="col-1 my-2 d-flex justify-content-md-center">
-        <div v-if="isMyProfile && type == 'Participating' && isParticipant?.status != 'completed'">
-          <i @click.stop="leaveChallenge()" :title="`Leave challenge: '${challenge.name}'`"
-            class="mdi mdi-file-cancel-outline text-muted"></i>
-        </div>
-        <div v-if="isParticipant">
-          <i title="Challenge completed!" class="mdi mdi-check-outline text-gold"
-            v-if="isParticipant?.status == 'completed'"></i>
-          <i title="Challenge joined" class="mdi mdi-list-box text-muted" v-if="isParticipant?.status != 'completed'"></i>
-        </div>
+        <span v-if="isMyProfile">
+          <div v-if="isParticipant?.status == 'completed'" class="me-2">
+            <i title="Challenge completed!" class="mdi mdi-check-outline text-warning fs-5"></i>
+          </div>
+          <div v-if="type == 'Participating' && isParticipant?.status != 'completed'">
+            <i @click.stop="leaveChallenge()" :title="`Leave challenge: '${challenge.name}'`"
+            class="mdi mdi-file-cancel-outline text-muted fs-5"></i>
+          </div>
+        </span>
+        <span v-if="type == 'Created'">
+            <i class="mdi mdi-earth fs-5 text-primary" title="Status: Published" v-if="challenge.status == 'published'"></i>
+            <i class="mdi mdi-earth-off fs-5 text-danger" title="Status: Deprecated" v-else-if="challenge.status == 'deprecated'"></i>
+            <i class="mdi mdi-book-edit-outline fs-5 text-muted" title="Status: Editing" v-else></i>
+        </span>
       </div>
 
     </section>

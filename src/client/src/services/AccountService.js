@@ -5,7 +5,6 @@ import { Account } from '../models/Account.js'
 import { Challenge } from "../models/Challenge.js"
 import { ChallengeModerator } from "../models/ChallengeModerator.js"
 import { ChallengeParticipant } from "../models/ChallengeParticipant.js"
-import { participantsService } from "./ParticipantsService.js"
 
 class AccountService {
   async getAccount() {
@@ -24,7 +23,6 @@ class AccountService {
         this.getMyParticipation(),
         this.getMyModerations(),
         this.getMyChallengeModeration(),
-        participantsService.getParticipationByUserId(AppState.AccountState.account.id)
       ])
     } catch (error) {
       // TODO - figure out repeat calls
