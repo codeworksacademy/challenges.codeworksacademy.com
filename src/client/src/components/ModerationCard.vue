@@ -58,7 +58,7 @@ export default {
           if (!confirmRemove) { return }
           await challengeModeratorsService.removeModeration(moderationId)
         }
-        catch (error) { Pop.toast(error); }
+        catch (error) { Pop.error('[MODERATION CARD] removeModeration:: ' + error); }
       },
 
       async approveModeration(moderationId) {
@@ -67,7 +67,7 @@ export default {
           if (!confirmApprove) { return }
           await challengeModeratorsService.approveModeration(moderationId)
         }
-        catch (error) { Pop.toast(error); }
+        catch (error) { Pop.error('[MODERATION CARD] approveModeration:: ' + error); }
       },
     }
   }

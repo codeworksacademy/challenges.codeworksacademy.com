@@ -39,7 +39,7 @@ export default {
         })
         Offcanvas.getOrCreateInstance('#moderatorsOffcanvas').hide()
       }
-      catch (error) { Pop.toast(error); }
+      catch (error) { Pop.error('[MODERATION CARD] routeToModeratorProfile:: ' + error); }
     }
 
     return {

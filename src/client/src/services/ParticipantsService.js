@@ -1,9 +1,8 @@
-import { api } from './AxiosService'
-import { AppState } from "../AppState"
-import { ChallengeParticipant } from "../models/ChallengeParticipant.js"
-import { logger } from './../utils/Logger';
-import Pop from '../utils/Pop';
+import { api } from './AxiosService.js'
+import { AppState } from "../AppState.js"
+import { logger } from './../utils/Logger.js';
 import { Profile } from '../models/Profile.js';
+import { ChallengeParticipant } from "../models/ChallengeParticipant.js"
 
 class ParticipantsService {
 
@@ -50,16 +49,20 @@ class ParticipantsService {
   async joinChallenge(newParticipant) {
     const res = await api.post('api/participants', newParticipant);
     logger.log('New participant:', res.data)
-    AppState.ChallengeState.participants.push(new ChallengeParticipant(res.data));
+    const participant = new ChallengeParticipant(res.data);
+    AppState.ChallengeState.participants.push(participant);
+    AppState.AccountState.participation.push(participant);
     AppState.ChallengeState.challenge.participantCount++;
   }
 
   async leaveChallenge(participantId) {
-    const res = await api.delete(`api/participants/${participantId}`)
-    logger.log('Deleted participant:', res.data)
-    let participantToRemove = AppState.ChallengeState.participants.findIndex(p => p.id === participantId)
-    AppState.ChallengeState.participants.splice(participantToRemove, 1)
-    return res.data
+    const res = await api.delete(`api/participants/${participantId}`);
+    logger.log('Deleted participant:', res.data);
+    let participantIndexC = AppState.ChallengeState.participants.findIndex(p => p.id === participantId);
+    let participantIndexA = AppState.AccountState.participation.findIndex(p => p.id === participantId);
+    AppState.ChallengeState.participants.splice(participantIndexC, 1);
+    AppState.AccountState.participation.splice(participantIndexA, 1);
+
   }
 
   async getParticipantsByChallengeId(challengeId) {
@@ -69,11 +72,10 @@ class ParticipantsService {
   }
 
   async getParticipationByUserId(userId) {
-    const res = await api.get(`api/profiles/${userId}/participants`)
-
-    logger.log('[GETTING PARTICIPATIONS BY USER ID', res.data)
-
-    AppState.ChallengeState.participants = res.data.map(p => new ChallengeParticipant(p))
+    const res = await api.get(`api/profiles/${userId}/participation`);
+    const participation = res.data.map(p => new ChallengeParticipant(p));
+    logger.log('[PARTICIPANTS SERVICE] getParticipationByUserId:: ', participation);
+    AppState.AccountState.participation = participation;
   }
 }
 

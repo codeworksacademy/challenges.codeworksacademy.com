@@ -22,7 +22,7 @@ class AccountService {
         this.getMyChallenges(),
         this.getMyParticipation(),
         this.getMyModerations(),
-        this.getMyChallengeModeration()
+        this.getMyChallengeModeration(),
       ])
     } catch (error) {
       // TODO - figure out repeat calls

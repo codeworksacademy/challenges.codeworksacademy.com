@@ -40,13 +40,13 @@
 </template>
 
 <script>
-import Pop from '../utils/Pop'
-import { AppState } from '../AppState'
+import Pop from '../utils/Pop.js'
+import { AppState } from '../AppState.js'
 import { computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { challengesService } from '../services/ChallengesService'
-import { participantsService } from '../services/ParticipantsService'
-import { challengeModeratorsService } from '../services/ChallengeModeratorsService'
+import { challengesService } from '../services/ChallengesService.js'
+import { participantsService } from '../services/ParticipantsService.js'
+import { challengeModeratorsService } from '../services/ChallengeModeratorsService.js'
 import ChallengeSubmissionForm from "../components/Forms/ChallengeSubmissionForm.vue"
 import ChallengeDetailsMenu from '../components/ChallengeDetailsMenu.vue'
 import ModalWrapper from "../components/ModalWrapper.vue"
@@ -60,7 +60,7 @@ export default {
     onMounted(() => { clearChallenge() });
     function clearChallenge() {
       try { challengesService.clearChallenge(); }
-      catch (error) { Pop.error('[CHALLENGE PAGE] clearChallenge', error); }
+      catch (error) { Pop.error('[CHALLENGE PAGE] clearChallenge:: ' + error); }
     }
 
     watch(() => route.params.challengeId, () => { getChallengeData(); }, { immediate: true });
@@ -77,23 +77,23 @@ export default {
           throw new Error('Unable to fetch challenge');
         }
       } catch (error) {
-        Pop.error('[CHALLENGE PAGE] getChallengeData', error);
+        Pop.error('[CHALLENGE PAGE] getChallengeData:: ' + error);
         router.push({ name: 'Error' });
       }
     }
 
     async function setActiveChallenge() {
       try { await challengesService.setActiveChallenge(route.params.challengeId); }
-      catch (error) { Pop.toast('[CHALLENGES PAGE] setActiveChallenge', error); }
+      catch (error) { Pop.error('[CHALLENGES PAGE] setActiveChallenge:: ' + error); }
     }
     async function getParticipantsByChallengeId() {
       try { await participantsService.getParticipantsByChallengeId(route.params.challengeId); }
-      catch (error) { Pop.toast('[CHALLENGES PAGE] getParticipantsByChallengeId', error); }
+      catch (error) { Pop.error('[CHALLENGES PAGE] getParticipantsByChallengeId:: ' + error); }
     }
 
     async function getModeratorsByChallengeId() {
       try { await challengeModeratorsService.getModeratorsByChallengeId(route.params.challengeId); }
-      catch (error) { Pop.toast('[CHALLENGES PAGE] getModeratorsByChallengeId', error); }
+      catch (error) { Pop.error('[CHALLENGES PAGE] getModeratorsByChallengeId:: ' + error); }
     }
 
     return {

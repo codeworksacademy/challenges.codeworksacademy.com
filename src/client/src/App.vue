@@ -6,8 +6,6 @@
   <main>
     <router-view />
   </main>
-
-
 </template>
 
 <script>
@@ -48,7 +46,7 @@ main {
   // background-color: #141D2B;
 }
 
-.modal{
+.modal {
   z-index: 4001;
 }
 
@@ -82,5 +80,9 @@ main {
 
 .light-gold-border {
   border: 3px solid #CBD4A5;
+}
+
+.swal2-container {
+  z-index: 9001; // default of 1060
 }
 </style>

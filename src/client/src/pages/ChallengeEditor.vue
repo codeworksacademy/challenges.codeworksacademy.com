@@ -93,7 +93,7 @@ export default {
         //   }
         // })
       }
-      catch (err) { Pop.error('[CHALLENGE EDITOR] updateChallenge', err); }
+      catch (err) { Pop.error('[CHALLENGE EDITOR] updateChallenge:: ' + err); }
     }
 
     return {

@@ -71,7 +71,7 @@ export default {
 
     async function getParticipantsByChallengeId() {
       try { await participantsService.getParticipantsByChallengeId(route.params.challengeId); }
-      catch (error) { Pop.error('[GRADE SUBMISSIONS PAGE] getParticipantsByChallengeId' + error); }
+      catch (error) { Pop.error('[GRADE SUBMISSIONS PAGE] getParticipantsByChallengeId:: ' + error); }
     }
 
     onMounted(() => {

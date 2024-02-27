@@ -1,10 +1,10 @@
 <template>
 	<div class="col-12 button-container d-flex justify-content-center align-items-center"
 		v-if="isParticipant && !isCreator">
-		<button v-if="!gaveReputation" @click="giveReputation(1)" class="me-3">
+		<button v-if="!gaveReputation" @click="giveReputation()" class="me-3">
 			<small>Give Reputation</small>
 		</button>
-		<button v-else @click="giveReputation(0)" class="remove-reputation-hover me-3">
+		<button v-else @click="giveReputation()" class="remove-reputation-hover me-3">
 			<small>Remove Reputation</small>
 		</button>
 	</div>
@@ -22,13 +22,13 @@ export default {
 		challenge: { type: Challenge, required: true }
 	},
 	setup(props) {
-		async function giveReputation(up) {
+		async function giveReputation() {
 			try {
 				const challengeId = props.challenge.id;
 				const accountId = AppState.AccountState.account?.id;
 				await challengesService.giveReputation(challengeId, accountId);
 			}
-			catch (error) { Pop.error(error.message); }
+			catch (error) { Pop.error('[GIVE REP BTN] giveReputation:: ' + error.message); }
 		}
 		return {
 			giveReputation,

@@ -1,10 +1,9 @@
 <template>
   <div v-if="challenge" class="container-fluid text-light px-lg-5">
 
-    <section class="row">
-      <div class="col-12">
-        <div
-          v-if="(!isParticipant || isParticipant?.status === 'left') && challenge?.status.toLowerCase() === 'published'">
+    <section class="row" v-if="!isModerator">
+      <div class="col-12" v-if="challenge?.status.toLowerCase() === 'published'">
+        <div v-if="(!isParticipant || isParticipant?.status === 'left')">
           <ChallengeStatCard :challenge="challenge" color="#22ff33" bgColor="#22ff330f" icon="mdi-account-multiple-plus"
             @click="joinChallenge()" class="selectable mb-2" prop="Join Challenge" />
         </div>
@@ -108,7 +107,7 @@ export default {
         });
         Pop.success("You have joined the challenge!");
       }
-      catch (error) { Pop.toast('[CHALLENGE OVERVIEW PAGE] joinChallenge', error); }
+      catch (error) { Pop.error('[CHALLENGE OVERVIEW PAGE] joinChallenge:: ' + error); }
     }
 
 
@@ -116,6 +115,11 @@ export default {
       joinChallenge,
       challenge: computed(() => AppState.ChallengeState.challenge),
       isParticipant: computed(() => AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id)),
+      isModerator: computed(() => {
+        const mod = AppState.ChallengeState.moderators.find(m => m.accountId === AppState.user.id);
+        if (mod == -1) { return false; }
+        return mod;
+      }),
       difficulty: computed(() => {
         const difficulty = AppState.ChallengeState.challenge?.difficulty
         return difficultyMap[difficulty] || difficultyMap.default
