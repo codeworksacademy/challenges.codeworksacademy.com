@@ -5,8 +5,6 @@ import { challengeModeratorsService } from "./ChallengeModeratorsService.js";
 import { participantsService } from "./ParticipantsService.js";
 import { accountService } from "./AccountService.js";
 import { accountMilestonesService } from "./AccountMilestonesService.js";
-import { logger } from "../utils/Logger.js";
-import { profilesService } from "./ProfilesService.js";
 import { SimpleCache } from "../utils/SimpleCache.js";
 
 const EXPERIENCE_SCALE = {
