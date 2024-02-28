@@ -8,8 +8,8 @@
         </div>
         <div class="col-md-4 mb-2">
           <label class="visually-hidden" for="category">Category</label>
-          <select class="form-control " aria-label="Category Selection" v-model="editable.category">
-            <option :value="''" selected disabled>Select Category</option>
+          <select class="form-control " aria-label="Category Selection" v-model="editable.category" required="true">
+            <option :value="undefined" selected disabled>Select Category</option>
             <option value="full stack">Full-Stack</option>
             <option value="front end">Frontend</option>
             <option value="back end">Backend</option>
@@ -48,6 +48,10 @@ export default {
 
       async createChallenge() {
         try {
+          if (!editable.value.category) {
+            Pop.toast('Please select a category', 'info', 'top');
+            return
+          }
           await challengesService.createChallenge(editable.value);
           router.push(
             {

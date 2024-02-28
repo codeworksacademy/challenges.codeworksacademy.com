@@ -15,9 +15,11 @@
             <h4>Challenge Description</h4>
             <EditChallengeDescription :challenge="challenge" />
             <hr>
-            <h4>Challenge Requirements <i class="text-primary mdi mdi-format-list-numbered"></i></h4>
-            <EditChallengeRequirements :challenge="challenge" />
-            <hr>
+            <span v-if="!challenge.autoGrade">
+              <h4>Challenge Requirements <i class="text-primary mdi mdi-format-list-numbered"></i></h4>
+              <EditChallengeRequirements :challenge="challenge" />
+              <hr>
+            </span>
             <h4>Challenge Badge</h4>
             <EditChallengeBadge :challenge="challenge" />
             <hr>
@@ -53,7 +55,6 @@ export default {
     EditChallengeBadge,
   },
   setup() {
-    const challenge = computed(() => AppState.ChallengeState.challenge)
 
     const router = useRouter();
     function modCheck() {
@@ -97,9 +98,10 @@ export default {
     }
 
     return {
-      challenge,
       updateChallenge,
-      accountId: computed(() => AppState.AccountState.account.id)
+      accountId: computed(() => AppState.AccountState.account.id),
+      challenge: computed(() => AppState.ChallengeState.challenge)
+
     }
   }
 }

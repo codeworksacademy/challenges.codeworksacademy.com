@@ -223,5 +223,5 @@
   ],
   "TITLE_BGS": ["#FFF", "#D9D9D9", "#52CA96", "#F07B00", "#6E44C3", "#55CDFF", "#323358", "#0F141E"],
   "COLOR_FILLS": ["#FF000090", "#FF7F0090", "#FFFF0090", "#00FF0090", "#0000FF90", "#4B008290", "#8F00FF90"],
-  "PROFILE_FIELDS": "name picture rank xp reputation title about coverImg"
+  "PROFILE_FIELDS": "name picture rank xp reputation title bio coverImg"
 }

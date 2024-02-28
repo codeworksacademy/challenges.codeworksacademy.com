@@ -5,21 +5,19 @@ import { ChallengeModerator } from "../models/ChallengeModerator"
 class ChallengeModeratorsService {
 
   async createModeration(moderatorData) {
-    const res = await api.post('api/moderators', moderatorData)
-    logger.log('[New moderation]:', res.data)
-    AppState.ChallengeState.moderator = new ChallengeModerator(res.data)
+    const res = await api.post('api/moderators', moderatorData);
+    const newMod = new ChallengeModerator(res.data);
+    AppState.ChallengeState.moderators.push(newMod);
   }
 
   async getModerationsByProfileId(userId) {
-    const res = await api.get(`api/moderators/${userId}/profiles`)
-    logger.log('[GETTING PROFILE MODERATIONS]', res.data)
-    AppState.ChallengeState.moderators = res.data.map(m => new ChallengeModerator(m))
+    const res = await api.get(`api/moderators/${userId}/profiles`);
+    AppState.ChallengeState.moderators = res.data.map(m => new ChallengeModerator(m));
   }
 
   async getModeratorsByChallengeId(challengeId) {
-    const res = await api.get(`api/challenges/${challengeId}/moderators`)
-    AppState.ChallengeState.moderators = res.data.map(m => new ChallengeModerator(m))
-    logger.log('[Moderators in this challenge] [RD]:', res.data, '[AS]', AppState.ChallengeState.moderators)
+    const res = await api.get(`api/challenges/${challengeId}/moderators`);
+    AppState.ChallengeState.moderators = res.data.map(m => new ChallengeModerator(m));
   }
 
   async getModerationsByChallengeCreatorId(userId) {

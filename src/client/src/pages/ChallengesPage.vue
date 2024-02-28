@@ -4,11 +4,11 @@
       <div class="col-12 mb-2 mb-lg-3">
         <div class="create-challenge-card d-block d-md-flex align-items-end px-1 pb-1 p-md-2 p-lg-3">
           <span>
-            <sub class="ms-3 text-uppercase">Gain Reputation</sub>
-            <div class="ms-1 mt-1">
-              <button type="button" role="button" class="btn text-warning selectable" title="Create a new challenge"
-                data-bs-toggle="collapse" data-bs-target="#createChallenge" aria-expanded="false"
-                aria-controls="createChallenge">
+            <p class="ms-3 mb-0 text-uppercase"><small>Gain Reputation</small></p>
+            <div class="ms-1 mt-2">
+              <button type="button" role="button" class="btn btn-outline-warning text-warning selectable"
+                title="Create a new challenge" data-bs-toggle="collapse" data-bs-target="#createChallenge"
+                aria-expanded="false" aria-controls="createChallenge">
                 Create a Challenge
               </button>
             </div>

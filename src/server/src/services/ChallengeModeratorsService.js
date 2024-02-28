@@ -22,6 +22,7 @@ class ChallengeModeratorsService {
     }
 
     const moderator = await dbContext.ChallengeModerators.create(moderatorData);
+    await moderator.populate('profile', PROFILE_FIELDS);
     return moderator;
   }
 

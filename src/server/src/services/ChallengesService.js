@@ -2,9 +2,9 @@ import { dbContext } from "../db/DbContext.js";
 import { BadRequest, Forbidden } from "../utils/Errors.js";
 import { PROFILE_FIELDS, SUBMISSION_TYPES } from '../constants';
 import { challengeModeratorsService } from "./ChallengeModeratorsService.js";
+import { accountMilestonesService } from "./AccountMilestonesService.js";
 import { participantsService } from "./ParticipantsService.js";
 import { accountService } from "./AccountService.js";
-import { accountMilestonesService } from "./AccountMilestonesService.js";
 import { SimpleCache } from "../utils/SimpleCache.js";
 
 const EXPERIENCE_SCALE = {
@@ -15,8 +15,7 @@ const EXPERIENCE_SCALE = {
   5: 1000
 }
 
-const COURSES_CACHE = new SimpleCache(60 * 60)
-
+const COURSES_CACHE = new SimpleCache(60 * 60); // in seconds
 
 class ChallengesService {
   async gradeParticipant(participantData, accountId) {
@@ -51,26 +50,22 @@ class ChallengesService {
   // This method is used to give the experience of a challenge to a userId
   // Triggered by grading or autoGrade
   async awardExperience(participant) {
-
     let challenge = participant.challenge;
     if (!challenge) {
       challenge = await this.getChallengeById(participant.challengeId);
     }
-
     await accountService.calculateAccountRank({ id: participant.accountId }, EXPERIENCE_SCALE[challenge.difficulty]);
   }
 
   async createChallenge(newChallenge) {
-    const challenge = await dbContext.Challenges.create(newChallenge)
-
+    const challenge = await dbContext.Challenges.create(newChallenge);
     await challengeModeratorsService.createModeration({
       challengeId: challenge.id,
       accountId: challenge.creatorId,
       status: 'active',
       originId: challenge.creatorId
-    })
-
-    return challenge
+    });
+    return challenge;
   }
 
   async getAllChallenges() {
@@ -131,31 +126,36 @@ class ChallengesService {
   }
 
   async editChallenge(challengeData, userId, challengeId) {
-    const challenge = await this.getChallengeById(challengeId)
+    const challenge = await this.getChallengeById(challengeId);
 
-    const isChallengeModerator = await challengeModeratorsService.getModeratorByUserIdAndChallengeId(userId, challengeId)
-
+    const isChallengeModerator = await challengeModeratorsService.getModeratorByUserIdAndChallengeId(userId, challengeId);
     if (!isChallengeModerator && challenge.creatorId != userId) {
       throw new Forbidden(
         `[PERMISSIONS ERROR]: Only the creator of ${challenge.name} or a moderator can edit it.`
-      )
+      );
     }
 
-    challenge.category = challengeData.category || challenge.category
-    challenge.status = challengeData.status || challenge.status
-    challenge.name = challengeData.name || challenge.name
-    challenge.description = challengeData.description || challenge.description
-    challenge.requirements = challengeData.requirements || challenge.requirements
-    challenge.supportLinks = challengeData.supportLinks || challenge.supportLinks
-    challenge.autoGrade = challengeData.autoGrade || challenge.autoGrade
-    challenge.difficulty = challengeData.difficulty || challenge.difficulty
-    challenge.coverImg = challengeData.coverImg || challenge.coverImg
+    challenge.name = challengeData.name || challenge.name;
+    challenge.category = challengeData.category || challenge.category;
+    challenge.difficulty = challengeData.difficulty || challenge.difficulty;
+    challenge.status = challengeData.status || challenge.status;
+    challenge.coverImg = challengeData.coverImg || challenge.coverImg;
+
+    challenge.autoGrade = challengeData.autoGrade || challenge.autoGrade;
+    challenge.answer = challengeData.answer || challenge.answer;
+
+    challenge.description = challengeData.description || challenge.description;
+    challenge.requirements = challengeData.requirements || challenge.requirements;
+    challenge.supportLinks = challengeData.supportLinks || challenge.supportLinks;
+
     challenge.badge = challengeData.badge || challenge.badge;
-    challenge.answer = challengeData.answer || challenge.answer
 
-    COURSES_CACHE.clearKey(challengeId)
+    COURSES_CACHE.clearKey(challengeId);
+    await challenge.save();
 
-    await challenge.save()
+    if (challenge.status == 'published') {
+      COURSES_CACHE.clearKey('all_challenges');
+    }
     return challenge
   }
 
@@ -206,9 +206,5 @@ class ChallengesService {
 
   }
 }
-
-
-
-
 
 export const challengesService = new ChallengesService()

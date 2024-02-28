@@ -44,14 +44,14 @@
     <div class="input-group mb-3">
       <label class="input-group-text" for="challengeAutoGrade">Auto Grade</label>
       <select id="challengeAutoGrade" class="input-box form-select" v-model="challenge.autoGrade">
-        <option value=false>No</option>
-        <option value=true>Yes</option>
+        <option :value=false>No</option>
+        <option :value=true>Yes</option>
       </select>
     </div>
     <div class="input-box input-group mb-3">
       <label class="input-group-text" for="challengeAnswer">Answer</label>
       <input type="text" class="form-control" id="challengeAnswer" v-model="challenge.answer"
-        :disabled="challenge.autoGrade == 'false' || challenge.autoGrade == false">
+        :disabled="!challenge.autoGrade" :placeholder="!challenge.autoGrade ? 'Please specify requirements below' : ''">
     </div>
   </section>
 </template>
