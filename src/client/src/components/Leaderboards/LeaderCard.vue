@@ -27,19 +27,9 @@ import ProfileImg from "../ProfileImg.vue";
 
 export default {
   props: {
-    profile: {
-      type: Profile,
-      required: true,
-    },
-    index: {
-      type: Number,
-      required: true,
-      default: 0
-    },
-    board: {
-      type: Object,
-      required: true
-    }
+    profile: { type: Profile, required: true, },
+    index: { type: Number, required: true, default: 0 },
+    board: { type: Object, required: true }
   },
   setup(props) {
     return {

@@ -9,17 +9,17 @@ class ParticipantsService {
   async getLeaderboards() {
     if (AppState.leaderboards.length) { return }
 
-    const res = await api.get('api/participants/leaderboards')
-    const profiles = res.data.map(p => new Profile(p))
+    const res = await api.get('api/participants/leaderboards');
+    const profiles = res.data.map(p => new Profile(p));
 
     AppState.leaderboards = [
       {
         prop: 'rank',
         name: 'Top Rank',
-        profiles: profiles.sort((a, b) => (b.reputation - a.reputation)).slice(0, 10)
+        profiles: profiles.sort((a, b) => (b.rank - a.rank)).slice(0, 10)
       },
       {
-        prop: 'experience',
+        prop: 'xp',
         name: 'Most Experience',
         profiles: profiles.sort((a, b) => (b.xp - a.xp)).slice(0, 10)
       },

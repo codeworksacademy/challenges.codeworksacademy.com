@@ -22,38 +22,32 @@
 </template>
 
 <script>
+import { AppState } from '../AppState.js'
 import { computed, onMounted, ref } from 'vue'
-import { AppState } from '../AppState'
-import { logger } from '../utils/Logger'
 import { participantsService } from "../services/ParticipantsService.js"
 import LeaderCard from "../components/Leaderboards/LeaderCard.vue"
+import Pop from "../utils/Pop.js"
 
 export default {
   setup() {
-    const filterBy = ref('')
-
+    const filterBy = ref('');
     async function getLeaderboards() {
-      try {
-        await participantsService.getLeaderboards()
-      } catch (error) {
-        logger.error(error)
-      }
+      try { await participantsService.getLeaderboards(); }
+      catch (error) { Pop.error(error); }
     }
-
     onMounted(() => {
-      getLeaderboards()
-    })
-
+      getLeaderboards();
+    });
     return {
       filterBy,
       boards: computed(() => AppState.leaderboards),
-    }
+    };
   },
+  components: { LeaderCard }
 }
 </script>
 
 <style scoped lang="scss">
-
 .leaderboard-backdrop {
   min-height: 100vh;
   height: 100%;
