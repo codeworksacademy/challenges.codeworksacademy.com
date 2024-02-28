@@ -93,8 +93,8 @@ export class AccountController extends BaseController {
       const accountId = req.userInfo.id;
       const userId = accountId;
       const checks = req.body;
-      const milestones = await accountMilestonesService.checkMyMilestoneCache(accountId, userId, checks);
-      return res.send(milestones);
+      // const milestones = await accountMilestonesService.checkMyMilestoneCache(accountId, userId, checks);
+      // return res.send(milestones);
     }
     catch (error) { next(error); }
   }

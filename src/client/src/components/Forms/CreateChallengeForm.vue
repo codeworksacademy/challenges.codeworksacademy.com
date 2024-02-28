@@ -8,8 +8,8 @@
         </div>
         <div class="col-md-4 mb-2">
           <label class="visually-hidden" for="category">Category</label>
-          <select class="form-control " aria-label="Category Selection" v-model="editable.category">
-            <option :value="''" selected disabled>Select Category</option>
+          <select class="form-control " aria-label="Category Selection" v-model="editable.category" required="true">
+            <option :value="undefined" selected disabled>Select Category</option>
             <option value="full stack">Full-Stack</option>
             <option value="front end">Frontend</option>
             <option value="back end">Backend</option>
@@ -39,34 +39,31 @@ import { challengesService } from '../../services/ChallengesService.js'
 
 export default {
   setup() {
-
-    const editable = ref({
-      name: '',
-      category: '',
-      coverImg: 'https://i.ibb.co/c21hFZN/card-gradient.png',
-    })
-
-    const router = useRouter()
-
-    async function createChallenge() {
-      try {
-        await challengesService.createChallenge(editable.value)
-        router.push(
-          {
-            name: 'Challenge.challengeEditor',
-            params: {
-              challengeId: AppState.ChallengeState.challenge?.id
-            }
-          })
-      } catch (error) {
-        Pop.error('[CREATE CHALLENGE FORM] createChallenge:: ' + error);
-      }
-    }
+    const router = useRouter();
+    const editable = ref({});
 
     return {
       editable,
-      createChallenge,
       user: computed(() => AppState.user),
+
+      async createChallenge() {
+        try {
+          if (!editable.value.category) {
+            Pop.toast('Please select a category', 'info', 'top');
+            return
+          }
+          await challengesService.createChallenge(editable.value);
+          router.push(
+            {
+              name: 'Challenge.challengeEditor',
+              params: { challengeId: AppState.ChallengeState.challenge.id }
+            })
+        }
+        catch (error) {
+          Pop.error('[CREATE CHALLENGE FORM] createChallenge:: ' + error);
+        }
+      }
+
     }
   }
 }

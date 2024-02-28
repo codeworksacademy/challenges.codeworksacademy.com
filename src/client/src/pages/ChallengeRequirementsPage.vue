@@ -6,8 +6,8 @@
         <h3 class="fs-2" style="color: #7A7A7A">Challenge Requirements</h3>
       </div>
 
-      <div class="col-12 text-light ">
-        <h3 v-if="challenge.requirements.length == 0" class="text-warning">Challenge has no requirements</h3>
+      <div class="col-12 text-light">
+        <h4 v-if="challenge.requirements.length == 0" class="text-warning">No requirements</h4>
       </div>
 
       <div class="col-12">
@@ -24,12 +24,12 @@
   
 <script>
 import { computed } from 'vue'
-import { AppState } from '../AppState'
+import { AppState } from '../AppState.js'
 
 export default {
   setup() {
     return {
-      challenge: computed(() => AppState.ChallengeState.challenge)
+      challenge: computed(() => AppState.ChallengeState.challenge),
     }
   }
 }
@@ -44,10 +44,6 @@ export default {
 
 li {
   font-size: 1.2rem;
-}
-
-.bg-detail {
-  background-color: #1c2332
 }
 
 .bg-detail {

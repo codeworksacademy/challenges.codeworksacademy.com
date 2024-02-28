@@ -9,7 +9,7 @@
         <span class="text-white mx-2">Overview</span>
       </router-link>
     </div>
-    <div class="rounded-2 selectable my-0 my-md-1">
+    <div class="rounded-2 selectable my-0 my-md-1" v-if="challenge.requirements.length > 0">
       <router-link :to="{ name: 'Challenge.requirements' }" class="btn d-flex align-items-center p-1 ps-3 px-lg-2">
         <i class="text-primary mx-1 fst-normal mdi mdi-file-document-check"></i>
         <span class="text-white mx-2">Requirements</span>

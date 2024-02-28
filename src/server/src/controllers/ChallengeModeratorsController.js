@@ -1,6 +1,4 @@
 import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js";
-import { challengesService } from "../services/ChallengesService.js";
-import { participantsService } from "../services/ParticipantsService.js";
 import BaseController from "../utils/BaseController.js"
 import { Auth0Provider } from "@bcwdev/auth0provider";
 
@@ -20,13 +18,12 @@ export class ChallengeModeratorsController extends BaseController {
 
   async createModeration(req, res, next) {
     try {
-      const moderatorData = req.body
-      moderatorData.originId = req.userInfo.id
-      const moderation = await challengeModeratorsService.createModeration(moderatorData)
-      return res.send(moderation)
-    } catch (error) {
-      next(error);
+      const moderatorData = req.body;
+      moderatorData.originId = req.userInfo.id;
+      const moderation = await challengeModeratorsService.createModeration(moderatorData);
+      return res.send(moderation);
     }
+    catch (error) { next(error); }
   }
 
   async getMyModerationsByProfileId(req, res, next) {

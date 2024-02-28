@@ -1,32 +1,12 @@
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest } from "../utils/Errors.js";
 import { challengesService } from "./ChallengesService.js";
-import { cacheService } from "./CacheService.js"
 import mongoose from "mongoose";
 
 
 
 class AccountMilestonesService {
 
-  async checkMyMilestoneCache(accountId, userId, checks) {
-    const cacheId = 'myMilestoneCache'
-    let response = await cacheService.checkCache(accountId, userId, cacheId)
-    let cacheItem = response.cacheItem ? response.cacheItem.dataToCache : {}
-    const status = response.status
-
-    if (status == 'notFound' || status == 'expired') {
-
-      cacheItem = await this.checkMilestonesByUserId(userId, checks);
-      await cacheService.setCachedDataItem(userId, cacheItem, cacheId);
-
-    } else if (status == 'ownedByUser') {
-
-      cacheItem = await this.checkMilestonesByUserId(userId, checks);
-      await cacheService.forceCacheItemUpdate(userId, cacheItem, cacheId)
-
-    }
-    return cacheItem
-  }
   //#region calculate myMilestones
   async checkMilestonesByUserId(userId, checks) {
     const pulledChecks = await this.pullMilestoneChecks(checks)
