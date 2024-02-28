@@ -13,18 +13,24 @@
       <ul class="navbar-nav me-auto gap-1">
         <li class="p-0 pt-md-1 ps-2 ps-0">
           <router-link :to="{ name: 'Challenges.browse' }" class="btn text-white selectable">
-            <span class="fs-6 d-none d-lg-block"><i class="mdi mdi-book-multiple-outline text-primary"></i> Browse
-              Challenges </span>
-            <span class="fs-3 d-block d-lg-none"><i class="mdi mdi-book-multiple-outline text-primary"></i> Browse
-              Challenges </span>
+            <span class="fs-6 d-none d-lg-block">
+              <i class="mdi mdi-book-multiple-outline text-primary"></i>
+              Browse Challenges
+            </span>
+            <span class="fs-3 d-block d-lg-none">
+              <i class="mdi mdi-book-multiple-outline text-primary"></i>
+              Browse Challenges
+            </span>
           </router-link>
         </li>
-        <li class="p-0 pt-md-1 ps-2 ps-0">
-          <router-link :to="{ name: 'Leaderboards' }" class="btn text-white selectable">
-            <span class="fs-6 d-none d-lg-block"><i class="mdi mdi-trophy text-warning"></i> Leaderboards </span>
-            <span class="fs-3 d-block d-lg-none"><i class="mdi mdi-trophy text-warning"></i> Leaderboards </span>
-          </router-link>
-        </li>
+        <DevFlag>
+          <li class="p-0 pt-md-1 ps-2 ps-0">
+            <router-link :to="{ name: 'Leaderboards' }" class="btn text-white selectable">
+              <span class="fs-6 d-none d-lg-block"><i class="mdi mdi-trophy text-warning"></i> Leaderboards </span>
+              <span class="fs-3 d-block d-lg-none"><i class="mdi mdi-trophy text-warning"></i> Leaderboards </span>
+            </router-link>
+          </li>
+        </DevFlag>
       </ul>
       <Login />
     </div>
@@ -32,13 +38,14 @@
 </template>
 
 <script>
+import DevFlag from "./DevFlag.vue";
 import Login from './Login.vue';
 
 export default {
   setup() {
     return {}
   },
-  components: { Login }
+  components: { Login, DevFlag }
 }
 </script>
 

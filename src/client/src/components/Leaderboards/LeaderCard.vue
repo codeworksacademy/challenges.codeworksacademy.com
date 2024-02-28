@@ -1,18 +1,21 @@
 <template>
-  <div :key="profile?.id" class="col-12 score-card d-flex gap-3 justify-content-between align-items-center p-2 border">
-
-    <div class="d-flex gap-3 align-items-center">
-      <span class="rank">{{ index }}.</span>
-      <img class="trophy" v-if="index <= 3" :src="loadTrophy()" />
-      <router-link :to="{ name: 'Profile.overview', params: { profileId: profile.id } }">
-        <ProfileImg :profile="profile" />
-      </router-link>
-      <span class="">{{ profile.nickname || profile.name }}</span>
-    </div>
-    <div class="d-flex gap-3 align-items-center">
-      <span class="text-center text-uppercase">{{ board.prop }} {{ profile[board.prop] }}</span>
-      <ProfileTitle :titleName="profile.title" />
-    </div>
+  <div class="container-fluid gap-3 p-2 border">
+    <section class="row score-card">
+      <div class="col-12 d-flex flex-wrap justify-content-between">
+        <div class="d-flex gap-3 align-items-center me-3">
+          <span>{{ index }}.</span>
+          <img class="trophy" v-if="index <= 3" :src="loadTrophy()" />
+          <router-link :to="{ name: 'Profile.overview', params: { profileId: profile.id } }">
+            <ProfileImg :profile="profile" />
+          </router-link>
+          <span>{{ profile.nickname || profile.name }}</span>
+        </div>
+        <div class="d-flex gap-3 align-items-center ms-2">
+          <span class="text-center text-uppercase">{{ board.prop }} {{ profile[board.prop] }}</span>
+          <ProfileTitle :titleName="profile.title" />
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -51,26 +54,6 @@ export default {
 
 <style scoped lang="scss">
 .trophy {
-  height: 1em;
-}
-
-.score-card {
-  position: relative;
-  opacity: .85;
-
-  .profile-picture {
-    height: 35px;
-    width: 35px;
-    border-radius: 50%;
-    border: 1px solid var(--border-dark);
-    aspect-ratio: 1/1;
-  }
-
-  span {
-    display: inline-block;
-    color: var(--text-main) !important;
-    text-shadow: 2px 2px 2px var(--border-dark);
-    z-index: 1;
-  }
+  height: 2em;
 }
 </style>
