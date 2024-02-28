@@ -44,10 +44,8 @@ class ChallengesService {
   }
 
   async getAllChallenges() {
-    if (AppState.challenges.length) { return }
-    const res = await api.get('/api/challenges')
-    AppState.challenges = res.data.map(c => new Challenge(c))
-    logger.log('Challenges:', AppState.challenges)
+    const res = await api.get('/api/challenges');
+    AppState.challenges = res.data.map(c => new Challenge(c));
   }
 
   async getProfileChallenges(profileId) {
@@ -73,10 +71,9 @@ class ChallengesService {
   // }
 
   async updateChallenge(challengeData, challengeId) {
-    const res = await api.put(`/api/challenges/${challengeId}`, challengeData)
-    logger.log('Updating Challenge ⏩', res.data)
-    AppState.ChallengeState.challenge = new Challenge(res.data)
-    return res.data
+    const res = await api.put(`/api/challenges/${challengeId}`, challengeData);
+    const challenge = new Challenge(res.data);
+    AppState.ChallengeState.challenge = challenge;
   }
 
   async submitChallenge(submission) {

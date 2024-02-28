@@ -39,34 +39,27 @@ import { challengesService } from '../../services/ChallengesService.js'
 
 export default {
   setup() {
-
-    const editable = ref({
-      name: '',
-      category: '',
-      coverImg: 'https://i.ibb.co/c21hFZN/card-gradient.png',
-    })
-
-    const router = useRouter()
-
-    async function createChallenge() {
-      try {
-        await challengesService.createChallenge(editable.value)
-        router.push(
-          {
-            name: 'Challenge.challengeEditor',
-            params: {
-              challengeId: AppState.ChallengeState.challenge?.id
-            }
-          })
-      } catch (error) {
-        Pop.error('[CREATE CHALLENGE FORM] createChallenge:: ' + error);
-      }
-    }
+    const router = useRouter();
+    const editable = ref({});
 
     return {
       editable,
-      createChallenge,
       user: computed(() => AppState.user),
+
+      async createChallenge() {
+        try {
+          await challengesService.createChallenge(editable.value);
+          router.push(
+            {
+              name: 'Challenge.challengeEditor',
+              params: { challengeId: AppState.ChallengeState.challenge.id }
+            })
+        }
+        catch (error) {
+          Pop.error('[CREATE CHALLENGE FORM] createChallenge:: ' + error);
+        }
+      }
+
     }
   }
 }

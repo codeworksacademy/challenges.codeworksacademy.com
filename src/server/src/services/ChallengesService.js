@@ -74,26 +74,23 @@ class ChallengesService {
   }
 
   async getAllChallenges() {
-    const challenges = await COURSES_CACHE.getEntry('all_challenges', () => dbContext.Challenges.find({ status: 'published' })
+    const challenges = await COURSES_CACHE.getEntry('all_challenges', () => dbContext.Challenges
+      .find({ status: 'published' })
       .sort({ createdAt: -1 })
-      .select('-answer')
-      .populate('creator', PROFILE_FIELDS)
-      .populate('participantCount')
-      .populate('completedCount'))
-    return challenges
+      .select('name category difficulty reputationIds')
+      .populate('completedCount'));
+    return challenges;
   }
 
   async getChallengeById(challengeId) {
-    const challenge = await COURSES_CACHE.getEntry(challengeId, () => dbContext.Challenges.findById(challengeId)
+    const challenge = await COURSES_CACHE.getEntry(challengeId, () => dbContext.Challenges
+      .findById(challengeId)
       .select('-answer')
       .populate('creator', PROFILE_FIELDS)
       .populate('participantCount')
       .populate('completedCount'))
 
-    if (!challenge) {
-      throw new BadRequest('Invalid Challenge ID.')
-    }
-
+    if (!challenge) { throw new BadRequest('Invalid Challenge ID.') }
     return challenge
   }
 
@@ -119,7 +116,8 @@ class ChallengesService {
   //This is where editing the challenge will have answers populated
   async getChallengesCreatedBy(profileId, accountId) {
     const challenges = accountId != profileId
-      ? await COURSES_CACHE.getEntry(profileId, () => dbContext.Challenges.find({ creatorId: profileId }).select('-answer')
+      ? await COURSES_CACHE.getEntry(profileId, () => dbContext.Challenges.find({ creatorId: profileId })
+        .select('-answer')
         .populate('creator', PROFILE_FIELDS)
         .populate('participantCount')
         .populate('completedCount'))

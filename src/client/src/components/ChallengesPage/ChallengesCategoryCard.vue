@@ -1,8 +1,7 @@
 <template>
   <div class="accordion-header" v-if="filterByCategory().length">
-    <button @click="isActive = !isActive"
-      class="accordion-button collapsed text-primary text-capitalize fw-semibold" type="button"
-      data-bs-toggle="collapse" :data-bs-target="'#collapse' + index" :aria-expanded="isActive"
+    <button @click="isActive = !isActive" class="accordion-button collapsed text-primary text-capitalize fw-semibold"
+      type="button" data-bs-toggle="collapse" :data-bs-target="'#collapse' + index" :aria-expanded="isActive"
       :aria-controls="'collapse' + index" :aria-labelledby="'heading' + index">
       <div class="col-10">
         <div class="d-flex align-items-center">
@@ -44,12 +43,12 @@ export default {
     index: { type: Number }
   },
   setup(props) {
-    const route = useRoute()
+    const route = useRoute();
 
-    const difficultySort = ref(AppState.enableDifficultySorting)
-    const difficultyTypes = ref(['easy', 'medium', 'hard'])
-    const difficultyFilter = ref(route.params.difficulty)
-    const categoryChallenges = ref(filterByCategory())
+    const difficultySort = ref(AppState.enableDifficultySorting);
+    const difficultyTypes = ref(['easy', 'medium', 'hard']);
+    const difficultyFilter = ref(route.params.difficulty);
+    const categoryChallenges = ref(filterByCategory());
 
     watch(() => AppState.enableDifficultySorting, () => {
       difficultySort.value = AppState.enableDifficultySorting;
@@ -71,13 +70,13 @@ export default {
 
     function filterByCategory() {
       const challenges = [...AppState.challenges]
-        .filter(c => c.category === props.category)
+        .filter(c => c.category === props.category);
 
       if ((!difficultyFilter.value || difficultyFilter.value == 'all') && difficultySort.value) {
-        return challenges.sort((a, b) => a.difficulty - b.difficulty)
+        return challenges.sort((a, b) => a.difficulty - b.difficulty);
       }
       if (!difficultyFilter.value || difficultyFilter.value == 'all') {
-        return challenges
+        return challenges;
       }
       return challenges.filter(d => d.difficulty == (difficultyTypes.value.findIndex(d => d == difficultyFilter.value) + 1))
     };

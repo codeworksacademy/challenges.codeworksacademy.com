@@ -43,7 +43,7 @@ export default {
   components: { ChallengesCategoryCard },
 
   setup() {
-    const route = useRoute()
+    const route = useRoute();
     const resetMe = ref(false);
     const categoryTypes = ref(Object.values(CATEGORY_TYPES));
     watch(() => route.params.difficulty, () => {
