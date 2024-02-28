@@ -5,12 +5,12 @@
       <div class="col-12" v-if="user.isAuthenticated">
         <div class="mb-3" v-if="!challenge?.autoGrade">
           <label for="submission" class="form-label">Submission</label>
-          <input v-model="editable.submission" type="url" name="submission" id="submission" class="form-control"
+          <input v-model="answer.submission" type="url" name="submission" id="submission" class="form-control"
             placeholder="Source Code Link">
         </div>
         <div class="mb-3" v-if="challenge?.autoGrade">
           <label for="answer" class="form-label">Submit Answer</label>
-          <input v-model="editable.submission" type="text" name="answer" id="answer" class="form-control"
+          <input v-model="answer.submission" type="text" name="answer" id="answer" class="form-control"
             placeholder="Answer">
         </div>
       </div>
@@ -26,19 +26,16 @@
 import Pop from '../../utils/Pop.js'
 import { Modal } from 'bootstrap'
 import { computed, ref } from 'vue'
-import { useRouter, } from 'vue-router'
 import { AppState } from '../../AppState.js'
-import { participantsService } from '../../services/ParticipantsService.js'
 import { challengesService } from "../../services/ChallengesService.js"
 import { SUBMISSION_TYPES } from '../../constants'
 
 export default {
   setup() {
 
-    const router = useRouter();
     const challenge = computed(() => AppState.ChallengeState.challenge);
 
-    const editable = ref({});
+    const answer = ref({});
 
     const participant = computed(() => {
       return AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id);
@@ -47,7 +44,7 @@ export default {
     async function submitChallenge() {
       try {
         const submission = {
-          ...editable.value,
+          ...answer.value,
           id: participant.value.id,
           challengeId: challenge.value.id,
           status: SUBMISSION_TYPES.SUBMITTED
@@ -61,40 +58,17 @@ export default {
         } else if (result == 'returned for review') {
           Pop.toast('Answer was incorrect.', 'error', 'top', 3000, true);
         }
-        editable.value.submission = '';
+        answer.value.submission = '';
       }
       catch (error) { Pop.error('[CHALLENGE SUBMISSION FORM] submitChallenge:: ' + error); }
     }
-
-    // async function removeSubmission() {
-    //   try {
-    //     const participantId = AppState.activeParticipant?.id
-    //     const newSubmission = {
-    //       ...participant.value,
-    //       submission: editable.value.submission,
-    //       status: SUBMISSION_TYPES.REMOVED
-    //     }
-    //     await participantsService.removeSubmission(newSubmission, participantId)
-    //     participant.value = ''
-    //     editable.value = ''
-    //     Modal.getOrCreateInstance('#challengeSubmissionForm').hide();
-    //     Pop.toast(`Removed Participation: ${newSubmission}`, 'success', 'top', 3000, true);
-    //     router.push({
-    //       name: 'Challenge.gradeSubmissionsPage',
-    //       path: `/challenges/${newSubmission.challengeId}/grade`
-    //     });
-    //   } catch (error) {
-    //     Pop.error('[CHALLENGE SUBMISSION FORM] submitChallenge: Unable to remove submission:: ' + error);
-    //   }
-    // }
 
     return {
       user: computed(() => AppState.user),
       challenge,
       participant,
-      editable,
+      answer,
       submitChallenge,
-      // removeSubmission,
     }
   }
 }

@@ -67,8 +67,6 @@ export default {
       logger.log('[MODCHECK] loop bypass trigger', AppState.AccountState.account.id);
       const authorizedUser = AppState.ChallengeState.challenge.creatorId == AppState.AccountState.account.id
         || !!AppState.ChallengeState.moderators.find(m => m.accountId == AppState.AccountState.account.id);
-      // logger.log('[MODCHECK] ', AppState.ChallengeState.challenge.creatorId == AppState.AccountState.account.id);
-      // logger.log('[MODCHECK] ', !!AppState.ChallengeState.moderators.find(m => m.accountId == AppState.AccountState.account.id));
       if (!authorizedUser) {
         Pop.error('[UNAUTHORIZED ACCESS] Challenge Submission Page');
         router.push({ name: 'Error' });

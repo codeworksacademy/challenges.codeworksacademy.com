@@ -40,6 +40,7 @@ class ParticipantsService {
 
 	async getParticipantById(participantId) {
 		const participant = await dbContext.ChallengeParticipants.findById(participantId)
+			.populate('profile');
 		if (!participant) {
 			throw new BadRequest('Invalid participant ID.')
 		}
@@ -49,10 +50,9 @@ class ParticipantsService {
 	// I already know what the challenge is so no need to populate the challenge 
 	async getParticipantsByChallengeId(challengeId) {
 		const participants = await dbContext.ChallengeParticipants.find({ challengeId })
-			.select('-submission -grade')
-			.populate('profile', PROFILE_FIELDS)
-
-		return participants
+			.select('-submission -requirements')
+			.populate('profile', PROFILE_FIELDS);
+		return participants;
 	}
 
 	// I know who I am looking for so no need to populate the profile
