@@ -1,0 +1,9 @@
+version: '3'
+services:
+  app:
+    image: your-dockerhub-username/challenges:latest
+    restart: unless-stopped
+    env_file:
+      - challenges-env
+    ports:
+      - "3030:3000"

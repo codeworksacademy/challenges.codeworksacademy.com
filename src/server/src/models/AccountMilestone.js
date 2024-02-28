@@ -3,7 +3,7 @@ const ObjectId = Schema.Types.ObjectId
 
 export const AccountMilestoneSchema = new Schema({
   milestoneId: { type: ObjectId, required: true, ref: 'Milestone' },
-  accountId: { type: ObjectId, required: true, ref: 'Account' },
+  accountId: { type: ObjectId, required: true, ref: 'Profile' },
   claimed: { type: Boolean, default: true },
   tier: { type: Number, default: 0 },
   count: { type: Number, default: 0 }

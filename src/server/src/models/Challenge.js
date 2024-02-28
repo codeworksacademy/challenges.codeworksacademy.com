@@ -10,7 +10,7 @@ export const ChallengeSchema = new Schema({
   difficulty: { type: Number, required: true, default: 1, min: 1, max: 5 },
   status: { type: String, enum: Object.values(STATUS_TYPES), required: true, default: STATUS_TYPES.DRAFT, lowercase: true },
   coverImg: { type: String, required: true, default: 'https://codeworks.blob.core.windows.net/public/assets/img/cover_img.jpg', maxLength: 1500 },
-  creatorId: { type: ObjectId, required: true, ref: 'Account' },
+  creatorId: { type: ObjectId, required: true, ref: 'Profile' },
 
   autoGrade: { type: Boolean, default: false, required: false },
   answer: { type: String, required: false },
@@ -37,7 +37,7 @@ export const ChallengeSchema = new Schema({
 ChallengeSchema.virtual('creator', {
   localField: 'creatorId',
   foreignField: '_id',
-  ref: 'Account',
+  ref: 'Profile',
   justOne: true
 })
 

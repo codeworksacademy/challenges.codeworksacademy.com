@@ -3,8 +3,8 @@ const ObjectId = Schema.Types.ObjectId
 
 export const ChallengeModeratorSchema = new Schema({
   challengeId: { type: ObjectId, required: true, ref: 'Challenge' },
-  accountId: { type: ObjectId, required: true, ref: 'Account' },
-  originId: { type: ObjectId, ref: 'Account' },
+  accountId: { type: ObjectId, required: true, ref: 'Profile' },
+  originId: { type: ObjectId, ref: 'Profile' },
   status: {
     type: String,
     // Pending - The beginning of the moderation relationship that carries no privileges
@@ -30,7 +30,7 @@ ChallengeModeratorSchema.index({
 ChallengeModeratorSchema.virtual('profile', {
   localField: 'accountId',
   foreignField: '_id',
-  ref: 'Account',
+  ref: 'Profile',
   justOne: true
 })
 
