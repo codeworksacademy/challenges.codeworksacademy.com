@@ -1,43 +1,38 @@
 <template>
-  <section
-    class="border-underline background-highlight row d-flex text-light justify-content-between align-items-center py-2">
-    <div class="col-3 fw-semibold text-truncate fs-5">
-      {{ moderationProp.profile.nickname || profile.name }}
-    </div>
-    <div class="col-3 fw-semibold text-truncate fs-5">
-      {{ moderationProp.challenge.name }}
-    </div>
-    <div class="col-3 fw-semibold">
-      {{ moderationProp.status.toUpperCase() }}
-    </div>
-    <div class="col-2 d-flex justify-content-evenly align-items-center">
-      <button class="btn" @click="removeModeration(moderationProp.id)" title="remove moderation">
-        <i class="mdi mdi-delete text-danger selectable"></i>
-      </button>
-      <button v-if="moderationProp.originId != account.id && moderationProp.status != 'active'" class="btn"
-        @click="approveModeration(moderationProp.id)" title="approve moderation">
-        <i class="mdi mdi-check-circle text-success selectable"></i>
-      </button>
-      <button v-else class="btn" title="moderation is active">
-        <i class="mdi mdi-check-circle text-dark selectable"></i>
-      </button>
-    </div>
-    <div class="col-1">
-      <div class="d-flex align-items-center justify-content-center">
+  <div class="container-fluid border-underline background-highlight">
+    <section class="row text-light justify-content-between align-items-center py-2">
+      <div class="col-3 fw-semibold text-truncate fs-5">
         <router-link :to="{ name: 'Challenge.overview', params: { challengeId: moderationProp.challenge.id } }">
-          <button class="btn text-light" title="view challenge">
-            <i class="mdi mdi-chevron-right"></i>
-          </button>
+          {{ moderationProp.challenge.name }}
         </router-link>
       </div>
-    </div>
-  </section>
+      <div class="col-3 fw-semibold text-truncate fs-5">
+        {{ moderationProp.profile.nickname || moderationProp.profile.name }}
+      </div>
+      <div class="col-3 fw-semibold">
+        {{ moderationProp.status.toUpperCase() }}
+      </div>
+      <div class="col-3 d-flex justify-content-evenly align-items-center">
+        <button class="btn" @click="removeModerationRole(moderationProp.id)" title="remove moderation">
+          <i class="mdi mdi-delete text-danger selectable"></i>
+        </button>
+        <button v-if="moderationProp.originId != account.id && moderationProp.status != 'active'" class="btn"
+          @click="acceptModerationRole(moderationProp.id)" title="accept moderator role">
+          <i class="mdi mdi-check-circle-outline text-success selectable"></i>
+        </button>
+        <span v-else-if="moderationProp.originId != account.id && moderationProp.status == 'active'" class="mx-1 px-2"
+          title="moderation role is active for this challenge">
+          <i class="mdi mdi-check-circle text-success"></i>
+        </span>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script>
 import { computed } from 'vue'
-import { ChallengeModerator } from '../models/ChallengeModerator'
-import { AppState } from '../AppState'
+import { AppState } from '../AppState.js'
+import { ChallengeModerator } from '../models/ChallengeModerator.js'
 import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js"
 import Pop from "../utils/Pop.js"
 
@@ -52,22 +47,22 @@ export default {
 
       account: computed(() => AppState.AccountState.account),
 
-      async removeModeration(moderationId) {
+      async removeModerationRole(moderationId) {
         try {
           const confirmRemove = await Pop.confirm('Delete Moderation?')
           if (!confirmRemove) { return }
-          await challengeModeratorsService.removeModeration(moderationId)
+          await challengeModeratorsService.removeModerationRole(moderationId)
         }
         catch (error) { Pop.error('[MODERATION CARD] removeModeration:: ' + error); }
       },
 
-      async approveModeration(moderationId) {
+      async acceptModerationRole(moderationId) {
         try {
           const confirmApprove = await Pop.confirm('Approve Moderation?')
           if (!confirmApprove) { return }
-          await challengeModeratorsService.approveModeration(moderationId)
+          await challengeModeratorsService.acceptModerationRole(moderationId)
         }
-        catch (error) { Pop.error('[MODERATION CARD] approveModeration:: ' + error); }
+        catch (error) { Pop.error('[MODERATION CARD] acceptModerationRole:: ' + error); }
       },
     }
   }
@@ -75,12 +70,4 @@ export default {
 </script>
 
 
-<style lang="scss" scoped>
-.border-underline {
-  border-bottom: 1px solid #2F3E57;
-}
-
-.background-highlight:hover {
-  background-color: #1A2332;
-}
-</style>
+<style lang="scss" scoped></style>

@@ -22,7 +22,7 @@ class AccountService {
         this.getMyChallenges(),
         this.getMyParticipation(),
         this.getMyModerations(),
-        this.getMyChallengeModeration(),
+        this.getMyChallengeModerations(),
       ])
     } catch (error) {
       // TODO - figure out repeat calls
@@ -38,24 +38,24 @@ class AccountService {
   async getMyChallenges() {
     const res = await api.get('/account/challenges');
     AppState.AccountState.challenges = res.data.map(c => new Challenge(c));
-    logger.log('[ACCOUNT SERVICE] Get Challenges:', AppState.AccountState.challenges);
+    logger.log('[ACCOUNT SERVICE] getMyChallenges:', AppState.AccountState.challenges);
   }
 
   async getMyParticipation() {
     const res = await api.get('/account/participation');
     AppState.AccountState.participation = res.data.map(p => new ChallengeParticipant(p));
-    logger.log('[ACCOUNT SERVICE] Get My Participation', AppState.AccountState.participation);
+    logger.log('[ACCOUNT SERVICE] getMyParticipation', AppState.AccountState.participation);
   }
 
   async getMyModerations() {
     const res = await api.get('/account/moderation');
     AppState.AccountState.moderation = res.data.map(m => new ChallengeModerator(m));
-    logger.log('[ACCOUNT SERVICE] Get My Moderations', res.data, '[AS]', AppState.AccountState.moderation);
+    logger.log('[ACCOUNT SERVICE] getMyModerations', res.data, '[AS]', AppState.AccountState.moderation);
   }
 
-  async getMyChallengeModeration() {
+  async getMyChallengeModerations() {
     const res = await api.get(`/account/challengeModeration`);
-    logger.log('[ACCOUNT SERVICE] Get My Challenge Mogeration', res.data);
+    logger.log('[ACCOUNT SERVICE] getMyChallengeModerations', res.data);
     AppState.AccountState.challengeModeration = res.data.map(m => new ChallengeModerator(m));
   }
 

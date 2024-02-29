@@ -56,8 +56,7 @@
           DONE
         </p>
       </div>
-      <div class="col-1 d-none d-md-flex justify-content-md-center"
-        v-if="isMyProfile && (challengeTypes == 'Created')">
+      <div class="col-1 d-none d-md-flex justify-content-md-center" v-if="isMyProfile && (challengeTypes == 'Created')">
         <p class="text-white-50" title="Challenge status">
           STATUS
         </p>
@@ -115,13 +114,13 @@ export default {
         } else {
           cf = AppState.ProfileState.challenges
             .filter(c => c.creatorId == AppState.ProfileState.profile.id);
-      }
+        }
       } else if (challengeTypes.value === 'Moderated') {
         if (hideDeprecated.value) {
           cf = AppState.ProfileState.moderation
             .filter(c => c.status != 'deprecated')
             .map(c => c.challenge);
-          } else {
+        } else {
           cf = AppState.ProfileState.moderation.map(c => c.challenge);
         }
       } else if (challengeTypes.value === 'Participating') {
@@ -159,10 +158,6 @@ export default {
 <style lang="scss" scoped>
 p {
   margin-bottom: .5rem;
-}
-
-.border-underline {
-  border-bottom: 1px solid #2F3E57;
 }
 
 .blue-dropdown {

@@ -26,7 +26,7 @@ class ChallengeModeratorsService {
     AppState.ChallengeState.moderators = res.data.map(m => new ChallengeModerator(m))
   }
 
-  async approveModeration(moderationId) {
+  async acceptModerationRole(moderationId) {
     const res = await api.put(`api/moderators/${moderationId}`)
     logger.log('[Approved moderation]:', res.data)
     let moderatorToEdit = AppState.ChallengeState.moderators.find(m => m.id == res.data.id)
@@ -37,7 +37,7 @@ class ChallengeModeratorsService {
       myModeratorToEdit.status = true
   }
 
-  async removeModeration(moderationId) {
+  async removeModerationRole(moderationId) {
     const res = await api.delete(`api/moderators/${moderationId}`)
     logger.log('Deleted [moderation]:', res.data)
     // Remove moderation from challenge render

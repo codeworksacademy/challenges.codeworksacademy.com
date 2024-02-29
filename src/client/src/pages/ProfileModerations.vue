@@ -1,43 +1,34 @@
 <template>
   <div class="container-fluid">
-    <section class="row mt-3">
-      <div class="dropdown text-end">
-        <button class="btn aqua-btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown"
-          aria-expanded="false">
-          Filter Moderations
-        </button>
-        <ul class="dropdown-menu blue-dropdown">
-          <li><button @click="moderationTypes = 'My Moderations'" class="btn dropdown-item">My Moderations</button></li>
-          <li><button @click="moderationTypes = 'Challenge Moderators'" class="btn dropdown-item">Challenge
-              Moderators</button></li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="row pt-3 mt-3 border-underline dark-blue-bg">
-      <div class="col-6">
-        <p class="text-white fw-semibold">
-          {{ moderationTypes.toUpperCase() || 'MY MODERATIONS' }}
-        </p>
-      </div>
-      <div class="col-2"></div>
-      <div class="col-4 text-end">
-        <p class="text-white">
-          <span class="highlight-text fw-semibold">{{ moderations.length }} </span>
-          {{ moderationTypes || 'MY MODERATIONS' }}
+    <section class="row align-items-center py-3 mt-3 border-underline dark-blue-bg rounded-top">
+      <div class="col-12 d-flex align-items-center flex-wrap">
+        <div class="dropdown me-3">
+          <button class="btn aqua-btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Filter Moderations
+          </button>
+          <ul class="dropdown-menu blue-dropdown">
+            <li><button @click="moderationTypes = 'My Moderations'" class="btn dropdown-item">My Moderations</button></li>
+            <li><button @click="moderationTypes = 'Challenge Moderators'" class="btn dropdown-item">Challenge
+                Moderators</button></li>
+          </ul>
+        </div>
+        <p class="mb-0 ms-auto text-white">
+          {{ moderationTypes || 'MY MODERATIONS' }}:
+          <span class="highlight-text fw-semibold me-md-2">{{ moderations?.length }}</span>
         </p>
       </div>
     </section>
 
     <section class="row border-underline text-white-50 mt-3">
       <div class="col-3">
-        <p title="profile">
-          PROFILE
+        <p title="challenge" class="text-truncate">
+          CHALLENGE
         </p>
       </div>
       <div class="col-3">
-        <p title="challenge" class="text-truncate">
-          CHALLENGE
+        <p title="profile">
+          PROFILE
         </p>
       </div>
       <div class="col-3">
@@ -45,19 +36,15 @@
           STATUS
         </p>
       </div>
-      <div class="col-2 text-center">
+      <div class="col-3 text-center">
         <p title="remove or approve" class="text-truncate">
-          REMOVE / APPROVE
-        </p>
-      </div>
-      <div class="col-1 text-center">
-        <p title="" class="text-truncate">
+          REMOVE / ACCEPT
         </p>
       </div>
     </section>
     <section class="row">
-      <div class="col-12" v-for="moderation in moderations">
-        <ModerationCard :moderationProp="moderation" />
+      <div class="col-12 p-0" v-for="moderation in moderations">
+        <ModerationCard :moderationProp="moderation" :moderationTypes="moderationTypes" />
       </div>
     </section>
   </div>
@@ -76,7 +63,7 @@ import ModerationCard from '../components/ModerationCard.vue';
 export default {
 
   setup() {
-    const moderationTypes = ref('My Moderations')
+    const moderationTypes = ref('My Moderations');
 
     const route = useRoute();
     const router = useRouter();
@@ -86,9 +73,7 @@ export default {
         setTimeout(() => accountCheck(), 200);
         return
       }
-      // logger.log('[AUTH-CHECK] loop bypass trigger got accountId', AppState.AccountState.account.id);
-      // logger.log('[AUTH-CHECK] compare ID route.params.profileId', route.params.profileId);
-      if (!(route.params.profileId == AppState.AccountState.account.id)) {
+      if (route.params.profileId != AppState.AccountState.account.id) {
         Pop.error('[UNAUTHORIZED ACCESS] Profile Moderations Page');
         router.push({ name: 'Error' });
       }
@@ -98,18 +83,12 @@ export default {
     return {
       moderationTypes,
       moderations: computed(() => {
-        // if (moderationTypes.value == 'My Moderations') {
-        let filterModerators = AppState.ProfileState.moderation.filter((m) => m.challenge.creatorId != AppState.AccountState.account.id)
-        return filterModerators
-        // } else if (moderationTypes.value == 'Challenge Moderators') {
-        //   let moderators = AppState.AccountState.challengeModeration
-        //   logger.log('[MODERATORS]', moderators)
-        //   let filterModerators = moderators.filter((m) => m.accountId != AppState.AccountState.account.id)
-        //   return filterModerators
-        // } else {
-        //   let filterModerators = AppState.ChallengeState.moderators.filter((m) => m.challenge.creatorId != AppState.AccountState.account.id)
-        //   return filterModerators
-        // }
+        if (moderationTypes.value == 'My Moderations') {
+          return AppState.AccountState?.moderation?.filter(m => m.challenge.creatorId != AppState.AccountState.account.id);
+        }
+        else if (moderationTypes.value == 'Challenge Moderators') {
+          return AppState.AccountState.challengeModeration.filter((m) => m.accountId != AppState.AccountState.account.id);
+        }
       }),
     }
   },
@@ -119,10 +98,6 @@ export default {
 
 
 <style lang="scss" scoped>
-.border-underline {
-  border-bottom: 1px solid #2F3E57;
-}
-
 .blue-dropdown {
   background-color: #1A2332;
 }

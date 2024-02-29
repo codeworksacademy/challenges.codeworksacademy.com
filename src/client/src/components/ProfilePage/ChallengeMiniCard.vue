@@ -32,13 +32,14 @@
           </div>
           <div v-if="type == 'Participating' && isParticipant?.status != 'completed'">
             <i @click.stop="leaveChallenge()" :title="`Leave challenge: '${challenge.name}'`"
-            class="mdi mdi-file-cancel-outline text-muted fs-5"></i>
+              class="mdi mdi-file-cancel-outline text-muted fs-5"></i>
           </div>
         </span>
         <span v-if="type == 'Created'">
-            <i class="mdi mdi-earth fs-5 text-primary" title="Status: Published" v-if="challenge.status == 'published'"></i>
-            <i class="mdi mdi-earth-off fs-5 text-danger" title="Status: Deprecated" v-else-if="challenge.status == 'deprecated'"></i>
-            <i class="mdi mdi-book-edit-outline fs-5 text-muted" title="Status: Editing" v-else></i>
+          <i class="mdi mdi-earth fs-5 text-primary" title="Status: Published" v-if="challenge.status == 'published'"></i>
+          <i class="mdi mdi-earth-off fs-5 text-danger" title="Status: Deprecated"
+            v-else-if="challenge.status == 'deprecated'"></i>
+          <i class="mdi mdi-book-edit-outline fs-5 text-muted" title="Status: Editing" v-else></i>
         </span>
       </div>
 
@@ -95,15 +96,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.border-underline {
-  border-bottom: 1px solid #2F3E57;
-}
-
 .highlight-font {
   font-family: 'Lekton', sans-serif;
-}
-
-.background-highlight:hover {
-  background-color: #1A2332;
 }
 </style>
