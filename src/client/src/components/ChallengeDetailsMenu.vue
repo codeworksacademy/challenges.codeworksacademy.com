@@ -9,10 +9,13 @@
         <span class="text-white mx-2">Overview</span>
       </router-link>
     </div>
-    <div class="rounded-2 selectable my-0 my-md-1" v-if="challenge.requirements.length > 0">
+    <div class="rounded-2 selectable my-0 my-md-1" v-if="challenge.requirements.length > 0 || isParticipant?.feedback">
       <router-link :to="{ name: 'Challenge.requirements' }" class="btn d-flex align-items-center p-1 ps-3 px-lg-2">
         <i class="text-primary mx-1 fst-normal mdi mdi-file-document-check"></i>
-        <span class="text-white mx-2">Requirements</span>
+        <span class="text-white mx-2" v-if="challenge.requirements.length > 0">
+          Requirements
+        </span>
+        <span v-if="challenge.status != 'completed' && isParticipant?.feedback" class="text-warning"> + Feedback</span>
       </router-link>
     </div>
     <div class="rounded-2 selectable my-0 my-md-1">
@@ -66,7 +69,6 @@ import { computed } from 'vue'
 import { AppState } from '../AppState.js'
 import { participantsService } from '../services/ParticipantsService.js'
 import { SUBMISSION_TYPES } from '../constants'
-import PermissionsFlag from './PermissionsFlag.vue'
 import DevFlag from './DevFlag.vue'
 
 export default {
@@ -92,6 +94,7 @@ export default {
       updateChallengeParticipant,
       challenge: computed(() => AppState.ChallengeState.challenge),
       needsGrading: computed(() => AppState.ChallengeState.participants.filter(p => p.status.toLowerCase() == 'submitted')),
+      isParticipant: computed(() => AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id)),
 
       isOwned: computed(() => {
         return AppState.ChallengeState.challenge?.creatorId === AppState.user.id;
@@ -101,7 +104,7 @@ export default {
       }),
     };
   },
-  components: { DevFlag, PermissionsFlag }
+  components: { DevFlag }
 }
 </script>
 

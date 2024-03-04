@@ -31,8 +31,8 @@
         </div>
         <div class="col-12 form-group px-5 mb-5">
           <label for="feedback" class="form-label">Feedback</label>
-          <input v-model="editable.feedback" type="text" name="feedback" id="feedback" placeholder="Feedback"
-            class="form-control bg-light">
+          <input v-model="editable.feedback" type="text" name="feedback" id="feedback" placeholder="Provide feedback.."
+            class="form-control">
         </div>
         <div class="col-12 text-center mt-3">
           <h4>Set status for {{ participant.profile?.name }}</h4>
@@ -43,7 +43,7 @@
               <label class="input-group-text" for="challengeStatus">Status</label>
               <select v-model="editable.status" name="status" id="status" placeholder="Status"
                 class="input-box form-select">
-                <option value="null">Select a status</option>
+                <option :value="null" selected disabled>Select a status</option>
                 <option value="completed">Completed</option>
                 <option value="returned for review">Returned for Review</option>
               </select>
@@ -86,7 +86,8 @@ export default {
       challenge: props.participant.challenge,
       profile: props.participant.profile,
       requirements: props.participant.requirements,
-      status: props.participant.status
+      feedback: props.participant.feedback,
+      status: null
     })
 
     onMounted(() => {
@@ -100,7 +101,6 @@ export default {
     async function gradeParticipant() {
       try {
         const participantResult = editable.value;
-        // participantResult.status = editable.value.status
         await challengesService.gradeParticipant(participantResult);
         Pop.success(`${editable.value.profile?.name} has been graded! Result: ${editable.value.status}`)
       } catch (error) {

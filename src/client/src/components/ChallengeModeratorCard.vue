@@ -1,48 +1,44 @@
 <template>
-  <section class="container-fluid" v-if="moderator" :key="moderator?.id">
-    <div class="card card-custom border-white border-0 mb-3" style="overflow-y: auto; height: 30vh;">
+  <section class="container-fluid mb-4 mb-md-5" v-if="moderator.profile?.id" :key="moderator.id">
+    <div class="card card-custom" :class="isOwner ? 'border-white' : ''" :title="isOwner ? 'Challenge Creator' : ''">
       <div class="card-custom-img" :style="`background-image: url(${moderator.profile.picture});`"></div>
-      <router-link :to="{ name: 'Profile.overview', params: { profileId: moderator.profile?.id } }">
+      <router-link :to="{ name: 'Profile.overview', params: { profileId: moderator.profile.id } }">
         <p class="btn bg-dark btn-success text-success mod-profile-button">Visit Profile</p>
       </router-link>
-      <div class="card-body" style="overflow-y: auto">
-        <h6 class="card-title fw-bold pt-2">Name: <span class="fw-normal">{{ moderator.profile.nickname ||
-          moderator.profile.name }}</span></h6>
-        <p class="card-text"><span class="fw-bold">Bio: </span>{{ moderator.profile.bio }} </p>
-        <hr>
-        <div v-if="moderator.challenge" class="d-flex flex-column">
-          <span><span class="card-text-secondary fw-bold">Moderating: </span>{{ moderator.challenge.name }}</span>
-          <span><span class="card-text-secondary mb-3 fw-bold">Challenge Description: </span>{{
-            moderator.challenge.description }}</span>
-        </div>
+      <div class="card-body">
+        <h6 class="card-title pt-2 d-flex flex-wrap">
+          <span class="me-auto">Name: {{ moderator.profile.nickname || moderator.profile.name }}</span>
+          <span class="">Status: {{ moderator.status }}</span>
+        </h6>
+        <p class="card-text" v-if="moderator.profile?.bio">
+          <span class="fw-bold">Bio: </span>{{ moderator.profile.bio }}
+        </p>
       </div>
-      <div class="card-footer row" style="background: inherit; border-color: inherit;">
-        <div class="col-12">
-          <p class="card-text">
-            <small class="card-text" style="font-weight: 400; font-size: .6rem;">
-              User Signup Date: {{
-                new Date(moderator.createdAt)
-                  .toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric'
-                  }) }}
-              @ {{
-                new Date(moderator.createdAt)
-                  .toLocaleTimeString('en-US', {
-                    hour: 'numeric',
-                    minute: 'numeric'
-                  }) }}
-            </small>
-          </p>
-        </div>
+      <div class="card-footer">
+        <p class="card-text">
+          User Signup Date: {{
+            new Date(moderator.createdAt)
+              .toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+              }) }}
+          @ {{
+            new Date(moderator.createdAt)
+              .toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: 'numeric'
+              }) }}
+        </p>
       </div>
     </div>
   </section>
 </template>
 
 <script>
+import { computed } from "vue";
 import { ChallengeModerator } from "../models/ChallengeModerator.js";
+import { AppState } from "../AppState.js";
 
 export default {
   props: {
@@ -50,26 +46,44 @@ export default {
       type: ChallengeModerator || Object,
       required: true
     }
+  },
+  setup(props) {
+    return {
+      isOwner: computed(() => props.moderator.accountId == AppState.ChallengeState.challenge?.creatorId)
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
+.card-body {
+  overflow-y: auto;
+  height: 11.8rem;
+}
+
+.card-footer {
+  height: 2.2rem;
+  border-color: inherit;
+  font-weight: 400;
+  font-size: .6rem;
+}
+
 .card-custom {
   color: #efefef;
   text-shadow: 0 1px 5px #998ce2;
   background-size: cover;
   background-position: center;
   overflow: hidden;
-  min-height: 350px;
   background-color: #0a0b14f3;
   box-shadow: 0 0 15px 2px #0a0a0a4d;
   transition: .5 ease-in-out;
+  overflow-y: auto;
+  max-height: 24rem;
+  transition: .5s ease-in-out;
 }
 
 .card-custom-img {
-  height: 200px;
-  height: 175px;
+  height: 14rem;
   background-color: #00000090;
   background-repeat: no-repeat;
   background-size: cover;
@@ -84,7 +98,7 @@ export default {
 .card-custom-img::after {
   position: absolute;
   content: '';
-  top: 135px;
+  top: 9.5rem;
   left: 0;
   width: 0;
   height: 0;
@@ -97,7 +111,7 @@ export default {
   border-top-color: transparent;
   border-right-color: transparent;
   border-bottom-color: transparent;
-  border-left-color: #0b0c15;
+  border-left-color: #0b0c15b9;
 }
 
 .mod-profile-button {
@@ -134,7 +148,6 @@ export default {
 
 .card-custom:hover {
   filter: brightness(1.1);
-  transition: .5s ease-in-out;
 }
 
 ::-webkit-scrollbar {

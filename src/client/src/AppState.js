@@ -26,7 +26,7 @@ const AccountState = reactive({
   /** @type {import('./models/ChallengeModerator.js').ChallengeModerator[]||null} */
   moderation: null,
   /** @type {import('./models/ChallengeModerator.js').ChallengeModerator[]||null} */
-  challengeModeration: null,
+  challengeModerations: null,
   /** @type {import('./models/AccountMilestone.js').Milestone[]||null} */
   milestones: null,
 })

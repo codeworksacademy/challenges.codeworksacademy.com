@@ -4,7 +4,7 @@ import { logger } from "../utils/Logger.js"
 import { ChallengeModerator } from "../models/ChallengeModerator"
 class ChallengeModeratorsService {
 
-  async createModeration(moderatorData) {
+  async addModerator(moderatorData) {
     const res = await api.post('api/moderators', moderatorData);
     const newMod = new ChallengeModerator(res.data);
     AppState.ChallengeState.moderators.push(newMod);
@@ -21,36 +21,32 @@ class ChallengeModeratorsService {
   }
 
   async getModerationsByChallengeCreatorId(userId) {
-    const res = await api.get(`api/moderators/challenges/${userId}`)
-    logger.log('[MODERATIONS BY CHALLENGEID]', res.data)
-    AppState.ChallengeState.moderators = res.data.map(m => new ChallengeModerator(m))
+    const res = await api.get(`api/moderators/challenges/${userId}`);
+    AppState.ChallengeState.moderators = res.data.map(m => new ChallengeModerator(m));
   }
 
-  async approveModeration(moderationId) {
-    const res = await api.put(`api/moderators/${moderationId}`)
-    logger.log('[Approved moderation]:', res.data)
-    let moderatorToEdit = AppState.ChallengeState.moderators.find(m => m.id == res.data.id)
-    if (moderatorToEdit)
-      moderatorToEdit.status = true
-    let myModeratorToEdit = AppState.ChallengeState.moderators.find(m => m.id == res.data.id)
-    if (myModeratorToEdit)
-      myModeratorToEdit.status = true
-  }
-
-  async removeModeration(moderationId) {
+  async removeModerationRole(moderationId) {
     const res = await api.delete(`api/moderators/${moderationId}`)
-    logger.log('Deleted [moderation]:', res.data)
-    // Remove moderation from challenge render
-    let moderatorToRemove = AppState.ChallengeState.moderators.findIndex(m => m.id == moderationId)
+
+    // Remove moderation from challenge state data
+    let moderatorToRemove = AppState.ChallengeState.moderators.findIndex(m => m.id == moderationId);
     if (moderatorToRemove != -1) {
-      AppState.ChallengeState.moderators.splice(moderatorToRemove, 1)
-    }    // Remove moderation from account data render
-    let myModerationToRemove = AppState.ChallengeState.moderators.findIndex(m => m.id == moderationId)
-    // logger.log('[MY MOD REMOVAL]', moderationId, myModerationToRemove, AppState.myModerations)
-    if (myModerationToRemove != -1) {
-      AppState.ChallengeState.moderators.splice(myModerationToRemove, 1)
+      AppState.ChallengeState.moderators.splice(moderatorToRemove, 1);
     }
+
+    // Remove moderation from account state data
+    let myModerationToRemove = AppState.AccountState.moderation.findIndex(m => m.id == moderationId);
+    if (myModerationToRemove != -1) {
+      AppState.AccountState.moderation.splice(myModerationToRemove, 1);
+    }
+
+    // Remove challenge moderator from account state data
+    let challengeModeratorToRemove = AppState.AccountState.challengeModerations.findIndex(m => m.id == moderationId);
+    if (challengeModeratorToRemove != -1) {
+      AppState.AccountState.challengeModerations.splice(challengeModeratorToRemove, 1);
+    }
+
   }
 }
 
-export const challengeModeratorsService = new ChallengeModeratorsService()
+export const challengeModeratorsService = new ChallengeModeratorsService();

@@ -19,10 +19,6 @@ const COURSES_CACHE = new SimpleCache(60 * 60); // in seconds
 
 class ChallengesService {
   async gradeParticipant(participantData, accountId) {
-    await challengeModeratorsService.getModeratorByUserIdAndChallengeId(accountId, participantData.challengeId);
-
-    const participant = await participantsService.getParticipantById(participantData.participantId);
-
     if (
       participantData.status != SUBMISSION_TYPES.COMPLETED &&
       participantData.status != SUBMISSION_TYPES.RETURNED_FOR_REVIEW
@@ -30,12 +26,16 @@ class ChallengesService {
       throw new BadRequest('You cannot set the status type to ' + participantData.status);
     }
 
-    participant.status = participantData.status;
-    participant.requirements = participantData.requirements;
+    // await challengeModeratorsService.getModeratorByUserIdAndChallengeId(accountId, participantData.challengeId);
 
+    const participant = await participantsService.getParticipantById(participantData.participantId);
     if (accountId == participant.accountId) {
       throw new BadRequest('You cannot grade your own submission.');
     }
+
+    participant.status = participantData.status;
+    participant.requirements = participantData.requirements;
+    participant.feedback = participantData.feedback;
 
     accountMilestonesService.giveGradingMilestoneByAccountId(accountId)
     if (participantData.status == SUBMISSION_TYPES.COMPLETED) {
@@ -59,7 +59,7 @@ class ChallengesService {
 
   async createChallenge(newChallenge) {
     const challenge = await dbContext.Challenges.create(newChallenge);
-    await challengeModeratorsService.createModeration({
+    await challengeModeratorsService.addModerator({
       challengeId: challenge.id,
       accountId: challenge.creatorId,
       status: 'active',

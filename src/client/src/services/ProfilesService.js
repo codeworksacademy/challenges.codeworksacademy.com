@@ -11,6 +11,9 @@ class ProfilesService {
     const res = await api.get(`api/profiles?name=${name}`);
     AppState.profiles = res.data.map(p => new Profile(p));
   }
+  clearProfiles() { // Mod Search Form
+    AppState.profiles = [];
+  }
 
   async getProfileById(profileId) {
     const res = await api.get(`api/profiles/${profileId}`)
@@ -44,7 +47,7 @@ class ProfilesService {
     return res.data
   }
 
-  clearProfile() {
+  clearProfileData() {
     AppState.ProfileState.profile = null;
     AppState.ProfileState.challenges = [];
     AppState.ProfileState.participation = [];

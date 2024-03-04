@@ -47,7 +47,7 @@ export default {
     const router = useRouter();
     const MilestonesError = ref('');
 
-    onUnmounted(() => { profilesService.clearProfile(); });
+    onUnmounted(() => { profilesService.clearProfileData(); });
 
     watchEffect(() => {
       if (route.params.profileId) {
@@ -67,10 +67,6 @@ export default {
         ])
         if (!AppState.ProfileState.profile) { throw new Error('Unable to fetch profile') }
         // Checking on data received - will remove on official release
-        logger.log('[PROFILE PAGE] getProfileData profile', AppState.ProfileState.profile)
-        logger.log('[PROFILE PAGE] getProfileData challenges', AppState.ProfileState.challenges)
-        logger.log('[PROFILE PAGE] getProfileData participation', AppState.ProfileState.participation)
-        logger.log('[PROFILE PAGE] getProfileData moderation', AppState.ProfileState.moderation)
         logger.log('[PROFILE PAGE] getProfileData milestones', AppState.ProfileState.milestones)
       }
       catch (error) {
@@ -105,7 +101,7 @@ export default {
       try { return await profilesService.getMilestones(route.params.profileId) }
       catch (error) {
         Pop.error('[PROFILE PAGE] getMilestones:: ' + error);
-        MilestonesError.value = 'Sorry we were unable to pull the milestones for this account. We are working on it try again later'
+        MilestonesError.value = 'Unable to pull the milestones for this account'
       }
     }
 

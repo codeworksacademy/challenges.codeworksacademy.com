@@ -7,13 +7,12 @@ export const ChallengeModeratorSchema = new Schema({
   originId: { type: ObjectId, ref: 'Profile' },
   status: {
     type: String,
-    // Pending - The beginning of the moderation relationship that carries no privileges
     // Inactive - an account that has not participated in moderating in a long time
     // Terminated - Moderation relationship is considered Terminated
     // Banned - A more serious termination, ALL moderation relationships between user to user 'Banned'
-    // Blacklisted- A more serious Banning, All moderation relationships 'Blacklisted'
-    enum: ['pending', 'active', 'inactive', 'terminated', 'banned', 'blacklisted'],
-    default: 'pending',
+    // Blacklisted - A more serious Banning, All moderation relationships 'Blacklisted'
+    enum: ['active', 'inactive', 'terminated', 'banned', 'blacklisted'],
+    default: 'active',
     lowercase: true
   }
 },
