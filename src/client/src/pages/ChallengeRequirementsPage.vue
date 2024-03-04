@@ -3,7 +3,7 @@
     <section class="row bg-detail mb-4 py-3 px-1 rounded-3" v-if="challenge">
       <div class="col-12 text-light">
         <h3 class="fs-2 pb-3" style="color: #7A7A7A">Challenge Requirements</h3>
-        <h4 v-if="challenge.requirements.length == 0" class="text-warning">No requirements</h4>
+        <h4 v-if="challenge.requirements.length == 0" class="text-light">No requirements</h4>
         <ol>
           <li v-for="(requirement, index) in challenge.requirements" :key="index" class="py-2">
             <span>{{ requirement }}</span>
@@ -14,7 +14,7 @@
     <section class="row bg-detail py-3 px-1 rounded-3" v-if="isParticipant">
       <div class="col-12 text-light">
         <h3 class="fs-2 pb-3 text-warning" style="color: #7A7A7A">Feedback</h3>
-        <p class="fs-5">{{ isParticipant.feedback }}</p>
+        <p class="fs-5">{{ isParticipant.feedback || 'Please submit your challenge' }}</p>
       </div>
     </section>
   </div>
