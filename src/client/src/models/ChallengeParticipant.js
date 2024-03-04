@@ -18,6 +18,7 @@ export class ChallengeParticipant extends ChallengeModerator {
     this.submission = data.submission
     this.completedAt = data.completedAt
     this.requirements = data.requirements || []
+    this.feedback = data.feedback
     this.grade = data.grade
   }
 }

@@ -15,14 +15,12 @@ const EXPERIENCE_SCALE = {
 class ParticipantsService {
 
 	async getLeaderboards() {
-		const accounts = await dbContext.Account.find().select(PROFILE_FIELDS).populate('badges')
-		return accounts
+		const accounts = await dbContext.Account.find().select(PROFILE_FIELDS).populate('badges');
+		return accounts;
 	}
 
 	async joinChallenge(newParticipant) {
-
-		const challenge = await challengesService.getChallengeById(newParticipant.challengeId)
-
+		const challenge = await challengesService.getChallengeById(newParticipant.challengeId);
 		if (challenge.status != STATUS_TYPES.PUBLISHED) {
 			throw new BadRequest(`[CHALLENGE_STATUS::${challenge.status}] This challenge cannot be joined at this time.`)
 		}
@@ -32,19 +30,18 @@ class ParticipantsService {
 				description: r,
 				isCompleted: false
 			}
-		})
-		const participant = await dbContext.ChallengeParticipants.create(newParticipant)
-
-		return participant
+		});
+		const participant = await dbContext.ChallengeParticipants.create(newParticipant);
+		return participant;
 	}
 
 	async getParticipantById(participantId) {
 		const participant = await dbContext.ChallengeParticipants.findById(participantId)
 			.populate('profile');
 		if (!participant) {
-			throw new BadRequest('Invalid participant ID.')
+			throw new BadRequest('Invalid participant ID.');
 		}
-		return participant
+		return participant;
 	}
 
 	// I already know what the challenge is so no need to populate the challenge 
@@ -77,44 +74,39 @@ class ParticipantsService {
 	}
 
 	async leaveChallenge(participantId, userId) {
-		const participantToRemove = await dbContext.ChallengeParticipants.findById(participantId)
-
+		const participantToRemove = await dbContext.ChallengeParticipants.findById(participantId);
 		if (!participantToRemove) {
-			throw new BadRequest("Invalid participant ID.")
+			throw new BadRequest("Invalid participant ID.");
 		}
-
 		if (userId != participantToRemove.accountId) {
-			throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this participant's. You may not remove other participants.")
+			throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this participant's. You may not remove other participants.");
 		}
-
-		participantToRemove.status = 'left'
-
-		await participantToRemove.remove()
-
-		return participantToRemove
+		participantToRemove.status = 'left';
+		await participantToRemove.remove();
+		return participantToRemove;
 	}
 
-	async removeParticipant(challengeId, userId, participant) {
-		const challenge = await challengesService.getChallengeById(challengeId)
+	// 	async removeParticipant(challengeId, userId, participant) {
+	// 		const challenge = await challengesService.getChallengeById(challengeId)
 
-		const participantToRemove = await dbContext.ChallengeParticipants.findById(participant.id)
+	// 		const participantToRemove = await dbContext.ChallengeParticipants.findById(participant.id)
 
-		if (!challenge) {
-			throw new BadRequest('Invalid challenge ID.')
-		}
+	// 		if (!challenge) {
+	// 			throw new BadRequest('Invalid challenge ID.')
+	// 		}
 
-		if (!participantToRemove) {
-			throw new BadRequest('Invalid participant ID.')
-		}
+	// 		if (!participantToRemove) {
+	// 			throw new BadRequest('Invalid participant ID.')
+	// 		}
 
-		if (userId != challenge.creatorId) {
-			throw new Forbidden(`[PERMISSIONS ERROR]: You are not the creator of ${challenge.name}. You may not remove participants from it.`)
-		}
+	// 		if (userId != challenge.creatorId) {
+	// 			throw new Forbidden(`[PERMISSIONS ERROR]: You are not the creator of ${challenge.name}. You may not remove participants from it.`)
+	// 		}
 
-		await participantToRemove.remove()
+	// 		await participantToRemove.remove()
 
-		return participantToRemove
-	}
+	// 		return participantToRemove
+	// 	}
 }
 
-export const participantsService = new ParticipantsService()
+export const participantsService = new ParticipantsService();

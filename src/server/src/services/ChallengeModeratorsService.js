@@ -47,28 +47,28 @@ class ChallengeModeratorsService {
     return moderators;
   }
 
-  async ApproveModeration(moderatorId, userId) {
-    const moderation = await this.getModerationById(moderatorId);
-    const challenge = await challengesService.getChallengeById(moderation.challengeId);
+  // async ApproveModeration(moderatorId, userId) {
+  //   const moderation = await this.getModerationById(moderatorId);
+  //   const challenge = await challengesService.getChallengeById(moderation.challengeId);
 
-    if (moderation.originId == challenge.creatorId) {
-      if (moderation.accountId != userId) {
-        throw new Forbidden(
-          `[PERMISSIONS ERROR]: Only the user can approve it.`
-        )
-      }
-    } else if (moderation.originId == moderation.accountId) {
-      if (challenge.creatorId != userId) {
-        throw new Forbidden(
-          `[PERMISSIONS ERROR]: Only the owner of ${challenge.name} can approve it.`
-        )
-      }
-    }
+  //   if (moderation.originId == challenge.creatorId) {
+  //     if (moderation.accountId != userId) {
+  //       throw new Forbidden(
+  //         `[PERMISSIONS ERROR]: Only the user can approve it.`
+  //       )
+  //     }
+  //   } else if (moderation.originId == moderation.accountId) {
+  //     if (challenge.creatorId != userId) {
+  //       throw new Forbidden(
+  //         `[PERMISSIONS ERROR]: Only the owner of ${challenge.name} can approve it.`
+  //       )
+  //     }
+  //   }
 
-    moderation.status = 'active';
-    await moderation.save();
-    return moderation;
-  }
+  //   moderation.status = 'active';
+  //   await moderation.save();
+  //   return moderation;
+  // }
 
   async removeModerator(moderatorId, userId) {
     const moderatorToRemove = await dbContext.ChallengeModerators.findById(moderatorId);
@@ -82,9 +82,10 @@ class ChallengeModeratorsService {
       throw new Forbidden("[PERMISSIONS ERROR]: Your are not the challenge creator. You may not remove other moderators.");
     }
 
-    moderatorToRemove.status = 'terminated';
-    await moderatorToRemove.save();
-    return moderatorToRemove;
+    // moderatorToRemove.status = 'terminated';
+    // await moderatorToRemove.save();
+    const result = await moderatorToRemove.deleteOne();
+    return 'Moderation removed - ' + JSON.stringify(result);
   }
 
 

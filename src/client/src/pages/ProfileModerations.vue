@@ -30,22 +30,22 @@
     </section>
 
     <section class="row border-underline text-white-50 mt-3">
-      <div class="col-3">
+      <div class="col-4">
         <p title="challenge" class="text-truncate">
           CHALLENGE
         </p>
       </div>
-      <div class="col-3">
+      <div class="col-4">
         <p title="profile">
           PROFILE
         </p>
       </div>
-      <div class="col-3">
+      <div class="col-2">
         <p title="status">
           STATUS
         </p>
       </div>
-      <div class="col-3 text-center">
+      <div class="col-2 text-center">
         <p title="remove moderator role" class="text-truncate">
           {{ moderationTypes == 'My Moderations' ? 'UNMOD SELF' : 'REMOVE MOD' }}
         </p>
@@ -100,7 +100,7 @@ export default {
           return AppState.AccountState?.moderation?.filter(m => m.challenge.creatorId != AppState.AccountState.account.id);
         }
         else if (moderationTypes.value == 'Challenge Moderators') {
-          return AppState.AccountState.challengeModerations.filter((m) => m.accountId != AppState.AccountState.account.id);
+          return AppState.AccountState.challengeModerations.filter(m => m.accountId != AppState.AccountState.account.id);
         }
       }),
     }

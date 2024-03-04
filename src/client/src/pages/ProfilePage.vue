@@ -47,7 +47,7 @@ export default {
     const router = useRouter();
     const MilestonesError = ref('');
 
-    onUnmounted(() => { profilesService.clearProfile(); });
+    onUnmounted(() => { profilesService.clearProfileData(); });
 
     watchEffect(() => {
       if (route.params.profileId) {

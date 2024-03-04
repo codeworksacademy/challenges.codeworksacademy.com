@@ -28,17 +28,24 @@ class ChallengeModeratorsService {
   async removeModerationRole(moderationId) {
     const res = await api.delete(`api/moderators/${moderationId}`)
 
-    // Remove moderation from challenge render
+    // Remove moderation from challenge state data
     let moderatorToRemove = AppState.ChallengeState.moderators.findIndex(m => m.id == moderationId);
     if (moderatorToRemove != -1) {
       AppState.ChallengeState.moderators.splice(moderatorToRemove, 1);
     }
 
-    // Remove moderation from account data render
+    // Remove moderation from account state data
     let myModerationToRemove = AppState.AccountState.moderation.findIndex(m => m.id == moderationId);
     if (myModerationToRemove != -1) {
       AppState.AccountState.moderation.splice(myModerationToRemove, 1);
     }
+
+    // Remove challenge moderator from account state data
+    let challengeModeratorToRemove = AppState.AccountState.challengeModerations.findIndex(m => m.id == moderationId);
+    if (challengeModeratorToRemove != -1) {
+      AppState.AccountState.challengeModerations.splice(challengeModeratorToRemove, 1);
+    }
+
   }
 }
 

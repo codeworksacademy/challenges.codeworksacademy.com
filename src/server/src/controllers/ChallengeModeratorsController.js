@@ -10,7 +10,7 @@ export class ChallengeModeratorsController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.addModerator)
       .get('/challenges/:userId', this.getModerationsByChallengeCreatorId)
-      .put('/:moderatorId', this.ApproveModeration)
+      // .put('/:moderatorId', this.ApproveModeration)
       .delete('/:moderatorId', this.removeModerator)
   }
 
@@ -44,15 +44,15 @@ export class ChallengeModeratorsController extends BaseController {
     catch (error) { next(error); }
   }
 
-  async ApproveModeration(req, res, next) {
-    try {
-      const moderatorId = req.params.moderatorId
-      const userId = req.userInfo.id
-      const moderatorToApprove = await challengeModeratorsService.ApproveModeration(moderatorId, userId)
-      return res.send(moderatorToApprove)
-    }
-    catch (error) { next(error); }
-  }
+  // async ApproveModeration(req, res, next) {
+  //   try {
+  //     const moderatorId = req.params.moderatorId
+  //     const userId = req.userInfo.id
+  //     const moderatorToApprove = await challengeModeratorsService.ApproveModeration(moderatorId, userId)
+  //     return res.send(moderatorToApprove)
+  //   }
+  //   catch (error) { next(error); }
+  // }
 
   async removeModerator(req, res, next) {
     try {

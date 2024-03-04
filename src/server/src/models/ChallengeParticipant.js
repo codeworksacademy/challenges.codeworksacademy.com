@@ -12,7 +12,7 @@ const requirementSchema = new Schema({
 export const ChallengeParticipantSchema = new Schema({
   challengeId: { type: ObjectId, required: true, ref: 'Challenge' },
   accountId: { type: ObjectId, required: true, ref: 'Profile' },
-  submission: { type: String, maxLength: 700, default: '' },
+  submission: { type: String, maxLength: 500, default: '' },
   requirements: [requirementSchema],
   status: {
     type: String,
@@ -21,6 +21,7 @@ export const ChallengeParticipantSchema = new Schema({
     default: SUBMISSION_TYPES.STARTED,
     lowercase: true
   },
+  feedback: { type: String, maxLength: 1000, default: '' },
   claimedAt: { type: Date },
   completedAt: { type: Date },
 },

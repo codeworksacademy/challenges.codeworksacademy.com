@@ -1,25 +1,21 @@
 <template>
   <div class="container-fluid border-underline background-highlight">
     <section class="row text-light justify-content-between align-items-center py-2">
-      <div class="col-3 fw-semibold text-truncate fs-5">
+      <div class="col-4 fw-semibold text-truncate fs-5">
         <router-link :to="{ name: 'Challenge.overview', params: { challengeId: moderationProp.challenge.id } }">
           {{ moderationProp.challenge.name }}
         </router-link>
       </div>
-      <div class="col-3 fw-semibold text-truncate fs-5">
+      <div class="col-4 fw-semibold text-truncate fs-5">
         {{ moderationProp.profile.nickname || moderationProp.profile.name }}
       </div>
-      <div class="col-3 fw-semibold">
+      <div class="col-2 fw-semibold">
         {{ moderationProp.status.toUpperCase() }}
       </div>
-      <div class="col-3 d-flex justify-content-evenly align-items-center">
+      <div class="col-2 d-flex justify-content-evenly align-items-center">
         <button class="btn" @click="removeModerationRole(moderationProp.id)" title="remove moderation">
           <i class="mdi mdi-delete text-danger selectable"></i>
         </button>
-        <span v-if="moderationProp.originId != account.id && moderationProp.status == 'active'" class="mx-1 px-2"
-          title="moderation role is active for this challenge">
-          <i class="mdi mdi-check-circle text-success"></i>
-        </span>
       </div>
     </section>
   </div>
