@@ -11,10 +11,19 @@
         </ol>
       </div>
     </section>
-    <section class="row bg-detail py-3 px-1 rounded-3" v-if="isParticipant">
+    <section class="row bg-detail py-3 px-1 rounded-3" v-if="isParticipant && challenge">
       <div class="col-12 text-light">
         <h3 class="fs-2 pb-3 text-warning" style="color: #7A7A7A">Feedback</h3>
-        <p class="fs-5">{{ isParticipant.feedback || 'Please submit your challenge' }}</p>
+        <p class="fs-5">
+          {{
+            isParticipant.feedback ||
+            (
+              isParticipant.status == 'completed'
+                ? 'Congratulations!'
+                : 'Please submit your challenge'
+            )
+          }}
+        </p>
       </div>
     </section>
   </div>
