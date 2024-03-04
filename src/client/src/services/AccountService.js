@@ -22,17 +22,12 @@ class AccountService {
         this.getMyChallenges(),
         this.getMyParticipation(),
         this.getMyModerations(),
-        this.getMyChallengeModerations(),
+        this.getMyChallengeModerators(),
       ])
     } catch (error) {
       // TODO - figure out repeat calls
       logger.error('[ACCOUNT SERVICE] getAccountData', error);
     }
-  }
-
-  async updateAccount(formData) {
-    const res = await api.put('/account', formData);
-    AppState.AccountState.account = new Account(res.data);
   }
 
   async getMyChallenges() {
@@ -48,15 +43,15 @@ class AccountService {
   }
 
   async getMyModerations() {
-    const res = await api.get('/account/moderation');
+    const res = await api.get('/account/myModerations');
     AppState.AccountState.moderation = res.data.map(m => new ChallengeModerator(m));
     logger.log('[ACCOUNT SERVICE] getMyModerations', res.data, '[AS]', AppState.AccountState.moderation);
   }
 
-  async getMyChallengeModerations() {
-    const res = await api.get(`/account/challengeModeration`);
-    logger.log('[ACCOUNT SERVICE] getMyChallengeModerations', res.data);
-    AppState.AccountState.challengeModeration = res.data.map(m => new ChallengeModerator(m));
+  async getMyChallengeModerators() {
+    const res = await api.get(`/account/challengeModerators`);
+    logger.log('[ACCOUNT SERVICE] getMyChallengeModerators', res.data);
+    AppState.AccountState.challengeModerations = res.data.map(m => new ChallengeModerator(m));
   }
 
 }

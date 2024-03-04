@@ -23,7 +23,7 @@
             <div v-for=" profile  in  Profiles " :key="profile.id" class="text-white my-1 d-flex justify-content-center">
               {{ profile.nickname || profile.name }} -
               <span v-if="!isModeratorCheck(profile) && !profile?.added">
-                <button @click="createModeration(profile)" class="btn btn-outline-primary ms-1 px-1 py-0">
+                <button @click="addModerator(profile)" class="btn btn-outline-primary ms-1 px-1 py-0">
                   Send Invite
                 </button>
               </span>
@@ -74,17 +74,17 @@ export default {
         catch (error) { Pop.error('[MOD SEARCH FORM] getProfiles:: ' + error); }
       },
 
-      async createModeration(profile) {
+      async addModerator(profile) {
         try {
           const moderatorData = {
             challengeId: route.params.challengeId,
             accountId: profile.id
           };
-          await challengeModeratorsService.createModeration(moderatorData);
+          await challengeModeratorsService.addModerator(moderatorData);
           profile.added = true;
           Pop.success('You have added ' + profile.nickname);
         }
-        catch (error) { Pop.error('[MOD SEARCH FORM] createModeration:: ' + error); }
+        catch (error) { Pop.error('[MOD SEARCH FORM] addModerator:: ' + error); }
       }
 
     }

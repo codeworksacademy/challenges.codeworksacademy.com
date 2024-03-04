@@ -14,9 +14,8 @@ export class AccountController extends BaseController {
       .get('', this.getUserAccount)
       .get('/challenges', this.getMyChallenges)
       .get('/participation', this.getMyParticipation)
-      .get('/moderation', this.getMyModeration)
-      .get('/challengeModeration', this.getMyChallengeModerations)
-      .put('', this.updateAccount)
+      .get('/myModerations', this.getMyModerations)
+      .get('/challengeModerators', this.getMyChallengeModerators)
       .put('/:milestoneId/accountMilestones', this.claimMyMilestone)
       .post('/accountMilestones', this.checkMilestonesByAccountId)
   }
@@ -50,7 +49,7 @@ export class AccountController extends BaseController {
     catch (error) { next(error); }
   }
 
-  async getMyModeration(req, res, next) {
+  async getMyModerations(req, res, next) {
     try {
       const accountId = req.userInfo.id;
       const answers = await challengeModeratorsService.getMyModerations(accountId);
@@ -59,7 +58,7 @@ export class AccountController extends BaseController {
     catch (error) { next(error); }
   }
 
-  async getMyChallengeModerations(req, res, next) {
+  async getMyChallengeModerators(req, res, next) {
     try {
       const userId = req.userInfo.id;
       const moderations = await challengeModeratorsService.getModerationsByChallengeCreatorId(userId);
@@ -68,15 +67,6 @@ export class AccountController extends BaseController {
     catch (error) { next(error); }
   }
 
-  async updateAccount(req, res, next) {
-    try {
-      const accountData = req.body;
-      const accountInfo = req.userInfo;
-      const account = await accountService.updateAccount(accountInfo, accountData);
-      return res.send(account)
-    }
-    catch (error) { next(error); }
-  }
 
   async claimMyMilestone(req, res, next) {
     try {

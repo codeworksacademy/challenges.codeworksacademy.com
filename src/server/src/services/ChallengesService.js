@@ -59,7 +59,7 @@ class ChallengesService {
 
   async createChallenge(newChallenge) {
     const challenge = await dbContext.Challenges.create(newChallenge);
-    await challengeModeratorsService.createModeration({
+    await challengeModeratorsService.addModerator({
       challengeId: challenge.id,
       accountId: challenge.creatorId,
       status: 'active',

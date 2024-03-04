@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <section class="row align-items-center py-3 mt-3 border-underline dark-blue-bg rounded-top">
       <div class="col-12 d-flex align-items-center flex-wrap">
-        <div class="dropdown me-3">
+        <div class="dropdown my-1 me-3">
           <button class="btn aqua-btn-outline dropdown-toggle" type="button" data-bs-toggle="dropdown"
             aria-expanded="false">
             Filter Moderations
@@ -13,7 +13,16 @@
                 Moderators</button></li>
           </ul>
         </div>
-        <p class="mb-0 ms-auto text-white">
+        <p class="mb-0 ms-auto text-white d-none d-md-block">
+          <em>
+            {{
+              moderationTypes == 'My Moderations'
+              ? 'Challenges you moderate for other people'
+              : 'Moderators for your challenges'
+            }}
+          </em>
+        </p>
+        <p class="my-1 mb-0 ms-auto text-white">
           {{ moderationTypes || 'MY MODERATIONS' }}:
           <span class="highlight-text fw-semibold me-md-2">{{ moderations?.length }}</span>
         </p>
@@ -37,15 +46,19 @@
         </p>
       </div>
       <div class="col-3 text-center">
-        <p title="remove or approve" class="text-truncate">
-          REMOVE / ACCEPT
+        <p title="remove moderator role" class="text-truncate">
+          {{ moderationTypes == 'My Moderations' ? 'UNMOD SELF' : 'REMOVE MOD' }}
         </p>
       </div>
     </section>
-    <section class="row">
+    <section class="row" v-if="moderations?.length > 0">
       <div class="col-12 p-0" v-for="moderation in moderations">
         <ModerationCard :moderationProp="moderation" :moderationTypes="moderationTypes" />
       </div>
+    </section>
+    <section class="row" v-else>
+      <div class="col-12 d-none d-md-block py-5 px-3">None found</div>
+      <div class="col-12 d-block d-md-none p-5 text-center">None found</div>
     </section>
   </div>
 </template>
@@ -87,7 +100,7 @@ export default {
           return AppState.AccountState?.moderation?.filter(m => m.challenge.creatorId != AppState.AccountState.account.id);
         }
         else if (moderationTypes.value == 'Challenge Moderators') {
-          return AppState.AccountState.challengeModeration.filter((m) => m.accountId != AppState.AccountState.account.id);
+          return AppState.AccountState.challengeModerations.filter((m) => m.accountId != AppState.AccountState.account.id);
         }
       }),
     }

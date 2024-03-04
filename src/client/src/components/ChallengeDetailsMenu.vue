@@ -66,7 +66,6 @@ import { computed } from 'vue'
 import { AppState } from '../AppState.js'
 import { participantsService } from '../services/ParticipantsService.js'
 import { SUBMISSION_TYPES } from '../constants'
-import PermissionsFlag from './PermissionsFlag.vue'
 import DevFlag from './DevFlag.vue'
 
 export default {
@@ -101,7 +100,7 @@ export default {
       }),
     };
   },
-  components: { DevFlag, PermissionsFlag }
+  components: { DevFlag }
 }
 </script>
 
