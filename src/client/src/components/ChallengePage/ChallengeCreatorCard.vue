@@ -1,6 +1,7 @@
 <template>
   <section class="creator-details-card rounded text-capitalize p-2 rounded-3"
-    :style="{ backgroundColor: bgColor, borderColor: color, backgroundImage: `url(${profile.coverImg})`, backgroundPosition: 'center', backgroundSize: 'cover' }">
+    :style="{ backgroundColor: bgColor, borderColor: color, backgroundImage: `url(${profile?.coverImg})`, backgroundPosition: 'center', backgroundSize: 'cover' }"
+    v-if="profile">
     <div class="p-2">
       <div class="d-flex align-items-center">
         <router-link :to="{ name: 'Profile.overview', params: { profileId: profile.id } }">

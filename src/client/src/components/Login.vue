@@ -55,6 +55,7 @@ import ProfileTitle from "./ProfileTitle.vue"
 
 export default {
   setup() {
+
     return {
       user: computed(() => AppState.user),
       account: computed(() => AppState.AccountState.account),

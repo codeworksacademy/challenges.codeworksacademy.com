@@ -1,7 +1,8 @@
 {
   "include": [
-    "./src/**/*"
-, "src/env.js"  ],
+    "./src/**/*",
+    "src/env.js"
+  ],
   "compilerOptions": {
     "jsx": "preserve",
     "allowJs": true,

@@ -93,6 +93,7 @@ import Markdown from "../components/EditChallenge/Markdown.vue"
 
 export default {
   setup() {
+    
 
     const route = useRoute();
 
