@@ -7,10 +7,11 @@
           <ChallengeStatCard :challenge="challenge" color="#22ff33" bgColor="#22ff330f" icon="mdi-account-multiple-plus"
             @click="joinChallenge()" class="selectable mb-2" prop="Join Challenge" />
         </div>
-        <div v-if="isParticipant?.status === 'started' || isParticipant?.status === 'returned for review'">
-          <ChallengeStatCard :challenge="challenge" title="Submit Challenge" data-bs-toggle="modal"
-            data-bs-target="#challengeSubmissionForm" data-bs-dismiss="modal" class="selectable mb-2" bgColor="#1da3e60f"
-            color="#1da3e6" icon="mdi-send" prop="Submit Challenge">
+        <div v-if="isParticipant?.status === 'started' || isParticipant?.status === 'returned for review'"
+          :title="isParticipant?.feedback ? 'Feedback: ' + isParticipant?.feedback : 'Submit Challenge'">
+          <ChallengeStatCard :challenge="challenge" data-bs-toggle="modal" data-bs-target="#challengeSubmissionForm"
+            data-bs-dismiss="modal" class="selectable mb-2" bgColor="#1da3e60f" color="#1da3e6" icon="mdi-send"
+            prop="Submit Challenge">
             <span v-if="isParticipant?.status === 'returned for review'" class="text-uppercase text-warning mt-2">
               Returned for Review
             </span>

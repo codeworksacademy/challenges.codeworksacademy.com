@@ -85,4 +85,12 @@ main {
 .swal2-container {
   z-index: 9001; // default of 1060
 }
+
+.border-underline {
+  border-bottom: 1px solid #2F3E57;
+}
+
+.background-highlight:hover {
+  background-color: #1A2332;
+}
 </style>

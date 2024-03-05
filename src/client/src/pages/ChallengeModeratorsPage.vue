@@ -7,25 +7,13 @@
         </div>
       </div>
       <div class="col-12">
-        <section v-if="activeModerators" class="row justify-content-evenly">
-          <div class="col-12 col-lg-5 flex-column text-light">
-            <h5 class="text-center my-4" style="white-space: nowrap;">Active Challenge Moderators</h5>
-            <div v-for="moderator in activeModerators" :key="moderator.id">
-              <ChallengeModeratorCard :moderator="moderator" />
-            </div>
+        <section v-if="codeworksModerators || activeModerators" class="row justify-content-evenly">
+          <div class="col-12 col-lg-5 text-light" v-for="moderator in codeworksModerators" :key="moderator.id">
+            <ChallengeModeratorCard :moderator="moderator" />
           </div>
-          <div class="col-0 col-lg-1 d-flex justify-content-center">
-            <div class="vertical-line"></div>
+          <div class="col-12 col-lg-5 text-light" v-for="moderator in activeModerators" :key="moderator.id">
+            <ChallengeModeratorCard :moderator="moderator" />
           </div>
-          <div class="col-12 col-lg-5 flex-column">
-            <h5 class="text-light text-center my-4">Awaiting Confirmation</h5>
-            <div v-for="moderator in pendingModerators" :key="moderator.id">
-              <ChallengeModeratorCard :moderator="moderator" />
-            </div>
-          </div>
-        </section>
-        <section v-else>
-          No Moderators
         </section>
       </div>
     </section>
@@ -60,14 +48,14 @@ export default {
     onMounted(() => { modCheck(); })
 
     return {
+      codeworksModerators: computed(() =>
+        AppState.ChallengeState.moderators
+          .filter(m => m.status == 'CodeWorks')
+      ),
       activeModerators: computed(() =>
         AppState.ChallengeState.moderators
-          .filter(m => m.status == 'active' || m.status == 'CodeWorks')
+          .filter(m => m.status != 'CodeWorks')
       ),
-      pendingModerators: computed(() =>
-        AppState.ChallengeState.moderators
-          .filter(m => m.status == 'pending')
-      )
     };
   },
   components: { ModSearchForm, ChallengeModeratorCard }

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-dark text-white">
+  <div class="bg-dark text-white p-3 p-md-5">
     {{ error?.message || 'something went wrong' }}
 
     <details>
@@ -15,9 +15,7 @@
 
 <script>
 import { computed } from 'vue';
-import { useRoute } from 'vue-router';
 import { AppState } from '../AppState.js';
-
 
 
 export default {

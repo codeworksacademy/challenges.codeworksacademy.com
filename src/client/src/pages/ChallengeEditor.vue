@@ -24,7 +24,7 @@
             <EditChallengeBadge :challenge="challenge" />
             <hr>
           </div>
-          <div class="text-center my-3" v-if="challenge.creatorId == accountId">
+          <div class="text-center my-3" v-if="isModerator">
             <button class="btn btn-success" @click="updateChallenge">
               <span>{{ challenge.status.toLowerCase() == 'draft' ? 'Save Challenge' : 'Update Challenge' }}</span>
             </button>
@@ -38,7 +38,7 @@
 <script>
 import Pop from "../utils/Pop.js"
 import { useRouter } from "vue-router"
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { AppState } from '../AppState.js'
 import { challengesService } from '../services/ChallengesService.js'
 import EditChallengeDetails from '../components/EditChallenge/EditChallengeDetails.vue'
@@ -57,6 +57,7 @@ export default {
   setup() {
 
     const router = useRouter();
+    const isModerator = ref(false);
     function modCheck() {
       if (!AppState.AccountState.account.id) {
         logger.log('[MODCHECK] loop trigger, no ID:', AppState.AccountState.account.id);
@@ -66,8 +67,7 @@ export default {
       logger.log('[MODCHECK] loop bypass trigger', AppState.AccountState.account.id);
       const authorizedUser = AppState.ChallengeState.challenge.creatorId == AppState.AccountState.account.id
         || !!AppState.ChallengeState.moderators.find(m => m.accountId == AppState.AccountState.account.id);
-      // logger.log('[MODCHECK] ', AppState.ChallengeState.challenge.creatorId == AppState.AccountState.account.id);
-      // logger.log('[MODCHECK] ', !!AppState.ChallengeState.moderators.find(m => m.accountId == AppState.AccountState.account.id));
+      isModerator.value = authorizedUser;
       if (!authorizedUser) {
         Pop.error('[UNAUTHORIZED ACCESS] Challenge Submission Page');
         router.push({ name: 'Error' });
@@ -98,6 +98,7 @@ export default {
     }
 
     return {
+      isModerator,
       updateChallenge,
       accountId: computed(() => AppState.AccountState.account.id),
       challenge: computed(() => AppState.ChallengeState.challenge)

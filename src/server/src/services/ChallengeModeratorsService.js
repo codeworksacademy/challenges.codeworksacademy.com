@@ -5,7 +5,17 @@ import { challengesService } from "./ChallengesService.js"
 
 class ChallengeModeratorsService {
 
-  async createModeration(moderatorData) {
+  async getMyModerationsByProfileId(profileId) {
+    const moderators = await dbContext.ChallengeModerators.find({ accountId: profileId, status: 'active' }).populate({
+      path: 'challenge',
+      populate: { path: 'creator participantCount' }
+    })
+    return moderators
+  }
+
+  // 🔽 REQUIRES AUTHENTICATION 🔽
+
+  async addModerator(moderatorData) {
     const { challengeId, accountId } = moderatorData;
 
     const existingModeration = await dbContext.ChallengeModerators.findOne({ challengeId, accountId });
@@ -26,36 +36,6 @@ class ChallengeModeratorsService {
     return moderator;
   }
 
-  async getMyModerations(accountId) {
-    const moderators = await dbContext.ChallengeModerators.find({ $and: [{ $or: [{ status: 'active' }, { status: 'pending' }] }, { accountId: accountId }] }).populate({
-      path: 'challenge',
-      populate: { path: 'creator participantCount name description' }
-    }).populate({ path: 'profile', populate: { path: 'name picture' } })
-    return moderators;
-  }
-
-  async getModeratorsByChallengeId(challengeId) {
-    const moderators = await dbContext.ChallengeModerators.find({ $and: [{ $or: [{ status: 'active' }, { status: 'pending' }] }, { challengeId: challengeId }] }).populate('profile', PROFILE_FIELDS)
-    return moderators;
-  }
-  async getModeratorByUserIdAndChallengeId(userId, challengeId) {
-    const mods = await this.getModeratorsByChallengeId(challengeId)
-    // @ts-ignore
-    const isMod = mods.find(m => m.accountId == userId)
-    if (!isMod) {
-      throw new Forbidden('This user is not a moderator for this challenge')
-    }
-    return isMod
-  }
-
-  async getMyModerationsByProfileId(profileId) {
-    const moderators = await dbContext.ChallengeModerators.find({ accountId: profileId, status: 'active' }).populate({
-      path: 'challenge',
-      populate: { path: 'creator participantCount' }
-    })
-    return moderators
-  }
-
   async getModerationsByChallengeCreatorId(userId) {
     const challenges = await dbContext.Challenges.find({ creatorId: userId });
     const moderators = await dbContext.ChallengeModerators.find({ challengeId: { $in: challenges } })
@@ -67,36 +47,28 @@ class ChallengeModeratorsService {
     return moderators;
   }
 
-  async getModerationById(moderationId) {
-    const moderation = await dbContext.ChallengeModerators.findById(moderationId)
-    if (!moderation) {
-      throw new BadRequest("Invalid Moderation ID.")
-    }
-    return moderation
-  }
+  // async ApproveModeration(moderatorId, userId) {
+  //   const moderation = await this.getModerationById(moderatorId);
+  //   const challenge = await challengesService.getChallengeById(moderation.challengeId);
 
-  async ApproveModeration(moderatorId, userId) {
-    const moderation = await this.getModerationById(moderatorId);
-    const challenge = await challengesService.getChallengeById(moderation.challengeId);
+  //   if (moderation.originId == challenge.creatorId) {
+  //     if (moderation.accountId != userId) {
+  //       throw new Forbidden(
+  //         `[PERMISSIONS ERROR]: Only the user can approve it.`
+  //       )
+  //     }
+  //   } else if (moderation.originId == moderation.accountId) {
+  //     if (challenge.creatorId != userId) {
+  //       throw new Forbidden(
+  //         `[PERMISSIONS ERROR]: Only the owner of ${challenge.name} can approve it.`
+  //       )
+  //     }
+  //   }
 
-    if (moderation.originId == challenge.creatorId) {
-      if (moderation.accountId != userId) {
-        throw new Forbidden(
-          `[PERMISSIONS ERROR]: Only the user can approve it.`
-        )
-      }
-    } else if (moderation.originId == moderation.accountId) {
-      if (challenge.creatorId != userId) {
-        throw new Forbidden(
-          `[PERMISSIONS ERROR]: Only the owner of ${challenge.name} can approve it.`
-        )
-      }
-    }
-
-    moderation.status = 'active';
-    await moderation.save();
-    return moderation;
-  }
+  //   moderation.status = 'active';
+  //   await moderation.save();
+  //   return moderation;
+  // }
 
   async removeModerator(moderatorId, userId) {
     const moderatorToRemove = await dbContext.ChallengeModerators.findById(moderatorId);
@@ -110,10 +82,44 @@ class ChallengeModeratorsService {
       throw new Forbidden("[PERMISSIONS ERROR]: Your are not the challenge creator. You may not remove other moderators.");
     }
 
-    moderatorToRemove.status = 'terminated';
-    await moderatorToRemove.save();
-    return moderatorToRemove;
+    // moderatorToRemove.status = 'terminated';
+    // await moderatorToRemove.save();
+    const result = await moderatorToRemove.deleteOne();
+    return 'Moderation removed - ' + JSON.stringify(result);
   }
+
+
+  async getMyModerations(accountId) {
+    const moderators = await dbContext.ChallengeModerators.find({ $and: [{ $or: [{ status: 'active' }, { status: 'pending' }] }, { accountId: accountId }] }).populate({
+      path: 'challenge',
+      populate: { path: 'creator participantCount name description' }
+    }).populate({ path: 'profile', populate: { path: 'name picture' } })
+    return moderators;
+  }
+
+  async getModeratorsByChallengeId(challengeId) {
+    const moderators = await dbContext.ChallengeModerators.find({ $and: [{ $or: [{ status: 'active' }, { status: 'pending' }] }, { challengeId: challengeId }] }).populate('profile', PROFILE_FIELDS)
+    return moderators;
+  }
+
+  async getModeratorByUserIdAndChallengeId(userId, challengeId) {
+    const mods = await this.getModeratorsByChallengeId(challengeId)
+    // @ts-ignore
+    const isMod = mods.find(m => m.accountId == userId)
+    if (!isMod) {
+      throw new Forbidden('This user is not a moderator for this challenge')
+    }
+    return isMod
+  }
+
+  async getModerationById(moderationId) {
+    const moderation = await dbContext.ChallengeModerators.findById(moderationId)
+    if (!moderation) {
+      throw new BadRequest("Invalid Moderation ID.")
+    }
+    return moderation
+  }
+
 }
 
 export const challengeModeratorsService = new ChallengeModeratorsService();
