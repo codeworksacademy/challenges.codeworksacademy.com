@@ -23,7 +23,7 @@ Welcome to [NAME], the platform designed to empower your career through software
    - **Personal Portfolio Builder:** Use [NAME] to build and showcase your personalized portfolio, highlighting completed projects and achievements.
    - **Project Showcase:** Feature your projects in a dedicated space to demonstrate your skills and creativity to potential employers.
 
-## Wan't to help us build it?
+## Want to help us build it?
 
 This platform is just starting out! We are happy to accept ideas, pull requests, bug reports, or feature enhancements. Let us know what's wanted and then better yet become a contributor by making it a reality. Be sure to checkout our contribution guidelines
 
