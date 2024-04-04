@@ -1,8 +1,8 @@
+import { PROFILE_FIELDS, STATUS_TYPES } from '../constants'
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
-import { challengesService } from "./ChallengesService.js"
-import { PROFILE_FIELDS, STATUS_TYPES } from '../constants'
 import { accountService } from "./AccountService.js"
+import { challengesService } from "./ChallengesService.js"
 
 const EXPERIENCE_SCALE = {
 	1: 10,

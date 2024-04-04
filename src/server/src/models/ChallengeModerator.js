@@ -3,8 +3,8 @@ const ObjectId = Schema.Types.ObjectId
 
 export const ChallengeModeratorSchema = new Schema({
   challengeId: { type: ObjectId, required: true, ref: 'Challenge' },
-  accountId: { type: ObjectId, required: true, ref: 'Profile' },
-  originId: { type: ObjectId, ref: 'Profile' },
+  accountId: { type: ObjectId, required: true, ref: 'Account' },
+  originId: { type: ObjectId, ref: 'Account' },
   status: {
     type: String,
     // Inactive - an account that has not participated in moderating in a long time
@@ -29,7 +29,7 @@ ChallengeModeratorSchema.index({
 ChallengeModeratorSchema.virtual('profile', {
   localField: 'accountId',
   foreignField: '_id',
-  ref: 'Profile',
+  ref: 'Account',
   justOne: true
 })
 

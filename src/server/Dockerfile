@@ -5,7 +5,7 @@ FROM node:20-slim AS client-builder
 WORKDIR /app/client
 
 # Copy the client-side package.json and package-lock.json to the client builder container
-COPY client/package*.json ./
+COPY src/client/package*.json ./
 
 # Install client application dependencies
 RUN npm install
@@ -23,7 +23,7 @@ FROM node:20-slim
 WORKDIR /app/server
 
 # Copy the server-side package.json and package-lock.json to the server container
-COPY server/package*.json ./
+COPY src/server/package*.json ./
 
 # Install server application dependencies
 RUN npm install
@@ -35,7 +35,7 @@ COPY server ./
 COPY --from=client-builder /app/client/docs /app/server/www
 
 # Expose the port your application runs on (e.g., 3000)
-EXPOSE 3000
+EXPOSE 3505
 
 # Define the command to start your Node.js application
 CMD [ "node", "index.js" ]

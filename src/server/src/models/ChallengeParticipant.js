@@ -11,7 +11,7 @@ const requirementSchema = new Schema({
 
 export const ChallengeParticipantSchema = new Schema({
   challengeId: { type: ObjectId, required: true, ref: 'Challenge' },
-  accountId: { type: ObjectId, required: true, ref: 'Profile' },
+  accountId: { type: ObjectId, required: true, ref: 'Account' },
   submission: { type: String, maxLength: 500, default: '' },
   requirements: [requirementSchema],
   status: {
@@ -31,7 +31,7 @@ export const ChallengeParticipantSchema = new Schema({
 ChallengeParticipantSchema.virtual('profile', {
   localField: 'accountId',
   foreignField: '_id',
-  ref: 'Profile',
+  ref: 'Account',
   justOne: true
 })
 

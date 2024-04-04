@@ -1,9 +1,9 @@
 version: '3'
 services:
   app:
-    image: your-dockerhub-username/challenges:latest
+    image: codeworkscontainers/challenges:latest
     restart: unless-stopped
     env_file:
       - challenges-env
     ports:
-      - "3030:3000"
+      - "3505:3505"

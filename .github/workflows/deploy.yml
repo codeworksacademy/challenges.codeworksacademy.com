@@ -31,7 +31,7 @@ jobs:
           
       - name: Send Docker Compose 🐋
         run: |
-          scp -i ~/.ssh/id_rsa.pem -o StrictHostKeyChecking=no -r server/docker-compose.yml $EC2_USERNAME@$EC2_IP_ADDRESS:~/$REPO_NAME-compose
+          scp -i ~/.ssh/id_rsa.pem -o StrictHostKeyChecking=no -r src/server/docker-compose.yml $EC2_USERNAME@$EC2_IP_ADDRESS:~/$REPO_NAME-compose
 
       - name: Docker pull -> up 🐳
         run: |
