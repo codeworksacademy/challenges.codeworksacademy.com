@@ -11,7 +11,7 @@ COPY src/client/package*.json ./
 RUN npm install
 
 # Copy the client application source code to the client builder container
-COPY client ./
+COPY src/client ./
 
 # Build the client-side code
 RUN npm run build
@@ -29,7 +29,7 @@ COPY src/server/package*.json ./
 RUN npm install
 
 # Copy the server application source code to the server container
-COPY server ./
+COPY src/server ./
 
 # Copy the built client files from the client builder container to the server's www directory
 COPY --from=client-builder /app/client/docs /app/server/www
