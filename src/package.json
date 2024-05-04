@@ -1,13 +1,11 @@
-
-  {
-    "name": "codeworks_challenges",
-    "version": "1.0.0",
-    "scripts": {
-      "build": "npm run setup:server",
-      "setup:app": "npm run setup:server && npm run setup:client",
-      "setup:client": "cd CodeWorks_Challenges.client && npm i",
-      "setup:server": "cd CodeWorks_Challenges && npm i",
-      "start": "node CodeWorks_Challenges/index.js"
-    }
+{
+  "name": "codeworks_challenges",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "npm run setup:server",
+    "setup:app": "npm run setup:server && npm run setup:client",
+    "setup:client": "cd client && npm i",
+    "setup:server": "cd server && npm i",
+    "start": "node server/index.js"
   }
-  
+}

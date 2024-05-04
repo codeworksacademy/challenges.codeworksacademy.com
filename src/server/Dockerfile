@@ -1,6 +1,12 @@
 # Use an official Node.js runtime as the base image for the client build
 FROM node:20-slim AS client-builder
 
+# Set the working directory in the client builder container for the shared data
+WORKDIR /app/shared
+
+# Copy the shared application source code to the client builder container 
+COPY src/shared ./
+
 # Set the working directory in the client builder container
 WORKDIR /app/client
 
@@ -10,7 +16,7 @@ COPY src/client/package*.json ./
 # Install client application dependencies
 RUN npm install
 
-# Copy the client application source code to the client builder container
+# Copy the client application data to the client builder container
 COPY src/client ./
 
 # Build the client-side code
@@ -18,6 +24,12 @@ RUN npm run build
 
 # Use a smaller base image for the final server image
 FROM node:20-slim
+
+# Set the working directory in the server container for the shared data
+WORKDIR /app/shared
+
+# Copy the shared application data to the server container 
+COPY src/shared ./
 
 # Set the working directory in the server container
 WORKDIR /app/server
