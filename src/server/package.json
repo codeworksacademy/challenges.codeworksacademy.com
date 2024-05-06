@@ -24,7 +24,7 @@
     "socket.io": "4.6.1"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.21.8",
+    "@babel/eslint-parser": "7.24.5",
     "eslint": "8.41.0",
     "eslint-config-standard": "17.0.0",
     "eslint-plugin-import": "2.27.5",
