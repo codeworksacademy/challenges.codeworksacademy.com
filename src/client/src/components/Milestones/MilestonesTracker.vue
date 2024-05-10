@@ -1,8 +1,7 @@
 <template>
   <div class="container-fluid">
     <section v-if="milestones?.length > 0" class="row">
-      <div class="col-12 fs-3">My Milestones</div>
-      <div v-for="milestone in milestones" :key="milestone.id" class="col-12">
+      <div v-for="milestone in milestones" :key="milestone?.id" class="col-12 col-lg-6 px-1 px-lg-4 py-2 py-lg-3">
         <MilestoneCard :milestone="milestone" />
       </div>
     </section>
@@ -23,6 +22,7 @@ import { useRoute } from 'vue-router';
 import { ref, watchEffect } from 'vue';
 import { AppState } from '../../AppState.js';
 import { accountMilestonesService } from '../../services/AccountMilestonesService.js';
+import { profilesService } from "../../services/ProfilesService.js";
 import MilestoneCard from './MilestoneCard.vue';
 
 export default {
@@ -36,15 +36,19 @@ export default {
     // The 'get' that was a layer up in AccountMilestones.vue wasn't following order of operations and would never allow a new profile to generate milestones.
     async function getMilestones() {
       try {
-        if (route.name == 'Milestones' || ( route.name.includes('Profile') && route.params.profileId == AppState.AccountState.account.id) ) {
-          await accountMilestonesService.getMyMilestones();
-          milestones.value = [...AppState.AccountState.milestones];
+        if (route.name == 'Milestones') {
+          if (AppState.ProfileState.profile?.id != AppState.AccountState.account.id || !AppState.ProfileState.milestones) {
+            await profilesService.getMilestones(AppState.AccountState.account.id);
+            // await accountMilestonesService.getMyMilestones();
+          }
         } else {
-          await accountMilestonesService.getAccountMilestonesByUserId(route.params.profileId);
-          milestones.value = [...AppState.ProfileState.milestones];
+          if (!AppState.ProfileState.milestones) {
+            await accountMilestonesService.getAccountMilestonesByUserId(route.params.profileId);
+          }
         }
+        milestones.value = AppState.ProfileState.milestones;
       }
-      catch (error) { Pop.error('[MILESTONES TRACKER] getMyMilestones:: ' + error); }
+      catch (error) { Pop.error('[MILESTONES TRACKER] getMilestones:: ' + error); }
     };
 
     watchEffect(() => {

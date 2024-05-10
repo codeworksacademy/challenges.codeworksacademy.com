@@ -191,11 +191,11 @@
 
 
 <script>
-import Pop from '../utils/Pop';
-import { AppState } from '../AppState';
-import { logger } from '../utils/Logger';
+import Pop from '../utils/Pop.js';
+import { AppState } from '../AppState.js';
+import { logger } from '../utils/Logger.js';
 import { computed, onMounted, ref } from 'vue';
-import { milestonesService } from '../services/MilestonesService'
+import { milestonesService } from '../services/MilestonesService.js'
 import MilestonesTracker from '../components/Milestones/MilestonesTracker.vue';
 import DevFlag from "../components/DevFlag.vue";
 

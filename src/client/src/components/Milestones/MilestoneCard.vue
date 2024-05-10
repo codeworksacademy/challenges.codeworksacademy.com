@@ -1,12 +1,13 @@
 <template>
   <section @click="claimMilestone(milestone)" v-if="milestone?.claimed == false"
-    class="row achievement-card d-flex justify-content-center align-items-center mt-3 selectable"
+    class="row achievement-card d-flex justify-content-center align-items-center selectable"
     :style="{ border: '3px', borderColor: tierAttributes.color1, borderStyle: 'solid' }">
     <div class="flex-grow-1 text-center m-auto fs-1">NEW</div>
   </section>
 
-  <section v-else class="row achievement-card bg-dark mt-3"
+  <section v-else class="row achievement-card bg-dark"
     :style="{ border: '3px', borderColor: tierAttributes.color1, borderStyle: 'solid' }">
+    
     <div class="col-12 col-lg-3">
       <div class="badge-wrapper d-flex flex-row">
         <div class="alt-badge badge"
@@ -25,7 +26,7 @@
       </section>
 
       <section class="mb-3 mx-2">{{ milestoneDescription }} </section>
-
+      
       <section class=" mx-2 mb-3">
         <div class="progress rounded-0 bg-dark" role="progressbar" aria-label="Example with label" aria-valuenow="25"
           aria-valuemin="0" aria-valuemax="100" :title="tierProgress">
@@ -35,13 +36,13 @@
       </section>
 
       <section class="row justify-content-around mx-1 my-2">
-        <div v-for="(level, index) in milestoneCondition.maxTierLevel" :key="index" class="tier-block col-1 bg-dark px-0">
+        <div v-for="(level, index) in milestoneCondition?.maxTierLevel" :key="index" class="tier-block col-1 bg-dark px-0">
           <div v-if="level <= milestone.tier" class="tier-block text-center text-light"
             :style="{ backgroundColor: tierAttributes.color1 }" :title="level"></div>
         </div>
       </section>
-
     </div>
+
   </section>
 </template>
 
@@ -62,85 +63,80 @@ export default {
   },
   setup(props) {
 
-    const route = useRoute()
+    const route = useRoute();
 
     const milestoneCondition = computed(() => {
       let condition = {};
-      const logicStr = props.milestone.milestone.logic
-      const logicParts = logicStr.split('%')
-      const operationsArr = logicParts[0].split('-')
+      const logicStr = props.milestone.milestone.logic;
+      const logicParts = logicStr.split('%');
+      const operationsArr = logicParts[0].split('-');
 
-      condition.tierThresholdArr = logicParts[1].split('-')
-      condition.maxTierLevel = Number(operationsArr[0])
-      condition.operation = operationsArr[1]
+      condition.tierThresholdArr = logicParts[1].split('-');
+      condition.maxTierLevel = Number(operationsArr[0]);
+      condition.operation = operationsArr[1];
 
-      condition.nextTier = props.milestone.tier + 1
-      condition.nextTierThreshold = Number(condition.tierThresholdArr[props.milestone.tier])
-      condition.toNextLevel = condition.tierThresholdArr[props.milestone.tier] - props.milestone.count
+      condition.nextTier = props.milestone.tier + 1;
+      condition.nextTierThreshold = Number(condition.tierThresholdArr[props.milestone.tier]);
+      condition.toNextLevel = condition.tierThresholdArr[props.milestone.tier] - props.milestone.count;
 
-      return condition
+      return condition;
     })
 
     const tierAttributes = computed(() => {
-      let attributes = {}
-      const badge = MILESTONE_TIER[props.milestone.tier]
-      attributes.adjective = badge.ADJECTIVE
-      attributes.tierCurrent = badge.TIER_CURRENT
-      attributes.tierNext = badge.TIER_NEXT
+      let attributes = {};
+      const badge = MILESTONE_TIER[props.milestone.tier];
+      attributes.adjective = badge.ADJECTIVE;
+      attributes.tierCurrent = badge.TIER_CURRENT;
+      attributes.tierNext = badge.TIER_NEXT;
 
       if (props.milestone.tier == 0) {
-        attributes.color1 = badge.COLOR_1[0]
-        attributes.color2 = badge.COLOR_2[0]
+        attributes.color1 = badge.COLOR_1[0];
+        attributes.color2 = badge.COLOR_2[0];
       } else {
-        attributes.color1 = badge.COLOR_1[props.milestone.tier - 1]
-        attributes.color2 = badge.COLOR_2[props.milestone.tier - 1]
+        attributes.color1 = badge.COLOR_1[props.milestone.tier - 1];
+        attributes.color2 = badge.COLOR_2[props.milestone.tier - 1];
       }
-      return attributes
+      return attributes;
     })
     return {
-      badgeGradient1: computed(() => {
-        const badge = tierAttributes.value.color1
-        return badge
-      }),
-      badgeGradient2: computed(() => {
-        const badge = tierAttributes.value.color2
-        return badge
-      }),
       milestoneCondition,
       tierAttributes,
 
+      badgeGradient1: computed(() => { tierAttributes.value.color1 }),
+      badgeGradient2: computed(() => { tierAttributes.value.color2 }),
+
       tierProgress: computed(() => {
-        let currentCount = props.milestone.count
-        let nextTierThreshold = milestoneCondition.value.nextTierThreshold
-        let tp = (currentCount / nextTierThreshold) * 100 + '%'
-        return tp
+        let currentCount = props.milestone.count;
+        let nextTierThreshold = milestoneCondition.value.nextTierThreshold;
+        let tp = (currentCount / nextTierThreshold) * 100 + '%';
+        return tp;
       }),
 
       milestoneExp: computed(() => {
-        let experience = 0
-        let tier = props.milestone.tier
+        let experience = 0;
+        let tier = props.milestone.tier;
         while (tier != 0) {
-          experience += tier * 5
-          tier--
+          experience += tier * 5;
+          tier--;
         }
-        return experience
+        return experience;
       }),
 
       milestoneTitle: computed(() => {
-        const milestone = tierAttributes.value.adjective + ' ' + props.milestone.milestone.title
-        return milestone
+        const milestone = tierAttributes.value.adjective + ' ' + props.milestone.milestone.title;
+        return milestone;
       }),
 
       milestoneDescription: computed(() => {
-        const milestoneDescription = props.milestone.milestone.description
-        const milestoneCount = props.milestone.count
-        let newDescription = milestoneDescription.replace(/X/g, milestoneCount)
+        const description = props.milestone.milestone.description;
+        const milestoneCount = props.milestone.count;
+        let newDescription = description.replace(/X/g, milestoneCount);
         if (!route.name.includes('Account') && !route.name.includes('Milestones')) {
-          newDescription = newDescription.replace(/You have/g, AppState.activeProfile.name + ' has')
-          newDescription = newDescription.replace(/You've/g, AppState.activeProfile.name + ' has')
-          newDescription = newDescription.replace(/your/g, AppState.activeProfile.name + "'s")
+          newDescription = newDescription.replace(/You have/g, AppState.ProfileState.profile.name + ' has');
+          newDescription = newDescription.replace(/You've/g, AppState.ProfileState.profile.name + ' has');
+          newDescription = newDescription.replace(/your/g, AppState.ProfileState.profile.name + "'s");
         }
-        return newDescription
+        return newDescription;
       }),
 
       async claimMilestone(accountMilestone) {

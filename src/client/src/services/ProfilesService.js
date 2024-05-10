@@ -30,8 +30,8 @@ class ProfilesService {
     AppState.ProfileState.participation = res.data.map(m => new ChallengeParticipant(m));
   }
   async getMilestones(profileId) {
-    const res = await api.get(`api/profiles/${profileId}/milestones`)
-    AppState.ProfileState.milestones = res.data.map(m => new AccountMilestone(m))
+    const res = await api.get(`api/profiles/${profileId}/milestones`);
+    AppState.ProfileState.milestones = res.data.map(m => new AccountMilestone(m));
   }
 
   async calculateProfileRank(profileId) {
