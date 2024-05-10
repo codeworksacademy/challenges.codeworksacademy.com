@@ -32,8 +32,8 @@ class ProfilesService {
 
   async calculateProfileRank(accountId) {
     const profile = await this.getProfileById(accountId);
-    const totalMilestoneExperience = await accountMilestonesService.getTotalMilestoneExperience(profile);
-    const totalExperience = profile.xp + totalMilestoneExperience;
+    const totalMilestoneXP = await accountMilestonesService.calcAccountMilestoneXP(profile);
+    const totalExperience = profile.xp + totalMilestoneXP;
     const rank = totalExperience;
 
     await accountService.updateAccount(accountId, { rank });

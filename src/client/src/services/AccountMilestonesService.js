@@ -13,9 +13,9 @@ class AccountMilestonesService {
     }
   }
 
-  async claimMilestone(accountMilestone) {
-    const res = await api.put(`api/accountMilestones/claimMilestone/${accountMilestone.id}`);
-    const milestone = AppState.AccountState.milestones?.find(m => m.id == accountMilestone.id);
+  async claimMilestone(accountMilestoneId) {
+    const res = await api.put(`api/accountMilestones/claimMilestone/${accountMilestoneId}`);
+    const milestone = AppState.AccountState.milestones?.find(m => m.id == accountMilestoneId);
     milestone.claimed = true;
     logger.log('[ACCOUNT MILESTONES SERVICE] claimMilestone', milestone);
   }

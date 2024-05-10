@@ -1,5 +1,6 @@
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest } from "../utils/Errors.js";
+import { logger } from "../utils/Logger.js";
 import { challengesService } from "./ChallengesService.js";
 import mongoose from "mongoose";
 
@@ -51,9 +52,32 @@ class AccountMilestonesService {
     return myMilestone
   }
 
+  // SECTION Calculate Account Milestones
+
+  async calcAccountMilestoneXP(user) {
+    const myMilestones = await this.getAccountMilestonesByUserId(user.id);
+    if (!Array.isArray(myMilestones)) {
+      logger.log('No milestones for this account');
+      return 0;
+    }
+
+    let experience = 0;
+
+    myMilestones.forEach(am => {
+      let experienceBasedOnTier = 0;
+      let tier = am.tier;
+      while (tier != 0) {
+        experienceBasedOnTier += tier * 5;
+        tier--;
+      }
+      experience += experienceBasedOnTier;
+    });
+
+    return experience;
+  }
 
 
-  // SECTION calculate myMilestones
+
   async checkMilestonesByUserId(userId, checks) {
     const pulledChecks = await this.pullMilestoneChecks(checks)
     const checkPromises = pulledChecks.map(async pc => {
@@ -189,24 +213,6 @@ class AccountMilestonesService {
 
   // !SECTION
 
-  // async getTotalMilestoneExperience(user) {
-  //   let experience = 0
-  //   const myMilestones = await this.getMyMilestones(user.id)
-
-  //   await this.claimMyMilestone(myMilestones, user.id)
-
-  //   const myClaimedMilestones = myMilestones.filter(am => am.claimed == true)
-  //   myClaimedMilestones.forEach(am => {
-  //     let experienceBasedOnTier = 0
-  //     let tier = am.tier
-  //     while (tier != 0) {
-  //       experienceBasedOnTier += tier * 5
-  //       tier--
-  //     }
-  //     experience += experienceBasedOnTier
-  //   });
-  //   return experience
-  // }
 
   async giveGradingMilestoneByAccountId(userId) {
     const check = ["gradeModerators"]

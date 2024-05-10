@@ -182,7 +182,10 @@
 
     <DevFlag>
       <section class="row px-lg-5">
-        <MilestonesTracker />
+        <div class="col-12 text-center mt-2"><h1>My Milestones</h1></div>
+        <div class="col-12">
+          <MilestonesTracker />
+        </div>
       </section>
     </DevFlag>
 

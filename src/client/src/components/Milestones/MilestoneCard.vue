@@ -140,7 +140,7 @@ export default {
       async claimMilestone(accountMilestone) {
         try {
           accountMilestone.claimed = true;
-          await accountMilestonesService.claimMilestone(accountMilestone);
+          await accountMilestonesService.claimMilestone(accountMilestone.id);
         }
         catch (error) {
           Pop.error('[MILESTONE CARD] claimMilestone:: ' + error);

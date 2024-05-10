@@ -7,7 +7,7 @@
     </section>
     <section v-else class="row badge-card text-white">
       <div class="col-12 rounded-top text-center">
-        <div class="my-2"> <em> Milestones TBD! </em> </div>
+        <div class="my-2"> <em> No Milestones Tiggered Yet! </em> </div>
         <router-link :to="{ name: 'Challenges.browse' }" class="d-flex justify-content-center">
           <p class="btn selectable">Find and complete some challenges!</p>
         </router-link>

@@ -1,7 +1,6 @@
 import { accountMilestonesService } from "../services/AccountMilestonesService.js";
-import { profilesService } from "../services/ProfilesService.js";
-import BaseController from "../utils/BaseController.js"
 import { Auth0Provider } from "@bcwdev/auth0provider";
+import BaseController from "../utils/BaseController.js";
 
 export class AccountMilestonesController extends BaseController {
   constructor() {

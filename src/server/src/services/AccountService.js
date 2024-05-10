@@ -99,7 +99,7 @@ class AccountService {
     const account = await this.getAccount(user);
     account.xp += experience;
 
-    const totalMilestoneXp = await accountMilestonesService.getTotalMilestoneExperience(account);
+    const totalMilestoneXp = await accountMilestonesService.calcAccountMilestoneXP(account);
     let rank = account.xp + account.reputation + totalMilestoneXp;
 
     const nextIndex = RANK_TITLE.findIndex(r => r.RANK_THRESHOLD > rank);
