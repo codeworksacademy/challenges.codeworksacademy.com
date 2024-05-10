@@ -21,7 +21,7 @@
             </div>
           </section>
 
-          <div class="d-flex flex-wrap justify-content-between px-lg-5">
+          <div class="d-flex flex-wrap justify-content-around px-lg-5">
             <section class="d-flex flex-column justify-content-center">
               <div class="pt-3 fs-5 text-secondary">
                 <hr class="my-2 my-lg-3">
@@ -36,28 +36,30 @@
               </div>
             </section>
 
-            <section class="d-flex flex-column justify-content-center px-lg-5">
-              <div class="text-light my-2">
-                <div class="text-uppercase mb-3">
-                  <p class="my-2 fw-bold text-center">LOGIC BREAKDOWN:</p>
-                  <div class="d-flex justify-content-evenly flex-wrap gap-3">
-                    <span class="text-center">Maximum Tiers - {{ milestone.maxTierLevel }}</span>
-                    <span class="text-center">Operation - {{ milestone.operation }}</span>
-                  </div>
+            <section class="d-flex flex-column align-items-center px-lg-3 text-light my-2">
+              <div class="text-uppercase mb-3">
+                <p class="my-2 fw-bold text-center">LOGIC BREAKDOWN:</p>
+                <div class="d-flex justify-content-evenly flex-wrap gap-3">
+                  <span class="text-center">Maximum Tiers - {{ milestone.maxTierLevel }}</span>
+                  <span class="text-center">Operation - {{ milestone.operation }}</span>
                 </div>
-                <hr class="mt-2">
+              </div>
+              <hr class="mt-2">
+              <div class="fixed-width">
                 <p class="mb-2 fw-bold text-center">TIER LEVELS:</p>
-                <div class="d-flex justify-content-center">
-                  <div class="d-flex flex-column">
-                    <div class="text-capitalize" v-for="(n, index) in milestone.maxTierLevel" :key="index">
-                      <span class="fw-semibold pe-2 mt-0">{{ index + 1 }}:</span> requires {{ milestone.tierThresholdArr[n - 1] }} item{{ milestone.tierThresholdArr[n - 1] > 1 ? 's' : ''}}
+                <div class="d-flex flex-column gap-1 text-light px-4">
+                  <div v-for="(n, index) in milestone.maxTierLevel <= 10 ? milestone.maxTierLevel : 10" :key="index" class="d-flex justify-content-between">
+                    <div class="pe-1">Tier {{ n }}: </div>
+                    <div class="mx-3">
+                      <span class="me-1"> Requires </span>
+                      <span class="me-1">{{ milestone.tierThresholdArr[index] }}</span>
+                      <span> item{{ milestone.tierThresholdArr[index] > 1 ? 's' : '&nbsp' }}</span>
                     </div>
                   </div>
                 </div>
               </div>
             </section>
           </div>
-
         </div>
       </div>
     </section>
@@ -144,24 +146,22 @@
             <div>LOGIC STRING: </div>
             <p class="text-light text-wraps">{{ logic }}</p>
           </section>
-          <section class="d-flex flex-column px-lg-4">
+          <section class="d-flex flex-column align-items-center px-lg-4 mx-auto">
             <div>LOGIC BREAKDOWN: </div>
-            <p class="text-light d-flex flex-column">
+            <p class="text-light d-flex flex-column text-center"> 
               Maximum Tiers: {{ editable.maxTiers }} <br> 
               Operation: {{ editable.operation }} </p>
             <div>TIER LEVELS:</div>
-            <div class="d-flex flex-column me-auto gap-1 text-light">
+            <div class="d-flex flex-column gap-1 text-light">
               <div v-for="(n, index) in editable.maxTiers <= 10 ? editable.maxTiers : 10" :key="index" class="d-flex justify-content-between">
-                <div>Tier {{ index + 1 }}: </div>
-                <div class="ms-2">requires {{
-                  1 - editable[n]?.toString().length > 0 ? (editable[n] == 0 ? '&nbsp&nbsp&nbsp' + 0 + '&nbsp&nbsp&nbsp' : editable[n])
-                    : 2 - editable[n]?.toString().length > 0 ? '&nbsp&nbsp&nbsp' + editable[n] + '&nbsp&nbsp&nbsp'
-                      : 3 - editable[n]?.toString().length > 0 ? '&nbsp&nbsp' + editable[n] + '&nbsp&nbsp'
-                        : 4 - editable[n]?.toString().length > 0 ? '&nbsp' + editable[n] + '&nbsp'
-                          : editable[n] }} item{{ editable[n] > 1 ? 's' : '&nbsp' }}</div>
+                <div class="pe-1">Tier {{ n }}: </div>
+                <div class="mx-3">
+                  <span class="me-1">{{ editable[n] }}</span>
+                  <span> item{{ editable[n] > 1 ? 's' : '&nbsp' }}</span>
+                </div>
               </div>
             </div>
-        </section>
+          </section>
         </div>
       </div>
     </section>
@@ -286,10 +286,16 @@ export default {
   text-wrap: wrap;
   transition: 0.5s;
 }
+.fixed-width{
+  width: 100%;
+}
 
 @media screen and (min-width: 768px) {
   .text-wraps{
     max-width: 26dvw;
+  }
+  .fixed-width{
+    width: 18rem;
   }
 }
 </style>
