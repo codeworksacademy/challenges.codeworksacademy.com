@@ -33,6 +33,8 @@
 
     </section>
 
+    <!-- TODO - Add Milestones summary card? -->
+
   </div>
 </template>
 
@@ -45,7 +47,6 @@ import RankCard from '../components/ProfilePage/RankCard.vue';
 
 export default {
   setup() {
-
     return {
       profile: computed(() => AppState.ProfileState.profile),
       challenges: computed(() => AppState.ProfileState.challenges),
@@ -55,11 +56,6 @@ export default {
           .filter(p => p.status == 'completed')
           .filter(c => c.challenge.badge)
       }),
-
-      // milestones: computed(() => AppState.ProfileState.milestones),
-      // participation: computed(() => AppState.ProfileState.participation),
-      // profileRank: computed(() => AppState.ProfileState.profile.rank),
-
     }
   },
   components: { RankCard, StatCard }

@@ -6,9 +6,8 @@ import { api } from "./AxiosService.js"
 class MilestonesService {
 
   async getMilestones() {
-    if (AppState.MilestoneState.milestones.length) { return }
     const res = await api.get('api/milestones');
-    const milestones = res.data.map(m => new Milestone(m))
+    const milestones = res.data.map(m => new Milestone(m));
     logger.log('[MILESTONE SERVICE] getMilestones', milestones);
     AppState.MilestoneState.milestones = milestones;
   }
@@ -37,4 +36,4 @@ class MilestonesService {
 
 }
 
-export const milestonesService = new MilestonesService()
+export const milestonesService = new MilestonesService();

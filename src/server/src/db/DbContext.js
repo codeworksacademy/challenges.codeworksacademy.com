@@ -16,4 +16,4 @@ class DbContext {
   AccountMilestones = mongoose.model('AccountMilestone', AccountMilestoneSchema);
 }
 
-export const dbContext = new DbContext()
+export const dbContext = new DbContext();

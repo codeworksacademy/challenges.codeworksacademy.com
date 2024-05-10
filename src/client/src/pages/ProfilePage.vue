@@ -45,7 +45,6 @@ export default {
 
     const route = useRoute();
     const router = useRouter();
-    const MilestonesError = ref('');
 
     onUnmounted(() => { profilesService.clearProfileData(); });
 
@@ -98,15 +97,11 @@ export default {
     }
 
     async function getMilestones() {
-      try { return await profilesService.getMilestones(route.params.profileId) }
-      catch (error) {
-        Pop.error('[PROFILE PAGE] getMilestones:: ' + error);
-        MilestonesError.value = 'Unable to pull the milestones for this account'
-      }
+      try { return await profilesService.getMilestones(route.params.profileId); }
+      catch (error) { Pop.error('[PROFILE PAGE] getMilestones:: ' + error); }
     }
 
     return {
-      MilestonesError,
       profile: computed(() => AppState.ProfileState.profile),
       challenges: computed(() => AppState.ProfileState.challenges),
       participation: computed(() => AppState.ProfileState.participation),

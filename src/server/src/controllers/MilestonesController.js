@@ -38,10 +38,11 @@ export class MilestonesController extends BaseController {
       const milestoneData = req.body;
       const milestoneId = req.params.milestoneId;
       const milestone = await milestonesService.editMilestone(milestoneId, milestoneData);
-      return res.send(milestone)
+      return res.send(milestone);
     }
     catch (error) { next(error); }
   }
+
   async removeMilestone(req, res, next) {
     try {
       const milestoneId = req.params.milestoneId;
@@ -50,4 +51,5 @@ export class MilestonesController extends BaseController {
     }
     catch (error) { next(error); }
   }
+
 }
