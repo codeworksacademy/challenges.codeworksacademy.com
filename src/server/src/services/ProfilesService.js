@@ -5,20 +5,13 @@ import { accountService } from "./AccountService.js"
 // IMPORTANT profiles should not be updated or modified in any way here. Use the AccountService
 
 class ProfilesService {
-  /**
-    * Returns a user profile from its id
-    * @param {string} accountId
-   */
+
   async getProfileById(accountId) {
     const profile = await dbContext.Account.findById(accountId);
     return profile;
   }
 
-  /**
-    * Returns a list user profiles from a query search of name likeness
-    * limits to first 20 without offset
-    * @param {string} name
-   */
+  //  Returns a list user profiles from a query search of name likeness; limits to first 20 without offset
   async findProfiles(name = '', offset = 0) {
     const filter = new RegExp(name, 'ig')
     return await dbContext.Account
@@ -30,6 +23,12 @@ class ProfilesService {
       .limit(20)
       .exec()
   }
+
+
+  //   async getProfileChallengeBadges(id) {
+  //     const foundChallengeBadges = await dbContext.Account.findById(id)
+  //     const completedChallenges = await dbContext.ChallengeParticipants.find({ accountId: id, status: 'completed' })
+  // }
 
   async calculateProfileRank(accountId) {
     const profile = await this.getProfileById(accountId);
@@ -56,19 +55,6 @@ class ProfilesService {
   //   return total
   // }
 
-  async getProfileMilestones(accountId) {
-    const foundMilestones = await dbContext.AccountMilestones.find({ accountId }).populate('milestone')
-    if (!foundMilestones) {
-      new Error('This user does not have any milestones') // NOTE should this be an error?
-      return
-    }
-    return foundMilestones
-  }
-
-  //   async getProfileChallengeBadges(id) {
-  //     const foundChallengeBadges = await dbContext.Account.findById(id)
-  //     const completedChallenges = await dbContext.ChallengeParticipants.find({ accountId: id, status: 'completed' })
-  // }
 }
 
-export const profilesService = new ProfilesService()
+export const profilesService = new ProfilesService();

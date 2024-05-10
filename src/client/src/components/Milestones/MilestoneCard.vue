@@ -1,5 +1,5 @@
 <template>
-  <section @click="claimMilestone(milestone)" v-if="milestone?.claimed == false"
+  <section @click="claimMilestone(milestone)" v-if="isMyProfile && milestone?.claimed == false"
     class="row achievement-card d-flex justify-content-center align-items-center selectable"
     :style="{ border: '3px', borderColor: tierAttributes.color1, borderStyle: 'solid' }">
     <div class="flex-grow-1 text-center m-auto fs-1">NEW</div>
@@ -56,10 +56,8 @@ import { MILESTONE_TIER } from '../../constants';
 
 export default {
   props: {
-    milestone: {
-      type: Object,
-      required: true
-    }
+    milestone: { type: Object, required: true },
+    isMyProfile: { type: Boolean, required: true }
   },
   setup(props) {
 

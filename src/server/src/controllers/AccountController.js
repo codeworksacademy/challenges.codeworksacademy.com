@@ -3,7 +3,6 @@ import { accountService } from '../services/AccountService'
 import BaseController from '../utils/BaseController'
 import { challengesService } from '../services/ChallengesService'
 import { participantsService } from '../services/ParticipantsService'
-import { accountMilestonesService } from "../services/AccountMilestonesService.js"
 import { challengeModeratorsService } from "../services/ChallengeModeratorsService.js"
 
 export class AccountController extends BaseController {
@@ -16,8 +15,6 @@ export class AccountController extends BaseController {
       .get('/participation', this.getMyParticipation)
       .get('/myModerations', this.getMyModerations)
       .get('/challengeModerators', this.getMyChallengeModerators)
-      .put('/:milestoneId/accountMilestones', this.claimMyMilestone)
-      .post('/accountMilestones', this.checkMilestonesByAccountId)
   }
 
   // 🔽 AUTHENTICATION REQUIRED 🔽
@@ -63,28 +60,6 @@ export class AccountController extends BaseController {
       const userId = req.userInfo.id;
       const moderations = await challengeModeratorsService.getModerationsByChallengeCreatorId(userId);
       return res.send(moderations);
-    }
-    catch (error) { next(error); }
-  }
-
-
-  async claimMyMilestone(req, res, next) {
-    try {
-      const milestoneId = req.params.milestoneId;
-      const userId = req.userInfo.id;
-      const milestone = await accountMilestonesService.claimMyMilestone(milestoneId, userId);
-      return res.send(milestone);
-    }
-    catch (error) { next(error); }
-  }
-
-  async checkMilestonesByAccountId(req, res, next) {
-    try {
-      const accountId = req.userInfo.id;
-      const userId = accountId;
-      const checks = req.body;
-      // const milestones = await accountMilestonesService.checkMyMilestoneCache(accountId, userId, checks);
-      // return res.send(milestones);
     }
     catch (error) { next(error); }
   }

@@ -3,7 +3,6 @@ import { AppState } from "../AppState.js"
 import { logger } from "../utils/Logger.js"
 import { Profile } from "../models/Profile.js"
 import { Challenge } from "../models/Challenge.js"
-import { AccountMilestone } from "../models/AccountMilestone.js"
 import { ChallengeParticipant } from "../models/ChallengeParticipant.js"
 
 class ProfilesService {
@@ -16,7 +15,7 @@ class ProfilesService {
   }
 
   async getProfileById(profileId) {
-    const res = await api.get(`api/profiles/${profileId}`)
+    const res = await api.get(`api/profiles/${profileId}`);
     AppState.ProfileState.profile = new Profile(res.data);
   }
 
@@ -28,10 +27,6 @@ class ProfilesService {
   async getParticipation(profileId) {
     const res = await api.get(`api/profiles/${profileId}/participation`);
     AppState.ProfileState.participation = res.data.map(m => new ChallengeParticipant(m));
-  }
-  async getMilestones(profileId) {
-    const res = await api.get(`api/profiles/${profileId}/milestones`);
-    AppState.ProfileState.milestones = res.data.map(m => new AccountMilestone(m));
   }
 
   async calculateProfileRank(profileId) {
@@ -54,20 +49,6 @@ class ProfilesService {
     AppState.ProfileState.milestones = [];
   }
 
-  // sideLoadAccountInfo(profileId) { // when profile page is your own account
-  //   logger.log('[PROFILE SERVICE] Load ProfileState <- AccountState');
-  //   AppState.ProfileState.profile = AppState.AccountState.account
-  //     ? new Profile(AppState.AccountState.account)
-  //     : this.getProfileById(profileId);
-  //   AppState.ProfileState.challenges = [...AppState.AccountState.challenges]
-  //     ?? this.getChallenges(profileId);
-  //   AppState.ProfileState.participation = [...AppState.AccountState.participation]
-  //     ?? this.getParticipation(profileId);
-  //   // AppState.ProfileState.milestones = AppState.AccountState.milestones
-  //   //   ? [...AppState.AccountState.milestones]
-  //   //   : this.getMilestones(profileId);
-  // }
-
 }
 
-export const profilesService = new ProfilesService()
+export const profilesService = new ProfilesService();

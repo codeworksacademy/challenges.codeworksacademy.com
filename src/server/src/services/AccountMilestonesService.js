@@ -4,20 +4,67 @@ import { challengesService } from "./ChallengesService.js";
 import mongoose from "mongoose";
 
 
-
 class AccountMilestonesService {
 
-  //#region calculate myMilestones
+  // SECTION from Account Milestone Controller
+  async getAccountMilestonesByUserId(accountId) {
+    const accountMilestones = await dbContext.AccountMilestones.find({ accountId }).populate('milestone');
+    if (!accountMilestones) {
+      return 'This user does not have any milestones'
+    }
+    return accountMilestones;
+  }
+
+  async claimMyMilestone(accountMilestoneId, userId) {
+    const claimMilestone = await dbContext.AccountMilestones.findById(accountMilestoneId);
+    if (claimMilestone.accountId != userId) {
+      throw new BadRequest("You are not authorized to claim this Milestone");
+    }
+    claimMilestone.claimed = true;
+    await claimMilestone.save();
+    return claimMilestone;
+  }
+
+  // SECTION Account Milestone Get or Create
+  async getOrCreateMyMilestone(milestone, userId) {
+    const myMilestoneData = {}
+    let myFoundMilestone = await this.getMyMilestoneById(milestone.id, userId);
+
+    if (!myFoundMilestone) {
+      myMilestoneData.milestoneId = milestone.id;
+      myMilestoneData.accountId = userId;
+      myFoundMilestone = await this.createMyMilestone(myMilestoneData);
+    }
+    return myFoundMilestone;
+  }
+
+  async getMyMilestoneById(milestoneId, userId) {
+    const myFoundMilestone = await dbContext.AccountMilestones.findOne({ milestoneId: milestoneId, accountId: userId })
+    if (!myFoundMilestone) {
+      return
+    }
+    return myFoundMilestone
+  }
+
+  async createMyMilestone(myMilestoneData) {
+    const myMilestone = await dbContext.AccountMilestones.create(myMilestoneData)
+    return myMilestone
+  }
+
+
+
+  // SECTION calculate myMilestones
   async checkMilestonesByUserId(userId, checks) {
     const pulledChecks = await this.pullMilestoneChecks(checks)
     const checkPromises = pulledChecks.map(async pc => {
       await this.checkMilestones(pc, userId);
     });
     await Promise.all(checkPromises);
-    const milestones = await this.getMyMilestones(userId)
+    // const milestones = await this.getMyMilestones(userId)
 
-    return milestones
+    // return milestones
   }
+
   async pullMilestoneChecks(checks) {
     const queryChecks = { $or: [] }
     checks.forEach(c => {
@@ -51,40 +98,6 @@ class AccountMilestonesService {
       }
 
       await myFoundMilestone.save()
-    }
-    return myFoundMilestone
-  }
-
-  async getMyMilestones(userId) {
-    const myFoundMilestones = await dbContext.AccountMilestones.find({ accountId: userId }).populate('milestone')
-    if (!myFoundMilestones) {
-      new Error('This user does not have any milestones')
-      return
-    }
-    return myFoundMilestones
-  }
-
-  async getOrCreateMyMilestone(milestone, userId) {
-    const myMilestoneData = {}
-    let myFoundMilestone = await this.getMyMilestoneById(milestone.id, userId);
-
-    if (!myFoundMilestone) {
-      myMilestoneData.milestoneId = milestone.id;
-      myMilestoneData.accountId = userId;
-      myFoundMilestone = await this.createMyMilestone(myMilestoneData);
-    }
-    return myFoundMilestone;
-  }
-
-  async createMyMilestone(myMilestoneData) {
-    const myMilestone = await dbContext.AccountMilestones.create(myMilestoneData)
-    return myMilestone
-  }
-
-  async getMyMilestoneById(milestoneId, userId) {
-    const myFoundMilestone = await dbContext.AccountMilestones.findOne({ milestoneId: milestoneId, accountId: userId })
-    if (!myFoundMilestone) {
-      return
     }
     return myFoundMilestone
   }
@@ -174,36 +187,26 @@ class AccountMilestonesService {
     return tierToAssign;
   }
 
-  //#endregion
+  // !SECTION
 
-  async claimMyMilestone(milestoneId, userId) {
-    const claimMilestone = await dbContext.AccountMilestones.findById(milestoneId)
-    if (claimMilestone.accountId != userId) {
-      throw new BadRequest("Something went wrong, You cannot make this change")
-    }
-    claimMilestone.claimed = true
-    await claimMilestone.save()
-    return claimMilestone
-  }
+  // async getTotalMilestoneExperience(user) {
+  //   let experience = 0
+  //   const myMilestones = await this.getMyMilestones(user.id)
 
-  async getTotalMilestoneExperience(user) {
-    let experience = 0
-    const myMilestones = await this.getMyMilestones(user.id)
+  //   await this.claimMyMilestone(myMilestones, user.id)
 
-    await this.claimMyMilestone(myMilestones, user.id)
-
-    const myClaimedMilestones = myMilestones.filter(am => am.claimed == true)
-    myClaimedMilestones.forEach(am => {
-      let experienceBasedOnTier = 0
-      let tier = am.tier
-      while (tier != 0) {
-        experienceBasedOnTier += tier * 5
-        tier--
-      }
-      experience += experienceBasedOnTier
-    });
-    return experience
-  }
+  //   const myClaimedMilestones = myMilestones.filter(am => am.claimed == true)
+  //   myClaimedMilestones.forEach(am => {
+  //     let experienceBasedOnTier = 0
+  //     let tier = am.tier
+  //     while (tier != 0) {
+  //       experienceBasedOnTier += tier * 5
+  //       tier--
+  //     }
+  //     experience += experienceBasedOnTier
+  //   });
+  //   return experience
+  // }
 
   async giveGradingMilestoneByAccountId(userId) {
     const check = ["gradeModerators"]
@@ -213,4 +216,4 @@ class AccountMilestonesService {
 
 }
 
-export const accountMilestonesService = new AccountMilestonesService()
+export const accountMilestonesService = new AccountMilestonesService();

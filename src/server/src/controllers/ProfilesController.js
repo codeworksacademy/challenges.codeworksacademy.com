@@ -1,3 +1,4 @@
+import { accountMilestonesService } from "../services/AccountMilestonesService.js"
 import { challengesService } from '../services/ChallengesService.js'
 import { participantsService } from '../services/ParticipantsService.js'
 import { profilesService } from '../services/ProfilesService.js'
@@ -10,9 +11,9 @@ export class ProfilesController extends BaseController {
       .get('', this.findProfiles)
       .get('/:id', this.getProfileById)
       .get('/:id/challenges', this.getProfileChallenges)
-      .get('/:id/rank', this.calculateProfileRank)
       .get('/:id/participation', this.getParticipationByUserId)
-      .get('/:id/milestones', this.getProfileMilestones)
+      .get('/:id/milestones', this.getAccountMilestonesByUserId)
+      .get('/:id/rank', this.calculateProfileRank)
   }
 
   async findProfiles(req, res, next) {
@@ -42,6 +43,22 @@ export class ProfilesController extends BaseController {
     catch (error) { next(error); }
   }
 
+  async getParticipationByUserId(req, res, next) {
+    try {
+      const participation = await participantsService.getParticipationByUserId(req.params.id);
+      return res.send(participation);
+    }
+    catch (error) { next(error); }
+  }
+
+  async getAccountMilestonesByUserId(req, res, next) {
+    try {
+      const milestones = await accountMilestonesService.getAccountMilestonesByUserId(req.params.id);
+      return res.send(milestones);
+    }
+    catch (error) { next(error); }
+  }
+
   async calculateProfileRank(req, res, next) {
     try {
       const profile = await profilesService.calculateProfileRank(req.params.id);
@@ -59,19 +76,4 @@ export class ProfilesController extends BaseController {
   //   catch (error) { next(error); }
   // }
 
-  async getParticipationByUserId(req, res, next) {
-    try {
-      const participation = await participantsService.getParticipationByUserId(req.params.id);
-      return res.send(participation);
-    }
-    catch (error) { next(error); }
-  }
-
-  async getProfileMilestones(req, res, next) {
-    try {
-      const milestones = await profilesService.getProfileMilestones(req.params.id);
-      return res.send(milestones);
-    }
-    catch (error) { next(error); }
-  }
 }

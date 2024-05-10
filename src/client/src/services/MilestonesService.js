@@ -8,22 +8,22 @@ class MilestonesService {
   async getMilestones() {
     const res = await api.get('api/milestones');
     const milestones = res.data.map(m => new Milestone(m));
-    logger.log('[MILESTONE SERVICE] getMilestones', milestones);
+    logger.log('[MILESTONES SERVICE] getMilestones:: ' + milestones);
     AppState.MilestoneState.milestones = milestones;
   }
 
   async createMilestone(milestoneData) {
     const res = await api.post('api/milestones', milestoneData);
     const milestone = new Milestone(res.data);
-    logger.log('[MILESTONE SERVICE] createMilestone', milestone);
+    logger.log('[MILESTONES SERVICE] createMilestone:: ' + milestone);
     AppState.MilestoneState.milestones.push(milestone);
   }
 
   async editMilestone(milestoneData) {
-    const res = await api.put(`api/milestones/${milestoneData.id}`, milestoneData)
+    const res = await api.put(`api/milestones/${milestoneData.id}`, milestoneData);
     const milestoneIndex = AppState.MilestoneState.milestones.findIndex(m => m.id == milestoneData.id);
     const newMilestone = new Milestone(res.data);
-    logger.log('[MILESTONE SERVICE] editMilestone', newMilestone);
+    logger.log('[MILESTONES SERVICE] editMilestone:: ' + newMilestone);
     AppState.MilestoneState.milestones.splice(milestoneIndex, newMilestone);
   }
 
@@ -31,7 +31,7 @@ class MilestonesService {
     const res = await api.delete(`api/milestones/${milestoneId}`);
     const milestoneIndex = AppState.MilestoneState.milestones.findIndex(m => m.id == milestoneId);
     AppState.MilestoneState.milestones.splice(milestoneIndex);
-    logger.log('[MILESTONE SERVICE] removeMilestone', res.data);
+    logger.log('[MILESTONES SERVICE] removeMilestone:: ' + res.data);
   }
 
 }

@@ -31,13 +31,13 @@
 
 <script>
 import Pop from "../utils/Pop.js";
-import { AppState } from '../AppState';
-import { logger } from "../utils/Logger.js";
+import { AppState } from '../AppState.js';
 import { useRoute, useRouter } from "vue-router";
-import { computed, onUnmounted, ref, watchEffect, } from 'vue'
+import { computed, onUnmounted, watchEffect, } from 'vue'
 import { profilesService } from "../services/ProfilesService.js";
 import SummarySection from '../components/ProfilePage/SummarySection.vue';
 import ProfileLinksCard from '../components/ProfilePage/ProfileLinksCard.vue';
+import { accountMilestonesService } from "../services/AccountMilestonesService.js";
 
 export default {
   components: { SummarySection, ProfileLinksCard },
@@ -62,11 +62,8 @@ export default {
           getChallenges(),
           getParticipation(),
           // calculateProfileRank(),
-          getMilestones()
         ])
         if (!AppState.ProfileState.profile) { throw new Error('Unable to fetch profile') }
-        // Checking on data received - will remove on official release
-        logger.log('[PROFILE PAGE] getProfileData milestones', AppState.ProfileState.milestones)
       }
       catch (error) {
         Pop.error('Error when getting profile dataset:: ' + error);
@@ -96,11 +93,6 @@ export default {
       catch (error) { Pop.error('[PROFILE PAGE] calculateProfileRank:: ' + error); }
     }
 
-    async function getMilestones() {
-      try { return await profilesService.getMilestones(route.params.profileId); }
-      catch (error) { Pop.error('[PROFILE PAGE] getMilestones:: ' + error); }
-    }
-
     return {
       profile: computed(() => AppState.ProfileState.profile),
       challenges: computed(() => AppState.ProfileState.challenges),
@@ -120,11 +112,7 @@ export default {
 </script>
 
 <style scoped>
-.modal-body {
-  background-color: #151d2b;
-}
-
-.modal-header {
+.modal-body, .modal-header {
   background-color: #151d2b;
 }
 

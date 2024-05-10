@@ -5,21 +5,17 @@ import { api } from "./AxiosService.js"
 
 class AccountMilestonesService {
 
-  async getMyMilestones() {
-    const res = await api.get('account/milestones');
-    AppState.AccountState.milestones = res.data.map(m => new AccountMilestone(m));
-    logger.log('[ACCOUNT MILESTONES SERVICE] getMyMilestones', AppState.AccountState.milestones);
-  }
-
-  async getAccountMilestonesByUserId(userId) {
-    const res = await api.get(`api/accountMilestones/${userId}`);
+  async getAccountMilestonesByUserId(profileId) {
+    const res = await api.get(`api/profiles/${profileId}/milestones`);
     AppState.ProfileState.milestones = res.data.map(m => new AccountMilestone(m));
-    logger.log('[ACCOUNT MILESTONES SERVICE] getAccountMilestonesByUserId', AppState.ProfileState.milestones);
+    if (AppState.AccountState.account.id == AppState.ProfileState.profile?.id) {
+      AppState.AccountState.milestones = [...AppState.ProfileState.milestones];
+    }
   }
 
   async claimMilestone(accountMilestone) {
     const res = await api.put(`api/accountMilestones/claimMilestone/${accountMilestone.id}`);
-    const milestone = AppState.AccountState.milestones.find(m => m.id == accountMilestone.id);
+    const milestone = AppState.AccountState.milestones?.find(m => m.id == accountMilestone.id);
     milestone.claimed = true;
     logger.log('[ACCOUNT MILESTONES SERVICE] claimMilestone', milestone);
   }
