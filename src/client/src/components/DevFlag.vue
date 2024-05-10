@@ -1,5 +1,5 @@
 <template>
-  <section class="dev-flag" v-if="inDev">
+  <section class="dev-flag rounded" v-if="inDev">
     <slot></slot>
   </section>
 </template>
@@ -9,9 +9,6 @@ import { computed } from 'vue'
 import { dev } from "../env.js"
 
 export default {
-  components: {
-
-  },
   setup() {
     return {
       inDev: computed(() => dev)
@@ -22,7 +19,7 @@ export default {
   
 <style scoped lang="scss">
 .dev-flag {
-  outline: 1px dotted var(--bs-danger);
+  outline: 2px dotted var(--bs-danger);
 
   &:before {
     content: "⚠️ - Dev Only";

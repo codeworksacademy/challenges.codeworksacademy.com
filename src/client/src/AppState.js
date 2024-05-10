@@ -7,12 +7,12 @@ const ProfileState = reactive({
   profile: null,
   /** @type {import('./models/Challenge.js').Challenge[]||null} */
   challenges: null,
-  /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]} */
+  /** @type {import('./models/ChallengeParticipant.js').ChallengeParticipant[]||null} */
   participation: [],
-  /** @type {import('./models/ChallengeModerator.js').ChallengeModerator[]} */
+  /** @type {import('./models/ChallengeModerator.js').ChallengeModerator[]||null} */
   moderation: [],
-  /** @type {import('./models/AccountMilestone.js').Milestone[]} */
-  milestones: [],
+  /** @type {import('./models/AccountMilestone.js').Milestone[]||null} */
+  milestones: null,
 })
 
 // Fetch this data one the user is logged-in

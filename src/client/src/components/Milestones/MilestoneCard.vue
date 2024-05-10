@@ -47,11 +47,11 @@
 
 <script>
 import { computed } from 'vue';
-import { accountMilestonesService } from '../../services/AccountMilestonesService';
-import Pop from '../../utils/Pop';
-import { MILESTONE_TIER } from '../../constants';
-import { AppState } from '../../AppState';
 import { useRoute } from 'vue-router';
+import { AppState } from '../../AppState.js';
+import Pop from '../../utils/Pop.js';
+import { accountMilestonesService } from '../../services/AccountMilestonesService.js';
+import { MILESTONE_TIER } from '../../constants';
 
 export default {
   props: {

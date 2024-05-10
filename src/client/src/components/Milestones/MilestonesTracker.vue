@@ -1,6 +1,7 @@
 <template>
   <div class="container-fluid">
     <section v-if="milestones?.length > 0" class="row">
+      <div class="col-12 fs-3">My Milestones</div>
       <div v-for="milestone in milestones" :key="milestone.id" class="col-12">
         <MilestoneCard :milestone="milestone" />
       </div>
@@ -17,10 +18,10 @@
 </template>
 
 <script>
-import Pop from '../../utils/Pop';
+import Pop from '../../utils/Pop.js';
 import { useRoute } from 'vue-router';
-import { AppState } from '../../AppState';
-import { computed, watchEffect } from 'vue';
+import { ref, watchEffect } from 'vue';
+import { AppState } from '../../AppState.js';
 import { accountMilestonesService } from '../../services/AccountMilestonesService.js';
 import MilestoneCard from './MilestoneCard.vue';
 
@@ -28,33 +29,32 @@ export default {
   components: { MilestoneCard },
 
   setup() {
+    const route = useRoute();
+    const milestones = ref([]);
 
-    const route = useRoute()
-
-    // QUESTION REFACTOR can I do this once on login?
-    // This is the key trigger for the calculation of milestones, With it just on login, You could complete 3 challenges and see no results without loging in and out.
-    // The 'get' that was a layer up in AccountMilestones.vue wasn't following order of operations and would never allow a new profile to generate miletstones.
-    async function checkMyMilestones() {
+    // This is the key trigger for the calculation of milestones. With it just on login, You could complete 3 challenges and see no results without logging in and out.
+    // The 'get' that was a layer up in AccountMilestones.vue wasn't following order of operations and would never allow a new profile to generate milestones.
+    async function getMilestones() {
       try {
-        const checks = AppState.MilestoneState.milestoneChecks;
-        if (route.name.includes('Account') || route.name == 'Milestones') {
-          await accountMilestonesService.checkMyMilestones(checks);
+        if (route.name == 'Milestones' || ( route.name.includes('Profile') && route.params.profileId == AppState.AccountState.account.id) ) {
+          await accountMilestonesService.getMyMilestones();
+          milestones.value = [...AppState.AccountState.milestones];
         } else {
-          const userId = route.params.profileId
-          await accountMilestonesService.checkMilestonesByUserId(userId, checks);
+          await accountMilestonesService.getAccountMilestonesByUserId(route.params.profileId);
+          milestones.value = [...AppState.ProfileState.milestones];
         }
       }
-      catch (error) { Pop.error('[MILESTONES TRACKER] checkMyMilestones:: ' + error); }
+      catch (error) { Pop.error('[MILESTONES TRACKER] getMyMilestones:: ' + error); }
     };
 
     watchEffect(() => {
       if (AppState.AccountState.account.id) {
-        checkMyMilestones();
+        getMilestones();
       }
     });
 
     return {
-      milestones: computed(() => AppState.AccountState.milestones),
+      milestones
     };
   }
 }

@@ -1,12 +1,14 @@
 <template>
-  <section class="container-fluid" v-if="milestones">
+  <section class="container-fluid">
 
-    <section class="row">
+    <section class="row" v-if="milestones">
       <div class="col-12">
         <h1 class="text-center my-3"> Milestone Management </h1>
       </div>
-      <div class="col-12 col-lg-6 p-1 p-lg-3" v-for="milestone in milestones" :key="milestone">
+
+      <div class="col-12 col-lg-6 p-1 p-lg-3" v-for="milestone in milestones" :key="milestone.id">
         <div class="bg-dark py-3 px-4 rounded border border-5 border-success text-success">
+          
           <section class="d-flex justify-content-between align-items-center flex-wrap gap-3">
             <b class="text-secondary fs-2 mb-0 order-1">
               {{ milestone.title }}
@@ -22,6 +24,7 @@
           </section>
 
           <div class="d-flex flex-wrap justify-content-around px-lg-5">
+
             <section class="d-flex flex-column justify-content-center">
               <div class="pt-3 fs-5 text-secondary">
                 <hr class="my-2 my-lg-3">
@@ -59,17 +62,24 @@
                 </div>
               </div>
             </section>
+
           </div>
         </div>
       </div>
+
     </section>
+
+    <hr>
+
     <section class="row align-items-center justify-content-center p-3">
-      <hr>
+
       <div class="col-12 col-lg-auto d-flex flex-column justify-content-center">
-        <div class="text-center">
+
+        <div class="text-center mb-3">
           <h1 v-if="editMode == false"> Create a milestone </h1>
           <h1 v-else> Edit a milestone </h1>
         </div>
+
         <form @submit.prevent="submitForm()" class="card p-3 mb-3">
           <section class="d-flex flex-column">
             <div class="mb-3">
@@ -110,15 +120,15 @@
                 </select>
               </div>
                 <div class="mb-3">
-                <label for="maxTiers" class="form-label">Number of possible tiers [1-10]</label>
-                <input v-model="editable.maxTiers" name="maxTiers" class="form-control" type="number" placeholder="Number" min="1" max="10" required>
+                <label for="maxTierLevel" class="form-label">Number of possible tiers [1-10]</label>
+                <input v-model="editable.maxTierLevel" name="maxTierLevel" class="form-control" type="number" placeholder="Number" min="1" max="10" required>
               </div>
             </div>
 
             <div class="d-flex flex-column mb-3 ps-lg-5">
               <label class="form-label">Requirements - each value must be higher than the previous [1-1000]</label>
               <div class="d-flex flex-column me-auto gap-1">
-                <div v-for="(tier, index) in editable.maxTiers <= 10 ? editable.maxTiers : 10" :key="index" class="d-flex justify-content-between">
+                <div v-for="(tier, index) in editable.maxTierLevel <= 10 ? editable.maxTierLevel : 10" :key="index" class="d-flex justify-content-between">
                   <span>Tier {{ tier }}: </span>
                   <input v-model="editable[tier]" class="rounded ms-2 text-center" type="number" min="1" max="1000" required>
                 </div>
@@ -130,6 +140,7 @@
             <button v-else type="submit" class="btn btn-success px-5 fw-bold">UPDATE</button>
           </div>
         </form>
+
       </div>
 
       <div class="col-12 col-lg-auto">
@@ -149,11 +160,11 @@
           <section class="d-flex flex-column align-items-center px-lg-4 mx-auto">
             <div>LOGIC BREAKDOWN: </div>
             <p class="text-light d-flex flex-column text-center"> 
-              Maximum Tiers: {{ editable.maxTiers }} <br> 
+              Maximum Tiers: {{ editable.maxTierLevel }} <br> 
               Operation: {{ editable.operation }} </p>
             <div>TIER LEVELS:</div>
             <div class="d-flex flex-column gap-1 text-light">
-              <div v-for="(n, index) in editable.maxTiers <= 10 ? editable.maxTiers : 10" :key="index" class="d-flex justify-content-between">
+              <div v-for="(n, index) in editable.maxTierLevel <= 10 ? editable.maxTierLevel : 10" :key="index" class="d-flex justify-content-between">
                 <div class="pe-1">Tier {{ n }}: </div>
                 <div class="mx-3">
                   <span class="me-1">{{ editable[n] }}</span>
@@ -164,34 +175,39 @@
           </section>
         </div>
       </div>
+
     </section>
-    <section class="row">
-      <MilestonesTracker />
-    </section>
+
+    <hr>
+
+    <DevFlag>
+      <section class="row px-lg-5">
+        <MilestonesTracker />
+      </section>
+    </DevFlag>
+
   </section>
 </template>
 
 
 <script>
-import { computed, onMounted, ref } from 'vue';
-import MilestonesTracker from '../components/Milestones/MilestonesTracker.vue';
-import { milestonesService } from '../services/MilestonesService'
-
-import { AppState } from '../AppState';
 import Pop from '../utils/Pop';
+import { AppState } from '../AppState';
 import { logger } from '../utils/Logger';
+import { computed, onMounted, ref } from 'vue';
+import { milestonesService } from '../services/MilestonesService'
+import MilestonesTracker from '../components/Milestones/MilestonesTracker.vue';
+import DevFlag from "../components/DevFlag.vue";
+
 
 export default {
   setup() {
-    const editable = ref({})
-    const editMode = ref(false)
+    const editable = ref({});
+    const editMode = ref(false);
 
     async function getMilestones() {
-      try {
-        await milestonesService.getMilestones()
-      } catch (error) {
-        logger.error(error)
-      }
+      try { await milestonesService.getMilestones(); }
+      catch (error) { logger.error(error); }
     }
 
     onMounted(() => {
@@ -202,80 +218,72 @@ export default {
       editable,
       editMode,
       milestones: computed(() => AppState.MilestoneState.milestones),
-      accountMilestones: computed(() => AppState.AccountState.milestones),
       logic: computed(() => {
         let tempStr = '';
         let char;
-        for (let i = 0; i < (editable.value.maxTiers <= 10 ? editable.value.maxTiers : 10); i++) {
+        for (let i = 0; i < (editable.value.maxTierLevel <= 10 ? editable.value.maxTierLevel : 10); i++) {
           // if (editable.value[i] < editable.value[i - 1]) {
           //   return "ERROR Tier Value must increase as it's level does"
           // }
-          if (i < editable.value.maxTiers - 1 && i < 9) {
+          if (i < editable.value.maxTierLevel - 1 && i < 9) {
             char = '-'
           } else char = ''
           tempStr += `${editable.value[i + 1]}` + char
         }
-        let logicStr = `${editable.value.maxTiers}-${editable.value.operation}%${tempStr}`
+        let logicStr = `${editable.value.maxTierLevel}-${editable.value.operation}%${tempStr}`
         editable.value.logic = logicStr
-        return editable.value.maxTiers > 0 ? editable.value.logic : ''
+        return editable.value.maxTierLevel > 0 ? editable.value.logic : '';
       }),
-      submitCheck: computed(() => {
-        // editable.value.logic != `ERROR Tier Value must increase as it's level does` &&
-        if (editable.value.ref != undefined && editable.value.check != undefined && editable.value.maxTiers != undefined && editable.value.operation != undefined && editable.value.description != undefined) {
-          return true
-        } else return false
-      }),
-      submitForm() {
-        if (editMode.value == false) {
-          this.createMilestone()
-        } else {
-          this.editMilestone()
+      setUpMilestoneEditable(milestone) {
+        editable.value = milestone;
+        for (let i = 0; i <= milestone.maxTierLevel; i++) {
+          editable.value[i] = milestone.tierThresholdArr[i - 1];
         }
+      },
+      submitForm() {
+        if (editMode.value == false) { this.createMilestone(); }
+        else { this.editMilestone(); }
       },
       async createMilestone() {
         try {
-          editable.value.id = ''
-          const milestoneData = editable.value
-          await milestonesService.createMilestone(milestoneData)
-          editable.value = {}
+          editable.value.id = '';
+          const milestoneData = editable.value;
+          await milestonesService.createMilestone(milestoneData);
+          editable.value = {};
         } catch (error) {
           Pop.error('[MILESTONES PAGE] createMilestone:: ' + error);
         }
       },
-      setUpMilestoneEditable(milestone) {
-        editable.value = milestone
-        editable.value.maxTiers = milestone.maxTierLevel
-        editable.value.operation = milestone.operation
-        for (let i = 0; i <= milestone.maxTierLevel; i++) {
-          editable.value[i] = milestone.tierThresholdArr[i - 1]
-
-        }
-      },
       async editMilestone() {
         try {
-          const milestoneData = editable.value
-          await milestonesService.editMilestone(milestoneData)
-          editable.value = {}
-          editMode.value = false
+          const milestoneData = editable.value;
+          await milestonesService.editMilestone(milestoneData);
+          editable.value = {};
+          editMode.value = false;
         } catch (error) {
           Pop.error('[MILESTONES PAGE] editMilestone:: ' + error);
         }
       },
       async removeMilestone(milestoneId) {
         try {
-          logger.log('MILESTONEID???', milestoneId)
-          const confirm = await Pop.confirm('Delete yes?')
-          if (!confirm) {
-            return
-          }
-          await milestonesService.removeMilestone(milestoneId)
+          const confirm = await Pop.confirm('Permanently delete this milestone?');
+          if (!confirm) { return }
+          await milestonesService.removeMilestone(milestoneId);
         } catch (error) {
           Pop.error('[MILESTONES PAGE] removeMilestone:: ' + error);
         }
-      }
+      },
+
+      // submitCheck: computed(() => {
+      //   // editable.value.logic != `ERROR Tier Value must increase as it's level does` &&
+      //   if (editable.value.ref != undefined && editable.value.check != undefined && editable.value.maxTierLevel != undefined && editable.value.operation != undefined && editable.value.description != undefined) {
+      //     return true
+      //   } else return false
+      // }),
+
     };
   },
-  components: { MilestonesTracker }
+  components: { MilestonesTracker, DevFlag }
 }
 </script>
 
