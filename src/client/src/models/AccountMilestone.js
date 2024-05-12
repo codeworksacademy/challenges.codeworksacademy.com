@@ -7,5 +7,6 @@ export class AccountMilestone {
     this.milestone = data.milestone
     this.accountId = data.accountId
     this.milestoneId = data.milestoneId
+    this.xp = data.xp
   }
 }

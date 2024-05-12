@@ -1,12 +1,13 @@
 import { Schema } from "mongoose";
-const ObjectId = Schema.Types.ObjectId
+const ObjectId = Schema.Types.ObjectId;
 
 export const AccountMilestoneSchema = new Schema({
+  tier: { type: Number, default: 0 },
+  count: { type: Number, default: 0 },
+  claimed: { type: Boolean, default: true },
+  xp: { type: Number, default: 0 },
   milestoneId: { type: ObjectId, required: true, ref: 'Milestone' },
   accountId: { type: ObjectId, required: true, ref: 'Account' },
-  claimed: { type: Boolean, default: true },
-  tier: { type: Number, default: 0 },
-  count: { type: Number, default: 0 }
 },
   { timestamps: true, toJSON: { virtuals: true } }
 )

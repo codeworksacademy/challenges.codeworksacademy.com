@@ -1,6 +1,6 @@
+import { logger } from "../utils/Logger.js";
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest } from "../utils/Errors.js";
-import { logger } from "../utils/Logger.js";
 import { challengesService } from "./ChallengesService.js";
 import mongoose from "mongoose";
 
@@ -26,43 +26,28 @@ class AccountMilestonesService {
     return claimMilestone;
   }
 
-  // SECTION Account Milestone Get or Create
-  async getOrCreateMyMilestone(milestone, userId) {
-    const myMilestoneData = {}
-    let myFoundMilestone = await this.getMyMilestoneById(milestone.id, userId);
-
-    if (!myFoundMilestone) {
-      myMilestoneData.milestoneId = milestone.id;
-      myMilestoneData.accountId = userId;
-      myFoundMilestone = await this.createMyMilestone(myMilestoneData);
+  // SECTION functions for triggers related to Account Milestone updates
+  async getOrCreateAccountMilestone(milestoneId, accountId) {
+    let foundMilestone = await dbContext.AccountMilestones.findOne({ milestoneId, accountId });
+    if (!foundMilestone) {
+      foundMilestone = await dbContext.AccountMilestones.create({ milestoneId, accountId });
     }
-    return myFoundMilestone;
+    return foundMilestone;
   }
 
-  async getMyMilestoneById(milestoneId, userId) {
-    const myFoundMilestone = await dbContext.AccountMilestones.findOne({ milestoneId: milestoneId, accountId: userId })
-    if (!myFoundMilestone) {
-      return
-    }
-    return myFoundMilestone
+  async triggerMilestone(milestone, event) {
+
   }
 
-  async createMyMilestone(myMilestoneData) {
-    const myMilestone = await dbContext.AccountMilestones.create(myMilestoneData)
-    return myMilestone
-  }
+  // SECTION Calculations
 
-  // SECTION Calculate Account Milestones
-
-  async calcAccountMilestoneXP(user) {
+  async calcTotalAccountMilestoneXP(user) {
     const myMilestones = await this.getAccountMilestonesByUserId(user.id);
     if (!Array.isArray(myMilestones)) {
       logger.log('No milestones for this account');
       return 0;
     }
-
     let experience = 0;
-
     myMilestones.forEach(am => {
       let experienceBasedOnTier = 0;
       let tier = am.tier;
@@ -72,11 +57,16 @@ class AccountMilestonesService {
       }
       experience += experienceBasedOnTier;
     });
-
     return experience;
   }
 
 
+
+
+
+
+
+  // SECTION OG code
 
   async checkMilestonesByUserId(userId, checks) {
     const pulledChecks = await this.pullMilestoneChecks(checks)
@@ -100,7 +90,7 @@ class AccountMilestonesService {
 
   async checkMilestones(milestone, userId) {
 
-    const myFoundMilestone = await this.getOrCreateMyMilestone(milestone, userId);
+    const myFoundMilestone = await this.getOrCreateAccountMilestone(milestone.id, userId);
 
     const parsedMilestoneData = this.parseLogic(milestone);
 
@@ -211,14 +201,13 @@ class AccountMilestonesService {
     return tierToAssign;
   }
 
-  // !SECTION
-
-
   async giveGradingMilestoneByAccountId(userId) {
     const check = ["gradeModerators"]
     const milestone = await this.checkMilestonesByUserId(userId, check)
     return milestone
   }
+
+  // !SECTION
 
 }
 

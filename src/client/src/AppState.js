@@ -48,13 +48,14 @@ const ChallengeState = reactive({
 const MilestoneState = reactive({
   milestoneChecks: [
     "createdChallenge",
-    "joinedChallenge", "moderateChallenge"
-    , "submissionsChallenge"
-    , "passingSubmissionsChallenge"
-    // , "gradeModerators" This is to be called when a grading is performed
-    , "submittedParticipant"
-    , "passingParticipant"
-    , "allMilestones"
+    "joinedChallenge",
+    "moderateChallenge",
+    "submissionsChallenge",
+    "passingSubmissionsChallenge",
+    "gradeModerators", // This is to be called when a grading is performed
+    "submittedParticipant",
+    "passingParticipant",
+    "allMilestones"
   ],
   /** @type {import('./models/Milestone.js').Milestone[]} */
   milestones: []

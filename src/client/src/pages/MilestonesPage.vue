@@ -23,18 +23,22 @@
             </div>
           </section>
 
-          <div class="d-flex flex-wrap justify-content-around px-lg-5">
+          <div class="d-flex flex-wrap justify-content-around">
 
-            <section class="d-flex flex-column justify-content-center">
+            <section class="d-flex flex-column justify-content-center px-lg-3">
               <div class="pt-3 fs-5 text-secondary">
                 <hr class="my-2 my-lg-3">
-                <u>DESCRIPTION</u>: {{ milestone.description }}
+                <u>DESCRIPTION</u>: 
+                <div class="text-wraps">{{ milestone.description }}</div>
                 <hr class="my-2 my-lg-3">
-                <u>REF</u>: {{ milestone.ref }}
+                <u>REF</u>: 
+                <div>{{ milestone.ref }}</div>
                 <hr class="my-2 my-lg-3">
-                <u>CHECK</u>: {{ milestone.check }}
+                <u>CHECK</u>: 
+                <div>{{ milestone.check }}</div>
                 <hr class="my-2 my-lg-3">
-                <u>LOGIC</u>: {{ milestone.logic }}
+                <u>LOGIC</u>: 
+                <div class="text-wraps">{{ milestone.logic }}</div>
                 <hr class="my-2 my-lg-3">
               </div>
             </section>
@@ -42,7 +46,7 @@
             <section class="d-flex flex-column align-items-center px-lg-3 text-light my-2">
               <div class="text-uppercase mb-3">
                 <p class="my-2 fw-bold text-center">LOGIC BREAKDOWN:</p>
-                <div class="d-flex justify-content-evenly flex-wrap gap-3">
+                <div class="d-flex justify-content-evenly flex-wrap gap-3 logic-wrap">
                   <span class="text-center">Maximum Tiers - {{ milestone.maxTierLevel }}</span>
                   <span class="text-center">Operation - {{ milestone.operation }}</span>
                 </div>
@@ -297,14 +301,26 @@ export default {
   text-wrap: wrap;
   transition: 0.5s;
 }
+
+.logic-wrap{
+  max-width: 100dvw;
+  text-wrap: wrap;
+  transition: 0.5s;
+}
+
 .fixed-width{
   width: 100%;
 }
 
 @media screen and (min-width: 768px) {
   .text-wraps{
-    max-width: 26dvw;
+    max-width: 24dvw;
   }
+
+  .logic-wrap{
+    max-width: 17dvw;
+  }
+
   .fixed-width{
     width: 18rem;
   }
