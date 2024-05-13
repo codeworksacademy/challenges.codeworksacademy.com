@@ -25,114 +25,71 @@ class AccountMilestonesService {
     await claimMilestone.save();
     return claimMilestone;
   }
+  // !SECTION
 
-  // SECTION functions for triggers related to Account Milestone updates
-  async getOrCreateAccountMilestone(milestoneId, accountId) {
-    let foundMilestone = await dbContext.AccountMilestones.findOne({ milestoneId, accountId });
-    if (!foundMilestone) {
-      foundMilestone = await dbContext.AccountMilestones.create({ milestoneId, accountId });
+  // SECTION Function for Account Milestone related triggers
+  async triggerAccountMilestone(check, accountId) {
+    // Get or Create AccountMilestone association & increment count
+    let accountMilestone = await dbContext.AccountMilestones.findOne({ check, accountId }).populate('milestone');
+    // @ts-ignore - Does not register virtuals as possible on object
+    let milestone = accountMilestone?.milestone ?? {};
+    if (!accountMilestone) {
+      milestone = await dbContext.Milestones.findOne({ check });
+      accountMilestone = await dbContext.AccountMilestones.create({ milestoneId: milestone.id, accountId });
     }
-    return foundMilestone;
+    accountMilestone.count++;
+
+    // Parse logic & Calc tier
+    const milestoneLogicSplit = milestone.logic.split('%');
+    const parsedMilestoneData = {
+      maxTierLevel: milestoneLogicSplit[0].split('-')[0],
+      operation: milestoneLogicSplit[0].split('-')[1],
+      logicArr: milestoneLogicSplit[1].split('-'),
+    };
+    let calculatedTier = 0;
+    let amCount = accountMilestone.count;
+    for (let i = 0; i < parsedMilestoneData.maxTierLevel; i++) {
+      if (amCount >= parsedMilestoneData.logicArr[i]) {
+        calculatedTier++;
+      }
+      if (amCount < parsedMilestoneData.logicArr[i]) {
+        break;
+      }
+    }
+    // If next tier, tier++, reset claimed, & calc new XP total
+    if (calculatedTier > accountMilestone.tier) {
+      accountMilestone.tier++;
+      accountMilestone.claimed = false;
+      // Calc new XP amt for this AccountMilestone
+      let calculatedXp = 0;
+      while (calculatedTier > 0) {
+        calculatedXp += calculatedTier * 5;
+        calculatedTier--;
+      }
+      accountMilestone.xp = calculatedXp;
+    }
+
+    // Update AccountMilestone with new data and return data
+    accountMilestone.save();
+    return accountMilestone;
   }
 
-  async triggerMilestone(milestone, event) {
-
-  }
-
-  // SECTION Calculations
-
-  async calcTotalAccountMilestoneXP(user) {
-    const myMilestones = await this.getAccountMilestonesByUserId(user.id);
-    if (!Array.isArray(myMilestones)) {
+  async calcTotalAccountMilestoneXP(accountId) {
+    const accountMilestones = await this.getAccountMilestonesByUserId(accountId);
+    if (!Array.isArray(accountMilestones)) {
       logger.log('No milestones for this account');
       return 0;
     }
     let experience = 0;
-    myMilestones.forEach(am => {
-      let experienceBasedOnTier = 0;
-      let tier = am.tier;
-      while (tier != 0) {
-        experienceBasedOnTier += tier * 5;
-        tier--;
-      }
-      experience += experienceBasedOnTier;
-    });
+    accountMilestones.forEach(am => experience += am.xp);
     return experience;
   }
+  // !SECTION
 
 
 
 
-
-
-
-  // SECTION OG code
-
-  async checkMilestonesByUserId(userId, checks) {
-    const pulledChecks = await this.pullMilestoneChecks(checks)
-    const checkPromises = pulledChecks.map(async pc => {
-      await this.checkMilestones(pc, userId);
-    });
-    await Promise.all(checkPromises);
-    // const milestones = await this.getMyMilestones(userId)
-
-    // return milestones
-  }
-
-  async pullMilestoneChecks(checks) {
-    const queryChecks = { $or: [] }
-    checks.forEach(c => {
-      queryChecks.$or.push({ check: c })
-    });
-    const pulledChecks = await dbContext.Milestones.find(queryChecks)
-    return pulledChecks;
-  }
-
-  async checkMilestones(milestone, userId) {
-
-    const myFoundMilestone = await this.getOrCreateAccountMilestone(milestone.id, userId);
-
-    const parsedMilestoneData = this.parseLogic(milestone);
-
-    if (myFoundMilestone.tier > parsedMilestoneData.maxTierLevel) {
-      return myFoundMilestone
-    }
-
-    const milestoneCheckCount = await this.getCountByOperation(parsedMilestoneData, myFoundMilestone, userId);
-
-    let tierToAssign = this.getLatestTier(parsedMilestoneData, milestoneCheckCount);
-
-    if (milestoneCheckCount > myFoundMilestone.count) {
-      myFoundMilestone.count = milestoneCheckCount
-
-      if (tierToAssign > myFoundMilestone.tier) {
-        myFoundMilestone.claimed = false
-        myFoundMilestone.tier = tierToAssign
-        myFoundMilestone.count = milestoneCheckCount
-      }
-
-      await myFoundMilestone.save()
-    }
-    return myFoundMilestone
-  }
-
-  parseLogic(milestone) {
-    const parsedMilestoneData = {}
-    parsedMilestoneData.milestone = milestone
-    // Example string '6-$gte%1-2-3-4-5-10'
-    // This string parser will return 
-    // operationsArr = ['6', '$gte']
-    // maxTierLevel = 6
-    // tierThresholdArr = ['1','2','3','4','5','10'] 
-    const logicArr = milestone.logic;
-    const logicParts = logicArr.split('%');
-    const operationsArr = logicParts[0].split('-');
-    parsedMilestoneData.tierThresholdArr = logicParts[1].split('-');
-    parsedMilestoneData.maxTierLevel = operationsArr[0];
-    parsedMilestoneData.operation = operationsArr[1];
-    return parsedMilestoneData;
-  }
-
+  // SECTION remaining OG code
   async getCountByOperation(parsedMilestoneData, myFoundMilestone, userId) {
     let count = 0
 
@@ -189,25 +146,6 @@ class AccountMilestonesService {
     }
     return count;
   }
-
-  getLatestTier(parsedMilestoneData, milestoneCheckCount) {
-    let tierToAssign = 0;
-
-    for (let i = 0; i < parsedMilestoneData.maxTierLevel; i++) {
-      if (milestoneCheckCount >= parsedMilestoneData.tierThresholdArr[i]) {
-        tierToAssign = i + 1;
-      }
-    }
-    return tierToAssign;
-  }
-
-  async giveGradingMilestoneByAccountId(userId) {
-    const check = ["gradeModerators"]
-    const milestone = await this.checkMilestonesByUserId(userId, check)
-    return milestone
-  }
-
-  // !SECTION
 
 }
 
