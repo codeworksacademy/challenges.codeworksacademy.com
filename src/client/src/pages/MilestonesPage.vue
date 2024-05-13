@@ -224,7 +224,7 @@ export default {
     return {
       editable,
       editMode,
-      milestones: computed(() => AppState.MilestoneState.milestones),
+      milestones: computed(() => AppState.milestones),
       logic: computed(() => {
         let tempStr = '';
         let char;

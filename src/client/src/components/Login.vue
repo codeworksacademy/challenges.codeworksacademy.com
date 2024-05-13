@@ -56,6 +56,7 @@
 import { computed } from 'vue'
 import { AppState } from '../AppState'
 import { AuthService } from '../services/AuthService'
+import { RANK_TITLE } from '../constants/index.js';
 import ProfileTitle from "./ProfileTitle.vue"
 
 export default {
@@ -66,7 +67,7 @@ export default {
       account: computed(() => AppState.AccountState.account),
       currentRank: computed(() => {
         let lastKey = 0;
-        for (const key in AppState.rankTitles) {
+        for (const key in RANK_TITLE) {
           if (AppState.AccountState.account.rank >= key) {
             lastKey = key;
           }

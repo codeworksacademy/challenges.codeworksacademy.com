@@ -11,7 +11,11 @@
           {{ profile.nickname || profile.name }}
         </p>
         <p class="fs-5 hide-sm">
-          <span class="light-gold-color">Rank: </span> {{ rankTitle }}
+          <span class="light-gold-color">
+            <i class="mdi mdi-chevron-triple-up"></i>
+            <span class="pe-1 me-2">Rank:</span>
+            <ProfileTitle :titleName="profile.title" />
+          </span> 
           <span title="experience" class="ms-4">
             {{ profile.rank }} <span class="light-gold-color">XP</span>
           </span>
@@ -41,10 +45,11 @@ import { computed } from 'vue'
 import { Profile } from '../../models/Profile.js'
 import { Account } from '../../models/Account.js'
 import { RANK_TITLE } from '../../constants'
+import ProfileTitle from "../ProfileTitle.vue"
 import ProfileImg from "../ProfileImg.vue"
 
 export default {
-  components: { ProfileImg },
+  components: { ProfileImg, ProfileTitle },
   props: {
     profile: { type: [Profile, Account], required: true },
     summary: {

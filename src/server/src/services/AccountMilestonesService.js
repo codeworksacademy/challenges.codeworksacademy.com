@@ -1,9 +1,18 @@
 import { logger } from "../utils/Logger.js";
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest } from "../utils/Errors.js";
-import { challengesService } from "./ChallengesService.js";
-import mongoose from "mongoose";
 
+const milestoneChecks = [
+  "createdChallenge",
+  "joinedChallenge",
+  "moderateChallenge",
+  "submissionsChallenge",
+  "passingSubmissionsChallenge",
+  "gradeModerators", // This is to be called when a grading is performed
+  "submittedParticipant",
+  "passingParticipant",
+  "allMilestones"
+]
 
 class AccountMilestonesService {
 
