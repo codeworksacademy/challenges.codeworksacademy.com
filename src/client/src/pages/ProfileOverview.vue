@@ -35,6 +35,10 @@
 
     <!-- TODO - Add Milestones summary card? -->
 
+    <section class="row justify-content-center p-2">
+      <UserCard :profile="profile" />
+    </section>
+
   </div>
 </template>
 
@@ -44,6 +48,7 @@ import { computed } from 'vue';
 import { AppState } from '../AppState';
 import StatCard from '../components/ProfilePage/StatCard.vue';
 import RankCard from '../components/ProfilePage/RankCard.vue';
+import UserCard from "../components/UserCard.vue";
 
 export default {
   setup() {
@@ -58,7 +63,7 @@ export default {
       }),
     }
   },
-  components: { RankCard, StatCard }
+  components: { RankCard, StatCard, UserCard }
 }
 </script>
 

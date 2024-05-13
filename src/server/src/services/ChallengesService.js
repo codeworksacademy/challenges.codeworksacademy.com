@@ -2,7 +2,6 @@ import { dbContext } from "../db/DbContext.js";
 import { BadRequest, Forbidden } from "../utils/Errors.js";
 import { PROFILE_FIELDS, SUBMISSION_TYPES } from '../constants';
 import { challengeModeratorsService } from "./ChallengeModeratorsService.js";
-import { accountMilestonesService } from "./AccountMilestonesService.js";
 import { participantsService } from "./ParticipantsService.js";
 import { accountService } from "./AccountService.js";
 import { SimpleCache } from "../utils/SimpleCache.js";

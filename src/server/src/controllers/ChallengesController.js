@@ -43,7 +43,8 @@ export class ChallengesController extends BaseController {
   }
 
   async findChallengesByQuery(req, res, next) {
-    //FIXME ⚠️ -- This works but does not return creator $lookup is broken (I don't know how to use it)
+    // FIXME ⚠️ -- This works but does not return creator $lookup is broken (I don't know how to use it)
+    // NOTE $lookup is a paid feature and not included in a free MongoDB.com account :/
     try {
       const name = req.params.challengeName;
       const offset = 0;  // ?
@@ -73,7 +74,7 @@ export class ChallengesController extends BaseController {
 
   // 🔽 AUTHENTICATION REQUIRED 🔽
 
-  // SECTION START: MODERATOR_CHALLENGE_ACTIONS
+  // SECTION START: CHALLENGE CREATOR / MODERATOR ACTIONS
 
   async createChallenge(req, res, next) {
     try {
@@ -117,9 +118,9 @@ export class ChallengesController extends BaseController {
   //   catch (error) { next(error); }
   // }
 
-  // !SECTION END: MODERATOR_CHALLENGE_ACTIONS
+  // !SECTION END: CHALLENGE MODERATOR ACTIONS
 
-  // SECTION START: PARTICIPANT_ACTIONS
+  // SECTION START: CHALLENGE PARTICIPANT ACTIONS
 
   async submitChallenge(req, res, next) {
     try {
@@ -141,5 +142,6 @@ export class ChallengesController extends BaseController {
     catch (error) { next(error); }
   }
 
-  // !SECTION END: PARTICIPANT_ACTIONS
+  // !SECTION END: CHALLENGE PARTICIPANT ACTIONS
+
 }

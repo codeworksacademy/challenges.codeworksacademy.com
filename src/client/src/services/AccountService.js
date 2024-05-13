@@ -49,9 +49,14 @@ class AccountService {
   }
 
   async getMyChallengeModerators() {
-    const res = await api.get(`/account/challengeModerators`);
+    const res = await api.get('/account/challengeModerators');
     logger.log('[ACCOUNT SERVICE] getMyChallengeModerators', res.data);
     AppState.AccountState.challengeModerations = res.data.map(m => new ChallengeModerator(m));
+  }
+
+  async updateProfile(profileData) {
+    const res = await api.put('/account', profileData);
+    AppState.AccountState.account = new Account(res.data);
   }
 
 }

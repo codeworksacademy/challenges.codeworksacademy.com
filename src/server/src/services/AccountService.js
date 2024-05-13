@@ -79,13 +79,13 @@ class AccountService {
    *  @param {any} body Updates to apply to user object
    */
   async updateAccount(user, body) {
-    const update = sanitizeBody(body)
+    const update = sanitizeBody(body);
     const account = await dbContext.Account.findOneAndUpdate(
       { _id: user.id },
       { $set: update },
       { runValidators: true, setDefaultsOnInsert: true, new: true }
-    )
-    return account
+    );
+    return account;
   }
 
 

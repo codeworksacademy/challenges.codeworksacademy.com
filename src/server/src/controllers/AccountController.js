@@ -15,6 +15,7 @@ export class AccountController extends BaseController {
       .get('/participation', this.getMyParticipation)
       .get('/myModerations', this.getMyModerations)
       .get('/challengeModerators', this.getMyChallengeModerators)
+      .put('', this.updateAccount)
   }
 
   // 🔽 AUTHENTICATION REQUIRED 🔽
@@ -60,6 +61,14 @@ export class AccountController extends BaseController {
       const userId = req.userInfo.id;
       const moderations = await challengeModeratorsService.getModerationsByChallengeCreatorId(userId);
       return res.send(moderations);
+    }
+    catch (error) { next(error); }
+  }
+
+  async updateAccount(req, res, next) {
+    try {
+      const profile = await accountService.updateAccount(req.userInfo, req.body);
+      return res.send(profile);
     }
     catch (error) { next(error); }
   }

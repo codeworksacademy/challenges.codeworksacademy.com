@@ -47,6 +47,12 @@ const routes = [
         name: 'Profile.moderations',
         component: loadPage('ProfileModerations'),
         beforeEnter: authGuard
+      },
+      {
+        path: 'account',
+        name: 'Account',
+        component: loadPage('AccountPage'),
+        beforeEnter: authGuard
       }
     ]
   },

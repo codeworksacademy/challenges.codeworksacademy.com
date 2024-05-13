@@ -1,3 +1,4 @@
+
 export class Profile {
   constructor(data) {
     this.id = data._id

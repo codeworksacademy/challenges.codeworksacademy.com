@@ -37,7 +37,6 @@ import { computed, onUnmounted, watchEffect, } from 'vue'
 import { profilesService } from "../services/ProfilesService.js";
 import SummarySection from '../components/ProfilePage/SummarySection.vue';
 import ProfileLinksCard from '../components/ProfilePage/ProfileLinksCard.vue';
-import { accountMilestonesService } from "../services/AccountMilestonesService.js";
 
 export default {
   components: { SummarySection, ProfileLinksCard },

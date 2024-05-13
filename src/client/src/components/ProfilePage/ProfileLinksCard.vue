@@ -23,14 +23,14 @@
         </router-link>
       </div>
       
-      <dev-flag>
-      <div class="user-links-btn hover-warning rounded-1 selectable my-1">
-        <router-link :to="{ name: 'Profile.milestones' }" class="btn d-flex align-items-center p-1 ps-3 px-lg-3">
-          <i class="text-primary mx-1 fs-5 mdi mdi-trophy text-yellow"></i>
-          <span class="text-white mx-2">Milestones</span>
-        </router-link>
-      </div>
-      </dev-flag>
+      <DevFlag>
+        <div class="user-links-btn hover-warning rounded-1 selectable my-1">
+          <router-link :to="{ name: 'Profile.milestones' }" class="btn d-flex align-items-center p-1 ps-3 px-lg-3">
+            <i class="text-primary mx-1 fs-5 mdi mdi-trophy text-yellow"></i>
+            <span class="text-white mx-2">Milestones</span>
+          </router-link>
+        </div>
+      </DevFlag>
 
       <div class="user-links-btn hover-purple rounded-1 selectable my-1" v-if="isMyProfile">
         <router-link :to="{ name: 'Profile.moderations' }" class="btn d-flex align-items-center p-1 ps-3 px-lg-3">
@@ -39,13 +39,19 @@
         </router-link>
       </div>
     </div>
-    <div class="user-links-btn rounded-1 btn border-overline mt-1 py-2" v-if="isMyProfile">
-      <a class="d-flex align-items-center p-1" target="_blank" href="https://codeworksacademy.com/#/account/settings">
+    <div class="user-links-btn btn border-overline mt-1 py-2" v-if="isMyProfile">
+      <router-link :to="{ name: 'Account', params: { profileId: account?.id } }" class="d-flex align-items-center p-1 rounded-1 selectable">
         <i class="text-primary mx-1 fs-5 mdi mdi-account-edit"></i>
-        <span class="text-white mx-2 mx-2">Edit Account</span>
-        <i class="mdi mdi-open-in-new"></i>
-      </a>
+        <span class="text-white mx-2">Edit Account</span>
+      </router-link>
     </div>
+      <!-- <div class="user-links-btn rounded-1 btn border-overline mt-1 py-2" v-if="isMyProfile">
+        <a class="d-flex align-items-center p-1" target="_blank" href="https://codeworksacademy.com/#/account/settings">
+          <i class="text-primary mx-1 fs-5 mdi mdi-account-edit"></i>
+          <span class="text-white mx-2">Edit Account</span>
+          <i class="mdi mdi-open-in-new"></i>
+        </a>
+      </div> -->
   </div>
 </template>
 
@@ -61,6 +67,7 @@ export default {
         const route = useRoute();
         return {
             route,
+            account: computed(() => AppState.AccountState.account.id ),
             isMyProfile: computed(() => route.params.profileId == AppState.AccountState.account.id),
         };
     },
