@@ -32,7 +32,7 @@ class AccountMilestonesService {
     // Get or Create AccountMilestone association & increment count
     let accountMilestone = await dbContext.AccountMilestones.findOne({ check, accountId }).populate('milestone');
     // @ts-ignore - Does not register virtuals as possible on object
-    let milestone = accountMilestone?.milestone ?? {};
+    let milestone = accountMilestone.milestone ? accountMilestone.milestone : null;
     if (!accountMilestone) {
       milestone = await dbContext.Milestones.findOne({ check });
       accountMilestone = await dbContext.AccountMilestones.create({ milestoneId: milestone.id, accountId });
@@ -85,67 +85,6 @@ class AccountMilestonesService {
     return experience;
   }
   // !SECTION
-
-
-
-
-  // SECTION remaining OG code
-  async getCountByOperation(parsedMilestoneData, myFoundMilestone, userId) {
-    let count = 0
-
-    const filterKey = {
-      createdChallenge: { creatorId: userId }, //$gte
-      joinedChallenge: { accountId: userId }, //$gte
-      moderateChallenge: { $and: [{ accountId: userId }, { status: 'Active' }] }, //$gte
-      submissionsChallenge: { status: { $in: ['submitted', 'completed'] } }, //$gteChallenge
-      passingSubmissionsChallenge: { status: 'completed' }, //$gteChallenge
-      submittedParticipant: { $and: [{ accountId: userId }, { status: { $in: ['submitted', 'completed'] } }] },//$gte
-      passingParticipant: { $and: [{ accountId: userId }, { status: 'completed' }] }, //$gte
-      allMilestones: { $sum: '$tier' } //$sum
-    };
-    const milestoneRef = parsedMilestoneData.milestone.ref
-    const milestoneCheck = parsedMilestoneData.milestone.check
-    switch (parsedMilestoneData.operation) {
-      case "$gte":
-        count = await dbContext[milestoneRef].find(filterKey[milestoneCheck]).count();
-        break;
-      case "$sum":
-        const userIdObject = new mongoose.Types.ObjectId(userId);
-        const aggregateSum = await dbContext[milestoneRef].aggregate([
-          {
-            $match: { accountId: userIdObject }
-          },
-          {
-            $group: { _id: null, 'sumsValue': filterKey[milestoneCheck] }
-          }
-        ]);
-
-        count = aggregateSum[0].sumsValue;
-        break;
-      case "$gteChallenge":
-        const myChallenges = await challengesService.getChallengesCreatedBy(userId, userId)
-
-        const challengeParticipantsValue = await dbContext[milestoneRef].find({
-          $and: [
-            { challengeId: { $in: myChallenges } },
-            filterKey[milestoneCheck]
-          ]
-        }).count();
-
-        count = challengeParticipantsValue
-        break;
-      case "$increment":
-        let tempValue = myFoundMilestone.count;
-        tempValue++
-        count = tempValue
-        break;
-
-      default:
-        count = 0;
-        break;
-    }
-    return count;
-  }
 
 }
 
