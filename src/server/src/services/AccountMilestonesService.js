@@ -1,6 +1,7 @@
 import { logger } from "../utils/Logger.js";
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest } from "../utils/Errors.js";
+import { accountService } from "./AccountService.js";
 
 const milestoneChecks = [
   "createdChallenge",
@@ -37,13 +38,18 @@ class AccountMilestonesService {
   // !SECTION
 
   // SECTION Function for Account Milestone related triggers
-  async triggerAccountMilestone(check, accountId) {
+  async triggerAccountMilestone(check, accountId, challengeId = null) {
+    const milestone = await dbContext.Milestones.findOne({ check });
+
+    let challenge = null;
+    if (challengeId) {
+      challenge = await dbContext.Challenges.findById(challengeId);
+      if (!accountId) { accountId = challenge.creatorId; }
+    }
+    
     // Get or Create AccountMilestone association & increment count
-    let accountMilestone = await dbContext.AccountMilestones.findOne({ check, accountId }).populate('milestone');
-    // @ts-ignore - Does not register virtuals as possible on object
-    let milestone = accountMilestone.milestone ? accountMilestone.milestone : null;
+    let accountMilestone = await dbContext.AccountMilestones.findOne({ milestoneId: milestone.id, accountId });
     if (!accountMilestone) {
-      milestone = await dbContext.Milestones.findOne({ check });
       accountMilestone = await dbContext.AccountMilestones.create({ milestoneId: milestone.id, accountId });
     }
     accountMilestone.count++;
@@ -51,17 +57,17 @@ class AccountMilestonesService {
     // Parse logic & Calc tier
     const milestoneLogicSplit = milestone.logic.split('%');
     const parsedMilestoneData = {
-      maxTierLevel: milestoneLogicSplit[0].split('-')[0],
+      maxTierLevel: parseInt(milestoneLogicSplit[0].split('-')[0]),
       operation: milestoneLogicSplit[0].split('-')[1],
       logicArr: milestoneLogicSplit[1].split('-'),
     };
     let calculatedTier = 0;
     let amCount = accountMilestone.count;
     for (let i = 0; i < parsedMilestoneData.maxTierLevel; i++) {
-      if (amCount >= parsedMilestoneData.logicArr[i]) {
+      if (amCount >= parseInt(parsedMilestoneData.logicArr[i])) {
         calculatedTier++;
       }
-      if (amCount < parsedMilestoneData.logicArr[i]) {
+      if (amCount < parseInt(parsedMilestoneData.logicArr[i])) {
         break;
       }
     }
@@ -77,10 +83,11 @@ class AccountMilestonesService {
       }
       accountMilestone.xp = calculatedXp;
     }
-
-    // Update AccountMilestone with new data and return data
     accountMilestone.save();
-    return accountMilestone;
+
+    await accountService.calculateAccountRank({ id: accountId }, accountMilestone.xp);
+
+    // return accountMilestone;
   }
 
   async calcTotalAccountMilestoneXP(accountId) {

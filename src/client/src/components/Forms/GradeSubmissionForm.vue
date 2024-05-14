@@ -14,20 +14,27 @@
       <form @submit.prevent="gradeParticipant" class="row">
         <div class="col-12 d-flex justify-content-center align-items-center">
           <ol>
-            <div class="d-flex justify-content-end align-items-center">
+            <div class="d-flex justify-content-end">
               <span class="text-uppercase fw-bold p-3">Completed Steps: {{ checkedReqs }} / {{
                 totalReqs }}</span>
             </div>
             <li v-for="(requirement, index) in editable.requirements" :key="index">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" :id="`field-${requirement.description}`"
-                  v-model="requirement.isComplete" :value="requirement.isComplete" @change="addGradePoint(requirement)">
+                  v-model="requirement.isComplete" :value="requirement.isComplete" @change="toggleRequirement(requirement)">
                 <label class="form-check-label" :for="`field-${requirement.description}`">{{ requirement.description
                 }}</label>
               </div>
               <hr class="mb-4" style="color: white; opacity: .4;" />
             </li>
           </ol>
+        </div>
+        <div class="col-12 form-group px-5 mb-5" v-if="editable.priorFeedback.length == 0">
+          <label for="feedback" class="form-label">Prior Feedback</label>
+          <ul>
+            <!-- TODO Turn feedback into a component and insert in place of the below -->
+            <li v-for="prior in editable.priorFeedback">{{ prior.comment }}</li>
+          </ul>
         </div>
         <div class="col-12 form-group px-5 mb-5">
           <label for="feedback" class="form-label">Feedback</label>
@@ -58,94 +65,78 @@
 </template>
 
 <script>
-import { useRoute } from 'vue-router'
-import { AppState } from '../../AppState'
-import { logger } from '../../utils/Logger'
-import { SUBMISSION_TYPES } from '../../constants'
-import { formatEnum } from '../../utils/FormatEnum'
+import { AppState } from '../../AppState.js'
+import { logger } from '../../utils/Logger.js'
 import { computed, onMounted, ref } from 'vue'
-import { challengesService } from '../../services/ChallengesService'
-import { ChallengeParticipant } from '../../models/ChallengeParticipant'
+import { challengesService } from '../../services/ChallengesService.js'
+import { ChallengeParticipant } from '../../models/ChallengeParticipant.js'
 import Pop from "../../utils/Pop.js"
 
 export default {
-  props: {
-    participant: {
-      type: ChallengeParticipant,
-      required: true
-    }
-  },
+  props: { participant: { type: ChallengeParticipant, required: true } },
+
   setup(props) {
-
-    const route = useRoute()
-
     const editable = ref({
-      challengeId: route.params.challengeId,
-      accountId: props.participant.accountId,
-      participantId: props.participant.id,
-      challenge: props.participant.challenge,
-      profile: props.participant.profile,
       requirements: props.participant.requirements,
-      feedback: props.participant.feedback,
+      priorFeedback: props.participant.feedback,
+      feedback: null,
       status: null
-    })
+    });
 
     onMounted(() => {
-      logger.log('Participant Requirements:', props.participant.requirements)
+      logger.log('Participant Requirements for ', props.participant.profile.name, ': ', props.participant.requirements);
     })
-
-    const checkedReqs = computed(() => editable.value.requirements.filter(r => r.isComplete).length)
-
-    const totalReqs = computed(() => editable.value.requirements.length)
-
-    async function gradeParticipant() {
-      try {
-        const participantResult = editable.value;
-        await challengesService.gradeParticipant(participantResult);
-        Pop.success(`${editable.value.profile?.name} has been graded! Result: ${editable.value.status}`)
-      } catch (error) {
-        Pop.error('[GRADE SUBMISSION FORM] gradeParticipant:: ' + error);
-      }
-    }
-
-    function addGradePoint(requirement) {
-      requirement = !requirement
-      editable.value.requirements.forEach(r => {
-        if (r.isComplete === true) {
-          logger.log(
-            `[NEW DATA] =>
-          📝 COMPLETED REQUIREMENT: {
-            💭 DESCRIPTION: ${r.description}
-            📈 GRADE: ${checkedReqs.value} / ${totalReqs.value}
-            }`
-          );
-        }
-      });
-    }
 
     return {
       editable,
-      checkedReqs,
-      totalReqs,
+      checkedReqs: computed(() => props.participant.requirements.filter(r => r.isComplete).length),
+      totalReqs: computed(() => props.participant.requirements.length),
       challenge: computed(() => AppState.ChallengeState.challenge),
-      formatEnum,
-      gradeParticipant,
-      addGradePoint
+
+      toggleRequirement(requirement) {
+        requirement = !requirement;
+        props.participant.requirements.forEach(r => {
+          if (r.isComplete === true) {
+            logger.log(
+              `[NEW DATA] =>
+                📝 COMPLETED REQUIREMENT: {
+                💭 DESCRIPTION: ${r.description}
+                📈 GRADE: ${checkedReqs.value} / ${totalReqs.value}
+              }`
+            );
+          }
+        });
+      },
+
+      async gradeParticipant() {
+        try {
+          const participantResults = {
+            ...editable.value,
+            participantId: props.participant.id,
+            challengeId: props.participant.challengeId
+          };
+          await challengesService.gradeParticipant(participantResults);
+          Pop.success(`${props.participant.profile?.name} has been graded! Result: ${editable.value.status}`)
+        } catch (error) {
+          Pop.error('[GRADE SUBMISSION FORM] gradeParticipant:: ' + error);
+        }
+      }
+
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-ol {
-  list-style: none;
-  counter-reset: my-counter;
-  width: 100%;
-}
+  ol {
+    list-style: none;
+    counter-reset: my-counter;
+    width: 100%;
+  }
 
-ol li {
-  position: relative;
-  margin-bottom: 10px;
-  left: -10px;
-}
+  ol li {
+    position: relative;
+    margin-bottom: 10px;
+    left: -10px;
+  }
 </style>

@@ -19,7 +19,7 @@ export class ChallengesController extends BaseController {
       .post('', this.createChallenge)
       .put('/:challengeId', this.editChallenge)
       .put('/:challengeId/participants/:participantId', this.gradeParticipant)
-      // .delete('/:challengeId/participants', this.removeParticipant)
+      .delete('/:challengeId/participants', this.removeParticipant)
 
       .put('/:challengeId/submit', this.submitChallenge)
       .put('/:challengeId/reputation', this.giveReputation)
@@ -99,26 +99,28 @@ export class ChallengesController extends BaseController {
 
   async gradeParticipant(req, res, next) {
     try {
-      const accountId = req.userInfo.id;
-      const participant = await challengesService.gradeParticipant(req.body, accountId);
+      const moderatorId = req.userInfo.id;
+      // const challengeId = req.params.challengeId;
+      // const participantId = req.params.participantId;
+      const participant = await challengesService.gradeParticipant(req.body, moderatorId);
       return res.send(participant);
     }
     catch (error) { next(error); }
   }
 
-  // NOTE Not in use anywhere yet
-  // async removeParticipant(req, res, next) {
-  //   try {
-  //     const challengeId = req.params.challengeId;
-  //     const participant = req.body;
-  //     const accountId = req.userInfo.id;
-  //     const p = await participantsService.removeParticipant(challengeId, accountId, participant);
-  //     res.send(p);
-  //   }
-  //   catch (error) { next(error); }
-  // }
+  async removeParticipant(req, res, next) {
+    try {
+      const challengeId = req.params.challengeId;
+      const participant = req.body;
+      const moderatorId = req.userInfo.id;
+      const p = await participantsService.removeParticipant(challengeId, moderatorId, participant);
+      res.send(p);
+    }
+    catch (error) { next(error); }
+  }
 
   // !SECTION END: CHALLENGE MODERATOR ACTIONS
+
 
   // SECTION START: CHALLENGE PARTICIPANT ACTIONS
 

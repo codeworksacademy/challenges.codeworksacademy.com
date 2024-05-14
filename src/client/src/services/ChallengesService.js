@@ -83,10 +83,9 @@ class ChallengesService {
     return res.data.status;
   }
 
-
-  async gradeParticipant(newGrade) {
-    const res = await api.put(`api/challenges/${newGrade.challengeId}/participants/${newGrade.participantId}`, newGrade);
-    const participantIndex = AppState.ChallengeState.participants.findIndex(p => p.participantId === newGrade.participantId);
+  async gradeParticipant(participantResults) {
+    const res = await api.put(`api/challenges/${participantResults.challengeId}/participants/${participantResults.participantId}`, participantResults);
+    const participantIndex = AppState.ChallengeState.participants.findIndex(p => p.participantId === participantResults.participantId);
     if (res.data.status == 'completed') {
       AppState.ChallengeState.challenge.completedCount++;
     }

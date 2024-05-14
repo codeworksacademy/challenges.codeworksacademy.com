@@ -1,5 +1,6 @@
-const ObjectId = Schema.Types.ObjectId;
 import { Schema } from "mongoose";
+
+const ObjectId = Schema.Types.ObjectId;
 
 export const AccountMilestoneSchema = new Schema({
   tier: { type: Number, default: 0 },
@@ -12,12 +13,7 @@ export const AccountMilestoneSchema = new Schema({
   { timestamps: true, toJSON: { virtuals: true } }
 )
 
-AccountMilestoneSchema.index({
-  milestoneId: 1,
-  accountId: 1
-},
-  { unique: true }
-)
+AccountMilestoneSchema.index({ milestoneId: 1, accountId: 1}, { unique: true })
 
 AccountMilestoneSchema.virtual('milestone', {
   localField: 'milestoneId',

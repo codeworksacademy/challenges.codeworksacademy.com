@@ -90,15 +90,18 @@ class ChallengeModeratorsService {
 
 
   async getMyModerations(accountId) {
-    const moderators = await dbContext.ChallengeModerators.find({ $and: [{ $or: [{ status: 'active' }, { status: 'pending' }] }, { accountId: accountId }] }).populate({
-      path: 'challenge',
-      populate: { path: 'creator participantCount name description' }
-    }).populate({ path: 'profile', populate: { path: 'name picture' } })
+    const moderators = await dbContext.ChallengeModerators.find({ $and: [{ $or: [{ status: 'active' }, { status: 'pending' }] }, { accountId: accountId }] })
+      .populate({
+        path: 'challenge',
+        populate: { path: 'creator participantCount name description' }
+      })
+      .populate({ path: 'profile', populate: { path: 'name picture' } })
     return moderators;
   }
 
   async getModeratorsByChallengeId(challengeId) {
-    const moderators = await dbContext.ChallengeModerators.find({ $and: [{ $or: [{ status: 'active' }, { status: 'pending' }] }, { challengeId: challengeId }] }).populate('profile', PROFILE_FIELDS)
+    const moderators = await dbContext.ChallengeModerators.find({ $and: [{ $or: [{ status: 'active' }, { status: 'pending' }] }, { challengeId: challengeId }] })
+      .populate('profile', PROFILE_FIELDS)
     return moderators;
   }
 

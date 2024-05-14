@@ -4,7 +4,7 @@
       <div class="col-12 text-light">
         <h3 class="fs-2 pb-3" style="color: #7A7A7A">Challenge Requirements</h3>
         <h4 v-if="challenge.requirements.length == 0" class="text-light">No requirements</h4>
-        <ol>
+        <ol v-else>
           <li v-for="(requirement, index) in challenge.requirements" :key="index" class="py-2">
             <span>{{ requirement }}</span>
           </li>
@@ -14,16 +14,26 @@
     <section class="row bg-detail py-3 px-1 rounded-3" v-if="isParticipant && challenge">
       <div class="col-12 text-light">
         <h3 class="fs-2 pb-3 text-warning" style="color: #7A7A7A">Feedback</h3>
-        <p class="fs-5">
-          {{
-            isParticipant.feedback ||
-            (
-              isParticipant.status == 'completed'
-                ? 'Congratulations!'
-                : 'Please submit your challenge'
-            )
-          }}
-        </p>
+        <div class="d-flex" v-if="isParticipant.feedback.length > 0">
+            <ul>
+              <li v-for="feedback in isParticipant.feedback">
+                <div class="d-flex align-items-center gap-3 flex-wrap">
+                  <div class="d-flex align-items-center gap-2" :alt="feedback.createdAt">
+                    <i class="mdi mdi-check-circle text-secondary fs-3" v-if="feedback.returnedStatus == 'completed'"></i>
+                    <i class="mdi mdi-close-circle-outline text-danger fs-3" v-else></i>
+                    <span class="text-capitalize">{{ feedback.returnedStatus }}</span>:
+                  </div>
+                  <div class="d-flex align-items-center" v-if="feedback.moderator">
+                    <img :src="feedback.moderator.picture" :alt="feedback.moderator.nickname || feedback.moderator.name" class="avatar-sm">
+                    <span>{{ feedback.comment }}</span>
+                  </div>
+                </div>
+              </li>
+            </ul>
+        </div>
+        <div class="d-flex" v-else>
+          <p class="fs-5"> {{( isParticipant.status == 'completed' ? 'Congratulations!' : 'Please submit your challenge' )}} </p>
+        </div>
       </div>
     </section>
   </div>
