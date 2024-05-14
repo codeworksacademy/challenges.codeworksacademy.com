@@ -1,8 +1,8 @@
 <template>
   <div class="container-fluid">
-    <section v-if="milestones?.length > 0" class="row">
-      <div v-for="milestone in milestones" :key="milestone?.id" class="col-12 col-lg-6 px-1 px-lg-4 py-2 py-lg-3">
-        <MilestoneCard :milestone="milestone" :isMyProfile="isMyProfile" />
+    <section v-if="accountMilestones?.length > 0" class="row">
+      <div v-for="accountMilestone in accountMilestones" :key="accountMilestone?.id" class="col-12 col-lg-6 px-1 px-lg-4 py-2 py-lg-3">
+        <MilestoneCard :accountMilestone="accountMilestone" :isMyProfile="isMyProfile" />
       </div>
     </section>
     <section v-else class="row badge-card text-white">
@@ -29,10 +29,8 @@ export default {
 
   setup() {
     const route = useRoute();
-    const milestones = ref([]);
+    const accountMilestones = ref([]);
 
-    // This is the key trigger for the calculation of milestones. With it just on login, You could complete 3 challenges and see no results without logging in and out.
-    // The 'get' that was a layer up in AccountMilestones.vue wasn't following order of operations and would never allow a new profile to generate milestones.
     async function getAccountMilestones() {
       try {
         if (route.name == 'Milestones') {
@@ -44,7 +42,7 @@ export default {
             await accountMilestonesService.getAccountMilestonesByUserId(route.params.profileId);
           }
         }
-        milestones.value = AppState.ProfileState.milestones;
+        accountMilestones.value = AppState.ProfileState.milestones;
       }
       catch (error) { Pop.error('[MILESTONES TRACKER] getAccountMilestones:: ' + error); }
     };
@@ -56,9 +54,8 @@ export default {
     });
 
     return {
-      milestones,
+      accountMilestones,
       isMyProfile: computed(() => { return AppState.AccountState.account?.id == route.params.profileId }),
-
     };
   }
 }

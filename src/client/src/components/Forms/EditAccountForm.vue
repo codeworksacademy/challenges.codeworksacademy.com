@@ -53,7 +53,7 @@
           <div class="m-3 mt-0">
             <span class="d-flex align-items-center">
               <i class="mdi mdi-panorama-variant me-1 fs-3"></i>
-              <label for="picture">Cover Picture</label>
+              <label for="picture">Cover Image</label>
             </span>
             <input v-model="editable.coverImg" class="ms-2 form-control" type="url" id="picture" maxlength="256" placeholder="URL">
           </div>

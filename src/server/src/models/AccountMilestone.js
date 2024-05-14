@@ -1,5 +1,5 @@
-import { Schema } from "mongoose";
 const ObjectId = Schema.Types.ObjectId;
+import { Schema } from "mongoose";
 
 export const AccountMilestoneSchema = new Schema({
   tier: { type: Number, default: 0 },

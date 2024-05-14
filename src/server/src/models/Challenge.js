@@ -1,9 +1,10 @@
-import { Schema } from 'mongoose';
 import { CATEGORY_TYPES, STATUS_TYPES } from '../constants';
+import { Schema } from 'mongoose';
 
 const ObjectId = Schema.Types.ObjectId;
 const primaryColor = '#B3B2B2';
 const secondaryColor = '#242424';
+
 export const ChallengeSchema = new Schema({
   name: { type: String, required: true, maxLength: 100, minLength: 3 },
   category: { type: String, enum: Object.values(CATEGORY_TYPES), required: true, lowercase: true },

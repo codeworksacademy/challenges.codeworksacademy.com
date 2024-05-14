@@ -4,6 +4,7 @@ export const SUBMISSION_TYPES = data.SUBMISSION_TYPES
 export const CATEGORY_TYPES = data.CATEGORY_TYPES
 export const STATUS_TYPES = data.STATUS_TYPES
 export const MILESTONE_TIER = data.MILESTONE_TIER
+export const MILESTONE_TIER_COLORS = data.MILESTONE_TIER_COLORS
 
 export const RANK_TITLE = Object.values(data.RANK_TITLE).map(badge => {
   return {

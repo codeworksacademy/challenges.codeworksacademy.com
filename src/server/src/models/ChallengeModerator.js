@@ -1,5 +1,5 @@
+const ObjectId = Schema.Types.ObjectId;
 import { Schema } from "mongoose";
-const ObjectId = Schema.Types.ObjectId
 
 export const ChallengeModeratorSchema = new Schema({
   challengeId: { type: ObjectId, required: true, ref: 'Challenge' },

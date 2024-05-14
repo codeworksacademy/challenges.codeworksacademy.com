@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
-import { MILESTONE_TIER, RANK_TITLE, SUBMISSION_TYPES } from '../constants/index.js';
+import { RANK_TITLE, SUBMISSION_TYPES } from '../constants/index.js';
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 export const ProfileSchema = new Schema(
