@@ -73,28 +73,4 @@ export class AccountController extends BaseController {
     catch (error) { next(error); }
   }
 
-  // async calculateAccountRank(req, res, next) {
-  //   try {
-  //     const user = req.userInfo
-  //     const rank = await accountService.calculateAccountRank(user)
-  //     return res.send(rank)
-  //   } 
-  //   catch(error) { next(error); }
-  // }
-
-  // async calculateAccountReputation(req, res, next) {
-  //   try {
-  //     const reputationScore = await accountService.calculateAccountReputation(req.userInfo)
-  //     res.send(reputationScore)
-  //   } 
-  //   catch(error) { next(error); }
-  // }
-
-  // async getAccountBadges(req, res, next) {
-  //   try {
-  //     const badges = await accountService.getAccountBadges(req.userInfo)
-  //     return res.send(badges)
-  //   } 
-  //   catch(error) { next(error); }
-  // }
 }

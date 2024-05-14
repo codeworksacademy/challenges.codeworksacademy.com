@@ -79,7 +79,8 @@ main {
 }
 
 .light-gold-border {
-  border: 3px solid #CBD4A5;
+  border: 1px solid #CBD4A569;
+  box-shadow: 0 0 .5rem #CBD4A5;
 }
 
 .swal2-container {

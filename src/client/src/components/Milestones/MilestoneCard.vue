@@ -25,7 +25,7 @@
         <div>XP {{ milestoneExp }}</div>
       </section>
 
-      <section class="mb-3 px-4">{{ milestoneDescription }} </section>
+      <section class="my-3 pt-2 px-4">{{ milestoneDescription }} </section>
       
       <section class="mb-3 px-3">
         <div class="progress rounded-0 bg-dark" role="progressbar" aria-label="Example with label" aria-valuemin="0" aria-valuemax="100" :title="tierProgress">
@@ -96,6 +96,7 @@ export default {
           Pop.error('[MILESTONE CARD] claimMilestone:: ' + error);
         }
       }
+
     }
   }
 }
@@ -120,6 +121,7 @@ export default {
   border-radius: .5rem;
   min-height: 15vh;
   overflow-x: hidden;
+  box-shadow: .25rem .25rem .5rem #000000ae;
 
   .badge-wrapper {
     font-family: 'Comfortaa', sans-serif;
