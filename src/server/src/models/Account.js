@@ -20,8 +20,8 @@ export const AccountSchema = new Schema(
     coverImg: { type: String, default: 'https://codeworks.blob.core.windows.net/public/assets/img/cover_img.jpg' },
 
     xp: { type: Number, default: 0 }, // Based on challenge completion
-    reputation: { type: Number, default: 0 },
-    rank: { type: Number, default: 0 }, // Based on xp + rep + milestones
+    reputation: { type: Number, default: 0 }, // Up-votes from challenges
+    rank: { type: Number, default: 0 }, // Final RANK XP = Challenge XP + REP + Total Account Milestone XP
     title: { type: String, enum: Object.values(RANK_TITLE).map(b => b.NAME.toLowerCase()), lowercase: true, default: 'bugs bunny' },
   },
   { timestamps: true, toJSON: { virtuals: true } }

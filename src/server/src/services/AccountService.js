@@ -56,11 +56,12 @@ function sanitizeBody(body) {
 }
 
 class AccountService {
+
+  // SECTION functions from Account Controller
+
   /**
    * Returns a user account from the Auth0 user object
-   *
    * Creates user if none exists
-   *
    * Adds sub of Auth0 account to account if not currently on account
    * @param {any} user
    */
@@ -88,10 +89,12 @@ class AccountService {
     return account;
   }
 
+  // !SECTION functions from Account Controller
 
-  // Calculates the rank of the user by adding the following to the user's XP and reputation, which both contribute to increasing user rank => original XP level + total milestone XP from user's milestones + reputation
+
+  // SECTION Calculations for account data
+
   /**
-   * 
    * @param {{id:string}} user 
    * @returns 
    */
@@ -123,5 +126,8 @@ class AccountService {
     await account.save()
     return account
   }
+
+  // !SECTION Calculations for account data
+
 }
-export const accountService = new AccountService()
+export const accountService = new AccountService();

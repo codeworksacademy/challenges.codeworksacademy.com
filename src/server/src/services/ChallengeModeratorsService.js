@@ -36,8 +36,8 @@ class ChallengeModeratorsService {
     return moderator;
   }
 
-  async getModerationsByChallengeCreatorId(userId) {
-    const challenges = await dbContext.Challenges.find({ creatorId: userId });
+  async getModerationsByChallengeCreatorId(accountId) {
+    const challenges = await dbContext.Challenges.find({ creatorId: accountId });
     const moderators = await dbContext.ChallengeModerators.find({ challengeId: { $in: challenges } })
       .populate({
         path: 'challenge',
@@ -47,18 +47,18 @@ class ChallengeModeratorsService {
     return moderators;
   }
 
-  // async ApproveModeration(moderatorId, userId) {
+  // async ApproveModeration(moderatorId, accountId) {
   //   const moderation = await this.getModerationById(moderatorId);
   //   const challenge = await challengesService.getChallengeById(moderation.challengeId);
 
   //   if (moderation.originId == challenge.creatorId) {
-  //     if (moderation.accountId != userId) {
+  //     if (moderation.accountId != accountId) {
   //       throw new Forbidden(
   //         `[PERMISSIONS ERROR]: Only the user can approve it.`
   //       )
   //     }
   //   } else if (moderation.originId == moderation.accountId) {
-  //     if (challenge.creatorId != userId) {
+  //     if (challenge.creatorId != accountId) {
   //       throw new Forbidden(
   //         `[PERMISSIONS ERROR]: Only the owner of ${challenge.name} can approve it.`
   //       )
@@ -70,7 +70,7 @@ class ChallengeModeratorsService {
   //   return moderation;
   // }
 
-  async removeModerator(moderatorId, userId) {
+  async removeModerator(moderatorId, accountId) {
     const moderatorToRemove = await dbContext.ChallengeModerators.findById(moderatorId);
     const challenge = await challengesService.getChallengeById(moderatorToRemove.challengeId);
 
@@ -78,7 +78,7 @@ class ChallengeModeratorsService {
       throw new BadRequest("Invalid moderator ID.");
     }
 
-    if (userId != moderatorToRemove.accountId && userId != challenge.creatorId) {
+    if (accountId != moderatorToRemove.accountId && accountId != challenge.creatorId) {
       throw new Forbidden("[PERMISSIONS ERROR]: Your are not the challenge creator. You may not remove other moderators.");
     }
 
@@ -102,10 +102,10 @@ class ChallengeModeratorsService {
     return moderators;
   }
 
-  async getModeratorByUserIdAndChallengeId(userId, challengeId) {
+  async getModeratorByAccountIdAndChallengeId(accountId, challengeId) {
     const mods = await this.getModeratorsByChallengeId(challengeId)
     // @ts-ignore
-    const isMod = mods.find(m => m.accountId == userId)
+    const isMod = mods.find(m => m.accountId == accountId)
     if (!isMod) {
       throw new Forbidden('This user is not a moderator for this challenge')
     }

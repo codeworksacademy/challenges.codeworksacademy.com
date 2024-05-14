@@ -45,8 +45,8 @@ export class ParticipantsController extends BaseController {
   async leaveChallenge(req, res, next) {
     try {
       const participantId = req.params.participantId;
-      const userId = req.userInfo.id;
-      const participantToLeave = await participantsService.leaveChallenge(participantId, userId);
+      const accountId = req.userInfo.id;
+      const participantToLeave = await participantsService.leaveChallenge(participantId, accountId);
       return res.send(participantToLeave);
     }
     catch (error) { next(error); }

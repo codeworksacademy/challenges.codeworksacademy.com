@@ -35,11 +35,11 @@ export default {
       try {
         if (route.name == 'Milestones') {
           if (AppState.ProfileState.profile?.id != AppState.AccountState.account.id || !AppState.ProfileState.milestones) {
-            await accountMilestonesService.getAccountMilestonesByUserId(AppState.AccountState.account.id);
+            await accountMilestonesService.getAccountMilestonesByAccountId(AppState.AccountState.account.id);
           }
         } else {
           if (!AppState.ProfileState.milestones) {
-            await accountMilestonesService.getAccountMilestonesByUserId(route.params.profileId);
+            await accountMilestonesService.getAccountMilestonesByAccountId(route.params.profileId);
           }
         }
         accountMilestones.value = AppState.ProfileState.milestones;

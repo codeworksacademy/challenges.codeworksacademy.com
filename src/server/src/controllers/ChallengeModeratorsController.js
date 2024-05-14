@@ -6,17 +6,17 @@ export class ChallengeModeratorsController extends BaseController {
   constructor() {
     super('api/moderators')
     this.router
-      .get('/:userId/profiles', this.getMyModerationsByProfileId)
+      .get('/:accountId/profiles', this.getMyModerationsByProfileId)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.addModerator)
-      .get('/challenges/:userId', this.getModerationsByChallengeCreatorId)
+      .get('/challenges/:accountId', this.getModerationsByChallengeCreatorId)
       // .put('/:moderatorId', this.ApproveModeration)
       .delete('/:moderatorId', this.removeModerator)
   }
 
   async getMyModerationsByProfileId(req, res, next) {
     try {
-      const profileId = req.params.userId
+      const profileId = req.params.accountId
       const moderations = await challengeModeratorsService.getMyModerationsByProfileId(profileId)
       return res.send(moderations)
     }
@@ -37,8 +37,8 @@ export class ChallengeModeratorsController extends BaseController {
 
   async getModerationsByChallengeCreatorId(req, res, next) {
     try {
-      const userId = req.params.userId
-      const moderations = await challengeModeratorsService.getModerationsByChallengeCreatorId(userId)
+      const accountId = req.params.accountId
+      const moderations = await challengeModeratorsService.getModerationsByChallengeCreatorId(accountId)
       return res.send(moderations)
     }
     catch (error) { next(error); }
@@ -47,8 +47,8 @@ export class ChallengeModeratorsController extends BaseController {
   // async ApproveModeration(req, res, next) {
   //   try {
   //     const moderatorId = req.params.moderatorId
-  //     const userId = req.userInfo.id
-  //     const moderatorToApprove = await challengeModeratorsService.ApproveModeration(moderatorId, userId)
+  //     const accountId = req.userInfo.id
+  //     const moderatorToApprove = await challengeModeratorsService.ApproveModeration(moderatorId, accountId)
   //     return res.send(moderatorToApprove)
   //   }
   //   catch (error) { next(error); }
@@ -57,8 +57,8 @@ export class ChallengeModeratorsController extends BaseController {
   async removeModerator(req, res, next) {
     try {
       const moderatorId = req.params.moderatorId
-      const userId = req.userInfo.id
-      const moderatorToRemove = await challengeModeratorsService.removeModerator(moderatorId, userId)
+      const accountId = req.userInfo.id
+      const moderatorToRemove = await challengeModeratorsService.removeModerator(moderatorId, accountId)
       return res.send(moderatorToRemove)
     }
     catch (error) { next(error); }

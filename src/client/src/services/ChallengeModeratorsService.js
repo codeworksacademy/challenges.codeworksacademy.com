@@ -10,8 +10,8 @@ class ChallengeModeratorsService {
     AppState.ChallengeState.moderators.push(newMod);
   }
 
-  async getModerationsByProfileId(userId) {
-    const res = await api.get(`api/moderators/${userId}/profiles`);
+  async getModerationsByProfileId(accountId) {
+    const res = await api.get(`api/moderators/${accountId}/profiles`);
     AppState.ChallengeState.moderators = res.data.map(m => new ChallengeModerator(m));
   }
 
@@ -20,8 +20,8 @@ class ChallengeModeratorsService {
     AppState.ChallengeState.moderators = res.data.map(m => new ChallengeModerator(m));
   }
 
-  async getModerationsByChallengeCreatorId(userId) {
-    const res = await api.get(`api/moderators/challenges/${userId}`);
+  async getModerationsByChallengeCreatorId(accountId) {
+    const res = await api.get(`api/moderators/challenges/${accountId}`);
     AppState.ChallengeState.moderators = res.data.map(m => new ChallengeModerator(m));
   }
 

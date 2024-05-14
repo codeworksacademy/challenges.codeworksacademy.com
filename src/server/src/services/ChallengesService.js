@@ -25,7 +25,7 @@ class ChallengesService {
       throw new BadRequest('You cannot set the status type to ' + participantData.status);
     }
 
-    // await challengeModeratorsService.getModeratorByUserIdAndChallengeId(accountId, participantData.challengeId);
+    // await challengeModeratorsService.getModeratorByAccountIdAndChallengeId(accountId, participantData.challengeId);
 
     const participant = await participantsService.getParticipantById(participantData.participantId);
     if (accountId == participant.accountId) {
@@ -46,7 +46,7 @@ class ChallengesService {
     return participant;
   }
 
-  // This method is used to give the experience of a challenge to a userId
+  // This method is used to give the experience of a challenge to a accountId
   // Triggered by grading or autoGrade
   async awardExperience(participant) {
     let challenge = participant.challenge;
@@ -124,11 +124,11 @@ class ChallengesService {
     return challenges
   }
 
-  async editChallenge(challengeData, userId, challengeId) {
+  async editChallenge(challengeData, accountId, challengeId) {
     const challenge = await this.getChallengeById(challengeId);
 
-    const isChallengeModerator = await challengeModeratorsService.getModeratorByUserIdAndChallengeId(userId, challengeId);
-    if (!isChallengeModerator && challenge.creatorId != userId) {
+    const isChallengeModerator = await challengeModeratorsService.getModeratorByAccountIdAndChallengeId(accountId, challengeId);
+    if (!isChallengeModerator && challenge.creatorId != accountId) {
       throw new Forbidden(
         `[PERMISSIONS ERROR]: Only the creator of ${challenge.name} or a moderator can edit it.`
       );
@@ -158,14 +158,14 @@ class ChallengesService {
     return challenge
   }
 
-  async giveReputation(challengeId, userId) {
+  async giveReputation(challengeId, accountId) {
     const challenge = await this.getChallengeById(challengeId)
     // @ts-ignore
     const challengeCreator = challenge.creator
     await dbContext.Account.findById(challengeCreator.id)
-    const index = challenge.reputationIds.findIndex(i => i === userId)
+    const index = challenge.reputationIds.findIndex(i => i === accountId)
     if (index === -1) {
-      challenge.reputationIds.push(userId)
+      challenge.reputationIds.push(accountId)
       challengeCreator.reputation++
     } else {
       challenge.reputationIds.splice(index, 1)

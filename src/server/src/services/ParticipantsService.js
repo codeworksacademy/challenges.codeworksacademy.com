@@ -53,15 +53,15 @@ class ParticipantsService {
 	}
 
 	// I know who I am looking for so no need to populate the profile
-	async getParticipationByUserId(userId) {
-		const participation = await dbContext.ChallengeParticipants.find({ accountId: userId }).populate({
+	async getParticipationByAccountId(accountId) {
+		const participation = await dbContext.ChallengeParticipants.find({ accountId: accountId }).populate({
 			path: 'challenge',
 			populate: { path: 'creator' }
 		})
 		return participation
 	}
 
-	// This method is used to give the experience of a challenge to a userId
+	// This method is used to give the experience of a challenge to a accountId
 	// Triggered by grading or autoGrade
 	async awardExperience(participant) {
 		let challenge = participant.challenge
@@ -73,12 +73,12 @@ class ParticipantsService {
 		await accountService.calculateAccountRank({ id: participant.accountId })
 	}
 
-	async leaveChallenge(participantId, userId) {
+	async leaveChallenge(participantId, accountId) {
 		const participantToRemove = await dbContext.ChallengeParticipants.findById(participantId);
 		if (!participantToRemove) {
 			throw new BadRequest("Invalid participant ID.");
 		}
-		if (userId != participantToRemove.accountId) {
+		if (accountId != participantToRemove.accountId) {
 			throw new Forbidden("[PERMISSIONS ERROR]: Your information does not match this participant's. You may not remove other participants.");
 		}
 		participantToRemove.status = 'left';
@@ -86,7 +86,7 @@ class ParticipantsService {
 		return participantToRemove;
 	}
 
-	// 	async removeParticipant(challengeId, userId, participant) {
+	// 	async removeParticipant(challengeId, accountId, participant) {
 	// 		const challenge = await challengesService.getChallengeById(challengeId)
 
 	// 		const participantToRemove = await dbContext.ChallengeParticipants.findById(participant.id)
@@ -99,7 +99,7 @@ class ParticipantsService {
 	// 			throw new BadRequest('Invalid participant ID.')
 	// 		}
 
-	// 		if (userId != challenge.creatorId) {
+	// 		if (accountId != challenge.creatorId) {
 	// 			throw new Forbidden(`[PERMISSIONS ERROR]: You are not the creator of ${challenge.name}. You may not remove participants from it.`)
 	// 		}
 

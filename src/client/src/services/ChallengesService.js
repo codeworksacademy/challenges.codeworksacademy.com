@@ -93,8 +93,8 @@ class ChallengesService {
     AppState.ChallengeState.participants.splice(participantIndex, 1, new ChallengeParticipant(res.data));
   }
 
-  async giveReputation(challengeId, userId) {
-    const res = await api.put(`api/challenges/${challengeId}/reputation`, userId);
+  async giveReputation(challengeId, accountId) {
+    const res = await api.put(`api/challenges/${challengeId}/reputation`, accountId);
     AppState.ChallengeState.challenge = new Challenge(res.data);
   }
 

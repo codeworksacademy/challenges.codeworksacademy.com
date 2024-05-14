@@ -17,7 +17,7 @@ const milestoneChecks = [
 class AccountMilestonesService {
 
   // SECTION from Account Milestone Controller
-  async getAccountMilestonesByUserId(accountId) {
+  async getAccountMilestonesByAccountId(accountId) {
     const accountMilestones = await dbContext.AccountMilestones.find({ accountId }).populate('milestone');
     if (!accountMilestones) {
       return 'This user does not have any milestones'
@@ -25,9 +25,9 @@ class AccountMilestonesService {
     return accountMilestones;
   }
 
-  async claimMyMilestone(accountMilestoneId, userId) {
+  async claimMyMilestone(accountMilestoneId, accountId) {
     const claimMilestone = await dbContext.AccountMilestones.findById(accountMilestoneId);
-    if (claimMilestone.accountId != userId) {
+    if (claimMilestone.accountId != accountId) {
       throw new BadRequest("You are not authorized to claim this Milestone");
     }
     claimMilestone.claimed = true;
@@ -84,7 +84,7 @@ class AccountMilestonesService {
   }
 
   async calcTotalAccountMilestoneXP(accountId) {
-    const accountMilestones = await this.getAccountMilestonesByUserId(accountId);
+    const accountMilestones = await this.getAccountMilestonesByAccountId(accountId);
     if (!Array.isArray(accountMilestones)) {
       logger.log('No milestones for this account');
       return 0;

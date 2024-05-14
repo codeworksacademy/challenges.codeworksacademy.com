@@ -15,8 +15,8 @@ export class AccountMilestonesController extends BaseController {
   async claimMyMilestone(req, res, next) {
     try {
       const accountMilestoneId = req.params.accountMilestoneId;
-      const userId = req.userInfo.id;
-      const milestone = await accountMilestonesService.claimMyMilestone(accountMilestoneId, userId);
+      const accountId = req.userInfo.id;
+      const milestone = await accountMilestonesService.claimMyMilestone(accountMilestoneId, accountId);
       return res.send(milestone);
     }
     catch (error) { next(error); }

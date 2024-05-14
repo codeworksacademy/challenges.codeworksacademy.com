@@ -71,10 +71,10 @@ class ParticipantsService {
     logger.log('[Participants in this challenge]:', AppState.ChallengeState.participants)
   }
 
-  async getParticipationByUserId(userId) {
-    const res = await api.get(`api/profiles/${userId}/participation`);
+  async getParticipationByAccountId(accountId) {
+    const res = await api.get(`api/profiles/${accountId}/participation`);
     const participation = res.data.map(p => new ChallengeParticipant(p));
-    logger.log('[PARTICIPANTS SERVICE] getParticipationByUserId:: ', participation);
+    logger.log('[PARTICIPANTS SERVICE] getParticipationByAccountId:: ', participation);
     AppState.AccountState.participation = participation;
   }
 }

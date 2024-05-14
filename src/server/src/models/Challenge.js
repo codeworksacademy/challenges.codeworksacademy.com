@@ -17,7 +17,7 @@ export const ChallengeSchema = new Schema({
   answer: { type: String, required: false },
 
   description: { type: String, maxLength: 85000 },
-  requirements: [{ type: String }],
+  requirements: [{ type: String, maxLength: 2000 }],
   supportLinks: [
     {
       name: { type: String, required: true },

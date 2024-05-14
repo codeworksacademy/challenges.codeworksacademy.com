@@ -41,7 +41,7 @@ export class AccountController extends BaseController {
   async getMyParticipation(req, res, next) {
     try {
       const accountId = req.userInfo.id;
-      const answers = await participantsService.getParticipationByUserId(accountId);
+      const answers = await participantsService.getParticipationByAccountId(accountId);
       return res.send(answers);
     }
     catch (error) { next(error); }
@@ -58,8 +58,8 @@ export class AccountController extends BaseController {
 
   async getMyChallengeModerators(req, res, next) {
     try {
-      const userId = req.userInfo.id;
-      const moderations = await challengeModeratorsService.getModerationsByChallengeCreatorId(userId);
+      const accountId = req.userInfo.id;
+      const moderations = await challengeModeratorsService.getModerationsByChallengeCreatorId(accountId);
       return res.send(moderations);
     }
     catch (error) { next(error); }

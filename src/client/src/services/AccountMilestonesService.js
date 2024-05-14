@@ -5,7 +5,7 @@ import { api } from "./AxiosService.js"
 
 class AccountMilestonesService {
 
-  async getAccountMilestonesByUserId(profileId) {
+  async getAccountMilestonesByAccountId(profileId) {
     const res = await api.get(`api/profiles/${profileId}/milestones`);
     AppState.ProfileState.milestones = res.data.map(m => new AccountMilestone(m));
     if (AppState.AccountState.account.id == AppState.ProfileState.profile?.id) {

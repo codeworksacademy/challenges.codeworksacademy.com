@@ -11,8 +11,8 @@ export class ProfilesController extends BaseController {
       .get('', this.findProfiles)
       .get('/:id', this.getProfileById)
       .get('/:id/challenges', this.getProfileChallenges)
-      .get('/:id/participation', this.getParticipationByUserId)
-      .get('/:id/milestones', this.getAccountMilestonesByUserId)
+      .get('/:id/participation', this.getParticipationByAccountId)
+      .get('/:id/milestones', this.getAccountMilestonesByAccountId)
       .get('/:id/rank', this.calculateProfileRank)
   }
 
@@ -43,17 +43,17 @@ export class ProfilesController extends BaseController {
     catch (error) { next(error); }
   }
 
-  async getParticipationByUserId(req, res, next) {
+  async getParticipationByAccountId(req, res, next) {
     try {
-      const participation = await participantsService.getParticipationByUserId(req.params.id);
+      const participation = await participantsService.getParticipationByAccountId(req.params.id);
       return res.send(participation);
     }
     catch (error) { next(error); }
   }
 
-  async getAccountMilestonesByUserId(req, res, next) {
+  async getAccountMilestonesByAccountId(req, res, next) {
     try {
-      const milestones = await accountMilestonesService.getAccountMilestonesByUserId(req.params.id);
+      const milestones = await accountMilestonesService.getAccountMilestonesByAccountId(req.params.id);
       return res.send(milestones);
     }
     catch (error) { next(error); }
