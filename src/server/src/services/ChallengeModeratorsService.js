@@ -1,6 +1,7 @@
 import { PROFILE_FIELDS } from "../constants/index.js"
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
+import { accountMilestonesService } from "./AccountMilestonesService.js"
 import { challengesService } from "./ChallengesService.js"
 
 class ChallengeModeratorsService {
@@ -33,6 +34,10 @@ class ChallengeModeratorsService {
 
     const moderator = await dbContext.ChallengeModerators.create(moderatorData);
     await moderator.populate('profile', PROFILE_FIELDS);
+
+    // TODO review conditionals for more restrictive controls to prevent duplication of count/faux-addition
+    accountMilestonesService.triggerAccountMilestone('moderateChallenge', accountId); // "COLLABORATOR" - moderateChallenge
+
     return moderator;
   }
 

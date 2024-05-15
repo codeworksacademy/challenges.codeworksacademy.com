@@ -1,19 +1,7 @@
 import { logger } from "../utils/Logger.js";
 import { dbContext } from "../db/DbContext.js"
-import { BadRequest } from "../utils/Errors.js";
+import { Forbidden } from "../utils/Errors.js";
 import { accountService } from "./AccountService.js";
-
-const milestoneChecks = [
-  "createdChallenge",
-  "joinedChallenge",
-  "moderateChallenge",
-  "submissionsChallenge",
-  "passingSubmissionsChallenge",
-  "gradeModerators", // This is to be called when a grading is performed
-  "submittedParticipant",
-  "passingParticipant",
-  "allMilestones"
-]
 
 class AccountMilestonesService {
 
@@ -27,32 +15,43 @@ class AccountMilestonesService {
   }
 
   async claimMyMilestone(accountMilestoneId, accountId) {
-    const claimMilestone = await dbContext.AccountMilestones.findById(accountMilestoneId);
-    if (claimMilestone.accountId != accountId) {
-      throw new BadRequest("You are not authorized to claim this Milestone");
+    const accountMilestone = await dbContext.AccountMilestones.findById(accountMilestoneId);
+    if (accountMilestone.accountId != accountId) {
+      throw new Forbidden("You are not authorized to claim this Milestone");
     }
-    claimMilestone.claimed = true;
-    await claimMilestone.save();
-    return claimMilestone;
+    if (accountMilestone.claimed) { return accountMilestone; } // if already claimed, don't trigger counter
+    accountMilestone.claimed = true;
+    await accountMilestone.save();
+    accountMilestonesService.triggerAccountMilestone('allMilestones', accountMilestone.accountId); // "COLLECTOR" - allMilestones
+    return accountMilestone;
   }
-  // !SECTION
+  // !SECTION End
 
   // SECTION Function for Account Milestone related triggers
-  async triggerAccountMilestone(check, accountId, challengeId = null) {
+  async triggerAccountMilestone(check, accountId, challengeId = null, decrement = false) {
     const milestone = await dbContext.Milestones.findOne({ check });
 
+    // If challengeId included, pull Challenge's creatorId to modify their account milestone
     let challenge = null;
     if (challengeId) {
       challenge = await dbContext.Challenges.findById(challengeId);
       if (!accountId) { accountId = challenge.creatorId; }
     }
-    
+
     // Get or Create AccountMilestone association & increment count
     let accountMilestone = await dbContext.AccountMilestones.findOne({ milestoneId: milestone.id, accountId });
     if (!accountMilestone) {
       accountMilestone = await dbContext.AccountMilestones.create({ milestoneId: milestone.id, accountId });
+      // Default first level accomplishment at 1 ?
+      accountMilestone.count++;
+      accountMilestone.tier++;
+      accountMilestone.xp = 5;
+      accountMilestone.save();
+      return
     }
-    accountMilestone.count++;
+
+    if (decrement) { accountMilestone.count--; }
+    else { accountMilestone.count++; }
 
     // Parse logic & Calc tier
     const milestoneLogicSplit = milestone.logic.split('%');
@@ -62,32 +61,38 @@ class AccountMilestonesService {
       logicArr: milestoneLogicSplit[1].split('-'),
     };
     let calculatedTier = 0;
-    let amCount = accountMilestone.count;
     for (let i = 0; i < parsedMilestoneData.maxTierLevel; i++) {
-      if (amCount >= parseInt(parsedMilestoneData.logicArr[i])) {
+      if (accountMilestone.count >= parseInt(parsedMilestoneData.logicArr[i])) {
         calculatedTier++;
       }
-      if (amCount < parseInt(parsedMilestoneData.logicArr[i])) {
+      if (accountMilestone.count < parseInt(parsedMilestoneData.logicArr[i])) {
         break;
       }
     }
-    // If next tier, tier++, reset claimed, & calc new XP total
-    if (calculatedTier > accountMilestone.tier) {
-      accountMilestone.tier++;
-      accountMilestone.claimed = false;
-      // Calc new XP amt for this AccountMilestone
-      let calculatedXp = 0;
-      while (calculatedTier > 0) {
-        calculatedXp += calculatedTier * 5;
-        calculatedTier--;
+
+    // Resulting tier comparison, updates, & xp calc
+    if (decrement) {
+      accountMilestone.count--;
+      if (calculatedTier < accountMilestone.tier) {
+        accountMilestone.tier--;
+        accountMilestone.claimed = true;
       }
-      accountMilestone.xp = calculatedXp;
+    } else {
+      accountMilestone.count++;
+      if (calculatedTier > accountMilestone.tier) {
+        accountMilestone.tier++;
+        accountMilestone.claimed = false;
+      }
     }
+    let calculatedXp = 0;
+    while (calculatedTier > 0) {
+      calculatedXp += calculatedTier * 5;
+      calculatedTier--;
+    }
+    accountMilestone.xp = calculatedXp;
     accountMilestone.save();
 
-    await accountService.calculateAccountRank({ id: accountId }, accountMilestone.xp);
-
-    // return accountMilestone;
+    accountService.calculateAccountRank({ id: accountId }, accountMilestone.xp);
   }
 
   async calcTotalAccountMilestoneXP(accountId) {
@@ -100,7 +105,7 @@ class AccountMilestonesService {
     accountMilestones.forEach(am => experience += am.xp);
     return experience;
   }
-  // !SECTION
+  // !SECTION End
 
 }
 

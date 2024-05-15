@@ -2,20 +2,18 @@ import { dbContext } from "../db/DbContext.js";
 import { BadRequest, Forbidden } from "../utils/Errors.js";
 import { PROFILE_FIELDS, SUBMISSION_TYPES } from '../constants';
 import { challengeModeratorsService } from "./ChallengeModeratorsService.js";
-import { participantsService } from "./ParticipantsService.js";
-import { accountService } from "./AccountService.js";
-import { SimpleCache } from "../utils/SimpleCache.js";
 import { accountMilestonesService } from "./AccountMilestonesService.js";
-
-const EXPERIENCE_SCALE = {
-  1: 10,
-  2: 50,
-  3: 250,
-  4: 500,
-  5: 1000
-}
+import { participantsService } from "./ParticipantsService.js";
+import { SimpleCache } from "../utils/SimpleCache.js";
 
 const COURSES_CACHE = new SimpleCache(60 * 60); // in seconds
+
+function uponSuccessfulCompletion(participant) {
+  participant.completedAt = new Date();
+  accountMilestonesService.triggerAccountMilestone('passingParticipant', participant.accountId); // "COMPLETIONIST" - passingParticipant
+  accountMilestonesService.triggerAccountMilestone('passingSubmissionsChallenge', null, participant.challengeId); // "TEACHER" - passingSubmissionsChallenge
+  // TODO + award challenge badge ++ trigger Collector milestone on badge collection too?
+}
 
 class ChallengesService {
 
@@ -60,6 +58,7 @@ class ChallengesService {
 
   // 🔽 AUTHENTICATION REQUIRED 🔽
 
+  // SECTION BEGIN: CHALLENGE MODERATOR ACTIONS
   async createChallenge(newChallenge) {
     const challenge = await dbContext.Challenges.create(newChallenge);
     await challengeModeratorsService.addModerator({
@@ -68,6 +67,7 @@ class ChallengesService {
       originId: challenge.creatorId,
       status: 'active'
     });
+    accountMilestonesService.triggerAccountMilestone('createdChallenge', challenge.creatorId); // "ARCHITECT" - createdChallenge
     return challenge;
   }
 
@@ -125,7 +125,7 @@ class ChallengesService {
     });
 
     if (participantResults.status == SUBMISSION_TYPES.COMPLETED) {
-      this.uponCompletion(participant);
+      uponSuccessfulCompletion(participant);
     }
     await participant.save();
     
@@ -134,14 +134,9 @@ class ChallengesService {
 
     return participant;
   }
+  // !SECTION END: CHALLENGE MODERATOR ACTIONS
 
-  uponCompletion(participant) {
-    participant.completedAt = new Date();
-    accountMilestonesService.triggerAccountMilestone('passingParticipant', participant.accountId); // "COMPLETIONIST" - passingParticipant
-    accountMilestonesService.triggerAccountMilestone('passingSubmissionsChallenge', null, participant.challengeId); // "TEACHER" - passingSubmissionsChallenge
-    // TODO + award challenge badge
-  }
-
+  // SECTION START: CHALLENGE PARTICIPANT ACTIONS
   async submitChallenge(participantData) {
     const challenge = await dbContext.Challenges.findById(participantData.challengeId);
     const participant = await participantsService.getParticipantById(participantData.id);
@@ -149,7 +144,7 @@ class ChallengesService {
     participant.submission = participantData.submission;
     participant.status = participantData.status;
 
-    accountMilestonesService.triggerAccountMilestone('submittedParticipant', participantData.accountId, challenge.id); // "STUDENT" - submittedParticipant
+    accountMilestonesService.triggerAccountMilestone('submittedParticipant', participantData.accountId); // "STUDENT" - submittedParticipant
     accountMilestonesService.triggerAccountMilestone('submissionsChallenge', null, challenge.id); // "TRAINER" - submissionsChallenge
 
     if (!challenge.autoGrade) {
@@ -164,44 +159,33 @@ class ChallengesService {
       : SUBMISSION_TYPES.RETURNED_FOR_REVIEW;
 
     if (participant.status == SUBMISSION_TYPES.COMPLETED) {
-      this.uponCompletion(participant);
+      uponSuccessfulCompletion(participant);
     }
     await participant.save();
     return participant;
   }
 
   async giveReputation(challengeId, accountId) {
-    const challenge = await this.getChallengeById(challengeId)
-    // @ts-ignore
-    const challengeCreator = challenge.creator
-    await dbContext.Account.findById(challengeCreator.id)
-    const index = challenge.reputationIds.findIndex(i => i === accountId)
+    const challenge = await this.getChallengeById(challengeId);
+    const index = challenge.reputationIds.findIndex(id => id === accountId);
     if (index === -1) {
-      challenge.reputationIds.push(accountId)
-      challengeCreator.reputation++
+      challenge.reputationIds.push(accountId);
+      challenge.creator.reputation++;
+      // accountMilestonesService.triggerAccountMilestone('gatheringRespect', accountId); // "PERSONALITY" - gatheringRespect
     } else {
-      challenge.reputationIds.splice(index, 1)
-      challengeCreator.reputation--
+      challenge.reputationIds.splice(index, 1);
+      challenge.creator.reputation--;
+      // accountMilestonesService.triggerAccountMilestone('gatheringRespect', accountId, null, true); // "PERSONALITY" - gatheringRespect
     }
-    await dbContext.Account.findByIdAndUpdate(challengeCreator.id, { reputation: challengeCreator.reputation })
-    await challenge.save()
-    await challengeCreator.save()
-    return challenge
+    await dbContext.Account.findByIdAndUpdate(challenge.creator.id, { reputation: challenge.creator.reputation });
+    await challenge.save();
+
+
+    return challenge;
   }
+  // !SECTION END: CHALLENGE PARTICIPANT ACTIONS
+  // !SECTION END: from Challenge Controller
 
-  // !SECTION from Challenge Controller
-
-
-
-
-  //  SECTION additional functions
-
-  // This method is used to give the experience of a challenge to a accountId
-  // Triggered by grading or autoGrade
-  async awardExperience(participant) {
-    const challenge = await this.getChallengeById(participant.challengeId);
-    await accountService.calculateAccountRank({ id: participant.accountId }, EXPERIENCE_SCALE[challenge.difficulty]);
-  }
 
   //The challenge will have auto-answer populated if creatorID matches
   async getChallengesCreatedBy(profileId, accountId) {
@@ -211,15 +195,13 @@ class ChallengesService {
         .populate('creator', PROFILE_FIELDS)
         .populate('participantCount')
         .populate('completedCount'))
-
       : await dbContext.Challenges.find({ creatorId: profileId })
         .populate('creator', PROFILE_FIELDS)
         .populate('participantCount')
         .populate('completedCount')
-
-    return challenges
+    return challenges;
   }
 
 }
 
-export const challengesService = new ChallengesService()
+export const challengesService = new ChallengesService();
