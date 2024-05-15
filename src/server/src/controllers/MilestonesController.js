@@ -7,6 +7,7 @@ export class MilestonesController extends BaseController {
     super('api/milestones')
     this.router
       .get('', this.getMilestones)
+      .get('/:milestoneId', this.getMilestoneById)
       // .use(Auth0Provider.hasPermissions('manage:milestone'))
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createMilestone)
@@ -18,6 +19,14 @@ export class MilestonesController extends BaseController {
     try {
       const milestones = await milestonesService.getMilestones();
       return res.send(milestones);
+    }
+    catch (error) { next(error); }
+  }
+
+  async getMilestoneById(req, res, next) {
+    try {
+      const milestone = await milestonesService.getMilestoneById(req.params.milestoneId);
+      return res.send(milestone);
     }
     catch (error) { next(error); }
   }

@@ -19,6 +19,5 @@ export class ChallengeParticipant extends ChallengeModerator {
     this.completedAt = data.completedAt
     this.requirements = data.requirements || []
     this.feedback = data.feedback || []
-    this.grade = data.grade
   }
 }

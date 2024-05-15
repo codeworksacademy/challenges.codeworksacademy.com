@@ -30,7 +30,7 @@ class MilestonesService {
   async removeMilestone(milestoneId) {
     const res = await api.delete(`api/milestones/${milestoneId}`);
     const milestoneIndex = AppState.milestones.findIndex(m => m.id == milestoneId);
-    AppState.milestones.splice(milestoneIndex);
+    AppState.milestones.splice(milestoneIndex, 1);
     logger.log('[MILESTONES SERVICE] removeMilestone:: ' + res.data);
   }
 

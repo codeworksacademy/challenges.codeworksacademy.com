@@ -8,6 +8,11 @@ class MilestonesService {
     return milestones;
   }
 
+  async getMilestoneById(milestoneId) {
+    const milestone = await dbContext.Milestones.findById(milestoneId);
+    return milestone;
+  }
+
   async createMilestone(milestoneData) {
     const milestone = await dbContext.Milestones.create(milestoneData);
     return milestone;
