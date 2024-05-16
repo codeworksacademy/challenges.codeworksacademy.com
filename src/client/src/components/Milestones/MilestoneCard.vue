@@ -20,24 +20,26 @@
     </div>
 
     <div class="col-12 col-lg-9 px-0 pb-4" :style="{ backgroundColor: badgeGradient2 }">
-      <section class="d-flex justify-content-between align-items-center mb-3 py-3 px-4 rounded-end shadow">
-        <div class="fs-3">{{ milestoneTitle }}</div>
-        <div>XP {{ milestoneExp }}</div>
+      <section class="d-flex justify-content-between align-items-center p-1 p-lg-3 rounded-end shadow">
+        <span class="px-3 fs-3">{{ milestoneTitle }}</span>
+        <span class="px-3 text-center">XP {{ milestoneExp }}</span>
       </section>
-
-      <section class="my-3 pt-2 px-4">{{ milestoneDescription }} </section>
-      
-      <section class="mb-3 px-3">
-        <div class="progress rounded-0 bg-dark" role="progressbar" aria-label="Example with label" aria-valuemin="0" aria-valuemax="100" :title="tierProgress">
-          <div class="progress-bar" :style="{ width: tierProgress, backgroundColor: badgeGradient1 }"></div>
+      <section class="px-1 px-lg-3 d-flex flex-column justify-content-between h-75">
+        <div class="my-3 p-3 pb-0">{{ milestoneDescription }} </div>
+        <div class="my-3 p-3">
+          <div class="mb-4">
+            <div class="progress rounded-0 bg-dark" role="progressbar" aria-label="Example with label" aria-valuemin="0" aria-valuemax="100" :title="tierProgress">
+              <div class="progress-bar" :style="{ width: tierProgress, backgroundColor: badgeGradient1 }"></div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between">
+            <div v-for="level in parseInt(maxTierLevel)" :key="level" class="tier-block col-1 bg-dark px-0" :title="level">
+              <div v-if="level <= accountMilestone.tier" class="tier-block text-center text-light" :style="{ backgroundColor: badgeGradient1 }"></div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section class="row justify-content-around my-2 px-4">
-        <div v-for="level in parseInt(maxTierLevel)" :key="level" class="tier-block col-1 bg-dark px-0" :title="level">
-          <div v-if="level <= accountMilestone.tier" class="tier-block text-center text-light" :style="{ backgroundColor: badgeGradient1 }"></div>
-        </div>
-      </section>
     </div>
 
   </section>
