@@ -69,7 +69,6 @@ import { computed } from 'vue'
 import { AppState } from '../AppState.js'
 import { participantsService } from '../services/ParticipantsService.js'
 import { SUBMISSION_TYPES } from '../constants'
-import DevFlag from './DevFlag.vue'
 
 export default {
   setup() {
@@ -103,8 +102,7 @@ export default {
         return AppState.ChallengeState.moderators.find(m => m.accountId === AppState.user.id);
       }),
     };
-  },
-  components: { DevFlag }
+  }
 }
 </script>
 

@@ -184,14 +184,12 @@
 
     <hr>
 
-    <DevFlag>
-      <section class="row px-lg-5">
-        <div class="col-12 text-center mt-2"><h1>My Milestones</h1></div>
-        <div class="col-12">
-          <MilestonesTracker />
-        </div>
-      </section>
-    </DevFlag>
+    <section class="row px-lg-5">
+      <div class="col-12 text-center mt-2"><h1>My Milestones</h1></div>
+      <div class="col-12">
+        <MilestonesTracker />
+      </div>
+    </section>
 
   </section>
 </template>
@@ -204,7 +202,6 @@ import { logger } from '../utils/Logger.js';
 import { computed, onMounted, ref } from 'vue';
 import { milestonesService } from '../services/MilestonesService.js'
 import MilestonesTracker from '../components/Milestones/MilestonesTracker.vue';
-import DevFlag from "../components/DevFlag.vue";
 
 
 export default {
@@ -290,7 +287,7 @@ export default {
 
     };
   },
-  components: { MilestonesTracker, DevFlag }
+  components: { MilestonesTracker }
 }
 </script>
 
