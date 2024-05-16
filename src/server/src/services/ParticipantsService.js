@@ -48,8 +48,16 @@ class ParticipantsService {
   // I already know what the challenge is so no need to populate the challenge 
   async getParticipantsByChallengeId(challengeId) {
     const participants = await dbContext.ChallengeParticipants.find({ challengeId })
-      .select('-submission -requirements')
-      .populate('profile', PROFILE_FIELDS);
+      .select('-submission')
+      .populate('profile', PROFILE_FIELDS)
+      // .populate({
+      //   path: 'feedback',
+      //   populate: {
+      //     path: 'moderator',
+      //     model: 'Account'
+      //   }
+      // })
+      // .exec();
     return participants;
   }
 

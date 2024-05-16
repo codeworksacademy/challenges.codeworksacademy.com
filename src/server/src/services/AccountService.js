@@ -93,19 +93,14 @@ class AccountService {
 
 
   // SECTION Calculations for account data
-
-  /**
-   * @param {{id:string}} user 
-   * @returns 
-   */
-  async calculateAccountRank(user, experience = 0) {
-    const account = await this.getAccount(user);
-    account.xp += experience;
+  async calculateAccountRank(accountId, experience = 0) {
+    const account = await this.getAccount({id: accountId});
+    account.xp += experience; // only add on challenge completion
 
     const totalMilestoneXp = await accountMilestonesService.calcTotalAccountMilestoneXP(account.id);
-    let rank = account.xp + account.reputation + totalMilestoneXp;
+    account.rank = account.xp + account.reputation + totalMilestoneXp;
 
-    const nextIndex = RANK_TITLE.findIndex(r => r.RANK_THRESHOLD > rank);
+    const nextIndex = RANK_TITLE.findIndex(r => r.RANK_THRESHOLD > account.rank);
     let rankTitle = RANK_TITLE[nextIndex - 1];
     if (nextIndex == -1) {
       rankTitle = RANK_TITLE.at(-1);
@@ -113,11 +108,8 @@ class AccountService {
     if (!rankTitle) {
       rankTitle = RANK_TITLE[0];
     }
-
-    account.rank = rank;
     account.title = rankTitle.NAME;
     await account.save();
-    return account;
   }
 
   async calculateAccountReputation(user, reputation = 0) {

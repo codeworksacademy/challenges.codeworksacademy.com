@@ -68,6 +68,7 @@ class ChallengesService {
       status: 'active'
     });
     accountMilestonesService.triggerAccountMilestone('createdChallenge', challenge.creatorId); // "ARCHITECT" - createdChallenge
+    await challenge.populate('creator');
     return challenge;
   }
 
@@ -109,15 +110,18 @@ class ChallengesService {
     }
     const isModerator = await challengeModeratorsService.getModeratorByAccountIdAndChallengeId(moderatorId, participantResults.challengeId);
     if (!isModerator) {
-      throw new BadRequest('You are not an authorized moderator of this challenge.');
+      throw new Forbidden('You are not an authorized moderator of this challenge.');
     }
     const participant = await participantsService.getParticipantById(participantResults.participantId);
     if (moderatorId == participant.accountId) {
-      throw new BadRequest('You cannot grade your own submission.');
+      throw new Forbidden('You cannot grade your own submission.');
     }
 
     participant.status = participantResults.status; // latest overall status only
     participant.requirements = participantResults.requirements; // update status per requirement
+    if (typeof participant.feedback == 'string') {
+      participant.feedback = null;
+    }
     participant.feedback.push({
       comment: participantResults.feedback,
       returnedStatus: participantResults.status,

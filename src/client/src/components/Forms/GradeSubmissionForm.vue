@@ -15,8 +15,9 @@
         <div class="col-12 d-flex justify-content-center align-items-center">
           <ol>
             <div class="d-flex justify-content-end">
-              <span class="text-uppercase fw-bold p-3">Completed Steps: {{ checkedReqs }} / {{
-                totalReqs }}</span>
+              <span class="text-uppercase fw-bold p-3">
+                Completed Steps: {{ checkedReqs }} / {{ totalReqs }}
+              </span>
             </div>
             <li v-for="(requirement, index) in editable.requirements" :key="index">
               <div class="form-check">
@@ -101,7 +102,7 @@ export default {
               `[NEW DATA] =>
                 📝 COMPLETED REQUIREMENT: {
                 💭 DESCRIPTION: ${r.description}
-                📈 GRADE: ${checkedReqs.value} / ${totalReqs.value}
+                📈 GRADE: ${this.checkedReqs} / ${this.totalReqs}
               }`
             );
           }

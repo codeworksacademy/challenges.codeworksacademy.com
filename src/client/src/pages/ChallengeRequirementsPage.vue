@@ -3,9 +3,15 @@
     <section class="row bg-detail mb-4 py-3 px-1 rounded-3" v-if="challenge">
       <div class="col-12 text-light">
         <h3 class="fs-2 pb-3" style="color: #7A7A7A">Challenge Requirements</h3>
-        <h4 v-if="challenge.requirements.length == 0" class="text-light">No requirements</h4>
+        <h4 v-if="challenge.requirements?.length == 0" class="text-light">No requirements</h4>
+        <ol v-else-if="isParticipant?.requirements.length > 0">
+          <li v-for="(requirement, index) in isParticipant.requirements" :key="index" class="py-2">
+            <input type="checkbox" class="form-check-input mx-2" :name="index" :checked="requirement.isComplete" disabled>
+            <span class="ms-1">{{ requirement.description }}</span>
+          </li>
+        </ol>
         <ol v-else>
-          <li v-for="(requirement, index) in challenge.requirements" :key="index" class="py-2">
+          <li v-for="(requirement, index) in challenge?.requirements" :key="index" class="py-2">
             <span>{{ requirement }}</span>
           </li>
         </ol>
@@ -17,17 +23,18 @@
         <div class="d-flex" v-if="isParticipant.feedback.length > 0">
             <ul>
               <li v-for="feedback in isParticipant.feedback">
-                <div class="d-flex align-items-center gap-3 flex-wrap">
-                  <div class="d-flex align-items-center gap-2" :alt="feedback.createdAt">
-                    <i class="mdi mdi-check-circle text-secondary fs-3" v-if="feedback.returnedStatus == 'completed'"></i>
-                    <i class="mdi mdi-close-circle-outline text-danger fs-3" v-else></i>
-                    <span class="text-capitalize">{{ feedback.returnedStatus }}</span>:
-                  </div>
-                  <div class="d-flex align-items-center" v-if="feedback.moderator">
-                    <img :src="feedback.moderator.picture" :alt="feedback.moderator.nickname || feedback.moderator.name" class="avatar-sm">
+                  <div class="d-flex align-items-center gap-3 flex-wrap">
+                    <div class="d-flex align-items-center gap-2" :alt="feedback.createdAt">
+                      <i class="mdi mdi-check-circle text-secondary fs-3" v-if="feedback.returnedStatus == 'completed'"></i>
+                      <i class="mdi mdi-close-circle-outline text-danger fs-3" v-else></i>
+                      <span class="text-capitalize">{{ feedback.returnedStatus }}</span>:
+                    </div>
+                    <!-- <div class="d-flex align-items-center" v-if="feedback.moderator">
+                      boop
+                      <img :src="feedback.moderator.picture" :alt="feedback.moderator.nickname || feedback.moderator.name" class="avatar-sm">
+                    </div> -->
                     <span>{{ feedback.comment }}</span>
                   </div>
-                </div>
               </li>
             </ul>
         </div>

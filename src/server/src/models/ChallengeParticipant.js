@@ -10,13 +10,12 @@ const RequirementSchema = new Schema({
   { timestamps: true })
 
 const FeedbackSchema = new Schema({
-  comment: { type: String, maxLength: 2000, required: true },
-  moderatorId: { type: ObjectId, required: true, ref: 'Account' },
+  comment: { type: String, maxLength: 2000 },
+  moderatorId: { type: ObjectId, ref: 'Account' },
   returnedStatus: {
     type: String,
     enum: Object.values(SUBMISSION_TYPES),
     default: SUBMISSION_TYPES.STARTED,
-    required: true,
     lowercase: true
   }
 },
