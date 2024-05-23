@@ -1,8 +1,8 @@
-﻿# CodeWorks [NAME]
+﻿# CodeWorks Challenges
 
 ## Overview
 
-Welcome to [NAME], the platform designed to empower your career through software development! This repository houses a comprehensive system for developing complete applications, receiving valuable feedback, and grading your projects. Additionally, [NAME] encourages you create challenges for your peers, showcase your evolving skills, and build a robust portfolio to propel your career in software development. No more excuses of not having ideas of what to build!
+Welcome to Challenges, the platform designed to empower your career through software development! This repository houses a comprehensive system for developing complete applications, receiving valuable feedback, and grading your projects. Additionally, Challenges encourages you create challenges for your peers, showcase your evolving skills, and build a robust portfolio to propel your career in software development. No more excuses of not having ideas of what to build!
 
 ## Features
 
@@ -20,7 +20,7 @@ Welcome to [NAME], the platform designed to empower your career through software
 
 ### 3. Showcase Your Skills
 
-   - **Personal Portfolio Builder:** Use [NAME] to build and showcase your personalized portfolio, highlighting completed projects and achievements.
+   - **Personal Portfolio Builder:** Use Challenges to build and showcase your personalized portfolio, highlighting completed projects and achievements.
    - **Project Showcase:** Feature your projects in a dedicated space to demonstrate your skills and creativity to potential employers.
 
 ## Want to help us build it?
