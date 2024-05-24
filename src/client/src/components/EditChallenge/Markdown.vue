@@ -195,7 +195,7 @@
       color: #00f397;
       word-wrap: break-word;
       background: #091621;
-      padding: .3em;
+      padding: 0.3em;
     }
     h1,
     h2,
@@ -207,7 +207,7 @@
       margin-bottom: 0;
       font-weight: 600;
       line-height: 2.2;
-      letter-spacing: .03em;
+      letter-spacing: 0.03em;
       color: #f4d9c4;
     }
   

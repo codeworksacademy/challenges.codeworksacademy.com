@@ -2,7 +2,7 @@
   <div class="markdown-editor">
     <div class="d-flex bg-details rounded-3">
       <div class="editor h-100 sticky-top" v-if="!showPreview">
-        <MonacoEditor language="markdown" :value="editable" @change="change" @save="save" :showSave="showSave">
+        <MonacoEditor class="editor-container" language="markdown" :value="editable" @change="change" @save="save" :showSave="showSave">
           <template #toolbar>
             <div class="text-end flex-grow-1">
               <button type="button" class="btn clickable-dark square text-light" @click="showPreview = !showPreview">
@@ -77,7 +77,7 @@ export default {
   
 <style lang="scss" scoped>
 .bg-details {
-  background-color: #1c2332;
+  background: #1c2332;
   border: 1px solid #2d386b;
 }
 

@@ -110,5 +110,19 @@ export default {
 
 .editor {
   min-height: 500px;
+  position: relative;
+  :nth-last-of-type(3)::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url(https://www.teknokodi.com/wp-content/uploads/2021/03/readme.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.25;
+    z-index: -1;
+  }
 }
 </style>

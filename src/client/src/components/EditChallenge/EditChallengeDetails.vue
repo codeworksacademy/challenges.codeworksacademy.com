@@ -8,7 +8,9 @@
       <label class="input-group-text" for="coverImg">Cover Image</label>
       <input type="text" class="form-control" id="coverImg" name="coverImg" v-model="challenge.coverImg">
     </div>
-    <img :src="challenge.coverImg" alt="" class="coverImg rounded mb-3">
+    <div class="col-12 coverImg-container rounded mb-3">
+      <img :src="challenge.coverImg" alt="Challenge Cover Image" class="rounded py-2">
+    </div>
     <div class="input-group mb-3">
       <label class="input-group-text" for="challengeCategory">Category</label>
       <select class="input-box form-select text-center" id="challengeCategory" v-model="challenge.category">
@@ -69,12 +71,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.coverImg {
+.coverImg-container {
+  position: relative;
   width: 100%;
   height: 175px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  background: radial-gradient(circle at center center, rgba(85, 21, 21, 0) 0%, #151d2b 80%, #151d2b 100%);
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
