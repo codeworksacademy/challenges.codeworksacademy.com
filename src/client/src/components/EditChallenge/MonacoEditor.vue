@@ -111,6 +111,7 @@ export default {
 .editor {
   min-height: 500px;
   position: relative;
+  :nth-last-of-type(2)::before,
   :nth-last-of-type(3)::before {
     content: '';
     position: absolute;
@@ -118,11 +119,16 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url(https://www.teknokodi.com/wp-content/uploads/2021/03/readme.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.25;
     z-index: -1;
+  }
+  :nth-last-of-type(2)::before {
+    background: #292a34;
+    box-shadow: -5px 0 10px 0 #1e233240 inset;
+  }
+  :nth-last-of-type(3)::before {
+    background: url(https://i.ibb.co/7Crqbk6/image-removebg-preview-1.png) no-repeat top center / cover;
+    box-shadow: 5px 0 10px 0 #1e2332 inset;
+    opacity: 0.02;
   }
 }
 </style>

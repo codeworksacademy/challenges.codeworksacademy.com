@@ -6,10 +6,10 @@
     </div>
     <div class="input-box input-group mb-3">
       <label class="input-group-text" for="coverImg">Cover Image</label>
-      <input type="text" class="form-control" id="coverImg" name="coverImg" v-model="challenge.coverImg">
+      <input type="url" class="form-control" id="coverImg" name="coverImg" @input="previewCoverImg" v-model="challenge.coverImg">
     </div>
-    <div class="col-12 coverImg-container rounded mb-3">
-      <img :src="challenge.coverImg" alt="Challenge Cover Image" class="rounded py-2">
+    <div v-if="loadedCoverImg" class="coverImg-container rounded mb-3">
+      <img :src="loadedCoverImg" alt="Challenge Cover Image" class="coverImg rounded-3">
     </div>
     <div class="input-group mb-3">
       <label class="input-group-text" for="challengeCategory">Category</label>
@@ -45,8 +45,8 @@
     <div class="input-group mb-3">
       <label class="input-group-text" for="challengeAutoGrade">Auto Grade</label>
       <select id="challengeAutoGrade" class="input-box form-select" v-model="challenge.autoGrade">
-        <option :value=false>No</option>
-        <option :value=true>Yes</option>
+        <option :value="false">No</option>
+        <option :value="true">Yes</option>
       </select>
     </div>
     <div class="input-box input-group mb-3">
@@ -58,7 +58,8 @@
 </template>
   
 <script>
-import { Challenge } from '../../models/Challenge.js'
+import { ref, watch } from 'vue'
+import { Challenge } from '../../models/Challenge'
 
 export default {
   props: {
@@ -66,20 +67,52 @@ export default {
       type: [Challenge, Object],
       required: true
     }
+  },
+  data(props) {
+    const loadedCoverImg = ref(null)
+
+    watch(() => props.challenge.coverImg, () => {
+      loadedCoverImg.value = props.challenge.coverImg
+    })
+    return {
+      loadedCoverImg,
+      previewCoverImg(e) {
+        loadedCoverImg.value = e.target.value
+      }
+    }
   }
 }
+
 </script>
 
 <style scoped lang="scss">
 .coverImg-container {
-  position: relative;
-  width: 100%;
-  height: 175px;
-  display: flex;
-  justify-content: center;
   background: radial-gradient(circle at center center, rgba(85, 21, 21, 0) 0%, #151d2b 80%, #151d2b 100%);
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
+  .coverImg {
+    position: relative;
+    left: 30%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 250px;
+    object-fit: fill;
+    opacity: 0;
+    animation: slideLeft 1s ease-out forwards;
+  }
+  @keyframes slideLeft {
+    0% {
+      transform: scale(0.9) rotate(-5deg);
+      filter: blur(3px) brightness(0.5);
+    }
+    50% {
+      transform: translateX(10%) rotate(0);
+      opacity: 0.1;
+    }
+    100% {
+      left: 0;
+      transform: scale(1) translateX(0);
+      opacity: 1;
+      filter: blur(0) brightness(1);
+    }
+  }
 }
 </style>

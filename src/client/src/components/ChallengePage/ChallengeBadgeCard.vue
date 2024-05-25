@@ -74,6 +74,10 @@ h3 {
   min-height: 25vh;
   color: #1F1D42;
   transition: all 0.25s ease-in-out;
+  .badge.badge-color {
+    bottom: 37px;
+    left: 75px;
+  }
 
   &:hover {
     .enlarge-badge {
@@ -118,7 +122,7 @@ h3 {
 }
 
 .card-hover__content {
-  padding-top: 8rem !important;
+  padding-top: 6rem !important;
 }
 
 .card-hover:hover {

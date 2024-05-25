@@ -85,28 +85,6 @@ class ParticipantsService {
 		await participantToRemove.remove();
 		return participantToRemove;
 	}
-
-	// 	async removeParticipant(challengeId, userId, participant) {
-	// 		const challenge = await challengesService.getChallengeById(challengeId)
-
-	// 		const participantToRemove = await dbContext.ChallengeParticipants.findById(participant.id)
-
-	// 		if (!challenge) {
-	// 			throw new BadRequest('Invalid challenge ID.')
-	// 		}
-
-	// 		if (!participantToRemove) {
-	// 			throw new BadRequest('Invalid participant ID.')
-	// 		}
-
-	// 		if (userId != challenge.creatorId) {
-	// 			throw new Forbidden(`[PERMISSIONS ERROR]: You are not the creator of ${challenge.name}. You may not remove participants from it.`)
-	// 		}
-
-	// 		await participantToRemove.remove()
-
-	// 		return participantToRemove
-	// 	}
 }
 
 export const participantsService = new ParticipantsService();

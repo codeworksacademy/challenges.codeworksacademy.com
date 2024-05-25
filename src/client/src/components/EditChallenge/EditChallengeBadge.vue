@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { AppState } from '../../AppState.js'
 import { Challenge } from '../../models/Challenge.js'
 import ChallengeBadge from '../ChallengePage/ChallengeBadge.vue'
@@ -83,7 +83,6 @@ export default {
     const colorFill = Object.values(COLOR_FILLS)
     //To set 
     return {
-      challenge: computed(() => AppState.ChallengeState.challenge),
       editable,
       imageUploadOption,
       handleUrlChange,

@@ -18,5 +18,8 @@ module.exports = {
     'space-before-function-paren': [1, 'never'],
     'vue/html-self-closing': 0,
     'vue/multi-word-component-names': 'off',
+    'vue/no-mutating-props': ['error', {
+      'shallowOnly': true
+    }]
   }
 }

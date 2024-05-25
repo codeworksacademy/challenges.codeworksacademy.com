@@ -16,7 +16,7 @@
         d="M207,0C171.827,0.001,43.875,0.004,9.003,0c-5.619-0.001-9,3.514-9,9c0,28.23-0.006,151.375,0,169c0.005,13.875,115.499,54,107.999,54S216,191,216,178V9C216,3.298,212.732,0,207,0z" />
     </svg>
     <div class="text-uppercase rounded-circle bg-light">
-      <span :style="{ background: badge?.secondaryColor, filter: `drop-shadow(0 3px 3px 0 ${badge?.secondaryColor})` }"
+      <span :style="{ background: badge?.secondaryColor, filter: `drop-shadow(0 3px 3px 0 ${badge?.secondaryColor})`, textShadow: `0 1.25px 1px ${badge?.primaryColor}, 1px 1.25px 1px ${badge?.primaryColor}` }"
         class="title"> {{ badge?.title }} </span>
       <img v-if="badge?.image" :src="badge?.image" :alt="`Image of '${badge?.title}'`" class="badge-img img-fluid">
     </div>
@@ -89,14 +89,14 @@ export default {
 
   .title {
     font-family: "Montserrat", sans-serif;
-    font-weight: 525;
+    font-weight: 550;
     font-size: 1.15em;
     font-stretch: ultra-condensed;
     text-align: center;
     position: absolute;
-    color: var(--shadow-blue);
+    color: #222;
+    -webkit-text-stroke-width: 1px;
     letter-spacing: -.75px;
-    text-shadow: 0px 1px .5px #000;
     top: -5px;
     left: 50%;
     margin: 0 auto;
