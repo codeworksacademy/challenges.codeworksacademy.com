@@ -47,7 +47,8 @@ export default {
           ...answer.value,
           id: participant.value.id,
           challengeId: challenge.value.id,
-          status: SUBMISSION_TYPES.SUBMITTED
+          status: SUBMISSION_TYPES.SUBMITTED,
+          requirements: participant.value.requirements
         }
         const result = await challengesService.submitChallenge(submission);
         Modal.getOrCreateInstance('#challengeSubmissionForm').hide();

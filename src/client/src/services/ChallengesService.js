@@ -80,7 +80,7 @@ class ChallengesService {
     const res = await api.put(`api/challenges/${submission.challengeId}/submit`, submission);
     const challenger = AppState.ChallengeState.participants.find(p => p.accountId === AppState.user.id);
     challenger.status = res.data.status;
-    return res.data.status;
+    return res.data;
   }
 
 

@@ -47,7 +47,7 @@ class ParticipantsService {
 	// I already know what the challenge is so no need to populate the challenge 
 	async getParticipantsByChallengeId(challengeId) {
 		const participants = await dbContext.ChallengeParticipants.find({ challengeId })
-			.select('-submission -requirements')
+			.select('-submission')
 			.populate('profile', PROFILE_FIELDS);
 		return participants;
 	}
