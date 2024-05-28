@@ -13,8 +13,7 @@ class ChallengeModeratorsService {
     return moderators
   }
 
-  // 🔽 REQUIRES AUTHENTICATION 🔽
-
+  // 🔽 REQUIRES AUTH 🔽
   async addModerator(moderatorData) {
     const { challengeId, accountId } = moderatorData;
 
@@ -47,29 +46,6 @@ class ChallengeModeratorsService {
     return moderators;
   }
 
-  // async ApproveModeration(moderatorId, userId) {
-  //   const moderation = await this.getModerationById(moderatorId);
-  //   const challenge = await challengesService.getChallengeById(moderation.challengeId);
-
-  //   if (moderation.originId == challenge.creatorId) {
-  //     if (moderation.accountId != userId) {
-  //       throw new Forbidden(
-  //         `[PERMISSIONS ERROR]: Only the user can approve it.`
-  //       )
-  //     }
-  //   } else if (moderation.originId == moderation.accountId) {
-  //     if (challenge.creatorId != userId) {
-  //       throw new Forbidden(
-  //         `[PERMISSIONS ERROR]: Only the owner of ${challenge.name} can approve it.`
-  //       )
-  //     }
-  //   }
-
-  //   moderation.status = 'active';
-  //   await moderation.save();
-  //   return moderation;
-  // }
-
   async removeModerator(moderatorId, userId) {
     const moderatorToRemove = await dbContext.ChallengeModerators.findById(moderatorId);
     const challenge = await challengesService.getChallengeById(moderatorToRemove.challengeId);
@@ -82,8 +58,6 @@ class ChallengeModeratorsService {
       throw new Forbidden("[PERMISSIONS ERROR]: Your are not the challenge creator. You may not remove other moderators.");
     }
 
-    // moderatorToRemove.status = 'terminated';
-    // await moderatorToRemove.save();
     const result = await moderatorToRemove.deleteOne();
     return 'Moderation removed - ' + JSON.stringify(result);
   }
@@ -102,9 +76,8 @@ class ChallengeModeratorsService {
     return moderators;
   }
 
-  async getModeratorByUserIdAndChallengeId(userId, challengeId) {
+  async getModerator(userId, challengeId) {
     const mods = await this.getModeratorsByChallengeId(challengeId)
-    // @ts-ignore
     const isMod = mods.find(m => m.accountId == userId)
     if (!isMod) {
       throw new Forbidden('This user is not a moderator for this challenge')

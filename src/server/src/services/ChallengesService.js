@@ -26,8 +26,6 @@ class ChallengesService {
       throw new BadRequest('You cannot set the status type to ' + participantData.status);
     }
 
-    // await challengeModeratorsService.getModeratorByUserIdAndChallengeId(accountId, participantData.challengeId);
-
     const participant = await participantsService.getParticipantById(participantData.participantId);
     if (accountId == participant.accountId) {
       throw new BadRequest('You cannot grade your own submission.');
@@ -47,8 +45,6 @@ class ChallengesService {
     return participant;
   }
 
-  // This method is used to give the experience of a challenge to a userId
-  // Triggered by grading or autoGrade
   async awardExperience(participant) {
     let challenge = participant.challenge;
     if (!challenge) {
@@ -108,7 +104,6 @@ class ChallengesService {
     return challenges
   }
 
-  //This is where editing the challenge will have answers populated
   async getChallengesCreatedBy(profileId, accountId) {
     const challenges = accountId != profileId
       ? await COURSES_CACHE.getEntry(profileId, () => dbContext.Challenges.find({ creatorId: profileId })
@@ -128,7 +123,7 @@ class ChallengesService {
   async editChallenge(challengeData, userId, challengeId) {
     const challenge = await this.getChallengeById(challengeId);
 
-    const isChallengeModerator = await challengeModeratorsService.getModeratorByUserIdAndChallengeId(userId, challengeId);
+    const isChallengeModerator = await challengeModeratorsService.getModerator(userId, challengeId);
     if (!isChallengeModerator && challenge.creatorId != userId) {
       throw new Forbidden(
         `[PERMISSIONS ERROR]: Only the creator of ${challenge.name} or a moderator can edit it.`
@@ -161,7 +156,6 @@ class ChallengesService {
 
   async giveReputation(challengeId, userId) {
     const challenge = await this.getChallengeById(challengeId)
-    // @ts-ignore
     const challengeCreator = challenge.creator
     await dbContext.Account.findById(challengeCreator.id)
     const index = challenge.reputationIds.findIndex(i => i === userId)
@@ -213,4 +207,4 @@ class ChallengesService {
   }
 }
 
-export const challengesService = new ChallengesService()
+export const challengesService = new ChallengesService();
