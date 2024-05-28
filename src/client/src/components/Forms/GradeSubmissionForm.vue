@@ -58,10 +58,8 @@
 </template>
 
 <script>
-import { useRoute } from 'vue-router'
 import { AppState } from '../../AppState'
 import { logger } from '../../utils/Logger'
-import { SUBMISSION_TYPES } from '../../constants'
 import { formatEnum } from '../../utils/FormatEnum'
 import { computed, onMounted, ref } from 'vue'
 import { challengesService } from '../../services/ChallengesService'
@@ -77,16 +75,12 @@ export default {
   },
   setup(props) {
 
-    const route = useRoute()
-
     const editable = ref({
-      challengeId: route.params.challengeId,
-      accountId: props.participant.accountId,
+      ...props.participant,
       participantId: props.participant.id,
-      challenge: props.participant.challenge,
-      profile: props.participant.profile,
-      requirements: props.participant.requirements,
-      feedback: props.participant.feedback,
+      accountId: props.participant?.accountId,
+      originId: props.participant?.originId,
+      feedback: '',
       status: null
     })
 
@@ -109,6 +103,7 @@ export default {
     }
 
     function addGradePoint(requirement) {
+    // eslint-disable-next-line no-unused-vars
       requirement = !requirement
       editable.value.requirements.forEach(r => {
         if (r.isComplete === true) {

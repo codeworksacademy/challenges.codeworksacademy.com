@@ -46,7 +46,8 @@
       "collab",
       "hoverable",
       "leaderboards",
-      "Moderations"
+      "Moderations",
+      "Reqs"
     ],
     "commentAnchors.tagHighlights.enabled": true,
   }

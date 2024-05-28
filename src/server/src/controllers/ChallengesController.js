@@ -105,18 +105,6 @@ export class ChallengesController extends BaseController {
     catch (error) { next(error); }
   }
 
-  // NOTE Not in use anywhere yet
-  // async removeParticipant(req, res, next) {
-  //   try {
-  //     const challengeId = req.params.challengeId;
-  //     const participant = req.body;
-  //     const accountId = req.userInfo.id;
-  //     const p = await participantsService.removeParticipant(challengeId, accountId, participant);
-  //     res.send(p);
-  //   }
-  //   catch (error) { next(error); }
-  // }
-
   // !SECTION END: MODERATOR_CHALLENGE_ACTIONS
 
   // SECTION START: PARTICIPANT_ACTIONS

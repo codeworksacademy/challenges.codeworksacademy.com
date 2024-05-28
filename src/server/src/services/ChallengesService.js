@@ -192,18 +192,24 @@ class ChallengesService {
       await participant.save();
       return participant;
     }
+    await this.validateAutoGrade(participant, challenge);
 
-    // Auto Grade
-    participant.status = challenge.answer == participantData.submission
-      ? SUBMISSION_TYPES.COMPLETED
-      : SUBMISSION_TYPES.RETURNED_FOR_REVIEW
-
-    if (participant.status == SUBMISSION_TYPES.COMPLETED) {
-      await this.awardExperience({ accountId: participant.accountId, challengeId: participant.challengeId, challenge })
-    }
     await participant.save()
     return participant
+  }
 
+  async validateAutoGrade(participant, challenge) {
+    if (challenge.autoGrade) {
+      participant.status = challenge.answer == participant.submission
+        ? SUBMISSION_TYPES.COMPLETED
+        : SUBMISSION_TYPES.RETURNED_FOR_REVIEW;
+    } else {
+      participant.status = SUBMISSION_TYPES.SUBMITTED;
+    }
+
+    if (participant.status == SUBMISSION_TYPES.COMPLETED) {
+      await this.awardExperience({ accountId: participant.accountId, challengeId: participant.challengeId, challenge });
+    }
   }
 }
 
