@@ -90,7 +90,7 @@ export default {
   .title {
     font-family: "Montserrat", sans-serif;
     font-weight: 550;
-    font-size: 1.15em;
+    font-size: 1em;
     font-stretch: ultra-condensed;
     text-align: center;
     position: absolute;

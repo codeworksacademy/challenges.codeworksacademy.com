@@ -80,4 +80,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.dropdown-menu {
+  z-index: 1000;
+}
+</style>
