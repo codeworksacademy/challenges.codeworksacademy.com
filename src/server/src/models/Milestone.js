@@ -1,23 +1,27 @@
 import { Schema } from "mongoose";
+import { MILESTONE_TIER } from "../constants/index.js";
 const ObjectId = Schema.Types.ObjectId
 
 export const MilestoneSchema = new Schema({
-  title: {
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  icon: { type: String, required: true },
+  colors: {
+    primary: { type: String, required: true },
+    secondary: { type: String, required: true }
+  },
+  tier: {
     type: String,
-    default: 'No Title'
+    enum: Object.values(MILESTONE_TIER.map(tier => tier.ADJECTIVE)),
+    required: true
   },
-  description: {
-    type: String
+  difficulty: {
+    type: String,
+    enum: Object.values(MILESTONE_TIER.map(tier => tier.DIFFICULTY)),
+    required: true
   },
-  check: {
-    type: String
-  },
-  logic: {
-    type: String
-  },
-  ref: {
-    type: String
-  }
+  target: { type: Number, required: true },
+  reward: { type: String, required: true },
 },
   { timestamps: true, toJSON: { virtuals: true } }
 )
