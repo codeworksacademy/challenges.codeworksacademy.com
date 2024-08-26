@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { MILESTONE_TIER, RANK_TITLE, SUBMISSION_TYPES } from '../constants/index.js';
+import { MILESTONE, RANK_TITLE, SUBMISSION_TYPES } from '../constants/index.js';
 const Schema = mongoose.Schema;
 
 export const AccountSchema = new Schema(
