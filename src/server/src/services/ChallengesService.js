@@ -14,7 +14,7 @@ const EXPERIENCE_SCALE = {
   4: 500,
   5: 1000
 }
-
+ 
 const COURSES_CACHE = new SimpleCache(60 * 60); // in seconds
 
 class ChallengesService {
