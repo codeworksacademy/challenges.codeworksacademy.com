@@ -3,6 +3,7 @@ import { MILESTONES } from "../constants/index.js";
 const ObjectId = Schema.Types.ObjectId;
 
 export const MilestoneSchema = new Schema({
+
   title: { type: String, required: true },
   description: { type: String, required: true },
   tier: { type: String, enum: MILESTONES.map(m => m.tier), required: true },
@@ -13,7 +14,8 @@ export const MilestoneSchema = new Schema({
   colors: {
     primary: { type: String, enum: MILESTONES.map(m => m.primaryColors), required: true },
     secondary: { type: String, enum: MILESTONES.map(m => m.secondaryColors), required: true }
-  }
+  },
+  claimed: { type: Boolean, default: false },
 },
   { timestamps: true, toJSON: { virtuals: true } }
 );
