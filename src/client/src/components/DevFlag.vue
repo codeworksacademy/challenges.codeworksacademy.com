@@ -26,10 +26,10 @@ export default {
 
   &:before {
     content: "⚠️ - Dev Only";
-    top: -1em;
+    top: 5.25em;
     position: absolute;
     font-size: 11px;
-    background: black;
+    background: var(--bs-danger);
   }
 }
 </style>

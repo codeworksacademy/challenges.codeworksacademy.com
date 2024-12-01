@@ -41,3 +41,9 @@ AccountSchema.virtual('badges', {
     }
   }
 })
+
+// SELECT a.*, c.category, c.name, c.badge
+// FROM Account a
+// JOIN Challenge_Participant cp ON a._id = cp.accountId
+// JOIN Challenge c ON cp.challengeId = c._id
+// WHERE cp.status = 'completed';
