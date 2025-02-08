@@ -35,7 +35,7 @@ class ChallengesService {
     participant.requirements = participantData.requirements;
     participant.feedback = participantData.feedback;
 
-    accountMilestonesService.giveGradingMilestoneByAccountId(accountId)
+    //accountMilestonesService.giveGradingMilestoneByAccountId(accountId)
     if (participantData.status == SUBMISSION_TYPES.COMPLETED) {
       participant.completedAt = new Date();
       this.awardExperience(participant);

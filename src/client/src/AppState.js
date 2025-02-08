@@ -47,8 +47,9 @@ const ChallengeState = reactive({
 
 const MilestoneState = reactive({
   milestoneChecks: [
-    "createdChallenge",
-    "joinedChallenge", "moderateChallenge"
+    "createdChallenge"
+    , "joinedChallenge"
+    , "moderateChallenge"
     , "submissionsChallenge"
     , "passingSubmissionsChallenge"
     // , "gradeModerators" This is to be called when a grading is performed
@@ -81,44 +82,44 @@ export const AppState = reactive({
 
   rankTitles: {
     0: "Bugs Bunny",
-    10: "Widget Weenie",
-    30: "Code Cadet",
-    60: "Function Fox",
-    100: "Bit Bender",
-    150: "Logic Lord",
-    210: "Malware Maven",
-    280: "Pixel Paladin",
-    360: "Code Conjurer",
-    450: "Matrix Master",
-    550: "Data Demigod",
-    660: "Centurion of Code"
+    20: "Widget Weenie",
+    200: "Code Cadet",
+    400: "Function Fox",
+    1000: "Bit Bender",
+    1800: "Logic Lord",
+    2800: "Malware Maven",
+    4000: "Pixel Paladin",
+    6000: "Code Conjurer",
+    8250: "Matrix Master",
+    10500: "Data Demigod",
+    15000: "Centurion of Code"
   },
   rankBadges: {
     0: RANK_TITLE[0],
-    10: RANK_TITLE[1],
-    30: RANK_TITLE[2],
-    60: RANK_TITLE[3],
-    100: RANK_TITLE[4],
-    150: RANK_TITLE[5],
-    210: RANK_TITLE[6],
-    280: RANK_TITLE[7],
-    360: RANK_TITLE[8],
-    450: RANK_TITLE[9],
-    550: RANK_TITLE[10],
-    660: RANK_TITLE[11]
+    20: RANK_TITLE[1],
+    200: RANK_TITLE[2],
+    400: RANK_TITLE[3],
+    1000: RANK_TITLE[4],
+    1800: RANK_TITLE[5],
+    2800: RANK_TITLE[6],
+    4000: RANK_TITLE[7],
+    6000: RANK_TITLE[8],
+    8250: RANK_TITLE[9],
+    10500: RANK_TITLE[10],
+    15000: RANK_TITLE[11]
   },
   rankThresholds: {
     0: RANK_TITLE[0].RANK_THRESHOLD,
-    10: RANK_TITLE[1].RANK_THRESHOLD,
-    30: RANK_TITLE[2].RANK_THRESHOLD,
-    60: RANK_TITLE[3].RANK_THRESHOLD,
-    100: RANK_TITLE[4].RANK_THRESHOLD,
-    150: RANK_TITLE[5].RANK_THRESHOLD,
-    210: RANK_TITLE[6].RANK_THRESHOLD,
-    280: RANK_TITLE[7].RANK_THRESHOLD,
-    360: RANK_TITLE[8].RANK_THRESHOLD,
-    450: RANK_TITLE[9].RANK_THRESHOLD,
-    550: RANK_TITLE[10].RANK_THRESHOLD,
-    660: RANK_TITLE[11].RANK_THRESHOLD
+    20: RANK_TITLE[1].RANK_THRESHOLD,
+    200: RANK_TITLE[2].RANK_THRESHOLD,
+    400: RANK_TITLE[3].RANK_THRESHOLD,
+    1000: RANK_TITLE[4].RANK_THRESHOLD,
+    1800: RANK_TITLE[5].RANK_THRESHOLD,
+    2800: RANK_TITLE[6].RANK_THRESHOLD,
+    4000: RANK_TITLE[7].RANK_THRESHOLD,
+    6000: RANK_TITLE[8].RANK_THRESHOLD,
+    8250: RANK_TITLE[9].RANK_THRESHOLD,
+    10500: RANK_TITLE[10].RANK_THRESHOLD,
+    15000: RANK_TITLE[11].RANK_THRESHOLD
   },
 })

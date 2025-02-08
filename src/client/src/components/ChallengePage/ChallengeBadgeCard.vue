@@ -13,13 +13,11 @@
       <div class="col-8 d-flex flex-column justify-content-center align-items-center card-hover__extra fw-semibold">
         <h4 class="me-auto"><span>Play </span> to <span> Win!</span> </h4>
         <span class="me-auto text-capitalize" v-if="challenge.badge.title">Title: '{{ challenge.badge.title }}'</span>
-        <span>Complete <span style="color: var(--shadow-green); text-shadow: 0 1px 0 black">'{{ challenge.name }}'</span>
+        <span class="mt-1 me-auto">Complete <span style="color: var(--shadow-green); text-shadow: 0 1px 0 black">'{{ challenge.name }}'</span>
           to earn add this badge to your collection!</span>
       </div>
       <div class="col-6 enlarge-badge d-flex">
-        <span>
           <ChallengeBadge :challenge="challenge" :badge="challenge.badge" />
-        </span>
       </div>
     </div>
   </div>
@@ -131,6 +129,8 @@ h3 {
 
 .card-hover {
   $root: &;
+  display: flex;
+  align-items: self-end;
   width: 100%;
   height: 100%;
   position: relative;
@@ -185,7 +185,7 @@ h3 {
       position: absolute;
       pointer-events: none;
       left: 37%;
-      top: 48%;
+      top: 50%;
       width: 100%;
       height: 100%;
       display: flex;
@@ -258,10 +258,10 @@ h3 {
     transition: transform 0.25s;
     z-index: 1;
 
-    span {
+    /*span {
       color: var(--text-main);
       text-shadow: 0 1px 0 var(--shadow-blue);
-    }
+    }*/
   }
 
   .enlarge-badge {

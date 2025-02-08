@@ -1,115 +1,88 @@
-import { dbContext } from "../db/DbContext.js"
-import { BadRequest } from "../utils/Errors.js";
-import { challengesService } from "./ChallengesService.js";
-import mongoose from "mongoose";
-
-
+import { dbContext } from '../db/DbContext.js';
+import { BadRequest } from '../utils/Errors.js';
+import mongoose from 'mongoose';
 
 class AccountMilestonesService {
-
-  //#region calculate myMilestones
   async checkMilestonesByUserId(userId, checks) {
-    const pulledChecks = await this.pullMilestoneChecks(checks)
-    const checkPromises = pulledChecks.map(async pc => {
-      await this.checkMilestones(pc, userId);
-    });
-    await Promise.all(checkPromises);
-    const milestones = await this.getMyMilestones(userId)
+    try {
+      const pulledChecks = await this.pullMilestoneChecks(checks);
+      const checkPromises = pulledChecks.map(pc => this.checkMilestones(pc, userId));
+      await Promise.all(checkPromises);
 
-    return milestones
+      return await this.getMyMilestones(userId);
+    } catch (error) {
+      console.error('Error checking milestones:', error.message);
+      throw new Error('Failed to check milestones. Please try again.');
+    }
   }
+
   async pullMilestoneChecks(checks) {
-    const queryChecks = { $or: [] }
-    checks.forEach(c => {
-      queryChecks.$or.push({ check: c })
-    });
-    const pulledChecks = await dbContext.Milestones.find(queryChecks)
-    return pulledChecks;
+    const queryChecks = { $or: checks.map(c => ({ check: c })) };
+    return await dbContext.Milestones.find(queryChecks);
   }
 
   async checkMilestones(milestone, userId) {
-
     const myFoundMilestone = await this.getOrCreateMyMilestone(milestone, userId);
-
     const parsedMilestoneData = this.parseLogic(milestone);
 
     if (myFoundMilestone.tier > parsedMilestoneData.maxTierLevel) {
-      return myFoundMilestone
+      return myFoundMilestone;
     }
 
-    const milestoneCheckCount = await this.getCountByOperation(parsedMilestoneData, myFoundMilestone, userId);
+    const milestoneCheckCount = await this.getCountByOperation(parsedMilestoneData, userId);
+    const tierToAssign = this.getLatestTier(parsedMilestoneData, milestoneCheckCount);
 
-    let tierToAssign = this.getLatestTier(parsedMilestoneData, milestoneCheckCount);
-
-    if (milestoneCheckCount > myFoundMilestone.count) {
-      myFoundMilestone.count = milestoneCheckCount
-
-      if (tierToAssign > myFoundMilestone.tier) {
-        myFoundMilestone.claimed = false
-        myFoundMilestone.tier = tierToAssign
-        myFoundMilestone.count = milestoneCheckCount
-      }
-
-      await myFoundMilestone.save()
+    if (milestoneCheckCount > myFoundMilestone.count || tierToAssign > myFoundMilestone.tier) {
+      myFoundMilestone.count = milestoneCheckCount;
+      myFoundMilestone.tier = tierToAssign;
+      myFoundMilestone.claimed = false;
+      await myFoundMilestone.save();
     }
-    return myFoundMilestone
-  }
 
-  async getMyMilestones(userId) {
-    const myFoundMilestones = await dbContext.AccountMilestones.find({ accountId: userId }).populate('milestone')
-    if (!myFoundMilestones) {
-      new Error('This user does not have any milestones')
-      return
-    }
-    return myFoundMilestones
-  }
-
-  async getOrCreateMyMilestone(milestone, userId) {
-    const myMilestoneData = {}
-    let myFoundMilestone = await this.getMyMilestoneById(milestone.id, userId);
-
-    if (!myFoundMilestone) {
-      myMilestoneData.milestoneId = milestone.id;
-      myMilestoneData.accountId = userId;
-      myFoundMilestone = await this.createMyMilestone(myMilestoneData);
-    }
     return myFoundMilestone;
   }
 
-  async createMyMilestone(myMilestoneData) {
-    const myMilestone = await dbContext.AccountMilestones.create(myMilestoneData)
-    return myMilestone
+  async getMyMilestones(userId) {
+    return await dbContext.AccountMilestones.find({ accountId: userId }).populate('milestone');
   }
 
-  async getMyMilestoneById(milestoneId, userId) {
-    const myFoundMilestone = await dbContext.AccountMilestones.findOne({ milestoneId: milestoneId, accountId: userId })
+  async getOrCreateMyMilestone(milestone, userId) {
+    let myFoundMilestone = await dbContext.AccountMilestones.findOne({
+      milestoneId: milestone.id,
+      accountId: userId,
+    });
+
     if (!myFoundMilestone) {
-      return
+      myFoundMilestone = await dbContext.AccountMilestones.create({
+        milestoneId: milestone.id,
+        accountId: userId,
+      });
     }
-    return myFoundMilestone
+
+    return myFoundMilestone;
   }
 
   parseLogic(milestone) {
-    const parsedMilestoneData = {}
-    parsedMilestoneData.milestone = milestone
-    // Example string '6-$gte%1-2-3-4-5-10'
-    // This string parser will return 
-    // operationsArr = ['6', '$gte']
-    // maxTierLevel = 6
-    // tierThresholdArr = ['1','2','3','4','5','10'] 
-    const logicArr = milestone.logic;
-    const logicParts = logicArr.split('%');
-    const operationsArr = logicParts[0].split('-');
-    parsedMilestoneData.tierThresholdArr = logicParts[1].split('-');
-    parsedMilestoneData.maxTierLevel = operationsArr[0];
-    parsedMilestoneData.operation = operationsArr[1];
-    return parsedMilestoneData;
+    try {
+      const [maxTierLevel, operation] = milestone.logic.split('%')[0].split('-');
+      const tierThresholdArr = milestone.logic.split('%')[1].split('-');
+      return {
+        maxTierLevel,
+        operation,
+        tierThresholdArr,
+        milestone: {
+          ref: milestone.ref,
+          check: milestone.check
+        },
+      };
+    } catch (error) {
+      console.error('Error parsing milestone logic:', error.message);
+      throw new Error('Failed to parse milestone logic. Please try again.');
+    }
   }
 
-  async getCountByOperation(parsedMilestoneData, myFoundMilestone, userId) {
-    let count = 0
-
-    const filterKey = {
+  async getCountByOperation(parsedMilestoneData, userId) {
+    const filters = {
       createdChallenge: { creatorId: userId }, //$gte
       joinedChallenge: { accountId: userId }, //$gte
       moderateChallenge: { $and: [{ accountId: userId }, { status: 'Active' }] }, //$gte
@@ -119,98 +92,40 @@ class AccountMilestonesService {
       passingParticipant: { $and: [{ accountId: userId }, { status: 'completed' }] }, //$gte
       allMilestones: { $sum: '$tier' } //$sum
     };
-    const milestoneRef = parsedMilestoneData.milestone.ref
-    const milestoneCheck = parsedMilestoneData.milestone.check
+
     switch (parsedMilestoneData.operation) {
-      case "$gte":
-        count = await dbContext[milestoneRef].find(filterKey[milestoneCheck]).count();
-        break;
-      case "$sum":
-        const userIdObject = new mongoose.Types.ObjectId(userId);
-        const aggregateSum = await dbContext[milestoneRef].aggregate([
-          {
-            $match: { accountId: userIdObject }
-          },
-          {
-            $group: { _id: null, 'sumsValue': filterKey[milestoneCheck] }
-          }
-        ]);
+      case '$gte':
+        return await dbContext[parsedMilestoneData.milestone.ref].countDocuments(filters[parsedMilestoneData.milestone.check]);
 
-        count = aggregateSum[0].sumsValue;
-        break;
-      case "$gteChallenge":
-        const myChallenges = await challengesService.getChallengesCreatedBy(userId, userId)
-
-        const challengeParticipantsValue = await dbContext[milestoneRef].find({
-          $and: [
-            { challengeId: { $in: myChallenges } },
-            filterKey[milestoneCheck]
-          ]
-        }).count();
-
-        count = challengeParticipantsValue
-        break;
-      case "$increment":
-        let tempValue = myFoundMilestone.count;
-        tempValue++
-        count = tempValue
-        break;
+      case '$sum':
+        return await dbContext[parsedMilestoneData.milestone.ref].aggregate([
+          { $match: { accountId: new mongoose.Types.ObjectId(userId) } },
+          { $group: { _id: null, sumValue: { $sum: '$tier' } } },
+        ]).then(([{ sumValue }]) => sumValue);
 
       default:
-        count = 0;
-        break;
+        return 0;
     }
-    return count;
   }
 
-  getLatestTier(parsedMilestoneData, milestoneCheckCount) {
-    let tierToAssign = 0;
-
-    for (let i = 0; i < parsedMilestoneData.maxTierLevel; i++) {
-      if (milestoneCheckCount >= parsedMilestoneData.tierThresholdArr[i]) {
-        tierToAssign = i + 1;
-      }
-    }
-    return tierToAssign;
-  }
-
-  //#endregion
-
-  async claimMyMilestone(milestoneId, userId) {
-    const claimMilestone = await dbContext.AccountMilestones.findById(milestoneId)
-    if (claimMilestone.accountId != userId) {
-      throw new BadRequest("Something went wrong, You cannot make this change")
-    }
-    claimMilestone.claimed = true
-    await claimMilestone.save()
-    return claimMilestone
+  getLatestTier(parsedMilestoneData, count) {
+    return parsedMilestoneData.tierThresholdArr.findIndex(threshold => count < threshold) + 1;
   }
 
   async getTotalMilestoneExperience(user) {
-    let experience = 0
-    const myMilestones = await this.getMyMilestones(user.id)
+    const myMilestones = await this.getMyMilestones(user.id);
+    const claimedMilestones = myMilestones.filter(milestone => milestone.claimed);
 
-    await this.claimMyMilestone(myMilestones, user.id)
-
-    const myClaimedMilestones = myMilestones.filter(am => am.claimed == true)
-    myClaimedMilestones.forEach(am => {
-      let experienceBasedOnTier = 0
-      let tier = am.tier
-      while (tier != 0) {
-        experienceBasedOnTier += tier * 5
-        tier--
+    return claimedMilestones.reduce((total, milestone) => {
+      let tier = milestone.tier;
+      let experience = 0;
+      while (tier > 0) {
+        experience += tier * 5;
+        tier--;
       }
-      experience += experienceBasedOnTier
-    });
-    return experience
+      return total + experience;
+    }, 0);
   }
-
-  async giveGradingMilestoneByAccountId(userId) {
-    const check = ["gradeModerators"]
-    const milestone = await this.checkMilestonesByUserId(userId, check)
-    return milestone
-  }
-
 }
 
-export const accountMilestonesService = new AccountMilestonesService()
+export const accountMilestonesService = new AccountMilestonesService();
