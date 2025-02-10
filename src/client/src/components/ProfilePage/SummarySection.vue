@@ -40,7 +40,7 @@
 import { computed } from 'vue'
 import { Profile } from '../../models/Profile.js'
 import { Account } from '../../models/Account.js'
-import { RANK_TITLE } from '../../constants'
+import { RANK_VALUES } from '../../constants'
 import ProfileImg from "../ProfileImg.vue"
 
 export default {
@@ -58,12 +58,12 @@ export default {
       badges: computed(() => props.participation.filter(p => p.status == 'completed')),
       rankTitle: computed(() => {
         let lastKey = 0;
-        for (const badge of RANK_TITLE) {
+        for (const badge of RANK_VALUES) {
           if (props.profile.rank >= badge.RANK_THRESHOLD) {
             lastKey = badge.RANK_THRESHOLD;
           }
         }
-        return RANK_TITLE.find(badge => badge.RANK_THRESHOLD === lastKey).NAME;
+        return RANK_VALUES.find(badge => badge.RANK_THRESHOLD === lastKey).NAME;
       })
     };
   }

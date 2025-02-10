@@ -1,4 +1,4 @@
-import { RANK_TITLE } from '../constants/index.js';
+import { RANK_VALUES } from '../constants/index.js';
 import { dbContext } from '../db/DbContext';
 import { accountMilestonesService } from './AccountMilestonesService.js';
 
@@ -63,8 +63,8 @@ class AccountService {
       const totalMilestoneXp = await accountMilestonesService.getTotalMilestoneExperience(account);
       let rank = account.xp + account.reputation + totalMilestoneXp;
 
-      const nextIndex = RANK_TITLE.findIndex(r => r.RANK_THRESHOLD > rank);
-      let rankTitle = RANK_TITLE[nextIndex - 1] || RANK_TITLE.at(-1) || RANK_TITLE[0];
+      const nextIndex = RANK_VALUES.findIndex(r => r.RANK_THRESHOLD > rank);
+      let rankTitle = RANK_VALUES[nextIndex - 1] || RANK_VALUES.at(-1) || RANK_VALUES[0];
 
       account.rank = rank;
       account.title = rankTitle.NAME;

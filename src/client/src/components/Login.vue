@@ -52,6 +52,7 @@ import { computed } from 'vue'
 import { AppState } from '../AppState'
 import { AuthService } from '../services/AuthService'
 import ProfileTitle from "./ProfileTitle.vue"
+import { RANK_VALUES } from '../constants';
 
 export default {
   setup() {
@@ -60,13 +61,13 @@ export default {
       user: computed(() => AppState.user),
       account: computed(() => AppState.AccountState.account),
       currentRank: computed(() => {
-        let lastKey = 0;
-        for (const key in AppState.rankTitles) {
-          if (AppState.AccountState.account.rank >= key) {
-            lastKey = key;
+        let lastRank = 0;
+        for (const rank in RANK_VALUES) {
+          if (AppState.AccountState.account.rank >= rank) {
+            lastRank = rank;
           }
         }
-        return AppState.rankTitles[lastKey];
+        return RANK_VALUES[lastRank];
       }),
       async login() {
         AuthService.loginWithPopup();
