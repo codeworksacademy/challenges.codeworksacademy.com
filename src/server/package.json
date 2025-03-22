@@ -21,7 +21,7 @@
     "marked": "^10.0.0",
     "mongoose": "6.9.1",
     "nodemon": "^3.0.3",
-    "socket.io": "4.6.1"
+    "socket.io": "4.7.5"
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.21.8",
